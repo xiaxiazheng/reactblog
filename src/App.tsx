@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
+import Router from './Router';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        666
-      </header>
+      <Router></Router>
     </div>
   );
 }

@@ -1,0 +1,33 @@
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,
+dl, dt, dd, ul, ol, li,
+pre,
+fieldset, button, input, textarea,
+th, td {
+  margin: 0;
+  padding: 0;    
+}
+
+$headerHight: 3rem;
+html {
+  height: 100%;
+  body {
+    height: 100%;
+    margin: 0;
+    #root {
+      height: 100%;
+      .App {
+        height: 100%;
+        .Router-Header {
+          height: $headerHight;
+          line-height: $headerHight;
+        }
+        .Router-View {
+          height: calc(100% - #{$headerHight});
+        }
+      }
+    }
+  }
+}
+
+
+
