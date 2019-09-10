@@ -1,5 +1,28 @@
 .Header {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #eaecef;
   box-sizing: border-box;
+  .header-left {
+    padding-left: 1rem;
+    >a {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      cursor: pointer;
+      &:hover {
+        color: #1890ff;
+      }
+    }
+  }
+  .header-right {
+    .ant-menu-horizontal {
+      border-bottom: none;
+    }
+    a {
+      display: inline-block;
+      color: #2c3e50;
+    }
+  }
 }

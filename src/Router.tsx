@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Log from './log/Log';
-import Home from './home/Home';
-import Tree from './tree/Tree';
+import Log from './views/log/Log';
+import Home from './views/home/Home';
+import Tree from './views/tree/Tree';
 import Header from './common/Header';
 
 const Router: React.FC = () => {
