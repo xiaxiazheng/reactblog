@@ -7,7 +7,6 @@ th, td {
   padding: 0;    
 }
 
-$headerHight: 3rem;
 html {
   height: 100%;
   body {
@@ -17,13 +16,6 @@ html {
       height: 100%;
       .App {
         height: 100%;
-        .Router-Header {
-          height: $headerHight;
-          line-height: $headerHight;
-        }
-        .Router-View {
-          height: calc(100% - #{$headerHight});
-        }
       }
     }
   }

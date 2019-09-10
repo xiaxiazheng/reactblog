@@ -4,17 +4,31 @@ import { Carousel } from 'antd';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../config';
 
+interface ImgType {
+  cTime: string;
+  filename: string;
+  img_id: string;
+  imgname: string;
+  other_id: string;
+  type: string;
+  imgUrl?: string;
+};
+
 const Home: React.FC = () => {
-  const [homeData, setHomeData] = useState({ list: [] });
-  
+  const [homeData, setHomeData] = useState({ imgList: [] });
+
   useEffect(() => {
-    let list: any = [];
+    let imgList: any = [];
     const getData = async () => {
-      const res = await getImgList('main');
+      const res: ImgType[] = await getImgList('main');
       for (let item of res) {
-        list.push(`${baseImgUrl}/main/${item.filename}`);
+        // 拼好 img 的 url
+        imgList.push({
+          ...item,
+          imgUrl: `${baseImgUrl}/main/${item.filename}`
+        });
       }
-      setHomeData({ list });
+      setHomeData({ imgList });
     };
 
     getData();
@@ -23,9 +37,9 @@ const Home: React.FC = () => {
   return (
     <div className="Home">
       <Carousel autoplay>
-        {homeData.list.map((item) => {
+        {homeData.imgList.map((item: ImgType) => {
           return (
-            <img key={item} src={item} alt={item}/>
+            <img key={item.img_id} src={item.imgUrl} alt={item.imgname}/>
           )
         })}
       </Carousel>

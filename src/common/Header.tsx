@@ -8,7 +8,9 @@ const Header: React.FC = () => {
   const [current, setCurrent] = useState('home');
 
   const handleClick = function(e: any) {
-    setCurrent(e.key);
+    e.key !== 'github' ?
+      setCurrent(e.key) :
+      window.open("https://github.com/xiaxiazheng/reactblog", "_blank");
   }
 
   const handleClickHome = function() {
@@ -16,7 +18,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <div className="Router-Header Header">
+    <div className="Header">
       <span className="header-left" onClick={handleClickHome}>
         <Link to="/">{navTitle}</Link>
       </span>
@@ -29,6 +31,10 @@ const Header: React.FC = () => {
           <Menu.Item key="log">
             <Icon type="book" />
             <Link to="/log">日志</Link>
+          </Menu.Item>
+          <Menu.Item key="github">
+            <Icon type="github" />
+            github
           </Menu.Item>
         </Menu>
       </span>
