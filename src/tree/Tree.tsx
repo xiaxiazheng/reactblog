@@ -1,5 +1,5 @@
 import React from 'react';
-import './Tree.css';
+import './Tree.scss';
 
 const Tree: React.FC = () => {
   return (

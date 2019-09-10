@@ -1,5 +1,5 @@
 import React from 'react';
-import './Log.css';
+import './Log.scss';
 
 const Log: React.FC = () => {
   return (
