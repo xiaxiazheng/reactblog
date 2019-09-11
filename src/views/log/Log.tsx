@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './Log.scss';
 import { Tabs, Icon } from 'antd';
-import { getHomeLogAllClass, getLogListIsVisible } from '../../client/LogHelper'; 
-import { string } from 'prop-types';
+import { getHomeLogAllClass } from '../../client/LogHelper';
+import LogList from './LogList';
+import { withRouter, match } from 'react-router';
+import { History, Location } from 'history';
 
-const Log: React.FC = () => {
+interface PropsType {
+  history: History;
+  location: Location;
+  match: match<{log_class: string}>;
+};
+
+const Log: React.FC<PropsType> = ({ history, match }) => {
   const { TabPane } = Tabs;
-  const [data, setData] = useState({ classList: [] });
 
+  const [logclass, setLogClass] = useState('所有日志');
+  useEffect(() => {
+    setLogClass(match.params.log_class);
+  }, [match.params.log_class]);
+
+  const [data, setData] = useState({ classList: [] });
   useEffect(() => {
     let list: any = [];
     const getData = async () => {
@@ -22,26 +35,32 @@ const Log: React.FC = () => {
     getData();
   }, []);
 
-  const callback = (key: string) => {
-    console.log(key);
-  };
+  // 选择日志分类，路由跳转
+  const choiceClass = (key: string) => {
+    setLogClass(key);
+    history.push(`/log/${key}`);
+  }
+
+  
 
   return (
     <div className="Log">
-      <Tabs className="log-tab" onChange={callback} >
+      {/* 日志分类 */}
+      <Tabs className='log-tab' onChange={choiceClass} activeKey={logclass}>
         {
-          data.classList.map((item) => {
+          data.classList.map((logclass) => {
             return (
               <TabPane
                 tab={
                   <span>
-                    { item === '所有日志' && <Icon type="apple" /> }
-                    {item}
+                    {logclass === '所有日志' && <Icon type="apple" />}
+                    {logclass}
                   </span>
                 }
-                key={item}
+                key={logclass}
               >
-                <LogList type={item}></LogList>
+                {/* 日志列表 */}
+                <LogList type={logclass}></LogList>
               </TabPane>
             )
           })
@@ -51,61 +70,4 @@ const Log: React.FC = () => {
   );
 }
 
-interface LogListType {
-  author: string;
-  cTime: string;
-  classification: string;
-  edittype: string;
-  isShow: string;
-  isStick: string;
-  log_id: string;
-  mTime: string;
-  title: string;
-};
-
-const LogList = ({ type }: { type: string }) => {
-  const [data, setData] = useState({
-    pageNo: 1,
-    pageSize: 10,
-    totalNumber: 0,
-  });
-  const [logList, setLogList] = useState({
-    logList: [],
-    totalNumber: 0
-  });
-
-  useEffect(() => {
-    const getData = async () => {
-      let params: any = {
-        pageNo: data.pageNo,
-        pageSize: data.pageSize,
-        isVisible: true,
-        orderBy: 'create'
-      };
-      // 若是所有日志不用传该字段
-      type !== '所有日志' && (params.classification = type);
-      const res = await getLogListIsVisible(params);
-      console.log(res);
-      setLogList({
-        logList: res.list,
-        totalNumber: res.totalNumber
-      });
-    }
-
-    getData();
-  }, [type]);
-
-  return (
-    <ul>
-      {
-        logList.logList.map((item: LogListType) => {
-          return (
-            <li key={item.log_id}>{item.title}</li>
-          )
-        })
-      }
-    </ul>
-  )
-}
-
-export default Log;
+export default withRouter(Log);

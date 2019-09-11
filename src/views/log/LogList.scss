@@ -1,0 +1,30 @@
+.log-list {
+  .log-list-item {
+    display: flex;
+    margin: .3rem .7rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(204, 204, 204, 0.6);
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      color: #409eff;
+      border-color: #409eff;
+    }
+    .title {
+      flex: 1;
+      font-weight: bold;
+      .classification {
+        margin-left: 1rem;
+        font-size: .6rem;
+        font-weight: normal;
+        color: rgba(100,111,119,.54);
+      }
+    }
+    .author, .create-time {
+      margin-left: .5rem;
+      font-size: .5rem;
+      color: rgba(100,111,119,.54);
+    }
+  }
+}

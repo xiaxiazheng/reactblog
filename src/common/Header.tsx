@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="log">
             <Icon type="book" />
-            <Link to="/log">日志</Link>
+            <Link to="/log/所有日志">日志</Link>
           </Menu.Item>
           <Menu.Item key="github">
             <Icon type="github" />
