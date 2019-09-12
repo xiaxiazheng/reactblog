@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.scss';
 import { Carousel } from 'antd';
 import { getImgList } from '../../client/ImgHelper';
-import { baseImgUrl } from '../../config';
+import { baseImgUrl } from '../../env_config';
 
 interface ImgType {
   cTime: string;

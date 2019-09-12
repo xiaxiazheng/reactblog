@@ -52,6 +52,12 @@ const LogList: React.FC<PropsType> = ({ type, history, match }) => {
     getData();
   }, [type]);
 
+  // const changePage = () => {
+  //   this.setData({
+  //     pageNo: 
+  //   })
+  // };
+
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
     history.push(`/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);

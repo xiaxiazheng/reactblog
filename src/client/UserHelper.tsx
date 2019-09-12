@@ -1,5 +1,5 @@
 // 后台启动的服务地址
-import { baseUrl } from '../config';
+import { baseUrl } from '../env_config';
 import { axiosPostHelper } from './ClientHelper';
 
 /** 用户 */
