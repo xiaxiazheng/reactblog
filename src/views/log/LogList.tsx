@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getLogListIsVisible } from '../../client/LogHelper';
 import './LogList.scss';
+import { Input, Pagination } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 
@@ -20,10 +21,10 @@ interface PropsType {
   history: History;
   location: Location;
   match: match<{log_class: string}>;
-  type: string;
+  logclass: string;
 };
 
-const LogList: React.FC<PropsType> = ({ type, history, match }) => {
+const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
   const [data, setData] = useState({
     pageNo: 1,
     pageSize: 10,
@@ -41,7 +42,7 @@ const LogList: React.FC<PropsType> = ({ type, history, match }) => {
         isVisible: true,
         orderBy: 'create'
       };
-      type !== '所有日志' && (params.classification = type);  // 若是所有日志不用传该字段
+      logclass !== '所有日志' && (params.classification = logclass);  // 若是所有日志不用传该字段
       const res = await getLogListIsVisible(params);
       setLogList({
         logList: res.list,
@@ -50,7 +51,7 @@ const LogList: React.FC<PropsType> = ({ type, history, match }) => {
     }
 
     getData();
-  }, [type]);
+  }, [logclass]);
 
   // const changePage = () => {
   //   this.setData({
@@ -64,17 +65,25 @@ const LogList: React.FC<PropsType> = ({ type, history, match }) => {
   };
 
   return (
-    <ul className="log-list">
-      {
-        logList.logList.map((item: LogListType) => {
-          return (
-            <li className="log-list-item" key={item.log_id} onClick={choiceOneLog.bind(null, item)}>
-              <LogListItem logType={type} logItem={item}></LogListItem>
-            </li>
-          )
-        })
-      }
-    </ul>
+    <>
+      <div className="search-box">
+        <Input placeholder="请输入搜索"></Input>
+      </div>
+      <div className="pagination">
+        <Pagination defaultCurrent={1} total={50} />
+      </div>
+      <ul className="log-list">
+        {
+          logList.logList.map((item: LogListType) => {
+            return (
+              <li className="log-list-item" key={item.log_id} onClick={choiceOneLog.bind(null, item)}>
+                <LogListItem logType={logclass} logItem={item}></LogListItem>
+              </li>
+            )
+          })
+        }
+      </ul>
+    </>
   );
 }
 

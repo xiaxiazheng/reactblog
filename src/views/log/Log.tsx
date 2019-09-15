@@ -60,7 +60,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
                 key={logclass}
               >
                 {/* 日志列表 */}
-                <LogList type={logclass}></LogList>
+                <LogList logclass={logclass}></LogList>
               </TabPane>
             )
           })

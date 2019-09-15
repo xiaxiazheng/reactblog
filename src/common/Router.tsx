@@ -8,8 +8,8 @@ import Tree from '../views/tree/Tree';
 import LogCont from '../views/log/LogCont';
 import Login from './Login';
 import Admin from '../views/admin/Admin';
-import AdminTree from '../views/adminLog/AdminLog';
-import AdminLog from '../views/adminTree/AdminTree';
+import AdminLog from '../views/adminLog/AdminLog';
+import AdminTree from '../views/adminTree/AdminTree';
 
 const Router: React.FC = () => {
   return (

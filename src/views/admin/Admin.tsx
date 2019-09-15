@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react';
+import { withRouter, match } from 'react-router';
 
-const Admin: React.FC = () => {
+interface PropsType {
+  match: match;
+};
+
+const Admin: React.FC<PropsType> = ({ match }) => {
   
   useEffect(() => {
-
-  });
+    console.log(match);
+    console.log("控制台首页检查是否有登录");
+  }, [match]);
 
   return (
     <div className="Admin">
@@ -13,4 +19,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+export default withRouter(Admin);
