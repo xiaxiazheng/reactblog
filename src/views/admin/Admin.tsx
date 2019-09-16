@@ -1,16 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { withRouter, match } from 'react-router';
+import { History } from 'history';
 
-interface PropsType {
-  match: match;
-};
-
-const Admin: React.FC<PropsType> = ({ match }) => {
-  
-  useEffect(() => {
-    console.log(match);
-    console.log("控制台首页检查是否有登录");
-  }, [match]);
+const Admin: React.FC = () => {
 
   return (
     <div className="Admin">

@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './Header.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
 import { navTitle } from '../env_config';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
+import { IsLoginContext } from './IsLoginContext';
 
 interface PropsType {
   match: match;
@@ -12,7 +13,8 @@ interface PropsType {
   history: History;
 };
 
-const Header: React.FC<PropsType> = ({ location }) => {
+const Header: React.FC<PropsType> = () => {
+  const { isLogin } = useContext(IsLoginContext);  // 获取登录状态
   const [current, setCurrent] = useState('home');
 
   const handleClick = function(e: any) {
@@ -21,26 +23,20 @@ const Header: React.FC<PropsType> = ({ location }) => {
       window.open("https://github.com/xiaxiazheng/reactblog", "_blank");
   }
 
-  // 匹配 location，判断是否是控制台
-  const [isAdmin, setIsAdmin] = useState(false);
-  useEffect(() => {
-    setIsAdmin(/^\/admin*/.test(location.pathname));
-  });
-
   return (
     <div className="Header">
-      <span className="header-left" onClick={() => setCurrent(isAdmin ? 'admin' : 'home')}>
-        <Link to={isAdmin ? '/admin' : '/'}>{navTitle}</Link>
+      <span className="header-left" onClick={() => setCurrent(isLogin ? 'admin' : 'home')}>
+        <Link to={isLogin ? '/admin' : '/'}>{navTitle}</Link>
       </span>
       <span className="header-right">
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-          <Menu.Item key={isAdmin ? "admintree" : "tree"}>
+          <Menu.Item key={isLogin ? "admintree" : "tree"}>
             <Icon type="cluster" />
-            <Link to={isAdmin ? "/admin/admintree" : "/tree"}>知识树</Link>
+            <Link to={isLogin ? "/admin/admintree" : "/tree"}>知识树</Link>
           </Menu.Item>
-          <Menu.Item key={isAdmin ? "adminlog" : "log"}>
+          <Menu.Item key={isLogin ? "adminlog" : "log"}>
             <Icon type="book" />
-            <Link to={isAdmin ? "/admin/adminlog/所有日志" : "/log/所有日志"}>日志</Link>
+            <Link to={isLogin ? "/admin/adminlog/所有日志" : "/log/所有日志"}>日志</Link>
           </Menu.Item>
           <Menu.Item key="github">
             <Icon type="github" />

@@ -38,10 +38,8 @@ const AdminLog: React.FC<PropsType> = ({ history, match }) => {
   // 选择日志分类，路由跳转
   const choiceClass = (key: string) => {
     setLogClass(key);
-    history.push(`/log/${key}`);
+    history.push(`/admin/adminlog/${key}`);
   }
-
-  
 
   return (
     <div className="Log">

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Input, Button, Icon, message } from 'antd';
 import './Login.scss';
 import { postLogin } from '../client/UserHelper';
 import { History, Location } from 'history';
 import { withRouter, match } from 'react-router';
+import { IsLoginContext } from './IsLoginContext';
 
 interface PropsType {
   history: History;
@@ -15,26 +16,7 @@ const Login: React.FC<PropsType> = ({ history }) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [isShowPwd, setIsShowPwd] = useState(false);
-
-  useEffect(() => {
-    const judgement = async () => {
-      if (sessionStorage.getItem("xia_username") && sessionStorage.getItem("xia_password")) {
-        let name = sessionStorage.getItem("xia_username");
-        let pword = window.atob((sessionStorage.getItem("xia_password") as string));
-        let params = {
-          username: name,
-          userpword: pword
-        };
-        let res = await postLogin(params);
-        if (res) {
-          history.push("/admin");
-        } else {
-          message.error("请重新登陆");
-        }
-      }    
-    }
-    judgement();
-  });
+  const { setIsLogin } = useContext(IsLoginContext);
 
   // 查是否为空
   const checkEmpty = () => {
@@ -56,10 +38,11 @@ const Login: React.FC<PropsType> = ({ history }) => {
     };
     let res = await postLogin(params);
     if (res) {
-      message.success("登陆成功");
-      history.push("/admin");
+      setIsLogin(true);  // 将 context 的 isLogin 设置为 true
       sessionStorage.setItem("xia_username", user);
       sessionStorage.setItem("xia_password", window.btoa(password));
+      message.success("登录成功");
+      history.push("/admin");
     } else {
       message.error("密码错误或用户不存在，请重新输入");
       setPassword('');
