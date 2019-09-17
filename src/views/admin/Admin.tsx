@@ -1,8 +1,14 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 import { withRouter, match } from 'react-router';
-import { History } from 'history';
+import { Location, History } from 'history';
 
-const Admin: React.FC = () => {
+interface PropsType {
+  match: match;
+  location: Location;
+  history: History;
+};
+
+const Admin: React.FC<PropsType> = () => {
 
   return (
     <div className="Admin">

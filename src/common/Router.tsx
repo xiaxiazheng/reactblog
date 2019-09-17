@@ -9,7 +9,6 @@ import Tree from '../views/tree/Tree';
 import LogCont from '../views/log/LogCont';
 import Login from './Login';
 import Admin from '../views/admin/Admin';
-import AdminLog from '../views/adminLog/AdminLog';
 import AdminTree from '../views/adminTree/AdminTree';
 
 const Router: React.FC = () => {
@@ -20,7 +19,7 @@ const Router: React.FC = () => {
       <div className="Router-Head">
         <Header></Header>
       </div>
-      <div className="Router-View">
+      <div className="Router-View ScrollBar">
         {/* 登录 */}
         <Route path="/login" component={Login} />
         {/* 前台 */}
@@ -32,10 +31,10 @@ const Router: React.FC = () => {
         <Route path="/tree" component={Tree} />
         {/* 控制台 */}
         <PrivateRoute exact path="/admin" component={Admin} />
-        <PrivateRoute path="/admin/admintree" component={AdminTree} />
+        <PrivateRoute path="/admin/tree" component={AdminTree} />
         <Switch>
-          <PrivateRoute path="/admin/adminlog/:log_class/:log_id" exact component={LogCont} />
-          <PrivateRoute path="/admin/adminlog/:log_class" component={AdminLog} />
+          <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
+          <PrivateRoute path="/admin/log/:log_class" component={Log} />
         </Switch>
       </div>
     </BrowserRouter>

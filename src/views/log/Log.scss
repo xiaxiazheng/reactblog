@@ -4,11 +4,29 @@
   display: inline-block;
   .log-tab {
     width: 80%;
+    max-width: 1280px;
+    min-width: 1250px;
     text-align: left;
-    margin: 5% auto;
-    height: 70%;
+    margin: 4rem auto;
+    height: calc(95% - 8rem);
     border: 1px solid #DCDFE6;
     box-sizing: border-box;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+    .edit-icon {
+      vertical-align: middle;
+      margin-left: 0.3rem;
+      margin-right: 0;
+    }
+    .ant-tabs-top-content.ant-tabs-content-animated {
+      height: calc(100% - 60px);
+      .log-tab-pane {
+        height: 100%;
+        .log-list {
+          height: calc(100% - 40px);
+          margin-bottom: 0;
+          padding: .3rem 0 .9rem;
+        }
+      }
+    }
   }
 }

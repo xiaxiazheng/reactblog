@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import './Header.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
 import { navTitle } from '../env_config';
 import { withRouter, match } from 'react-router';
-import { History, Location } from 'history';
+import { Location, History } from 'history';
 import { IsLoginContext } from './IsLoginContext';
 
 interface PropsType {
@@ -30,13 +30,13 @@ const Header: React.FC<PropsType> = () => {
       </span>
       <span className="header-right">
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-          <Menu.Item key={isLogin ? "admintree" : "tree"}>
+          <Menu.Item key="tree">
             <Icon type="cluster" />
-            <Link to={isLogin ? "/admin/admintree" : "/tree"}>知识树</Link>
+            <Link to={isLogin ? '/admin/tree' : 'tree'}>知识树</Link>
           </Menu.Item>
-          <Menu.Item key={isLogin ? "adminlog" : "log"}>
+          <Menu.Item key="log">
             <Icon type="book" />
-            <Link to={isLogin ? "/admin/adminlog/所有日志" : "/log/所有日志"}>日志</Link>
+            <Link to={isLogin ? "/admin/log/所有日志" : "/log/所有日志"}>日志</Link>
           </Menu.Item>
           <Menu.Item key="github">
             <Icon type="github" />

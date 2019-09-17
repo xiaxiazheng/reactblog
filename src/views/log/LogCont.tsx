@@ -57,10 +57,13 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
 
   return (
     <div className="LogCont">
-      <Button className="back-button" type="primary" onClick={backToLogList}>
-        <Icon type="left" />
-        返回
-      </Button>
+      <div className="operator-box">
+        <Button className="back-button" type="primary" onClick={backToLogList}>
+          <Icon type="left" />
+          返回
+        </Button>
+        
+      </div>
       <h2 className="title">{data.title}</h2>
       <h3 className="author">{data.author}</h3>
       <div className="time">

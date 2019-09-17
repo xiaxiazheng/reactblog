@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input, Button, Icon, message } from 'antd';
 import './Login.scss';
 import { postLogin } from '../client/UserHelper';
-import { History, Location } from 'history';
 import { withRouter, match } from 'react-router';
+import { Location, History } from 'history';
 import { IsLoginContext } from './IsLoginContext';
 
 interface PropsType {
-  history: History;
-  location: Location;
   match: match;
+  location: Location;
+  history: History;
 };
 
 const Login: React.FC<PropsType> = ({ history }) => {

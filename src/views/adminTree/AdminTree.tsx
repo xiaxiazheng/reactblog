@@ -1,4 +1,5 @@
 import React from 'react';
+import './AdminTree.scss';
 
 const AdminTree: React.FC = () => {
   return (
