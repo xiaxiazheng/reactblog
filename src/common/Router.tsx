@@ -9,7 +9,6 @@ import Tree from '../views/tree/Tree';
 import LogCont from '../views/log/LogCont';
 import Login from './Login';
 import Admin from '../views/admin/Admin';
-import AdminTree from '../views/adminTree/AdminTree';
 
 const Router: React.FC = () => {
   return (
@@ -28,10 +27,13 @@ const Router: React.FC = () => {
           <Route path="/log/:log_class/:log_id" exact component={LogCont} />
           <Route path="/log/:log_class" component={Log} />
         </Switch>
-        <Route path="/tree" component={Tree} />
+        <Switch>
+          <Route path="/tree/:first_id/:second_id/:third_id" component={Tree} />
+          <Route path="/tree" component={Tree} />
+        </Switch>
         {/* 控制台 */}
         <PrivateRoute exact path="/admin" component={Admin} />
-        <PrivateRoute path="/admin/tree" component={AdminTree} />
+        <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
         <Switch>
           <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
           <PrivateRoute path="/admin/log/:log_class" component={Log} />

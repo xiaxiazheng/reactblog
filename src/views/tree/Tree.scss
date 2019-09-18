@@ -1,0 +1,22 @@
+$TreeMenuWidth: 21rem;
+
+.Tree {
+  height: 100%;
+  .tree-left {
+    display: inline-block;
+    height: 100%;
+    width: $TreeMenuWidth;
+    text-align: left;
+    background: #001529;
+  }
+  .tree-right {
+    display: inline-block;
+    height: 100%;
+    width: calc(100% - #{$TreeMenuWidth});
+    .tree-edit-switch {
+      position: fixed;
+      top: 4rem;
+      right: 1rem;
+    }
+  }
+}

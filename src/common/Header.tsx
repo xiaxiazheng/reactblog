@@ -32,7 +32,7 @@ const Header: React.FC<PropsType> = () => {
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="tree">
             <Icon type="cluster" />
-            <Link to={isLogin ? '/admin/tree' : 'tree'}>知识树</Link>
+            <Link to={isLogin ? '/admin/tree' : '/tree'}>知识树</Link>
           </Menu.Item>
           <Menu.Item key="log">
             <Icon type="book" />
