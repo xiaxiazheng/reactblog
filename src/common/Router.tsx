@@ -13,7 +13,6 @@ import Admin from '../views/admin/Admin';
 const Router: React.FC = () => {
   return (
     
-    
     <BrowserRouter>
       <div className="Router-Head">
         <Header></Header>
@@ -33,7 +32,10 @@ const Router: React.FC = () => {
         </Switch>
         {/* 控制台 */}
         <PrivateRoute exact path="/admin" component={Admin} />
-        <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
+        <Switch>
+          <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
+          <PrivateRoute path="/admin/tree" component={Tree} />
+        </Switch>
         <Switch>
           <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
           <PrivateRoute path="/admin/log/:log_class" component={Log} />

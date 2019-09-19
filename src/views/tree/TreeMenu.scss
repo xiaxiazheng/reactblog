@@ -1,27 +1,45 @@
 .tree-menu {
   height: 100%;
-  .ant-menu-inline .ant-menu-submenu-title {
+  .add-root-treenode {
+    &:hover {
+      color: red;
+    }
+  }
+  .ant-menu-submenu-title {
     overflow: unset;
   }
   .menu-title {
-    position: relative;
-    display: inline-block;
+    display: flex;
     width: 100%;
     height: 100%;
-    .more-operate-icon {
 
-    }
     .title-name {
       flex: 1;
     }
-    .icons-box {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 100px;
-      height: 100px;
-      background-color: rgba(255,255,255,0.5);
-      z-index: 2;
+    .allIcon-box {
+      position: relative;
+      .more-operate-icon {
+        position: relative;
+        line-height: 44px;
+        margin-left: 10px;
+        &.editting {
+          color: red;
+        }
+      }
+      .icons-box {
+        position: absolute;
+        right: 30px;
+        top: 1px;
+        height: 38px;
+        padding-left: 10px;
+        background-color: rgb(51, 61, 69);
+        border-radius: 4px;
+        .treenode-icon {
+          &:hover {
+            color: red;
+          }
+        }
+      }
     }
   }
 }
