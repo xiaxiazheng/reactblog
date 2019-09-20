@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './LogList.scss';
-import { Input, Pagination, Icon, Radio, Checkbox } from 'antd';
+import { Input, Pagination, Icon, Radio, Checkbox, Button, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { getLogListIsVisible, getLogListAll } from '../../client/LogHelper';
+import { getLogListIsVisible, getLogListAll, addLogCont } from '../../client/LogHelper';
 import { IsLoginContext } from '../../common/IsLoginContext';
-import { LogListType } from './LogListType';
+import { LogListType } from './LogType';
 import LogListItem from './LogListItem';
 
 interface PropsType {
@@ -25,7 +25,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
   const [showInvisible, setShowInvisible] = useState(true);  // 显示不可见
   const [showNotClassify, setShowNotClassify] = useState(false);  // 仅显示未分类
 
-  const [logList, setLogList] = useState({
+  const [logListData, setLogListData] = useState({
     logList: [],  // 日志列表
     totalNumber: 0  // 日志总数
   });
@@ -61,8 +61,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
       params.isVisible = true;
       res = await getLogListIsVisible(params);
     }
-    console.log("list", res.list);
-    setLogList({
+    setLogListData({
       logList: res.list,
       totalNumber: res.totalNumber
     });
@@ -70,18 +69,36 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
 
   useEffect(() => {
     getLogList();
-  }, [logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
+  }, [match.params.log_class, logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
     history.push(`/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);
   };
 
+  const addNewLog = async (type: 'richtext' | 'markdown') => {
+    const params = {
+      edittype: type,
+      classification: logclass === '所有日志' ? '' : logclass
+    };
+    const res = await addLogCont(params);
+    if (res) {
+      message.success("新建成功");
+      getLogList();
+    } else {
+      message.error("新建失败");
+    }
+  };
+
   return (
     <>
       <div className="operate-box">
+        {/* 新建日志 */}
+        {isLogin &&
+          <Button className="add-log-button" title="新建富文本日志" type="primary" icon="plus" onClick={addNewLog.bind(null, 'richtext')} />          
+        }
         {/* 排序条件 */}
-        <Radio.Group value={orderBy} onChange={e => setOrderBy(e.target.value)}>
+        <Radio.Group className="orderby-box" value={orderBy} onChange={e => setOrderBy(e.target.value)}>
           <Radio.Button value="create">按创建</Radio.Button>
           <Radio.Button value="modify">按修改</Radio.Button>
         </Radio.Group>
@@ -122,7 +139,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
           className="pagination"
           pageSize={pageSize}
           current={pageNo}
-          total={logList.totalNumber}
+          total={logListData.totalNumber}
           showTotal={total => `共${total}篇`}
           onChange={(page) => {
             setPageNo(page);
@@ -135,10 +152,10 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
       </div>
       <ul className="log-list ScrollBar">
         {
-          logList.logList.map((item: LogListType) => {
+          logListData.logList.map((item: LogListType) => {
             return (
-              <li className="log-list-item" key={item.log_id} onClick={choiceOneLog.bind(null, item)}>
-                <LogListItem logClass={logclass} logItemData={item} orderBy={orderBy}></LogListItem>
+              <li className={`${item.isStick === 'true' ? 'active-stick' : ''} log-list-item`} key={item.log_id} onClick={choiceOneLog.bind(null, item)}>
+                <LogListItem logClass={logclass} logItemData={item} orderBy={orderBy} getNewList={getLogList}></LogListItem>
               </li>
             )
           })

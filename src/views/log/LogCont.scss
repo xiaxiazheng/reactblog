@@ -3,9 +3,14 @@
   margin: 3rem auto;
   .back-button {
     position: fixed;
-    left: 5%;
-    top: 6rem;
+    left: 2rem;
+    top: 4rem;
     z-index: 2;
+  }
+  .log-edit-switch {
+    position: fixed;
+    top: 4rem;
+    right: 2rem;
   }
   .title {
     font-weight: bold;

@@ -4,7 +4,7 @@ import { Tabs, Icon, Modal, Input, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
-import { getHomeLogAllClass, editClassName } from '../../client/LogHelper';
+import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
 import LogList from './LogList';
 
 interface PropsType {
@@ -32,13 +32,13 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
 
   // 获取所有分类
   const getAllLogClass = async () => {
-    const res = await getHomeLogAllClass();
+    const res = await (isLogin ? getLogAllClass() : getHomeLogAllClass());
     let list: string[] = [
       '所有日志',
       ...res
     ];
     setClassList(list);
-  }; 
+  };
 
   // 选择日志分类，路由跳转(直接改路由即可，有在监听路由)
   const choiceClass = (key: string) => {

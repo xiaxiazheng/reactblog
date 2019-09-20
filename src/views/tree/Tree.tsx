@@ -19,7 +19,8 @@ const Tree: React.FC = () => {
       </div>
       {/* 右边的展示 & 编辑 */}
       <div className="tree-right ScrollBar">
-        {isLogin &&
+        {// 编辑与查看的切换按钮
+          isLogin &&
           <Switch className="tree-edit-switch" checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
         }
         {!isEdit &&

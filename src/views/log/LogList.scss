@@ -1,6 +1,9 @@
 .operate-box {
   display: flex;
-  padding: .3rem .7rem;
+  padding: .3rem 2rem;
+  .add-log-button {
+    margin-right: .8rem;
+  }
   .check-box {
     margin-left: .8rem;
     line-height: 32px;
