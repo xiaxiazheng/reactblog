@@ -63,7 +63,7 @@ const TreeContShow: React.FC<PropsType> = ({ match }) => {
                 item.imgList.map(imgItem => {
                   return (
                     <div key={imgItem.img_id} className="contitem-img">
-                      <img src={baseImgUrl + '/treecont/' + imgItem.imgfilename} />
+                      <img src={baseImgUrl + '/treecont/' + imgItem.imgfilename} alt={imgItem.imgname}/>
                       <span className="img-name">{imgItem.imgname}</span>
                     </div>
                   )

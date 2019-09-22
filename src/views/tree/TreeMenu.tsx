@@ -100,10 +100,16 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     lastChildrenSort?: number;  // 一二级的 children 最后一个节点的 sort
   }) => {
 
-    const upTreeNode = () => {
+    // 向上移动
+    const upTreeNode = async () => {
+      const params = {
+
+      };
+      const res = await changeSort(params);
       console.log(props);
     };
 
+    // 向下移动
     const downTreeNode = () => {
       // if (this.shuttleLevel === 2) {
       //   for (let item of this.tree) {  // 二级节点穿梭，就要到一级节点找穿梭到的节点
@@ -151,13 +157,23 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       // }
     };
 
-    const editTreeNode = () => {
-      // let params = {
-      //   id: this.motifyNode.id,
-      //   label: this.motifyNode.newNodeName,
-      //   level: this.motifyNode.level,
-      // };
-      // let res: any = await TreeHelper.modifyTreeNode(params);
+    // 编辑树节点
+    const editTreeNode = async () => {
+      const name = prompt(`请输入将${props.label}修改成的名称`, `${props.label}`);
+      if (name !== '' && name !== null) {
+        let params = {
+          id: props.id,
+          label: name,
+          level: Number(props.level.split('').pop()),
+        };
+        const res: any = await modifyTreeNode(params);
+        if (res) {
+          message.success("修改节点名称成功");
+          getTreeData();
+        } else {
+          message.error("修改节点名称成功");
+        }
+      }
     };
 
     // 新增第二级及第三级树节点
@@ -186,7 +202,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       if (res) {
         message.success(`新建${props.level === 'level1' ? '二级' : '三级'}节点成功`);
         getTreeData();
-        
       } else {
         message.error(`新建${props.level === 'level1' ? '二级' : '三级'}节点失败`);
       }

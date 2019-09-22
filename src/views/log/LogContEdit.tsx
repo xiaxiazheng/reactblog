@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Input, Button, message, Icon } from 'antd';
 import { OneLogType } from './LogType';
 import { modifyLogCont } from '../../client/LogHelper';
@@ -10,7 +10,6 @@ import 'highlight.js/styles/atom-one-dark.css';
 import ReactQuill, { Quill } from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css';
 import ImageResize from 'quill-image-resize-module';
-import LogCont from './LogCont';
 Quill.register('modules/imageResize', ImageResize);
 
 interface PropsType {
@@ -85,10 +84,23 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
     }
   }
 
-  const [isHasChange, setIsHasChange] = useState(false);
+  // 富文本编辑框内容是否有修改
+  const [isHTMLChange, setIsHTMLChange] = useState(false);
   const handleHTMLChange = (html: string) => {
     myhtml = html;
-    setIsHasChange(myhtml !== logdata.logcont);
+    setIsHTMLChange(myhtml !== logdata.logcont);
+  };
+
+  // 标题是否有修改
+  const [isTitleChange, setIsTitleChange] = useState(false);
+  const handleTitleChange = (e: any) => {
+    setIsTitleChange(logdata.title !== e.target.value);
+  };
+
+  // 作者是否有修改
+  const [isAuthorChange, setIsAuthorChange] = useState(false);
+  const handleAuthorChange = (e: any) => {
+    setIsAuthorChange(logdata.author !== e.target.value);
   };
 
   // 保存日志
@@ -102,7 +114,9 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
     let res = await modifyLogCont(params);
     if (res) {
       message.success("保存成功");
-      setIsHasChange(false);
+      setIsTitleChange(false);
+      setIsAuthorChange(false);
+      setIsHTMLChange(false);
     } else {
       message.error("保存失败");
     }
@@ -113,14 +127,14 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
       {/* 保存按钮 */}
       <Button
         className="save-button"
-        type={isHasChange ? 'danger' : "primary"}
+        type={isHTMLChange || isTitleChange || isAuthorChange ? 'danger' : "primary"}
         onClick={saveEditLog}
       >
         <Icon type="save" />保存
       </Button>
       {/* 标题名称和时间 */}
-      <Input className="logcont-title" size="large" ref={titleRef} defaultValue={logdata.title}/>
-      <Input className="logcont-author" ref={authorRef} defaultValue={logdata.author}/>
+      <Input className="logcont-title" size="large" ref={titleRef} defaultValue={logdata.title} onChange={handleTitleChange}/>
+      <Input className="logcont-author" ref={authorRef} defaultValue={logdata.author} onChange={handleAuthorChange}/>
       <div className="logcont-time">
         <span>创建时间：{logdata.cTime}</span>
         <span>修改时间：{logdata.mTime}</span>

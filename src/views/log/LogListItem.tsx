@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './LogListItem.scss';
 import { Icon, message, Modal, Select } from 'antd';
 import { getLogAllClass, getHomeLogAllClass, isShowLog, isStickLog, deleteLogCont, switchLogClass } from '../../client/LogHelper';

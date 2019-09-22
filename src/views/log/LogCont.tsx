@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './LogCont.scss';
 import { getLogCont } from '../../client/LogHelper';
 import { Button, Icon, Switch } from 'antd';
@@ -20,12 +20,13 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const [logCont, setLogCont] = useState<OneLogType>();
+  // 获取当前日志的数据
+  const [logdata, setLogdata] = useState<OneLogType>();
   useEffect(() => {
     const getData = async () => {
       let id = decodeURIComponent(atob(match.params.log_id));
       const res: OneLogType = await getLogCont(id);
-      setLogCont(res);
+      setLogdata(res);
     };
     getData();
   }, [match.params.log_id, isEdit]);
@@ -46,12 +47,12 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
         <Switch className="log-edit-switch" checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
       }
       {/* 展示 */}
-      {!isEdit && logCont &&
-        <LogContShow logdata={logCont} />
+      {!isEdit &&
+        <LogContShow log_id={match.params.log_id} />
       }
       {/* 编辑 */}
-      {isEdit && logCont &&
-        <LogContEdit logdata={logCont} />
+      {isEdit && logdata &&
+        <LogContEdit logdata={logdata} />
       }
     </div>
   )

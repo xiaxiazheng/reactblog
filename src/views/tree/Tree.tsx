@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import './Tree.scss';
 import { IsLoginContext } from '../../common/IsLoginContext';
 import TreeMenu from './TreeMenu';
