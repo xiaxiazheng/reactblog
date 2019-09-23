@@ -4,7 +4,7 @@ import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
 import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort } from '../../client/TreeHelper';
-import { Menu, Icon, message } from 'antd';
+import { Menu, Icon, message, Modal } from 'antd';
 
 interface PropsType {
   history: History;
@@ -39,7 +39,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
   // 初始化数据
   const [treeList, setTreeList] = useState<any[]>([]);
   const getTreeData = async () => {
-    const res = await getTree('admin');
+    const res = await getTree(isLogin ? 'admin' : 'home');
     res && setTreeList(res);
   };
 
@@ -99,7 +99,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     second_sort?: number;
     lastChildrenSort?: number;  // 一二级的 children 最后一个节点的 sort
   }) => {
-
+    const { confirm } = Modal;
     // 向上移动
     const upTreeNode = async () => {
       const params = {
@@ -209,19 +209,30 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
     // 删除节点
     const removeTreeNode = async () => {
-      const level = Number(props.level.split('').pop());
-      const params = {
-        id: props.id,
-        level: level
-      };
-      const res = await deleteTreeNode(params);
-      if (res) {
-        message.success(`删除${level}级节点成功`);
-        getTreeData();
-        
-      } else {
-        message.error(`删除${level}级节点失败`);
-      }
+      confirm({
+        title: `你将删除"${props.label}"`,
+        content: 'Are you sure？',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          const level = Number(props.level.split('').pop());
+          const params = {
+            id: props.id,
+            level: level
+          };
+          const res = await deleteTreeNode(params);
+          if (res) {
+            message.success(`删除${level}级节点成功`, 1);
+            getTreeData();
+          } else {
+            message.error(`删除${level}级节点失败`, 1);
+          }
+        },
+        onCancel() {
+          message.info("已取消删除", 1);
+        },
+      });
     };
 
     return (

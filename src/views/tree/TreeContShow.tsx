@@ -1,10 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './TreeContShow.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getChildName } from '../../client/TreeHelper';
 import { getNodeCont } from '../../client/TreeContHelper';
 import { baseImgUrl } from '../../env_config';
+// 代码高亮
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
 
 interface PropsType {
   history: History;
@@ -21,7 +24,7 @@ interface ImageType {
   imgcTime: string;
   imgfilename: string;
   imgname: string;
-}
+};
 
 interface TreeContType {
   c_id: string;
@@ -32,13 +35,30 @@ interface TreeContType {
   motifytime: string;
   sort: number;
   title: string;
-}
+};
 
-const TreeContShow: React.FC<PropsType> = ({ match }) => {
+const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
+  const contRef = useRef(null);
+  const treecontshow = useRef(null);
 
   useEffect(() => {
     getTreeCont();
   }, [match.params.third_id]);
+
+  const [hashValue, setHashValue] = useState('');
+
+  useEffect(() => {
+    if (location.hash !== '') {
+      // 获取哈希值（用的是 sort）
+      let list = location.hash.split('');
+      list.shift();  // 去掉 #
+      setHashValue(list.join(''));
+
+      // 锚点跳转
+      let dom: any = document.getElementById(`${match.params.third_id}-${list.join('')}`);
+      dom && dom.scrollIntoView();
+    }
+  }, [location]);
 
   const [title, setTitle] = useState('');
   const [contList, setContList] = useState<TreeContType[]>([]);
@@ -46,18 +66,47 @@ const TreeContShow: React.FC<PropsType> = ({ match }) => {
   const getTreeCont = async () => {
     const res = await getChildName(match.params.third_id);
     setTitle(res.length !== 0 ? res[0].c_label : '');
-    const res2 = await getNodeCont(match.params.third_id);
-    res2 && setContList(res2);
+    let res2 = await getNodeCont(match.params.third_id);
+    if (res2) {
+      res2.forEach((item: any) => {
+        item.cont = item.cont.replace(/</g, "&lt;"); // html标签的<转成实体字符,让所有的html标签失效
+        item.cont = item.cont.replace(/&lt;pre/g, "<pre"); // 把pre标签转回来
+        item.cont = item.cont.replace(/pre>\n/g, "pre>"); // 把pre后面的空格去掉
+        item.cont = item.cont.replace(/&lt;\/pre>/g, "</pre>"); // 把pre结束标签转回来
+        item.cont = item.cont.replace(/  /g, "&nbsp;&nbsp;"); // 把空格转成实体字符，以防多空格被合并
+        item.cont = item.cont.replace(/\n|\r\n/g, "<br/>"); // 把换行转成br标签
+      })
+      setContList(res2);
+    }
   };
 
+  // 添加代码高亮
+  useEffect(() => {
+    let dom: any = contRef.current;
+    if (dom) {
+      document.querySelectorAll('pre').forEach((block: any) => {
+        hljs.highlightBlock(block);
+      });
+    }
+  });
+
   return (
-    <div className="treecontshow">
+    <div className="treecontshow" ref={treecontshow}>
       <h2 className="treecont-title">{title}</h2>
       {
         contList.map(item => {
           return (
-            <div key={item.cont_id} className="contitem">
-              <h3 className="contitem-title">{item.title}</h3>
+            <div ref={contRef} key={item.cont_id} className="contitem">
+              <h3 className="contitem-title">
+                <a
+                  href={`#${item.sort}`}
+                  id={`${item.c_id}-${item.sort}`}
+                  className={hashValue === `${item.sort}` ? 'active' : ''}
+                >
+                  {item.title}
+                </a>
+                <span>修改时间：{item.motifytime}</span>
+              </h3>
               <div className="contitem-cont" dangerouslySetInnerHTML={{ __html: item.cont }}></div>
               {item.imgList.length !== 0 &&
                 item.imgList.map(imgItem => {
@@ -73,6 +122,16 @@ const TreeContShow: React.FC<PropsType> = ({ match }) => {
           )
         })
       }
+      {/* 锚点们 */}
+      <div className="mao">
+        {
+          contList.map(item => {
+            return (
+              <a key={item.sort} href={`#${item.sort}`} className={hashValue === `${item.sort}` ? 'active' : ''}>{item.title}</a>
+            )
+          })
+        }
+      </div>
     </div>
   );
 }

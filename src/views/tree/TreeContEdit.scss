@@ -1,3 +1,63 @@
 .treecontedit {
+  width: 80%;
+  margin: 0 auto;
   font-size: 14px;
+  letter-spacing: 1px;
+  .treecont-title {
+    margin: 1rem 0;
+    font-weight: bold;
+  }
+  .contitem {
+    display: flex;
+    margin-bottom: 1rem;
+    .contitem-edit {
+      flex: 1;
+      .commitem-textarea {
+        margin-top: .5rem;
+        resize: none;
+      }
+    }
+    .contitem-img {
+      margin-left: 10px;
+      .imgbox {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 170px;
+        height: 170px;
+      }
+    }
+    .contitem-icons {
+      display: flex;
+      justify-content: space-between;
+      .contitem-icons-box {
+        font-size: 1rem;
+        text-align: left;
+        .contnode-icon {
+          margin-right: .3rem;
+          &:hover {
+            color: red;
+            cursor: pointer;
+          }
+        }
+      }
+      .contitem-time {
+        text-align: right;
+        font-size: .7rem;
+        color: #ccc;
+        >span {
+          margin-left: .7rem;
+        }
+      }
+    }
+  }
+}
+.treecont-addbutton {
+  position: fixed;
+  right: 2.5rem;
+  top: 7rem;
+}
+.treecont-savebutton {
+  position: fixed;
+  right: 2.5rem;
+  top: 10rem;
 }
