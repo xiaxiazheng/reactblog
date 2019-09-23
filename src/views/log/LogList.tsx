@@ -24,6 +24,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
   const [showVisible, setShowVidible] = useState(true);  // 显示可见
   const [showInvisible, setShowInvisible] = useState(true);  // 显示不可见
   const [showNotClassify, setShowNotClassify] = useState(false);  // 仅显示未分类
+  const [keyword, setKeyword] = useState("");  // 搜索的关键字
 
   const [logListData, setLogListData] = useState({
     logList: [],  // 日志列表
@@ -35,7 +36,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
     let params: any = {
       pageNo: pageNo,
       pageSize: pageSize,
-      orderBy: orderBy
+      orderBy: orderBy,
+      keyword: keyword
     };
     logclass !== '所有日志' && (params.classification = logclass);  // 若是所有日志不用传该字段
     logclass === '所有日志' && showNotClassify && (params.classification = '');  // 所有日志下，才可选仅显示未分类
@@ -71,11 +73,18 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
     getLogList();
   }, [match.params.log_class, logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
 
+  useEffect(() => {
+    if (keyword === '') {
+      getLogList();
+    }
+  }, [keyword]);
+
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
     history.push(`/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);
   };
 
+  // 添加日志
   const addNewLog = async (type: 'richtext' | 'markdown') => {
     const params = {
       edittype: type,
@@ -87,6 +96,13 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
       getLogList();
     } else {
       message.error("新建失败");
+    }
+  };
+
+  // 搜索
+  const handleSearch = (e: any) => {
+    if (e.keyCode === 13) {
+      getLogList();
     }
   };
 
@@ -130,7 +146,10 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
         {/* 搜索框 */}
         <Input
           className="search-box"
-          placeholder="搜索当前分类下的日志"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          onKeyDownCapture={handleSearch}
+          placeholder="回车搜当前分类日志"
           prefix={<Icon type="search"></Icon>}
           allowClear>
         </Input>
