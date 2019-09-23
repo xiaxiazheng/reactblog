@@ -58,11 +58,16 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
       let dom: any = document.getElementById(`${match.params.third_id}-${list.join('')}`);
       dom && dom.scrollIntoView();
     }
+
+    return () => {
+      setHashValue('');  // 这个设置回来，不然切换之后指定顺序的依然高亮
+    }
   }, [location]);
 
   const [title, setTitle] = useState('');
   const [contList, setContList] = useState<TreeContType[]>([]);
 
+  // 获取树当前节点具体内容数据
   const getTreeCont = async () => {
     const res = await getChildName(match.params.third_id);
     setTitle(res.length !== 0 ? res[0].c_label : '');
