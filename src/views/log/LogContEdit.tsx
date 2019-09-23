@@ -83,45 +83,17 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
     }
   }
 
-  // 富文本编辑框内容是否有修改
-  const [isHTMLChange, setIsHTMLChange] = useState(false);
-  const [myEditHtml, setMyEditHtml] = useState(logdata.logcont);
-  const handleHTMLChange = (html: string) => {
-    // 等 quill 依赖的 document.range 挂载到 document 上，然后才能用 set
-    setTimeout(() => {
-      setMyEditHtml(html);
-      setIsHTMLChange(html !== logdata.logcont);
-    }, 0);
-  };
-
-  // 标题是否有修改
-  const [isTitleChange, setIsTitleChange] = useState(false);
-  const handleTitleChange = (e: any) => {
-    // 暂时没有解决，在这里 set 就会被 react-quill 的吃掉第一次的焦点
-    // document.getRange();
-    setIsTitleChange(logdata.title !== e.target.value);
-  };
-
-  // 作者是否有修改
-  const [isAuthorChange, setIsAuthorChange] = useState(false);
-  const handleAuthorChange = (e: any) => {
-    // setIsAuthorChange(logdata.author !== e.target.value);
-  };
-
   // 保存日志
   const saveEditLog = async () => {
     const params: any = {
       id: logdata.log_id,
       title: (titleRef.current as any).state.value,
       author: (authorRef.current as any).state.value,
-      logcont: myEditHtml
+      logcont: (quillref.current as any).state.value
     };
     let res = await modifyLogCont(params);
     if (res) {
       message.success("保存成功");
-      setIsTitleChange(false);
-      setIsAuthorChange(false);
-      setIsHTMLChange(false);
     } else {
       message.error("保存失败");
     }
@@ -132,14 +104,14 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
       {/* 保存按钮 */}
       <Button
         className="save-button"
-        type={isHTMLChange || isTitleChange || isAuthorChange ? 'danger' : "primary"}
+        type='danger'
         onClick={saveEditLog}
       >
         <Icon type="save" />保存
       </Button>
       {/* 标题名称和时间 */}
-      <Input className="logcont-title" size="large" ref={titleRef} defaultValue={logdata.title} onChange={handleTitleChange}/>
-      <Input className="logcont-author" ref={authorRef} defaultValue={logdata.author} onChange={handleAuthorChange}/>
+      <Input className="logcont-title" size="large" ref={titleRef} defaultValue={logdata.title}/>
+      <Input className="logcont-author" ref={authorRef} defaultValue={logdata.author}/>
       <div className="logcont-time">
         <span>创建时间：{logdata.cTime}</span>
         <span>修改时间：{logdata.mTime}</span>
@@ -150,7 +122,6 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
           <ReactQuill
             theme="snow"
             defaultValue={logdata.logcont}
-            onChange={handleHTMLChange}
             modules={modules}
             ref={quillref}
           />
