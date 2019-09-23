@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Input, Button, message, Icon } from 'antd';
 import { OneLogType } from './LogType';
 import { modifyLogCont } from '../../client/LogHelper';
@@ -17,7 +17,6 @@ interface PropsType {
 };
 
 const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
-  let myhtml = logdata.logcont;  // 同步富文本编辑器的 html
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const quillref = useRef(null);
@@ -86,21 +85,27 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
 
   // 富文本编辑框内容是否有修改
   const [isHTMLChange, setIsHTMLChange] = useState(false);
+  const [myEditHtml, setMyEditHtml] = useState(logdata.logcont);
   const handleHTMLChange = (html: string) => {
-    myhtml = html;
-    setIsHTMLChange(myhtml !== logdata.logcont);
+    // 等 quill 依赖的 document.range 挂载到 document 上，然后才能用 set
+    setTimeout(() => {
+      setMyEditHtml(html);
+      setIsHTMLChange(html !== logdata.logcont);
+    }, 0);
   };
 
   // 标题是否有修改
   const [isTitleChange, setIsTitleChange] = useState(false);
   const handleTitleChange = (e: any) => {
+    // 暂时没有解决，在这里 set 就会被 react-quill 的吃掉第一次的焦点
+    // document.getRange();
     setIsTitleChange(logdata.title !== e.target.value);
   };
 
   // 作者是否有修改
   const [isAuthorChange, setIsAuthorChange] = useState(false);
   const handleAuthorChange = (e: any) => {
-    setIsAuthorChange(logdata.author !== e.target.value);
+    // setIsAuthorChange(logdata.author !== e.target.value);
   };
 
   // 保存日志
@@ -109,7 +114,7 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
       id: logdata.log_id,
       title: (titleRef.current as any).state.value,
       author: (authorRef.current as any).state.value,
-      logcont: myhtml
+      logcont: myEditHtml
     };
     let res = await modifyLogCont(params);
     if (res) {
@@ -123,7 +128,7 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
   };
 
   return (
-    <div className="logcontedit" >
+    <div className="logcontedit">
       {/* 保存按钮 */}
       <Button
         className="save-button"
