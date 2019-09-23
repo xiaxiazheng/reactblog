@@ -52,7 +52,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
         <LogContShow log_id={match.params.log_id} />
       }
       {/* 编辑 */}
-      {isEdit && logdata &&
+      {isLogin && isEdit && logdata &&
         // <LogContEdit logdata={logdata} />
         <LogContEditByClass logdata={logdata}/>
       }

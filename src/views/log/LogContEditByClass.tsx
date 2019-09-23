@@ -26,6 +26,22 @@ class LogContEdit extends React.Component<PropsType> {
     isAuthorChange: false,
     isLogContChange: false
   };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.onKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.onKeyDown);
+  }
+
+  // 键盘事件
+  onKeyDown = (e: any) => {
+    if (e.keyCode === 83 && e.ctrlKey) {
+      e.preventDefault();
+      this.saveEditLog();
+    }
+  }
   
   // 工具条配置
   toolbarOption: any = [
@@ -87,7 +103,7 @@ class LogContEdit extends React.Component<PropsType> {
       // 调整光标到最后
       quill.setSelection(cursorIndex + 1);
     }
-  }
+  };
 
   // 保存日志
   saveEditLog = async () => {
@@ -116,7 +132,7 @@ class LogContEdit extends React.Component<PropsType> {
       title: e.target.value,
       isTitleChange: this.props.logdata.title !== e.target.value
     });
-  }
+  };
 
   // 监听作者变化
   handleAuthorChange = (e: any) => {
@@ -124,7 +140,7 @@ class LogContEdit extends React.Component<PropsType> {
       author: e.target.value,
       isAuthorChange: this.props.logdata.author !== e.target.value
     });
-  }
+  };
 
   // 监听富文本编辑内容变化
   handleLogContChange = (html: string) => {
@@ -132,7 +148,7 @@ class LogContEdit extends React.Component<PropsType> {
       logcont: html,
       isLogContChange: this.props.logdata.logcont !== html
     });
-  }
+  };
 
   render() {
     return (
