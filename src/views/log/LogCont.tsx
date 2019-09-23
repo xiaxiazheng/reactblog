@@ -5,7 +5,8 @@ import { Button, Icon, Switch } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
-import LogContEdit from './LogContEdit';
+// import LogContEditByHooks from './LogContEditByHooks';
+import LogContEditByClass from './LogContEditByClass';
 import LogContShow from './LogContShow';
 import { OneLogType } from './LogType';
 
@@ -52,7 +53,8 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
       }
       {/* 编辑 */}
       {isEdit && logdata &&
-        <LogContEdit logdata={logdata} />
+        // <LogContEdit logdata={logdata} />
+        <LogContEditByClass logdata={logdata}/>
       }
     </div>
   )
