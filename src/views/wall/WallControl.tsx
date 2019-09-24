@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import './WallControl.scss';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
 import ImageBox from '../../common/ImageBox';
@@ -13,45 +14,44 @@ interface ImgType {
   imgUrl?: string;
 };
 
-const Admin: React.FC = () => {
-
-  const [AdminImgList, setAdminImgList] = useState<ImgType[]>([])
+const WallControl: React.FC = () => {
+  const [wallList, setWallList] = useState<ImgType[]>([])
 
   useEffect(() => {
-    getImageList();
+    getWallImageList();
   }, []);
 
-  const getImageList = async () => {
+  const getWallImageList = async () => {
     let imgList: any = [];
-    const res: ImgType[] = await getImgList('main');
+    const res: ImgType[] = await getImgList('wall');
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseImgUrl}/main/${item.filename}`
+        imgUrl: `${baseImgUrl}/wall/${item.filename}`
       });
     }
-    setAdminImgList(imgList);
+    setWallList(imgList);
   };
   
   return (
-    <div className="Admin">
-      {AdminImgList.map((item: ImgType) => {
+    <div className="wall-shower">
+      {wallList.map((item: ImgType) => {
         return (
           <ImageBox
             key={item.img_id}
-            type="main"
+            type="wall"
             imageId={item.img_id}
             imageName={item.imgname}
             imageFileName={item.filename}
-            imageUrl={`${baseImgUrl}/main/${item.filename}`}
-            initImgList={getImageList}
+            imageUrl={`${baseImgUrl}/wall/${item.filename}`}
+            initImgList={getWallImageList}
           />
         )
       })}
-      <ImageBox type="main" imageUrl="" initImgList={getImageList}/>
+      <ImageBox type="wall" imageUrl="" initImgList={getWallImageList}/>
     </div>
   );
-};
+}
 
-export default Admin;
+export default WallControl;

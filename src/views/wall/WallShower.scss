@@ -1,0 +1,29 @@
+.wall-shower {
+  padding: 1rem;
+  // 展示
+  .img-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    img {
+      max-width: 100%;
+      margin: 5px 6px;
+      padding: 1px;
+      height: 200px;
+      background: #b4cfec;
+      flex-grow: 1;
+      object-fit: cover;
+      transition: .3s;
+      cursor: pointer;
+    }
+    img:hover {
+      transform: scale(1.05);
+      z-index: 3;
+    }
+  }
+  .wrap:after {
+    display: block;
+    content: '';
+    flex-grow: 9999;
+  }
+}

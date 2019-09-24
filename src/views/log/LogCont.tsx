@@ -23,12 +23,12 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
 
   // 获取当前日志的数据
   const [logdata, setLogdata] = useState<OneLogType>();
+  const getData = async () => {
+    let id = decodeURIComponent(atob(match.params.log_id));
+    const res: OneLogType = await getLogCont(id);
+    setLogdata(res);
+  };
   useEffect(() => {
-    const getData = async () => {
-      let id = decodeURIComponent(atob(match.params.log_id));
-      const res: OneLogType = await getLogCont(id);
-      setLogdata(res);
-    };
     getData();
   }, [match.params.log_id, isEdit]);
 
@@ -54,7 +54,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
       {/* 编辑 */}
       {isLogin && isEdit && logdata &&
         // <LogContEdit logdata={logdata} />
-        <LogContEditByClass logdata={logdata}/>
+        <LogContEditByClass logdata={logdata} getLogContData={getData}/>
       }
     </div>
   )

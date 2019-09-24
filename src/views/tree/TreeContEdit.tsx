@@ -6,6 +6,7 @@ import { getChildName } from '../../client/TreeHelper';
 import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCont } from '../../client/TreeContHelper';
 import { baseImgUrl } from '../../env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
+import ImageBox from '../../common/ImageBox';
 
 interface PropsType {
   history: History;
@@ -25,9 +26,9 @@ interface ImageType {
 }
 
 interface TreeContType {
-  c_id: string;
+  c_id: string;  // 第三级树节点 id
   cont: string;
-  cont_id: string;
+  cont_id: string;  // 树内容每个节点的单独 id
   createtime: string;
   imgList: ImageType[];
   motifytime: string;
@@ -44,24 +45,22 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     getTreeCont();
   }, [match.params.third_id])
 
-  // 监听键盘事件
-  useEffect(() => {
-    const List = contList
-    // 键盘事件
-    const onKeyDown = (e: any) => {
-      console.log('contList =', List);
-      if (e.keyCode === 83 && e.ctrlKey) {
-        e.preventDefault();
-        // saveTreeCont();
-        message.error("这里有问题，没法获取到 contList ！！！");
-      }
-    }
+  // 监听键盘事件，TODO，暂时无法解决
+  // useEffect(() => {
+  //   const onKeyDown = (e: any) => {
+  //     console.log('contList =', contList);
+  //     if (e.keyCode === 83 && e.ctrlKey) {
+  //       e.preventDefault();
+  //       // saveTreeCont();
+  //       message.error("这里有问题，没法获取到 contList ！！！");
+  //     }
+  //   }
 
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown.bind(TreeContEdit));
-    }
-  }, []);
+  //   document.addEventListener("keydown", onKeyDown);
+  //   return () => {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //   }
+  // }, []);
 
 
   const [title, setTitle] = useState('');
@@ -73,8 +72,8 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     res2 && setContList(res2);
   };
 
-  const [isChange, setIsChange] = useState(false);  // 页面是否编辑过
-  const handleChange = (cont_id: string, type: string, newValue: string) => {
+  const [isChange, setIsChange] = useState(false);  // 判断页面是否编辑过
+  const handleChange = (cont_id: string, type: 'title' | 'content', newValue: string) => {
     const newData = [...contList];
     const index = newData.findIndex(item => cont_id === item.cont_id);
     const item = newData[index];
@@ -232,11 +231,20 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                   />
                 </div>
                 <div className="contitem-img">
-                  {[1,2,3].map(jtem => {
+                  {item.imgList.map(jtem => {
                     return (
-                      <div key={jtem} className="imgbox">{jtem}</div>
+                      <ImageBox
+                        key={jtem.img_id}
+                        type="treecont"
+                        imageId={jtem.img_id}
+                        imageFileName={jtem.imgfilename}
+                        imageUrl={`${baseImgUrl}/treecont/${jtem.imgfilename}`}
+                        initImgList={getTreeCont}
+                        width="120px"
+                      />
                     )
                   })}
+                  <ImageBox otherId={item.cont_id} type="treecont" imageUrl="" initImgList={getTreeCont} width="120px"/>
                 </div>
               </div>
             )

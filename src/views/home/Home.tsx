@@ -36,13 +36,24 @@ const Home: React.FC = () => {
 
   return (
     <div className="Home">
-      <Carousel autoplay>
+      <Carousel className="carousel" autoplay>
         {homeData.imgList.map((item: ImgType) => {
           return (
             <img key={item.img_id} src={item.imgUrl} alt={item.imgname}/>
           )
         })}
       </Carousel>
+      <footer className="footer-beian">
+        <div style={{width: '300px',margin: '0 auto'}}>
+          <a
+            target="_blank"
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602005623"
+            style={{ display: 'inline-block', textDecoration: 'none', height: '20px', lineHeight:'20px' }}>
+            <img src={require("../../assets/beian.png")}/>
+            <span>粤公网安备 44010602005623号</span>
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -102,6 +102,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     const { confirm } = Modal;
     // 向上移动
     const upTreeNode = async () => {
+      // TODO
       const params = {
 
       };
@@ -111,6 +112,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
     // 向下移动
     const downTreeNode = () => {
+      // TODO
       // if (this.shuttleLevel === 2) {
       //   for (let item of this.tree) {  // 二级节点穿梭，就要到一级节点找穿梭到的节点
       //     if (item.id === this.choiceFathId) {
@@ -236,7 +238,12 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     };
 
     return (
-      <span className="menu-title">
+      <span className="menu-title"
+        onMouseLeave={(e) => {
+          e.stopPropagation();
+          editting_id === props.id && setEditting_id('');
+        }}
+      >
         <span className="title-name">{props.label}</span>
         {isLogin && 
           <div className="allIcon-box"
@@ -286,7 +293,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         mode="inline"
         theme="dark"
         openKeys={openKeys}
-        selectedKeys={selectedKeys}>
+        selectedKeys={selectedKeys}
+      >
         {/** 第一层 */
           treeList.map((item: any, index: number) => {
             return (

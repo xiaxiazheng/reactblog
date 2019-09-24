@@ -38,6 +38,10 @@ const Header: React.FC<PropsType> = () => {
             <Icon type="book" />
             <Link to={isLogin ? "/admin/log/所有日志" : "/log/所有日志"}>日志</Link>
           </Menu.Item>
+          <Menu.Item key="wall">
+            <Icon type="picture" />
+            <Link to={isLogin ? "/admin/wall" : "/wall"}>图片墙</Link>
+          </Menu.Item>
           <Menu.Item key="github">
             <Icon type="github" />
             github

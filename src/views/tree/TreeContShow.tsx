@@ -38,8 +38,8 @@ interface TreeContType {
 };
 
 const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
+  const contShowRef = useRef(null);
   const contRef = useRef(null);
-  const treecontshow = useRef(null);
 
   useEffect(() => {
     getTreeCont();
@@ -53,9 +53,12 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
       let list = location.hash.split('');
       list.shift();  // 去掉 #
       setHashValue(list.join(''));
-
       // 锚点跳转
       let dom: any = document.getElementById(`${match.params.third_id}-${list.join('')}`);
+      dom && dom.scrollIntoView();
+    } else {
+      // 这里是为了切换该组件实例时回到头部
+      let dom: any = contShowRef.current;
       dom && dom.scrollIntoView();
     }
 
@@ -96,7 +99,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
   });
 
   return (
-    <div className="treecontshow" ref={treecontshow}>
+    <div className="treecontshow" ref={contShowRef}>
       <h2 className="treecont-title">{title}</h2>
       {
         contList.map(item => {

@@ -15,7 +15,7 @@ export interface OneLogType {
   cTime: string;
   classification: string;
   edittype: string;
-  imgList: []
+  imgList: ImageType[]
   isShow: string;
   isStick: string;
   log_id: string;
@@ -23,5 +23,12 @@ export interface OneLogType {
   mTime: string;
   title: string;
 };
+
+export interface ImageType {
+  img_id: string;
+  imgcTime: string;
+  filename: string;
+  imgname: string;
+}
 
 export const a = 1;  // 这个用来绕过 export interface 的报错

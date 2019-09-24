@@ -3,6 +3,8 @@ import { Input, Button, message, Icon } from 'antd';
 import { OneLogType } from './LogType';
 import { modifyLogCont } from '../../client/LogHelper';
 import './LogContEditByClass.scss';
+import ImageBox from '../../common/ImageBox';
+import { baseImgUrl } from '../../env_config';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -14,6 +16,7 @@ Quill.register('modules/imageResize', ImageResize);
 
 interface PropsType {
   logdata: OneLogType;
+  getLogContData: Function;
 };
 
 class LogContEdit extends React.Component<PropsType> {
@@ -181,13 +184,21 @@ class LogContEdit extends React.Component<PropsType> {
           </div>
           {/* 图片列表 */}
           <div className="logcont-imgbox">
-            {[1,2,3].map(item => {
-              return (
-                <div key={item} className="image-box">
-                  TODO!!
-                </div>
-              )
-            })}
+              {this.props.logdata.imgList.map((item) => {
+                return (
+                  <ImageBox
+                    key={item.img_id}
+                    type="log"
+                    imageId={item.img_id}
+                    imageName={item.imgname}
+                    imageFileName={item.filename}
+                    imageUrl={`${baseImgUrl}/log/${item.filename}`}
+                    initImgList={this.props.getLogContData}
+                    width="140px"
+                  />
+                )
+              })}
+              <ImageBox otherId={this.props.logdata.log_id} type="log" imageUrl="" initImgList={this.props.getLogContData} width="140px"/>
           </div>
         </div>
       </div>
