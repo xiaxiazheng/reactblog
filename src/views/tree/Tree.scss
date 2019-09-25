@@ -2,12 +2,15 @@ $TreeMenuWidth: 21rem;
 
 .Tree {
   height: 100%;
+  background-color: #001529;
   .tree-left {
     display: inline-block;
     height: 100%;
     width: $TreeMenuWidth;
     text-align: left;
     background: #001529;
+    border-right: 1px solid #ccc;
+    box-sizing: border-box;
   }
   .tree-right {
     display: inline-block;

@@ -31,19 +31,19 @@ const Header: React.FC<PropsType> = () => {
       <span className="header-right">
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="tree">
-            <Icon type="cluster" />
+            <Icon type="cluster" className="header-icon"/>
             <Link to={isLogin ? '/admin/tree' : '/tree'}>知识树</Link>
           </Menu.Item>
           <Menu.Item key="log">
-            <Icon type="book" />
+            <Icon type="book" className="header-icon"/>
             <Link to={isLogin ? "/admin/log/所有日志" : "/log/所有日志"}>日志</Link>
           </Menu.Item>
           <Menu.Item key="wall">
-            <Icon type="picture" />
+            <Icon type="picture" className="header-icon"/>
             <Link to={isLogin ? "/admin/wall" : "/wall"}>图片墙</Link>
           </Menu.Item>
           <Menu.Item key="github">
-            <Icon type="github" />
+            <Icon type="github" className="header-icon"/>
             github
           </Menu.Item>
         </Menu>

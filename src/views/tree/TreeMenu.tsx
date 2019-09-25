@@ -106,7 +106,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       const params = {
 
       };
-      const res = await changeSort(params);
+      // const res = await changeSort(params);
       console.log(props);
     };
 
