@@ -11,12 +11,16 @@
     width: 50%;
     margin: 0 auto;
     text-align: center;
+    color: rgba(255, 255, 255, 0.65);
+    background: #001529;
   }
   .logcont-author {
     display: block;
     width: 30%;
     margin: .5rem auto;
     text-align: center;
+    color: rgba(255, 255, 255, 0.65);
+    background: #001529;
   }
   .logcont-time {
     margin-bottom: .5rem;
@@ -32,6 +36,9 @@
     .logcont-editor {
       flex: 1;
       letter-spacing: 1px;
+      .ql-toolbar.ql-snow {
+        background: rgba(255, 255, 255, 0.9);
+      }
       .ql-container {
         width: 100%;
         font-size: 14px;

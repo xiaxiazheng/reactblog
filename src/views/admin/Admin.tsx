@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
 import ImageBox from '../../common/ImageBox';
+import './Admin.scss';
 
 interface ImgType {
   cTime: string;

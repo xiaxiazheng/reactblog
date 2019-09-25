@@ -1,9 +1,11 @@
 $headerHight: 3rem;
 .Router-Head {
   height: $headerHight;
+  background-color: #001529;
 }
 .Router-View {
   width: 100%;
   height: calc(100% - #{$headerHight});
   font-size: 0;
+  background-color: #001529;
 }

@@ -215,9 +215,9 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
             return (
               <div key={item.cont_id} className="contitem">
                 <div className="contitem-edit">
-                  <Input placeholder="请输入小标题" value={item.title} onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}/>
+                  <Input className="contitem-input" placeholder="请输入小标题" value={item.title} onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}/>
                   <TextArea
-                    className="commitem-textarea ScrollBar"
+                    className="contitem-textarea ScrollBar"
                     placeholder="请输入内容"
                     autosize={{ minRows: 6, maxRows: 21 }}
                     value={item.cont}

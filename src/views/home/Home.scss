@@ -1,4 +1,6 @@
 .Home {
+  height: 100%;
+  background-color: #001529;
   .footer-beian {
     display: flex;
     position: absolute;
@@ -7,8 +9,6 @@
     height: 3.6rem;
     line-height: 3.6rem;
     font-size: 12px;
-    border-top: 1px solid #ccc;
-    box-sizing: border-box;
     background-color: #001529;
     span, img {
       color: rgba(255, 255, 255, 0.65);

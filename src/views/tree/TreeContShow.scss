@@ -8,6 +8,7 @@
     margin: 1rem 0;
     font-size: 21px;
     font-weight: bold;
+    color: rgba(255, 255, 255, 0.65);
   }
   .contitem {
     margin-bottom: 1rem;
@@ -15,12 +16,12 @@
     .contitem-title {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.65);
       box-sizing: border-box;
       font-weight: bold;
       font-size: 18px;
       >a {
-        color: rgba(0, 0, 0, 0.85);
+        color: rgba(255, 255, 255, 0.65);
         &.active {
           color: rgb(236, 172, 97);
         }
@@ -66,7 +67,7 @@
       display: block;
       padding: .2rem .6rem;
       word-break: break-all;
-      color: rgba(0, 0, 0, 0.85);
+      color: rgba(255, 255, 255, 1);
       &.active {
         background-color: #ccc;
       }

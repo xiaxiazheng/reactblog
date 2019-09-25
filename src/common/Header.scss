@@ -28,6 +28,9 @@
     }
     >ul {
       background-color: transparent;
+      li {
+        color: rgba(255, 255, 255, 0.65);
+      }
     }
     a {
       display: inline-block;
