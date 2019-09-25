@@ -252,9 +252,9 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
         }
       </div>
       {/* 新增按钮 */}
-      <Button className="treecont-addbutton" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont}/>
+      <Button className="treecont-addbutton" title="新增一个节点" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont}/>
       {/* 保存按钮 */}
-      <Button className="treecont-savebutton" type={isChange ? "danger" : "primary"} shape="circle" icon="save" size="large" onClick={saveTreeCont}/>
+      <Button className="treecont-savebutton" title="保存" type={isChange ? "danger" : "primary"} shape="circle" icon="save" size="large" onClick={saveTreeCont}/>
     </>
   );
 }
