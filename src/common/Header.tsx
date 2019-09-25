@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import './Header.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
@@ -13,7 +13,7 @@ interface PropsType {
   history: History;
 };
 
-const Header: React.FC<PropsType> = () => {
+const Header: React.FC<PropsType> = ({ location }) => {
   const { isLogin } = useContext(IsLoginContext);  // 获取登录状态
   const [current, setCurrent] = useState('home');
 
@@ -22,6 +22,14 @@ const Header: React.FC<PropsType> = () => {
       setCurrent(e.key) :
       window.open("https://github.com/xiaxiazheng/reactblog", "_blank");
   }
+
+  // 用于刷新的时候将当前模块高亮
+  useEffect(() => {
+    const list = ['/tree', '/log/', '/wall'];
+    list.forEach((item) => {
+      location.pathname.indexOf(item) !== -1 && setCurrent(item.replace(/\//g, ''));
+    });
+  }, []);
 
   return (
     <div className="Header">

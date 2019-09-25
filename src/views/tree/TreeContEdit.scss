@@ -1,9 +1,11 @@
 .treecontedit {
+  display: inline-block;
   width: 80%;
-  margin: 0 auto;
+  margin: 0 auto 2rem;;
   font-size: 14px;
   letter-spacing: 1px;
   .treecont-title {
+    padding-right: 260px;
     margin: 1rem 0;
     font-weight: bold;
   }

@@ -42,7 +42,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
   const contRef = useRef(null);
 
   useEffect(() => {
-    getTreeCont();
+    match.params.third_id && getTreeCont();
   }, [match.params.third_id]);
 
   const [hashValue, setHashValue] = useState('');
