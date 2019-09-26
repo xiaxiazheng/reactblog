@@ -28,7 +28,7 @@ const Tree: React.FC<PropsType> = ({ match }) => {
   return (
     <div className="Tree">
       {/* 左边的树 */}
-      <div className="tree-left ScrollBar">
+      <div className="tree-left">
         <TreeMenu />
       </div>
       {/* 右边的展示 & 编辑 */}

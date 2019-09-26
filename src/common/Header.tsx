@@ -29,7 +29,11 @@ const Header: React.FC<PropsType> = ({ location }) => {
     list.forEach((item) => {
       location.pathname.indexOf(item) !== -1 && setCurrent(item.replace(/\//g, ''));
     });
-  }, []);
+
+    if (location.pathname === '/login') {
+      setCurrent('admin');
+    }
+  }, [isLogin]);
 
   return (
     <div className="Header">

@@ -49,7 +49,7 @@ const Home: React.FC = () => {
             target="_blank"
             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602005623"
             style={{ display: 'inline-block', textDecoration: 'none', height: '20px', lineHeight:'20px' }}>
-            <img src={require("../../assets/beian.png")}/>
+            <img src={require("../../assets/beian.png")} alt="备案"/>
             <span>粤公网安备 44010602005623号</span>
           </a>
         </div>

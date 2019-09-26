@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Input, Button, Icon, message } from 'antd';
 import './Login.scss';
 import { postLogin } from '../client/UserHelper';
@@ -12,7 +12,7 @@ interface PropsType {
   history: History;
 };
 
-const Login: React.FC<PropsType> = ({ history }) => {
+const Login: React.FC<PropsType> = ({ history, location }) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [isShowPwd, setIsShowPwd] = useState(false);

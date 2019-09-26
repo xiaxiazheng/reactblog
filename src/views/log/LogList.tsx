@@ -73,12 +73,6 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
     getLogList();
   }, [match.params.log_class, logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
 
-  useEffect(() => {
-    if (keyword === '') {
-      getLogList();
-    }
-  }, [keyword]);
-
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
     history.push(`/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);
@@ -99,7 +93,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
     }
   };
 
-  // 搜索
+  // 回车搜索
   const handleSearch = (e: any) => {
     if (e.keyCode === 13) {
       getLogList();

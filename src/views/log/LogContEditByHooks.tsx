@@ -131,7 +131,7 @@ const LogContEdit: React.FC<PropsType> = ({ logdata }) => {
           {[1,2,3].map(item => {
             return (
               <div key={item} className="image-box">
-                TODO!!
+                弃用
               </div>
             )
           })}

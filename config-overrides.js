@@ -22,7 +22,12 @@ module.exports = {
     // ))(config, env)
 
     // override(addWebpackPlugin(
-    //   new BundleAnalyzerPlugin()
+    //   new webpack.DefinePlugin({
+    //     'process.env': {
+    //       NODE_ENV: 'production',
+    //       BLOG_USER: 'zyb'
+    //     }
+    //   })
     // ))(config, env)
 
     // config.output.publicPath = `${process.env.PUBLIC_URL}`

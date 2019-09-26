@@ -29,7 +29,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
     setLogdata(res);
   };
   useEffect(() => {
-    getData();
+    isEdit && getData();
   }, [match.params.log_id, isEdit]);
 
   // 回到日志列表
