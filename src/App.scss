@@ -35,7 +35,7 @@
 .ScrollBar {
   /* 进度条全局样式 */
   & {
-    overflow:hidden;
+    overflow: hidden;
     overflow-y: auto;
   }
   &::-webkit-scrollbar {
