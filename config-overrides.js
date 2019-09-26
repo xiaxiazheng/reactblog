@@ -21,9 +21,9 @@ module.exports = {
     //   })
     // ))(config, env)
 
-    override(addWebpackPlugin(
-      new BundleAnalyzerPlugin()
-    ))(config, env)
+    // override(addWebpackPlugin(
+    //   new BundleAnalyzerPlugin()
+    // ))(config, env)
 
     // config.output.publicPath = `${process.env.PUBLIC_URL}`
 
