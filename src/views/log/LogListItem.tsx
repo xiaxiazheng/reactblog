@@ -152,6 +152,7 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
         <Modal
           title={`请选择要将《${logItemData.title}》切换到的分类：`}
           visible={isShowSwitch}
+          centered
           onOk={submitClassifyChange}
           onCancel={() => setIsShowSwitch(false)}
         >

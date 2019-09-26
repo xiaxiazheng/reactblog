@@ -15,12 +15,23 @@
     margin-left: .8rem;
     line-height: 32px;
     color: rgba(255, 255, 255, 0.65);
+    .ant-checkbox-inner {
+      background: transparent;
+    }
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: #1890ff;
+    }
   }
   .search-box {
     width: 13rem;
     margin-left: .3rem;
     .ant-input-prefix {
       color: rgba(255, 255, 255, 0.65);
+    }
+    .ant-input-suffix {
+      .ant-input-clear-icon {
+        color: rgba(255, 255, 255, 0.65);
+      }
     }
     .ant-input {
       background: #001529;

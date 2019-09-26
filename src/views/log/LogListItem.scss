@@ -37,10 +37,10 @@
         color: rgba(255, 255, 255, 0.65);
         cursor: pointer;
         &.active {
-          color: red;
+          color: #1890ff;
         }
         &:hover {
-          color: blue;
+          color: red;
         }
       }
     }

@@ -2,7 +2,7 @@
   height: 100%;
   .add-root-treenode {
     &:hover {
-      color: red;
+      color: #1890ff;
     }
   }
   .ant-menu-submenu-title {
@@ -23,7 +23,7 @@
         line-height: 44px;
         margin-left: 10px;
         &.editting {
-          color: red;
+          color: #1890ff;
         }
       }
       .icons-box {
@@ -36,7 +36,7 @@
         border-radius: 4px;
         .treenode-icon {
           &:hover {
-            color: red;
+            color: #1890ff;
           }
         }
       }

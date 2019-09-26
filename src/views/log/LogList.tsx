@@ -24,7 +24,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
   const [showVisible, setShowVidible] = useState(true);  // 显示可见
   const [showInvisible, setShowInvisible] = useState(true);  // 显示不可见
   const [showNotClassify, setShowNotClassify] = useState(false);  // 仅显示未分类
-  const [keyword, setKeyword] = useState("");  // 搜索的关键字
+  let keyword = '';  // 搜索的关键字
 
   const [logListData, setLogListData] = useState({
     logList: [],  // 日志列表
@@ -93,6 +93,14 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
     }
   };
 
+  // 输入搜索关键字
+  const handleKeyword = (e: any) => {
+    keyword = e.target.value;
+    if (keyword === '') {
+      getLogList();
+    }
+  };
+
   // 回车搜索
   const handleSearch = (e: any) => {
     if (e.keyCode === 13) {
@@ -140,8 +148,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
         {/* 搜索框 */}
         <Input
           className="search-box"
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          defaultValue={keyword}
+          onChange={handleKeyword}
           onKeyDownCapture={handleSearch}
           placeholder="回车搜当前分类日志"
           prefix={<Icon type="search"></Icon>}

@@ -94,6 +94,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
       <Modal
         title={"修改当前日志分类名称：" + logClass}
         visible={showModal}
+        centered
         onOk={editLogClassName}
         onCancel={() => setShowModal(false)}
       >
