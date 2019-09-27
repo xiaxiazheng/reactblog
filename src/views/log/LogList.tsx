@@ -20,7 +20,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
 
   const [pageNo, setPageNo] = useState(1);  // 当前页面
   const [pageSize, setPageSize] = useState(15);  // 当前页面容量
-  const [orderBy, setOrderBy] = useState<'create' | 'modify'>('create');  // 按创建时间或修改时间排序
+  const [orderBy, setOrderBy] = useState<'create' | 'modify'>('modify');  // 按创建时间或修改时间排序
   const [showVisible, setShowVidible] = useState(true);  // 显示可见
   const [showInvisible, setShowInvisible] = useState(true);  // 显示不可见
   const [showNotClassify, setShowNotClassify] = useState(false);  // 仅显示未分类

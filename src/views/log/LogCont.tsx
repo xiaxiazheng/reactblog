@@ -29,6 +29,17 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
     setLogdata(res);
   };
 
+  // 获取当前日志图片数组数据
+  const getImageList = async () => {
+    let id = decodeURIComponent(atob(match.params.log_id));
+    const res: OneLogType = await getLogCont(id);
+    const imgList = res.imgList;
+    setLogdata({
+      ...(logdata as OneLogType),
+      imgList
+    });
+  };
+
   useEffect(() => {
     isEdit && getData();
   }, [match.params.log_id, isEdit]);
@@ -55,7 +66,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
       {/* 编辑 */}
       {isLogin && isEdit && logdata &&
         // <LogContEdit logdata={logdata} />
-        <LogContEditByClass logdata={logdata} getLogContData={getData}/>
+        <LogContEditByClass logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
       }
     </div>
   )

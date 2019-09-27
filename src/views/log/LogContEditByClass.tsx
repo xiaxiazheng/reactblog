@@ -16,7 +16,8 @@ Quill.register('modules/imageResize', ImageResize);
 
 interface PropsType {
   logdata: OneLogType;
-  getLogContData: Function;
+  getLogContData: Function;  // 重新获取整个日志信息
+  getImageList: Function;  // 只重新获取日志图片列表
 };
 
 class LogContEdit extends React.Component<PropsType> {
@@ -194,12 +195,12 @@ class LogContEdit extends React.Component<PropsType> {
                     imageName={item.imgname}
                     imageFileName={item.filename}
                     imageUrl={`${baseImgUrl}/log/${item.filename}`}
-                    initImgList={this.props.getLogContData}
+                    initImgList={this.props.getImageList}
                     width="140px"
                   />
                 )
               })}
-              <ImageBox otherId={this.props.logdata.log_id} type="log" imageUrl="" initImgList={this.props.getLogContData} width="140px"/>
+              <ImageBox otherId={this.props.logdata.log_id} type="log" imageUrl="" initImgList={this.props.getImageList} width="140px"/>
           </div>
         </div>
       </div>

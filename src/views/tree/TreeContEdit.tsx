@@ -65,6 +65,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
 
   const [title, setTitle] = useState('');
 
+  // 获取树详情所有信息
   const getTreeCont = async () => {
     const res = await getChildName(match.params.third_id);
     setTitle(res.length !== 0 ? res[0].c_label : '');
