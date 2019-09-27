@@ -28,6 +28,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
     const res: OneLogType = await getLogCont(id);
     setLogdata(res);
   };
+
   useEffect(() => {
     isEdit && getData();
   }, [match.params.log_id, isEdit]);

@@ -123,7 +123,8 @@ class LogContEdit extends React.Component<PropsType> {
         isTitleChange: false,
         isAuthorChange: false,
         isLogContChange: false
-      })
+      });
+      this.props.getLogContData();  // 调用父组件的函数，获取最新的东西
     } else {
       message.error("保存失败");
     }
