@@ -1,22 +1,26 @@
 .tree-filter {
-  width: calc(100% - 1.4rem);
-  height: 40px;
-  margin: 4px 0.7rem 0;
   box-sizing: border-box;
   border-bottom: 1px solid #ccc;
-  .ant-input {
-    border: none;
-    box-shadow: none;
-    background: #001529;
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .ant-input-prefix {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .ant-input-suffix {
-    right: 7px;
-    >i {
+  .tree-filter-input {
+    width: calc(100% - 1.4rem);
+    height: 40px;
+    margin: 4px 0.7rem;
+    .ant-input {
+      letter-spacing: 1px;
+      font-size: 15px;
+      border: none;
+      box-shadow: none;
+      background: #001529;
       color: rgba(255, 255, 255, 0.65);
+    }
+    .ant-input-prefix {
+      color: rgba(255, 255, 255, 0.65);
+    }
+    .ant-input-suffix {
+      right: 7px;
+      >i {
+        color: rgba(255, 255, 255, 0.65);
+      }
     }
   }
 }

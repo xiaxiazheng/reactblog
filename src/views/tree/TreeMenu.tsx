@@ -352,6 +352,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     )
   };
 
+  const [keyword, setKeyword] = useState('');
+
   // 搜索整棵树，如果上层匹配到就返回该层，如果没有匹配到就往下层找（用 new RegExp 是为了用 i 不区分大小写）
   const handleKeyword = (e: any) => {
     setKeyword(e.target.value);
@@ -418,11 +420,11 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     setTreeList(list);
   };
 
-  const [keyword, setKeyword] = useState('');
-
   return (
     <>
-      <Input className="tree-filter" value={keyword} onChange={handleKeyword} allowClear prefix={<Icon type="search"/>} />
+      <div className="tree-filter">
+        <Input className="tree-filter-input" value={keyword} onChange={handleKeyword} allowClear prefix={<Icon type="search"/>} />  
+      </div>
       <Menu
         className="tree-menu"
         mode="inline"
