@@ -92,7 +92,14 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     level: string;  // 节点级别
     label: string;  // 节点名称
     id: string;  // 节点 id
+    sort: number;  // 节点顺序号
     index: number;  // 节点顺序
+
+    previousSort: number;
+    previousId: string;
+    nextSort: number;
+    nextId: string;
+
     first_id?: string;  // 所属一级节点 id
     second_id?: string;  // 所属二级节点 id
     second_label?: string;
@@ -100,64 +107,38 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     lastChildrenSort?: number;  // 一二级的 children 最后一个节点的 sort
   }) => {
     const { confirm } = Modal;
-    // 向上移动
-    const upTreeNode = async () => {
-      // TODO
+
+    // 上移下移
+    const changeNodeSort = async (type: 'up' | 'down') => {
+      let otherId: any = '';
+      let otherSort: any = '';
+      if (type === 'up') {
+        otherId = props.previousId;
+        otherSort = props.previousSort;
+      } else if (type === 'down') {
+        otherId = props.nextId;
+        otherSort = props.nextSort;
+      } else {
+        message.error('上下移动出错');
+        return;
+      }
+  
       const params = {
-
+        otherId,
+        otherSort,
+        level: Number(props.level.split('').pop()),
+        thisId: props.id,
+        thisSort: props.sort,
       };
-      // const res = await changeSort(params);
-      console.log(props);
-    };
-
-    // 向下移动
-    const downTreeNode = () => {
-      // TODO
-      // if (this.shuttleLevel === 2) {
-      //   for (let item of this.tree) {  // 二级节点穿梭，就要到一级节点找穿梭到的节点
-      //     if (item.id === this.choiceFathId) {
-      //       params = {
-      //         shuttleLevel: this.shuttleLevel,
-      //         category_id: item.id,
-      //         f_sort:  item.children[item.children.length - 1].sort + 1,
-      //         f_id: this.shuttleChildId
-      //       };
-      //       break;
-      //     }
-      //   }
-      // }
-      // if (this.shuttleLevel === 3) {  // 三级节点穿梭，就要到二级节点找穿梭到的节点
-      //   for (let item of this.tree) {
-      //     let isfind = false;
-      //     for (let jtem of item.children) {
-      //       if (jtem.id === this.choiceFathId) {
-      //         params = {
-      //           shuttleLevel: this.shuttleLevel,
-      //           fatherid: jtem.id,
-      //           fatherlabel: jtem.label,
-      //           fathersort: jtem.sort,
-      //           newchildsort: jtem.children[jtem.children.length - 1].sort + 1,
-      //           childid: this.shuttleChildId
-      //         };
-      //         isfind = true;
-      //         break;
-      //       }
-      //     }
-      //     if (isfind) {
-      //       break;
-      //     }
-      //   }
-      // }
-      // let res: any = await TreeHelper.changeFather(params);
-      // if (res) {
-      //   this.saveTreeExpend();
-      //   await this.init();
-      //   this.$message.success('穿梭成功');
-      //   this.showShuttleDialog = false;
-      // } else {
-      //   this.$message.error('穿梭失败');
-      // }
-    };
+      
+      let res: any = await changeSort(params);
+      if (res) {
+        message.success(`${ type === 'up' ? '上移' : '下移' }成功`);
+        getTreeData();
+      } else {
+        message.success(`${ type === 'up' ? '上移' : '下移' }失败`);
+      }
+    }
 
     // 编辑树节点
     const editTreeNode = async () => {
@@ -237,6 +218,11 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       });
     };
 
+    // 更换父节点
+    const changeFather = async () => {
+      console.log("还没做");
+    };
+
     return (
       <span className="menu-title"
         onMouseLeave={(e) => {
@@ -265,17 +251,17 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
               // 树节点操作的操作 icons
               <div className="icons-box" onClick={e => e.stopPropagation()}>
                 {!props.isFirst && 
-                  <Icon className="treenode-icon" title="向上移动" type="arrow-up" onClick={upTreeNode}/>
+                  <Icon className="treenode-icon" title="向上移动" type="arrow-up" onClick={changeNodeSort.bind(null, 'up')}/>
                 }
                 {!props.isLast &&
-                  <Icon className="treenode-icon" title="向下移动" type="arrow-down" onClick={downTreeNode}/>
+                  <Icon className="treenode-icon" title="向下移动" type="arrow-down" onClick={changeNodeSort.bind(null, 'down')}/>
                 }
                 <Icon className="treenode-icon" title="编辑名称" type="edit" onClick={editTreeNode}/>
                 {props.level !== 'level3' &&
                   <Icon className="treenode-icon" title="新增子节点" type="plus-square" onClick={addNewTreeNode}/>
                 }
                 {props.level !== 'level1' &&
-                  <Icon className="treenode-icon" title="更换父节点" type="home" onClick={addTreeNode}/>
+                  <Icon className="treenode-icon" title="更换父节点" type="home" onClick={changeFather}/>
                 }
                 <Icon className="treenode-icon" title="删除节点" type="delete" onClick={removeTreeNode}/>
               </div>
@@ -309,6 +295,11 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                     label={item.label}
                     index={index}
                     id={item.id}
+                    sort={item.sort}
+                    previousSort={index !== 0 ? treeList[index - 1].sort : -1}
+                    previousId={index !== 0 ? treeList[index - 1].id : ''}
+                    nextSort={index !== treeList.length - 1 ? treeList[index + 1].sort : -1}
+                    nextId={index !== treeList.length - 1 ? treeList[index + 1].id : ''}
 
                     first_id={item.id}
                     lastChildrenSort={item.children[item.children.length - 1].sort}
@@ -328,6 +319,12 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                             label={jtem.label}
                             index={jndex}
                             id={jtem.id}
+                            sort={jtem.sort}
+
+                            previousSort={jndex !== 0 ? item.children[jndex - 1].sort : -1}
+                            previousId={jndex !== 0 ? item.children[jndex - 1].id : ''}
+                            nextSort={jndex !== item.children.length - 1 ? item.children[jndex + 1].sort : -1}
+                            nextId={jndex !== item.children.length - 1 ? item.children[jndex + 1].id : ''}
 
                             first_id={item.id}
                             second_id={jtem.id}
@@ -350,6 +347,12 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                                   label={ktem.label}
                                   index={kndex}
                                   id={ktem.id}
+                                  sort={ktem.sort}
+
+                                  previousSort={kndex !== 0 ? jtem.children[kndex - 1].sort : -1}
+                                  previousId={kndex !== 0 ? jtem.children[kndex - 1].id : ''}
+                                  nextSort={kndex !== jtem.children.length - 1 ? jtem.children[kndex + 1].sort : -1}
+                                  nextId={kndex !== jtem.children.length - 1 ? jtem.children[kndex + 1].id : ''}
                                 />
                               </Menu.Item>
                             )
