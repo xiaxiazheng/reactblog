@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, ChangeEvent} from 'react';
 import './TreeMenu.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
 import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort } from '../../client/TreeHelper';
-import { Menu, Icon, message, Modal } from 'antd';
+import { Menu, Icon, message, Modal, Input } from 'antd';
 
 interface PropsType {
   history: History;
@@ -37,10 +37,14 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
   }, []);
 
   // 初始化数据
+  const [originTreeList, setOriginTreeList] = useState<any[]>([]);
   const [treeList, setTreeList] = useState<any[]>([]);
   const getTreeData = async () => {
     const res = await getTree(isLogin ? 'admin' : 'home');
-    res && setTreeList(res);
+    if (res) {
+      setOriginTreeList(res);
+      setTreeList(res);
+    }
   };
 
   // 点击第一级的树
@@ -221,6 +225,74 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     // 更换父节点
     const changeFather = async () => {
       console.log("还没做");
+      // if (this.choiceFathId === this.originFathId) {
+      //   this.$message.warning('当前所选与原来的相同');
+      //   return;
+      // }
+      // let params: any = {};
+      // if (this.shuttleLevel === 2) {
+      //   for (let item of this.tree) {  // 二级节点穿梭，就要到一级节点找穿梭到的节点
+      //     if (item.id === this.choiceFathId) {
+      //       params = {
+      //         shuttleLevel: this.shuttleLevel,
+      //         category_id: item.id,
+      //         f_sort:  item.children[item.children.length - 1].sort + 1,
+      //         f_id: this.shuttleChildId
+      //       };
+      //       break;
+      //     }
+      //   }
+      // }
+      // if (this.shuttleLevel === 3) {  // 三级节点穿梭，就要到二级节点找穿梭到的节点
+      //   for (let item of this.tree) {
+      //     let isfind = false;
+      //     for (let jtem of item.children) {
+      //       if (jtem.id === this.choiceFathId) {
+      //         params = {
+      //           shuttleLevel: this.shuttleLevel,
+      //           fatherid: jtem.id,
+      //           fatherlabel: jtem.label,
+      //           fathersort: jtem.sort,
+      //           newchildsort: jtem.children[jtem.children.length - 1].sort + 1,
+      //           childid: this.shuttleChildId
+      //         };
+      //         isfind = true;
+      //         break;
+      //       }
+      //     }
+      //     if (isfind) {
+      //       break;
+      //     }
+      //   }
+      // }
+      // let res: any = await TreeHelper.changeFather(params);
+      // if (res) {
+      //   this.saveTreeExpend();
+      //   await this.init();
+      //   this.$message.success('穿梭成功');
+      //   this.showShuttleDialog = false;
+      // } else {
+      //   this.$message.error('穿梭失败');
+      // }
+    };
+
+    // 设置 label 中的关键字高亮
+    const highlight = (label: any) => {
+      // 先把匹配的项都找回出来（一个字符串会被多次匹配）
+      let reg = new RegExp(keyword, 'gi');
+      let matchlist = label.match(reg);
+      // 然后把匹配的位置给找出来（通过 split 打断点），然后再用 reduce 把匹配的项和断点组装起来（主要是为了实现大小写都保持原来的串）
+      let list = label.split(reg);
+      return list.reduce((sum: any, item: any, index: number) => {
+        return (
+          <>
+            {sum}
+            {/* 这里用 index - 1 是因为 reduce 第一次运行只是初始化，sum 为空，这时候这里不需要插值，第一次插值的位置在0和1之间而不是在0之前 */}
+            <span className="active-keyword">{matchlist[index - 1]}</span>
+            {item}
+          </>
+        );
+      });
     };
 
     return (
@@ -230,7 +302,15 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           editting_id === props.id && setEditting_id('');
         }}
       >
-        <span className="title-name">{props.label}</span>
+        {/* 每层节点显示的 label */}
+        <span className="title-name">
+          {
+            keyword === '' || (new RegExp(keyword, 'gi')).test(props.label) === false
+            ? props.label
+            : highlight(props.label)
+          }
+        </span>
+        {/* 工具们 */}
         {isLogin && 
           <div className="allIcon-box"
             onMouseEnter={(e) => {
@@ -272,8 +352,77 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     )
   };
 
+  // 搜索整棵树，如果上层匹配到就返回该层，如果没有匹配到就往下层找（用 new RegExp 是为了用 i 不区分大小写）
+  const handleKeyword = (e: any) => {
+    setKeyword(e.target.value);
+    let keyword = e.target.value.toLowerCase();
+    // 搜第一层
+    let list = originTreeList.map((item: any) => {
+      // 如果第一层包含关键字，返回该层
+      if ((new RegExp(keyword, 'gi')).test(item.label)) {
+        return item;
+      } else {
+        // 否则搜第二层
+        let newItemChildren = item.children.map((jtem: any) => {
+          // 如果第二层包含关键字，返回该层
+          if ((new RegExp(keyword, 'gi')).test(jtem.label)) {
+            return jtem;
+          } else {
+            // 否则搜第三层
+            let newJtemChildren = jtem.children.map((ktem: any) => {
+              // 如果第三层包含关键字，返回该层
+              if ((new RegExp(keyword, 'gi')).test(ktem.label)) {
+                return ktem;
+              } else {
+                // 否则返回 false
+                return false;
+              }
+            });
+            // 去掉第三层没搜到的项
+            newJtemChildren = newJtemChildren.filter((ktem: any) => {
+              return ktem !== false;
+            });
+            // 如果有搜索结果，则返回该层，而且替换掉第二层的 children
+            if (newJtemChildren.length !== 0) {
+              return {
+                ...jtem,
+                children: newJtemChildren
+              };
+            } else {
+              // 三层没有搜索结果，返回 false
+              return false;
+            }
+          }
+        });
+        // 去掉第二层没搜到的项
+        newItemChildren = newItemChildren.filter((jtem: any) => {
+          return jtem !== false;
+        });
+        // 如果有搜索结果，则返回该层，而且替换掉第一层的 children
+        if (newItemChildren.length !== 0) {
+          return {
+            ...item,
+            children: newItemChildren
+          };
+        } else {
+          // 二层没有搜索结果，返回 false
+          return false;
+        }
+      }
+    });
+    // 去掉第一层没有搜到的项
+    list = list.filter((item: any) => {
+      return item !== false;
+    });
+    // 输入第一层
+    setTreeList(list);
+  };
+
+  const [keyword, setKeyword] = useState('');
+
   return (
     <>
+      <Input className="tree-filter" value={keyword} onChange={handleKeyword} allowClear prefix={<Icon type="search"/>} />
       <Menu
         className="tree-menu"
         mode="inline"
