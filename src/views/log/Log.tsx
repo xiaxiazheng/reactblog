@@ -6,6 +6,7 @@ import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
 import LogList from './LogList';
+import { LogContext } from './LogContext';
 
 interface PropsType {
   history: History;

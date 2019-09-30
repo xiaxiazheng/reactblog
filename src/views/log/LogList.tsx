@@ -7,6 +7,7 @@ import { getLogListIsVisible, getLogListAll, addLogCont } from '../../client/Log
 import { IsLoginContext } from '../../common/IsLoginContext';
 import { LogListType } from './LogType';
 import LogListItem from './LogListItem';
+import { LogContext } from './LogContext';
 
 interface PropsType {
   history: History;
@@ -18,13 +19,13 @@ interface PropsType {
 const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
   const { isLogin } = useContext(IsLoginContext);  // 获取是否登录
 
-  const [pageNo, setPageNo] = useState(1);  // 当前页面
-  const [pageSize, setPageSize] = useState(15);  // 当前页面容量
-  const [orderBy, setOrderBy] = useState<'create' | 'modify'>('modify');  // 按创建时间或修改时间排序
-  const [showVisible, setShowVidible] = useState(true);  // 显示可见
-  const [showInvisible, setShowInvisible] = useState(true);  // 显示不可见
-  const [showNotClassify, setShowNotClassify] = useState(false);  // 仅显示未分类
-  let keyword = '';  // 搜索的关键字
+  const { keyword, setKeyword } = useContext(LogContext);
+  const { pageNo, setPageNo} = useContext(LogContext);  // 当前页面
+  const { pageSize, setPageSize} = useContext(LogContext);  // 当前页面容量
+  const { orderBy, setOrderBy} = useContext(LogContext);  // 按创建时间或修改时间排序
+  const { showVisible, setShowVidible } = useContext(LogContext);  // 显示可见
+  const { showInvisible, setShowInvisible } = useContext(LogContext);  // 显示不可见
+  const { showNotClassify, setShowNotClassify } = useContext(LogContext);  // 仅显示未分类
 
   const [logListData, setLogListData] = useState({
     logList: [],  // 日志列表
@@ -37,7 +38,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
       pageNo: pageNo,
       pageSize: pageSize,
       orderBy: orderBy,
-      keyword: keyword
+      keyword: keyword || ''
     };
     logclass !== '所有日志' && (params.classification = logclass);  // 若是所有日志不用传该字段
     logclass === '所有日志' && showNotClassify && (params.classification = '');  // 所有日志下，才可选仅显示未分类
@@ -75,7 +76,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
-    history.push(`/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);
+    history.push(`${isLogin ? '/admin' : ''}/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);
   };
 
   // 添加日志
@@ -95,11 +96,16 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
 
   // 输入搜索关键字
   const handleKeyword = (e: any) => {
-    keyword = e.target.value;
+    console.log(e.target.value)
+    setKeyword(e.target.value);
+  };
+
+  // keyword 为空直接请求
+  useEffect(() => {
     if (keyword === '') {
       getLogList();
     }
-  };
+  }, [keyword]);
 
   // 回车搜索
   const handleSearch = (e: any) => {
@@ -148,7 +154,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
         {/* 搜索框 */}
         <Input
           className="search-box"
-          defaultValue={keyword}
+          value={keyword}
           onChange={handleKeyword}
           onKeyDownCapture={handleSearch}
           placeholder="回车搜当前分类日志"

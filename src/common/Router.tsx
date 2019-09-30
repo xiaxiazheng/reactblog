@@ -4,6 +4,7 @@ import './Router.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from './Header';
 import { Icon } from 'antd';
+import { LogProvider } from '../views/log/LogContext';
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
 const Tree = lazy(() => import('../views/tree/Tree'));
@@ -36,10 +37,12 @@ const Router: React.FC = () => {
           <Route path="/login" component={Login} />
           {/* 前台 */}
           <Route exact path="/" component={Home} />
-          <Switch>
-            <Route path="/log/:log_class/:log_id" exact component={LogCont} />
-            <Route path="/log/:log_class" component={Log} />
-          </Switch>
+          <LogProvider>
+            <Switch>
+              <Route path="/log/:log_class/:log_id" exact component={LogCont} />
+              <Route path="/log/:log_class" component={Log} />
+            </Switch>
+          </LogProvider>
           <Switch>
             <Route path="/tree/:first_id/:second_id/:third_id" component={Tree} />
             <Route path="/tree" component={Tree} />
@@ -51,10 +54,12 @@ const Router: React.FC = () => {
             <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
             <PrivateRoute path="/admin/tree" component={Tree} />
           </Switch>
-          <Switch>
-            <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
-            <PrivateRoute path="/admin/log/:log_class" component={Log} />
-          </Switch>
+          <LogProvider>
+            <Switch>
+              <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
+              <PrivateRoute path="/admin/log/:log_class" component={Log} />
+            </Switch>
+          </LogProvider>
           <PrivateRoute path="/admin/wall" component={Wall} />
         </div>
       </Suspense>

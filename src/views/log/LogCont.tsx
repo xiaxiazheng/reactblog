@@ -5,7 +5,6 @@ import { Button, Icon, Switch } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
-// import LogContEditByHooks from './LogContEditByHooks';
 import LogContEditByClass from './LogContEditByClass';
 import LogContShow from './LogContShow';
 import { OneLogType } from './LogType';
@@ -46,7 +45,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
 
   // 回到日志列表
   const backToLogList = () => {
-    history.push(`/log/${match.params.log_class}`);
+    history.push(`${isLogin ? '/admin' : ''}/log/${match.params.log_class}`);
   };
 
   return (
