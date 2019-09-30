@@ -122,7 +122,7 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
       {isLogin && 
         <span className="edit-type">({logItemData.edittype === 'richtext' ? '富文本文档' : 'markdown'})</span>
       }
-      <span className="orderby-time">{orderBy === 'create' ? '创建' : '修改'}时间：{logItemData.cTime}</span>
+      <span className="orderby-time">{orderBy === 'create' ? '创建' : '修改'}时间：{orderBy === 'create' ? logItemData.cTime : logItemData.mTime}</span>
       {isLogin &&
         <div className="log-operate-box">
           <Icon

@@ -4,7 +4,7 @@ import './LogContShow.scss';
 import { getLogCont } from '../../client/LogHelper';
 // 代码高亮
 import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/styles/atom-one-dark-reasonable.css';
 // 富文本编辑器
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';

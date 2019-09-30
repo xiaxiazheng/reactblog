@@ -7,7 +7,7 @@ import { getNodeCont } from '../../client/TreeContHelper';
 import { baseImgUrl } from '../../env_config';
 // 代码高亮
 import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/styles/atom-one-dark-reasonable.css';
 
 interface PropsType {
   history: History;
