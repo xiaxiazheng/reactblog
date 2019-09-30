@@ -45,22 +45,21 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     getTreeCont();
   }, [match.params.third_id])
 
-  // 监听键盘事件，TODO，暂时无法解决
-  // useEffect(() => {
-  //   const onKeyDown = (e: any) => {
-  //     console.log('contList =', contList);
-  //     if (e.keyCode === 83 && e.ctrlKey) {
-  //       e.preventDefault();
-  //       // saveTreeCont();
-  //       message.error("这里有问题，没法获取到 contList ！！！");
-  //     }
-  //   }
+  // 监听键盘事件
+  useEffect(() => {
+    const onKeyDown = (e: any) => {
+      console.log('contList =', contList);
+      if (e.keyCode === 83 && e.ctrlKey) {
+        e.preventDefault();
+        saveTreeCont();
+      }
+    }
 
-  //   document.addEventListener("keydown", onKeyDown);
-  //   return () => {
-  //     document.removeEventListener("keydown", onKeyDown);
-  //   }
-  // }, []);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    }
+  }, [contList]);
 
 
   const [title, setTitle] = useState('');
