@@ -5,6 +5,7 @@ import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
 import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort } from '../../client/TreeHelper';
 import { Menu, Icon, message, Modal, Input } from 'antd';
+import { number } from 'prop-types';
 
 interface PropsType {
   history: History;
@@ -74,10 +75,11 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
   const [editting_id, setEditting_id] = useState<string>('');
 
   // 单独新增第一级树节点
-  const addFirstLevelTreeNode = async () => {
+  const addFirstLevelTreeNode = async (addtype: 'front' | 'behind') => {
     const params = {
       level: 1,
-      sort: treeList[treeList.length - 1].sort
+      sort: addtype === 'front' ? treeList[0].sort : treeList[treeList.length - 1].sort,
+      addtype: addtype
     };
     const res = await addTreeNode(params);
     if (res) {
@@ -88,6 +90,55 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       message.error("新建一级节点失败");
     }
   }
+
+  // 新增树节点
+  const addNewTreeNode = async (
+    addtype: 'front' | 'behind',
+    level: '一级' | '二级' | '三级',
+    first_id?: any,
+    childrenSort?: number,
+    second_id?: any,
+    second_label?: string,
+    second_sort?: number
+  ) => {
+    let params = {};
+    // 新增一级节点
+    if (level === '一级') {
+      params = {
+        level: 1,
+        sort: addtype === 'front' ? treeList[0].sort : treeList[treeList.length - 1].sort,
+        addtype: addtype
+      };
+    }
+    // 新增二级节点
+    if (level === '二级') {
+      params = {
+        level: 2,
+        category_id: first_id,
+        sort: childrenSort,
+        addtype: addtype
+      };
+    }
+    // 新增三级节点
+    if (level === '三级') {
+      params = {
+        level: 3,
+        category_id: first_id,
+        id: second_id,
+        label: second_label,
+        f_sort: second_sort,
+        c_sort: childrenSort,
+        addtype: addtype
+      };
+    }
+    const res = await addTreeNode(params);
+    if (res) {
+      message.success(`新建${level}节点成功`);
+      getTreeData();
+    } else {
+      message.error(`新建${level}节点失败`);
+    }
+  };
 
   // 单个树节点
   const TreeNodeItem = (props: {
@@ -103,12 +154,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     previousId: string;
     nextSort: number;
     nextId: string;
-
-    first_id?: string;  // 所属一级节点 id
-    second_id?: string;  // 所属二级节点 id
-    second_label?: string;
-    second_sort?: number;
-    lastChildrenSort?: number;  // 一二级的 children 最后一个节点的 sort
   }) => {
     const { confirm } = Modal;
 
@@ -160,37 +205,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         } else {
           message.error("修改节点名称成功");
         }
-      }
-    };
-
-    // 新增第二级及第三级树节点
-    const addNewTreeNode = async () => {
-      let params = {};
-      // 在该一级节点下新增一个二级节点
-      if (props.level === 'level1') {
-        params = {
-          level: 2,
-          category_id: props.first_id,
-          sort: props.lastChildrenSort
-        };
-      }
-      // 在该二级节点下新增一个三级节点
-      if (props.level === 'level2') {
-        params = {
-          level: 3,
-          category_id: props.first_id,
-          id: props.second_id,
-          label: props.second_label,
-          f_sort: props.second_sort,
-          c_sort: props.lastChildrenSort
-        };
-      }
-      const res = await addTreeNode(params);
-      if (res) {
-        message.success(`新建${props.level === 'level1' ? '二级' : '三级'}节点成功`);
-        getTreeData();
-      } else {
-        message.error(`新建${props.level === 'level1' ? '二级' : '三级'}节点失败`);
       }
     };
 
@@ -337,9 +351,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                   <Icon className="treenode-icon" title="向下移动" type="arrow-down" onClick={changeNodeSort.bind(null, 'down')}/>
                 }
                 <Icon className="treenode-icon" title="编辑名称" type="edit" onClick={editTreeNode}/>
-                {props.level !== 'level3' &&
-                  <Icon className="treenode-icon" title="新增子节点" type="plus-square" onClick={addNewTreeNode}/>
-                }
                 {props.level !== 'level1' &&
                   <Icon className="treenode-icon" title="更换父节点" type="home" onClick={changeFather}/>
                 }
@@ -353,7 +364,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
   };
 
   const [keyword, setKeyword] = useState('');
-
   // 搜索整棵树，如果上层匹配到就返回该层，如果没有匹配到就往下层找（用 new RegExp 是为了用 i 不区分大小写）
   const handleKeyword = (e: any) => {
     setKeyword(e.target.value);
@@ -432,6 +442,17 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         openKeys={openKeys}
         selectedKeys={selectedKeys}
       >
+        {/** 在上方添加一级节点 */
+          isLogin && 
+          <Menu.Item>
+            <Icon
+              className="add-root-treenode"
+              type="plus-circle"
+              title="新增首位一级节点"
+              onClick={addNewTreeNode.bind(null, 'front', '一级')}
+            />
+          </Menu.Item>
+        }
         {/** 第一层 */
           treeList.map((item: any, index: number) => {
             return (
@@ -451,11 +472,19 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                     previousId={index !== 0 ? treeList[index - 1].id : ''}
                     nextSort={index !== treeList.length - 1 ? treeList[index + 1].sort : -1}
                     nextId={index !== treeList.length - 1 ? treeList[index + 1].id : ''}
-
-                    first_id={item.id}
-                    lastChildrenSort={item.children[item.children.length - 1].sort}
                   />
                 }>
+                {/** 在上方添加二级节点 */
+                  isLogin && 
+                  <Menu.Item>
+                    <Icon
+                      className="add-root-treenode"
+                      type="plus-circle"
+                      title="新增首位二级节点"
+                      onClick={addNewTreeNode.bind(null, 'front', '二级', item.id, item.children[0].sort)}
+                    />
+                  </Menu.Item>
+                }
                 {/** 第二层 */
                   item.children.map((jtem: any, jndex: number) => {
                     return (
@@ -476,14 +505,30 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                             previousId={jndex !== 0 ? item.children[jndex - 1].id : ''}
                             nextSort={jndex !== item.children.length - 1 ? item.children[jndex + 1].sort : -1}
                             nextId={jndex !== item.children.length - 1 ? item.children[jndex + 1].id : ''}
-
-                            first_id={item.id}
-                            second_id={jtem.id}
-                            second_label={jtem.label}
-                            second_sort={jtem.sort}
-                            lastChildrenSort={jtem.children[jtem.children.length - 1].sort}
                           />
                         }>
+                        {/** 在上方添加三级节点 */
+                          isLogin && 
+                          <Menu.Item>
+                            <Icon
+                              className="add-root-treenode"
+                              type="plus-circle"
+                              title="新增首位三级节点"
+                              onClick={
+                                addNewTreeNode.bind(
+                                  null,
+                                  'front',
+                                  '三级',
+                                  item.id,
+                                  jtem.children[0].sort,
+                                  jtem.id,
+                                  jtem.label,
+                                  jtem.sort  
+                                )
+                              }
+                            />
+                          </Menu.Item>
+                        }
                         {/** 第三层 */
                           jtem.children.map((ktem: any, kndex: number) => {
                             return (
@@ -509,17 +554,56 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                             )
                           })
                         }
+                        {/** 在下方添加三级节点 */
+                          isLogin && 
+                          <Menu.Item>
+                            <Icon
+                              className="add-root-treenode"
+                              type="plus-square"
+                              title="新增末位三级节点"
+                              onClick={
+                                addNewTreeNode.bind(
+                                  null,
+                                  'behind',
+                                  '三级',
+                                  item.id,
+                                  jtem.children[jtem.children.length - 1].sort,
+                                  jtem.id,
+                                  jtem.label,
+                                  jtem.sort  
+                                )
+                              }
+                            />
+                          </Menu.Item>
+                        }
                       </SubMenu>
                     )
                   })
+                }
+                {/** 在下方添加二级节点 */
+                  isLogin && 
+                  <Menu.Item>
+                    <Icon
+                      className="add-root-treenode"
+                      type="plus-square"
+                      title="新增末位二级节点节点"
+                      onClick={addNewTreeNode.bind(null, 'behind', '二级', item.id, item.children[item.children.length - 1].sort)}
+                    />
+                  </Menu.Item>
                 }
               </SubMenu>
             )
           })
         }
-        {isLogin && 
+        {/** 在下方添加一级节点 */
+          isLogin && 
           <Menu.Item>
-            <Icon className="add-root-treenode" type="plus-square" title="新增根节点" onClick={addFirstLevelTreeNode}/>
+            <Icon
+              className="add-root-treenode"
+              type="plus-square"
+              title="新增末位根节点"
+              onClick={addNewTreeNode.bind(null, 'behind', '一级')}
+            />
           </Menu.Item>
         }
       </Menu>

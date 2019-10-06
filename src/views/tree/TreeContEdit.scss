@@ -61,13 +61,18 @@
     }
   }
 }
-.treecont-addbutton {
+.treecont-addbutton-front {
   position: fixed;
   right: 2.5rem;
   top: 7rem;
 }
-.treecont-savebutton {
+.treecont-addbutton-behind {
   position: fixed;
   right: 2.5rem;
   top: 10rem;
+}
+.treecont-savebutton {
+  position: fixed;
+  right: 2.5rem;
+  top: 13rem;
 }

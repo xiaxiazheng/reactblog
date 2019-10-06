@@ -87,10 +87,11 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
   }
 
   // 新增内容节点
-  const addTreeCont = async () => {
+  const addTreeCont = async (addtype: 'front' | 'behind') => {
     const params = {
       id: match.params.third_id, // 子节点的id
-      sort: contList[contList.length - 1].sort
+      sort: addtype === 'front' ? contList[0].sort : contList[contList.length - 1].sort,
+      addtype: addtype
     };
     let res: any = await addNodeCont(params);
     if (res) {
@@ -252,7 +253,8 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
         }
       </div>
       {/* 新增按钮 */}
-      <Button className="treecont-addbutton" title="新增一个节点" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont}/>
+      <Button className="treecont-addbutton-front" title="最上方新增一个节点" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont.bind(null, 'front')}/>
+      <Button className="treecont-addbutton-behind" title="最下方新增一个节点" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont.bind(null, 'behind')}/>
       {/* 保存按钮 */}
       <Button className="treecont-savebutton" title="保存" type={isChange ? "danger" : "primary"} shape="circle" icon="save" size="large" onClick={saveTreeCont}/>
     </>
