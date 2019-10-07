@@ -67,6 +67,8 @@
 
     .title-name {
       flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
       .active-keyword {
         color: black;
         background: yellow;

@@ -14,9 +14,10 @@ interface PropsType {
   location: Location;
   match: match<{log_class: string}>;
   logclass: string;
+  getAllLogClass: Function;
 };
 
-const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
+const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass }) => {
   const { isLogin } = useContext(IsLoginContext);  // 获取是否登录
 
   const { keyword, setKeyword } = useContext(LogContext);
@@ -181,8 +182,18 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match }) => {
         {
           logListData.logList.map((item: LogListType) => {
             return (
-              <li className={`${item.isStick === 'true' ? 'active-stick' : ''} log-list-item`} key={item.log_id} onClick={choiceOneLog.bind(null, item)}>
-                <LogListItem logClass={logclass} logItemData={item} orderBy={orderBy} getNewList={getLogList}></LogListItem>
+              <li
+                className={`${item.isStick === 'true' ? 'active-stick' : ''} log-list-item`}
+                key={item.log_id}
+                onClick={choiceOneLog.bind(null, item)}
+              >
+                <LogListItem
+                  logClass={logclass}
+                  logItemData={item}
+                  orderBy={orderBy}
+                  getNewList={getLogList}
+                  getAllLogClass={getAllLogClass}
+                />
               </li>
             )
           })
