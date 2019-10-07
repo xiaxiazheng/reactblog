@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './TreeContShow.scss';
+import { Modal } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getChildName } from '../../client/TreeHelper';
@@ -40,6 +41,9 @@ interface TreeContType {
 const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
   const contShowRef = useRef(null);
   const contRef = useRef(null);
+
+  const [previewImg, setPreviewImg] = useState('');
+  const [previewImgName, setPreviewImgName] = useState('');
 
   useEffect(() => {
     match.params.third_id && getTreeCont();
@@ -120,7 +124,15 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
                 item.imgList.map(imgItem => {
                   return (
                     <div key={imgItem.img_id} className="contitem-img">
-                      <img src={baseImgUrl + '/treecont/' + imgItem.imgfilename} alt={imgItem.imgname}/>
+                      <img
+                        src={baseImgUrl + '/treecont/' + imgItem.imgfilename}
+                        alt={imgItem.imgname}
+                        title={imgItem.imgname}
+                        onClick={() => {
+                          setPreviewImg(baseImgUrl + '/treecont/' + imgItem.imgfilename);
+                          setPreviewImgName(imgItem.imgname);
+                        }}
+                      />
                       <span className="img-name">{imgItem.imgname}</span>
                     </div>
                   )
@@ -140,6 +152,20 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
           })
         }
       </div>
+      {/* 图片预览 */}
+      <Modal
+        wrapClassName="previewImgBox-wrapper ScrollBar"
+        className="previewImgBox"
+        visible={previewImg !== ''}
+        footer={null}
+        centered
+        title={previewImgName}
+        onCancel={() => {
+          setPreviewImg('');
+          setPreviewImgName('');
+        }}>
+        <img src={previewImg} alt={previewImgName} title={previewImgName} />
+      </Modal>
     </div>
   );
 }
