@@ -10,10 +10,11 @@ interface PropsType {
   logItemData: LogListType;
   orderBy: 'create' | 'modify';
   getNewList: Function;  // 完成操作后刷新数组
+  getAllLogClass: Function;
 }
 
 // 单条日志记录
-const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getNewList }) => {
+const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getNewList, getAllLogClass }) => {
   const { isLogin } = useContext(IsLoginContext);
   const { confirm } = Modal;
   const { Option } = Select;
@@ -44,6 +45,7 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
     if (res) {
       message.success("切换分类成功", 1);
       getNewList();
+      getAllLogClass();
       setIsShowSwitch(false);
     } else {
       message.error("切换分类失败", 1);

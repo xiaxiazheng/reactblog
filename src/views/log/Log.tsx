@@ -6,7 +6,6 @@ import { History, Location } from 'history';
 import { IsLoginContext } from '../../common/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
 import LogList from './LogList';
-import { LogContext } from './LogContext';
 
 interface PropsType {
   history: History;
@@ -34,11 +33,15 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
   // 获取所有分类
   const getAllLogClass = async () => {
     const res = await (isLogin ? getLogAllClass() : getHomeLogAllClass());
-    let list: string[] = [
-      '所有日志',
-      ...res
-    ];
-    setClassList(list);
+    if (res) {
+      let list: string[] = [
+        '所有日志',
+        ...res
+      ];
+      setClassList(list);
+    } else {
+      message.error("获取所有日志失败");
+    }
   };
 
   // 选择日志分类，路由跳转(直接改路由即可，有在监听路由)
@@ -85,7 +88,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
                 key={item}
               >
                 {/* 日志列表 */}
-                <LogList logclass={item}></LogList>
+                <LogList logclass={item} getAllLogClass={getAllLogClass}></LogList>
               </TabPane>
             )
           })

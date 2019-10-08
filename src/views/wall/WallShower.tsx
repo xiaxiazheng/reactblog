@@ -17,6 +17,7 @@ interface ImgType {
 const WallShower: React.FC = () => {
   const [wallList, setWallList] = useState<ImgType[]>([]);
   const [previewImg, setPreviewImg] = useState('');
+  const [previewImgName, setPreviewImgName] = useState('');
 
   useEffect(() => {
     getWallImgList();
@@ -33,7 +34,6 @@ const WallShower: React.FC = () => {
       });
     }
     setWallList(imgList);
-    console.log(imgList);
   };
 
   return (
@@ -42,7 +42,15 @@ const WallShower: React.FC = () => {
       <div className="img-wrapper">
         {wallList.map((item: ImgType) => {
           return (
-            <img key={item.img_id} src={item.imgUrl} alt={item.imgname} onClick={() => setPreviewImg(item.imgUrl)}/>
+            <img
+              key={item.img_id}
+              src={item.imgUrl}
+              alt={item.imgname}
+              onClick={() => {
+                setPreviewImg(item.imgUrl);
+                setPreviewImgName(item.imgname);
+              }}
+            />
           )
         })}
       </div>
@@ -53,8 +61,12 @@ const WallShower: React.FC = () => {
         visible={previewImg !== ''}
         footer={null}
         centered
-        onCancel={() => setPreviewImg('')}>
-        <img src={previewImg} />
+        title={previewImgName}
+        onCancel={() => {
+          setPreviewImg('');
+          setPreviewImgName('');
+        }}>
+        <img src={previewImg} alt={previewImgName} title={previewImgName} />
       </Modal>
     </div>
   );

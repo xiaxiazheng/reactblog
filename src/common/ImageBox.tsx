@@ -120,8 +120,9 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
         visible={isPreview}
         footer={null}
         centered
+        title={imageName}
         onCancel={() => setIsPreview(false)}>
-        <img src={imageUrl} alt={imageName}/>
+        <img src={imageUrl} alt={imageName} title={imageName} />
       </Modal>
     </div>
   );
