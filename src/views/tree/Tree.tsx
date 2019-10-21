@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import './Tree.scss';
-import { IsLoginContext } from '../../common/IsLoginContext';
+import { IsLoginContext } from '../../context/IsLoginContext';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import TreeMenu from './TreeMenu';

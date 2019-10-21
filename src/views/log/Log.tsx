@@ -3,7 +3,7 @@ import './Log.scss';
 import { Tabs, Icon, Modal, Input, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { IsLoginContext } from '../../common/IsLoginContext';
+import { IsLoginContext } from '../../context/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
 import LogList from './LogList';
 

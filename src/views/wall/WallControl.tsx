@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import './WallControl.scss';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
-import ImageBox from '../../common/ImageBox';
+import ImageBox from '../../components/ImageBox';
 
 interface ImgType {
   cTime: string;

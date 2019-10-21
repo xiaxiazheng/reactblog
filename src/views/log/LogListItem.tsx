@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import './LogListItem.scss';
 import { Icon, message, Modal, Select } from 'antd';
 import { getLogAllClass, getHomeLogAllClass, isShowLog, isStickLog, deleteLogCont, switchLogClass } from '../../client/LogHelper';
-import { IsLoginContext } from '../../common/IsLoginContext';
+import { IsLoginContext } from '../../context/IsLoginContext';
 import { LogListType } from './LogType';
 
 interface PropsType {

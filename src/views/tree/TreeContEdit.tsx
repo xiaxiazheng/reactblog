@@ -6,7 +6,7 @@ import { getChildName } from '../../client/TreeHelper';
 import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCont } from '../../client/TreeContHelper';
 import { baseImgUrl } from '../../env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
-import ImageBox from '../../common/ImageBox';
+import ImageBox from '../../components/ImageBox';
 
 interface PropsType {
   history: History;

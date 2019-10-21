@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input, Button, Icon, message } from 'antd';
 import './Login.scss';
 import { postLogin } from '../client/UserHelper';
 import { withRouter, match } from 'react-router';
 import { Location, History } from 'history';
-import { IsLoginContext } from './IsLoginContext';
+import { IsLoginContext } from '../context/IsLoginContext';
 
 interface PropsType {
   match: match;

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {Redirect, Route} from "react-router-dom";
-import { IsLoginContext } from './IsLoginContext';
+import { IsLoginContext } from '../context/IsLoginContext';
 import { message } from 'antd';
 import { postLogin } from '../client/UserHelper';
 

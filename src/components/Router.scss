@@ -1,14 +1,17 @@
 $headerHight: 3rem;
+.routerWrapper {
+  height: 100%;
+}
+
 .Router-Head {
   height: $headerHight;
-  background-color: #001529;
 }
 .Router-View {
   width: 100%;
   height: calc(100% - #{$headerHight});
   font-size: 0;
-  background-color: #001529;
 }
+
 .route-loading {
   display: flex;
   justify-content: center;
@@ -17,5 +20,4 @@ $headerHight: 3rem;
   height: 100%;
   font-size: 10rem;
   color: rgba(255, 255, 255, 0.65);
-  background-color: #001529;
 }

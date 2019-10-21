@@ -1,13 +1,16 @@
 import React from 'react';
 import './App.scss';
-import Router from './common/Router';
-import { IsLoginProvider } from './common/IsLoginContext';
+import Router from './components/Router';
+import { IsLoginProvider } from './context/IsLoginContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <IsLoginProvider>
-        <Router></Router>
+        <ThemeProvider>
+          <Router></Router>
+        </ThemeProvider>
       </IsLoginProvider>
     </div>
   );

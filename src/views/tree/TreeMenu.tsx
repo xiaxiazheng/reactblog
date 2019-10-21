@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext, ChangeEvent} from 'react';
 import './TreeMenu.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { IsLoginContext } from '../../common/IsLoginContext';
+import { IsLoginContext } from '../../context/IsLoginContext';
 import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort } from '../../client/TreeHelper';
 import { Menu, Icon, message, Modal, Input } from 'antd';
 import { number } from 'prop-types';

@@ -4,7 +4,7 @@ import { Input, Pagination, Icon, Radio, Checkbox, Button, message } from 'antd'
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getLogListIsVisible, getLogListAll, addLogCont } from '../../client/LogHelper';
-import { IsLoginContext } from '../../common/IsLoginContext';
+import { IsLoginContext } from '../../context/IsLoginContext';
 import { LogListType } from './LogType';
 import LogListItem from './LogListItem';
 import { LogContext } from './LogContext';

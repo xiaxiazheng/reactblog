@@ -1,11 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
 import './Header.scss';
 import { Link } from 'react-router-dom';
-import { Menu, Icon, Input, Popover, Spin } from 'antd';
+import { Menu, Icon, Input, Popover, Spin, Switch } from 'antd';
 import { navTitle } from '../env_config';
 import { withRouter, match } from 'react-router';
 import { Location, History } from 'history';
-import { IsLoginContext } from './IsLoginContext';
+import { IsLoginContext } from '../context/IsLoginContext';
+import { ThemeContext } from '../context/ThemeContext';
 import { searchTree } from '../client/TreeHelper';
 
 interface PropsType {
@@ -26,6 +27,7 @@ interface TreeNodeType {
 };
 
 const Header: React.FC<PropsType> = ({ location, history }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext);  // 获取登录状态
   const [current, setCurrent] = useState('home');
 
@@ -99,6 +101,13 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
         <Link to={isLogin ? '/admin' : '/'}>{navTitle}</Link>
       </span>
       <span className="header-right">
+        {/* 主题切换开关 */}
+        <Switch
+          checkedChildren="light"
+          unCheckedChildren="dark"
+          checked={theme === 'light'}
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        />
         {/* 搜索树节点 */}
         <Popover
           trigger="click"
