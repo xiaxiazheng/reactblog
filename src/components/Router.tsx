@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useContext } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 import './Router.scss';
 import themeScss from './Theme.module.scss';
 import { PrivateRoute } from './PrivateRoute';
@@ -34,9 +34,11 @@ const Router: React.FC = () => {
     'dark': themeScss.dark_theme
   };
 
+  const Router: any = process.env.REACT_APP_User === 'hyp' ? HashRouter : BrowserRouter;
+
   return (
     <div className={`routerWrapper ${themeClass[theme]}`}>
-      <BrowserRouter>
+      <Router>
         <div className="Router-Head">
           <Header></Header>
         </div>
@@ -72,7 +74,7 @@ const Router: React.FC = () => {
             <PrivateRoute path="/admin/wall" component={Wall} />
           </div>
         </Suspense>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }
