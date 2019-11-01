@@ -5,7 +5,6 @@ import { History, Location } from 'history';
 import { IsLoginContext } from '../../context/IsLoginContext';
 import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort } from '../../client/TreeHelper';
 import { Menu, Icon, message, Modal, Input } from 'antd';
-import { number } from 'prop-types';
 
 interface PropsType {
   history: History;
@@ -22,16 +21,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   const { SubMenu } = Menu;
 
-  // 刷新页面时匹配默认展开的树
-  const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-  useEffect(() => {
-    if (match.params) {
-      setOpenKeys([match.params.first_id, match.params.second_id]);
-      setSelectedKeys([match.params.third_id]);
-    }
-  }, [match.params]);
-
   // 初始化页面
   useEffect(() => {
     getTreeData();
@@ -45,8 +34,22 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     if (res) {
       setOriginTreeList(res);
       setTreeList(res);
+      console.log(match.params)
+      if (JSON.stringify(match.params) === '{}' && openKeys.length === 0) {
+        setOpenKeys([res[0].id])
+      }
     }
   };
+
+  // 刷新页面时匹配默认展开的树
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  useEffect(() => {
+    if (match.params) {
+      setOpenKeys([match.params.first_id, match.params.second_id]);
+      setSelectedKeys([match.params.third_id]);
+    }
+  }, [match.params]);
 
   // 点击第一级的树
   const clickFirstLevel = (id: string) => {
@@ -73,23 +76,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   // 记录展开节点操作框的项的 id
   const [editting_id, setEditting_id] = useState<string>('');
-
-  // 单独新增第一级树节点
-  const addFirstLevelTreeNode = async (addtype: 'front' | 'behind') => {
-    const params = {
-      level: 1,
-      sort: addtype === 'front' ? treeList[0].sort : treeList[treeList.length - 1].sort,
-      addtype: addtype
-    };
-    const res = await addTreeNode(params);
-    if (res) {
-      message.success("新建一级节点成功");
-      getTreeData();
-      
-    } else {
-      message.error("新建一级节点失败");
-    }
-  }
 
   // 新增树节点
   const addNewTreeNode = async (
