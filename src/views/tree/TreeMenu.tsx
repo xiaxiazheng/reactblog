@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useContext, ChangeEvent} from 'react';
+import styles from './TreeMenu.module.scss';
 import './TreeMenu.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../context/IsLoginContext';
-import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort } from '../../client/TreeHelper';
-import { Menu, Icon, message, Modal, Input } from 'antd';
+import { getTree, addTreeNode, modifyTreeNode, deleteTreeNode, changeSort, changeFather } from '../../client/TreeHelper';
+import { Menu, Icon, message, Modal, Input, Select } from 'antd';
 
 interface PropsType {
   history: History;
@@ -128,6 +129,9 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   // 单个树节点
   const TreeNodeItem = (props: {
+    grandFatherChildren?: {id: string; label: string}[];  // 父节点及其所有兄弟节点
+    fatherId?: string;
+
     isFirst: boolean;  // 是否第一个节点
     isLast: boolean;  // 是否最后一个节点
     level: string;  // 节点级别
@@ -197,7 +201,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     // 删除节点
     const removeTreeNode = async () => {
       confirm({
-        title: `你将删除"${props.label}"`,
+        title: `你将删除节点"${props.label}"`,
         content: 'Are you sure？',
         okText: 'Yes',
         okType: 'danger',
@@ -222,60 +226,6 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       });
     };
 
-    // 更换父节点
-    const changeFather = async () => {
-      console.log("还没做");
-      // if (this.choiceFathId === this.originFathId) {
-      //   this.$message.warning('当前所选与原来的相同');
-      //   return;
-      // }
-      // let params: any = {};
-      // if (this.shuttleLevel === 2) {
-      //   for (let item of this.tree) {  // 二级节点穿梭，就要到一级节点找穿梭到的节点
-      //     if (item.id === this.choiceFathId) {
-      //       params = {
-      //         shuttleLevel: this.shuttleLevel,
-      //         category_id: item.id,
-      //         f_sort:  item.children[item.children.length - 1].sort + 1,
-      //         f_id: this.shuttleChildId
-      //       };
-      //       break;
-      //     }
-      //   }
-      // }
-      // if (this.shuttleLevel === 3) {  // 三级节点穿梭，就要到二级节点找穿梭到的节点
-      //   for (let item of this.tree) {
-      //     let isfind = false;
-      //     for (let jtem of item.children) {
-      //       if (jtem.id === this.choiceFathId) {
-      //         params = {
-      //           shuttleLevel: this.shuttleLevel,
-      //           fatherid: jtem.id,
-      //           fatherlabel: jtem.label,
-      //           fathersort: jtem.sort,
-      //           newchildsort: jtem.children[jtem.children.length - 1].sort + 1,
-      //           childid: this.shuttleChildId
-      //         };
-      //         isfind = true;
-      //         break;
-      //       }
-      //     }
-      //     if (isfind) {
-      //       break;
-      //     }
-      //   }
-      // }
-      // let res: any = await TreeHelper.changeFather(params);
-      // if (res) {
-      //   this.saveTreeExpend();
-      //   await this.init();
-      //   this.$message.success('穿梭成功');
-      //   this.showShuttleDialog = false;
-      // } else {
-      //   this.$message.error('穿梭失败');
-      // }
-    };
-
     // 设置 label 中的关键字高亮
     const highlight = (label: any) => {
       // 先把匹配的项都找回出来（一个字符串会被多次匹配）
@@ -288,7 +238,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           <>
             {sum}
             {/* 这里用 index - 1 是因为 reduce 第一次运行只是初始化，sum 为空，这时候这里不需要插值，第一次插值的位置在0和1之间而不是在0之前 */}
-            <span className="active-keyword">{matchlist[index - 1]}</span>
+            <span className={styles.activeKeyword}>{matchlist[index - 1]}</span>
             {item}
           </>
         );
@@ -296,14 +246,14 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     };
 
     return (
-      <span className="menu-title"
+      <span className={styles.menuTitle}
         onMouseLeave={(e) => {
           e.stopPropagation();
           editting_id === props.id && setEditting_id('');
         }}
       >
         {/* 每层节点显示的 label */}
-        <span className="title-name">
+        <span className={styles.titleName}>
           {
             keyword === '' || (new RegExp(keyword, 'gi')).test(props.label) === false
             ? props.label
@@ -312,7 +262,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         </span>
         {/* 工具们 */}
         {isLogin && 
-          <div className="allIcon-box"
+          <div className={styles.allIconBox}
             onMouseEnter={(e) => {
               e.stopPropagation();
               editting_id !== props.id && setEditting_id(props.id);
@@ -325,28 +275,140 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
             <Icon
               type="edit"
               title="操作该节点"
-              className={`${editting_id === props.id ? 'editting' : ''} more-operate-icon`}
+              className={`${editting_id === props.id ? styles.editting : ''} ${styles.moreOperateIcon}`}
             />
             {editting_id !== '' && editting_id === props.id &&
               // 树节点操作的操作 icons
-              <div className="icons-box" onClick={e => e.stopPropagation()}>
+              <div className={styles.iconsBox} onClick={e => e.stopPropagation()}>
                 {!props.isFirst && 
-                  <Icon className="treenode-icon" title="向上移动" type="arrow-up" onClick={changeNodeSort.bind(null, 'up')}/>
+                  <Icon
+                    className={styles.treenodeIcon}
+                    title="向上移动"
+                    type="arrow-up"
+                    onClick={changeNodeSort.bind(null, 'up')}/>
                 }
                 {!props.isLast &&
-                  <Icon className="treenode-icon" title="向下移动" type="arrow-down" onClick={changeNodeSort.bind(null, 'down')}/>
+                  <Icon
+                    className={styles.treenodeIcon}
+                    title="向下移动"
+                    type="arrow-down"
+                    onClick={changeNodeSort.bind(null, 'down')}/>
                 }
-                <Icon className="treenode-icon" title="编辑名称" type="edit" onClick={editTreeNode}/>
+                <Icon
+                  className={styles.treenodeIcon}
+                  title="编辑名称"
+                  type="edit"
+                  onClick={editTreeNode}/>
                 {props.level !== 'level1' &&
-                  <Icon className="treenode-icon" title="更换父节点" type="home" onClick={changeFather}/>
+                  <Icon
+                    className={styles.treenodeIcon}
+                    title="更换父节点"
+                    type="rocket"
+                    onClick={() => {
+                      openShuttle(
+                        props.level,
+                        props.id,
+                        props.label,
+                        props.fatherId || '',
+                        props.grandFatherChildren || []
+                      )
+                    }}
+                  />
                 }
-                <Icon className="treenode-icon" title="删除节点" type="delete" onClick={removeTreeNode}/>
+                <Icon
+                  className={styles.treenodeIcon}
+                  title="删除节点"
+                  type="delete"
+                  onClick={removeTreeNode}/>
               </div>
             }
           </div>
         }
       </span>
     )
+  };
+
+  const [isShuttle, setIsShuttle] = useState(false);
+  const { Option } = Select;
+  const [shuttleTitle, setShuttleTitle] = useState('');
+  const [shuttleLevel, setShuttleLevel] = useState('');
+  const [shuttleId, setShuttleId] = useState('');
+  const [defaultFatherId, setDefaultFatherId] = useState('');
+  const [shuttleFatherId, setShuttleFatherId] = useState('');  // 最终保存的父节点的 id
+  const [shuttleOptions, setShuttleOptions] = useState<{id: string, label: string}[]>([]);  // 穿梭的父节点们待选项
+
+  // 打开穿梭框
+  const openShuttle = (
+    level: string,
+    id: string,
+    label: string,
+    fatherId: string,
+    grandFather: {id: string, label: string}[]
+  ) => {
+    setShuttleId(id);
+    setShuttleLevel(level.split('').pop() || '')
+    setShuttleOptions(grandFather.map(item => {
+      return {
+        id: item.id,
+        label: item.label
+      };
+    }));
+    setShuttleTitle(`请选择将${level}级节点${label}移动到的父节点：`);
+    setDefaultFatherId(fatherId);
+    setShuttleFatherId(fatherId);  // 设置初始化的值
+    setIsShuttle(true);
+  }
+
+  // 更换父节点
+  const changeFatherNode = async () => {
+    if (defaultFatherId === shuttleFatherId) {
+      message.warning('当前所选父节点与原来的相同');
+      return;
+    }
+    let params: any = {};
+    if (shuttleLevel === '2') {
+      for (let item of treeList) {  // 二级节点穿梭，就要到一级节点找穿梭到的节点
+        if (item.id === shuttleFatherId) {
+          params = {
+            shuttleLevel: Number(shuttleLevel),
+            category_id: shuttleFatherId,
+            f_sort:  item.children[item.children.length - 1].sort + 1,
+            f_id: shuttleId
+          };
+          break;
+        }
+      }
+    }
+    if (shuttleLevel === '3') {  // 三级节点穿梭，就要到二级节点找穿梭到的节点
+      for (let item of treeList) {
+        let isfind = false;
+        for (let jtem of item.children) {
+          if (jtem.id === shuttleFatherId) {
+            params = {
+              shuttleLevel: Number(shuttleLevel),
+              fatherid: jtem.id,
+              fatherlabel: jtem.label,
+              fathersort: jtem.sort,
+              newchildsort: jtem.children[jtem.children.length - 1].sort + 1,
+              childid: shuttleId
+            };
+            isfind = true;
+            break;
+          }
+        }
+        if (isfind) {
+          break;
+        }
+      }
+    }
+    let res: any = await changeFather(params);
+    if (res) {
+      await getTreeData();
+      message.success('更换父节点成功');
+      setIsShuttle(false);
+    } else {
+      message.error('更换父节点失败');
+    }
   };
 
   const [keyword, setKeyword] = useState('');
@@ -418,11 +480,17 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   return (
     <>
-      <div className="tree-filter">
-        <Input className="tree-filter-input" value={keyword} onChange={handleKeyword} allowClear prefix={<Icon type="search"/>} />  
+      <div className={styles.treeFilter}>
+        <Input
+          className={styles.treeFilterInput}
+          value={keyword}
+          onChange={handleKeyword}
+          allowClear
+          prefix={<Icon type="search"/>}
+        />  
       </div>
       <Menu
-        className="tree-menu"
+        className={styles.treeMenu}
         mode="inline"
         theme="dark"
         openKeys={openKeys}
@@ -432,7 +500,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           isLogin && 
           <Menu.Item>
             <Icon
-              className="add-root-treenode"
+              className={styles.addRootTreenode}
               type="plus-circle"
               title="新增首位一级节点"
               onClick={addNewTreeNode.bind(null, 'front', '一级')}
@@ -464,7 +532,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                   isLogin && 
                   <Menu.Item>
                     <Icon
-                      className="add-root-treenode"
+                      className={styles.addRootTreenode}
                       type="plus-circle"
                       title="新增首位二级节点"
                       onClick={addNewTreeNode.bind(null, 'front', '二级', item.id, item.children[0].sort)}
@@ -479,6 +547,16 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                         onTitleClick={clickSecondLevel.bind(null, item.id, jtem.id)}
                         title={
                           <TreeNodeItem
+                            grandFatherChildren={
+                              treeList.map(i => {
+                                return {
+                                  id: i.id,
+                                  label: i.label
+                                }}
+                              )
+                            }
+                            fatherId={item.id}
+
                             isFirst={jndex === 0}
                             isLast={jndex === item.children.length - 1}
                             level="level2"
@@ -497,7 +575,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                           isLogin && 
                           <Menu.Item>
                             <Icon
-                              className="add-root-treenode"
+                              className={styles.addRootTreenode}
                               type="plus-circle"
                               title="新增首位三级节点"
                               onClick={
@@ -523,6 +601,16 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                                 onClick={clickThirdLevel.bind(null, item.id, jtem.id, ktem.id)}
                                 title={ktem.label}>
                                 <TreeNodeItem
+                                  grandFatherChildren={
+                                    item.children.map((i: any) => {
+                                      return {
+                                        id: i.id,
+                                        label: i.label
+                                      }}
+                                    )
+                                  }
+                                  fatherId={jtem.id}
+
                                   isFirst={kndex === 0}
                                   isLast={kndex === jtem.children.length - 1}
                                   level="level3"
@@ -544,7 +632,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                           isLogin && 
                           <Menu.Item>
                             <Icon
-                              className="add-root-treenode"
+                              className={styles.addRootTreenode}
                               type="plus-square"
                               title="新增末位三级节点"
                               onClick={
@@ -570,7 +658,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                   isLogin && 
                   <Menu.Item>
                     <Icon
-                      className="add-root-treenode"
+                      className={styles.addRootTreenode}
                       type="plus-square"
                       title="新增末位二级节点节点"
                       onClick={addNewTreeNode.bind(null, 'behind', '二级', item.id, item.children[item.children.length - 1].sort)}
@@ -585,7 +673,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           isLogin && 
           <Menu.Item>
             <Icon
-              className="add-root-treenode"
+              className={styles.addRootTreenode}
               type="plus-square"
               title="新增末位根节点"
               onClick={addNewTreeNode.bind(null, 'behind', '一级')}
@@ -593,6 +681,22 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           </Menu.Item>
         }
       </Menu>
+      {/* 穿梭提示框 */
+        <Modal
+          title={shuttleTitle}
+          visible={isShuttle}
+          onOk={changeFatherNode}
+          onCancel={() => setIsShuttle(false)}
+        >
+          <Select value={shuttleFatherId} style={{ width: 300 }} onChange={(value: string) => setShuttleFatherId(value)}>
+            {shuttleOptions.map(item => {
+              return (
+                <Option key={item.id} value={item.id}>{item.label}</Option>
+              )
+            })}
+          </Select>
+        </Modal>
+      }
     </>
   );
 }

@@ -1,0 +1,86 @@
+.treeFilter {
+  background: #001529;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  .treeFilterInput {
+    width: calc(100% - 1.4rem);
+    height: 40px;
+    margin: 4px 0.7rem;
+  }
+}
+
+.treeMenu {
+  height: calc(100% - 49px);
+  & {
+    display: inline-block;
+    overflow:hidden;
+    overflow-y: auto;
+  }
+  &::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 3px; /* 高宽分别对应横竖滚动条的尺寸 */
+    height: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: .5rem;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: white;
+  }
+  &::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: .5rem;
+    background: #000c17;
+  }
+  .addRootTreenode {
+    &:hover {
+      color: #1890ff;
+    }
+  }
+  .ant-menu-submenu-title {
+    overflow: unset;
+  }
+  .menuTitle {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    .titleName {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      .activeKeyword {
+        color: black;
+        background: yellow;
+      }
+    }
+    .allIconBox {
+      position: relative;
+      .moreOperateIcon {
+        position: relative;
+        line-height: 44px;
+        margin-left: 10px;
+        &.editting {
+          color: #1890ff;
+        }
+      }
+      .iconsBox {
+        position: absolute;
+        right: 30px;
+        top: 1px;
+        height: 38px;
+        padding-left: 10px;
+        background-color: rgb(51, 61, 69);
+        border-radius: 4px;
+        .treenodeIcon {
+          &:hover {
+            color: #1890ff;
+          }
+        }
+      }
+    }
+  }
+}
