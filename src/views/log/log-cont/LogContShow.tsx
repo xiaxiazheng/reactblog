@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { OneLogType } from '../LogType';
 import './LogContShow.scss';
 import { getLogCont } from '../../../client/LogHelper';
+import Loading from '../../../components/Loading'
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -14,6 +15,7 @@ interface PropsType {
 };
 
 const LogContShow: React.FC<PropsType> = ({ log_id }) => {
+  const [loading, setLoading] = useState(true);
 
   // 编辑器配置
   const modules: any = {
@@ -29,16 +31,21 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
 
   useEffect(() =>{
     const getData = async () => {
+      setLoading(true);
       let id = decodeURIComponent(atob(log_id));
       const res: OneLogType = await getLogCont(id);
-      setlogdata(res);
+      if (res) {
+        setlogdata(res);
+        setLoading(false);
+      }
     };
     getData();
   }, []);
 
   return (
     <div className="logcont-show">
-      {logdata && 
+      {loading ? <Loading fontSize={60} /> :
+        logdata && 
         <>
           <h2 className="title">{logdata.title}</h2>
           <h3 className="author">{logdata.author}</h3>

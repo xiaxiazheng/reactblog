@@ -16,6 +16,8 @@
     }
     .title {
       flex: 1;
+      display: flex;
+      align-items: center;
       font-weight: bold;
       color: rgba(255, 255, 255, 0.65);
       .classification {
@@ -26,6 +28,8 @@
       }
     }
     .author, .orderby-time, .edit-type {
+      display: flex;
+      align-items: center;
       margin-left: .5rem;
       font-size: .5rem;
       color: rgba(255, 255, 255, 0.65);
