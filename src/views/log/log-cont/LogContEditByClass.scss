@@ -1,5 +1,6 @@
 .logcontedit {
   width: 80%;
+  height: calc(100% - 2rem);
   margin: 1rem auto;
   h1, h2, h3, h4, h5, h6 {
     color: rgba(255, 255, 255, 0.65);
@@ -36,22 +37,26 @@
   }
   .editor-n-imgbox {
     display: flex;
+    height: calc(100% - 7.08rem);
     .logcont-editor {
       flex: 1;
       letter-spacing: 1px;
+      .quill {
+        height: 100%;
+      }
       .ql-toolbar.ql-snow {
         background: rgba(255, 255, 255, 0.9);
       }
       .ql-container {
         width: 100%;
+        height: calc(100% - 2.6rem);
         font-size: 14px;
         img {
           max-width: 100%;
         }
         .ql-editor {
           width: 100%;
-          max-height: 750px;
-          min-height: 580px;
+          height: 100%;
           overflow-y: auto;
           & {
             display: inline-block;
@@ -81,12 +86,31 @@
       }
     }
     .logcont-imgbox {
-      width: 150px;
-      .image-box {
-        width: 180px;
-        height: 180px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
+      width: 156px;
+      height: 100%;
+      & {
+        display: inline-block;
+        overflow: hidden;
+        overflow-y: auto;
+      }
+      &::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 5px; /* 高宽分别对应横竖滚动条的尺寸 */
+        height: 5px;
+      }
+      &::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: .5rem;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        background: white;
+      }
+      &::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: .5rem;
+        background: #001529;
       }
     }
   }
