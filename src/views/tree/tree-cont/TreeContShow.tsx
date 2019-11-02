@@ -3,9 +3,10 @@ import './TreeContShow.scss';
 import { Modal } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { getChildName } from '../../client/TreeHelper';
-import { getNodeCont } from '../../client/TreeContHelper';
-import { baseImgUrl } from '../../env_config';
+import { getChildName } from '../../../client/TreeHelper';
+import { getNodeCont } from '../../../client/TreeContHelper';
+import { baseImgUrl } from '../../../env_config';
+import Loading from '../../../components/Loading';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -45,6 +46,8 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
   const [previewImg, setPreviewImg] = useState('');
   const [previewImgName, setPreviewImgName] = useState('');
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     match.params.third_id && getTreeCont();
   }, [match.params.third_id]);
@@ -76,6 +79,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
 
   // 获取树当前节点具体内容数据
   const getTreeCont = async () => {
+    setLoading(true);
     const res = await getChildName(match.params.third_id);
     setTitle(res.length !== 0 ? res[0].c_label : '');
     let res2 = await getNodeCont(match.params.third_id);
@@ -89,6 +93,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
         item.cont = item.cont.replace(/\n|\r\n/g, "<br/>"); // 把换行转成br标签
       })
       setContList(res2);
+      setLoading(false);
     }
   };
 
@@ -104,47 +109,51 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
 
   return (
     <div className="treecontshow" ref={contShowRef}>
-      <h2 className="treecont-title">{title}</h2>
-      {
-        contList.map(item => {
-          return (
-            <div ref={contRef} key={item.cont_id} className="contitem">
-              <h3 className="contitem-title">
-                <a
-                  href={`#${item.sort}`}
-                  id={`${item.c_id}-${item.sort}`}
-                  className={hashValue === `${item.sort}` ? 'active' : ''}
-                >
-                  {item.title}
-                </a>
-                <span>修改时间：{item.motifytime}</span>
-              </h3>
-              <div className="contitem-cont" dangerouslySetInnerHTML={{ __html: item.cont }}></div>
-              {item.imgList.length !== 0 &&
-                item.imgList.map(imgItem => {
-                  return (
-                    <div key={imgItem.img_id} className="contitem-img">
-                      <img
-                        src={baseImgUrl + '/treecont/' + imgItem.imgfilename}
-                        alt={imgItem.imgname}
-                        title={imgItem.imgname}
-                        onClick={() => {
-                          setPreviewImg(baseImgUrl + '/treecont/' + imgItem.imgfilename);
-                          setPreviewImgName(imgItem.imgname);
-                        }}
-                      />
-                      <span className="img-name">{imgItem.imgname}</span>
-                    </div>
-                  )
-                })
-              }
-            </div>
-          )
-        })
+      {loading ? <Loading fontSize={60} /> :
+        <>
+          <h2 className="treecont-title">{title}</h2>
+          {
+            contList.map(item => {
+              return (
+                <div ref={contRef} key={item.cont_id} className="contitem">
+                  <h3 className="contitem-title">
+                    <a
+                      href={`#${item.sort}`}
+                      id={`${item.c_id}-${item.sort}`}
+                      className={hashValue === `${item.sort}` ? 'active' : ''}
+                    >
+                      {item.title}
+                    </a>
+                    <span>修改时间：{item.motifytime}</span>
+                  </h3>
+                  <div className="contitem-cont" dangerouslySetInnerHTML={{ __html: item.cont }}></div>
+                  {item.imgList.length !== 0 &&
+                    item.imgList.map(imgItem => {
+                      return (
+                        <div key={imgItem.img_id} className="contitem-img">
+                          <img
+                            src={baseImgUrl + '/treecont/' + imgItem.imgfilename}
+                            alt={imgItem.imgname}
+                            title={imgItem.imgname}
+                            onClick={() => {
+                              setPreviewImg(baseImgUrl + '/treecont/' + imgItem.imgfilename);
+                              setPreviewImgName(imgItem.imgname);
+                            }}
+                          />
+                          <span className="img-name">{imgItem.imgname}</span>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              )
+            })
+          }
+        </>
       }
       {/* 锚点们 */}
       <div className="mao">
-        {
+        {loading ? <Loading /> :
           contList.map(item => {
             return (
               <a key={item.sort} href={`#${item.sort}`} className={hashValue === `${item.sort}` ? 'active' : ''}>{item.title}</a>

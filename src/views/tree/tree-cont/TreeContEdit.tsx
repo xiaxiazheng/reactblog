@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import './TreeContEdit.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { getChildName } from '../../client/TreeHelper';
-import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCont } from '../../client/TreeContHelper';
-import { baseImgUrl } from '../../env_config';
+import { getChildName } from '../../../client/TreeHelper';
+import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCont } from '../../../client/TreeContHelper';
+import { baseImgUrl } from '../../../env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
-import ImageBox from '../../components/ImageBox';
+import ImageBox from '../../../components/ImageBox';
 
 interface PropsType {
   history: History;

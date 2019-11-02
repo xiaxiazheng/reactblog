@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './LogCont.scss';
-import { getLogCont } from '../../client/LogHelper';
+import { getLogCont } from '../../../client/LogHelper';
 import { Button, Icon, Switch } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { IsLoginContext } from '../../context/IsLoginContext';
+import { IsLoginContext } from '../../../context/IsLoginContext';
 import LogContEditByClass from './LogContEditByClass';
 import LogContShow from './LogContShow';
-import { OneLogType } from './LogType';
+import { OneLogType } from '../LogType';
 
 interface PropsType {
   match: match<{log_class: string;log_id: string}>;

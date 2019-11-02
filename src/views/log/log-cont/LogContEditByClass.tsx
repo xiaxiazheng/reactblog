@@ -1,10 +1,10 @@
 import React from 'react';
 import { Input, Button, message, Icon } from 'antd';
-import { OneLogType } from './LogType';
-import { modifyLogCont } from '../../client/LogHelper';
+import { OneLogType } from '../LogType';
+import { modifyLogCont } from '../../../client/LogHelper';
 import './LogContEditByClass.scss';
-import ImageBox from '../../components/ImageBox';
-import { baseImgUrl } from '../../env_config';
+import ImageBox from '../../../components/ImageBox';
+import { baseImgUrl } from '../../../env_config';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';

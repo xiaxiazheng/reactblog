@@ -6,12 +6,18 @@
   background: #001529;
   color: rgba(255, 255, 255, 0.65);
 }
+
 .ant-input-prefix {
   color: rgba(255, 255, 255, 0.65);
 }
+
 .ant-input-suffix {
   right: 6px;
   >i {
     color: rgba(255, 255, 255, 0.65);
   }
+}
+
+.ant-menu-submenu-title {
+  overflow: unset;
 }

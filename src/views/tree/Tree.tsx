@@ -1,12 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
-import './Tree.scss';
+import styles from './Tree.module.scss';
 import { IsLoginContext } from '../../context/IsLoginContext';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import TreeMenu from './TreeMenu';
-import TreeContMain from './TreeContMain';
-import TreeContShow from './TreeContShow';
-import TreeContEdit from './TreeContEdit';
+import TreeMenu from './tree-menu/TreeMenu';
+import TreeContMain from './tree-cont/TreeContMain';
+import TreeContShow from './tree-cont/TreeContShow';
+import TreeContEdit from './tree-cont/TreeContEdit';
 import { Switch } from 'antd';
 
 interface PropsType {
@@ -26,16 +26,22 @@ const Tree: React.FC<PropsType> = ({ match }) => {
   }, [match.params]);
 
   return (
-    <div className="Tree">
+    <div className={styles.Tree}>
       {/* 左边的树 */}
-      <div className="tree-left">
+      <div className={styles.treeLeft}>
         <TreeMenu />
       </div>
       {/* 右边的展示 & 编辑 */}
-      <div className="tree-right ScrollBar">
+      <div className={`${styles.treeRight} ScrollBar`}>
         {// 编辑与查看的切换按钮
           isLogin &&
-          <Switch className="tree-edit-switch" checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
+          <Switch
+            className={styles.treeEditSwitch}
+            checkedChildren="编辑"
+            unCheckedChildren="查看"
+            defaultChecked={isEdit}
+            onChange={() => setIsEdit(!isEdit)}
+          />
         }
         {!isEdit && isMain &&
           <TreeContMain></TreeContMain>

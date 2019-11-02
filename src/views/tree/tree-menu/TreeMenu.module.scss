@@ -35,52 +35,10 @@
     border-radius: .5rem;
     background: #000c17;
   }
+
   .addRootTreenode {
     &:hover {
       color: #1890ff;
-    }
-  }
-  .ant-menu-submenu-title {
-    overflow: unset;
-  }
-  .menuTitle {
-    display: flex;
-    width: 100%;
-    height: 100%;
-
-    .titleName {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      .activeKeyword {
-        color: black;
-        background: yellow;
-      }
-    }
-    .allIconBox {
-      position: relative;
-      .moreOperateIcon {
-        position: relative;
-        line-height: 44px;
-        margin-left: 10px;
-        &.editting {
-          color: #1890ff;
-        }
-      }
-      .iconsBox {
-        position: absolute;
-        right: 30px;
-        top: 1px;
-        height: 38px;
-        padding-left: 10px;
-        background-color: rgb(51, 61, 69);
-        border-radius: 4px;
-        .treenodeIcon {
-          &:hover {
-            color: #1890ff;
-          }
-        }
-      }
     }
   }
 }

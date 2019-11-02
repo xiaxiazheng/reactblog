@@ -3,11 +3,12 @@ import './LogList.scss';
 import { Input, Pagination, Icon, Radio, Checkbox, Button, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { getLogListIsVisible, getLogListAll, addLogCont } from '../../client/LogHelper';
-import { IsLoginContext } from '../../context/IsLoginContext';
-import { LogListType } from './LogType';
+import { getLogListIsVisible, getLogListAll, addLogCont } from '../../../client/LogHelper';
+import { IsLoginContext } from '../../../context/IsLoginContext';
+import { LogListType } from '../LogType';
 import LogListItem from './LogListItem';
-import { LogContext } from './LogContext';
+import { LogContext } from '../LogContext';
+import Loading from '../../../components/Loading';
 
 interface PropsType {
   history: History;
@@ -19,6 +20,8 @@ interface PropsType {
 
 const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass }) => {
   const { isLogin } = useContext(IsLoginContext);  // 获取是否登录
+
+  const [loading, setLoading] = useState(true);
 
   const { keyword, setKeyword } = useContext(LogContext);
   const { pageNo, setPageNo} = useContext(LogContext);  // 当前页面
@@ -35,6 +38,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   // 初始化日志列表
   const getLogList = async () => {
+    setLoading(true);
     let params: any = {
       pageNo: pageNo,
       pageSize: pageSize,
@@ -69,6 +73,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
       logList: res.list,
       totalNumber: res.totalNumber
     });
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -97,7 +102,6 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   // 输入搜索关键字
   const handleKeyword = (e: any) => {
-    console.log(e.target.value)
     setKeyword(e.target.value);
   };
 
@@ -178,8 +182,9 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
           showSizeChanger
           pageSizeOptions={['5', '10', '15', '20']}/>
       </div>
+      {/* 日志列表 */}
       <ul className="log-list ScrollBar">
-        {
+        {loading ? <Loading fontSize={40} /> :
           logListData.logList.map((item: LogListType) => {
             return (
               <li

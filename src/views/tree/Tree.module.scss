@@ -3,7 +3,7 @@ $TreeMenuWidth: 21rem;
 .Tree {
   height: 100%;
   background-color: #001529;
-  .tree-left {
+  .treeLeft {
     display: inline-block;
     height: 100%;
     width: $TreeMenuWidth;
@@ -12,12 +12,14 @@ $TreeMenuWidth: 21rem;
     border-right: 1px solid #ccc;
     box-sizing: border-box;
     letter-spacing: 1px;
+    vertical-align: top;
   }
-  .tree-right {
+  .treeRight {
     display: inline-block;
     height: 100%;
     width: calc(100% - #{$TreeMenuWidth});
-    .tree-edit-switch {
+    vertical-align: top;
+    .treeEditSwitch {
       position: fixed;
       top: 4rem;
       right: 2rem;

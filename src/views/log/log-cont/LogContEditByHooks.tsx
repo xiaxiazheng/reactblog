@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Input, Button, message, Icon } from 'antd';
-import { OneLogType } from './LogType';
-import { modifyLogCont } from '../../client/LogHelper';
+import { OneLogType } from '../LogType';
+import { modifyLogCont } from '../../../client/LogHelper';
 import './LogContEditByClass.scss';
 // 代码高亮
 import hljs from 'highlight.js';

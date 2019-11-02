@@ -10,7 +10,7 @@ import { ThemeContext } from '../context/ThemeContext';
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
 const Tree = lazy(() => import('../views/tree/Tree'));
-const LogCont = lazy(() => import('../views/log/LogCont'));
+const LogCont = lazy(() => import('../views/log/log-cont/LogCont'));
 const Login = lazy(() => import('./Login'));
 const Admin = lazy(() => import('../views/admin/Admin'));
 const Wall = lazy(() => import('../views/wall/Wall'));
