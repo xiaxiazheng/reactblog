@@ -1,12 +1,13 @@
 import React, { lazy, Suspense, useContext } from 'react';
 import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
-import './Router.scss';
-import themeScss from './Theme.module.scss';
+import styles from './Router.module.scss';
+import themeScss from '../assets/scss/Theme.module.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from './Header';
 import { Icon } from 'antd';
 import { LogProvider } from '../views/log/LogContext';
 import { ThemeContext } from '../context/ThemeContext';
+
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
 const Tree = lazy(() => import('../views/tree/Tree'));
@@ -22,7 +23,7 @@ const Router: React.FC = () => {
   // loading 界面
   const fallback = () =>{
     return (
-      <div className="route-loading">
+      <div className={styles.routeLoading}>
         <Icon type="loading" />
         Loading...
       </div>
@@ -37,13 +38,13 @@ const Router: React.FC = () => {
   const Router: any = process.env.REACT_APP_User === 'hyp' ? HashRouter : BrowserRouter;
 
   return (
-    <div className={`routerWrapper ${themeClass[theme]}`}>
+    <div className={`${styles.routerWrapper} ${themeClass[theme]}`}>
       <Router>
-        <div className="Router-Head">
+        <div className={styles.RouterHead}>
           <Header></Header>
         </div>
         <Suspense fallback={fallback()}>
-          <div className="Router-View ScrollBar">
+          <div className={`${styles.RouterView} ScrollBar`}>
             {/* 登录 */}
             <Route path="/login" component={Login} />
             {/* 前台 */}

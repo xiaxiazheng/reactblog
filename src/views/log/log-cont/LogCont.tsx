@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './LogCont.scss';
+import styles from './LogCont.module.scss';
 import { getLogCont } from '../../../client/LogHelper';
 import { Button, Icon, Switch } from 'antd';
 import { withRouter, match } from 'react-router';
@@ -49,14 +49,14 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
   };
 
   return (
-    <div className="LogCont ScrollBar">
-      <Button className="back-button" type="primary" onClick={backToLogList}>
+    <div className={`${styles.LogCont} ScrollBar`}>
+      <Button className={styles.backButton} type="primary" onClick={backToLogList}>
         <Icon type="left" />
         返回
       </Button>
       {// 编辑与查看的切换按钮
         isLogin &&
-        <Switch className="log-edit-switch" checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
+        <Switch className={styles.logEditSwitch} checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
       }
       {/* 展示 */}
       {!isEdit &&

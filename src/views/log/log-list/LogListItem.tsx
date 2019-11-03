@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import './LogListItem.scss';
+import styles from './LogListItem.module.scss';
 import { Icon, message, Modal, Select } from 'antd';
 import { getLogAllClass, getHomeLogAllClass, isShowLog, isStickLog, deleteLogCont, switchLogClass } from '../../../client/LogHelper';
 import { IsLoginContext } from '../../../context/IsLoginContext';
@@ -113,20 +113,20 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
 
   return (
     <>
-      <span className="title">
+      <span className={styles.title}>
         {logItemData.title}
         {
           logClass === '所有日志' && logItemData.classification !== '' &&
-          <span className="classification">[ {logItemData.classification} ]</span>
+          <span className={styles.classification}>[ {logItemData.classification} ]</span>
         }
       </span>
-      <span className="author">{logItemData.author}</span>
+      <span className={styles.author}>{logItemData.author}</span>
       {isLogin && 
-        <span className="edit-type">({logItemData.edittype === 'richtext' ? '富文本文档' : 'markdown'})</span>
+        <span className={styles.editType}>({logItemData.edittype === 'richtext' ? '富文本文档' : 'markdown'})</span>
       }
-      <span className="orderby-time">{orderBy === 'create' ? '创建' : '修改'}时间：{orderBy === 'create' ? logItemData.cTime : logItemData.mTime}</span>
+      <span className={styles.orderbyTime}>{orderBy === 'create' ? '创建' : '修改'}时间：{orderBy === 'create' ? logItemData.cTime : logItemData.mTime}</span>
       {isLogin &&
-        <div className="log-operate-box">
+        <div className={styles.logOperateBox}>
           <Icon
             onClick={handleClassifyLog}
             className={logItemData.classification !== '' ? "active log-classify-icon" : "log-classify-icon"}
@@ -144,7 +144,7 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
             type="eye" />
           <Icon
             onClick={handleDeleteLog}
-            className="log-delete-icon"
+            className={styles.logDeleteIcon}
             title="点击删除该日志"
             type="delete" />
         </div>

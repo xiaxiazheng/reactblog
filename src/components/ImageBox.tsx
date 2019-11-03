@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Icon, message, Upload, Modal } from 'antd';
-import './ImageBox.scss';
+import styles from './ImageBox.module.scss';
 import { baseUrl } from '../env_config';
 import { deleteImg } from '../client/ImgHelper';
 
@@ -73,11 +73,11 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
   };
 
   return (
-    <div className="Imagebox" style={{width: `${width}`, height: `${width}`}}  onMouseLeave={(e) => { e.stopPropagation(); setIsHover(false);}}>
+    <div className={styles.Imagebox} style={{width: `${width}`, height: `${width}`}}  onMouseLeave={(e) => { e.stopPropagation(); setIsHover(false);}}>
       {/* 没有图片的情况，展示添加 */}
       {imageUrl === '' &&
         <Upload
-          className="imagebox-upload"
+          className={styles.imageboxUpload}
           name={type}
           showUploadList={false}
           action={`${baseUrl}/${type}_upload`}
@@ -92,13 +92,13 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
       }
       {/* 加载中。。。 */}
       {imageUrl !== '' && loading &&
-        <div className="imagebox-loading">
+        <div className={styles.imageboxLoading}>
           <Icon type="loading" />
         </div>
       }
       {/* 有图片的情况，展示图片 */}
       {imageUrl !== '' &&
-        <img className="imagebox-shower"
+        <img className={styles.imageboxShower}
           onMouseEnter={(e) => { e.stopPropagation(); setIsHover(true);}}
           onLoad={() => setLoading(false)}
           src={imageUrl}
@@ -107,16 +107,16 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
       }
       {/* 有图片的情况，显示操作 */}
       {imageUrl !== '' && isHover &&
-        <div className="imagebox-icons">
-          <Icon className="icon-box-icon" title="复制图片链接" type="copy" onClick={copyImgUrl}/>
-          <Icon className="icon-box-icon" title="预览图片" type="eye" onClick={() => setIsPreview(true)}/>
-          <Icon className="icon-box-icon" title="删除图片" type="delete" onClick={deleteImage}/>
+        <div className={styles.imageboxIcons}>
+          <Icon className={styles.iconBoxIcon} title="复制图片链接" type="copy" onClick={copyImgUrl}/>
+          <Icon className={styles.iconBoxIcon} title="预览图片" type="eye" onClick={() => setIsPreview(true)}/>
+          <Icon className={styles.iconBoxIcon} title="删除图片" type="delete" onClick={deleteImage}/>
         </div>
       }
       {/* 图片预览 */}
       <Modal
-        wrapClassName="previewImgBox-wrapper ScrollBar"
-        className="previewImgBox"
+        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
+        className={styles.previewImgBox}
         visible={isPreview}
         footer={null}
         centered

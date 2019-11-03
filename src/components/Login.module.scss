@@ -21,16 +21,16 @@
         color: rgba(38, 39, 38, 0.5);
         text-align: left;
       }
-      .user-input, .pwd-input {
+      .userInput, .pwdInput {
         margin-top: 2rem;
       }
-      .pwd-eye {
+      .pwdEye {
         cursor: pointer;
         &:hover {
           color: #1890ff !important;
         }
       }
-      .login-button {
+      .loginButton {
         width: 100%;
         margin-top: 2.5rem;
         font-size: .9rem;

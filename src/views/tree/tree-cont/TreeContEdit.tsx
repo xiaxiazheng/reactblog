@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './TreeContEdit.scss';
+import styles from './TreeContEdit.module.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getChildName } from '../../../client/TreeHelper';
@@ -189,17 +189,17 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     };
 
     return (
-      <div className="contitem-icons">
-        <div className="contitem-icons-box">
+      <div className={styles.contitemIcons}>
+        <div className={styles.contitemIconsBox}>
           {!props.isFirst && 
-            <Icon className="contnode-icon" title="向上移动" type="arrow-up" onClick={upTreeContNode}/>
+            <Icon className={styles.contnodeIcon} title="向上移动" type="arrow-up" onClick={upTreeContNode}/>
           }
           {!props.isLast &&
-            <Icon className="contnode-icon" title="向下移动" type="arrow-down" onClick={downTreeContNode}/>
+            <Icon className={styles.contnodeIcon} title="向下移动" type="arrow-down" onClick={downTreeContNode}/>
           }
-          <Icon className="contnode-icon" title="删除节点" type="delete" onClick={removeTreeContNode}/>
+          <Icon className={styles.contnodeIcon} title="删除节点" type="delete" onClick={removeTreeContNode}/>
         </div>
-        <div className="contitem-time">
+        <div className={styles.contitemTime}>
           <span>创建时间：{props.itemData.createtime}</span>
           <span>修改时间：{props.itemData.motifytime}</span>
         </div>
@@ -209,16 +209,21 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
 
   return (
     <>
-      <div className="treecontedit">
-        <h2 className="treecont-title">{title}</h2>
+      <div className={styles.treecontedit}>
+        <h2 className={styles.treecontTitle}>{title}</h2>
         {
           contList.map((item, index) => {
             return (
-              <div key={item.cont_id} className="contitem">
-                <div className="contitem-edit">
-                  <Input className="contitem-input" placeholder="请输入小标题" value={item.title} onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}/>
+              <div key={item.cont_id} className={styles.contitem}>
+                <div className={styles.contitemEdit}>
+                  <Input
+                    className={styles.contitemInput}
+                    placeholder="请输入小标题"
+                    value={item.title}
+                    onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}
+                  />
                   <TextArea
-                    className="contitem-textarea ScrollBar"
+                    className={`${styles.contitemTextarea} ScrollBar`}
                     placeholder="请输入内容"
                     autosize={{ minRows: 6, maxRows: 21 }}
                     value={item.cont}
@@ -231,7 +236,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                     index={index}
                   />
                 </div>
-                <div className="contitem-img">
+                <div className={styles.contitemImg}>
                   {item.imgList.map(jtem => {
                     return (
                       <ImageBox
@@ -253,10 +258,34 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
         }
       </div>
       {/* 新增按钮 */}
-      <Button className="treecont-addbutton-front" title="最上方新增一个节点" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont.bind(null, 'front')}/>
-      <Button className="treecont-addbutton-behind" title="最下方新增一个节点" type="primary" shape="circle" icon="file-add" size="large" onClick={addTreeCont.bind(null, 'behind')}/>
+      <Button
+        className={styles.treecontAddbuttonFront}
+        title="最上方新增一个节点"
+        type="primary"
+        shape="circle"
+        icon="file-add"
+        size="large"
+        onClick={addTreeCont.bind(null, 'front')}
+      />
+      <Button
+        className={styles.treecontAddbuttonBehind}
+        title="最下方新增一个节点"
+        type="primary"
+        shape="circle"
+        icon="file-add"
+        size="large"
+        onClick={addTreeCont.bind(null, 'behind')}
+      />
       {/* 保存按钮 */}
-      <Button className="treecont-savebutton" title="保存" type={isChange ? "danger" : "primary"} shape="circle" icon="save" size="large" onClick={saveTreeCont}/>
+      <Button
+        className={styles.treecontSavebutton}
+        title="保存"
+        type={isChange ? "danger" : "primary"}
+        shape="circle"
+        icon="save"
+        size="large"
+        onClick={saveTreeCont}
+      />
     </>
   );
 }

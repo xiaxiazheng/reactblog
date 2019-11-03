@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import './Header.scss';
+import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon, Input, Popover, Spin, Switch } from 'antd';
 import { navTitle } from '../env_config';
@@ -96,11 +96,11 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
   }
 
   return (
-    <div className="Header">
-      <span className="header-left" onClick={() => setCurrent(isLogin ? 'admin' : 'home')}>
+    <div className={styles.Header}>
+      <span className={styles.headerLeft} onClick={() => setCurrent(isLogin ? 'admin' : 'home')}>
         <Link to={isLogin ? '/admin' : '/'}>{navTitle}</Link>
       </span>
-      <span className="header-right">
+      <span className={styles.headerRight}>
         {/* 主题切换开关 */}
         <Switch
           checkedChildren="light"
@@ -119,7 +119,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
               // 有搜索结果的情况
               searchResult.length !== 0
               ?
-              <div className="tree-search-list ScrollBar">
+              <div className={`${styles.treeSearchList} ScrollBar`}>
                 {searchResult.map((item) => {
                   return (
                     <div
@@ -133,13 +133,13 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
                 })}
               </div>
               :
-              <div className="no-result">没有搜索结果</div>
+              <div className={styles.noResult}>没有搜索结果</div>
             )
           }
           visible={showSearch && keyword !== ''}
         >
           <Input
-            className="search-tree"
+            className={styles.searchTree}
             prefix={<Icon type="search" />}
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
@@ -156,19 +156,19 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
         {/* 导航 */}
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="tree">
-            <Icon type="cluster" className="header-icon"/>
+            <Icon type="cluster" className={styles.headerIcon} />
             <Link to={isLogin ? '/admin/tree' : '/tree'}>知识树</Link>
           </Menu.Item>
           <Menu.Item key="log">
-            <Icon type="book" className="header-icon"/>
+            <Icon type="book" className={styles.headerIcon} />
             <Link to={isLogin ? "/admin/log/所有日志" : "/log/所有日志"}>日志</Link>
           </Menu.Item>
           <Menu.Item key="wall">
-            <Icon type="picture" className="header-icon"/>
+            <Icon type="picture" className={styles.headerIcon} />
             <Link to={isLogin ? "/admin/wall" : "/wall"}>图片墙</Link>
           </Menu.Item>
           <Menu.Item key="github">
-            <Icon type="github" className="header-icon"/>
+            <Icon type="github" className={styles.headerIcon} />
             github
           </Menu.Item>
         </Menu>

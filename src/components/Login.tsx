@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Input, Button, Icon, message } from 'antd';
-import './Login.scss';
+import styles from './Login.module.scss';
 import { postLogin } from '../client/UserHelper';
 import { withRouter, match } from 'react-router';
 import { Location, History } from 'history';
@@ -50,12 +50,12 @@ const Login: React.FC<PropsType> = ({ history, location }) => {
   }
 
   return (
-    <div className="Login">
-      <div className="loginCont">
-        <div className="loginBox">
-          <span className="please">Please Login:</span>
+    <div className={styles.Login}>
+      <div className={styles.loginCont}>
+        <div className={styles.loginBox}>
+          <span className={styles.please}>Please Login:</span>
           <Input
-            className="user-input"
+            className={styles.userInput}
             placeholder="请输入用户名"
             size="large"
             value={user}
@@ -63,7 +63,7 @@ const Login: React.FC<PropsType> = ({ history, location }) => {
             onPressEnter={submitLogin}
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />
           <Input
-            className="pwd-input"
+            className={styles.pwdInput}
             type={isShowPwd ? 'text' : 'password'}
             placeholder="请输入密码"
             size="large"
@@ -72,9 +72,9 @@ const Login: React.FC<PropsType> = ({ history, location }) => {
             onPressEnter={submitLogin}
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             suffix={
-              <Icon className="pwd-eye" type={!isShowPwd ? 'eye' : 'eye-invisible'} style={{ color: 'rgba(0,0,0,.25)' }} onClick={() => setIsShowPwd(!isShowPwd)}/>
+              <Icon className={styles.pwdEye} type={!isShowPwd ? 'eye' : 'eye-invisible'} style={{ color: 'rgba(0,0,0,.25)' }} onClick={() => setIsShowPwd(!isShowPwd)}/>
             } />
-          <Button className="login-button" type="primary" size="large" htmlType="submit" onClick={submitLogin}>登录</Button>
+          <Button className={styles.loginButton} type="primary" size="large" htmlType="submit" onClick={submitLogin}>登录</Button>
         </div>
       </div>
     </div>

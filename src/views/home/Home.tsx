@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Home.scss';
+import styles from './Home.module.scss';
 import { Carousel } from 'antd';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="Home">
+    <div className={styles.Home}>
       <Carousel className="carousel" autoplay>
         {homeData.imgList.map((item: ImgType) => {
           return (
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
           )
         })}
       </Carousel>
-      <footer className="footer-beian">
+      <footer className={styles.footerBeian}>
         <div style={{width: '300px',margin: '0 auto'}}>
           <a
             target="_blank"

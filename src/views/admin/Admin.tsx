@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
 import ImageBox from '../../components/ImageBox';
-import './Admin.scss';
+import styles from './Admin.module.scss';
 
 interface ImgType {
   cTime: string;
@@ -36,7 +36,7 @@ const Admin: React.FC = () => {
   };
   
   return (
-    <div className="Admin">
+    <div className={styles.Admin}>
       {AdminImgList.map((item: ImgType) => {
         return (
           <ImageBox

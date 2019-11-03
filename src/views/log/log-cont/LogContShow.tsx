@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { OneLogType } from '../LogType';
-import './LogContShow.scss';
+import styles from './LogContShow.module.scss';
 import { getLogCont } from '../../../client/LogHelper';
 import Loading from '../../../components/Loading'
 // 代码高亮
@@ -43,18 +43,18 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
   }, []);
 
   return (
-    <div className="logcont-show">
+    <div className={styles.logcontShow}>
       {loading ? <Loading fontSize={60} /> :
         logdata && 
         <>
-          <h2 className="title">{logdata.title}</h2>
-          <h3 className="author">{logdata.author}</h3>
-          <div className="time">
+          <h2 className={styles.title}>{logdata.title}</h2>
+          <h3 className={styles.author}>{logdata.author}</h3>
+          <div className={styles.time}>
             <span>创建时间: {logdata.cTime}</span>
             <span>修改时间: {logdata.mTime}</span>
           </div>
           {/* 富文本编辑器 */}
-          <div className="logcont-editor">
+          <div className={styles.logcontEditor}>
             <ReactQuill
               readOnly
               theme="bubble"

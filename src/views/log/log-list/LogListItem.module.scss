@@ -1,5 +1,5 @@
-.log-list {
-  .log-list-item {
+.logList {
+  .logListItem {
     display: flex;
     margin: .3rem 2rem;
     padding: 0.5rem 1rem;
@@ -7,7 +7,7 @@
     border-radius: 3px;
     box-sizing: border-box;
     cursor: pointer;
-    &.active-stick {
+    &.activeStick {
       background-color: rgba(255,255,255,0.1);
     }
     &:hover {
@@ -27,15 +27,15 @@
         color: rgba(255, 255, 255, 0.65);
       }
     }
-    .author, .orderby-time, .edit-type {
+    .author, .orderbyTime, .editType {
       display: flex;
       align-items: center;
       margin-left: .5rem;
       font-size: .5rem;
       color: rgba(255, 255, 255, 0.65);
     }
-    .log-operate-box {
-      .log-classify-icon, .log-show-icon, .log-sticky-icon, .log-delete-icon {
+    .logOperateBox {
+      .logClassifyIcon, .logShowIcon, .logStickyIcon, .logDeleteIcon {
         margin-left: .7rem;
         font-size: 1rem;
         color: rgba(255, 255, 255, 0.65);

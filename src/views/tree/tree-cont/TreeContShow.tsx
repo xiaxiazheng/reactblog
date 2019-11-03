@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import './TreeContShow.scss';
+import styles from './TreeContShow.module.scss';
 import { Modal } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
@@ -108,15 +108,15 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
   });
 
   return (
-    <div className="treecontshow" ref={contShowRef}>
+    <div className={styles.treecontshow} ref={contShowRef}>
       {loading ? <Loading fontSize={60} /> :
         <>
-          <h2 className="treecont-title">{title}</h2>
+          <h2 className={styles.treecontTitle}>{title}</h2>
           {
             contList.map(item => {
               return (
-                <div ref={contRef} key={item.cont_id} className="contitem">
-                  <h3 className="contitem-title">
+                <div ref={contRef} key={item.cont_id} className={styles.contitem}>
+                  <h3 className={styles.contitemTitle}>
                     <a
                       href={`#${item.sort}`}
                       id={`${item.c_id}-${item.sort}`}
@@ -126,11 +126,11 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
                     </a>
                     <span>修改时间：{item.motifytime}</span>
                   </h3>
-                  <div className="contitem-cont" dangerouslySetInnerHTML={{ __html: item.cont }}></div>
+                  <div className={styles.contitemCont} dangerouslySetInnerHTML={{ __html: item.cont }}></div>
                   {item.imgList.length !== 0 &&
                     item.imgList.map(imgItem => {
                       return (
-                        <div key={imgItem.img_id} className="contitem-img">
+                        <div key={imgItem.img_id} className={styles.contitemImg}>
                           <img
                             src={baseImgUrl + '/treecont/' + imgItem.imgfilename}
                             alt={imgItem.imgname}
@@ -140,7 +140,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
                               setPreviewImgName(imgItem.imgname);
                             }}
                           />
-                          <span className="img-name">{imgItem.imgname}</span>
+                          <span className={styles.imgName}>{imgItem.imgname}</span>
                         </div>
                       )
                     })
@@ -152,7 +152,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
         </>
       }
       {/* 锚点们 */}
-      <div className="mao">
+      <div className={styles.mao}>
         {loading ? <Loading /> :
           contList.map(item => {
             return (
@@ -163,8 +163,8 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
       </div>
       {/* 图片预览 */}
       <Modal
-        wrapClassName="previewImgBox-wrapper ScrollBar"
-        className="previewImgBox"
+        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
+        className={styles.previewImgBox}
         visible={previewImg !== ''}
         footer={null}
         centered

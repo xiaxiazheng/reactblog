@@ -1,17 +1,17 @@
-.operate-box {
+.operateBox {
   display: flex;
   padding: .3rem 2rem;
-  .add-log-button {
+  .addLogButton {
     margin-right: .8rem;
   }
-  .orderby-box {
+  .orderbyBox {
     color: rgba(255, 255, 255, 0.65);
     .ant-radio-button-wrapper {
       background: #001529;
       color: rgba(255, 255, 255, 0.65);
     }
   }
-  .check-box {
+  .checkBox {
     margin-left: .8rem;
     line-height: 32px;
     color: rgba(255, 255, 255, 0.65);
@@ -22,7 +22,7 @@
       background-color: #1890ff;
     }
   }
-  .search-box {
+  .searchBox {
     width: 13rem;
     margin-left: .3rem;
     .ant-input-prefix {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './LogList.scss';
+import styles from './LogList.module.scss';
 import { Input, Pagination, Icon, Radio, Checkbox, Button, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
@@ -121,20 +121,26 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   return (
     <>
-      <div className="operate-box">
+      <div className={styles.operateBox}>
         {/* 新建日志 */}
         {isLogin &&
-          <Button className="add-log-button" title="新建富文本日志" type="primary" icon="plus" onClick={addNewLog.bind(null, 'richtext')} />          
+          <Button
+            className={styles.addLogButton}
+            title="新建富文本日志"
+            type="primary"
+            icon="plus"
+            onClick={addNewLog.bind(null, 'richtext')}
+          />          
         }
         {/* 排序条件 */}
-        <Radio.Group className="orderby-box" value={orderBy} onChange={e => setOrderBy(e.target.value)}>
+        <Radio.Group className={styles.orderbyBox} value={orderBy} onChange={e => setOrderBy(e.target.value)}>
           <Radio.Button value="create">按创建</Radio.Button>
           <Radio.Button value="modify">按修改</Radio.Button>
         </Radio.Group>
         {/* 显示条件 */}
         {isLogin &&
           <Checkbox
-            className="check-box"
+            className={styles.checkBox}
             checked={showVisible}
             onChange={() => {setShowVidible(!showVisible); setPageNo(1);}}>
               可见
@@ -142,7 +148,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
         }
         {isLogin &&
           <Checkbox
-            className="check-box"
+            className={styles.checkBox}
             checked={showInvisible}
             onChange={() => {setShowInvisible(!showInvisible); setPageNo(1);}}>
               不可见
@@ -150,7 +156,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
         }
         {logclass === '所有日志' &&
           <Checkbox
-            className="check-box"
+            className={styles.checkBox}
             checked={showNotClassify}
             onChange={() => {setShowNotClassify(!showNotClassify); setPageNo(1);}}>
               未分类
@@ -158,7 +164,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
         }
         {/* 搜索框 */}
         <Input
-          className="search-box"
+          className={styles.searchBox}
           value={keyword}
           onChange={handleKeyword}
           onKeyDownCapture={handleSearch}
@@ -168,7 +174,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
         </Input>
         {/* 分页 */}
         <Pagination
-          className="pagination"
+          className={styles.pagination}
           pageSize={pageSize}
           current={pageNo}
           total={logListData.totalNumber}
@@ -183,12 +189,12 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
           pageSizeOptions={['5', '10', '15', '20']}/>
       </div>
       {/* 日志列表 */}
-      <ul className="log-list ScrollBar">
+      <ul className={`${styles.logList} ScrollBar`}>
         {loading ? <Loading fontSize={40} /> :
           logListData.logList.map((item: LogListType) => {
             return (
               <li
-                className={`${item.isStick === 'true' ? 'active-stick' : ''} log-list-item`}
+                className={`${item.isStick === 'true' ? styles.activeStick : ''} ${styles.logListItem}`}
                 key={item.log_id}
                 onClick={choiceOneLog.bind(null, item)}
               >

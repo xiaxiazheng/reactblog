@@ -1,10 +1,10 @@
 import React from 'react';
-import './TreeContMain.scss';
+import styles from './TreeContMain.module.scss';
 
 const TreeContMain: React.FC = () => {
 
   return (
-    <div className="treecontmain">
+    <div className={styles.treecontmain}>
       我是树的首页
     </div>
   );
