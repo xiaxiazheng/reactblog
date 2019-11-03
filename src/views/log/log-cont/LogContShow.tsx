@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { OneLogType } from '../LogType';
 import styles from './LogContShow.module.scss';
 import { getLogCont } from '../../../client/LogHelper';
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/loading/Loading'
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';

@@ -3,7 +3,7 @@ import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 import styles from './Router.module.scss';
 import themeScss from '../assets/scss/Theme.module.scss';
 import { PrivateRoute } from './PrivateRoute';
-import Header from './Header';
+import Header from '../components/header/Header';
 import { Icon } from 'antd';
 import { LogProvider } from '../views/log/LogContext';
 import { ThemeContext } from '../context/ThemeContext';
@@ -12,7 +12,7 @@ const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
 const Tree = lazy(() => import('../views/tree/Tree'));
 const LogCont = lazy(() => import('../views/log/log-cont/LogCont'));
-const Login = lazy(() => import('./Login'));
+const Login = lazy(() => import('../views/login/Login'));
 const Admin = lazy(() => import('../views/admin/Admin'));
 const Wall = lazy(() => import('../views/wall/Wall'));
 

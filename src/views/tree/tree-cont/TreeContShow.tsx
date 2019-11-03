@@ -6,7 +6,7 @@ import { History, Location } from 'history';
 import { getChildName } from '../../../client/TreeHelper';
 import { getNodeCont } from '../../../client/TreeContHelper';
 import { baseImgUrl } from '../../../env_config';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/loading/Loading';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';

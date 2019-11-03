@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Icon, message, Upload, Modal } from 'antd';
 import styles from './ImageBox.module.scss';
-import { baseUrl } from '../env_config';
-import { deleteImg } from '../client/ImgHelper';
+import { baseUrl } from '../../env_config';
+import { deleteImg } from '../../client/ImgHelper';
 
 interface PropsType {
   otherId?: string;  // 跟这个图片要插入的地方有关联的记录 id
@@ -77,7 +77,7 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
       {/* 没有图片的情况，展示添加 */}
       {imageUrl === '' &&
         <Upload
-          className={styles.imageboxUpload}
+          className={styles.Upload}
           name={type}
           showUploadList={false}
           action={`${baseUrl}/${type}_upload`}
@@ -92,13 +92,13 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
       }
       {/* 加载中。。。 */}
       {imageUrl !== '' && loading &&
-        <div className={styles.imageboxLoading}>
+        <div className={styles.Loading}>
           <Icon type="loading" />
         </div>
       }
       {/* 有图片的情况，展示图片 */}
       {imageUrl !== '' &&
-        <img className={styles.imageboxShower}
+        <img className={styles.Shower}
           onMouseEnter={(e) => { e.stopPropagation(); setIsHover(true);}}
           onLoad={() => setLoading(false)}
           src={imageUrl}
@@ -107,7 +107,7 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
       }
       {/* 有图片的情况，显示操作 */}
       {imageUrl !== '' && isHover &&
-        <div className={styles.imageboxIcons}>
+        <div className={styles.Icons}>
           <Icon className={styles.iconBoxIcon} title="复制图片链接" type="copy" onClick={copyImgUrl}/>
           <Icon className={styles.iconBoxIcon} title="预览图片" type="eye" onClick={() => setIsPreview(true)}/>
           <Icon className={styles.iconBoxIcon} title="删除图片" type="delete" onClick={deleteImage}/>

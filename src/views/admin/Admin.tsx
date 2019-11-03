@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
-import ImageBox from '../../components/ImageBox';
+import ImageBox from '../../components/image-box/ImageBox';
 import styles from './Admin.module.scss';
 
 interface ImgType {

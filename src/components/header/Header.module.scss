@@ -5,6 +5,20 @@
   height: 100%;
   border-bottom: 1px solid #eaecef;
   box-sizing: border-box;
+  :global(.ant-popover-inner-content) {
+    padding: 0;
+    background-color: unset;
+    border: 1px solid white;
+    border-radius: 4px;
+  }
+  :global(.ant-menu-horizontal) {
+    border-bottom: none;
+  }
+  :global(.ant-input-affix-wrapper .ant-input-prefix),
+  :global(.ant-input-affix-wrapper .ant-input-suffix),
+  :global(.ant-input-affix-wrapper) {
+    color: unset;
+  }
   .headerLeft {
     padding-left: 1rem;
     >a {
@@ -22,19 +36,16 @@
     .searchTree {
       width: 165px;
       margin-right: 1rem;
-      .ant-input-prefix, .ant-input-suffix>i {
-        color: unset;
-      }
       >input {
         background-color: unset;
-        // color: unset;
+        color: unset;
+      }
+      :global(.ant-input-prefix), :global(.ant-input-suffix)>i {
+        color: unset;
       }
     }
     .headerIcon {
       // color: rgba(255, 255, 255, 0.65);
-    }
-    .ant-menu-horizontal {
-      border-bottom: none;
     }
     >ul {
       display: inline-block;
@@ -49,12 +60,7 @@
     }
   }
 }
-.ant-popover-inner-content {
-  padding: 0;
-  background-color: unset;
-  border: 1px solid white;
-  border-radius: 4px;
-}
+
 .treeSearchList {
   max-height: 300px;
   overflow-y: auto;

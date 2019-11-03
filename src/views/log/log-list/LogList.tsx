@@ -8,7 +8,7 @@ import { IsLoginContext } from '../../../context/IsLoginContext';
 import { LogListType } from '../LogType';
 import LogListItem from './LogListItem';
 import { LogContext } from '../LogContext';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/loading/Loading';
 
 interface PropsType {
   history: History;

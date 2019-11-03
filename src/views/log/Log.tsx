@@ -7,7 +7,7 @@ import { History, Location } from 'history';
 import { IsLoginContext } from '../../context/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
 import LogList from './log-list/LogList';
-import Loading from '../../components/Loading';
+import Loading from '../../components/loading/Loading';
 
 interface PropsType {
   history: History;

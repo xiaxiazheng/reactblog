@@ -6,10 +6,10 @@
   border-radius: 4px;
   box-sizing: border-box;
   overflow: hidden;
-  .imageboxUpload {
+  .Upload {
     width: 100%;
     height: 100%;
-    .ant-upload.ant-upload-select-picture-card {
+    :global(.ant-upload.ant-upload-select-picture-card) {
       width: 100%;
       height: 100%;
       margin-right: 0;
@@ -20,7 +20,7 @@
       }
     }
   }
-  .imageboxLoading {
+  .Loading {
     position: absolute;
     top: 0;
     left: 0;
@@ -32,11 +32,11 @@
     font-size: 2rem;
     background-color: rgba(255, 255, 255, 0.65);
   }
-  .imageboxShower {
+  .Shower {
     width: 100%;
     height: 100%;
   }
-  .imageboxIcons {
+  .Icons {
     position: absolute;
     top: 0;
     left: 0;

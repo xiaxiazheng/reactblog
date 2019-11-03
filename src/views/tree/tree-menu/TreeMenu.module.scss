@@ -7,6 +7,25 @@
     height: 40px;
     margin: 4px 0.7rem;
   }
+  :global(.ant-input) {
+    letter-spacing: 1px;
+    font-size: 15px;
+    border: none;
+    box-shadow: none;
+    background: #001529;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  :global(.ant-input-prefix) {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  
+  :global(.ant-input-suffix) {
+    right: 6px;
+    >i {
+      color: rgba(255, 255, 255, 0.65);
+    }
+  }
 }
 
 .treeMenu {

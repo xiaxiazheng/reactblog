@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './TreeMenu.module.scss';
-import './TreeMenu.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../../context/IsLoginContext';
@@ -8,7 +7,7 @@ import { getTree, addTreeNode } from '../../../client/TreeHelper';
 import { Menu, Icon, message, Input } from 'antd';
 import TreeMenuItem from './TreeMenuItem';
 import { ShuttleBox, ShuttleMsgType } from './ShuttleBox';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/loading/Loading';
 
 interface PropsType {
   history: History;
