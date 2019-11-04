@@ -6,7 +6,7 @@
   }
   .orderbyBox {
     color: rgba(255, 255, 255, 0.65);
-    .ant-radio-button-wrapper {
+    :global(.ant-radio-button-wrapper) {
       background: #001529;
       color: rgba(255, 255, 255, 0.65);
     }
@@ -15,25 +15,23 @@
     margin-left: .8rem;
     line-height: 32px;
     color: rgba(255, 255, 255, 0.65);
-    .ant-checkbox-inner {
+    :global(.ant-checkbox-inner) {
       background: transparent;
     }
-    .ant-checkbox-checked .ant-checkbox-inner {
+    :global(.ant-checkbox-checked .ant-checkbox-inner) {
       background-color: #1890ff;
     }
   }
   .searchBox {
     width: 13rem;
     margin-left: .3rem;
-    .ant-input-prefix {
+    :global(.ant-input-prefix) {
       color: rgba(255, 255, 255, 0.65);
     }
-    .ant-input-suffix {
-      .ant-input-clear-icon {
-        color: rgba(255, 255, 255, 0.65);
-      }
+    :global(.ant-input-suffix .ant-input-clear-icon) {
+      color: rgba(255, 255, 255, 0.65);
     }
-    .ant-input {
+    :global(.ant-input) {
       background: #001529;
       color: rgba(255, 255, 255, 0.65);
     }
@@ -47,35 +45,54 @@
         color: rgba(255, 255, 255, 0.65);
         background: #001529;
       }
-      .ant-select {
+      :global(.ant-select) {
         color: rgba(255, 255, 255, 0.65);
-        .ant-select-selection {
+        :global(.ant-select-selection) {
           background: #001529;
           >span {
             color: rgba(255, 255, 255, 0.65);
           }
         }
       }
-      .ant-select-dropdown {
+      :global(.ant-select-dropdown) {
         color: rgba(255, 255, 255, 0.65);
         background: #001529;
-        .ant-select-dropdown-menu-item {
+        :global(.ant-select-dropdown-menu-item) {
           color: rgba(255, 255, 255, 0.65);
           &:hover {
             background: rgba(255,255,255,0.1);
           }
         }
-        .ant-select-dropdown-menu-item-selected {
+        :global(.ant-select-dropdown-menu-item-selected) {
           background: rgba(255,255,255,0.1);
         }
       }
     }
-    .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
-    .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+    :global(.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis),
+    :global(.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis) {
       color: rgba(255, 255, 255, 0.65);
     }
-    .ant-pagination-options-size-changer.ant-select {
+    :global(.ant-pagination-options-size-changer.ant-select) {
       margin-right: 0;
+    }
+  }
+}
+
+.logList {
+  .logListItem {
+    display: flex;
+    margin: .3rem 2rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(204, 204, 204, 0.6);
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    &.activeStick {
+      background-color: rgba(255,255,255,0.1);
+    }
+    &:hover {
+      color: #409eff;
+      border-color: #409eff;
     }
   }
 }
