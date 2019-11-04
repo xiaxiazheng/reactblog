@@ -55,6 +55,12 @@
     background: #000c17;
   }
 
+  .hiddenFirstLevel {
+    >:global(.ant-menu-submenu-title) {
+      display: none;
+    }
+  }
+
   .addRootTreenode {
     &:hover {
       color: #1890ff;
