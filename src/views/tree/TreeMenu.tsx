@@ -34,8 +34,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     if (res) {
       setOriginTreeList(res);
       setTreeList(res);
-      console.log(match.params)
-      if (JSON.stringify(match.params) === '{}' && openKeys.length === 0) {
+      if (JSON.stringify(match.params) === '{}') {
         setOpenKeys([res[0].id])
       }
     }
