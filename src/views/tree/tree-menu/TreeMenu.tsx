@@ -275,7 +275,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           treeList.map((item: any, index: number) => {
             return (
               <SubMenu
-                className={styles.hiddenFirstLevel}
+                className={appUser === 'hyp' ? styles.hiddenFirstLevel : ''}
                 key={item.id}
                 onTitleClick={() => clickTreeNode('level1', item.id)}
                 title={

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import './Log.scss';
 import styles from './Log.module.scss';
 import { Tabs, Icon, Modal, Input, message } from 'antd';
 import { withRouter, match } from 'react-router';

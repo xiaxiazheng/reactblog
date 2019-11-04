@@ -163,7 +163,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
       </div>
       {/* 图片预览 */}
       <Modal
-        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
+        wrapClassName={`previewImgBoxWrapper ScrollBar`}
         className={styles.previewImgBox}
         visible={previewImg !== ''}
         footer={null}

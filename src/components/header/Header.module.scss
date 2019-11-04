@@ -40,7 +40,7 @@
         background-color: unset;
         color: unset;
       }
-      :global(.ant-input-prefix), :global(.ant-input-suffix)>i {
+      :global(.ant-input-prefix), :global(.ant-input-suffix>i) {
         color: unset;
       }
     }

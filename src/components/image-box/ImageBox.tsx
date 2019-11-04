@@ -115,7 +115,7 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
       }
       {/* 图片预览 */}
       <Modal
-        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
+        wrapClassName={`previewImgBoxWrapper ScrollBar`}
         className={styles.previewImgBox}
         visible={isPreview}
         footer={null}

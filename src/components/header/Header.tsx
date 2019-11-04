@@ -82,7 +82,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
       return (
         <>
           {jsx}
-          <span className="active">{list[index - 1]}</span>
+          <span className={styles.active}>{list[index - 1]}</span>
           {item}
         </>
       )
