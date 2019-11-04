@@ -1,0 +1,36 @@
+.logcontShow {
+  width: calc(80% - 190px);
+  margin: 1rem auto;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.65);
+  h1, h2, h3, h4, h5, h6 {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .title {
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+  .author {
+    color: rgba(255, 255, 255, 0.65);
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .time {
+    margin-bottom: 10px;
+    color: #ccc;
+    font-size: 12px;
+    >span {
+      margin: 0 3px;
+    }
+  }
+  .ql-container {
+    width: 100%;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+    img {
+      max-width: 100%;
+    }
+  }
+}

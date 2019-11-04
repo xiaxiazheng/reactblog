@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
-import Router from './components/Router';
+import './assets/scss/Global.scss';
+import Router from './router/Router';
 import { IsLoginProvider } from './context/IsLoginContext';
 import { ThemeProvider } from './context/ThemeContext';
 

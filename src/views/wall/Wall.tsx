@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './Wall.scss';
+import styles from './Wall.module.scss';
 import { IsLoginContext } from '../../context/IsLoginContext';
 import WallShower from './WallShower';
 import WallControl from './WallControl';
@@ -8,7 +8,7 @@ const Wall: React.FC = () => {
   const { isLogin } = useContext(IsLoginContext);
 
   return (
-    <div className="Wall">
+    <div className={styles.Wall}>
       {!isLogin &&
         <WallShower />
       }

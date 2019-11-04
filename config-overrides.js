@@ -14,12 +14,9 @@ module.exports = {
       'quill': 'Quill',
     };
 
-    // override(addWebpackPlugin(
-    //   new webpack.ProvidePlugin({
-    //     'window.Quill': 'quill/dist/quill.js',
-    //     'Quill': 'quill/dist/quill.js'
-    //   })
-    // ))(config, env)
+    override(addWebpackPlugin(
+      new webpack.DefinePlugin(BundleAnalyzerPlugin)
+    ))(config, env)
 
     // override(addWebpackPlugin(
     //   new webpack.DefinePlugin({

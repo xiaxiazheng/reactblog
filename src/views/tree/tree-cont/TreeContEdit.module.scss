@@ -1,0 +1,79 @@
+.treecontedit {
+  display: inline-block;
+  width: 80%;
+  margin: 0 auto 2rem;;
+  font-size: 14px;
+  letter-spacing: 1px;
+  .treecontTitle {
+    padding-right: 260px;
+    margin: 1rem 0;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .contitem {
+    display: flex;
+    margin-bottom: 1rem;
+    .contitemEdit {
+      flex: 1;
+      .contitemInput {
+        background: #001529;
+        color: rgba(255, 255, 255, 0.65);
+      }
+      .contitemTextarea {
+        margin-top: .5rem;
+        resize: none;
+        letter-spacing: 1px;
+        background: #001529;
+        color: rgba(255, 255, 255, 0.65);
+      }
+    }
+    .contitemImg {
+      width: 260px;
+      text-align: left;
+      .imgbox {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 170px;
+        height: 170px;
+      }
+    }
+    .contitemIcons {
+      display: flex;
+      justify-content: space-between;
+      .contitemIconsBox {
+        font-size: 1rem;
+        text-align: left;
+        .contnodeIcon {
+          margin-right: .3rem;
+          &:hover {
+            color: #1890ff;
+            cursor: pointer;
+          }
+        }
+      }
+      .contitemTime {
+        text-align: right;
+        font-size: .7rem;
+        color: #ccc;
+        >span {
+          margin-left: .7rem;
+        }
+      }
+    }
+  }
+}
+.treecontAddbuttonFront {
+  position: fixed;
+  right: 2.5rem;
+  top: 7rem;
+}
+.treecontAddbuttonBehind {
+  position: fixed;
+  right: 2.5rem;
+  top: 10rem;
+}
+.treecontSavebutton {
+  position: fixed;
+  right: 2.5rem;
+  top: 13rem;
+}

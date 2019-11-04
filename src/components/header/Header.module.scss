@@ -1,0 +1,94 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #eaecef;
+  box-sizing: border-box;
+  :global(.ant-popover-inner-content) {
+    padding: 0;
+    background-color: unset;
+    border: 1px solid white;
+    border-radius: 4px;
+  }
+  :global(.ant-menu-horizontal) {
+    border-bottom: none;
+  }
+  :global(.ant-input-affix-wrapper .ant-input-prefix),
+  :global(.ant-input-affix-wrapper .ant-input-suffix),
+  :global(.ant-input-affix-wrapper) {
+    color: unset;
+  }
+  .headerLeft {
+    padding-left: 1rem;
+    >a {
+      line-height: 3rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: unset;
+      cursor: pointer;
+      &:hover {
+        color: #1890ff;
+      }
+    }
+  }
+  .headerRight {
+    .searchTree {
+      width: 165px;
+      margin-right: 1rem;
+      >input {
+        background-color: unset;
+        color: unset;
+      }
+      :global(.ant-input-prefix), :global(.ant-input-suffix)>i {
+        color: unset;
+      }
+    }
+    .headerIcon {
+      // color: rgba(255, 255, 255, 0.65);
+    }
+    >ul {
+      display: inline-block;
+      background-color: transparent;
+      li {
+        // color: rgba(255, 255, 255, 0.65);
+      }
+    }
+    a {
+      display: inline-block;
+      color: unset;
+    }
+  }
+}
+
+.treeSearchList {
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 1rem;
+  >div {
+    border: 1px solid white;
+    border-radius: 5px;
+    margin: .5rem;
+    padding: .5rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    &:hover {
+      background: unset;
+    }
+    >span {
+      display: block;
+      .active {
+        background: yellow;
+      }
+      &:first-child {
+        font-size: .85rem;
+      }
+      &:last-child {
+        font-size: .7rem;
+      }
+    }
+  }
+}
+.noResult {
+  padding: .5rem;
+}

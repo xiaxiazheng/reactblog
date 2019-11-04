@@ -1,0 +1,32 @@
+$TreeMenuWidth: 21rem;
+
+.Tree {
+  height: 100%;
+  background-color: #001529;
+  .treeLeft {
+    display: inline-block;
+    height: 100%;
+    width: $TreeMenuWidth;
+    text-align: left;
+    background: #001529;
+    border-right: 1px solid #ccc;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    vertical-align: top;
+  }
+  .treeRight {
+    display: inline-block;
+    height: 100%;
+    width: calc(100% - #{$TreeMenuWidth});
+    vertical-align: top;
+    .treeEditSwitch {
+      position: fixed;
+      top: 4rem;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.65);
+      &.ant-switch-checked {
+        background-color: #1890ff;
+      }
+    }
+  }
+}

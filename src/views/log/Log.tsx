@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import './Log.scss';
+import styles from './Log.module.scss';
 import { Tabs, Icon, Modal, Input, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '../../context/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
-import LogList from './LogList';
+import LogList from './log-list/LogList';
+import Loading from '../../components/loading/Loading';
 
 interface PropsType {
   history: History;
@@ -15,6 +17,8 @@ interface PropsType {
 
 const Log: React.FC<PropsType> = ({ history, match }) => {
   const { isLogin } = useContext(IsLoginContext);  // 通过 context 获取是否登录
+
+  const [loading, setLoading] = useState(true);
 
   const { TabPane } = Tabs;
 
@@ -32,6 +36,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
 
   // 获取所有分类
   const getAllLogClass = async () => {
+    setLoading(true);
     const res = await (isLogin ? getLogAllClass() : getHomeLogAllClass());
     if (res) {
       let list: string[] = [
@@ -39,6 +44,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
         ...res
       ];
       setClassList(list);
+      setLoading(false);
     } else {
       message.error("获取所有日志失败");
     }
@@ -68,35 +74,36 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
   };
 
   return (
-    <div className="Log">
-      {/* 日志分类 */}
-      <Tabs className='log-tab' onChange={choiceClass} activeKey={logClass}>
-        {
-          classList.map((item) => {
-            return (
-              <TabPane
-                className="log-tab-pane"
-                tab={
-                  <span>
-                    {item === '所有日志' && <Icon type="home" />}
-                    {item}
-                    {isLogin && (item === logClass) && logClass !== '所有日志' &&
-                      <Icon className="edit-icon" type="edit" onClick={() => { setShowModal(true); setNewName(logClass); }} />
-                    }
-                  </span>
-                }
-                key={item}
-              >
-                {/* 日志列表 */}
-                <LogList logclass={item} getAllLogClass={getAllLogClass}></LogList>
-              </TabPane>
-            )
-          })
-        }
-      </Tabs>
+    <div className={styles.Log}>
+      {loading ? <div className={styles.logTab}><Loading /></div> :
+        <Tabs className={styles.logTab} onChange={choiceClass} activeKey={logClass}>
+          {
+            classList.map((item) => {
+              return (
+                <TabPane
+                  className={styles.logTabPane}
+                  tab={
+                    <span>
+                      {item === '所有日志' && <Icon type="home" />}
+                      {item}
+                      {isLogin && (item === logClass) && logClass !== '所有日志' &&
+                        <Icon className={styles.editIcon} type="edit" onClick={() => { setShowModal(true); setNewName(logClass); }} />
+                      }
+                    </span>
+                  }
+                  key={item}
+                >
+                  {/* 日志列表 */}
+                  <LogList logclass={item} getAllLogClass={getAllLogClass}></LogList>
+                </TabPane>
+              )
+            })
+          }
+        </Tabs>
+      }
       {/* 修改日志名称的弹框 */}
       <Modal
-        title={"修改当前日志分类名称：" + logClass}
+        title={`修改当前日志分类名称：${logClass}`}
         visible={showModal}
         centered
         onOk={editLogClassName}

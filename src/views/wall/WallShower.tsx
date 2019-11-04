@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './WallShower.scss';
+import styles from './WallShower.module.scss';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
 import { Modal } from 'antd';
@@ -37,9 +37,9 @@ const WallShower: React.FC = () => {
   };
 
   return (
-    <div className="wall-shower">
+    <div className={styles.wallShower}>
       {/* 展示 */}
-      <div className="img-wrapper">
+      <div className={styles.imgWrapper}>
         {wallList.map((item: ImgType) => {
           return (
             <img
@@ -56,8 +56,8 @@ const WallShower: React.FC = () => {
       </div>
       {/* 图片预览 */}
       <Modal
-        wrapClassName="previewImgBox-wrapper ScrollBar"
-        className="previewImgBox"
+        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
+        className={styles.previewImgBox}
         visible={previewImg !== ''}
         footer={null}
         centered
