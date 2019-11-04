@@ -8,6 +8,7 @@ import { Menu, Icon, message, Input } from 'antd';
 import TreeMenuItem from './TreeMenuItem';
 import { ShuttleBox, ShuttleMsgType } from './ShuttleBox';
 import Loading from '../../../components/loading/Loading';
+import { appUser } from '../../../env_config';
 
 interface PropsType {
   history: History;
@@ -260,7 +261,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         selectedKeys={selectedKeys}
       >
         {/** 在上方添加一级节点 */
-          isLogin && 
+          isLogin && appUser !== 'hyp' &&
           <Menu.Item>
             <Icon
               className={styles.addRootTreenode}
@@ -274,6 +275,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           treeList.map((item: any, index: number) => {
             return (
               <SubMenu
+                className={styles.hiddenFirstLevel}
                 key={item.id}
                 onTitleClick={() => clickTreeNode('level1', item.id)}
                 title={
@@ -442,7 +444,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
           })
         }
         {/** 在下方添加一级节点 */
-          isLogin && 
+          isLogin && appUser !== 'hyp' &&
           <Menu.Item>
             <Icon
               className={styles.addRootTreenode}

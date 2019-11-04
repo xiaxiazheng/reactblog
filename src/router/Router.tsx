@@ -7,6 +7,7 @@ import Header from '../components/header/Header';
 import { Icon } from 'antd';
 import { LogProvider } from '../views/log/LogContext';
 import { ThemeContext } from '../context/ThemeContext';
+import { appUser } from '../env_config';
 
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
@@ -35,7 +36,7 @@ const Router: React.FC = () => {
     'dark': themeScss.dark_theme
   };
 
-  const Router: any = process.env.REACT_APP_User === 'hyp' ? HashRouter : BrowserRouter;
+  const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
 
   return (
     <div className={`${styles.routerWrapper} ${themeClass[theme]}`}>
