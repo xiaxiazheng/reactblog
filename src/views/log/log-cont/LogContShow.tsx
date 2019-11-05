@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { OneLogType } from '../LogType';
 import styles from './LogContShow.module.scss';
 import { getLogCont } from '../../../client/LogHelper';
 import Loading from '../../../components/loading/Loading'
+import { ThemeContext } from '../../../context/ThemeContext';
+import classnames from 'classnames';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -15,6 +17,8 @@ interface PropsType {
 };
 
 const LogContShow: React.FC<PropsType> = ({ log_id }) => {
+  const { theme } = useContext(ThemeContext);
+
   const [loading, setLoading] = useState(true);
 
   // 编辑器配置
@@ -42,8 +46,13 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
     getData();
   }, []);
 
+  const className = classnames({
+    [styles.logcontShow]: true,
+    [styles.lightLogcontShow]: theme === 'light'
+  })
+
   return (
-    <div className={styles.logcontShow}>
+    <div className={className}>
       {loading ? <Loading fontSize={60} /> :
         logdata && 
         <>

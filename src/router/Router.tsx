@@ -4,10 +4,11 @@ import styles from './Router.module.scss';
 import themeScss from '../assets/scss/Theme.module.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from '../components/header/Header';
-import { Icon } from 'antd';
 import { LogProvider } from '../views/log/LogContext';
 import { ThemeContext } from '../context/ThemeContext';
 import { appUser } from '../env_config';
+import Loading from '../components/loading/Loading';
+import classnames from 'classnames';
 
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
@@ -18,28 +19,29 @@ const Admin = lazy(() => import('../views/admin/Admin'));
 const Wall = lazy(() => import('../views/wall/Wall'));
 
 const Router: React.FC = () => {
-
-  const { theme } : { theme: 'dark' | 'light' } = useContext(ThemeContext);
+  const { theme } = useContext<{ theme: 'dark' | 'light' }>(ThemeContext);
 
   // loading 界面
   const fallback = () =>{
     return (
-      <div className={styles.routeLoading}>
-        <Icon type="loading" />
-        Loading...
-      </div>
+      <Loading fontSize={80} />
     );
   };
+
+  const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
 
   const themeClass = {
     'light': themeScss.light_theme,
     'dark': themeScss.dark_theme
   };
 
-  const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
+  const className = classnames({
+    [styles.routerWrapper]: true,
+    [themeClass[theme]]: true,
+  });
 
   return (
-    <div className={`${styles.routerWrapper} ${themeClass[theme]}`}>
+    <div className={className}>
       <Router>
         <div className={styles.RouterHead}>
           <Header></Header>

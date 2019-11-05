@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import classnames from 'classnames';
 import { Icon, message, Upload, Modal } from 'antd';
 import styles from './ImageBox.module.scss';
 import { baseUrl } from '../../env_config';
 import { deleteImg } from '../../client/ImgHelper';
+import { ThemeContext } from '../../context/ThemeContext';
+import Loading from '../loading/Loading';
 
 interface PropsType {
   otherId?: string;  // 跟这个图片要插入的地方有关联的记录 id
@@ -16,6 +19,8 @@ interface PropsType {
 };
 
 const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片", imageFileName, imageUrl, otherId, initImgList, width='170px' }) => {
+  const { theme } = useContext(ThemeContext);
+
   const { confirm } = Modal;
 
   const [loading, setLoading] = useState(true);
@@ -72,8 +77,22 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
     document.body.removeChild(input);
   };
 
+  const className = classnames({
+    [styles.Imagebox]: true,
+    [styles.lightImagebox]: theme === 'light'
+  })
+
   return (
-    <div className={styles.Imagebox} style={{width: `${width}`, height: `${width}`}}  onMouseLeave={(e) => { e.stopPropagation(); setIsHover(false);}}>
+    <div
+      className={className}
+      style={{
+        width: `${width}`,
+        height: `${width}`
+      }}
+      onMouseLeave={(e) => {
+        e.stopPropagation();
+        setIsHover(false);
+      }}>
       {/* 没有图片的情况，展示添加 */}
       {imageUrl === '' &&
         <Upload
@@ -91,11 +110,7 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
         </Upload>
       }
       {/* 加载中。。。 */}
-      {imageUrl !== '' && loading &&
-        <div className={styles.Loading}>
-          <Icon type="loading" />
-        </div>
-      }
+      {imageUrl !== '' && loading && <Loading />}
       {/* 有图片的情况，展示图片 */}
       {imageUrl !== '' &&
         <img className={styles.Shower}

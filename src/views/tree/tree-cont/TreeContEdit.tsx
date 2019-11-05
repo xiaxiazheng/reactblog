@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './TreeContEdit.module.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
@@ -7,6 +7,8 @@ import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCon
 import { baseImgUrl } from '../../../env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
 import ImageBox from '../../../components/image-box/ImageBox';
+import classnames from 'classnames';
+import { ThemeContext } from '../../../context/ThemeContext'
 
 interface PropsType {
   history: History;
@@ -37,6 +39,8 @@ interface TreeContType {
 }
 
 const TreeContEdit: React.FC<PropsType> = ({ match }) => {
+  const { theme } = useContext(ThemeContext);
+
   const { TextArea } = Input;
 
   const [contList, setContList] = useState<TreeContType[]>([]);
@@ -108,7 +112,6 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
       id: match.params.third_id,
       list: contList
     };
-    console.log(contList);
     const res: any = await modifyNodeCont(params);
     if (res) {
       message.success('修改成功');
@@ -206,6 +209,11 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
       </div>
     );
   };
+
+  const className = classnames({
+    [styles.treecontedit]: true,
+    [styles.lightTreecontedit]: theme === 'light'
+  })
 
   return (
     <>

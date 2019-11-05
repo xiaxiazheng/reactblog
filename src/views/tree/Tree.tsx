@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './Tree.module.scss';
 import { IsLoginContext } from '../../context/IsLoginContext';
 import { withRouter, match } from 'react-router';
@@ -8,6 +8,8 @@ import TreeContMain from './tree-cont/TreeContMain';
 import TreeContShow from './tree-cont/TreeContShow';
 import TreeContEdit from './tree-cont/TreeContEdit';
 import { Switch } from 'antd';
+import { ThemeContext } from '../../context/ThemeContext';
+import classnames from 'classnames';
 
 interface PropsType {
   history: History;
@@ -16,6 +18,7 @@ interface PropsType {
 };
 
 const Tree: React.FC<PropsType> = ({ match }) => {
+  const { theme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -25,8 +28,13 @@ const Tree: React.FC<PropsType> = ({ match }) => {
     setIsMain(JSON.stringify(match.params) === "{}");
   }, [match.params]);
 
+  const classname = classnames({
+    [styles.Tree]: true,
+    [styles.lightTree]: theme === 'light'
+  });
+
   return (
-    <div className={styles.Tree}>
+    <div className={classname}>
       {/* 左边的树 */}
       <div className={styles.treeLeft}>
         <TreeMenu />

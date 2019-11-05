@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
+import classnames from 'classnames';
 import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon, Input, Popover, Spin, Switch } from 'antd';
@@ -95,8 +96,13 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
     setShowSearch(false);
   }
 
+  const className = classnames({
+    [styles.Header]: true,
+    [styles.lightHeader]: theme === 'light'
+  });
+
   return (
-    <div className={styles.Header}>
+    <div className={className}>
       <span className={styles.headerLeft} onClick={() => setCurrent(isLogin ? 'admin' : 'home')}>
         <Link to={isLogin ? '/admin' : '/'}>{navTitle}</Link>
       </span>

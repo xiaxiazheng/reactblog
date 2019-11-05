@@ -3,6 +3,8 @@ import styles from './TreeMenuItem.module.scss';
 import { modifyTreeNode, deleteTreeNode, changeSort } from '../../../client/TreeHelper';
 import { Icon, message, Modal } from 'antd';
 import { IsLoginContext } from '../../../context/IsLoginContext';
+import { ThemeContext } from '../../../context/ThemeContext';
+import classnames from 'classnames';
 
 interface TreeMenuItemType {
   grandFatherChildren?: {id: string; label: string}[];  // 父节点及其所有兄弟节点
@@ -27,6 +29,8 @@ interface TreeMenuItemType {
 
 // 单个树节点
 const TreeMenuItem = (props: TreeMenuItemType) => {
+  const { theme } = useContext(ThemeContext);
+
   const {
     grandFatherChildren,
     fatherId,
@@ -150,8 +154,13 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
   // 记录展开节点操作框的项的 id
   const [editting_id, setEditting_id] = useState<string>('');
 
+  const className = classnames({
+    [styles.treeMenuItem]: true,
+    [styles.lightTreeMenuItem]: theme === 'light'
+  })
+
   return (
-    <span className={styles.treeMenuItem}
+    <span className={className}
       onMouseLeave={(e) => {
         e.stopPropagation();
         editting_id === id && setEditting_id('');

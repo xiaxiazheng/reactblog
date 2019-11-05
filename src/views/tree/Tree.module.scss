@@ -1,15 +1,17 @@
+@import '../../assets/scss/Theme.module.scss';
+
 $TreeMenuWidth: 21rem;
 
 .Tree {
   height: 100%;
-  background-color: #001529;
+  background-color: $dark_bgColor;
   .treeLeft {
     display: inline-block;
     height: 100%;
     width: $TreeMenuWidth;
     text-align: left;
-    background: #001529;
-    border-right: 1px solid #ccc;
+    background-color: $dark_bgColor;
+    border-right: 1px solid $dark_borderColor;
     box-sizing: border-box;
     letter-spacing: 1px;
     vertical-align: top;
@@ -23,9 +25,25 @@ $TreeMenuWidth: 21rem;
       position: fixed;
       top: 4rem;
       right: 2rem;
-      background: rgba(255, 255, 255, 0.65);
-      &.ant-switch-checked {
-        background-color: #1890ff;
+      background-color: $dark_bgColor;
+      &:global(.ant-switch-checked) {
+        background-color: $dark_color_active;
+      }
+    }
+  }
+}
+
+.lightTree {
+  background-color: $light_bgColor;
+  .treeLeft {
+    background-color: $light_bgColor;
+    border-right-color: $light_borderColor;
+  }
+  .treeRight {
+    .treeEditSwitch {
+      background-color: $light_bgColor;
+      &:global(.ant-switch-checked) {
+        background-color: $light_color_active;
       }
     }
   }

@@ -7,6 +7,8 @@ import { IsLoginContext } from '../../context/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
 import LogList from './log-list/LogList';
 import Loading from '../../components/loading/Loading';
+import { ThemeContext } from '../../context/ThemeContext';
+import classnames from 'classnames';
 
 interface PropsType {
   history: History;
@@ -15,6 +17,7 @@ interface PropsType {
 };
 
 const Log: React.FC<PropsType> = ({ history, match }) => {
+  const { theme } = useContext(ThemeContext);  // 通过 context 获取当前主题
   const { isLogin } = useContext(IsLoginContext);  // 通过 context 获取是否登录
 
   const [loading, setLoading] = useState(true);
@@ -72,8 +75,13 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
     }
   };
 
+  const className = classnames({
+    [styles.Log]: true,
+    [styles.lightLog]: theme === 'light'
+  })
+
   return (
-    <div className={styles.Log}>
+    <div className={className}>
       {loading ? <div className={styles.logTab}><Loading /></div> :
         <Tabs className={styles.logTab} onChange={choiceClass} activeKey={logClass}>
           {

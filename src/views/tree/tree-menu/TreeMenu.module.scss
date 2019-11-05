@@ -1,7 +1,9 @@
+@import '../../../assets/scss/Theme.module.scss';
+
 .treeFilter {
-  background: #001529;
+  background: $dark_bgColor;
   box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $dark_borderColor;
   .treeFilterInput {
     width: calc(100% - 1.4rem);
     height: 40px;
@@ -12,18 +14,37 @@
     font-size: 15px;
     border: none;
     box-shadow: none;
-    background: #001529;
-    color: rgba(255, 255, 255, 0.65);
+    background: $dark_bgColor;
+    color: $dark_color;
   }
 
   :global(.ant-input-prefix) {
-    color: rgba(255, 255, 255, 0.65);
+    color: $dark_color;
   }
   
   :global(.ant-input-suffix) {
     right: 6px;
     >i {
-      color: rgba(255, 255, 255, 0.65);
+      color: $dark_color;
+    }
+  }
+}
+
+.lightTreeFilter {
+  background: $light_bgColor;
+  border-bottom: 1px solid $light_borderColor;
+  :global(.ant-input) {
+    background-color: $light_bgColor;
+    color: $light_color;
+  }
+
+  :global(.ant-input-prefix) {
+    color: $light_color;
+  }
+  
+  :global(.ant-input-suffix) {
+    >i {
+      color: $light_color;
     }
   }
 }
@@ -63,7 +84,15 @@
 
   .addRootTreenode {
     &:hover {
-      color: #1890ff;
+      color: $dark_color_active;
+    }
+  }
+}
+
+.lightTreeMenu {
+  .addRootTreenode {
+    &:hover {
+      color: $light_color_active;
     }
   }
 }

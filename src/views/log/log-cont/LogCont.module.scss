@@ -1,7 +1,9 @@
+@import '../../../assets/scss/Theme.module.scss';
+
 .LogCont {
   height: 100%;
   overflow: auto;
-  background: #001529;
+  background-color: $dark_bgColor;
   .backButton {
     position: fixed;
     left: 2rem;
@@ -12,9 +14,19 @@
     position: fixed;
     top: 4rem;
     right: 2rem;
-    background: rgba(255, 255, 255, 0.65);
+    background: $dark_bgColor;
     &.ant-switch-checked {
-      background-color: #1890ff;
+      background-color: $dark_color_active;
+    }
+  }
+}
+
+.lightLogCont {
+  background-color: $light_bgColor;
+  .logEditSwitch {
+    background: $light_bgColor;
+    &.ant-switch-checked {
+      background-color: $light_color_active;
     }
   }
 }

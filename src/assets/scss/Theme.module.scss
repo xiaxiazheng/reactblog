@@ -1,11 +1,35 @@
-.light_theme {
-  color: black;
-  background-color: white;
-  border-color: black;
-}
+// 默认主题：暗色
+$dark_color: rgba(255, 255, 255, 0.65);
+$dark_color_active: #1890ff;
+$dark_color_hover: red;
+
+$dark_bgColor: #001529;
+$dark_bgColor_blur: rgb(51, 61, 69);
+
+$dark_borderColor: white;
+
+$dark_keyword_highlight: yellow;
 
 .dark_theme {
-  color: rgba(255, 255, 255, 0.65);
-  background-color: #001529;
-  border-color: white;
+  color: $dark_color;
+  background-color: $dark_bgColor;
+  border-color: $dark_borderColor;
+}
+
+// 亮色
+$light_color: #001529;
+$light_color_active: #1890ff;
+$light_color_hover: red;
+
+$light_bgColor: rgba(255, 255, 255, 0.65);
+$light_bgColor_blur: rgb(51, 61, 69);
+
+$light_borderColor: #001529;
+
+$light_keyword_highlight: yellow;
+
+.light_theme {
+  color: $light_color;
+  background-color: $light_bgColor;
+  border-color: $light_borderColor;
 }

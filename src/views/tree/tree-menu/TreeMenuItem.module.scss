@@ -1,3 +1,5 @@
+@import '../../../assets/scss/Theme.module.scss';
+
 .treeMenuItem {
   display: flex;
   width: 100%;
@@ -8,8 +10,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     .activeKeyword {
-      color: black;
-      background: yellow;
+      color: $dark_color;
+      background: $dark_keyword_highlight;
     }
   }
   .allIconBox {
@@ -19,7 +21,7 @@
       line-height: 44px;
       margin-left: 10px;
       &.editting {
-        color: #1890ff;
+        color: $dark_color_active;
       }
     }
     .iconsBox {
@@ -28,11 +30,35 @@
       top: 1px;
       height: 38px;
       padding-left: 10px;
-      background-color: rgb(51, 61, 69);
+      background-color: $dark_bgColor_blur;
       border-radius: 4px;
       .treenodeIcon {
         &:hover {
-          color: #1890ff;
+          color: $dark_color_active;
+        }
+      }
+    }
+  }
+}
+
+.lightTreeMenuItem {
+  .titleName {
+    .activeKeyword {
+      color: $light_color;
+      background: $light_keyword_highlight;
+    }
+  }
+  .allIconBox {
+    .moreOperateIcon {
+      &.editting {
+        color: $light_color_active;
+      }
+    }
+    .iconsBox {
+      background-color: $light_bgColor_blur;
+      .treenodeIcon {
+        &:hover {
+          color: $light_color_active;
         }
       }
     }

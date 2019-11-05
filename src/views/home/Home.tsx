@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './Home.module.scss';
 import { Carousel } from 'antd';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
+import { ThemeContext } from '../../context/ThemeContext';
+import classnames from 'classnames';
 
 interface ImgType {
   cTime: string;
@@ -15,6 +17,8 @@ interface ImgType {
 };
 
 const Home: React.FC = () => {
+  const { theme } = useContext(ThemeContext);
+
   const [homeData, setHomeData] = useState({ imgList: [] });
 
   useEffect(() => {
@@ -34,8 +38,13 @@ const Home: React.FC = () => {
     getData();
   }, []);
 
+  const className = classnames({
+    [styles.Home]: true,
+    [styles.lightHome]: theme === 'light'
+  })
+
   return (
-    <div className={styles.Home}>
+    <div className={className}>
       <Carousel className="carousel" autoplay>
         {homeData.imgList.map((item: ImgType) => {
           return (

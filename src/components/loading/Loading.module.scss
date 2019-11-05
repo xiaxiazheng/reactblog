@@ -1,5 +1,11 @@
+@import '../../assets/scss/Theme.module.scss';
+
 .loading {
   margin: 10px 0;
   text-align: center;
-  color: white;
+  color: $dark_color;
+}
+
+.lightLoading {
+  color: $light_color;
 }

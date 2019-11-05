@@ -1,34 +1,61 @@
-.title {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.65);
-  .classification {
-    margin-left: 1rem;
-    font-size: .6rem;
-    font-weight: normal;
-    color: rgba(255, 255, 255, 0.65);
+@import '../../../assets/scss/Theme.module.scss';
+
+.LogListItem {
+  .title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: $dark_color;
+    .classification {
+      margin-left: 1rem;
+      font-size: .6rem;
+      font-weight: normal;
+      color: $dark_color;
+    }
+  }
+  .author, .orderbyTime, .editType {
+    display: flex;
+    align-items: center;
+    margin-left: .5rem;
+    font-size: .5rem;
+    color: $dark_color;
+  }
+  .logOperateBox {
+    .logOperateIcon {
+      margin-left: .7rem;
+      font-size: 1rem;
+      color: $dark_color;
+      cursor: pointer;
+      &.active {
+        color: $dark_color_active;
+      }
+      &:hover {
+        color: $dark_color_hover;
+      }
+    }
   }
 }
-.author, .orderbyTime, .editType {
-  display: flex;
-  align-items: center;
-  margin-left: .5rem;
-  font-size: .5rem;
-  color: rgba(255, 255, 255, 0.65);
-}
-.logOperateBox {
-  .logOperateIcon {
-    margin-left: .7rem;
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.65);
-    cursor: pointer;
-    &.active {
-      color: #1890ff;
+
+.lightLogListItem {
+  .title {
+    color: $light_color;
+    .classification {
+      color: $light_color;
     }
-    &:hover {
-      color: red;
+  }
+  .author, .orderbyTime, .editType {
+    color: $light_color;
+  }
+  .logOperateBox {
+    .logOperateIcon {
+      color: $light_color;
+      &.active {
+        color: $light_color_active;
+      }
+      &:hover {
+        color: $light_color_hover;
+      }
     }
   }
 }

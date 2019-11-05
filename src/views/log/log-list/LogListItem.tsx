@@ -4,6 +4,8 @@ import { Icon, message, Modal, Select } from 'antd';
 import { getLogAllClass, getHomeLogAllClass, isShowLog, isStickLog, deleteLogCont, switchLogClass } from '../../../client/LogHelper';
 import { IsLoginContext } from '../../../context/IsLoginContext';
 import { LogListType } from '../LogType';
+import { ThemeContext } from '../../../context/ThemeContext';
+import classnames from 'classnames'; 
 
 interface PropsType {
   logClass: string;
@@ -15,6 +17,7 @@ interface PropsType {
 
 // 单条日志记录
 const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getNewList, getAllLogClass }) => {
+  const { theme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext);
   const { confirm } = Modal;
   const { Option } = Select;
@@ -111,8 +114,13 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
     });
   };
 
+  const classname = classnames({
+    [styles.LogListItem]: true,
+    [styles.lightLogListItem]: theme === 'light'
+  });
+
   return (
-    <>
+    <div className={classname}>
       <span className={styles.title}>
         {logItemData.title}
         {
@@ -182,7 +190,7 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
           </Select>
         </Modal>
       </div>
-    </>
+    </div>
   );
 };
 

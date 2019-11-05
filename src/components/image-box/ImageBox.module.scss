@@ -1,3 +1,5 @@
+@import '../../assets/scss/Theme.module.scss';
+
 .Imagebox {
   position: relative;
   display: inline-block;
@@ -14,23 +16,11 @@
       height: 100%;
       margin-right: 0;
       margin-bottom: 0;
-      background-color: #001529;
+      background-color: $dark_bgColor;
       >span {
-        color: rgba(255, 255, 255, 0.65);
+        color: $dark_color;
       }
     }
-  }
-  .Loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    font-size: 2rem;
-    background-color: rgba(255, 255, 255, 0.65);
   }
   .Shower {
     width: 100%;
@@ -45,14 +35,29 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    color: white;
+    background-color: $dark_bgColor;
+    color: $dark_color;
     font-size: 2rem;
     .iconBoxIcon {
       cursor: pointer;
       &:hover {
-        color: #1890ff;
+        color: $dark_color_active;
       }
     }
+  }
+}
+
+.lightImagebox {
+  .Upload {
+    :global(.ant-upload.ant-upload-select-picture-card) {
+      background-color: $light_bgColor;
+      >span {
+        color: $light_color;
+      }
+    }
+  }
+  .Icons {
+    background-color: $light_bgColor;
+    color: $light_color;
   }
 }
