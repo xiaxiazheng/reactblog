@@ -6,6 +6,7 @@ import { baseUrl } from '../../env_config';
 import { deleteImg } from '../../client/ImgHelper';
 import { ThemeContext } from '../../context/ThemeContext';
 import Loading from '../loading/Loading';
+import PreviewImage from '../preview-image/PreviewImage';
 
 interface PropsType {
   otherId?: string;  // 跟这个图片要插入的地方有关联的记录 id
@@ -110,7 +111,11 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
         </Upload>
       }
       {/* 加载中。。。 */}
-      {imageUrl !== '' && loading && <Loading />}
+      {imageUrl !== '' && loading &&
+        <div className={styles.imageLoading}>
+          <Loading />
+        </div>
+      }
       {/* 有图片的情况，展示图片 */}
       {imageUrl !== '' &&
         <img className={styles.Shower}
@@ -129,16 +134,12 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
         </div>
       }
       {/* 图片预览 */}
-      <Modal
-        wrapClassName={`previewImgBoxWrapper ScrollBar`}
-        className={styles.previewImgBox}
-        visible={isPreview}
-        footer={null}
-        centered
-        title={imageName}
-        onCancel={() => setIsPreview(false)}>
-        <img src={imageUrl} alt={imageName} title={imageName} />
-      </Modal>
+      <PreviewImage
+        isPreview={isPreview}
+        imageName={imageName}
+        imageUrl={imageUrl}
+        closePreview={() => setIsPreview(false)}
+      />
     </div>
   );
 }

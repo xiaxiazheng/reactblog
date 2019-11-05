@@ -109,6 +109,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
       <span className={styles.headerRight}>
         {/* 主题切换开关 */}
         <Switch
+          className={styles.themeSwitch}
           checkedChildren="light"
           unCheckedChildren="dark"
           checked={theme === 'light'}
@@ -160,7 +161,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           />
         </Popover>
         {/* 导航 */}
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={styles.headerRouteList}>
           <Menu.Item key="tree">
             <Icon type="cluster" className={styles.headerIcon} />
             <Link to={isLogin ? '/admin/tree' : '/tree'}>知识树</Link>
@@ -175,7 +176,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           </Menu.Item>
           <Menu.Item key="github">
             <Icon type="github" className={styles.headerIcon} />
-            github
+            <span>github</span>
           </Menu.Item>
         </Menu>
       </span>

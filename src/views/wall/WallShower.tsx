@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styles from './WallShower.module.scss';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
-import { Modal } from 'antd';
+import PreviewImage from '../../components/preview-image/PreviewImage';
 
 interface ImgType {
   cTime: string;
@@ -55,19 +55,15 @@ const WallShower: React.FC = () => {
         })}
       </div>
       {/* 图片预览 */}
-      <Modal
-        wrapClassName={`previewImgBoxWrapper ScrollBar`}
-        className={styles.previewImgBox}
-        visible={previewImg !== ''}
-        footer={null}
-        centered
-        title={previewImgName}
-        onCancel={() => {
+      <PreviewImage
+        isPreview={previewImg !== ''}
+        imageName={previewImgName}
+        imageUrl={previewImg}
+        closePreview={() => {
           setPreviewImg('');
           setPreviewImgName('');
-        }}>
-        <img src={previewImg} alt={previewImgName} title={previewImgName} />
-      </Modal>
+        }}
+      />
     </div>
   );
 }

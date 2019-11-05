@@ -115,7 +115,7 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
   };
 
   const classname = classnames({
-    [styles.LogListItem]: true,
+    [styles.logListItem]: true,
     [styles.lightLogListItem]: theme === 'light'
   });
 

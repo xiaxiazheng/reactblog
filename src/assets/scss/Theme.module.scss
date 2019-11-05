@@ -2,9 +2,11 @@
 $dark_color: rgba(255, 255, 255, 0.65);
 $dark_color_active: #1890ff;
 $dark_color_hover: red;
+$dark_small_color: #ccc;
 
 $dark_bgColor: #001529;
 $dark_bgColor_blur: rgb(51, 61, 69);
+$dark_bgColor_mask: rgba(255, 255, 255, 0.25);
 
 $dark_borderColor: white;
 
@@ -20,13 +22,15 @@ $dark_keyword_highlight: yellow;
 $light_color: #001529;
 $light_color_active: #1890ff;
 $light_color_hover: red;
+$light_small_color: #ccc;
 
 $light_bgColor: rgba(255, 255, 255, 0.65);
 $light_bgColor_blur: rgb(51, 61, 69);
+$light_bgColor_mask: rgba(0, 0, 0, 0.2);
 
 $light_borderColor: #001529;
 
-$light_keyword_highlight: yellow;
+$light_keyword_highlight: orange;
 
 .light_theme {
   color: $light_color;

@@ -25,9 +25,16 @@ $TreeMenuWidth: 21rem;
       position: fixed;
       top: 4rem;
       right: 2rem;
+      border: 1px solid $dark_borderColor;
       background-color: $dark_bgColor;
+      &:global(.ant-switch::after) {
+        border: 1px solid $dark_borderColor;
+      }
       &:global(.ant-switch-checked) {
-        background-color: $dark_color_active;
+        background-color: transparent;
+      }
+      :global(.ant-switch-inner) {
+        color: $dark_color;
       }
     }
   }
@@ -41,9 +48,17 @@ $TreeMenuWidth: 21rem;
   }
   .treeRight {
     .treeEditSwitch {
+      color: $light_color;
+      border: 1px solid $light_borderColor;
       background-color: $light_bgColor;
+      &:global(.ant-switch::after) {
+        border: 1px solid $light_borderColor;
+      }
       &:global(.ant-switch-checked) {
-        background-color: $light_color_active;
+        background-color: transparent;
+      }
+      :global(.ant-switch-inner) {
+        color: $light_color;
       }
     }
   }

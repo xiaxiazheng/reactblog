@@ -1,6 +1,12 @@
+@import '../../assets/scss/Theme.module.scss';
+
 .Wall {
   display: inline-block;
   width: 100%;
   min-height: 100%;
-  background: #001529;
+  background-color: $dark_bgColor;
+}
+
+.lightWall {
+  background-color: $light_bgColor;
 }

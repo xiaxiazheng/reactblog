@@ -1,6 +1,7 @@
 @import '../../../assets/scss/Theme.module.scss';
 
-.LogListItem {
+.logListItem {
+  display: flex;
   .title {
     flex: 1;
     display: flex;

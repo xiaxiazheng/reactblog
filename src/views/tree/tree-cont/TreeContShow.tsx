@@ -1,12 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import styles from './TreeContShow.module.scss';
-import { Modal } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getChildName } from '../../../client/TreeHelper';
 import { getNodeCont } from '../../../client/TreeContHelper';
 import { baseImgUrl } from '../../../env_config';
 import Loading from '../../../components/loading/Loading';
+import PreviewImage from '../../../components/preview-image/PreviewImage';
+import classnames from 'classnames';
+import { ThemeContext } from '../../../context/ThemeContext';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -40,6 +42,8 @@ interface TreeContType {
 };
 
 const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
+  const { theme } = useContext(ThemeContext);
+
   const contShowRef = useRef(null);
   const contRef = useRef(null);
 
@@ -107,8 +111,13 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
     }
   });
 
+  const classname = classnames({
+    [styles.treecontshow]: true,
+    [styles.lightTreecontshow]: theme === 'light'
+  })
+
   return (
-    <div className={styles.treecontshow} ref={contShowRef}>
+    <div className={classname} ref={contShowRef}>
       {loading ? <Loading fontSize={60} /> :
         <>
           <h2 className={styles.treecontTitle}>{title}</h2>
@@ -162,19 +171,15 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
         }
       </div>
       {/* 图片预览 */}
-      <Modal
-        wrapClassName={`previewImgBoxWrapper ScrollBar`}
-        className={styles.previewImgBox}
-        visible={previewImg !== ''}
-        footer={null}
-        centered
-        title={previewImgName}
-        onCancel={() => {
+      <PreviewImage
+        isPreview={previewImg !== ''}
+        imageName={previewImgName}
+        imageUrl={previewImg}
+        closePreview={() => {
           setPreviewImg('');
           setPreviewImgName('');
-        }}>
-        <img src={previewImg} alt={previewImgName} title={previewImgName} />
-      </Modal>
+        }}
+      />
     </div>
   );
 }

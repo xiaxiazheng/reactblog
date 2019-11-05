@@ -1,18 +1,20 @@
+@import '../../assets/scss/Theme.module.scss';
+
 .Log {
   width: 100%;
   height: 100%;
   display: inline-block;
-  background: #001529;
-  color: rgba(255, 255, 255, 0.65);
+  background-color: $dark_bgColor;
+  color: $dark_color;
   .logTab {
     width: 92%;
     max-width: 1360px;
     min-width: 1280px;
     text-align: left;
     margin: 4rem auto;
-    height: calc(95% - 8rem);
-    color: rgba(255, 255, 255, 0.65);
-    border: 1px solid #DCDFE6;
+    height: calc(100% - 8rem);
+    color: $dark_color;
+    border: 1px solid $dark_borderColor;
     box-sizing: border-box;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
     .editIcon {
@@ -30,6 +32,16 @@
     }
   }
 }
+
+.lightLog {
+  background-color: $light_bgColor;
+  color: $light_color;
+  .logTab {
+    color: $light_color;
+    border: 1px solid $light_borderColor;
+  }
+}
+
 :global(.ant-tabs-top-content.ant-tabs-content-animated) {
   height: calc(100% - 60px);
 }

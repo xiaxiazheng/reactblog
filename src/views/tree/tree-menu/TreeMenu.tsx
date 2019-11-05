@@ -269,7 +269,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         <Menu
           className={treeMenuClass}
           mode="inline"
-          theme="dark"
+          theme={theme}
           openKeys={openKeys}
           selectedKeys={selectedKeys}
         >

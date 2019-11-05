@@ -23,7 +23,7 @@ const Loading: React.FC<LoadingType> = (props) => {
   return (
     <div className={className} style={{fontSize: fontSize ? `${fontSize}px` : '20px'}}>
       <Icon type="loading"/>
-      loading
+      &nbsp;loading
     </div>
   )
 }

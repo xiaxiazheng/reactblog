@@ -87,6 +87,10 @@
       color: $dark_color_active;
     }
   }
+
+  :global(li) {
+    color: $dark_color;
+  }
 }
 
 .lightTreeMenu {
@@ -94,5 +98,8 @@
     &:hover {
       color: $light_color_active;
     }
+  }
+  :global(li) {
+    color: $light_color;
   }
 }

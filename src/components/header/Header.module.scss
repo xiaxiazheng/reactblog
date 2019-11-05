@@ -5,54 +5,72 @@
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  border-bottom: 1px solid #eaecef;
+  border-bottom: 1px solid $dark_borderColor;
   box-sizing: border-box;
   :global(.ant-popover-inner-content) {
     padding: 0;
-    background-color: unset;
-    border: 1px solid white;
+    background-color: $dark_bgColor;
+    border: 1px solid $dark_borderColor;
     border-radius: 4px;
   }
+
   :global(.ant-menu-horizontal) {
     border-bottom: none;
   }
+  
   :global(.ant-input-affix-wrapper .ant-input-prefix),
   :global(.ant-input-affix-wrapper .ant-input-suffix),
   :global(.ant-input-affix-wrapper) {
-    color: unset;
+    color: $dark_color;
   }
+
   .headerLeft {
     padding-left: 1rem;
     >a {
       line-height: 3rem;
       font-size: 1.3rem;
       font-weight: 600;
-      color: unset;
+      color: $dark_color;
       cursor: pointer;
       &:hover {
         color: $dark_color_active;
       }
     }
   }
+
   .headerRight {
+    .themeSwitch {
+      border: 1px solid $dark_borderColor;
+      margin-right: 10px;
+      &:global(.ant-switch-checked) {
+        background-color: transparent;
+      }
+      &:global(.ant-switch::after) {
+        border: 1px solid $dark_borderColor;
+      }
+    }
     .searchTree {
       width: 165px;
       margin-right: 1rem;
       >input {
-        background-color: unset;
-        color: unset;
+        border-color: $dark_borderColor;
+        background-color: $dark_bgColor;
+        color: $dark_color;
       }
       :global(.ant-input-prefix), :global(.ant-input-suffix>i) {
-        color: unset;
+        color: $dark_color;
       }
     }
-    >ul {
+    .headerRouteList {
       display: inline-block;
-      background-color: transparent;
+      background-color: $dark_bgColor;
+      .headerIcon {
+        color: $dark_color;
+      }
     }
-    a {
+    a, span {
       display: inline-block;
-      color: unset;
+      color: $dark_color;
     }
 
     .treeSearchList {
@@ -60,19 +78,19 @@
       overflow-y: auto;
       font-size: 1rem;
       >div {
-        border: 1px solid white;
+        border: 1px solid $dark_borderColor;
         border-radius: 5px;
         margin: .5rem;
         padding: .5rem;
         letter-spacing: 1px;
         cursor: pointer;
         &:hover {
-          background: unset;
+          background-color: $dark_bgColor;
         }
         >span {
           display: block;
           .active {
-            background: yellow;
+            background-color: $dark_keyword_highlight;
           }
           &:first-child {
             font-size: .85rem;
@@ -91,5 +109,64 @@
 }
 
 .lightHeader {
+  border-bottom: 1px solid $light_borderColor;
+  :global(.ant-popover-inner-content) {
+    background-color: $light_bgColor;
+    border: 1px solid $light_borderColor;
+  }
+  :global(.ant-input-affix-wrapper .ant-input-prefix),
+  :global(.ant-input-affix-wrapper .ant-input-suffix),
+  :global(.ant-input-affix-wrapper) {
+    color: $light_color;
+  }
+  .headerLeft {
+    >a {
+      color: $light_color;
+      &:hover {
+        color: $light_color_active;
+      }
+    }
+  }
+  .headerRight {
+    .themeSwitch {
+      border: 1px solid $light_borderColor;
+      &:global(.ant-switch::after) {
+        border: 1px solid $light_borderColor;
+      }
+    }
+    .searchTree {
+      >input {
+        border-color: $light_borderColor;
+        background-color: $light_bgColor;
+        color: $light_color;
+      }
+      :global(.ant-input-prefix), :global(.ant-input-suffix>i) {
+        color: $light_color;
+      }
+    }
+    .headerRouteList {
+      background-color: $light_bgColor;
+      .headerIcon {
+        color: $light_color;
+      }
+    }
+    a, span {
+      display: inline-block;
+      color: $light_color;
+    }
 
+    .treeSearchList {
+      >div {
+        border: 1px solid $light_borderColor;
+        &:hover {
+          background-color: $light_bgColor;
+        }
+        >span {
+          .active {
+            background-color: $light_keyword_highlight;
+          }
+        }
+      }
+    }
+  }
 }
