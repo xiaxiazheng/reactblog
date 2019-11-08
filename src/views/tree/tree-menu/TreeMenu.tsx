@@ -32,7 +32,14 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   // 初始化页面
   useEffect(() => {
-    getTreeData();
+    const init = async () => {
+      let id = await getTreeData();
+      /** 进入树首页时，默认展开第一个节点 */
+      if (JSON.stringify(match.params) === '{}') {
+        id !== false && setOpenKeys([id]);
+      }
+    }
+    init();
   }, []);
 
   // 初始化数据
@@ -45,11 +52,10 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       setOriginTreeList(res);
       setTreeList(res);
       setLoading(false);
-      /** 进入树首页时，默认展开第一个节点 */
-      if (JSON.stringify(match.params) === '{}') {
-        setOpenKeys([res[0].id])
-      }
-    }
+      /** 主要是为了返回给初始化的时候默认展开 */
+      return res[0].id;
+    } 
+    return false;
   };
 
   // 刷新页面时匹配默认展开的树
