@@ -422,7 +422,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                                 <Menu.Item
                                   key={ktem.id}
                                   onClick={() => clickTreeNode('level3', item.id, jtem.id, ktem.id)}
-                                  title={ktem.label}>
+                                >
                                   <TreeMenuItem
                                     grandFatherChildren={
                                       item.children.map((i: any) => {

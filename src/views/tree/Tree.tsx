@@ -7,6 +7,7 @@ import TreeMenu from './tree-menu/TreeMenu';
 import TreeContMain from './tree-cont/TreeContMain';
 import TreeContShow from './tree-cont/TreeContShow';
 import TreeContEdit from './tree-cont/TreeContEdit';
+import TreeContMainEdit from './tree-cont/TreeContMainEdit';
 import { Switch } from 'antd';
 import { ThemeContext } from '../../context/ThemeContext';
 import classnames from 'classnames';
@@ -51,15 +52,12 @@ const Tree: React.FC<PropsType> = ({ match }) => {
             onChange={() => setIsEdit(!isEdit)}
           />
         }
-        {!isEdit && isMain &&
-          <TreeContMain></TreeContMain>
-        }
-        {!isEdit && !isMain &&
-          <TreeContShow></TreeContShow>
-        }
-        {isEdit &&
-          <TreeContEdit></TreeContEdit>
-        }
+        {isMain && (
+          isEdit ? <TreeContMainEdit /> : <TreeContMain />
+        )}
+        {!isMain && (
+          isEdit ? <TreeContEdit /> : <TreeContShow />
+        )}
       </div>
     </div>
   );

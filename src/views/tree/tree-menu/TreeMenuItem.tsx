@@ -191,7 +191,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       }}
     >
       {/* 每层节点显示的 label */}
-      <span className={styles.titleName}>
+      <span className={styles.titleName} title={label}>
         {
           keyword === '' || (new RegExp(keyword, 'gi')).test(label) === false
           ? label

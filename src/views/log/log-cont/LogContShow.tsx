@@ -48,7 +48,9 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
 
   const className = classnames({
     [styles.logcontShow]: true,
-    [styles.lightLogcontShow]: theme === 'light'
+    [styles.lightLogcontShow]: theme === 'light',
+    'ScrollBar': theme === 'dark',
+    'light_ScrollBar': theme === 'light'
   })
 
   return (

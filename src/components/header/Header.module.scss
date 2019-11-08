@@ -128,6 +128,8 @@
     }
   }
   .headerRight {
+    display: flex;
+    align-items: center;
     .themeSwitch {
       border: 1px solid $light_borderColor;
       &:global(.ant-switch::after) {

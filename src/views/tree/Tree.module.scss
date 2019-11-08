@@ -3,6 +3,7 @@
 $TreeMenuWidth: 21rem;
 
 .Tree {
+  position: relative;
   height: 100%;
   background-color: $dark_bgColor;
   .treeLeft {
@@ -22,8 +23,8 @@ $TreeMenuWidth: 21rem;
     width: calc(100% - #{$TreeMenuWidth});
     vertical-align: top;
     .treeEditSwitch {
-      position: fixed;
-      top: 4rem;
+      position: absolute;
+      top: 1rem;
       right: 2rem;
       border: 1px solid $dark_borderColor;
       background-color: $dark_bgColor;

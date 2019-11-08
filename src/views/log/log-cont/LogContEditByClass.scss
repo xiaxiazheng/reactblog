@@ -3,9 +3,9 @@
   height: calc(100% - 2rem);
   margin: 1rem auto;
   .save-button {
-    position: fixed;
+    position: absolute;
     left: 2rem;
-    top: 6.5rem;
+    top: 3.5rem;
   }
   .logcont-title {
     display: block;
@@ -33,7 +33,7 @@
   }
   .editor-n-imgbox {
     display: flex;
-    height: calc(100% - 7.08rem);
+    height: calc(100% - 8rem);
     .logcont-editor {
       flex: 1;
       letter-spacing: 1px;
@@ -46,6 +46,7 @@
       .ql-container {
         width: 100%;
         height: calc(100% - 2.6rem);
+        word-break: break-all;
         font-size: 14px;
         img {
           max-width: 100%;

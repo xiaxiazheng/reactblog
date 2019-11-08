@@ -101,19 +101,19 @@
 }
 
 .treecontAddbuttonFront {
-  position: fixed;
+  position: absolute;
+  right: 2.5rem;
+  top: 4rem;
+}
+
+.treecontAddbuttonBehind {
+  position: absolute;
   right: 2.5rem;
   top: 7rem;
 }
 
-.treecontAddbuttonBehind {
-  position: fixed;
+.treecontSavebutton {
+  position: absolute;
   right: 2.5rem;
   top: 10rem;
-}
-
-.treecontSavebutton {
-  position: fixed;
-  right: 2.5rem;
-  top: 13rem;
 }
