@@ -54,7 +54,8 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
   const className = classnames({
     [styles.LogCont]: true,
     [styles.lightLogCont]: theme === 'light',
-    'ScrollBar': true
+    'ScrollBar': theme === 'dark',
+    'light_ScrollBar': theme === 'light'
   })
 
   return (

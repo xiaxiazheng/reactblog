@@ -249,7 +249,9 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   const treeMenuClass = classnames({
     [styles.treeMenu]: true,
-    [styles.lightTreeMenu]: theme === 'light'
+    [styles.lightTreeMenu]: theme === 'light',
+    'ScrollBar': theme === 'dark',
+    'light_ScrollBar': theme === 'light'
   })
 
   return (

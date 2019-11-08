@@ -217,7 +217,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
 
   return (
     <>
-      <div className={styles.treecontedit}>
+      <div className={className}>
         <h2 className={styles.treecontTitle}>{title}</h2>
         {
           contList.map((item, index) => {
@@ -231,7 +231,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                     onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}
                   />
                   <TextArea
-                    className={`${styles.contitemTextarea} ScrollBar`}
+                    className={`${styles.contitemTextarea} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}
                     placeholder="请输入内容"
                     autosize={{ minRows: 6, maxRows: 21 }}
                     value={item.cont}

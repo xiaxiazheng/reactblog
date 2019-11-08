@@ -130,7 +130,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
   const logListClass = classnames({
     [styles.logList]: true,
     [styles.lightLogList]: theme === 'light',
-    'ScrollBar': true
+    'ScrollBar': theme === 'dark',
+    'light_ScrollBar': theme === 'light'
   });
 
   return (

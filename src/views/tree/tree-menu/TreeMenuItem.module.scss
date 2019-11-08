@@ -33,6 +33,7 @@
       background-color: $dark_bgColor_blur;
       border-radius: 4px;
       .treenodeIcon {
+        color: $dark_color;
         &:hover {
           color: $dark_color_active;
         }
@@ -57,6 +58,7 @@
     .iconsBox {
       background-color: $light_bgColor_blur;
       .treenodeIcon {
+        color: $dark_color;
         &:hover {
           color: $light_color_active;
         }

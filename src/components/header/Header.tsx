@@ -126,7 +126,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
               // 有搜索结果的情况
               searchResult.length !== 0
               ?
-              <div className={`${styles.treeSearchList} ScrollBar`}>
+              <div className={`${styles.treeSearchList} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}>
                 {searchResult.map((item) => {
                   return (
                     <div

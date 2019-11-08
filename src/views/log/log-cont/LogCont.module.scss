@@ -15,8 +15,15 @@
     top: 4rem;
     right: 2rem;
     background: $dark_bgColor;
-    &.ant-switch-checked {
-      background-color: $dark_color_active;
+    border: 1px solid $dark_borderColor;
+    >span {
+      color: $dark_color;
+    }
+    &:global(.ant-switch-checked) {
+      background-color: transparent;
+    }
+    &:global(.ant-switch::after) {
+      border: 1px solid $dark_borderColor;
     }
   }
 }
@@ -25,8 +32,12 @@
   background-color: $light_bgColor;
   .logEditSwitch {
     background: $light_bgColor;
-    &.ant-switch-checked {
-      background-color: $light_color_active;
+    border: 1px solid $light_borderColor;
+    >span {
+      color: $light_color;
+    }
+    &:global(.ant-switch::after) {
+      border: 1px solid $light_borderColor;
     }
   }
 }

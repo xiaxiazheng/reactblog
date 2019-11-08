@@ -47,7 +47,7 @@ const Router: React.FC = () => {
           <Header></Header>
         </div>
         <Suspense fallback={fallback()}>
-          <div className={`${styles.RouterView} ScrollBar`}>
+          <div className={`${styles.RouterView} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}>
             {/* 登录 */}
             <Route path="/login" component={Login} />
             {/* 前台 */}
