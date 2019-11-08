@@ -146,6 +146,10 @@
 .logList {
   height: calc(100% - 41px);
   padding-bottom: 10px;
+  .emptyList {
+    text-align: center;
+    font-size: 30px;
+  }
   .logListLi {
     margin: .6rem 2rem;
     padding: 0.5rem 1rem;

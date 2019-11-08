@@ -187,24 +187,28 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
           allowClear>
         </Input>
         {/* 分页 */}
-        <Pagination
-          className={styles.pagination}
-          pageSize={pageSize}
-          current={pageNo}
-          total={logListData.totalNumber}
-          showTotal={total => `共${total}篇`}
-          onChange={(page) => {
-            setPageNo(page);
-          }}
-          onShowSizeChange={(current, size) => {
-            setPageSize(size);
-          }}
-          showSizeChanger
-          pageSizeOptions={['5', '10', '15', '20']}/>
+        {logListData.logList && logListData.logList.length !== 0 &&
+          <Pagination
+            className={styles.pagination}
+            pageSize={pageSize}
+            current={pageNo}
+            total={logListData.totalNumber}
+            showTotal={total => `共${total}篇`}
+            onChange={(page) => {
+              setPageNo(page);
+            }}
+            onShowSizeChange={(current, size) => {
+              setPageSize(size);
+            }}
+            showSizeChanger
+            pageSizeOptions={['5', '10', '15', '20']}
+          />
+        }
       </div>
       {/* 日志列表 */}
       <ul className={logListClass}>
-        {loading ? <Loading fontSize={40} /> :
+        {loading ? <Loading fontSize={40} /> : (
+          logListData.logList && logListData.logList.length === 0 ? <div className={styles.emptyList}>当前列表为空(之后再弄个好看的提示)</div> :
           logListData.logList.map((item: LogListType) => {
             return (
               <li
@@ -221,8 +225,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
                 />
               </li>
             )
-          })
-        }
+          })          
+        )}
       </ul>
     </>
   );
