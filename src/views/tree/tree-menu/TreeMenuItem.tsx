@@ -5,26 +5,43 @@ import { Icon, message, Modal } from 'antd';
 import { IsLoginContext } from '../../../context/IsLoginContext';
 import { ThemeContext } from '../../../context/ThemeContext';
 import classnames from 'classnames';
+import { match } from 'react-router';
 
 interface TreeMenuItemType {
-  grandFatherChildren?: {id: string; label: string}[];  // 父节点及其所有兄弟节点
+  /** 父节点及其所有兄弟节点 */
+  grandFatherChildren?: {id: string; label: string}[];
+  /** 父节点 id */
   fatherId?: string;
 
-  isFirst: boolean;  // 是否第一个节点
-  isLast: boolean;  // 是否最后一个节点
-  level: string;  // 节点级别
-  label: string;  // 节点名称
-  id: string;  // 节点 id
-  sort: number;  // 节点顺序号
+  /** 是否是父节点唯一的节点 */
+  isOnly: boolean;
+  /** 是否第一个节点 */
+  isFirst: boolean;
+  /** 是否最后一个节点 */
+  isLast: boolean;
+  /** 节点级别 */
+  level: string;
+  /** 节点名称 */
+  label: string;
+  /** 节点 id */
+  id: string;
+  /** 节点顺序号 */
+  sort: number;
 
+  /** 上一个兄弟节点的顺序号 */
   previousSort: number;
+  /** 上一个兄弟节点的 id */
   previousId: string;
+  /** 下一个兄弟节点的顺序号 */
   nextSort: number;
+  /** 下一个兄弟节点的 id */
   nextId: string;
 
   openShuttle: Function;
   getTreeData: Function;
   keyword: string;
+  /** 删除节点成功后的回调 */
+  afterDelete: Function;
 }
 
 // 单个树节点
@@ -34,6 +51,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
   const {
     grandFatherChildren,
     fatherId,
+    isOnly,
     isFirst,
     isLast,
     level,
@@ -46,7 +64,8 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
     nextId,
     openShuttle,
     getTreeData,
-    keyword
+    keyword,
+    afterDelete
   } = props;
 
   const { isLogin } = useContext(IsLoginContext);
@@ -106,6 +125,10 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
 
   // 删除节点
   const removeTreeNode = async () => {
+    if (isOnly) {
+      message.error('当前节点的父节点仅有一个子节点，不能删除');
+      return;
+    }
     confirm({
       title: `你将删除节点"${label}"`,
       content: 'Are you sure？',
@@ -122,6 +145,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
         if (res) {
           message.success(`删除${levelValue}级节点成功`, 1);
           getTreeData();
+          afterDelete(level, id);
         } else {
           message.error(`删除${levelValue}级节点失败`, 1);
         }
