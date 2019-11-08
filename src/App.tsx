@@ -7,7 +7,7 @@ import { ThemeProvider } from './context/ThemeContext';
 
 const App: React.FC = () => {
   return (
-    <div className="App ScrollBar">
+    <div className="App">
       <IsLoginProvider>
         <ThemeProvider>
           <Router></Router>

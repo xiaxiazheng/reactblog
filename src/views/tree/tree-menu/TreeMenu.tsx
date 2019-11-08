@@ -32,7 +32,14 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   // 初始化页面
   useEffect(() => {
-    getTreeData();
+    const init = async () => {
+      let id = await getTreeData();
+      /** 进入树首页时，默认展开第一个节点 */
+      if (JSON.stringify(match.params) === '{}') {
+        id !== false && setOpenKeys([id]);
+      }
+    }
+    init();
   }, []);
 
   // 初始化数据
@@ -45,18 +52,17 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
       setOriginTreeList(res);
       setTreeList(res);
       setLoading(false);
-      /** 进入树首页时，默认展开第一个节点 */
-      if (JSON.stringify(match.params) === '{}') {
-        setOpenKeys([res[0].id])
-      }
-    }
+      /** 主要是为了返回给初始化的时候默认展开 */
+      return res[0].id;
+    } 
+    return false;
   };
 
-  // 刷新页面时匹配默认展开的树
+  // 根据当前路由匹配默认展开的树
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   useEffect(() => {
-    if (match.params) {
+    if (JSON.stringify(match.params) !== '{}') {
       setOpenKeys([match.params.first_id, match.params.second_id]);
       setSelectedKeys([match.params.third_id]);
     }
@@ -175,6 +181,31 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     });
   }
 
+  /** 删除节点成功后，判断一下是否删除的是当前路由 */
+  const afterDelete = (level: 'level1' | 'level2' | 'level3', deletedId: number | string) => {
+    let id = String(deletedId);  // 被成功删除的节点的 id
+    const {
+      first_id,
+      second_id,
+      third_id
+    } = match.params;
+    if (level === 'level1' && first_id === id) {
+      history.push(`${isLogin ? '/admin' : ''}/tree`);
+    }
+    else if (level === 'level2' && second_id === id) {
+      history.push(`${isLogin ? '/admin' : ''}/tree`);
+      setOpenKeys([first_id]);
+    }
+    else if (level === 'level3' && third_id === id) {
+      history.push(`${isLogin ? '/admin' : ''}/tree`);
+      setOpenKeys([first_id, second_id]);
+    } else {
+      return;
+    }
+    /** 删除的是当前路由，就要清空被选择项 */
+    setSelectedKeys([]);
+  }
+
   const [keyword, setKeyword] = useState('');
   // 搜索整棵树，如果上层匹配到就返回该层，如果没有匹配到就往下层找（用 new RegExp 是为了用 i 不区分大小写）
   const handleKeyword = (e: any) => {
@@ -249,7 +280,9 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
 
   const treeMenuClass = classnames({
     [styles.treeMenu]: true,
-    [styles.lightTreeMenu]: theme === 'light'
+    [styles.lightTreeMenu]: theme === 'light',
+    'ScrollBar': theme === 'dark',
+    'light_ScrollBar': theme === 'light'
   })
 
   return (
@@ -293,6 +326,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                   onTitleClick={() => clickTreeNode('level1', item.id)}
                   title={
                     <TreeMenuItem
+                      isOnly={treeList.length === 1}
                       isFirst={index === 0}
                       isLast={index === treeList.length - 1}
                       level="level1"
@@ -307,6 +341,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                       openShuttle={openShuttle}
                       getTreeData={getTreeData}
                       keyword={keyword}
+
+                      afterDelete={afterDelete}
                     />
                   }>
                   {/** 在上方添加二级节点 */
@@ -338,6 +374,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                               }
                               fatherId={item.id}
 
+                              isOnly={item.children.length === 1}
                               isFirst={jndex === 0}
                               isLast={jndex === item.children.length - 1}
                               level="level2"
@@ -353,6 +390,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                               openShuttle={openShuttle}
                               getTreeData={getTreeData}
                               keyword={keyword}
+
+                              afterDelete={afterDelete}
                             />
                           }>
                           {/** 在上方添加三级节点 */
@@ -395,6 +434,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                                     }
                                     fatherId={jtem.id}
 
+                                    isOnly={jtem.children.length === 1}
                                     isFirst={kndex === 0}
                                     isLast={kndex === jtem.children.length - 1}
                                     level="level3"
@@ -410,6 +450,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                                     openShuttle={openShuttle}
                                     getTreeData={getTreeData}
                                     keyword={keyword}
+
+                                    afterDelete={afterDelete}
                                   />
                                 </Menu.Item>
                               )

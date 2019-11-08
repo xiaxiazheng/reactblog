@@ -30,7 +30,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
     <div>
       {/* 图片预览 */}
       <Modal
-        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
+        wrapClassName={`${styles.previewImgBoxWrapper} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}
         className={styles.previewImgBox}
         visible={isPreview}
         footer={null}
