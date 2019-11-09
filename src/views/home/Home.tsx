@@ -3,6 +3,7 @@ import styles from './Home.module.scss';
 import { Carousel } from 'antd';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
+import classnames from 'classnames';
 
 interface ImgType {
   cTime: string;
@@ -35,8 +36,13 @@ const Home: React.FC = () => {
     getData();
   }, []);
 
+  const homgClass = classnames({
+    [styles.Home]: true,
+    'ScrollBar': true
+  });
+
   return (
-    <div className={styles.Home}>
+    <div className={homgClass}>
       <Carousel className="carousel" autoplay>
         {homeData.imgList.map((item: ImgType) => {
           return (

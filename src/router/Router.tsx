@@ -25,7 +25,8 @@ const Router: React.FC = () => {
     );
   };
 
-  const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
+  // const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
+  const Router: any = BrowserRouter;
 
   return (
     <div className={styles.routerWrapper}>
