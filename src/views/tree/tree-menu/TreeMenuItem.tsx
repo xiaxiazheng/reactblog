@@ -3,10 +3,16 @@ import styles from './TreeMenuItem.module.scss';
 import { modifyTreeNode, deleteTreeNode, changeSort } from '../../../client/TreeHelper';
 import { Icon, message, Modal } from 'antd';
 import { IsLoginContext } from '../../../context/IsLoginContext';
-import classnames from 'classnames';
 import { match } from 'react-router';
+import { TreeContext } from '../TreeContext';
 
 interface TreeMenuItemType {
+  match: match<{
+    first_id: string;
+    second_id: string;
+    third_id: string;
+  }>;
+
   /** 父节点及其所有兄弟节点 */
   grandFatherChildren?: {id: string; label: string}[];
   /** 父节点 id */
@@ -45,8 +51,10 @@ interface TreeMenuItemType {
 
 // 单个树节点
 const TreeMenuItem = (props: TreeMenuItemType) => {
+  const { setTreeContTitle } = useContext(TreeContext);
 
   const {
+    match,
     grandFatherChildren,
     fatherId,
     isOnly,
@@ -115,6 +123,10 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       if (res) {
         message.success("修改节点名称成功");
         getTreeData();
+        // 如果修改的是当前已经点开的路由，则要修改 TreecontTitle
+        if (match.params.third_id === String(id)) {
+          setTreeContTitle(name);
+        }
       } else {
         message.error("修改节点名称成功");
       }

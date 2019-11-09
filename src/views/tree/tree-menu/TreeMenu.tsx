@@ -319,6 +319,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                   onTitleClick={() => clickTreeNode('level1', item.id)}
                   title={
                     <TreeMenuItem
+                      match={match}
+
                       isOnly={treeList.length === 1}
                       isFirst={index === 0}
                       isLast={index === treeList.length - 1}
@@ -357,6 +359,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                           onTitleClick={() => clickTreeNode('level2', item.id, jtem.id)}
                           title={
                             <TreeMenuItem
+                              match={match}
+
                               grandFatherChildren={
                                 treeList.map(i => {
                                   return {
@@ -417,6 +421,8 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
                                   onClick={() => clickTreeNode('level3', item.id, jtem.id, ktem.id)}
                                 >
                                   <TreeMenuItem
+                                    match={match}
+
                                     grandFatherChildren={
                                       item.children.map((i: any) => {
                                         return {

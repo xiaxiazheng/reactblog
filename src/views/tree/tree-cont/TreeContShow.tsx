@@ -7,7 +7,7 @@ import { getNodeCont } from '../../../client/TreeContHelper';
 import { baseImgUrl } from '../../../env_config';
 import Loading from '../../../components/loading/Loading';
 import PreviewImage from '../../../components/preview-image/PreviewImage';
-import classnames from 'classnames';
+import { TreeContext } from '../TreeContext';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -41,6 +41,7 @@ interface TreeContType {
 };
 
 const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
+  const { treeContTitle, setTreeContTitle } = useContext(TreeContext);
 
   const contShowRef = useRef(null);
   const contRef = useRef(null);
@@ -76,14 +77,17 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
     }
   }, [location]);
 
-  const [title, setTitle] = useState('');
   const [contList, setContList] = useState<TreeContType[]>([]);
 
   // 获取树当前节点具体内容数据
   const getTreeCont = async () => {
     setLoading(true);
+
+    // 获取标题，标题存到了 TreeContext
     const res = await getChildName(match.params.third_id);
-    setTitle(res.length !== 0 ? res[0].c_label : '');
+    setTreeContTitle(res.length !== 0 ? res[0].c_label : '');
+
+    // 获取数据
     let res2 = await getNodeCont(match.params.third_id);
     if (res2) {
       res2.forEach((item: any) => {
@@ -113,7 +117,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
     <div className={styles.treecontshow} ref={contShowRef}>
       {loading ? <Loading fontSize={60} /> :
         <>
-          <h2 className={styles.treecontTitle}>{title}</h2>
+          <h2 className={styles.treecontTitle}>{treeContTitle}</h2>
           {
             contList.map(item => {
               return (

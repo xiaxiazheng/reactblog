@@ -4,6 +4,7 @@ import styles from './Router.module.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from '../components/header/Header';
 import { LogProvider } from '../views/log/LogContext';
+import { TreeProvider } from '../views/tree/TreeContext';
 import { appUser } from '../env_config';
 import Loading from '../components/loading/Loading';
 
@@ -36,25 +37,31 @@ const Router: React.FC = () => {
           <div className={styles.RouterView}>
             {/* 登录 */}
             <Route path="/login" component={Login} />
+
             {/* 前台 */}
             <Route exact path="/" component={Home} />
+            <TreeProvider>
+              <Switch>
+                <Route path="/tree/:first_id/:second_id/:third_id" component={Tree} />
+                <Route path="/tree" component={Tree} />
+              </Switch>              
+            </TreeProvider>
             <LogProvider>
               <Switch>
                 <Route path="/log/:log_class/:log_id" exact component={LogCont} />
                 <Route path="/log/:log_class" component={Log} />
               </Switch>
             </LogProvider>
-            <Switch>
-              <Route path="/tree/:first_id/:second_id/:third_id" component={Tree} />
-              <Route path="/tree" component={Tree} />
-            </Switch>
             <Route path="/wall" component={Wall} />
+
             {/* 控制台 */}
             <PrivateRoute exact path="/admin" component={Admin} />
-            <Switch>
-              <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
-              <PrivateRoute path="/admin/tree" component={Tree} />
-            </Switch>
+            <TreeProvider>
+              <Switch>
+                <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
+                <PrivateRoute path="/admin/tree" component={Tree} />
+              </Switch>
+            </TreeProvider>
             <LogProvider>
               <Switch>
                 <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
