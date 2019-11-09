@@ -11,7 +11,7 @@ if (process.env.REACT_APP_IS_LocalHost && process.env.REACT_APP_IS_LocalHost ===
 } else {
   if (process.env.REACT_APP_User && process.env.REACT_APP_User === 'hyp') {
     nav = '燕苹的小站';
-    url = `${host}:518`;
+    url = `${host}:5180`;
   }
 }
 
