@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './TreeContEdit.module.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
@@ -7,7 +7,6 @@ import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCon
 import { baseImgUrl } from '../../../env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
 import ImageBox from '../../../components/image-box/ImageBox';
-import classnames from 'classnames';
 
 interface PropsType {
   history: History;
@@ -224,7 +223,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                     onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}
                   />
                   <TextArea
-                    className={`${styles.contitemTextarea} 'ScrollBar'}`}
+                    className={`${styles.contitemTextarea} ScrollBar`}
                     placeholder="请输入内容"
                     autosize={{ minRows: 6, maxRows: 21 }}
                     value={item.cont}

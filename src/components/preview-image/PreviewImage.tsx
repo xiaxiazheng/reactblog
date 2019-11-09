@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import classnames from 'classnames';
+import React from 'react';
 import { Modal } from 'antd';
 import styles from './PreviewImage.module.scss';
 
@@ -23,7 +22,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
     <div>
       {/* 图片预览 */}
       <Modal
-        wrapClassName={`${styles.previewImgBoxWrapper} 'ScrollBar'}`}
+        wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
         className={styles.previewImgBox}
         visible={isPreview}
         footer={null}

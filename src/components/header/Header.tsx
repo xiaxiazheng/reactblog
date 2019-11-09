@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from 'react';
-import classnames from 'classnames';
 import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon, Input, Popover, Spin, Switch } from 'antd';
@@ -132,7 +131,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
               // 有搜索结果的情况
               searchResult.length !== 0
               ?
-              <div className={`${styles.treeSearchList} 'ScrollBar'}`}>
+              <div className={`${styles.treeSearchList} ScrollBar`}>
                 {searchResult.map((item) => {
                   return (
                     <div
