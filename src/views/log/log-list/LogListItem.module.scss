@@ -1,5 +1,3 @@
-@import '../../../assets/scss/Theme.module.scss';
-
 .logListItem {
   display: flex;
   .title {
@@ -7,12 +5,12 @@
     display: flex;
     align-items: center;
     font-weight: bold;
-    color: $dark_color;
+    color: var(--color);
     .classification {
       margin-left: 1rem;
       font-size: .6rem;
       font-weight: normal;
-      color: $dark_color;
+      color: var(--color);
     }
   }
   .author, .orderbyTime, .editType {
@@ -20,42 +18,19 @@
     align-items: center;
     margin-left: .5rem;
     font-size: .5rem;
-    color: $dark_color;
+    color: var(--color);
   }
   .logOperateBox {
     .logOperateIcon {
       margin-left: .7rem;
       font-size: 1rem;
-      color: $dark_color;
+      color: var(--color);
       cursor: pointer;
       &.active {
-        color: $dark_color_active;
+        color: var(--color_active);
       }
       &:hover {
-        color: $dark_color_hover;
-      }
-    }
-  }
-}
-
-.lightLogListItem {
-  .title {
-    color: $light_color;
-    .classification {
-      color: $light_color;
-    }
-  }
-  .author, .orderbyTime, .editType {
-    color: $light_color;
-  }
-  .logOperateBox {
-    .logOperateIcon {
-      color: $light_color;
-      &.active {
-        color: $light_color_active;
-      }
-      &:hover {
-        color: $light_color_hover;
+        color: var(--color_hover);
       }
     }
   }

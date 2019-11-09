@@ -1,5 +1,3 @@
-@import '../../assets/scss/Theme.module.scss';
-
 .Imagebox {
   position: relative;
   display: inline-block;
@@ -16,9 +14,9 @@
       height: 100%;
       margin-right: 0;
       margin-bottom: 0;
-      background-color: $dark_bgColor;
+      background-color: var(--bgColor);
       >span {
-        color: $dark_color;
+        color: var(--color);
       }
     }
   }
@@ -31,7 +29,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid $dark_borderColor;
+    border: 1px solid var(--borderColor);
     box-sizing: border-box;
     background-color: rgba(0,0,0,0.25);
   }
@@ -49,28 +47,13 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
-    color: $dark_color;
+    color: var(--color);
     font-size: 2rem;
     .iconBoxIcon {
       cursor: pointer;
       &:hover {
-        color: $dark_color_active;
+        color: var(--color_active);
       }
     }
-  }
-}
-
-.lightImagebox {
-  .Upload {
-    :global(.ant-upload.ant-upload-select-picture-card) {
-      background-color: $light_bgColor;
-      >span {
-        color: $light_color;
-      }
-    }
-  }
-  .Icons {
-    background-color: $light_bgColor;
-    color: $light_color;
   }
 }

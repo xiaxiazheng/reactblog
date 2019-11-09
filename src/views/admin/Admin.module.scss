@@ -1,11 +1,5 @@
-@import '../../assets/scss/Theme.module.scss';
-
 .Admin {
   width: 100%;
   height: 100%;
-  background-color: $dark_bgColor;
-}
-
-.lightAdmin {
-  background-color: $light_bgColor;
+  background-color: var(--bgColor);
 }

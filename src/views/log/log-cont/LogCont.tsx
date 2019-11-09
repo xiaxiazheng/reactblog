@@ -8,8 +8,6 @@ import { IsLoginContext } from '../../../context/IsLoginContext';
 import LogContEditByClass from './LogContEditByClass';
 import LogContShow from './LogContShow';
 import { OneLogType } from '../LogType';
-import { ThemeContext } from '../../../context/ThemeContext';
-import classnames from 'classnames';
 
 interface PropsType {
   match: match<{log_class: string;log_id: string}>;
@@ -18,7 +16,6 @@ interface PropsType {
 };
 
 const LogCont: React.FC<PropsType> = ({ match, history }) => {
-  const { theme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -51,13 +48,8 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
     history.push(`${isLogin ? '/admin' : ''}/log/${match.params.log_class}`);
   };
 
-  const className = classnames({
-    [styles.LogCont]: true,
-    [styles.lightLogCont]: theme === 'light'
-  })
-
   return (
-    <div className={className}>
+    <div className={styles.LogCont}>
       <Button className={styles.backButton} type="primary" onClick={backToLogList}>
         <Icon type="left" />
         返回

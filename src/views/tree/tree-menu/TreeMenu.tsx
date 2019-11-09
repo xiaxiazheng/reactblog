@@ -273,22 +273,15 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
     setTreeList(list);
   };
 
-  const treeFilterClass = classnames({
-    [styles.treeFilter]: true,
-    [styles.lightTreeFilter]: theme === 'light'
-  })
-
   const treeMenuClass = classnames({
     [styles.treeMenu]: true,
-    [styles.lightTreeMenu]: theme === 'light',
-    'ScrollBar': theme === 'dark',
-    'light_ScrollBar': theme === 'light'
+    'ScrollBar': true
   })
 
   return (
     <>
       {/* 筛选关键字输入框 */}
-      <div className={treeFilterClass}>
+      <div className={styles.treeFilter}>
         <Input
           className={styles.treeFilterInput}
           value={keyword}

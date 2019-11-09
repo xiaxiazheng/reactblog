@@ -1,10 +1,8 @@
-@import '../../../assets/scss/Theme.module.scss';
-
 .LogCont {
   position: relative;
   height: 100%;
   overflow: auto;
-  background-color: $dark_bgColor;
+  background-color: var(--bgColor);
   .backButton {
     position: absolute;
     left: 2rem;
@@ -15,30 +13,16 @@
     position: absolute;
     top: 1rem;
     right: 2rem;
-    background: $dark_bgColor;
-    border: 1px solid $dark_borderColor;
+    background: var(--bgColor);
+    border: 1px solid var(--borderColor);
     >span {
-      color: $dark_color;
+      color: var(--color);
     }
     &:global(.ant-switch-checked) {
       background-color: transparent;
     }
     &:global(.ant-switch::after) {
-      border: 1px solid $dark_borderColor;
-    }
-  }
-}
-
-.lightLogCont {
-  background-color: $light_bgColor;
-  .logEditSwitch {
-    background: $light_bgColor;
-    border: 1px solid $light_borderColor;
-    >span {
-      color: $light_color;
-    }
-    &:global(.ant-switch::after) {
-      border: 1px solid $light_borderColor;
+      border: 1px solid var(--borderColor);
     }
   }
 }

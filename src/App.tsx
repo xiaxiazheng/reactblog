@@ -7,7 +7,7 @@ import { ThemeProvider } from './context/ThemeContext';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="App darkTheme">
       <IsLoginProvider>
         <ThemeProvider>
           <Router></Router>

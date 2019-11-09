@@ -1,18 +1,16 @@
-@import '../../assets/scss/Theme.module.scss';
-
 $TreeMenuWidth: 21rem;
 
 .Tree {
   position: relative;
   height: 100%;
-  background-color: $dark_bgColor;
+  background-color: var(--bgColor);
   .treeLeft {
     display: inline-block;
     height: 100%;
     width: $TreeMenuWidth;
     text-align: left;
-    background-color: $dark_bgColor;
-    border-right: 1px solid $dark_borderColor;
+    background-color: var(--bgColor);
+    border-right: 1px solid var(--borderColor);
     box-sizing: border-box;
     letter-spacing: 1px;
     vertical-align: top;
@@ -26,40 +24,16 @@ $TreeMenuWidth: 21rem;
       position: absolute;
       top: 1rem;
       right: 2rem;
-      border: 1px solid $dark_borderColor;
-      background-color: $dark_bgColor;
+      border: 1px solid var(--borderColor);
+      background-color: var(--bgColor);
       &:global(.ant-switch::after) {
-        border: 1px solid $dark_borderColor;
+        border: 1px solid var(--borderColor);
       }
       &:global(.ant-switch-checked) {
         background-color: transparent;
       }
       :global(.ant-switch-inner) {
-        color: $dark_color;
-      }
-    }
-  }
-}
-
-.lightTree {
-  background-color: $light_bgColor;
-  .treeLeft {
-    background-color: $light_bgColor;
-    border-right-color: $light_borderColor;
-  }
-  .treeRight {
-    .treeEditSwitch {
-      color: $light_color;
-      border: 1px solid $light_borderColor;
-      background-color: $light_bgColor;
-      &:global(.ant-switch::after) {
-        border: 1px solid $light_borderColor;
-      }
-      &:global(.ant-switch-checked) {
-        background-color: transparent;
-      }
-      :global(.ant-switch-inner) {
-        color: $light_color;
+        color: var(--color);
       }
     }
   }

@@ -1,5 +1,3 @@
-@import './Theme.module.scss';
-
 .ScrollBar {
   /* 进度条全局样式 */
   & {
@@ -16,41 +14,37 @@
     border-radius: .5rem;
     // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: $dark_borderColor;
+    background: var(--borderColor);
   }
   &::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
     // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: .5rem;
-    background: $dark_bgColor;
+    background: var(--bgColor);
   }
 }
 
-.light_ScrollBar {
-  /* 进度条全局样式 */
-  & {
-    overflow: hidden;
-    overflow-y: auto;
-  }
-  &::-webkit-scrollbar {
-    /*滚动条整体样式*/
-    width: 3px; /* 高宽分别对应横竖滚动条的尺寸 */
-    height: 3px;
-  }
-  &::-webkit-scrollbar-thumb {
-    /*滚动条里面小方块*/
-    border-radius: .5rem;
-    // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: $light_borderColor;
-  }
-  &::-webkit-scrollbar-track {
-    /*滚动条里面轨道*/
-    // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: .5rem;
-    background: $light_bgColor;
-  }
+.darkTheme {
+  --color: rgba(255, 255, 255, 0.65);
+  --color_active: #1890ff;
+  --color_hover: red;
+  --small_color: #ccc;
+  --bgColor: #001529;
+  --bgColor_blur: rgb(51, 61, 69);
+  --bgColor_mask: rgba(255, 255, 255, 0.25);
+  --borderColor: white;
+  --keyword_highlight: yellow;
 }
 
+.lightTheme {
+  --color: #001529;
+  --color_active: #1890ff;
+  --color_hover: red;
+  --small_color: #ccc;
+  --bgColor: rgba(255, 255, 255, 0.65);
+  --bgColor_blur: rgb(51, 61, 69);
+  --bgColor_mask: rgba(0, 0, 0, 0.2);
+  --borderColor: #001529;
+  --keyword_highlight: orange;
+}

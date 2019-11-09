@@ -9,7 +9,6 @@ import TreeContShow from './tree-cont/TreeContShow';
 import TreeContEdit from './tree-cont/TreeContEdit';
 import TreeContMainEdit from './tree-cont/TreeContMainEdit';
 import { Switch } from 'antd';
-import { ThemeContext } from '../../context/ThemeContext';
 import classnames from 'classnames';
 
 interface PropsType {
@@ -19,7 +18,6 @@ interface PropsType {
 };
 
 const Tree: React.FC<PropsType> = ({ match }) => {
-  const { theme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -29,19 +27,14 @@ const Tree: React.FC<PropsType> = ({ match }) => {
     setIsMain(JSON.stringify(match.params) === "{}");
   }, [match.params]);
 
-  const classname = classnames({
-    [styles.Tree]: true,
-    [styles.lightTree]: theme === 'light'
-  });
-
   return (
-    <div className={classname}>
+    <div className={styles.Tree}>
       {/* 左边的树 */}
       <div className={styles.treeLeft}>
         <TreeMenu />
       </div>
       {/* 右边的展示 & 编辑 */}
-      <div className={`${styles.treeRight} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}>
+      <div className={`${styles.treeRight} 'ScrollBar'}`}>
         {// 编辑与查看的切换按钮
           isLogin &&
           <Switch

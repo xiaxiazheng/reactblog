@@ -1,22 +1,20 @@
-@import '../../../assets/scss/Theme.module.scss';
-
 .logcontShow {
   height: 100%;
   padding: 1rem calc(15% + 8px) 2rem;
   word-break: break-all;
   font-size: 14px;
   letter-spacing: 1px;
-  color: $dark_color;
+  color: var(--color);
   h1, h2, h3, h4, h5, h6 {
-    color: $dark_color;
+    color: var(--color);
   }
   .title {
-    color: $dark_color;
+    color: var(--color);
     font-weight: bold;
     font-size: 1.4rem;
   }
   .author {
-    color: $dark_color;
+    color: var(--color);
     margin: 10px 0;
     font-size: 13px;
   }
@@ -30,26 +28,10 @@
   }
   :global(.ql-container) {
     width: 100%;
-    color: $dark_color;
+    color: var(--color);
     font-size: 14px;
     img {
       max-width: 100%;
     }
-  }
-}
-
-.lightLogcontShow {
-  color: $light_color;
-  h1, h2, h3, h4, h5, h6 {
-    color: $light_color;
-  }
-  .title {
-    color: $light_color;
-  }
-  .author {
-    color: $light_color;
-  }
-  :global(.ql-container) {
-    color: $light_color;
   }
 }

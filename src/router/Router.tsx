@@ -1,14 +1,11 @@
 import React, { lazy, Suspense, useContext } from 'react';
 import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 import styles from './Router.module.scss';
-import themeScss from '../assets/scss/Theme.module.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from '../components/header/Header';
 import { LogProvider } from '../views/log/LogContext';
-import { ThemeContext } from '../context/ThemeContext';
 import { appUser } from '../env_config';
 import Loading from '../components/loading/Loading';
-import classnames from 'classnames';
 
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
@@ -19,7 +16,6 @@ const Admin = lazy(() => import('../views/admin/Admin'));
 const Wall = lazy(() => import('../views/wall/Wall'));
 
 const Router: React.FC = () => {
-  const { theme } = useContext<{ theme: 'dark' | 'light' }>(ThemeContext);
 
   // loading 界面
   const fallback = () =>{
@@ -30,24 +26,14 @@ const Router: React.FC = () => {
 
   const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
 
-  const themeClass = {
-    'light': themeScss.light_theme,
-    'dark': themeScss.dark_theme
-  };
-
-  const className = classnames({
-    [styles.routerWrapper]: true,
-    [themeClass[theme]]: true,
-  });
-
   return (
-    <div className={className}>
+    <div className={styles.routerWrapper}>
       <Router>
         <div className={styles.RouterHead}>
           <Header></Header>
         </div>
         <Suspense fallback={fallback()}>
-          <div className={`${styles.RouterView} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}>
+          <div className={styles.RouterView}>
             {/* 登录 */}
             <Route path="/login" component={Login} />
             {/* 前台 */}

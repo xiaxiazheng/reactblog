@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
-import classnames from 'classnames';
+import React, { useState } from 'react';
 import { Icon, message, Upload, Modal } from 'antd';
 import styles from './ImageBox.module.scss';
 import { baseUrl } from '../../env_config';
 import { deleteImg } from '../../client/ImgHelper';
-import { ThemeContext } from '../../context/ThemeContext';
 import Loading from '../loading/Loading';
 import PreviewImage from '../preview-image/PreviewImage';
 
@@ -20,8 +18,6 @@ interface PropsType {
 };
 
 const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片", imageFileName, imageUrl, otherId, initImgList, width='170px' }) => {
-  const { theme } = useContext(ThemeContext);
-
   const { confirm } = Modal;
 
   const [loading, setLoading] = useState(true);
@@ -78,14 +74,9 @@ const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片"
     document.body.removeChild(input);
   };
 
-  const className = classnames({
-    [styles.Imagebox]: true,
-    [styles.lightImagebox]: theme === 'light'
-  })
-
   return (
     <div
-      className={className}
+      className={styles.Imagebox}
       style={{
         width: `${width}`,
         height: `${width}`

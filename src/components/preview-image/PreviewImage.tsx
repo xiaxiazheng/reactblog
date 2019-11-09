@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import classnames from 'classnames';
 import { Modal } from 'antd';
 import styles from './PreviewImage.module.scss';
-import { ThemeContext } from '../../context/ThemeContext';
 
 interface PropsType {
   isPreview: boolean;
@@ -12,7 +11,6 @@ interface PropsType {
 };
 
 const ImageBox: React.FC<PropsType> = (props) => {
-  const { theme } = useContext(ThemeContext);
 
   const {
     isPreview,
@@ -21,16 +19,11 @@ const ImageBox: React.FC<PropsType> = (props) => {
     closePreview
   } = props;
 
-  // const className = classnames({
-  //   [styles.Imagebox]: true,
-  //   [styles.lightImagebox]: theme === 'light'
-  // })
-
   return (
     <div>
       {/* 图片预览 */}
       <Modal
-        wrapClassName={`${styles.previewImgBoxWrapper} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}
+        wrapClassName={`${styles.previewImgBoxWrapper} 'ScrollBar'}`}
         className={styles.previewImgBox}
         visible={isPreview}
         footer={null}

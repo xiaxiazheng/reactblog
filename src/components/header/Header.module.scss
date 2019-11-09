@@ -1,16 +1,14 @@
-@import '../../assets/scss/Theme.module.scss';
-
 .Header {
   display: flex;
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  border-bottom: 1px solid $dark_borderColor;
+  border-bottom: 1px solid var(--borderColor);
   box-sizing: border-box;
   :global(.ant-popover-inner-content) {
     padding: 0;
-    background-color: $dark_bgColor;
-    border: 1px solid $dark_borderColor;
+    background-color: var(--bgColor);
+    border: 1px solid var(--borderColor);
     border-radius: 4px;
   }
 
@@ -21,7 +19,7 @@
   :global(.ant-input-affix-wrapper .ant-input-prefix),
   :global(.ant-input-affix-wrapper .ant-input-suffix),
   :global(.ant-input-affix-wrapper) {
-    color: $dark_color;
+    color: var(--color);
   }
 
   .headerLeft {
@@ -30,47 +28,47 @@
       line-height: 3rem;
       font-size: 1.3rem;
       font-weight: 600;
-      color: $dark_color;
+      color: var(--color);
       cursor: pointer;
       &:hover {
-        color: $dark_color_active;
+        color: var(--color_active);
       }
     }
   }
 
   .headerRight {
     .themeSwitch {
-      border: 1px solid $dark_borderColor;
+      border: 1px solid var(--borderColor);
       margin-right: 10px;
       &:global(.ant-switch-checked) {
         background-color: transparent;
       }
       &:global(.ant-switch::after) {
-        border: 1px solid $dark_borderColor;
+        border: 1px solid var(--borderColor);
       }
     }
     .searchTree {
       width: 165px;
       margin-right: 1rem;
       >input {
-        border-color: $dark_borderColor;
-        background-color: $dark_bgColor;
-        color: $dark_color;
+        border-color: var(--borderColor);
+        background-color: var(--bgColor);
+        color: var(--color);
       }
       :global(.ant-input-prefix), :global(.ant-input-suffix>i) {
-        color: $dark_color;
+        color: var(--color);
       }
     }
     .headerRouteList {
       display: inline-block;
-      background-color: $dark_bgColor;
+      background-color: var(--bgColor);
       .headerIcon {
-        color: $dark_color;
+        color: var(--color);
       }
     }
     a, span {
       display: inline-block;
-      color: $dark_color;
+      color: var(--color);
     }
 
     .treeSearchList {
@@ -78,19 +76,19 @@
       overflow-y: auto;
       font-size: 1rem;
       >div {
-        border: 1px solid $dark_borderColor;
+        border: 1px solid var(--borderColor);
         border-radius: 5px;
         margin: .5rem;
         padding: .5rem;
         letter-spacing: 1px;
         cursor: pointer;
         &:hover {
-          background-color: $dark_bgColor;
+          background-color: var(--bgColor);
         }
         >span {
           display: block;
           .active {
-            background-color: $dark_keyword_highlight;
+            background-color: var(--keyword_highlight);
           }
           &:first-child {
             font-size: .85rem;
@@ -104,71 +102,6 @@
     
     .noResult {
       padding: .5rem;
-    }
-  }
-}
-
-.lightHeader {
-  border-bottom: 1px solid $light_borderColor;
-  :global(.ant-popover-inner-content) {
-    background-color: $light_bgColor;
-    border: 1px solid $light_borderColor;
-  }
-  :global(.ant-input-affix-wrapper .ant-input-prefix),
-  :global(.ant-input-affix-wrapper .ant-input-suffix),
-  :global(.ant-input-affix-wrapper) {
-    color: $light_color;
-  }
-  .headerLeft {
-    >a {
-      color: $light_color;
-      &:hover {
-        color: $light_color_active;
-      }
-    }
-  }
-  .headerRight {
-    display: flex;
-    align-items: center;
-    .themeSwitch {
-      border: 1px solid $light_borderColor;
-      &:global(.ant-switch::after) {
-        border: 1px solid $light_borderColor;
-      }
-    }
-    .searchTree {
-      >input {
-        border-color: $light_borderColor;
-        background-color: $light_bgColor;
-        color: $light_color;
-      }
-      :global(.ant-input-prefix), :global(.ant-input-suffix>i) {
-        color: $light_color;
-      }
-    }
-    .headerRouteList {
-      background-color: $light_bgColor;
-      .headerIcon {
-        color: $light_color;
-      }
-    }
-    a, span {
-      display: inline-block;
-      color: $light_color;
-    }
-
-    .treeSearchList {
-      >div {
-        border: 1px solid $light_borderColor;
-        &:hover {
-          background-color: $light_bgColor;
-        }
-        >span {
-          .active {
-            background-color: $light_keyword_highlight;
-          }
-        }
-      }
     }
   }
 }

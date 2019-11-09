@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
 import ImageBox from '../../components/image-box/ImageBox';
 import styles from './Admin.module.scss';
-import { ThemeContext } from '../../context/ThemeContext';
-import classnames from 'classnames';
 
 interface ImgType {
   cTime: string;
@@ -17,7 +15,6 @@ interface ImgType {
 };
 
 const Admin: React.FC = () => {
-  const { theme } = useContext(ThemeContext);
 
   const [AdminImgList, setAdminImgList] = useState<ImgType[]>([])
 
@@ -37,14 +34,9 @@ const Admin: React.FC = () => {
     }
     setAdminImgList(imgList);
   };
-
-  const className = classnames({
-    [styles.Admin]: true,
-    [styles.lightAdmin]: theme === 'light'
-  })
   
   return (
-    <div className={className}>
+    <div className={styles.Admin}>
       {AdminImgList.map((item: ImgType) => {
         return (
           <ImageBox

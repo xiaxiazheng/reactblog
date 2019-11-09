@@ -8,7 +8,6 @@ import { baseImgUrl } from '../../../env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
 import ImageBox from '../../../components/image-box/ImageBox';
 import classnames from 'classnames';
-import { ThemeContext } from '../../../context/ThemeContext'
 
 interface PropsType {
   history: History;
@@ -39,7 +38,6 @@ interface TreeContType {
 }
 
 const TreeContEdit: React.FC<PropsType> = ({ match }) => {
-  const { theme } = useContext(ThemeContext);
 
   const { TextArea } = Input;
 
@@ -210,14 +208,9 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     );
   };
 
-  const className = classnames({
-    [styles.treecontedit]: true,
-    [styles.lightTreecontedit]: theme === 'light'
-  })
-
   return (
     <>
-      <div className={className}>
+      <div className={styles.treecontedit}>
         <h2 className={styles.treecontTitle}>{title}</h2>
         {
           contList.map((item, index) => {
@@ -231,7 +224,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                     onChange={(e) => handleChange(item.cont_id, 'title', e.target.value)}
                   />
                   <TextArea
-                    className={`${styles.contitemTextarea} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}
+                    className={`${styles.contitemTextarea} 'ScrollBar'}`}
                     placeholder="请输入内容"
                     autosize={{ minRows: 6, maxRows: 21 }}
                     value={item.cont}

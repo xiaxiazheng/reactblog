@@ -8,7 +8,6 @@ import { baseImgUrl } from '../../../env_config';
 import Loading from '../../../components/loading/Loading';
 import PreviewImage from '../../../components/preview-image/PreviewImage';
 import classnames from 'classnames';
-import { ThemeContext } from '../../../context/ThemeContext';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -42,7 +41,6 @@ interface TreeContType {
 };
 
 const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
-  const { theme } = useContext(ThemeContext);
 
   const contShowRef = useRef(null);
   const contRef = useRef(null);
@@ -111,13 +109,8 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
     }
   });
 
-  const classname = classnames({
-    [styles.treecontshow]: true,
-    [styles.lightTreecontshow]: theme === 'light'
-  })
-
   return (
-    <div className={classname} ref={contShowRef}>
+    <div className={styles.treecontshow} ref={contShowRef}>
       {loading ? <Loading fontSize={60} /> :
         <>
           <h2 className={styles.treecontTitle}>{title}</h2>

@@ -96,13 +96,19 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
     setShowSearch(false);
   }
 
-  const className = classnames({
-    [styles.Header]: true,
-    [styles.lightHeader]: theme === 'light'
+  const switchTheme = () => {
+    setTheme(theme === 'dark' ? 'light': 'dark');
+  }
+
+  /** 切换主题的原理是通过切换类切换 css 变量 */
+  useEffect(() => {
+    /** 通过设置 <App> 的类切换主题，主题样式在 Global.scss */
+    let dom: any = document.querySelector('.App');
+    dom.setAttribute('class', `App ${theme}Theme`);
   });
 
   return (
-    <div className={className}>
+    <div className={styles.Header}>
       <span className={styles.headerLeft} onClick={() => setCurrent(isLogin ? 'admin' : 'home')}>
         <Link to={isLogin ? '/admin' : '/'}>{navTitle}</Link>
       </span>
@@ -113,7 +119,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           checkedChildren="light"
           unCheckedChildren="dark"
           checked={theme === 'light'}
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          onClick={switchTheme}
         />
         {/* 搜索树节点 */}
         <Popover
@@ -126,7 +132,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
               // 有搜索结果的情况
               searchResult.length !== 0
               ?
-              <div className={`${styles.treeSearchList} ${theme === 'light' ? 'light_ScrollBar' : 'ScrollBar'}`}>
+              <div className={`${styles.treeSearchList} 'ScrollBar'}`}>
                 {searchResult.map((item) => {
                   return (
                     <div

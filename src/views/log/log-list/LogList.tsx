@@ -9,7 +9,6 @@ import { LogListType } from '../LogType';
 import LogListItem from './LogListItem';
 import { LogContext } from '../LogContext';
 import Loading from '../../../components/loading/Loading';
-import { ThemeContext } from '../../../context/ThemeContext';
 import classnames from 'classnames';
 
 interface PropsType {
@@ -21,7 +20,6 @@ interface PropsType {
 };
 
 const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass }) => {
-  const { theme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext);  // 获取是否登录
 
   const [loading, setLoading] = useState(true);
@@ -122,21 +120,15 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
     }
   };
 
-  const operateBoxClass = classnames({
-    [styles.operateBox]: true,
-    [styles.lightOperateBox]: theme === 'light'
-  });
 
   const logListClass = classnames({
     [styles.logList]: true,
-    [styles.lightLogList]: theme === 'light',
-    'ScrollBar': theme === 'dark',
-    'light_ScrollBar': theme === 'light'
+    'ScrollBar': true
   });
 
   return (
     <>
-      <div className={operateBoxClass}>
+      <div className={styles.operateBox}>
         {/* 新建日志 */}
         {isLogin &&
           <Button

@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './WallControl.module.scss';
 import { getImgList } from '../../client/ImgHelper';
 import { baseImgUrl } from '../../env_config';
 import ImageBox from '../../components/image-box/ImageBox';
-import { ThemeContext } from '../../context/ThemeContext';
-import classnames from 'classnames';
 
 interface ImgType {
   cTime: string;
@@ -17,7 +15,6 @@ interface ImgType {
 };
 
 const WallControl: React.FC = () => {
-  const { theme } = useContext(ThemeContext);
 
   const [wallList, setWallList] = useState<ImgType[]>([])
 
@@ -37,14 +34,9 @@ const WallControl: React.FC = () => {
     }
     setWallList(imgList);
   };
-
-  const className = classnames({
-    [styles.wallControl]: true,
-    [styles.lightwallControl]: theme === 'light'
-  })
   
   return (
-    <div className={className}>
+    <div className={styles.wallControl}>
       {wallList.map((item: ImgType) => {
         return (
           <ImageBox
