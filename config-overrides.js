@@ -1,28 +1,35 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const {
   override,
   addWebpackAlias,
+  addWebpackExternals,
   fixBabelImports,
   addWebpackPlugin
 } = require('customize-cra');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const CompressionPlugin = require('compression-webpack-plugin');
+// const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   webpack: function (config, env) {
-    // config.resolve.alias['@'] = path.resolve(__dirname, 'src/');
-
-    config.externals = {
-      'highlight.js': 'hljs',
-      'quill': 'Quill',
-    };
 
     override(
+      addWebpackExternals({
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+        'highlight.js': 'hljs',
+        'quill': 'Quill',
+      }),
       addWebpackPlugin(
-        new webpack.DefinePlugin(BundleAnalyzerPlugin)  // TODO，不起作用
+        new BundleAnalyzerPlugin(),
       ),
+      // addWebpackPlugin(
+      //   new CompressionPlugin()
+      // ),
       addWebpackAlias({
-        '@': path.join(__dirname, '..', 'src')  // TODO，不起作用
+        // ['@']: path.resolve(__dirname, 'src'),  // TODO，不起作用
+        ['@ant-design/icons/lib/dist$']: path.resolve(__dirname, 'src/assets/antdIcon.ts')
       }),
       fixBabelImports('import', {
         libraryName: 'antd',
