@@ -130,17 +130,17 @@ const LogListItem: React.FC<PropsType> = ({ logClass, logItemData, orderBy, getN
         <div className={styles.logOperateBox}>
           <Icon
             onClick={handleClassifyLog}
-            className={`${logItemData.classification !== '' ? "active" : ''} ${styles.logOperateIcon}`}
+            className={`${logItemData.classification !== '' ? styles.active : ''} ${styles.logOperateIcon}`}
             title={logItemData.classification !== '' ? '点击切换日志分类' : '点击为该日志分类'}
             type="book" />
           <Icon
             onClick={handleStickLog}
-            className={`${logItemData.isStick !== '' ? "active" : ''} ${styles.logOperateIcon}`}
+            className={`${logItemData.isStick === 'true' ? styles.active : ''} ${styles.logOperateIcon}`}
             title={logItemData.isStick === 'true' ? '点击取消置顶' : '点击置顶该日志'}
             type="vertical-align-top" />
           <Icon
             onClick={handleShowLog}
-            className={`${logItemData.isShow !== '' ? "active" : ''} ${styles.logOperateIcon}`}
+            className={`${logItemData.isShow === 'true' ? styles.active : ''} ${styles.logOperateIcon}`}
             title={logItemData.isShow === 'true' ? '当前日志可见' : '当前日志不可见'}
             type="eye" />
           <Icon

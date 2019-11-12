@@ -14,6 +14,7 @@ export {
   EyeOutline,
   DeleteOutline,
   LeftOutline,
+  RightOutline,
   VerticalAlignTopOutline,
   HomeOutline,
   EditOutline,
@@ -24,5 +25,8 @@ export {
   ArrowDownOutline,
   PlusCircleOutline,
   PlusSquareOutline,
-  RocketOutline
+  RocketOutline,
+  CheckCircleFill,
+  CloseCircleFill,
+  ExclamationCircleFill
 } from '@ant-design/icons'

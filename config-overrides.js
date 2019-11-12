@@ -20,10 +20,11 @@ module.exports = {
         'react-dom': 'ReactDOM',
         'highlight.js': 'hljs',
         'quill': 'Quill',
+        // 'moment': 'moment',
       }),
-      addWebpackPlugin(
-        new BundleAnalyzerPlugin(),
-      ),
+      // addWebpackPlugin(
+      //   new BundleAnalyzerPlugin(),
+      // ),
       // addWebpackPlugin(
       //   new CompressionPlugin()
       // ),
