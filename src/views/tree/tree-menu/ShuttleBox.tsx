@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ShuttleBox.module.scss';
-import { changeFather } from '../../../client/TreeHelper';
+import { changeFather } from '@/client/TreeHelper';
 import { message, Modal, Select } from 'antd';
 
 export interface ShuttleMsgType {

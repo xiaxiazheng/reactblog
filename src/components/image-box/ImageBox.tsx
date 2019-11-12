@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Icon, message, Upload, Modal } from 'antd';
 import styles from './ImageBox.module.scss';
-import { baseUrl } from '../../env_config';
-import { deleteImg } from '../../client/ImgHelper';
+import { baseUrl } from '@/env_config';
+import { deleteImg } from '@/client/ImgHelper';
 import Loading from '../loading/Loading';
 import PreviewImage from '../preview-image/PreviewImage';
 

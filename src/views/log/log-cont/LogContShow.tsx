@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { OneLogType } from '../LogType';
 import styles from './LogContShow.module.scss';
-import { getLogCont } from '../../../client/LogHelper';
-import Loading from '../../../components/loading/Loading'
+import { getLogCont } from '@/client/LogHelper';
+import Loading from '@/components/loading/Loading'
 import classnames from 'classnames';
 // 代码高亮
 import hljs from 'highlight.js';

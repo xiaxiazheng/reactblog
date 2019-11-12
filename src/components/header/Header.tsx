@@ -2,12 +2,12 @@ import React, {useState, useContext, useEffect} from 'react';
 import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
 import { Menu, Icon, Input, Popover, Spin, Switch } from 'antd';
-import { navTitle } from '../../env_config';
+import { navTitle } from '@/env_config';
 import { withRouter, match } from 'react-router';
 import { Location, History } from 'history';
-import { IsLoginContext } from '../../context/IsLoginContext';
-import { ThemeContext } from '../../context/ThemeContext';
-import { searchTree } from '../../client/TreeHelper';
+import { IsLoginContext } from '@/context/IsLoginContext';
+import { ThemeContext } from '@/context/ThemeContext';
+import { searchTree } from '@/client/TreeHelper';
 
 interface PropsType {
   match: match;
@@ -107,7 +107,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
   });
 
   return (
-    <div className={styles.Header}>
+    <header className={styles.Header}>
       <span className={styles.headerLeft} onClick={() => setCurrent(isLogin ? 'admin' : 'home')}>
         <Link to={isLogin ? '/admin' : '/'}>{navTitle}</Link>
       </span>
@@ -185,7 +185,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           </Menu.Item>
         </Menu>
       </span>
-    </div>
+    </header>
   );
 }
 

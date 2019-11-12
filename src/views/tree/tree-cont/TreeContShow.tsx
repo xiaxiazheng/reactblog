@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import styles from './TreeContShow.module.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { getChildName } from '../../../client/TreeHelper';
-import { getNodeCont } from '../../../client/TreeContHelper';
-import { baseImgUrl } from '../../../env_config';
-import Loading from '../../../components/loading/Loading';
-import PreviewImage from '../../../components/preview-image/PreviewImage';
+import { getChildName } from '@/client/TreeHelper';
+import { getNodeCont } from '@/client/TreeContHelper';
+import { baseImgUrl } from '@/env_config';
+import Loading from '@/components/loading/Loading';
+import PreviewImage from '@/components/preview-image/PreviewImage';
 import { TreeContext } from '../TreeContext';
 // 代码高亮
 import hljs from 'highlight.js';

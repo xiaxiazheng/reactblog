@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from './Wall.module.scss';
-import { IsLoginContext } from '../../context/IsLoginContext';
+import { IsLoginContext } from '@/context/IsLoginContext';
 import WallShower from './WallShower';
 import WallControl from './WallControl';
 import classnames from 'classnames';

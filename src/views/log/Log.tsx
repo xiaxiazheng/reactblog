@@ -3,10 +3,10 @@ import styles from './Log.module.scss';
 import { Tabs, Icon, Modal, Input, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { IsLoginContext } from '../../context/IsLoginContext';
-import { getLogAllClass, getHomeLogAllClass, editClassName } from '../../client/LogHelper';
+import { IsLoginContext } from '@/context/IsLoginContext';
+import { getLogAllClass, getHomeLogAllClass, editClassName } from '@/client/LogHelper';
 import LogList from './log-list/LogList';
-import Loading from '../../components/loading/Loading';
+import Loading from '@/components/loading/Loading';
 import classnames from 'classnames';
 
 interface PropsType {

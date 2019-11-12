@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import styles from './TreeMenuItem.module.scss';
-import { modifyTreeNode, deleteTreeNode, changeSort } from '../../../client/TreeHelper';
+import { modifyTreeNode, deleteTreeNode, changeSort } from '@/client/TreeHelper';
 import { Icon, message, Modal } from 'antd';
-import { IsLoginContext } from '../../../context/IsLoginContext';
+import { IsLoginContext } from '@/context/IsLoginContext';
 import { match } from 'react-router';
 import { TreeContext } from '../TreeContext';
 

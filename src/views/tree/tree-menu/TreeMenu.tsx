@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import styles from './TreeMenu.module.scss';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
-import { IsLoginContext } from '../../../context/IsLoginContext';
-import { getTree, addTreeNode } from '../../../client/TreeHelper';
+import { IsLoginContext } from '@/context/IsLoginContext';
+import { getTree, addTreeNode } from '@/client/TreeHelper';
 import { Menu, Icon, message, Input } from 'antd';
 import TreeMenuItem from './TreeMenuItem';
 import { ShuttleBox, ShuttleMsgType } from './ShuttleBox';
-import Loading from '../../../components/loading/Loading';
-import { appUser } from '../../../env_config';
+import Loading from '@/components/loading/Loading';
+import { appUser } from '@/env_config';
 import classnames from 'classnames';
-import { ThemeContext } from '../../../context/ThemeContext';
+import { ThemeContext } from '@/context/ThemeContext';
 
 interface PropsType {
   history: History;
