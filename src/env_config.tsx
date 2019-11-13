@@ -1,5 +1,5 @@
 // 前端访问路径及所在环境
-let host: string = "http://www.xiaxiazheng.cn";
+let host: string = "https://www.xiaxiazheng.cn";
 let url: string = `${host}:3000`;
 
 let nav: string = 'XIAXIAZheng';
