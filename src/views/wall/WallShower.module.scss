@@ -5,21 +5,27 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    img {
-      max-width: 100%;
+    >div {
       margin: 5px 6px;
-      padding: 1px;
-      height: 200px;
-      background: #b4cfec;
-      flex-grow: 1;
-      object-fit: cover;
-      transition: .3s;
-      cursor: pointer;
+      img {
+        max-width: 100%;
+        padding: 1px;
+        min-width: 200px;
+        height: 200px;
+        border:  1px solid #93dbe9;
+        border-radius: 5px;
+        box-sizing: border-box;
+        flex-grow: 1;
+        object-fit: cover;
+        transition: .3s;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.05);
+          z-index: 3;
+        }
+      }
     }
-    img:hover {
-      transform: scale(1.05);
-      z-index: 3;
-    }
+
   }
   .wrap:after {
     display: block;

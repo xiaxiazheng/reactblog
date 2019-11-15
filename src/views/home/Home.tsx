@@ -4,6 +4,7 @@ import { Carousel } from 'antd';
 import { getImgList } from '@/client/ImgHelper';
 import { baseImgUrl } from '@/env_config';
 import classnames from 'classnames';
+import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
 
 interface ImgType {
   cTime: string;
@@ -46,7 +47,11 @@ const Home: React.FC = () => {
       <Carousel className="carousel" autoplay>
         {homeData.imgList.map((item: ImgType) => {
           return (
-            <img key={item.img_id} src={item.imgUrl} alt={item.imgname}/>
+            <LazyloadImage
+              key={item.img_id}
+              imageName={item.imgname}
+              imageUrl={item.imgUrl || ''}
+            />
           )
         })}
       </Carousel>

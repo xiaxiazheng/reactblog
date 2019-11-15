@@ -3,6 +3,7 @@ import styles from './WallShower.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseImgUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image/PreviewImage';
+import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
 
 interface ImgType {
   cTime: string;
@@ -42,15 +43,18 @@ const WallShower: React.FC = () => {
       <div className={styles.imgWrapper}>
         {wallList.map((item: ImgType) => {
           return (
-            <img
+            <div
               key={item.img_id}
-              src={item.imgUrl}
-              alt={item.imgname}
               onClick={() => {
                 setPreviewImg(item.imgUrl);
                 setPreviewImgName(item.imgname);
               }}
-            />
+            >
+              <LazyloadImage
+                imageName={item.imgname}
+                imageUrl={item.imgUrl}
+              />              
+            </div>
           )
         })}
       </div>
