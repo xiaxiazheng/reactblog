@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import styles from './LazyloadImage.module.scss';
+import { default as placeHolder } from '../../assets/loading.svg';
 
 interface PropsType {
   imageName: string;
@@ -15,7 +16,7 @@ const LazyloadImage: React.FC<PropsType> = (props) => {
     imageUrl,
   } = props;
 
-  const placeHolder = require('../../assets/loading.svg');
+  // const placeHolder = require('../../assets/loading.svg');
 
   const changeRealSrc = () => {
     const imgdom: any = imgRef.current;
