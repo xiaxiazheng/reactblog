@@ -4,6 +4,7 @@ import { Carousel } from 'antd';
 import { getImgList } from '@/client/ImgHelper';
 import { baseImgUrl } from '@/env_config';
 import classnames from 'classnames';
+import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
 
 interface ImgType {
   cTime: string;
@@ -18,6 +19,7 @@ interface ImgType {
 const Home: React.FC = () => {
 
   const [homeData, setHomeData] = useState({ imgList: [] });
+  const [backgroundUrl, setBackgroundUrl] = useState('');
 
   useEffect(() => {
     let imgList: any = [];
@@ -31,6 +33,7 @@ const Home: React.FC = () => {
         });
       }
       setHomeData({ imgList });
+      setBackgroundUrl(imgList[0].imgUrl);
     };
 
     getData();
@@ -42,14 +45,18 @@ const Home: React.FC = () => {
   });
 
   return (
-    <div className={homgClass}>
-      <Carousel className="carousel" autoplay>
+    <div className={homgClass} style={{'backgroundImage': `url(${backgroundUrl})`}}>
+      {/* <Carousel className="carousel" autoplay>
         {homeData.imgList.map((item: ImgType) => {
           return (
-            <img key={item.img_id} src={item.imgUrl} alt={item.imgname}/>
+            <LazyloadImage
+              key={item.img_id}
+              imageName={item.imgname}
+              imageUrl={item.imgUrl || ''}
+            />
           )
         })}
-      </Carousel>
+      </Carousel> */}
       <footer className={styles.footerBeian}>
         <div style={{width: '300px',margin: '0 auto'}}>
           <a

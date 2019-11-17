@@ -1,5 +1,5 @@
 const path = require('path');
-// const webpack = require('webpack');
+
 const {
   override,
   addWebpackAlias,
@@ -7,9 +7,7 @@ const {
   fixBabelImports,
   addWebpackPlugin
 } = require('customize-cra');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const CompressionPlugin = require('compression-webpack-plugin');
-// const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   webpack: function (config, env) {
@@ -20,7 +18,6 @@ module.exports = {
         'react-dom': 'ReactDOM',
         'highlight.js': 'hljs',
         'quill': 'Quill',
-        // 'moment': 'moment',
       }),
       // addWebpackPlugin(
       //   new BundleAnalyzerPlugin(),
