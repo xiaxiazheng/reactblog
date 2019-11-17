@@ -243,6 +243,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                         key={jtem.img_id}
                         type="treecont"
                         imageId={jtem.img_id}
+                        imageName={jtem.imgname}
                         imageFileName={jtem.imgfilename}
                         imageUrl={`${baseImgUrl}/treecont/${jtem.imgfilename}`}
                         initImgList={getTreeCont}

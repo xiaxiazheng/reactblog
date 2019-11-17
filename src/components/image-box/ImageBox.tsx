@@ -17,7 +17,18 @@ interface PropsType {
   width?: string;  // 可以传递宽高给组件
 };
 
-const ImageBox: React.FC<PropsType> = ({ type, imageId, imageName="一张图片", imageFileName, imageUrl, otherId, initImgList, width='170px' }) => {
+const ImageBox: React.FC<PropsType> = (props) => {
+  const {
+    type,
+    imageId,
+    imageName = "一张图片",
+    imageFileName,
+    imageUrl,
+    otherId,
+    initImgList,
+    width = '170px'
+  } = props;
+
   const { confirm } = Modal;
 
   const [loading, setLoading] = useState(true);
