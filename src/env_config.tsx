@@ -10,6 +10,7 @@ if (process.env.REACT_APP_IS_LocalHost && process.env.REACT_APP_IS_LocalHost ===
   url = `${host}:300`;
 } else {
   if (process.env.REACT_APP_User && process.env.REACT_APP_User === 'hyp') {
+    host = "http://www.xiaxiazheng.cn"
     nav = '燕苹的小站';
     url = `${host}:518`;
   }
