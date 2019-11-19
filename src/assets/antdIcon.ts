@@ -5,6 +5,7 @@ export {
   DownOutline,
   SearchOutline,
   SaveOutline,
+  FileAddOutline,
   PlusOutline,
   ClusterOutline,
   BookOutline,
