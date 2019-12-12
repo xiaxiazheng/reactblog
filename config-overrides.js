@@ -8,6 +8,7 @@ const {
   addWebpackPlugin
 } = require('customize-cra');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 module.exports = {
   webpack: function (config, env) {
@@ -36,6 +37,8 @@ module.exports = {
       })
     )(config, env)
 
+    // 添加 react-hot-loader，用来支持模块热替换 HMR
+    config = rewireReactHotLoader(config, env)
     return config
   }
 }
