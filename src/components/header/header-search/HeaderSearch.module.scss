@@ -1,0 +1,57 @@
+:global(.ant-popover-inner-content) {
+  padding: 0;
+  background-color: var(--bgColor);
+  border: 1px solid var(--borderColor);
+  border-radius: 4px;
+}
+
+.searchTree {
+  width: 165px;
+  margin-right: 1rem;
+  >input {
+    border-color: var(--borderColor);
+    background-color: var(--bgColor);
+    color: var(--color);
+  }
+  :global(.ant-input-prefix), :global(.ant-input-suffix>i) {
+    color: var(--color);
+  }
+}
+
+.treeSearchList {
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 1rem;
+  >div {
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    margin: .5rem;
+    padding: .5rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--bgColor);
+    }
+    >span {
+      display: block;
+      .active {
+        color: black;
+        background-color: var(--keyword_highlight);
+      }
+      &:first-child {
+        font-size: .85rem;
+      }
+      &:last-child {
+        font-size: .7rem;
+      }
+    }
+  }
+}
+
+.noResult {
+  padding: .5rem;
+}
+
+.myloading {
+  padding: 0 30px;
+}
