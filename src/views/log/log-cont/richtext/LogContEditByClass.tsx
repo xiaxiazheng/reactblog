@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Button, message, Icon } from 'antd';
-import { OneLogType } from '../LogType';
+import { OneLogType } from '../../LogType';
 import { modifyLogCont } from '@/client/LogHelper';
 import './LogContEditByClass.scss';
 import ImageBox from '@/components/image-box/ImageBox';

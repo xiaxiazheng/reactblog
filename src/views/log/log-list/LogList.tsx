@@ -83,7 +83,13 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
-    history.push(`${isLogin ? '/admin' : ''}/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`);
+    const path = `${isLogin ? '/admin' : ''}/log/${match.params.log_class}/${btoa(decodeURIComponent(item.log_id))}`;
+    history.push({
+      pathname: path,
+      state: {
+        editType: item.edittype
+      }
+    });
   };
 
   // 添加日志
@@ -134,13 +140,22 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
       <div className={styles.operateBox}>
         {/* 新建日志 */}
         {isLogin &&
-          <Button
-            className={styles.addLogButton}
-            title="新建富文本日志"
-            type="primary"
-            icon="plus"
-            onClick={addNewLog.bind(null, 'richtext')}
-          />          
+          <>
+            <Button
+              className={styles.addLogButton}
+              title="新建富文本日志"
+              type="primary"
+              icon="plus"
+              onClick={addNewLog.bind(null, 'richtext')}
+            />
+            <Button
+              className={styles.addLogButton}
+              title="新建 MarkDown 日志"
+              type="primary"
+              icon="plus"
+              onClick={addNewLog.bind(null, 'markdown')}
+            />
+          </>     
         }
         {/* 排序条件 */}
         <Radio.Group className={styles.orderbyBox} value={orderBy} onChange={e => setOrderBy(e.target.value)}>

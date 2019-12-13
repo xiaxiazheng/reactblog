@@ -5,18 +5,24 @@ import { Button, Icon, Switch } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import LogContEditByClass from './LogContEditByClass';
-import LogContShow from './LogContShow';
+import LogContEditByClass from './richtext/LogContEditByClass';
+import LogContEditByMD from './markdown/LogContEditByMD';
+import LogContShow from './richtext/LogContShow';
+import LogContShowMD from './markdown/LogContShowMD';
 import { OneLogType } from '../LogType';
 
 interface PropsType {
-  match: match<{log_class: string;log_id: string}>;
+  match: match<{
+    log_class: string;
+    log_id: string;
+  }>;
   history: History;
   location: Location;
 };
 
-const LogCont: React.FC<PropsType> = ({ match, history }) => {
+const LogCont: React.FC<PropsType> = ({ match, history, location }) => {
   const { isLogin } = useContext(IsLoginContext);
+  const { editType } = location.state;
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -59,14 +65,14 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
         <Switch className={styles.logEditSwitch} checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
       }
       {/* 展示 */}
-      {!isEdit &&
-        <LogContShow log_id={match.params.log_id} />
-      }
+      {!isEdit && editType === 'markdown' && <LogContShowMD log_id={match.params.log_id} />}
+      {!isEdit && editType === 'richtext' && <LogContShow log_id={match.params.log_id} />}
       {/* 编辑 */}
-      {isLogin && isEdit && logdata &&
-        // <LogContEdit logdata={logdata} />
-        <LogContEditByClass logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
-      }
+      {isLogin && isEdit && logdata && (
+        logdata.edittype === 'markdown'
+          ? <LogContEditByMD logdata={logdata} getLogContData={getData} />
+          : <LogContEditByClass logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
+      )}
     </div>
   )
 }

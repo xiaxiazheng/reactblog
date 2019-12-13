@@ -15,8 +15,8 @@ module.exports = {
 
     override(
       addWebpackExternals({
-        'react': 'React',
-        'react-dom': 'ReactDOM',
+        // 'react': 'React',
+        // 'react-dom': 'ReactDOM',
         'highlight.js': 'hljs',
         'quill': 'Quill',
       }),

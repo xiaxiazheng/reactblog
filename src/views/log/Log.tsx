@@ -50,7 +50,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
     }
   };
 
-  // 选择日志分类，路由跳转(直接改路由即可，有在监听路由)
+  // 切换日志分类的 tab，路由跳转(直接改路由即可，有在监听路由)
   const choiceClass = (key: string) => {
     history.push(`/${isLogin ? 'admin/log' : 'log'}/${key}`);
   };
