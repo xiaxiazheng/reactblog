@@ -55,7 +55,7 @@ const Header: React.FC<PropsType> = ({ history }) => {
     } else {
       setSearchResult([]);
     }
-    // setIsSearching(false);
+    setIsSearching(false);
   }
 
   /** 弹出层内容 */
@@ -146,7 +146,7 @@ const Header: React.FC<PropsType> = ({ history }) => {
         onFocus={handleFocus}
         onBlur={() => {
           setTimeout(() => {
-            // setShowPopup(false)
+            setShowPopup(false)
           }, 200)
         }}
         placeholder="搜索知识树节点"

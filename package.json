@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "startPig": "(set REACT_APP_User=hyp) && react-app-rewired start",
-    "startFront": "(set REACT_APP_IS_LocalHost=yes) && react-app-rewired start",
+    "startLocal": "(set REACT_APP_IS_LocalHost=yes) && react-app-rewired start",
     "build": "react-app-rewired build",
     "buildPig": "(set REACT_APP_User=hyp) && react-app-rewired build",
     "test": "react-app-rewired test",

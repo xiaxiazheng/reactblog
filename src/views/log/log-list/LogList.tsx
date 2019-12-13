@@ -92,10 +92,13 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
       edittype: type,
       classification: logclass === '所有日志' ? '' : logclass
     };
-    const res = await addLogCont(params);
+    const res: any = await addLogCont(params);
     if (res) {
+      console.log('res', res);
       message.success("新建成功");
-      getLogList();
+      /** 新建成功直接跳转到新日志 */
+      const newId = res.newid;
+      history.push(`/admin/log/${match.params.log_class}/${btoa(decodeURIComponent(newId))}`);
     } else {
       message.error("新建失败");
     }

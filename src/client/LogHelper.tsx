@@ -60,7 +60,7 @@ export async function getLogCont(id: string): Promise<any> {
 
 export async function addLogCont(params: any): Promise<boolean> {
   const data = await axiosPostHelper(`${baseUrl}/addlogcont`, params);
-  return data && data.resultsCode === 'success' ? true : false;
+  return data && data.resultsCode === 'success' ? data.data : false;
 }
 
 export async function modifyLogCont(params: any): Promise<string | false> {
