@@ -20,9 +20,9 @@ module.exports = {
         'highlight.js': 'hljs',
         'quill': 'Quill',
       }),
-      addWebpackPlugin(
-        new BundleAnalyzerPlugin(),
-      ),
+      // addWebpackPlugin(
+      //   new BundleAnalyzerPlugin(),
+      // ),
       // addWebpackPlugin(
       //   new CompressionPlugin()
       // ),

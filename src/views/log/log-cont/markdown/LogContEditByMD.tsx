@@ -38,14 +38,24 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
     }
   }, []);
 
+  /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
+  const [isKeyDown, setIsKeyDown] = useState(false);
+  useEffect(() => {
+    if (isKeyDown) {
+      saveEditLog();
+      setIsKeyDown(false);
+    }
+  }, [isKeyDown])
+
   // 键盘事件
   const onKeyDown = (e: any) => {
     if (e.keyCode === 83 && e.ctrlKey) {
       e.preventDefault();
-      saveEditLog();
+      setIsKeyDown(true);
     }
   }
 
+  /** 将字符串转化成 markdown html */
   useEffect(() => {
     if (markString) {
       const html = markdown.toHTML(markString);
@@ -117,9 +127,9 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             <span>修改时间：{logdata.mTime}</span>
           </div>
           {/* markdown 展示 */}
-          <div className={styles.markdownShower} dangerouslySetInnerHTML={markHtml} />
+          <div className={`${styles.markdownShower} ScrollBar`} dangerouslySetInnerHTML={markHtml} />
           {/* markdown 编辑 */}
-          <TextArea rows={10} className={styles.markdownEditor} value={markString} onChange={handleLogContChange} />
+          <TextArea rows={10} className={`${styles.markdownEditor} ScrollBar`} value={markString} onChange={handleLogContChange} />
         </>
       }
     </div>
