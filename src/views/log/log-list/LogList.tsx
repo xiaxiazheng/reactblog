@@ -7,7 +7,7 @@ import { getLogListIsVisible, getLogListAll, addLogCont } from '@/client/LogHelp
 import { IsLoginContext } from '@/context/IsLoginContext';
 import { LogListType } from '../LogType';
 import LogListItem from './LogListItem';
-import { LogContext } from '../LogContext';
+import { LogContext, LogContextType } from '../LogContext';
 import Loading from '@/components/loading/Loading';
 import classnames from 'classnames';
 
@@ -24,13 +24,38 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   const [loading, setLoading] = useState(true);
 
-  const { keyword, setKeyword } = useContext(LogContext);
-  const { pageNo, setPageNo} = useContext(LogContext);  // 当前页面
-  const { pageSize, setPageSize} = useContext(LogContext);  // 当前页面容量
-  const { orderBy, setOrderBy} = useContext(LogContext);  // 按创建时间或修改时间排序
-  const { showVisible, setShowVidible } = useContext(LogContext);  // 显示可见
-  const { showInvisible, setShowInvisible } = useContext(LogContext);  // 显示不可见
-  const { showNotClassify, setShowNotClassify } = useContext(LogContext);  // 仅显示未分类
+  const { tabsState, setTabsState } = useContext<LogContextType>(LogContext);
+  // 当前 tab 的状态
+  const [myState, setMyState] = useState<LogContextType['tabsState'][string]>({
+    keyword: null,
+    pageNo: 1,
+    pageSize: 15,
+    orderBy: 'modify',
+    showVisible: true,
+    showInvisible: true,
+    showNotClassify: false,
+  });
+  // 展开方便用
+  const {
+    keyword,
+    pageNo,
+    pageSize,
+    orderBy,
+    showVisible,
+    showInvisible,
+    showNotClassify,
+  } = myState;
+
+  useEffect(() => {
+    if (!tabsState[logclass]) {
+      setTabsState({
+        ...tabsState,
+        [logclass]: myState
+      });
+    } else {
+      setMyState(tabsState[logclass]);
+    }
+  }, [tabsState[logclass]])
 
   const [logListData, setLogListData] = useState({
     logList: [],  // 日志列表
@@ -79,7 +104,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   useEffect(() => {
     getLogList();
-  }, [match.params.log_class, logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
+  }, [
+    match.params.log_class, logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
@@ -87,7 +113,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
     history.push({
       pathname: path,
       state: {
-        editType: item.edittype
+        editType: item.edittype  // 要带上日志类型
       }
     });
   };
@@ -100,11 +126,16 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
     };
     const res: any = await addLogCont(params);
     if (res) {
-      console.log('res', res);
       message.success("新建成功");
       /** 新建成功直接跳转到新日志 */
       const newId = res.newid;
-      history.push(`/admin/log/${match.params.log_class}/${btoa(decodeURIComponent(newId))}`);
+      const path =`/admin/log/${match.params.log_class}/${btoa(decodeURIComponent(newId))}`;
+      history.push({
+        pathname: path,
+        state: {
+          editType: type  // 要带上日志类型
+        }
+      });
     } else {
       message.error("新建失败");
     }
@@ -112,7 +143,14 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
 
   // 输入搜索关键字
   const handleKeyword = (e: any) => {
-    setKeyword(e.target.value);
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        keyword: e.target.value,
+        pageNo: 1
+      }
+    });
   };
 
   // keyword 为空直接请求
@@ -135,6 +173,77 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
     'ScrollBar': true
   });
 
+  // 处理可见
+  const handleVisible = () => {
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        showVisible: !showVisible,
+        pageNo: 1
+      }
+    });
+  }
+
+  // 处理不可见
+  const handleInvisible = () => {
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        showInvisible: !showInvisible,
+        pageNo: 1
+      }
+    });
+  }
+
+  // 处理未分类
+  const handleNotClassify = () => {
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        showNotClassify: !showNotClassify,
+        pageNo: 1
+      }
+    });
+  }
+
+  // 处理按什么排序
+  const handleOrderBy = (e: any) => {
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        orderBy: e.target.value,
+        pageNo: 1
+      }
+    });
+  }
+
+  // 切换页
+  const handlePageNo = (page: number) => {
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        pageNo: page
+      }
+    });
+  }
+
+  // 切换页面容量
+  const handlePageSize = (current: number, size: number) => {
+    setTabsState({
+      ...tabsState,
+      [logclass]: {
+        ...tabsState[logclass],
+        pageSize: size,
+        pageNo: 1
+      }
+    });
+  }
+
   return (
     <>
       <div className={styles.operateBox}>
@@ -145,20 +254,20 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
               className={styles.addLogButton}
               title="新建富文本日志"
               type="primary"
-              icon="plus"
+              icon="file-text"
               onClick={addNewLog.bind(null, 'richtext')}
             />
             <Button
               className={styles.addLogButton}
               title="新建 MarkDown 日志"
               type="primary"
-              icon="plus"
+              icon="file-markdown"
               onClick={addNewLog.bind(null, 'markdown')}
             />
           </>     
         }
         {/* 排序条件 */}
-        <Radio.Group className={styles.orderbyBox} value={orderBy} onChange={e => setOrderBy(e.target.value)}>
+        <Radio.Group className={styles.orderbyBox} value={orderBy} onChange={handleOrderBy}>
           <Radio.Button value="create">按创建</Radio.Button>
           <Radio.Button value="modify">按修改</Radio.Button>
         </Radio.Group>
@@ -167,7 +276,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
           <Checkbox
             className={styles.checkBox}
             checked={showVisible}
-            onChange={() => {setShowVidible(!showVisible); setPageNo(1);}}>
+            onChange={handleVisible}>
               可见
           </Checkbox>
         }
@@ -175,7 +284,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
           <Checkbox
             className={styles.checkBox}
             checked={showInvisible}
-            onChange={() => {setShowInvisible(!showInvisible); setPageNo(1);}}>
+            onChange={handleInvisible}>
               不可见
           </Checkbox>
         }
@@ -183,14 +292,14 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
           <Checkbox
             className={styles.checkBox}
             checked={showNotClassify}
-            onChange={() => {setShowNotClassify(!showNotClassify); setPageNo(1);}}>
+            onChange={handleNotClassify}>
               未分类
           </Checkbox>
         }
         {/* 搜索框 */}
         <Input
           className={styles.searchBox}
-          value={keyword}
+          value={keyword || ''}
           onChange={handleKeyword}
           onKeyDownCapture={handleSearch}
           placeholder="回车搜当前分类日志"
@@ -205,12 +314,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
             current={pageNo}
             total={logListData.totalNumber}
             showTotal={total => `共${total}篇`}
-            onChange={(page) => {
-              setPageNo(page);
-            }}
-            onShowSizeChange={(current, size) => {
-              setPageSize(size);
-            }}
+            onChange={handlePageNo}
+            onShowSizeChange={handlePageSize}
             showSizeChanger
             pageSizeOptions={['5', '10', '15', '20']}
           />

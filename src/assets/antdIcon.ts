@@ -26,6 +26,8 @@ export {
   ArrowDownOutline,
   PlusCircleOutline,
   PlusSquareOutline,
+  FileTextOutline,
+  FileMarkdownOutline,
   RocketOutline,
   CheckCircleFill,
   CloseCircleFill,
