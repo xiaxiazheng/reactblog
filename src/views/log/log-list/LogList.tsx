@@ -103,9 +103,8 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
   }
 
   useEffect(() => {
-    getLogList();
-  }, [
-    match.params.log_class, logclass, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
+    match.params.log_class === logclass && getLogList();
+  }, [match.params.log_class, orderBy, pageNo, pageSize, showVisible, showInvisible, showNotClassify]);
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
@@ -166,7 +165,6 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
       getLogList();
     }
   };
-
 
   const logListClass = classnames({
     [styles.logList]: true,
