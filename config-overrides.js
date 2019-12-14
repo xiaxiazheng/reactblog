@@ -7,7 +7,7 @@ const {
   fixBabelImports,
   addWebpackPlugin
 } = require('customize-cra');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 module.exports = {
@@ -15,14 +15,14 @@ module.exports = {
 
     override(
       addWebpackExternals({
-        // 'react': 'React',
-        // 'react-dom': 'ReactDOM',
+        'react': 'React',
+        'react-dom': 'ReactDOM',
         'highlight.js': 'hljs',
         'quill': 'Quill',
       }),
-      // addWebpackPlugin(
-      //   new BundleAnalyzerPlugin(),
-      // ),
+      addWebpackPlugin(
+        new BundleAnalyzerPlugin(),
+      ),
       // addWebpackPlugin(
       //   new CompressionPlugin()
       // ),
