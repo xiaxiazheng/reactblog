@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Home.module.scss';
 import { Carousel } from 'antd';
 import { getImgList } from '@/client/ImgHelper';
-import { baseImgUrl } from '@/env_config';
+import { baseUrl } from '@/env_config';
 import classnames from 'classnames';
 import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
 
@@ -29,7 +29,7 @@ const Home: React.FC = () => {
         // 拼好 img 的 url
         imgList.push({
           ...item,
-          imgUrl: `${baseImgUrl}/main/${item.filename}`
+          imgUrl: `${baseUrl}/main/${item.filename}`
         });
       }
       setHomeData({ imgList });

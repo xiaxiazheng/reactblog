@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getImgList } from '@/client/ImgHelper';
-import { baseImgUrl } from '@/env_config';
+import { baseUrl } from '@/env_config';
 import ImageBox from '@/components/image-box/ImageBox';
 import styles from './Admin.module.scss';
 
@@ -29,7 +29,7 @@ const Admin: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseImgUrl}/main/${item.filename}`
+        imgUrl: `${baseUrl}/main/${item.filename}`
       });
     }
     setAdminImgList(imgList);
@@ -45,7 +45,7 @@ const Admin: React.FC = () => {
             imageId={item.img_id}
             imageName={item.imgname}
             imageFileName={item.filename}
-            imageUrl={`${baseImgUrl}/main/${item.filename}`}
+            imageUrl={`${baseUrl}/main/${item.filename}`}
             initImgList={getImageList}
           />
         )

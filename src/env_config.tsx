@@ -18,6 +18,5 @@ if (process.env.REACT_APP_IS_LocalHost && process.env.REACT_APP_IS_LocalHost ===
 
 export const isDev = process.env.NODE_ENV === 'development';
 export const appUser = process.env.REACT_APP_User === 'hyp' ? 'hyp' : 'zyb';
-export const baseImgUrl = url;
-export const baseUrl = `${url}/back`;
+export const baseUrl = url;
 export const navTitle = nav;

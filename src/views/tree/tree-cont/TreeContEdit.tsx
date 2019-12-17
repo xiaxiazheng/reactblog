@@ -4,7 +4,7 @@ import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getChildName } from '@/client/TreeHelper';
 import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCont } from '@/client/TreeContHelper';
-import { baseImgUrl } from '@/env_config';
+import { baseUrl } from '@/env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
 import ImageBox from '@/components/image-box/ImageBox';
 
@@ -245,7 +245,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
                         imageId={jtem.img_id}
                         imageName={jtem.imgname}
                         imageFileName={jtem.imgfilename}
-                        imageUrl={`${baseImgUrl}/treecont/${jtem.imgfilename}`}
+                        imageUrl={`${baseUrl}/treecont/${jtem.imgfilename}`}
                         initImgList={getTreeCont}
                         width="120px"
                       />

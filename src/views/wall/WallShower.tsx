@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './WallShower.module.scss';
 import { getImgList } from '@/client/ImgHelper';
-import { baseImgUrl } from '@/env_config';
+import { baseUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image/PreviewImage';
 import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
 
@@ -31,7 +31,7 @@ const WallShower: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseImgUrl}/wall/${item.filename}`
+        imgUrl: `${baseUrl}/wall/${item.filename}`
       });
     }
     setWallList(imgList);

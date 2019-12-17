@@ -4,7 +4,7 @@ import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { getChildName } from '@/client/TreeHelper';
 import { getNodeCont } from '@/client/TreeContHelper';
-import { baseImgUrl } from '@/env_config';
+import { baseUrl } from '@/env_config';
 import Loading from '@/components/loading/Loading';
 import PreviewImage from '@/components/preview-image/PreviewImage';
 import { TreeContext } from '../TreeContext';
@@ -138,11 +138,11 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
                       return (
                         <div key={imgItem.img_id} className={styles.contitemImg}>
                           <img
-                            src={baseImgUrl + '/treecont/' + imgItem.imgfilename}
+                            src={baseUrl + '/treecont/' + imgItem.imgfilename}
                             alt={imgItem.imgname}
                             title={imgItem.imgname}
                             onClick={() => {
-                              setPreviewImg(baseImgUrl + '/treecont/' + imgItem.imgfilename);
+                              setPreviewImg(baseUrl + '/treecont/' + imgItem.imgfilename);
                               setPreviewImgName(imgItem.imgname);
                             }}
                           />

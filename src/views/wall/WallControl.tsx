@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './WallControl.module.scss';
 import { getImgList } from '@/client/ImgHelper';
-import { baseImgUrl } from '@/env_config';
+import { baseUrl } from '@/env_config';
 import ImageBox from '@/components/image-box/ImageBox';
 
 interface ImgType {
@@ -29,7 +29,7 @@ const WallControl: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseImgUrl}/wall/${item.filename}`
+        imgUrl: `${baseUrl}/wall/${item.filename}`
       });
     }
     setWallList(imgList);
@@ -45,7 +45,7 @@ const WallControl: React.FC = () => {
             imageId={item.img_id}
             imageName={item.imgname}
             imageFileName={item.filename}
-            imageUrl={`${baseImgUrl}/wall/${item.filename}`}
+            imageUrl={`${baseUrl}/wall/${item.filename}`}
             initImgList={getWallImageList}
           />
         )
