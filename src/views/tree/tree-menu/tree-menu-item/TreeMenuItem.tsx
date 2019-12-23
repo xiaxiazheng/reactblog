@@ -4,7 +4,7 @@ import { modifyTreeNode, deleteTreeNode, changeSort } from '@/client/TreeHelper'
 import { Icon, message, Modal } from 'antd';
 import { IsLoginContext } from '@/context/IsLoginContext';
 import { match } from 'react-router';
-import { TreeContext } from '../TreeContext';
+import { TreeContext } from '../../TreeContext';
 
 interface TreeMenuItemType {
   match: match<{

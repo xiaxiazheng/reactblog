@@ -7,7 +7,7 @@ import { getNodeCont } from '@/client/TreeContHelper';
 import { baseUrl } from '@/env_config';
 import Loading from '@/components/loading/Loading';
 import PreviewImage from '@/components/preview-image/PreviewImage';
-import { TreeContext } from '../TreeContext';
+import { TreeContext } from '../../TreeContext';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
