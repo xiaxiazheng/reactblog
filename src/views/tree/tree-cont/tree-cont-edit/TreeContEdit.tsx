@@ -7,6 +7,7 @@ import { getNodeCont, modifyNodeCont, deleteNodeCont, changeContSort, addNodeCon
 import { baseUrl } from '@/env_config';
 import { Input, Button, message, Icon, Modal } from 'antd';
 import ImageBox from '@/components/image-box/ImageBox';
+import Loading from '@/components/loading/Loading';
 
 interface PropsType {
   history: History;
@@ -42,6 +43,8 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
 
   const [contList, setContList] = useState<TreeContType[]>([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     getTreeCont();
   }, [match.params.third_id])
@@ -67,10 +70,14 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
 
   // 获取树详情所有信息
   const getTreeCont = async () => {
+    setIsLoading(true);
     const res = await getChildName(match.params.third_id);
     setTitle(res.length !== 0 ? res[0].c_label : '');
     const res2 = await getNodeCont(match.params.third_id);
-    res2 && setContList(res2);
+    if (res2) {
+      setContList(res2);
+    }
+    setIsLoading(false);
   };
 
   const [isChange, setIsChange] = useState(false);  // 判断页面是否编辑过
@@ -207,7 +214,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     );
   };
 
-  return (
+  return isLoading ? <Loading /> : (
     <>
       <div className={styles.treecontedit}>
         <h2 className={styles.treecontTitle}>{title}</h2>
