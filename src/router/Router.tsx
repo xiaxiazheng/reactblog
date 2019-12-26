@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useContext } from 'react';
-import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import styles from './Router.module.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from '../components/header/Header';
@@ -28,6 +28,34 @@ const Router: React.FC = () => {
   // const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
   const Router: any = BrowserRouter;
 
+  // const Layout = ({ children }) => {
+  //   return (
+  //     <>
+  //       <div className={styles.RouterHead}>
+  //         <Header></Header>
+  //       </div>
+  //       <div className={styles.RouterView}>
+  //         {children}
+  //       </div>
+  //     </>
+  //   )
+  // }
+
+  // const DefaultLayout = ({component: Component, ...rest}) => {
+  //   return (
+  //     <Route {...rest} render={matchProps => (
+  //       <>
+  //         <div className={styles.RouterHead}>
+  //           <Header></Header>
+  //         </div>
+  //         <div className={styles.RouterView}>
+  //           <Component {...matchProps} />
+  //         </div>
+  //       </>
+  //     )} />
+  //   )
+  // };
+
   return (
     <div className={styles.routerWrapper}>
       <Router>
@@ -54,7 +82,6 @@ const Router: React.FC = () => {
               </Switch>
             </LogProvider>
             <Route path="/wall" component={Wall} />
-
             {/* 控制台 */}
             <PrivateRoute exact path="/admin" component={Admin} />
             <TreeProvider>
