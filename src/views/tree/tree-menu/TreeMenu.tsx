@@ -291,7 +291,7 @@ const TreeMenu: React.FC<PropsType> = ({ history, match }) => {
         />  
       </div>
       {/* 树 */}
-      {loading ? <Loading fontSize={40} /> :
+      {loading ? <Loading width={150} /> :
         <Menu
           className={treeMenuClass}
           mode="inline"

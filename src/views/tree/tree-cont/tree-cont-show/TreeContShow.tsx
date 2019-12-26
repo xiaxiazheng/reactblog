@@ -115,7 +115,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
 
   return (
     <div className={styles.treecontshow} ref={contShowRef}>
-      {loading ? <Loading fontSize={60} /> :
+      {loading ? <Loading width={300} /> :
         <>
           <h2 className={styles.treecontTitle}>{treeContTitle}</h2>
           {
@@ -159,7 +159,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
       }
       {/* 锚点们 */}
       <div className={styles.mao}>
-        {loading ? <Loading /> :
+        {loading ? <Loading width={80} /> :
           contList.map(item => {
             return (
               <a key={item.sort} href={`#${item.sort}`} className={hashValue === `${item.sort}` ? 'active' : ''}>{item.title}</a>

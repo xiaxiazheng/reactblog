@@ -5,7 +5,6 @@ import { searchTree } from '@/client/TreeHelper';
 import { withRouter, match } from 'react-router';
 import { Location, History } from 'history';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import Loading from '@/components/loading/Loading';
 
 interface PropsType {
   match: match;
@@ -30,7 +29,7 @@ const Header: React.FC<PropsType> = ({ history }) => {
   const { isLogin } = useContext(IsLoginContext);  // 获取登录状态
 
   const [keyword, setKeyword] = useState('');  // 搜索关键字
-  const [isSearching, setIsSearching] = useState(false);  // 是否正在搜索
+  const [isSearching, setIsSearching] = useState(true);  // 是否正在搜索
   const [showPopup, setShowPopup] = useState(false);  // 展开搜索结果弹框
 
   const [searchResult, setSearchResult] = useState<TreeNodeType[]>([]);  // 搜索结果
@@ -39,16 +38,12 @@ const Header: React.FC<PropsType> = ({ history }) => {
       if (timer) clearTimeout(timer)
       timer = setTimeout(() => {
         handleSearch();
-        setShowPopup(true);
       }, 1000)
-    } else {
-      setShowPopup(false);
     }
   }, [keyword]);
 
   /** 发搜索请求 */
   const handleSearch = async () => {
-    setIsSearching(true);
     const res: TreeNodeType[] = await searchTree(keyword || '');
     if (res) {
       setSearchResult(res);
@@ -98,29 +93,44 @@ const Header: React.FC<PropsType> = ({ history }) => {
     )
   }
 
-  /** 无搜索结果 */
-  const NoResult = () => {
-    return (
-      <div className={styles.noResult}>没有搜索结果</div>
-    )
-  }
-
-  /** loading */
-  const MyLoading = () => {
-    return (
-      <div className={styles.myloading}>
-        <Loading />
-      </div>
-    )
+  /** 输入 keyword */
+  const handleInput = (e: any) => {
+    const input = e.target.value;
+    if (input === '') {
+      setShowPopup(false);
+      setIsSearching(false);
+    } else {
+      setShowPopup(true);
+      setIsSearching(true);
+    }
+    setKeyword(input);
   }
 
   /** 处理聚焦 */
   const handleFocus = () => {
     if (keyword !== '') {
       setShowPopup(true);
+      setIsSearching(true);
+      setSearchResult([]);
       handleSearch();
     }
   }
+
+  /** 处理离开焦点 */
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      setShowPopup(false)
+    }, 200)
+  }
+
+  const MyLoading = () => (
+    <div className={styles.myloading}>正在搜索中...</div>
+  )
+
+  /** 无搜索结果 */
+  const NoResult = () => (
+    <div className={styles.noResult}>没有搜索结果</div>
+  )
 
   return (
     <Popover
@@ -142,13 +152,9 @@ const Header: React.FC<PropsType> = ({ history }) => {
         className={styles.searchTree}
         prefix={<Icon type="search" />}
         value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
+        onChange={handleInput}
         onFocus={handleFocus}
-        onBlur={() => {
-          setTimeout(() => {
-            setShowPopup(false)
-          }, 200)
-        }}
+        onBlur={handleOnBlur}
         placeholder="搜索知识树节点"
         allowClear
       />

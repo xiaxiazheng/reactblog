@@ -1,21 +1,20 @@
 import React from 'react';
 import styles from './Loading.module.scss'
-import { Icon } from 'antd'
+import { default as loadingImg } from '../../assets/loading.svg';
 
 interface LoadingType {
-  fontSize?: number;
+  width?: number;
 }
 
 const Loading: React.FC<LoadingType> = (props) => {
 
   const {
-    fontSize
+    width
   } = props;
 
   return (
-    <div className={styles.loading} style={{fontSize: fontSize ? `${fontSize}px` : '20px'}}>
-      <Icon type="loading"/>
-      &nbsp;loading
+    <div className={styles.loading} style={{width: width ? `${width}px` : ''}}>
+      <img src={loadingImg} alt="loading" />
     </div>
   )
 }

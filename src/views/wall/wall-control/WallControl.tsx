@@ -3,6 +3,7 @@ import styles from './WallControl.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
 import ImageBox from '@/components/image-box/ImageBox';
+import Loading from '@/components/loading/Loading';
 
 interface ImgType {
   cTime: string;
@@ -15,8 +16,9 @@ interface ImgType {
 };
 
 const WallControl: React.FC = () => {
-
   const [wallList, setWallList] = useState<ImgType[]>([])
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getWallImageList();
@@ -24,6 +26,7 @@ const WallControl: React.FC = () => {
 
   const getWallImageList = async () => {
     let imgList: any = [];
+    setLoading(true);
     const res: ImgType[] = await getImgList('wall');
     for (let item of res) {
       // 拼好 img 的 url
@@ -33,9 +36,10 @@ const WallControl: React.FC = () => {
       });
     }
     setWallList(imgList);
+    setLoading(false);
   };
   
-  return (
+  return loading ? <Loading width={300} /> : (
     <div className={styles.wallControl}>
       {wallList.map((item: ImgType) => {
         return (

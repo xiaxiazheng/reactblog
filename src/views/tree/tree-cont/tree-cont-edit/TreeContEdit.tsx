@@ -47,6 +47,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
 
   useEffect(() => {
     getTreeCont();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.third_id])
 
   // 监听键盘事件
@@ -63,6 +64,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contList]);
 
 
@@ -214,7 +216,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     );
   };
 
-  return isLoading ? <Loading /> : (
+  return isLoading ? <Loading width={200} /> : (
     <>
       <div className={styles.treecontedit}>
         <h2 className={styles.treecontTitle}>{title}</h2>

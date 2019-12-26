@@ -321,7 +321,7 @@ const LogList: React.FC<PropsType> = ({ logclass, history, match, getAllLogClass
       </div>
       {/* 日志列表 */}
       <ul className={logListClass}>
-        {loading ? <Loading fontSize={40} /> : (
+        {loading ? <Loading width={300} /> : (
           logListData.logList && logListData.logList.length === 0 ? <div className={styles.emptyList}>当前列表为空(之后再弄个好看的提示)</div> :
           logListData.logList.map((item: LogListType) => {
             return (

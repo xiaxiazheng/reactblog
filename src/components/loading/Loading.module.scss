@@ -1,5 +1,7 @@
 .loading {
-  margin: 10px 0;
-  text-align: center;
-  color: var(--color);
+  margin: 10px auto;
+  >img {
+    width: 100%;
+    height: 100%;
+  }
 }

@@ -7,7 +7,6 @@ import { IsLoginContext } from '@/context/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '@/client/LogHelper';
 import LogList from './log-list/LogList';
 import Loading from '@/components/loading/Loading';
-import classnames from 'classnames';
 
 interface PropsType {
   history: History;
@@ -75,7 +74,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
 
   return (
     <div className={styles.Log}>
-      {loading ? <div className={styles.logTab}><Loading /></div> :
+      {loading ? <div className={styles.logTab}><Loading width={100} /></div> :
         <Tabs className={styles.logTab} onChange={choiceClass} activeKey={logClass}>
           {
             classList.map((item) => {

@@ -3,6 +3,8 @@ import {Redirect, Route} from "react-router-dom";
 import { IsLoginContext } from '../context/IsLoginContext';
 import { message } from 'antd';
 import { postLogin } from '../client/UserHelper';
+import styles from './Router.module.scss';
+import Header from '@/components/header/Header';
 
 interface PropsType {
   component?: any;
@@ -66,9 +68,18 @@ export const PrivateRoute: React.FC<PropsType> = ({ component: Component, ...res
           }
         } else {
           // context 的 isLogin 正常，正常返回要访问的组件
-          return <Component {...props} />;
+          return (
+            <>
+              <div className={styles.RouterHead}>
+                <Header></Header>
+              </div>
+              <div className={styles.RouterView}>
+                <Component {...props} />
+              </div>
+            </>
+          )
         }
       }}
-    />    
+    />
   );
 };

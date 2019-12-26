@@ -43,7 +43,7 @@ const LogContShowMD: React.FC<PropsType> = ({ log_id }) => {
 
   return (
     <div className={className}>
-      {loading ? <Loading fontSize={60} /> :
+      {loading ? <Loading width={200} /> :
         logdata && 
         <>
           <h2 className={styles.title}>{logdata.title}</h2>

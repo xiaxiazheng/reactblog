@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './WallShower.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image/PreviewImage';
 import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
+import Loading from '@/components/loading/Loading';
 
 interface ImgType {
   cTime: string;
@@ -19,6 +20,7 @@ const WallShower: React.FC = () => {
   const [wallList, setWallList] = useState<ImgType[]>([]);
   const [previewImg, setPreviewImg] = useState('');
   const [previewImgName, setPreviewImgName] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getWallImgList();
@@ -26,6 +28,7 @@ const WallShower: React.FC = () => {
   
   const getWallImgList = async () => {
     let imgList: any = [];
+    setLoading(true);
     const res: ImgType[] = await getImgList('wall');
     for (let item of res) {
       // 拼好 img 的 url
@@ -35,9 +38,10 @@ const WallShower: React.FC = () => {
       });
     }
     setWallList(imgList);
+    setLoading(false);
   };
 
-  return (
+  return loading ? <Loading width={300} /> : (
     <div className={styles.wallShower}>
       {/* 展示 */}
       <div className={styles.imgWrapper}>
