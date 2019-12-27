@@ -5,10 +5,9 @@ import { Button, Icon, Switch } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import LogContEditByClass from './richtext/LogContEditByClass';
-import LogContEditByMD from './markdown/LogContEditByMD';
-import LogContShow from './richtext/LogContShow';
-import LogContShowMD from './markdown/LogContShowMD';
+import LogContEditByClass from './log-cont-edit/LogContEdit';
+import LogContEditByMD from './log-cont-edit/LogContEditMD';
+import LogContShow from './log-cont-show/LogContShow';
 import { OneLogType } from '../LogType';
 
 interface PropsType {
@@ -20,9 +19,8 @@ interface PropsType {
   location: Location;
 };
 
-const LogCont: React.FC<PropsType> = ({ match, history, location }) => {
+const LogCont: React.FC<PropsType> = ({ match, history }) => {
   const { isLogin } = useContext(IsLoginContext);
-  const { editType } = location.state;
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -65,8 +63,7 @@ const LogCont: React.FC<PropsType> = ({ match, history, location }) => {
         <Switch className={styles.logEditSwitch} checkedChildren="编辑" unCheckedChildren="查看" defaultChecked={isEdit} onChange={() => setIsEdit(!isEdit)} />
       }
       {/* 展示 */}
-      {!isEdit && editType === 'markdown' && <LogContShowMD log_id={match.params.log_id} />}
-      {!isEdit && editType === 'richtext' && <LogContShow log_id={match.params.log_id} />}
+      {!isEdit && <LogContShow log_id={match.params.log_id} />}
       {/* 编辑 */}
       {isLogin && isEdit && logdata && (
         logdata.edittype === 'markdown'

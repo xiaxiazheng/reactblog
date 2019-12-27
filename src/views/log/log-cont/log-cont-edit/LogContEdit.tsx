@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button, message, Icon } from 'antd';
 import { OneLogType } from '../../LogType';
 import { modifyLogCont } from '@/client/LogHelper';
-import './LogContEditByClass.scss';
+import './LogContEdit.scss';
 import ImageBox from '@/components/image-box/ImageBox';
 import { baseUrl } from '@/env_config';
 // 代码高亮

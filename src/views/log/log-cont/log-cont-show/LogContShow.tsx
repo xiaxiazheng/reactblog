@@ -10,13 +10,14 @@ import 'highlight.js/styles/atom-one-dark-reasonable.css';
 // 富文本编辑器
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
+import { markdown } from 'markdown';
 
 interface PropsType {
   log_id: string;
 };
 
 const LogContShow: React.FC<PropsType> = ({ log_id }) => {
-
+  const [edittype, setEdittype] = useState<'richtext' | 'markdown'>('richtext')
   const [loading, setLoading] = useState(true);
 
   // 编辑器配置
@@ -30,6 +31,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
   };
 
   const [logdata, setlogdata] = useState<OneLogType>();
+  const [markdownHtml, setMarkdownHtml] = useState();
 
   useEffect(() =>{
     const getData = async () => {
@@ -37,12 +39,20 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
       let id = decodeURIComponent(atob(log_id));
       const res: OneLogType = await getLogCont(id);
       if (res) {
+        console.log('res', res);
         setlogdata(res);
+        setEdittype(res.edittype);
         setLoading(false);
       }
     };
     getData();
-  }, []);
+  }, [log_id]);
+
+  useEffect(() => {
+    logdata && setMarkdownHtml({
+      __html: markdown.toHTML(logdata.logcont)
+    })
+  }, [logdata]);
 
   const className = classnames({
     [styles.logcontShow]: true,
@@ -60,15 +70,21 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
             <span>创建时间: {logdata.cTime}</span>
             <span>修改时间: {logdata.mTime}</span>
           </div>
-          {/* 富文本编辑器 */}
-          <div className={styles.logcontEditor}>
-            <ReactQuill
-              readOnly
-              theme="bubble"
-              value={logdata.logcont}
-              modules={modules}
-            />
-          </div>
+          {// 富文本
+            edittype === 'richtext' &&
+            <div className={styles.logcontEditor}>
+              <ReactQuill
+                readOnly
+                theme="bubble"
+                value={logdata.logcont}
+                modules={modules}
+              />
+            </div>
+          }
+          {// markdown
+            edittype === 'markdown' &&
+            <div className={styles.markdownShower} dangerouslySetInnerHTML={markdownHtml}/>
+          }
         </>
       }
     </div>

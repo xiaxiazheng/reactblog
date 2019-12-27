@@ -14,7 +14,7 @@ export interface OneLogType {
   author: string;
   cTime: string;
   classification: string;
-  edittype: string;
+  edittype: 'richtext' | 'markdown';
   imgList: ImageType[]
   isShow: string;
   isStick: string;

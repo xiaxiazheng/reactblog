@@ -50,9 +50,18 @@ function apiErrorLog(res: any) {
   })
 }
 
+// 定义全局变量clearRequest，在route.js中要用到
+const clearRequest = {
+	source: {
+		token: null,
+		cancel: null
+	}
+}
+
 // 请求拦截器
 instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    // config.cancelToken = clearRequest.source.token;
     return config
   },
   (error: AxiosError) => {
@@ -81,11 +90,16 @@ interface DataType {
   data?: any
 }
 
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
+
 // 封装 Get
 export const getHelper = async (url: string) => {
   let res: ResType;
   try {
-    res = await instance.get(url);
+    res = await instance.get(url, {
+      cancelToken: source.token
+    });
   } catch (e) {
     console.log("get请求失败", e);
     return;
@@ -101,7 +115,9 @@ export const getHelper = async (url: string) => {
 export const postHelper = async (url: string, params?: any) => {
   let res: any;
   try {
-    res = await instance.post(url, params);
+    res = await instance.post(url, params, {
+      cancelToken: source.token
+    });
   } catch (e) {
     console.log("post请求失败", e);
     return;

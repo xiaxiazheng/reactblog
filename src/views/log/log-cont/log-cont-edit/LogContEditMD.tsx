@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { OneLogType } from '../../LogType';
-import styles from './LogContEditByMD.module.scss';
+import styles from './LogContEditMD.module.scss';
 import classnames from 'classnames';
 import { markdown } from 'markdown';
 import { Input, Button, Icon, message } from 'antd';

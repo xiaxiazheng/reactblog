@@ -27,7 +27,7 @@ const Router: React.FC = () => {
   };
 
   // const Router: any = appUser === 'hyp' ? HashRouter : BrowserRouter;
-  const Router: any = BrowserRouter;
+  const Router = BrowserRouter;
 
   /** 提供页面基本骨架 */
   const DefaultLayout = (props: any) => {
