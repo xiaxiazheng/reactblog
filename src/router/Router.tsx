@@ -6,7 +6,6 @@ import { PrivateRoute } from './PrivateRoute';
 import Header from '@/components/header/Header';
 import { LogProvider } from '@/views/log/LogContext';
 import { TreeProvider } from '@/views/tree/TreeContext';
-// import { appUser } from '../env_config';
 import Loading from '@/components/loading/Loading';
 
 const Log = lazy(() => import('../views/log/Log'));

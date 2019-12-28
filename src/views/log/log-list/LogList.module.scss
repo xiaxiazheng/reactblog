@@ -60,11 +60,11 @@
         :global(.ant-select-dropdown-menu-item) {
           color: var(--color);
           &:hover {
-            background: var(--bgColor_blur);
+            background: var(--bgColorBlur);
           }
         }
         :global(.ant-select-dropdown-menu-item-selected) {
-          background: var(--bgColor_blur);
+          background: var(--bgColorBlur);
         }
       }
     }
@@ -94,7 +94,7 @@
     list-style: none;
     cursor: pointer;
     &.activeStick {
-      background-color: var(--bgColor_mask);
+      background-color: var(--bgColorMask);
     }
     &:hover {
       color: var(--color_active);

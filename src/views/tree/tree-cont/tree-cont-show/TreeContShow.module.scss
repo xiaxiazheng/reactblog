@@ -72,10 +72,10 @@
       color: var(--color);
       &:global(.active) {
         color: var(--color);
-        background-color: var(--bgColor_mask);
+        background-color: var(--bgColorMask);
       }
       &:hover {
-        background-color: var(--bgColor_mask);
+        background-color: var(--bgColorMask);
       }
     }
   }

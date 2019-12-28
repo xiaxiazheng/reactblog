@@ -12,6 +12,17 @@ const Loading: React.FC<LoadingType> = (props) => {
     width
   } = props;
 
+  // let loadingImg: any = sessionStorage.getItem('loadingImg');
+  // if (!loadingImg) {
+  //   loadingImg = new Image();
+  //   loadingImg.src = require('../../assets/loading.svg');
+  //   console.log(loadingImg)
+  //   console.log(typeof loadingImg)
+  //   loadingImg.onload = () => {
+  //     sessionStorage.setItem('loadingImg', loadingImg)
+  //   }
+  // }
+
   return (
     <div className={styles.loading} style={{width: width ? `${width}px` : ''}}>
       <img src={loadingImg} alt="loading" />
