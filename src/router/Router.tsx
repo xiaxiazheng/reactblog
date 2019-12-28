@@ -61,12 +61,6 @@ const Router: React.FC = () => {
               <DefaultLayout path="/tree" component={Tree} />
             </Switch>              
           </TreeProvider>
-          <TreeProvider>
-            <Switch>
-              <DefaultLayout path="/tree/:first_id/:second_id/:third_id" component={Tree} />
-              <DefaultLayout path="/tree" component={Tree} />
-            </Switch>              
-          </TreeProvider>
           <LogProvider>
             <Switch>
               <DefaultLayout path="/log/:log_class/:log_id" exact component={LogCont} />

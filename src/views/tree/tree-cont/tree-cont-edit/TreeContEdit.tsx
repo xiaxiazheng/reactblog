@@ -50,10 +50,9 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.third_id])
 
-  // 监听键盘事件
+  // 监听键盘事件，实现 Ctrl+s 保存
   useEffect(() => {
     const onKeyDown = (e: any) => {
-      console.log('contList =', contList);
       if (e.keyCode === 83 && e.ctrlKey) {
         e.preventDefault();
         saveTreeCont();
@@ -82,7 +81,8 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     setIsLoading(false);
   };
 
-  const [isChange, setIsChange] = useState(false);  // 判断页面是否编辑过
+  /** 判断页面是否编辑过 */
+  const [isChange, setIsChange] = useState(false);
   const handleChange = (cont_id: string, type: 'title' | 'content', newValue: string) => {
     const newData = [...contList];
     const index = newData.findIndex(item => cont_id === item.cont_id);
@@ -216,9 +216,14 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
     );
   };
 
-  return isLoading ? <Loading width={200} /> : (
-    <>
-      <div className={styles.treecontedit}>
+  return (
+    <div className={styles.treecontedit}>
+      { isLoading && 
+        <div className={styles.mask}>
+          <Loading width={400} />
+        </div>
+      }
+      <div className={`${styles.treeconteditWrapper} ScrollBar`}>
         <h2 className={styles.treecontTitle}>{title}</h2>
         {
           contList.map((item, index) => {
@@ -296,7 +301,7 @@ const TreeContEdit: React.FC<PropsType> = ({ match }) => {
         size="large"
         onClick={saveTreeCont}
       />
-    </>
+    </div>
   );
 }
 

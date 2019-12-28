@@ -24,6 +24,7 @@ $TreeMenuWidth: 21rem;
       position: absolute;
       top: 1rem;
       right: 2rem;
+      z-index: 2;
       border: 1px solid var(--borderColor);
       background-color: var(--bgColor);
       &:global(.ant-switch::after) {
