@@ -30,6 +30,13 @@
     }
   }
 
+  .headerMiddle {
+    flex: 1;
+    text-align: right;
+    line-height: 3rem;
+    padding-right: 10px;
+  }
+
   .headerRight {
     .themeSwitch {
       border: 1px solid var(--borderColor);
