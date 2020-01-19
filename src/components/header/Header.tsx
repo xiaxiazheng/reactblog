@@ -25,8 +25,13 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
   const [alreadyDays, setAlreadyDays] = useState();
 
   useEffect(() => {
+    getAlreadyDate()
+  }, []);
+
+  // 获取已经在一起多久的日期
+  const getAlreadyDate = () => {
     // 获取相隔的年月日
-    const getAlready = () => {
+    const getAlreadyDate = () => {
       const startDate = moment("2016-04-16");
       const endDate = moment(new Date());
       // 計算兩者差異年數
@@ -44,11 +49,11 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
       const endDate = moment(new Date());
       setAlreadyDays(endDate.diff(startDate, "days"));
     };
-    getAlready();
+    getAlreadyDate();
     getAlreadyDays();
-  }, []);
+  }
 
-  const handleClick = (e: any) => {
+  const handleClickTabs = (e: any) => {
     e.key !== "github"
       ? setCurrent(e.key)
       : window.open("https://github.com/xiaxiazheng/reactblog", "_blank");
@@ -70,7 +75,9 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
 
   /** 点击切换主题 */
   const switchTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    const nowTheme = theme === "dark" ? "light" : "dark";
+    localStorage.setItem('theme', nowTheme);
+    setTheme(nowTheme);
   };
 
   /** 切换主题的原理是通过切换类切换 css 变量 */
@@ -78,7 +85,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
     /** 通过设置 <App> 的类切换主题，主题样式在 Global.scss */
     let dom: any = document.querySelector(".App");
     dom.setAttribute("class", `App ${theme}Theme`);
-  });
+  }, [theme]);
 
   return (
     <header className={styles.Header}>
@@ -106,7 +113,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
         <HeaderSearch />
         {/* 导航 */}
         <Menu
-          onClick={handleClick}
+          onClick={handleClickTabs}
           selectedKeys={[current]}
           mode="horizontal"
           className={styles.headerRouteList}
