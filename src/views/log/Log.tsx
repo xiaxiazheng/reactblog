@@ -14,6 +14,8 @@ interface PropsType {
   match: match<{log_class: string}>;
 };
 
+const firstClassName = '所有日志';
+
 const Log: React.FC<PropsType> = ({ history, match }) => {
   const { isLogin } = useContext(IsLoginContext);  // 通过 context 获取是否登录
 
@@ -21,7 +23,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
 
   const { TabPane } = Tabs;
 
-  const [logClass, setLogClass] = useState('所有日志');
+  const [logClass, setLogClass] = useState(firstClassName);
   // 根据路由变化，选择对应的日志分类
   useEffect(() => {
     setLogClass(match.params.log_class);
@@ -31,6 +33,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
   // 页面初始化
   useEffect(() => {
     getAllLogClass();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 获取所有分类
@@ -39,7 +42,7 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
     const res = await (isLogin ? getLogAllClass() : getHomeLogAllClass());
     if (res) {
       let list: string[] = [
-        '所有日志',
+        firstClassName,
         ...res
       ];
       setClassList(list);
@@ -83,9 +86,9 @@ const Log: React.FC<PropsType> = ({ history, match }) => {
                   className={styles.logTabPane}
                   tab={
                     <span>
-                      {item === '所有日志' && <Icon type="home" />}
+                      {item === firstClassName && <Icon type="home" />}
                       {item}
-                      {isLogin && (item === logClass) && logClass !== '所有日志' &&
+                      {isLogin && (item === logClass) && logClass !== firstClassName &&
                         <Icon className={styles.editIcon} type="edit" onClick={() => { setShowModal(true); setNewName(logClass); }} />
                       }
                     </span>

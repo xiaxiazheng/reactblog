@@ -6,34 +6,40 @@
   }
   .orderbyBox {
     color: var(--color);
-    :global(.ant-radio-button-wrapper) {
-      background-color: var(--bgColor);
-      color: var(--color);
+    :global {
+      .ant-radio-button-wrapper {
+        background-color: var(--bgColor);
+        color: var(--color);
+      }
     }
   }
   .checkBox {
     margin-left: .8rem;
     line-height: 32px;
     color: var(--color);
-    :global(.ant-checkbox-inner) {
-      background-color: transparent;
-    }
-    :global(.ant-checkbox-checked .ant-checkbox-inner) {
-      background-color: var(--color_active);
+    :global {
+      .ant-checkbox-inner {
+        background-color: transparent;
+      }
+      .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: var(--color_active);
+      }
     }
   }
   .searchBox {
     width: 13rem;
     margin-left: .3rem;
-    :global(.ant-input-prefix) {
-      color: var(--color);
-    }
-    :global(.ant-input-suffix .ant-input-clear-icon) {
-      color: var(--color);
-    }
-    :global(.ant-input) {
-      background: var(--bgColor);
-      color: var(--color);
+    :global {
+      .ant-input-prefix {
+        color: var(--color);
+      }
+      .ant-input-suffix .ant-input-clear-icon {
+        color: var(--color);
+      }
+      .ant-input {
+        background: var(--bgColor);
+        color: var(--color);
+      }
     }
   }
   .pagination {
@@ -45,35 +51,39 @@
         color: var(--color);
         background: var(--bgColor);
       }
-      :global(.ant-select) {
-        color: var(--color);
-        :global(.ant-select-selection) {
-          background-color: var(--bgColor);
-          >span {
-            color: var(--color);
+      :global {
+        .ant-select {
+          color: var(--color);
+          .ant-select-selection {
+            background-color: var(--bgColor);
+            >span {
+              color: var(--color);
+            }
           }
         }
-      }
-      :global(.ant-select-dropdown) {
-        color: var(--color);
-        background: var(--bgColor);
-        :global(.ant-select-dropdown-menu-item) {
+        .ant-select-dropdown {
           color: var(--color);
-          &:hover {
+          background: var(--bgColor);
+          .ant-select-dropdown-menu-item {
+            color: var(--color);
+            &:hover {
+              background: var(--bgColorBlur);
+            }
+          }
+          .ant-select-dropdown-menu-item-selected {
             background: var(--bgColorBlur);
           }
         }
-        :global(.ant-select-dropdown-menu-item-selected) {
-          background: var(--bgColorBlur);
-        }
       }
     }
-    :global(.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis),
-    :global(.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis) {
-      color: var(--color);
-    }
-    :global(.ant-pagination-options-size-changer.ant-select) {
-      margin-right: 0;
+    :global {
+      .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+      .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+        color: var(--color);
+      }
+      .ant-pagination-options-size-changer.ant-select {
+        margin-right: 0;
+      }
     }
   }
 }

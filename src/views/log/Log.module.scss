@@ -32,11 +32,12 @@
       }
     }
   }
-}
-
-:global(.ant-tabs-top-content.ant-tabs-content-animated) {
-  height: calc(100% - 60px);
-}
-:global(.ant-tabs-tab-prev), :global(.ant-tabs-tab-next), :global(.ant-tabs-tab-btn-disabled) {
-  color: white;
+  :global {
+    .ant-tabs-tab-prev-icon, .ant-tabs-tab-next-icon {
+      color: var(--color);
+    }
+    .ant-tabs-top-content.ant-tabs-content-animated {
+      height: calc(100% - 60px);
+    }
+  }
 }
