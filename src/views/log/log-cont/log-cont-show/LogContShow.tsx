@@ -11,6 +11,7 @@ import 'highlight.js/styles/atom-one-dark-reasonable.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { markdown } from 'markdown';
+import mdStyle from '../mdShower.module.scss';
 
 interface PropsType {
   log_id: string;
@@ -83,7 +84,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
           }
           {// markdown
             edittype === 'markdown' &&
-            <div className={styles.markdownShower} dangerouslySetInnerHTML={markdownHtml}/>
+            <div className={`${styles.markdownShower} ${mdStyle.markdownShower}`} dangerouslySetInnerHTML={markdownHtml}/>
           }
         </>
       }

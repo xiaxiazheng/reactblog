@@ -35,6 +35,9 @@
     }
   }
   .markdownShower {
+    display: inline-block;
     text-align: left;
+    vertical-align: top;
+    box-sizing: border-box;
   }
 }

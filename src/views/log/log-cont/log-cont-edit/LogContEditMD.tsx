@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { markdown } from 'markdown';
 import { Input, Button, Icon, message } from 'antd';
 import { modifyLogCont } from '@/client/LogHelper';
+import mdStyle from '../mdShower.module.scss';
 
 interface PropsType {
   logdata: OneLogType;
@@ -127,7 +128,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             <span>修改时间：{logdata.mTime}</span>
           </div>
           {/* markdown 展示 */}
-          <div className={`${styles.markdownShower} ScrollBar`} dangerouslySetInnerHTML={markHtml} />
+          <div className={`${styles.markdownShower} ${mdStyle.markdownShower} ScrollBar`} dangerouslySetInnerHTML={markHtml} />
           {/* markdown 编辑 */}
           <TextArea rows={10} className={`${styles.markdownEditor} ScrollBar`} value={markString} onChange={handleLogContChange} />
         </>
