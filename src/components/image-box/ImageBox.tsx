@@ -5,6 +5,7 @@ import { baseUrl } from '@/env_config';
 import { deleteImg } from '@/client/ImgHelper';
 import Loading from '../loading/Loading';
 import PreviewImage from '../preview-image/PreviewImage';
+import UploadImage from './upload-image/UploadImage'
 
 interface PropsType {
   otherId?: string;  // 跟这个图片要插入的地方有关联的记录 id
@@ -44,6 +45,27 @@ const ImageBox: React.FC<PropsType> = (props) => {
       message.error("上传图片失败");
     }
   };
+
+  // 上传图片
+  const handleUpload = () => {
+    // axios.put(this.uploadUrl, this.files[0], {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   },
+    //   transformRequest: [function (data) {
+    //     return data
+    //   }],
+    //   onUploadProgress: progressEvent => {
+    //     let complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+    //     self.uploadMessage = '上传 ' + complete
+    //   }
+    // })
+    // .then((response) => {
+    //   if (response.status === 200) {
+    //     self.uploadMessage = '上传成功！'
+    //   }
+    // })
+  }
 
   const [isPreview, setIsPreview] = useState(false);
   const deleteImage = async () => {
@@ -98,19 +120,20 @@ const ImageBox: React.FC<PropsType> = (props) => {
       }}>
       {/* 没有图片的情况，展示添加 */}
       {imageUrl === '' &&
-        <Upload
-          className={styles.Upload}
-          name={type}
-          showUploadList={false}
-          action={`${baseUrl}/back/${type}_upload`}
-          data={{
-            other_id: otherId || undefined
-          }}
-          listType="picture-card"
-          onChange={handleChange}
-        >
-          <Icon type='plus' />
-        </Upload>
+        // <Upload
+        //   className={styles.Upload}
+        //   name={type}
+        //   showUploadList={false}
+        //   action={`${baseUrl}/back/${type}_upload`}
+        //   data={{
+        //     other_id: otherId || undefined
+        //   }}
+        //   listType="picture-card"
+        //   onChange={handleChange}
+        // >
+        //   <Icon type='plus' />
+        // </Upload>
+        <UploadImage />
       }
       {/* 加载中。。。 */}
       {imageUrl !== '' && loading &&
