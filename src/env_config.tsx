@@ -1,6 +1,6 @@
 // 前端访问路径及所在环境
 let host: string = "https://www.xiaxiazheng.cn";
-let url: string = `${host}:443`;
+let url: string = `${host}`;
 
 let nav: string = 'XIAXIAZheng';
 

@@ -132,11 +132,9 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
   useEffect(() => {
     let observer = new IntersectionObserver(entries => {
       entries.forEach(item => {
-        console.log('item', item);
         if (item.isIntersecting) {
           const img: any = item.target;
-          console.log('item.target', item.target);
-          if (img['dataset']['src'] !== img['src']) {
+          if (encodeURI(img['dataset']['src']) !== img['src']) {
             img['src'] = img['dataset']['src'];
           }
         }
