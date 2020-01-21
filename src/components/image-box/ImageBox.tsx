@@ -120,20 +120,20 @@ const ImageBox: React.FC<PropsType> = (props) => {
       }}>
       {/* 没有图片的情况，展示添加 */}
       {imageUrl === '' &&
-        // <Upload
-        //   className={styles.Upload}
-        //   name={type}
-        //   showUploadList={false}
-        //   action={`${baseUrl}/back/${type}_upload`}
-        //   data={{
-        //     other_id: otherId || undefined
-        //   }}
-        //   listType="picture-card"
-        //   onChange={handleChange}
-        // >
-        //   <Icon type='plus' />
-        // </Upload>
-        <UploadImage />
+        <Upload
+          className={styles.Upload}
+          name={type}
+          showUploadList={false}
+          action={`${baseUrl}/back/${type}_upload`}
+          data={{
+            other_id: otherId || undefined
+          }}
+          listType="picture-card"
+          onChange={handleChange}
+        >
+          <Icon type='plus' />
+        </Upload>
+        // <UploadImage />
       }
       {/* 加载中。。。 */}
       {imageUrl !== '' && loading &&
