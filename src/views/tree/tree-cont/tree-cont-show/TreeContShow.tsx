@@ -8,6 +8,7 @@ import { baseUrl } from '@/env_config';
 import Loading from '@/components/loading/Loading';
 import PreviewImage from '@/components/preview-image/PreviewImage';
 import { TreeContext } from '../../TreeContext';
+import { default as imgPlaceHolder } from '@/assets/loading.svg';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
@@ -53,6 +54,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
 
   useEffect(() => {
     match.params.third_id && getTreeCont();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.third_id]);
 
   const [hashValue, setHashValue] = useState('');
@@ -75,6 +77,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
     return () => {
       setHashValue('');  // 这个设置回来，不然切换之后指定顺序的依然高亮
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const [contList, setContList] = useState<TreeContType[]>([]);
@@ -113,6 +116,36 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
     }
   });
 
+  // 保存所有图片的 ref
+  const [refMap, setResMap] = useState<any>({})
+  useEffect(() => {
+    const map: any = {};
+    contList.forEach(item => {
+      item.imgList.forEach(jtem => {
+        let imgId: string = jtem.img_id
+        map[imgId] = React.createRef()
+      })
+    })
+    setResMap(map)
+  }, [contList])
+  // 交叉观察器加载图片
+  useEffect(() => {
+    let observer = new IntersectionObserver(entries => {
+      entries.forEach(item => {
+        console.log('item', item);
+        if (item.isIntersecting) {
+          const img: any = item.target;
+          console.log('item.target', item.target);
+          if (img['dataset']['src'] !== img['src']) {
+            img['src'] = img['dataset']['src'];
+          }
+        }
+      });
+    });
+    const list = Object.keys(refMap).map(item => refMap[item]);
+    list.forEach(item => item.current !== null && observer.observe(item.current))
+  }, [refMap])
+
   return (
     <div className={styles.treecontshow} ref={contShowRef}>
       {loading ? <Loading width={300} /> :
@@ -138,7 +171,9 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
                       return (
                         <div key={imgItem.img_id} className={styles.contitemImg}>
                           <img
-                            src={baseUrl + '/treecont/' + imgItem.imgfilename}
+                            ref={refMap[imgItem.img_id]}
+                            src={imgPlaceHolder}
+                            data-src={baseUrl + '/treecont/' + imgItem.imgfilename}
                             alt={imgItem.imgname}
                             title={imgItem.imgname}
                             onClick={() => {

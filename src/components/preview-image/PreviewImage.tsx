@@ -10,8 +10,8 @@ interface PropsType {
   closePreview: Function;
 };
 
+// 图片预览
 const PreviewImage: React.FC<PropsType> = (props) => {
-
   const {
     isPreview,
     imageName,
@@ -21,7 +21,6 @@ const PreviewImage: React.FC<PropsType> = (props) => {
 
   return (
     <div>
-      {/* 图片预览 */}
       <Modal
         wrapClassName={`${styles.previewImgBoxWrapper} ScrollBar`}
         className={styles.previewImgBox}
