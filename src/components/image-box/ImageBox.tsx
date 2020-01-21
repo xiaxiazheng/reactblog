@@ -3,8 +3,8 @@ import { Icon, message, Upload, Modal } from 'antd';
 import styles from './ImageBox.module.scss';
 import { baseUrl } from '@/env_config';
 import { deleteImg } from '@/client/ImgHelper';
-import Loading from '../loading/Loading';
-import PreviewImage from '../preview-image/PreviewImage';
+import Loading from '@/components/loading/Loading';
+import PreviewImage from '@/components/preview-image/PreviewImage';
 import UploadImage from './upload-image/UploadImage'
 
 interface PropsType {

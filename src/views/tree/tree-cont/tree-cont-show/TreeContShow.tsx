@@ -98,7 +98,7 @@ const TreeContShow: React.FC<PropsType> = ({ match, location }) => {
         item.cont = item.cont.replace(/&lt;pre/g, "<pre"); // 把pre标签转回来
         item.cont = item.cont.replace(/pre>\n/g, "pre>"); // 把pre后面的空格去掉
         item.cont = item.cont.replace(/&lt;\/pre>/g, "</pre>"); // 把pre结束标签转回来
-        item.cont = item.cont.replace(/  /g, "&nbsp;&nbsp;"); // 把空格转成实体字符，以防多空格被合并
+        item.cont = item.cont.replace(/ {2}/g, "&nbsp;&nbsp;"); // 把空格转成实体字符，以防多空格被合并
         item.cont = item.cont.replace(/\n|\r\n/g, "<br/>"); // 把换行转成br标签
       })
       setContList(res2);
