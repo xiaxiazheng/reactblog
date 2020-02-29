@@ -1,4 +1,4 @@
-import { postHelper } from './ClientHelper';
+import { postHelper } from '.';
 
 /** 用户 */
 export async function postLogin(params: any): Promise<boolean> {

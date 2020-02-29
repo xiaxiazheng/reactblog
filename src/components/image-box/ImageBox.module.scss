@@ -6,6 +6,7 @@
   border-radius: 4px;
   box-sizing: border-box;
   overflow: hidden;
+  border: 1px solid var(--borderColor);
   .Upload {
     width: 100%;
     height: 100%;
@@ -33,9 +34,11 @@
     box-sizing: border-box;
     background-color: rgba(0,0,0,0.25);
   }
-  .Shower {
+  .shower {
     width: 100%;
     height: 100%;
+    font-size: 14px;
+    color: var(--color);
   }
   .Icons {
     position: absolute;

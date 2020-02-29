@@ -1,4 +1,4 @@
-import { getHelper, postHelper } from './ClientHelper';
+import { getHelper, postHelper } from '.';
 
 /** 操作日志 */
 export async function getLogAllClass(): Promise<any> {

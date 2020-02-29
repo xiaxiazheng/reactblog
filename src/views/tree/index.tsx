@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styles from './Tree.module.scss';
-import { IsLoginContext } from '@/context/IsLoginContext';
-import { withRouter, match } from 'react-router';
-import { History, Location } from 'history';
-import TreeMenu from './tree-menu/TreeMenu';
-import { Switch } from 'antd';
-import TreeCont from './tree-cont/TreeCont';
-import classnames from 'classnames';
+import React, { useState, useEffect, useContext } from "react";
+import styles from "./index.module.scss";
+import { IsLoginContext } from "@/context/IsLoginContext";
+import TreeList from "./tree-list";
+import { Switch } from "antd";
+import TreeCont from "./tree-cont";
+import classnames from "classnames";
+import { withRouter, RouteComponentProps, match } from "react-router-dom";
 
-interface PropsType {
-  history: History;
-  match: match;
-  location: Location;
-};
+interface PropsType extends RouteComponentProps {
+  match: match<{
+    first_id: string;
+    second_id: string;
+  }>
+}
 
-const Tree: React.FC<PropsType> = ({ match }) => {
+const Tree: React.FC<PropsType> = props => {
+  const { match } = props;
+  const { first_id, second_id } = match.params;
   const { isLogin } = useContext(IsLoginContext);
 
   const [isEdit, setIsEdit] = useState(false);
   const [isMain, setIsMain] = useState(true);
 
-  useEffect(() =>{
+  useEffect(() => {
     setIsMain(JSON.stringify(match.params) === "{}");
   }, [match.params]);
 
@@ -28,12 +30,12 @@ const Tree: React.FC<PropsType> = ({ match }) => {
     <div className={styles.Tree}>
       {/* 左边的树 */}
       <div className={styles.treeLeft}>
-        <TreeMenu />
+        <TreeList first_id={first_id} second_id={second_id} />
       </div>
       {/* 右边的展示 & 编辑 */}
       <div className={`${styles.treeRight} ScrollBar`}>
         {// 编辑与查看的切换按钮
-          isLogin &&
+        isLogin && (
           <Switch
             className={styles.treeEditSwitch}
             checkedChildren="编辑"
@@ -41,14 +43,16 @@ const Tree: React.FC<PropsType> = ({ match }) => {
             defaultChecked={isEdit}
             onChange={() => setIsEdit(!isEdit)}
           />
-        }
+        )}
         <TreeCont
           isMain={isMain}
           isEdit={isEdit}
+          first_id={first_id}
+          second_id={second_id}
         />
       </div>
     </div>
   );
-}
+};
 
 export default withRouter(Tree);

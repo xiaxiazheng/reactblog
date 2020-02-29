@@ -1,17 +1,13 @@
 import React, { useState, useContext } from 'react';
-import styles from './TreeMenuItem.module.scss';
+import styles from './index.module.scss';
 import { modifyTreeNode, deleteTreeNode, changeSort } from '@/client/TreeHelper';
 import { Icon, message, Modal } from 'antd';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import { match } from 'react-router';
+// import { match } from 'react-router';
 import { TreeContext } from '../../TreeContext';
 
 interface TreeMenuItemType {
-  match: match<{
-    first_id: string;
-    second_id: string;
-    third_id: string;
-  }>;
+  second_id?: string;
 
   /** 父节点及其所有兄弟节点 */
   grandFatherChildren?: {id: string; label: string}[];
@@ -42,7 +38,7 @@ interface TreeMenuItemType {
   /** 下一个兄弟节点的 id */
   nextId: string;
 
-  openShuttle: Function;
+  openShuttle?: Function;
   getTreeData: Function;
   keyword: string;
   /** 删除节点成功后的回调 */
@@ -54,8 +50,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
   const { setTreeContTitle } = useContext(TreeContext);
 
   const {
-    match,
-    grandFatherChildren,
+    second_id,
     fatherId,
     isOnly,
     isFirst,
@@ -124,7 +119,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
         message.success("修改节点名称成功");
         getTreeData();
         // 如果修改的是当前已经点开的路由，则要修改 TreecontTitle
-        if (match.params.third_id === String(id)) {
+        if (second_id === String(id)) {
           setTreeContTitle(name);
         }
       } else {
@@ -248,12 +243,10 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
                   title="更换父节点"
                   type="rocket"
                   onClick={() => {
-                    openShuttle(
-                      level,
+                    openShuttle && openShuttle(
                       id,
                       label,
-                      fatherId || '',
-                      grandFatherChildren || []
+                      fatherId || ''
                     )
                   }}
                 />

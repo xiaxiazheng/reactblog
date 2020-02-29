@@ -11,7 +11,7 @@ import { isDev, baseUrl } from '@/env_config';
 import httpCodeMessage from './lib/http-code-msg';
 
 export const instance = axios.create({
-  baseURL: `${baseUrl}/back`,
+  baseURL: `${baseUrl}/api`,
   timeout: isDev ? 5 * 1000 : 10 * 1000
 })
 

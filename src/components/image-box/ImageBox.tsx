@@ -32,7 +32,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
 
   const { confirm } = Modal;
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [isHover, setIsHover] = useState(false);
 
   const handleChange = (info: any) => {
@@ -136,19 +136,22 @@ const ImageBox: React.FC<PropsType> = (props) => {
         // <UploadImage />
       }
       {/* 加载中。。。 */}
-      {imageUrl !== '' && loading &&
+      {/* {imageUrl !== '' && loading &&
         <div className={styles.imageLoading}>
           <Loading />
         </div>
-      }
-      {/* 有图片的情况，展示图片 */}
+      } */}
+      {/* 有图片的情况，展示图片名称 */}
       {imageUrl !== '' &&
-        <img className={styles.Shower}
-          onMouseEnter={(e) => { e.stopPropagation(); setIsHover(true);}}
-          onLoad={() => setLoading(false)}
-          src={imageUrl}
-          alt={imageName}
-        />
+        <div className={styles.shower} onMouseEnter={(e) => { e.stopPropagation(); setIsHover(true);}}>
+          {imageName}
+        </div>
+        // <img className={styles.Shower}
+        //   onMouseEnter={(e) => { e.stopPropagation(); setIsHover(true);}}
+        //   onLoad={() => setLoading(false)}
+        //   src={imageUrl}
+        //   alt={imageName}
+        // />
       }
       {/* 有图片的情况，显示操作 */}
       {imageUrl !== '' && isHover &&

@@ -10,7 +10,7 @@ import Loading from '@/components/loading/Loading';
 
 const Log = lazy(() => import('../views/log/Log'));
 const Home = lazy(() => import('../views/home/Home'));
-const Tree = lazy(() => import('../views/tree/Tree'));
+const Tree = lazy(() => import('../views/tree'));
 const LogCont = lazy(() => import('../views/log/log-cont/LogCont'));
 const Login = lazy(() => import('../views/login/Login'));
 const Admin = lazy(() => import('../views/admin/Admin'));
@@ -56,7 +56,7 @@ const Router: React.FC = () => {
           <DefaultLayout exact path="/" component={Home} />
           <TreeProvider>
             <Switch>
-              <DefaultLayout path="/tree/:first_id/:second_id/:third_id" component={Tree} />
+              <DefaultLayout path="/tree/:first_id/:second_id" component={Tree} />
               <DefaultLayout path="/tree" component={Tree} />
             </Switch>              
           </TreeProvider>
@@ -72,7 +72,7 @@ const Router: React.FC = () => {
           <PrivateRoute exact path="/admin" component={Admin} />
           <TreeProvider>
             <Switch>
-              <PrivateRoute path="/admin/tree/:first_id/:second_id/:third_id" component={Tree} />
+              <PrivateRoute path="/admin/tree/:first_id/:second_id" component={Tree} />
               <PrivateRoute path="/admin/tree" component={Tree} />
             </Switch>
           </TreeProvider>

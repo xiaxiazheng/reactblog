@@ -1,4 +1,4 @@
-import { getHelper, postHelper } from './ClientHelper';
+import { getHelper, postHelper } from '.';
 
 /** 操作节点 */
 // 操作子节点内容

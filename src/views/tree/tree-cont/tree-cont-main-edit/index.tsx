@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './TreeContMainEdit.module.scss';
+import styles from './index.module.scss';
 
 const TreeContMainEdit: React.FC = () => {
 

@@ -1,19 +1,29 @@
-import { getHelper, postHelper } from './ClientHelper';
+import { getHelper, postHelper } from '.';
 
 /** 操作树 */
 export async function getTree(type: string): Promise<any[]> {
   const data = await getHelper(`/tree?type=${type}`);
-  return data && data.resultsCode === 'success' ? data.data : [];
+  return data && data.resultsCode === 'success' ? data.data : false;
+}
+
+export async function getShowTreeList(): Promise<any[]> {
+  const data = await getHelper(`/getShowTreeList`);
+  return data && data.resultsCode === 'success' ? data.data : false;
+}
+
+export async function getAllTreeList(): Promise<any[]> {
+  const data = await getHelper(`/getAllTreeList`);
+  return data && data.resultsCode === 'success' ? data.data : false;
 }
 
 export async function searchTree(keyword: string): Promise<any[]> {
   const data = await getHelper(`/searchtree?keyword=${keyword}`);
-  return data && data.resultsCode === 'success' ? data.data : [];
+  return data && data.resultsCode === 'success' ? data.data : false;
 }
 
 export async function getChildName(id: string): Promise<any[]> {
   const data = await getHelper(`/getchildname?id=${id}`);
-  return data && data.resultsCode === 'success' ? data.data : [];
+  return data && data.resultsCode === 'success' ? data.data : false;
 }
 
 export async function addTreeNode(params: any): Promise<boolean> {

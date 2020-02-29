@@ -1,4 +1,4 @@
-import { getHelper, postHelper } from './ClientHelper';
+import { getHelper, postHelper } from '.';
 
 /** 操作图片 */
 // 获取某个类型的图片名称列表

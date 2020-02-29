@@ -41,6 +41,8 @@
       img {
         width: 100%;
         max-width: 20rem;
+        min-width: 10rem;
+        min-height: 10rem;
         cursor: pointer;
       }
       .imgName {
