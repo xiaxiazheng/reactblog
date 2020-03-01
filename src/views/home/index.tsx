@@ -31,7 +31,7 @@ const Home: React.FC = () => {
         });
       }
       // setHomeData({ imgList });
-      setBackgroundUrl(imgList[0].imgUrl);
+      imgList[0] && setBackgroundUrl(imgList[0].imgUrl);
     };
 
     getData();

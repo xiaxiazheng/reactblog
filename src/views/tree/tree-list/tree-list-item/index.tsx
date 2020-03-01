@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import styles from './index.module.scss';
-import { modifyTreeNode, deleteTreeNode, changeSort } from '@/client/TreeHelper';
+import { modifyTreeNode, deleteTreeNode, changeSort, updateIsShow } from '@/client/TreeHelper';
 import { Icon, message, Modal } from 'antd';
 import { IsLoginContext } from '@/context/IsLoginContext';
 // import { match } from 'react-router';
 import { TreeContext } from '../../TreeContext';
+import { isShowLog } from '@/client/LogHelper';
 
 interface TreeMenuItemType {
   second_id?: string;
@@ -26,6 +27,8 @@ interface TreeMenuItemType {
   label: string;
   /** 节点 id */
   id: string;
+  /** 节点是否显示 */
+  isShow: 'true' | 'false';
   /** 节点顺序号 */
   sort: number;
 
@@ -58,6 +61,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
     level,
     label,
     id,
+    isShow,
     sort,
     previousSort,
     previousId,
@@ -123,7 +127,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
           setTreeContTitle(name);
         }
       } else {
-        message.error("修改节点名称成功");
+        message.error("修改节点名称失败");
       }
     }
   };
@@ -180,6 +184,23 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
     });
   };
 
+  // 改变显示/隐藏状态
+  const changeIsShow = async (e: any) => {
+    e.stopPropagation();
+    const params = {
+      level: Number(level.split('').pop()),
+      id: id,
+      isShow: isShow === 'true' ? 'false' : 'true'
+    };
+    const res = await updateIsShow(params);
+    if (res) {
+      message.success("修改节点名称成功");
+      getTreeData();
+    } else {
+      message.error(`修改节点${ isShow ? '显示' : '隐藏'}状态失败`);
+    }
+  }
+
   // 记录展开节点操作框的项的 id
   const [editting_id, setEditting_id] = useState<string>('');
 
@@ -191,7 +212,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       }}
     >
       {/* 每层节点显示的 label */}
-      <span className={styles.titleName} title={label}>
+      <span className={`${styles.titleName}`} title={label}>
         {
           keyword === '' || (new RegExp(keyword, 'gi')).test(label) === false
           ? label
@@ -211,10 +232,10 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
           }}
           >
           <Icon
-            type="edit"
-            title="操作该节点"
+            title="显示or隐藏节点"
+            type={isShow === 'true' ? 'eye' : 'eye-invisible'}
             className={`${editting_id === id ? styles.editting : ''} ${styles.moreOperateIcon}`}
-          />
+            onClick={changeIsShow}/>
           {editting_id !== '' && editting_id === id &&
             // 树节点操作的操作 icons
             <div className={styles.iconsBox} onClick={e => e.stopPropagation()}>
