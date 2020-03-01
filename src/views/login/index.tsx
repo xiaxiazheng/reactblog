@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Input, Button, Icon, message } from 'antd';
-import styles from './Login.module.scss';
+import styles from './index.module.scss';
 import { postLogin } from '@/client/UserHelper';
 import { withRouter, match } from 'react-router';
 import { Location, History } from 'history';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Home.module.scss';
+import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
 import classnames from 'classnames';

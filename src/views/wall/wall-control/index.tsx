@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styles from './WallControl.module.scss';
+import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
-import ImageBox from '@/components/image-box/ImageBox';
-import Loading from '@/components/loading/Loading';
+import ImageBox from '@/components/image-box';
+import Loading from '@/components/loading';
 
 interface ImgType {
   cTime: string;

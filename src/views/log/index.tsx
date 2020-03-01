@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import styles from './Log.module.scss';
+import styles from './index.module.scss';
 import { Tabs, Icon, Modal, Input, message } from 'antd';
 import { withRouter, match } from 'react-router';
 import { History, Location } from 'history';
 import { IsLoginContext } from '@/context/IsLoginContext';
 import { getLogAllClass, getHomeLogAllClass, editClassName } from '@/client/LogHelper';
-import LogList from './log-list/LogList';
-import Loading from '@/components/loading/Loading';
+import LogList from './log-list';
+import Loading from '@/components/loading';
 
 interface PropsType {
   history: History;

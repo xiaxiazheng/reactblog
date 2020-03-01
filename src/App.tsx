@@ -1,7 +1,7 @@
 import React from 'react';
 import '@/App.scss';
 import '@/assets/scss/Global.scss';
-import Router from './router/Router';
+import Router from './router';
 import { IsLoginProvider } from './context/IsLoginContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { hot } from 'react-hot-loader/root';

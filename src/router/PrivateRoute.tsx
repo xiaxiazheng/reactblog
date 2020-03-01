@@ -3,7 +3,7 @@ import {Redirect, Route} from "react-router-dom";
 import { IsLoginContext } from '../context/IsLoginContext';
 import { message } from 'antd';
 import { postLogin } from '../client/UserHelper';
-import styles from './Router.module.scss';
+import styles from './index.module.scss';
 import Header from '@/components/header/Header';
 
 interface PropsType {

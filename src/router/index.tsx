@@ -1,20 +1,20 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import { HashRouter } from 'react-router-dom';
-import styles from './Router.module.scss';
+import styles from './index.module.scss';
 import { PrivateRoute } from './PrivateRoute';
 import Header from '@/components/header/Header';
 import { LogProvider } from '@/views/log/LogContext';
 import { TreeProvider } from '@/views/tree/TreeContext';
-import Loading from '@/components/loading/Loading';
+import Loading from '@/components/loading';
 
-const Log = lazy(() => import('../views/log/Log'));
-const Home = lazy(() => import('../views/home/Home'));
+const Home = lazy(() => import('../views/home'));
 const Tree = lazy(() => import('../views/tree'));
-const LogCont = lazy(() => import('../views/log/log-cont/LogCont'));
-const Login = lazy(() => import('../views/login/Login'));
-const Admin = lazy(() => import('../views/admin/Admin'));
-const Wall = lazy(() => import('../views/wall/Wall'));
+const Log = lazy(() => import('../views/log'));
+const LogCont = lazy(() => import('../views/log/log-cont'));
+const Login = lazy(() => import('../views/login'));
+const Admin = lazy(() => import('../views/admin'));
+const Wall = lazy(() => import('../views/wall'));
 
 const Router: React.FC = () => {
 

@@ -50,3 +50,8 @@ export async function changeFather(params: any) {
   const data = await postHelper(`/changefather`, params);
   return data && data.resultsCode === 'success' ? true : false;
 }
+
+export async function updateIsShow(params: any) {
+  const data = await postHelper(`/updateIsShow`, params);
+  return data && data.resultsCode === 'success' ? true : false;
+}

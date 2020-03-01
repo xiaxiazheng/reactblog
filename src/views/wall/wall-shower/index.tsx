@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from './WallShower.module.scss';
+import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image/PreviewImage';
 import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
-import Loading from '@/components/loading/Loading';
+import Loading from '@/components/loading';
 
 interface ImgType {
   cTime: string;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
-import ImageBox from '@/components/image-box/ImageBox';
-import styles from './Admin.module.scss';
+import ImageBox from '@/components/image-box';
+import styles from './index.module.scss';
 
 interface ImgType {
   cTime: string;

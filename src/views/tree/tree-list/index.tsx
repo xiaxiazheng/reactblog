@@ -9,7 +9,7 @@ import {
 import { Menu, Icon, message, Input } from "antd";
 import TreeListItem from "./tree-list-item";
 import { ShuttleBox, ShuttleMsgType } from "./shuttle-box";
-import Loading from "@/components/loading/Loading";
+import Loading from "@/components/loading";
 import classnames from "classnames";
 import { ThemeContext } from "@/context/ThemeContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -407,7 +407,6 @@ const TreeMenu: React.FC<PropsType> = props => {
                 )}
               </SubMenu>
             );
-          })}
           })}
           {/** 在下方添加一级节点 */
           isLogin && (

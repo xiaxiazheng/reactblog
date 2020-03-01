@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "./LogList.module.scss";
+import styles from "./index.module.scss";
 import {
   Input,
   Pagination,
@@ -20,7 +20,7 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogListType } from "../LogType";
 import LogListItem from "./LogListItem";
 import { LogContext, LogContextType } from "../LogContext";
-import Loading from "@/components/loading/Loading";
+import Loading from "@/components/loading";
 import classnames from "classnames";
 
 interface PropsType {

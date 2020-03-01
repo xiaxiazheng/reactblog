@@ -6,7 +6,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
 import { baseUrl } from "@/env_config";
-import Loading from "@/components/loading/Loading";
+import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image/PreviewImage";
 import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";

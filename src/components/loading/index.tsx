@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Loading.module.scss'
+import styles from './index.module.scss'
 // import { default as loadingUrl } from '../../assets/loading.svg';
 
 interface LoadingType {

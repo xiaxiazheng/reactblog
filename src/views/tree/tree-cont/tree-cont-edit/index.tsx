@@ -13,8 +13,8 @@ import {
 } from "@/client/TreeContHelper";
 import { baseUrl } from "@/env_config";
 import { Input, Button, message, Icon, Modal } from "antd";
-import ImageBox from "@/components/image-box/ImageBox";
-import Loading from "@/components/loading/Loading";
+import ImageBox from "@/components/image-box";
+import Loading from "@/components/loading";
 
 interface PropsType extends RouteComponentProps {
   first_id: string;
