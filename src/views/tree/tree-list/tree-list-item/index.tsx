@@ -241,6 +241,8 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
             type={isShow === "true" ? "eye" : "eye-invisible"}
             className={`${editting_id === id ? styles.editting : ""} ${
               styles.moreOperateIcon
+            } ${
+              isShow === 'true' ? styles.isShow : ''
             }`}
             onClick={changeIsShow}
           />
