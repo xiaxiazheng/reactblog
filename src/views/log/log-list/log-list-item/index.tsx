@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import styles from './LogListItem.module.scss';
+import styles from './index.module.scss';
 import { Icon, message, Modal, Select } from 'antd';
 import { getLogAllClass, getHomeLogAllClass, isShowLog, isStickLog, deleteLogCont, switchLogClass } from '@/client/LogHelper';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import { LogListType } from '../LogType';
+import { LogListType } from '../../LogType';
 import classnames from 'classnames'; 
 
 interface PropsType {

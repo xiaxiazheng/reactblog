@@ -18,7 +18,7 @@ import {
 } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogListType } from "../LogType";
-import LogListItem from "./LogListItem";
+import LogListItem from "./log-list-item";
 import { LogContext, LogContextType } from "../LogContext";
 import Loading from "@/components/loading";
 import classnames from "classnames";
