@@ -18,7 +18,7 @@ import {
 } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogListType } from "../LogType";
-import LogListItem from "./LogListItem";
+import LogListItem from "./log-list-item";
 import { LogContext, LogContextType } from "../LogContext";
 import Loading from "@/components/loading";
 import classnames from "classnames";
@@ -26,32 +26,28 @@ import classnames from "classnames";
 interface PropsType {
   history: History;
   location: Location;
-  match: match<{ log_class: string }>;
-  logclass: string;  // 这个是当前分类的日志类别名称
-  getAllLogClass: Function;
+  match: match;
 }
 
-const LogList: React.FC<PropsType> = ({
-  logclass,
-  history,
-  match,
-  getAllLogClass
-}) => {
+const LogList: React.FC<PropsType> = props => {
+  const { history, match } = props;
   const { isLogin } = useContext(IsLoginContext); // 获取是否登录
 
   const [loading, setLoading] = useState(true);
 
-  const { tabsState, setTabsState } = useContext<LogContextType>(LogContext);
+  const { tabsState, setTabsState, activeTag } = useContext<LogContextType>(
+    LogContext
+  );
   // 当前 tab 的状态
-  const [myState, setMyState] = useState<LogContextType["tabsState"][string]>({
-    keyword: null,
-    pageNo: 1,
-    pageSize: 15,
-    orderBy: "modify",
-    showVisible: true,
-    showInvisible: true,
-    showNotClassify: false
-  });
+  // const [myState, setMyState] = useState<LogContextType["tabsState"]>({
+  //   keyword: null,
+  //   pageNo: 1,
+  //   pageSize: 15,
+  //   orderBy: "modify",
+  //   showVisible: true,
+  //   showInvisible: true,
+  //   showNotClassify: false
+  // });
   // 展开方便用
   const {
     keyword,
@@ -61,51 +57,35 @@ const LogList: React.FC<PropsType> = ({
     showVisible,
     showInvisible,
     showNotClassify
-  } = myState;
+  } = tabsState;
 
-  // 每次操作都是变动 tabsState，然后再赋值给 myState
-  const [isUpdate, setIsUpdate] = useState(false);
-  useEffect(() => {
-    // 不存在就初始化
-    if (!tabsState[logclass]) {
-      setTabsState({
-        ...tabsState,
-        [logclass]: myState
-      });
-      return
-    }
-    
-    setMyState(tabsState[logclass]);
-    setIsUpdate(true)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabsState[logclass]])
-
-  // 有变动才更新
-  useEffect(() => {
-    if (isUpdate) {
-      getLogList();
-      setIsUpdate(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdate]);
+  // 初始化
+  // useEffect(() => {
+  //   getLogList();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const [logListData, setLogListData] = useState({
     logList: [], // 日志列表
     totalNumber: 0 // 日志总数
   });
 
+  useEffect(() => {
+    getLogList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTag, tabsState])
+
   // 初始化日志列表
   const getLogList = async () => {
     setLoading(true);
-    
+
     let params: any = {
       pageNo: pageNo,
       pageSize: pageSize,
       orderBy: orderBy,
-      keyword: keyword || ""
+      keyword: keyword || "",
+      activeTag: activeTag || ""
     };
-    logclass !== "所有日志" && (params.classification = logclass); // 若是所有日志不用传该字段
-    logclass === "所有日志" && showNotClassify && (params.classification = ""); // 所有日志下，才可选仅显示未分类
     let res = {
       list: [],
       totalNumber: 0
@@ -137,9 +117,8 @@ const LogList: React.FC<PropsType> = ({
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
-    const path = `${isLogin ? "/admin" : ""}/log/${
-      match.params.log_class
-    }/${btoa(decodeURIComponent(item.log_id))}`;
+    const path = `${isLogin ? "/admin" : ""}/log/
+    /${btoa(decodeURIComponent(item.log_id))}`;
     history.push({
       pathname: path,
       state: {
@@ -151,17 +130,15 @@ const LogList: React.FC<PropsType> = ({
   // 添加日志
   const addNewLog = async (type: "richtext" | "markdown") => {
     const params = {
-      edittype: type,
-      classification: logclass === "所有日志" ? "" : logclass
+      edittype: type
+      // classification: logclass === "所有日志" ? "" : logclass
     };
     const res: any = await addLogCont(params);
     if (res) {
       message.success("新建成功");
       /** 新建成功直接跳转到新日志 */
       const newId = res.newid;
-      const path = `/admin/log/${match.params.log_class}/${btoa(
-        decodeURIComponent(newId)
-      )}`;
+      const path = `/admin/log/${btoa(decodeURIComponent(newId))}`;
       history.push({
         pathname: path,
         state: {
@@ -174,25 +151,22 @@ const LogList: React.FC<PropsType> = ({
   };
 
   // 输入搜索关键字
-  const [myKeyword, setMyKeyword] = useState<any>()
+  const [myKeyword, setMyKeyword] = useState<any>();
   useEffect(() => {
-    setMyKeyword(keyword)
-  }, [keyword])
+    setMyKeyword(keyword);
+  }, [keyword]);
   const handleKeyword = (e: any) => {
-    setMyKeyword(e.target.value)
+    setMyKeyword(e.target.value);
   };
 
   // myKeyword 删除到空就发请求
   useEffect(() => {
     // 这样限制就不会在初始化的时候又跑多一次了
-    if (keyword !== '' && myKeyword === "") {
+    if (keyword !== "" && myKeyword === "") {
       setTabsState({
         ...tabsState,
-        [logclass]: {
-          ...tabsState[logclass],
-          keyword: '',
-          pageNo: 1
-        }
+        keyword: "",
+        pageNo: 1
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -203,11 +177,8 @@ const LogList: React.FC<PropsType> = ({
     if (e.keyCode === 13) {
       setTabsState({
         ...tabsState,
-        [logclass]: {
-          ...tabsState[logclass],
-          keyword: myKeyword,
-          pageNo: 1
-        }
+        keyword: myKeyword,
+        pageNo: 1
       });
     }
   };
@@ -221,11 +192,8 @@ const LogList: React.FC<PropsType> = ({
   const handleVisible = () => {
     setTabsState({
       ...tabsState,
-      [logclass]: {
-        ...tabsState[logclass],
-        showVisible: !showVisible,
-        pageNo: 1
-      }
+      showVisible: !showVisible,
+      pageNo: 1
     });
   };
 
@@ -233,11 +201,8 @@ const LogList: React.FC<PropsType> = ({
   const handleInvisible = () => {
     setTabsState({
       ...tabsState,
-      [logclass]: {
-        ...tabsState[logclass],
-        showInvisible: !showInvisible,
-        pageNo: 1
-      }
+      showInvisible: !showInvisible,
+      pageNo: 1
     });
   };
 
@@ -245,11 +210,8 @@ const LogList: React.FC<PropsType> = ({
   const handleNotClassify = () => {
     setTabsState({
       ...tabsState,
-      [logclass]: {
-        ...tabsState[logclass],
-        showNotClassify: !showNotClassify,
-        pageNo: 1
-      }
+      showNotClassify: !showNotClassify,
+      pageNo: 1
     });
   };
 
@@ -257,11 +219,8 @@ const LogList: React.FC<PropsType> = ({
   const handleOrderBy = (e: any) => {
     setTabsState({
       ...tabsState,
-      [logclass]: {
-        ...tabsState[logclass],
-        orderBy: e.target.value,
-        pageNo: 1
-      }
+      orderBy: e.target.value,
+      pageNo: 1
     });
   };
 
@@ -269,10 +228,7 @@ const LogList: React.FC<PropsType> = ({
   const handlePageNo = (page: number) => {
     setTabsState({
       ...tabsState,
-      [logclass]: {
-        ...tabsState[logclass],
-        pageNo: page
-      }
+      pageNo: page
     });
   };
 
@@ -280,11 +236,8 @@ const LogList: React.FC<PropsType> = ({
   const handlePageSize = (current: number, size: number) => {
     setTabsState({
       ...tabsState,
-      [logclass]: {
-        ...tabsState[logclass],
-        pageSize: size,
-        pageNo: 1
-      }
+      pageSize: size,
+      pageNo: 1
     });
   };
 
@@ -338,7 +291,7 @@ const LogList: React.FC<PropsType> = ({
             不可见
           </Checkbox>
         )}
-        {logclass === "所有日志" && (
+        {isLogin && (
           <Checkbox
             className={styles.checkBox}
             checked={showNotClassify}
@@ -391,11 +344,9 @@ const LogList: React.FC<PropsType> = ({
                 onClick={choiceOneLog.bind(null, item)}
               >
                 <LogListItem
-                  logClass={logclass}
                   logItemData={item}
                   orderBy={orderBy}
                   getNewList={getLogList}
-                  getAllLogClass={getAllLogClass}
                 />
               </li>
             );

@@ -22,13 +22,16 @@
         color: var(--color_active);
       }
     }
+    .isShow {
+      color: var(--color_active);
+    }
     .iconsBox {
       position: absolute;
       right: 30px;
       top: 1px;
       height: 38px;
       padding-left: 10px;
-      background-color: var(--bgColorBlur);
+      background-color: var(--bgColorHover);
       border-radius: 4px;
       .treenodeIcon {
         color: var(--color);

@@ -45,6 +45,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
 
   useEffect(() => {
     isEdit && getData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.log_id, isEdit]);
 
   // 回到日志列表

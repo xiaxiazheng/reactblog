@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './UploadImage.module.scss';
+import styles from './index.module.scss';
 
 interface PropsType {
   // otherId?: string;  // 跟这个图片要插入的地方有关联的记录 id

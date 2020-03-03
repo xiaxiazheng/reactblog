@@ -67,11 +67,11 @@
           .ant-select-dropdown-menu-item {
             color: var(--color);
             &:hover {
-              background: var(--bgColorBlur);
+              background: var(--bgColorHover);
             }
           }
           .ant-select-dropdown-menu-item-selected {
-            background: var(--bgColorBlur);
+            background: var(--bgColorHover);
           }
         }
       }

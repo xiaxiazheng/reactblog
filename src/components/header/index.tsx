@@ -124,7 +124,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           </Menu.Item>
           <Menu.Item key="log">
             <Icon type="book" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/log/所有日志" : "/log/所有日志"}>
+            <Link to={isLogin ? "/admin/log" : "/log"}>
               日志
             </Link>
           </Menu.Item>
