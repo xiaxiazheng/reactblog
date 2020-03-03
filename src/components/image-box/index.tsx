@@ -5,7 +5,7 @@ import { baseUrl } from '@/env_config';
 import { deleteImg } from '@/client/ImgHelper';
 import Loading from '@/components/loading';
 import PreviewImage from '@/components/preview-image/PreviewImage';
-import UploadImage from './upload-image/UploadImage'
+import UploadImage from './upload-image'
 
 interface PropsType {
   otherId?: string;  // 跟这个图片要插入的地方有关联的记录 id

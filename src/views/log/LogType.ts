@@ -1,7 +1,6 @@
 export interface LogListType {
   author: string;
   cTime: string;
-  classification: string;
   edittype: string;
   isShow: string;
   isStick: string;
@@ -13,7 +12,6 @@ export interface LogListType {
 export interface OneLogType {
   author: string;
   cTime: string;
-  classification: string;
   edittype: 'richtext' | 'markdown';
   imgList: ImageType[]
   isShow: string;

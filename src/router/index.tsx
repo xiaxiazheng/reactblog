@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import { HashRouter } from 'react-router-dom';
 import styles from './index.module.scss';
 import { PrivateRoute } from './PrivateRoute';
-import Header from '@/components/header/Header';
+import Header from '@/components/header';
 import { LogProvider } from '@/views/log/LogContext';
 import { TreeProvider } from '@/views/tree/TreeContext';
 import Loading from '@/components/loading';
@@ -62,8 +62,8 @@ const Router: React.FC = () => {
           </TreeProvider>
           <LogProvider>
             <Switch>
-              <DefaultLayout path="/log/:log_class/:log_id" exact component={LogCont} />
-              <DefaultLayout path="/log/:log_class" component={Log} />
+              <DefaultLayout path="/log/:log_id" exact component={LogCont} />
+              <DefaultLayout path="/log" component={Log} />
             </Switch>
           </LogProvider>
           <DefaultLayout path="/wall" component={Wall} />
@@ -78,8 +78,8 @@ const Router: React.FC = () => {
           </TreeProvider>
           <LogProvider>
             <Switch>
-              <PrivateRoute path="/admin/log/:log_class/:log_id" exact component={LogCont} />
-              <PrivateRoute path="/admin/log/:log_class" component={Log} />
+              <PrivateRoute path="/admin/log/:log_id" exact component={LogCont} />
+              <PrivateRoute path="/admin/log" component={Log} />
             </Switch>
           </LogProvider>
           <PrivateRoute path="/admin/wall" component={Wall} />

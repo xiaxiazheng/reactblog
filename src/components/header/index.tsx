@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import styles from "./Header.module.scss";
+import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { Menu, Icon, Switch } from "antd";
 import { navTitle } from "@/env_config";
@@ -7,7 +7,7 @@ import { withRouter, match } from "react-router";
 import { Location, History } from "history";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
-import HeaderSearch from "./header-search/HeaderSearch";
+import HeaderSearch from "./header-search";
 import moment from "moment";
 
 interface PropsType {
@@ -124,7 +124,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           </Menu.Item>
           <Menu.Item key="log">
             <Icon type="book" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/log/所有日志" : "/log/所有日志"}>
+            <Link to={isLogin ? "/admin/log" : "/log"}>
               日志
             </Link>
           </Menu.Item>
