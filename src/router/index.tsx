@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import { HashRouter } from 'react-router-dom';
 import styles from './index.module.scss';
 import { PrivateRoute } from './PrivateRoute';
-import Header from '@/components/header/Header';
+import Header from '@/components/header';
 import { LogProvider } from '@/views/log/LogContext';
 import { TreeProvider } from '@/views/tree/TreeContext';
 import Loading from '@/components/loading';
@@ -56,7 +56,7 @@ const Router: React.FC = () => {
           <DefaultLayout exact path="/" component={Home} />
           <TreeProvider>
             <Switch>
-              <DefaultLayout path="/tree/:first_id/:second_id" component={Tree} />
+              <DefaultLayout path="/tree/:first_id/:second_id" exact component={Tree} />
               <DefaultLayout path="/tree" component={Tree} />
             </Switch>              
           </TreeProvider>
@@ -72,7 +72,7 @@ const Router: React.FC = () => {
           <PrivateRoute exact path="/admin" component={Admin} />
           <TreeProvider>
             <Switch>
-              <PrivateRoute path="/admin/tree/:first_id/:second_id" component={Tree} />
+              <PrivateRoute path="/admin/tree/:first_id/:second_id" exact component={Tree} />
               <PrivateRoute path="/admin/tree" component={Tree} />
             </Switch>
           </TreeProvider>

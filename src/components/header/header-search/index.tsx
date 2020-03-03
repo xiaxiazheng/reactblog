@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import styles from './HeaderSearch.module.scss';
+import styles from './index.module.scss';
 import { Icon, Input, Popover } from 'antd';
 import { searchTree } from '@/client/TreeHelper';
 import { withRouter, match } from 'react-router';

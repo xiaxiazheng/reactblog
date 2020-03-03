@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import styles from "./Header.module.scss";
+import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { Menu, Icon, Switch } from "antd";
 import { navTitle } from "@/env_config";
@@ -7,7 +7,7 @@ import { withRouter, match } from "react-router";
 import { Location, History } from "history";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
-import HeaderSearch from "./header-search/HeaderSearch";
+import HeaderSearch from "./header-search";
 import moment from "moment";
 
 interface PropsType {
@@ -110,7 +110,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
           onClick={switchTheme}
         />
         {/* 搜索树节点 */}
-        <HeaderSearch />
+        {/* <HeaderSearch /> */}
         {/* 导航 */}
         <Menu
           onClick={handleClickTabs}
