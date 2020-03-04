@@ -13,7 +13,7 @@ import { withRouter, match } from "react-router";
 import { History, Location } from "history";
 import {
   getLogListIsVisible,
-  getLogListAll,
+  getAllLogList,
   addLogCont
 } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
@@ -38,16 +38,6 @@ const LogList: React.FC<PropsType> = props => {
   const { tabsState, setTabsState, activeTag } = useContext<LogContextType>(
     LogContext
   );
-  // 当前 tab 的状态
-  // const [myState, setMyState] = useState<LogContextType["tabsState"]>({
-  //   keyword: null,
-  //   pageNo: 1,
-  //   pageSize: 15,
-  //   orderBy: "modify",
-  //   showVisible: true,
-  //   showInvisible: true,
-  //   showNotClassify: false
-  // });
   // 展开方便用
   const {
     keyword,
@@ -59,15 +49,9 @@ const LogList: React.FC<PropsType> = props => {
     showNotClassify
   } = tabsState;
 
-  // 初始化
-  // useEffect(() => {
-  //   getLogList();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   const [logListData, setLogListData] = useState({
     logList: [], // 日志列表
-    totalNumber: 0 // 日志总数
+    total: 0 // 日志总数
   });
 
   useEffect(() => {
@@ -88,12 +72,12 @@ const LogList: React.FC<PropsType> = props => {
     };
     let res = {
       list: [],
-      totalNumber: 0
+      total: 0
     };
     if (isLogin) {
       if (showVisible && showInvisible) {
         // 显示所有日志
-        res = await getLogListAll(params);
+        res = await getAllLogList(params);
       } else if (showVisible) {
         // 仅显示可见
         params.isVisible = true;
@@ -110,15 +94,14 @@ const LogList: React.FC<PropsType> = props => {
     }
     setLogListData({
       logList: res.list,
-      totalNumber: res.totalNumber
+      total: res.total
     });
     setLoading(false);
   };
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
-    const path = `${isLogin ? "/admin" : ""}/log/
-    /${btoa(decodeURIComponent(item.log_id))}`;
+    const path = `${isLogin ? "/admin" : ""}/log/${btoa(decodeURIComponent(item.log_id))}`;
     history.push({
       pathname: path,
       state: {
@@ -131,7 +114,6 @@ const LogList: React.FC<PropsType> = props => {
   const addNewLog = async (type: "richtext" | "markdown") => {
     const params = {
       edittype: type
-      // classification: logclass === "所有日志" ? "" : logclass
     };
     const res: any = await addLogCont(params);
     if (res) {
@@ -316,7 +298,7 @@ const LogList: React.FC<PropsType> = props => {
             className={styles.pagination}
             pageSize={pageSize}
             current={pageNo}
-            total={logListData.totalNumber}
+            total={logListData.total}
             showTotal={total => `共${total}篇`}
             onChange={handlePageNo}
             onShowSizeChange={handlePageSize}

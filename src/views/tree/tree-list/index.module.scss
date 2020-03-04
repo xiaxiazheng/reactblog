@@ -1,7 +1,7 @@
 .treeFilter {
-  background: var(--bgColor);
+  background: var(--bg_color);
   box-sizing: border-box;
-  border-bottom: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--border_color);
   .treeFilterInput {
     width: calc(100% - 1.4rem);
     height: 40px;
@@ -12,7 +12,7 @@
     font-size: 15px;
     border: none;
     box-shadow: none;
-    background: var(--bgColor);
+    background: var(--bg_color);
     color: var(--color);
   }
 

@@ -13,15 +13,15 @@ export async function getShowLogTags(): Promise<any> {
 
 export async function addTag(params: any): Promise<any> {
   const data = await postHelper(`/addTag`, params);
-  return data && data.resultsCode === 'success' ? data.data : false;
+  return data && data.resultsCode === 'success' ? true : false;
 }
 
 export async function updateTag(params: any): Promise<any> {
   const data = await postHelper(`/updateTag`, params);
-  return data && data.resultsCode === 'success' ? data.data : false;
+  return data && data.resultsCode === 'success' ? true : false;
 }
 
 export async function deleteTag(params: any): Promise<any> {
   const data = await postHelper(`/deleteTag`, params);
-  return data && data.resultsCode === 'success' ? data.data : false;
+  return data && data.resultsCode === 'success' ? true : false;
 }

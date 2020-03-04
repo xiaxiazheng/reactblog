@@ -2,7 +2,7 @@
   position: relative;
   height: 100%;
   overflow: auto;
-  background-color: var(--bgColor);
+  background-color: var(--bg_color);
   .backButton {
     position: absolute;
     left: 2rem;
@@ -13,8 +13,8 @@
     position: absolute;
     top: 1rem;
     right: 2rem;
-    background: var(--bgColor);
-    border: 1px solid var(--borderColor);
+    background: var(--bg_color);
+    border: 1px solid var(--border_color);
     >span {
       color: var(--color);
     }
@@ -22,7 +22,7 @@
       background-color: transparent;
     }
     &:global(.ant-switch::after) {
-      border: 1px solid var(--borderColor);
+      border: 1px solid var(--border_color);
     }
   }
 }

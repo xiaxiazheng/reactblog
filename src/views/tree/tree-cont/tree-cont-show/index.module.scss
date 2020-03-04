@@ -59,7 +59,7 @@
     right: .5rem;
     overflow: hidden;
     overflow-y: auto;
-    border: 2px solid var(--borderColor);
+    border: 2px solid var(--border_color);
     border-radius: 3px;
     box-sizing: border-box;
     font-size: 12px;
@@ -74,10 +74,10 @@
       color: var(--color);
       &:global(.active) {
         color: var(--color);
-        background-color: var(--bgColorMask);
+        background-color: var(--bg_color_mask);
       }
       &:hover {
-        background-color: var(--bgColorMask);
+        background-color: var(--bg_color_mask);
       }
     }
   }

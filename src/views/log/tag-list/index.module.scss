@@ -3,13 +3,49 @@
   flex-wrap: wrap;
   font-size: 14px;
   .tagName {
+    display: flex;
     margin: 10px 10px;
     padding: 4px 15px;
     border: 1px solid #ccc;
     border-radius: 20px;
+    cursor: pointer;
     &.active {
       color: var(--color_active);
       border-color: var(--color_active);
+    }
+    .allIconBox {
+      position: relative;
+      .moreOperateIcon {
+        position: relative;
+        margin-left: 4px;
+        &.editting {
+          color: var(--color_active);
+        }
+      }
+      .isShow {
+        color: var(--color_active);
+      }
+      .iconsBox {
+        position: absolute;
+        right: -60px;
+        top: -2px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5px;
+        height: 25px;
+        background-color: var(--bg_color_hover);
+        border-radius: 4px;
+        .treenodeIcon {
+          display: inline-block;
+          margin: 0 3px;
+          margin-right: 4px;
+          color: var(--color);
+          &:hover {
+            color: var(--color_active);
+          }
+        }
+      }
     }
   }
 }

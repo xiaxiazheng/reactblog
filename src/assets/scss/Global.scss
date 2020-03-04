@@ -14,14 +14,14 @@
     border-radius: .5rem;
     // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: var(--borderColor);
+    background: var(--border_color);
   }
   &::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
     // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: .5rem;
-    background: var(--bgColor);
+    background: var(--bg_color);
   }
 }
 
@@ -30,10 +30,10 @@
   --color_active: #1890ff;  // active 时字的颜色
   --color_hover: red;  // hover 时字的颜色
   --small_color: #ccc;  // 小字的颜色
-  --bgColor: #001529;  // 背景色
-  --bgColorHover: rgb(51, 61, 69);  // hover 时出现的背景色
-  --bgColorMask: rgba(230, 247, 255, 0.18039215686);  // 遮罩层背景色
-  --borderColor: white;
+  --bg_color: #001529;  // 背景色
+  --bg_color_hover: rgb(51, 61, 69);  // hover 时出现的背景色
+  --bg_color_mask: rgba(230, 247, 255, 0.18039215686);  // 遮罩层背景色
+  --border_color: white;
   --keyword_highlight: yellow;  // 关键字被高亮时的颜色
 }
 
@@ -42,9 +42,9 @@
   --color_active: #1890ff;
   --color_hover: red;
   --small_color: #ccc;
-  --bgColor: rgba(255, 255, 255, 0.65);
-  --bgColorHover: #abbac5;
-  --bgColorMask: rgba(230, 247, 255, 0.6901960784313725);
-  --borderColor: #001529;
+  --bg_color: rgba(255, 255, 255, 0.65);
+  --bg_color_hover: #abbac5;
+  --bg_color_mask: rgba(230, 247, 255, 0.6901960784313725);
+  --border_color: #001529;
   --keyword_highlight: orange;
 }
