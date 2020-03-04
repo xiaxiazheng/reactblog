@@ -1,6 +1,6 @@
 .Home {
   height: 100%;
-  background-color: var(--bgColor);
+  background-color: var(--bg_color);
   background-size: 100% 100%;
   .footerBeian {
     display: flex;
@@ -11,8 +11,8 @@
     min-width: 1440px;
     height: 3.6rem;
     font-size: 12px;
-    background-color: var(--bgColor);
-    border-top: 1px solid var(--borderColor);
+    background-color: var(--bg_color);
+    border-top: 1px solid var(--border_color);
     span, img {
       color: var(--color);
       vertical-align: middle;

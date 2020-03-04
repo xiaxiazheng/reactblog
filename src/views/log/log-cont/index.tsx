@@ -50,7 +50,7 @@ const LogCont: React.FC<PropsType> = ({ match, history }) => {
 
   // 回到日志列表
   const backToLogList = () => {
-    history.push(`${isLogin ? '/admin' : ''}/log/${match.params.log_class}`);
+    history.push(`${isLogin ? '/admin' : ''}/log`);
   };
 
   return (

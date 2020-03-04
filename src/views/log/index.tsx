@@ -10,11 +10,11 @@ interface PropsType {
 const Log: React.FC<PropsType> = () => {
 
   return (
-    <div className={styles.Log}>
-      <div className={styles.tagWrapper}>
+    <div className={styles.log}>
+      <div className={styles.logLeft}>
         <TagList />
       </div>
-      <div className={styles.logWrapper}>
+      <div className={styles.logRight}>
         {/* 日志列表 */}
         <LogList />
       </div>

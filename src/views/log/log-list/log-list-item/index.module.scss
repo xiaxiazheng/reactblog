@@ -7,11 +7,14 @@
     font-size: .9rem;
     font-weight: bold;
     color: var(--color);
-    .classification {
+    .tag {
       margin-left: 1rem;
+      padding: 0px 5px;
       font-size: .6rem;
       font-weight: normal;
       color: var(--color);
+      border: 1px solid var(--border_color);
+      border-radius: 8px;
     }
   }
   .author, .orderbyTime, .editType {

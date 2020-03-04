@@ -30,13 +30,15 @@ export const LogProvider: React.FC = props => {
   });
 
   const [activeTag, setActiveTag] = useState('')
+  const [tagList, setTagList] = useState([])
   
   return (
     <LogContext.Provider
       value={
         {
           tabsState, setTabsState,
-          activeTag, setActiveTag
+          activeTag, setActiveTag,
+          tagList, setTagList
         }
       }>
       {props.children}
@@ -49,5 +51,7 @@ export interface LogContextType {
   setTabsState: React.Dispatch<React.SetStateAction<TabsStateType>>
   activeTag: string
   setActiveTag: React.Dispatch<React.SetStateAction<TabsStateType>>
+  tagList: { tag_name: string; tag_id: string }[]
+  setTagList: React.Dispatch<React.SetStateAction<{ tag_name: string; tag_id: string }[]>>
 }
 export const LogConsumer = LogContext.Consumer;

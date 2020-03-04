@@ -9,7 +9,7 @@
     height: 100%;
     padding-top: 17%;
     z-index: 2;
-    background-color: var(--bgColorMask);
+    background-color: var(--bg_color_mask);
   }
   .treeconteditWrapper {
     display: inline-block;
@@ -30,14 +30,14 @@
       .contitemEdit {
         flex: 1;
         .contitemInput {
-          background: var(--bgColor);
+          background: var(--bg_color);
           color: var(--color);
         }
         .contitemTextarea {
           margin-top: .5rem;
           resize: none;
           letter-spacing: 1px;
-          background: var(--bgColor);
+          background: var(--bg_color);
           color: var(--color);
         }
       }
@@ -45,7 +45,7 @@
         width: 260px;
         text-align: left;
         .imgbox {
-          border: 1px solid var(--borderColor);
+          border: 1px solid var(--border_color);
           border-radius: 3px;
           width: 170px;
           height: 170px;

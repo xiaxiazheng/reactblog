@@ -8,7 +8,7 @@
     color: var(--color);
     :global {
       .ant-radio-button-wrapper {
-        background-color: var(--bgColor);
+        background-color: var(--bg_color);
         color: var(--color);
       }
     }
@@ -37,7 +37,7 @@
         color: var(--color);
       }
       .ant-input {
-        background: var(--bgColor);
+        background: var(--bg_color);
         color: var(--color);
       }
     }
@@ -46,16 +46,16 @@
     flex: 1;
     text-align: right;
     >li {
-      background: var(--bgColor);
+      background: var(--bg_color);
       >a {
         color: var(--color);
-        background: var(--bgColor);
+        background: var(--bg_color);
       }
       :global {
         .ant-select {
           color: var(--color);
           .ant-select-selection {
-            background-color: var(--bgColor);
+            background-color: var(--bg_color);
             >span {
               color: var(--color);
             }
@@ -63,15 +63,15 @@
         }
         .ant-select-dropdown {
           color: var(--color);
-          background: var(--bgColor);
+          background: var(--bg_color);
           .ant-select-dropdown-menu-item {
             color: var(--color);
             &:hover {
-              background: var(--bgColorHover);
+              background: var(--bg_color_hover);
             }
           }
           .ant-select-dropdown-menu-item-selected {
-            background: var(--bgColorHover);
+            background: var(--bg_color_hover);
           }
         }
       }
@@ -100,11 +100,11 @@
     padding: 0.5rem 1rem;
     border-radius: 3px;
     box-sizing: border-box;
-    border: 1px solid var(--borderColor);
+    border: 1px solid var(--border_color);
     list-style: none;
     cursor: pointer;
     &.activeStick {
-      background-color: var(--bgColorMask);
+      background-color: var(--bg_color_mask);
     }
     &:hover {
       color: var(--color_active);

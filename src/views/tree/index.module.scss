@@ -3,14 +3,14 @@ $TreeMenuWidth: 21rem;
 .Tree {
   position: relative;
   height: 100%;
-  background-color: var(--bgColor);
+  background-color: var(--bg_color);
   .treeLeft {
     display: inline-block;
     height: 100%;
     width: $TreeMenuWidth;
     text-align: left;
-    background-color: var(--bgColor);
-    border-right: 1px solid var(--borderColor);
+    background-color: var(--bg_color);
+    border-right: 1px solid var(--border_color);
     box-sizing: border-box;
     letter-spacing: 1px;
     vertical-align: top;
@@ -25,10 +25,10 @@ $TreeMenuWidth: 21rem;
       top: 1rem;
       right: 2rem;
       z-index: 2;
-      border: 1px solid var(--borderColor);
-      background-color: var(--bgColor);
+      border: 1px solid var(--border_color);
+      background-color: var(--bg_color);
       &:global(.ant-switch::after) {
-        border: 1px solid var(--borderColor);
+        border: 1px solid var(--border_color);
       }
       &:global(.ant-switch-checked) {
         background-color: transparent;
