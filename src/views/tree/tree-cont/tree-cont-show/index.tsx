@@ -149,9 +149,8 @@ const TreeContShow: React.FC<PropsType> = props => {
 
   return (
     <div className={styles.treecontshow} ref={contShowRef}>
-      {loading ? (
-        <Loading width={300} />
-      ) : (
+      {loading && <Loading /> }
+      {
         <>
           <h2 className={styles.treecontTitle}>{treeContTitle}</h2>
           {contList.map(item => {
@@ -200,12 +199,11 @@ const TreeContShow: React.FC<PropsType> = props => {
             );
           })}
         </>
-      )}
+      }
       {/* 锚点们 */}
       <div className={styles.mao}>
-        {loading ? (
-          <Loading width={80} />
-        ) : (
+        {loading && <Loading />}
+        {
           contList.map(item => {
             return (
               <a
@@ -217,7 +215,7 @@ const TreeContShow: React.FC<PropsType> = props => {
               </a>
             );
           })
-        )}
+        }
       </div>
       {/* 图片预览 */}
       <PreviewImage

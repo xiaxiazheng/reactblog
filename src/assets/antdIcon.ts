@@ -9,6 +9,7 @@ export {
   PlusOutline,
   ClusterOutline,
   BookOutline,
+  TagsOutline,
   PictureOutline,
   GithubOutline,
   CopyOutline,

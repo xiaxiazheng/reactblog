@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { getAllLogTags, updateTag, deleteTag } from "@/client/TagHelper";
+import {
+  getAllLogTags,
+  getShowLogTags,
+  updateTag,
+  deleteTag
+} from "@/client/TagHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogContext } from "../LogContext";
-import { OneLogType } from "../LogType";
-import { message, Modal, Icon } from "antd";
+import { message, Modal, Icon, Button } from "antd";
 import { addTag } from "@/client/TagHelper";
 
 interface TagType {
@@ -18,13 +22,19 @@ interface PropsType {}
 
 const TagList: React.FC<PropsType> = props => {
   const { isLogin } = useContext(IsLoginContext);
-  const { activeTag, setActiveTag, tagList, setTagList } = useContext(LogContext);
+  const { activeTag, setActiveTag, tagList, setTagList } = useContext(
+    LogContext
+  );
 
-  // const [tagList, setTagList] = useState();
   const [loading, setLoading] = useState(true);
   const getTagData = async () => {
     setLoading(true);
-    const res = await getAllLogTags();
+    let res;
+    if (isLogin) {
+      res = await getAllLogTags();
+    } else {
+      res = await getShowLogTags();
+    }
     if (res) {
       setTagList(res);
       setLoading(false);
@@ -33,6 +43,7 @@ const TagList: React.FC<PropsType> = props => {
 
   useEffect(() => {
     getTagData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /** 选中 tag */
@@ -45,7 +56,7 @@ const TagList: React.FC<PropsType> = props => {
     if (name && name !== "") {
       const params = {
         tag_name: name
-      }
+      };
       const res = await addTag(params);
       if (res) {
         message.success("新增 tag 成功");
@@ -105,63 +116,76 @@ const TagList: React.FC<PropsType> = props => {
   const [editting_id, setEditting_id] = useState("");
 
   return (
-    <div className={styles.tagList}>
-      {loading && <div>loading...</div>}
-      {tagList &&
-        tagList.map((item: TagType) => (
-          <span
-            key={item.tag_id}
-            className={`${styles.tagName} ${
-              activeTag === item.tag_id ? styles.active : ""
-            }`}
-            onClick={choiceTag.bind(null, item.tag_id)}
-            onMouseEnter={e => {
-              e.stopPropagation();
-              editting_id !== item.tag_id && setEditting_id(item.tag_id);
-            }}
-            onMouseLeave={e => {
-              e.stopPropagation();
-              editting_id === item.tag_id && setEditting_id("");
-            }}
-          >
-            {
-              <div className={styles.allIconBox}>
-                {/* tag name */}
-                <span>{item.tag_name}</span>
-                {/* 工具们 */}
-                {isLogin && editting_id !== "" && editting_id === item.tag_id && (
-                  <div
-                    className={styles.iconsBox}
-                    onClick={e => e.stopPropagation()}
-                  >
-                    <Icon
-                      className={styles.treenodeIcon}
-                      title="编辑名称"
-                      type="edit"
-                      onClick={e => {
-                        e.preventDefault();
-                        editTag(item.tag_id, item.tag_name);
-                      }}
-                    />
-                    <Icon
-                      className={styles.treenodeIcon}
-                      title="删除节点"
-                      type="delete"
-                      onClick={e => {
-                        e.preventDefault();
-                        removeTag(item.tag_id, item.tag_name);
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            }
-          </span>
-        ))}
-      <span className={styles.tagName} onClick={createTag}>
-        add a new tag
-      </span>
-    </div>
+    <>
+      <div className={styles.tagList}>
+        {loading && <div>loading...</div>}
+        {tagList &&
+          tagList.map((item: TagType) => (
+            <span
+              key={item.tag_id}
+              className={`${styles.tagItem} ${
+                activeTag === item.tag_id ? styles.active : ""
+              }`}
+              onClick={choiceTag.bind(null, item.tag_id)}
+              onMouseEnter={e => {
+                e.stopPropagation();
+                editting_id !== item.tag_id && setEditting_id(item.tag_id);
+              }}
+              onMouseLeave={e => {
+                e.stopPropagation();
+                editting_id === item.tag_id && setEditting_id("");
+              }}
+            >
+              {
+                <div className={styles.allIconBox}>
+                  {/* tag name */}
+                  <span>{item.tag_name}</span>
+                  {/* 工具们 */}
+                  {isLogin &&
+                    editting_id !== "" &&
+                    editting_id === item.tag_id && (
+                      <div
+                        className={styles.iconsBox}
+                        onClick={e => e.stopPropagation()}
+                      >
+                        <Icon
+                          className={styles.treenodeIcon}
+                          title="编辑名称"
+                          type="edit"
+                          onClick={e => {
+                            e.preventDefault();
+                            editTag(item.tag_id, item.tag_name);
+                          }}
+                        />
+                        <Icon
+                          className={styles.treenodeIcon}
+                          title="删除节点"
+                          type="delete"
+                          onClick={e => {
+                            e.preventDefault();
+                            removeTag(item.tag_id, item.tag_name);
+                          }}
+                        />
+                      </div>
+                    )}
+                </div>
+              }
+            </span>
+          ))}
+      </div>
+      {isLogin && (
+        <Button
+          className={styles.addTag}
+          title="add tag"
+          type="primary"
+          size="small"
+          icon="plus"
+          onClick={createTag}
+        >
+          add tag
+        </Button>
+      )}
+    </>
   );
 };
 

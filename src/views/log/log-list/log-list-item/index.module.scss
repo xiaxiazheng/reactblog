@@ -1,12 +1,18 @@
 .logListItem {
-  display: flex;
+  text-align: left;
   .title {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    font-size: .9rem;
-    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--color);
+  }
+  .tagBox {
+    display: inline-block;
+    margin: 7px 0;
     .tag {
       margin-left: 1rem;
       padding: 0px 5px;
@@ -15,18 +21,23 @@
       color: var(--color);
       border: 1px solid var(--border_color);
       border-radius: 8px;
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
   .author, .orderbyTime, .editType {
-    display: flex;
-    align-items: center;
-    margin-left: .5rem;
-    font-size: .5rem;
+    display: inline-block;
+    letter-spacing: 1px;
+    margin-right: 8px;
+    margin-bottom: 5px;
+    font-size: 10px;
     color: var(--color);
   }
   .logOperateBox {
+    margin-top: 5px;
     .logOperateIcon {
-      margin-left: .7rem;
+      margin-right: .7rem;
       font-size: 1rem;
       color: var(--color);
       cursor: pointer;

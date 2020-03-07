@@ -1,21 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import {
-  Input,
-  Pagination,
-  Icon,
-  Radio,
-  Checkbox,
-  Button,
-  message
-} from "antd";
+import { Input, Pagination, Icon, Radio, Checkbox } from "antd";
 import { withRouter, match } from "react-router";
 import { History, Location } from "history";
-import {
-  getLogListIsVisible,
-  getAllLogList,
-  addLogCont
-} from "@/client/LogHelper";
+import { getLogListIsVisible, getAllLogList } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogListType } from "../LogType";
 import LogListItem from "./log-list-item";
@@ -35,9 +23,9 @@ const LogList: React.FC<PropsType> = props => {
 
   const [loading, setLoading] = useState(true);
 
-  const { tabsState, setTabsState, activeTag } = useContext<LogContextType>(
-    LogContext
-  );
+  const { tabsState, setTabsState, activeTag, tagList } = useContext<
+    LogContextType
+  >(LogContext);
   // 展开方便用
   const {
     keyword,
@@ -56,8 +44,8 @@ const LogList: React.FC<PropsType> = props => {
 
   useEffect(() => {
     getLogList();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTag, tabsState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tagList, activeTag, tabsState]);
 
   // 初始化日志列表
   const getLogList = async () => {
@@ -101,35 +89,15 @@ const LogList: React.FC<PropsType> = props => {
 
   // 点击日志，路由跳转
   const choiceOneLog = (item: LogListType) => {
-    const path = `${isLogin ? "/admin" : ""}/log/${btoa(decodeURIComponent(item.log_id))}`;
+    const path = `${isLogin ? "/admin" : ""}/log/${btoa(
+      decodeURIComponent(item.log_id)
+    )}`;
     history.push({
       pathname: path,
       state: {
         editType: item.edittype // 要带上日志类型
       }
     });
-  };
-
-  // 添加日志
-  const addNewLog = async (type: "richtext" | "markdown") => {
-    const params = {
-      edittype: type
-    };
-    const res: any = await addLogCont(params);
-    if (res) {
-      message.success("新建成功");
-      /** 新建成功直接跳转到新日志 */
-      const newId = res.newid;
-      const path = `/admin/log/${btoa(decodeURIComponent(newId))}`;
-      history.push({
-        pathname: path,
-        state: {
-          editType: type // 要带上日志类型
-        }
-      });
-    } else {
-      message.error("新建失败");
-    }
   };
 
   // 输入搜索关键字
@@ -226,25 +194,6 @@ const LogList: React.FC<PropsType> = props => {
   return (
     <>
       <div className={styles.operateBox}>
-        {/* 新建日志 */}
-        {isLogin && (
-          <>
-            <Button
-              className={styles.addLogButton}
-              title="新建富文本日志"
-              type="primary"
-              icon="file-text"
-              onClick={addNewLog.bind(null, "richtext")}
-            />
-            <Button
-              className={styles.addLogButton}
-              title="新建 MarkDown 日志"
-              type="primary"
-              icon="file-markdown"
-              onClick={addNewLog.bind(null, "markdown")}
-            />
-          </>
-        )}
         {/* 排序条件 */}
         <Radio.Group
           className={styles.orderbyBox}
@@ -279,7 +228,7 @@ const LogList: React.FC<PropsType> = props => {
             checked={showNotClassify}
             onChange={handleNotClassify}
           >
-            未分类
+            未设置 tag
           </Checkbox>
         )}
         {/* 搜索框 */}
@@ -292,30 +241,14 @@ const LogList: React.FC<PropsType> = props => {
           prefix={<Icon type="search"></Icon>}
           allowClear
         ></Input>
-        {/* 分页 */}
-        {logListData.logList && logListData.logList.length !== 0 && (
-          <Pagination
-            className={styles.pagination}
-            pageSize={pageSize}
-            current={pageNo}
-            total={logListData.total}
-            showTotal={total => `共${total}篇`}
-            onChange={handlePageNo}
-            onShowSizeChange={handlePageSize}
-            showSizeChanger
-            pageSizeOptions={["5", "10", "15", "20"]}
-          />
-        )}
       </div>
       {/* 日志列表 */}
+      {loading && <Loading />}
       <ul className={logListClass}>
-        {loading ? (
-          <Loading width={300} />
-        ) : logListData.logList && logListData.logList.length === 0 ? (
-          <div className={styles.emptyList}>
-            当前列表为空(之后再弄个好看的提示)
-          </div>
+        {logListData.logList && logListData.logList.length === 0 ? (
+          <div className={styles.emptyList}>No Data</div>
         ) : (
+          logListData.logList &&
           logListData.logList.map((item: LogListType) => {
             return (
               <li
@@ -335,6 +268,20 @@ const LogList: React.FC<PropsType> = props => {
           })
         )}
       </ul>
+      {/* 分页 */}
+      {logListData.logList && logListData.logList.length !== 0 && (
+        <Pagination
+          className={styles.pagination}
+          pageSize={pageSize}
+          current={pageNo}
+          total={logListData.total}
+          showTotal={total => `共${total}篇`}
+          onChange={handlePageNo}
+          onShowSizeChange={handlePageSize}
+          showSizeChanger
+          pageSizeOptions={["5", "10", "15", "20"]}
+        />
+      )}
     </>
   );
 };

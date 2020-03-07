@@ -21,7 +21,7 @@ const Router: React.FC = () => {
   // loading 界面
   const fallback = () =>{
     return (
-      <Loading width={300} />
+      <Loading />
     );
   };
 

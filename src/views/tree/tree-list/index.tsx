@@ -262,7 +262,7 @@ const TreeMenu: React.FC<PropsType> = props => {
         />
       </div>
       {/* 树 */}
-      {loading && <Loading width={150} />}
+      {loading && <Loading />}
       <Menu
         className={treeMenuClass}
         mode="inline"

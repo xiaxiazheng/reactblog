@@ -1,4 +1,5 @@
 .log {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
@@ -6,10 +7,21 @@
   color: var(--color);
   .logLeft {
     width: 15%;
-    border-right: 1px solid #ccc;
+    height: 100%;
+    border-right: 1px solid var(--border_color);
+    .addLog {
+      text-align: left;
+      border-bottom: 1px solid var(--border_color);
+      padding: 10px 10px 5px;
+      .addLogButton {
+        margin-bottom: 5px;
+      }
+    }
   }
   .logRight {
+    position: relative;
     width: 85%;
+    height: 100%;
     .logTab {
       width: 92%;
       max-width: 1360px;

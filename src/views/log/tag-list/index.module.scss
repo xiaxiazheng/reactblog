@@ -1,12 +1,16 @@
 .tagList {
   display: flex;
   flex-wrap: wrap;
-  font-size: 14px;
-  .tagName {
+  align-items: center;
+  padding-top: 15px;
+  padding-left: 10px;
+  font-size: 12px;
+
+  .tagItem {
     display: flex;
-    margin: 10px 10px;
-    padding: 4px 15px;
-    border: 1px solid #ccc;
+    margin: 0 7px 10px 0;
+    padding: 4px 10px;
+    border: 1px solid var(--border_color);
     border-radius: 20px;
     cursor: pointer;
     &.active {
@@ -27,8 +31,8 @@
       }
       .iconsBox {
         position: absolute;
-        right: -60px;
-        top: -2px;
+        right: -55px;
+        top: -3px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -48,4 +52,8 @@
       }
     }
   }
+}
+// 新增按钮
+.addTag {
+  
 }

@@ -244,7 +244,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
     <div className={styles.treecontedit}>
       {isLoading && (
         <div className={styles.mask}>
-          <Loading width={400} />
+          <Loading />
         </div>
       )}
       <div className={`${styles.treeconteditWrapper} ScrollBar`}>

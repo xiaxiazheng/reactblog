@@ -132,10 +132,10 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
             <Icon type="picture" className={styles.headerIcon} />
             <Link to={isLogin ? "/admin/wall" : "/wall"}>图片墙</Link>
           </Menu.Item>
-          <Menu.Item key="github">
+          {/* <Menu.Item key="github">
             <Icon type="github" className={styles.headerIcon} />
             <span>github</span>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </span>
     </header>

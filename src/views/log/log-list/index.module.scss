@@ -1,9 +1,6 @@
 .operateBox {
   display: flex;
-  padding: .3rem 2rem;
-  .addLogButton {
-    margin-right: .8rem;
-  }
+  padding: 1.3rem 2rem .5rem;
   .orderbyBox {
     color: var(--color);
     :global {
@@ -42,61 +39,24 @@
       }
     }
   }
-  .pagination {
-    flex: 1;
-    text-align: right;
-    >li {
-      background: var(--bg_color);
-      >a {
-        color: var(--color);
-        background: var(--bg_color);
-      }
-      :global {
-        .ant-select {
-          color: var(--color);
-          .ant-select-selection {
-            background-color: var(--bg_color);
-            >span {
-              color: var(--color);
-            }
-          }
-        }
-        .ant-select-dropdown {
-          color: var(--color);
-          background: var(--bg_color);
-          .ant-select-dropdown-menu-item {
-            color: var(--color);
-            &:hover {
-              background: var(--bg_color_hover);
-            }
-          }
-          .ant-select-dropdown-menu-item-selected {
-            background: var(--bg_color_hover);
-          }
-        }
-      }
-    }
-    :global {
-      .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
-      .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
-        color: var(--color);
-      }
-      .ant-pagination-options-size-changer.ant-select {
-        margin-right: 0;
-      }
-    }
-  }
 }
 
 .logList {
-  height: calc(100% - 41px);
-  padding-bottom: 10px;
+  height: calc(100% - 160px);
+  padding: 0 22px 10px;
+  text-align: left;
   .emptyList {
     text-align: center;
     font-size: 30px;
   }
   .logListLi {
-    margin: .6rem 2rem;
+    display: inline-block;
+    width: calc(20% - 1.2rem);
+    vertical-align: middle;
+    max-width: 300px;
+    min-width: 200px;
+    height: 170px;
+    margin: .6rem .6rem;
     padding: 0.5rem 1rem;
     border-radius: 3px;
     box-sizing: border-box;
@@ -109,6 +69,53 @@
     &:hover {
       color: var(--color_active);
       border-color: var(--color_active);
+    }
+  }
+}
+
+// 分页
+.pagination {
+  margin-top: 20px;
+  margin-right: 30px;
+  text-align: right;
+  >li {
+    background: var(--bg_color);
+    >a {
+      color: var(--color);
+      background: var(--bg_color);
+    }
+    :global {
+      .ant-select {
+        color: var(--color);
+        .ant-select-selection {
+          background-color: var(--bg_color);
+          >span {
+            color: var(--color);
+          }
+        }
+      }
+      .ant-select-dropdown {
+        color: var(--color);
+        background: var(--bg_color);
+        .ant-select-dropdown-menu-item {
+          color: var(--color);
+          &:hover {
+            background: var(--bg_color_hover);
+          }
+        }
+        .ant-select-dropdown-menu-item-selected {
+          background: var(--bg_color_hover);
+        }
+      }
+    }
+  }
+  :global {
+    .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+    .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+      color: var(--color);
+    }
+    .ant-pagination-options-size-changer.ant-select {
+      margin-right: 0;
     }
   }
 }
