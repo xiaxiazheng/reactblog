@@ -71,7 +71,7 @@ const Home: React.FC = () => {
               lineHeight: "20px"
             }}
           >
-            <span>粤ICP备18097682号-1</span>
+            <span>粤ICP备18097682号</span>
           </a>
         </div>
       </footer>
