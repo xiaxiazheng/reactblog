@@ -13,9 +13,19 @@
     font-size: 12px;
     background-color: var(--bg_color);
     border-top: 1px solid var(--border_color);
-    span, img {
-      color: var(--color);
-      vertical-align: middle;
+    >div {
+      margin: 0 auto;
+      >a {
+        display: inline-block;
+        padding: 0 10px;
+        span, img {
+          color: var(--color);
+          vertical-align: middle;
+        }
+        span:hover {
+          color: #00a4ff;
+        }
+      }
     }
   }
 }

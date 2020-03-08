@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styles from './index.module.scss';
-import { getImgList } from '@/client/ImgHelper';
-import { baseUrl } from '@/env_config';
-import classnames from 'classnames';
+import React, { useState, useEffect } from "react";
+import styles from "./index.module.scss";
+import { getImgList } from "@/client/ImgHelper";
+import { baseUrl } from "@/env_config";
+import classnames from "classnames";
 
 interface ImgType {
   cTime: string;
@@ -12,17 +12,16 @@ interface ImgType {
   other_id: string;
   type: string;
   imgUrl?: string;
-};
+}
 
 const Home: React.FC = () => {
-
   // const [homeData, setHomeData] = useState({ imgList: [] });
-  const [backgroundUrl, setBackgroundUrl] = useState('');
+  const [backgroundUrl, setBackgroundUrl] = useState("");
 
   useEffect(() => {
     let imgList: any = [];
     const getData = async () => {
-      const res: ImgType[] = await getImgList('main');
+      const res: ImgType[] = await getImgList("main");
       for (let item of res) {
         // 拼好 img 的 url
         imgList.push({
@@ -39,24 +38,45 @@ const Home: React.FC = () => {
 
   const homgClass = classnames({
     [styles.Home]: true,
-    'ScrollBar': true
+    ScrollBar: true
   });
 
   return (
-    <div className={homgClass} style={{'backgroundImage': `url(${backgroundUrl})`}}>
+    <div
+      className={homgClass}
+      style={{ backgroundImage: `url(${backgroundUrl})` }}
+    >
       <footer className={styles.footerBeian}>
-        <div style={{width: '300px',margin: '0 auto'}}>
+        <div>
           <a
             target="_blank"
             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602005623"
-            style={{ display: 'inline-block', textDecoration: 'none', height: '20px', lineHeight:'20px' }}>
-            <img src={require("@/assets/beian.png")} alt="备案"/>
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+              height: "20px",
+              lineHeight: "20px"
+            }}
+          >
+            <img src={require("@/assets/beian.png")} alt="备案" />
             <span>粤公网安备 44010602005623号</span>
+          </a>
+          <a
+            href="http://www.beian.miit.gov.cn"
+            target="_blank"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+              height: "20px",
+              lineHeight: "20px"
+            }}
+          >
+            <span>粤ICP备18097682号-1</span>
           </a>
         </div>
       </footer>
     </div>
   );
-}
+};
 
 export default Home;
