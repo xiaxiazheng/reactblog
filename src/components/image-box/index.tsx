@@ -124,7 +124,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
           className={styles.Upload}
           name={type}
           showUploadList={false}
-          action={`${baseUrl}/back/${type}_upload`}
+          action={`${baseUrl}/api/${type}_upload`}
           data={{
             other_id: otherId || undefined
           }}
