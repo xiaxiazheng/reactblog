@@ -131,10 +131,10 @@ const TagList: React.FC<PropsType> = props => {
                 e.stopPropagation();
                 editting_id !== item.tag_id && setEditting_id(item.tag_id);
               }}
-              onMouseLeave={e => {
-                e.stopPropagation();
-                editting_id === item.tag_id && setEditting_id("");
-              }}
+              // onMouseLeave={e => {
+              //   e.stopPropagation();
+              //   editting_id === item.tag_id && setEditting_id("");
+              // }}
             >
               {
                 <div className={styles.allIconBox}>

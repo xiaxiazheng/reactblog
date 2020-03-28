@@ -8,10 +8,16 @@
 
   .tagItem {
     display: flex;
-    margin: 0 7px 10px 0;
+    margin: 0 20px 12px 0;
     padding: 4px 10px;
-    border: 1px solid var(--border_color);
-    border-radius: 20px;
+    background-color: var(--bg_color_mask);
+    color: var(--color);
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    border-radius: 8px;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     &.active {
       color: var(--color_active);
@@ -33,6 +39,7 @@
         position: absolute;
         right: -55px;
         top: -3px;
+        z-index: 2;
         display: flex;
         align-items: center;
         justify-content: space-between;
