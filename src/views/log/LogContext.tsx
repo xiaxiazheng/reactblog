@@ -22,7 +22,7 @@ export const LogProvider: React.FC = props => {
   const [tabsState, setTabsState] = useState<TabsStateType>({
     keyword: null,
     pageNo: 1,
-    pageSize: 15,
+    pageSize: 20,
     orderBy: 'modify',
     showVisible: true,
     showInvisible: true,
