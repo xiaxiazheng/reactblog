@@ -182,6 +182,8 @@ const TreeMenu: React.FC<PropsType> = props => {
   const handleKeyword = (e: any) => {
     setKeyword(e.target.value);
     let keyword = e.target.value.toLowerCase();
+    console.log('originTreeList', originTreeList);
+    
     // 搜第一层
     let list = originTreeList.map((item: any) => {
       // 如果第一层包含关键字，返回该层
@@ -189,40 +191,9 @@ const TreeMenu: React.FC<PropsType> = props => {
         return item;
       } else {
         // 否则搜第二层
-        let newItemChildren = item.children.map((jtem: any) => {
+        let newItemChildren = item.children.filter((jtem: any) => {
           // 如果第二层包含关键字，返回该层
-          if (new RegExp(keyword, "gi").test(jtem.label)) {
-            return jtem;
-          } else {
-            // 否则搜第三层
-            let newJtemChildren = jtem.children.map((ktem: any) => {
-              // 如果第三层包含关键字，返回该层
-              if (new RegExp(keyword, "gi").test(ktem.label)) {
-                return ktem;
-              } else {
-                // 否则返回 false
-                return false;
-              }
-            });
-            // 去掉第三层没搜到的项
-            newJtemChildren = newJtemChildren.filter((ktem: any) => {
-              return ktem !== false;
-            });
-            // 如果有搜索结果，则返回该层，而且替换掉第二层的 children
-            if (newJtemChildren.length !== 0) {
-              return {
-                ...jtem,
-                children: newJtemChildren
-              };
-            } else {
-              // 三层没有搜索结果，返回 false
-              return false;
-            }
-          }
-        });
-        // 去掉第二层没搜到的项
-        newItemChildren = newItemChildren.filter((jtem: any) => {
-          return jtem !== false;
+          return new RegExp(keyword, "gi").test(jtem.label);
         });
         // 如果有搜索结果，则返回该层，而且替换掉第一层的 children
         if (newItemChildren.length !== 0) {
