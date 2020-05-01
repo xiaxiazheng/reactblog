@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image/PreviewImage';
-import LazyloadImage from '@/components/lazyload-image';
+import MaskloadImage from '@/components/mask-load-image';
 import Loading from '@/components/loading';
 
 interface ImgType {
@@ -54,7 +54,7 @@ const WallShower: React.FC = () => {
                 setPreviewImgName(item.imgname);
               }}
             >
-              <LazyloadImage
+              <MaskloadImage
                 imageName={item.imgname}
                 imageUrl={item.imgUrl}
               />              

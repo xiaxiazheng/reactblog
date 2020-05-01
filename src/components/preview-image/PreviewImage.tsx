@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'antd';
 import styles from './PreviewImage.module.scss';
-import LazyloadImage from '@/components/lazyload-image';
+import MaskloadImage from '@/components/mask-load-image';
 
 interface PropsType {
   isPreview: boolean;
@@ -31,7 +31,7 @@ const PreviewImage: React.FC<PropsType> = (props) => {
         onCancel={() => closePreview()}
       >
         {isPreview && 
-          <LazyloadImage imageUrl={imageUrl} imageName={imageName} />
+          <MaskloadImage imageUrl={imageUrl} imageName={imageName} />
         }
       </Modal>
     </div>

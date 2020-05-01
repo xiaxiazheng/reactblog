@@ -7,8 +7,8 @@ interface PropsType {
   imageUrl: string;
 }
 
-/** 图片懒加载 */
-const LazyloadImage: React.FC<PropsType> = (props) => {
+/** 图片遮罩加载 */
+const MaskloadImage: React.FC<PropsType> = (props) => {
   // const imgRef = useRef(null);
 
   const { imageName, imageUrl } = props;
@@ -30,7 +30,7 @@ const LazyloadImage: React.FC<PropsType> = (props) => {
   return (
     <div className={styles.wrapper}>
       <img
-        className={styles.lazyloadImage}
+        className={styles.maskloadImage}
         src={imageUrl}
         // data-src={imageUrl}
         alt={imageName}
@@ -50,4 +50,4 @@ const LazyloadImage: React.FC<PropsType> = (props) => {
   );
 };
 
-export default LazyloadImage;
+export default MaskloadImage;
