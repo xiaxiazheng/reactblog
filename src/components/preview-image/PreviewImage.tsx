@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'antd';
 import styles from './PreviewImage.module.scss';
-import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
+import LazyloadImage from '@/components/lazyload-image';
 
 interface PropsType {
   isPreview: boolean;

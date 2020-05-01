@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image/PreviewImage';
-import LazyloadImage from '@/components/lazyload-image/LazyloadImage';
+import LazyloadImage from '@/components/lazyload-image';
 import Loading from '@/components/loading';
 
 interface ImgType {
