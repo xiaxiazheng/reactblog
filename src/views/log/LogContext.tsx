@@ -29,7 +29,7 @@ export const LogProvider: React.FC = props => {
     showNotClassify: false
   });
 
-  const [activeTag, setActiveTag] = useState('')
+  const [activeTag, setActiveTag] = useState<string>()
   const [tagList, setTagList] = useState([])
   
   return (

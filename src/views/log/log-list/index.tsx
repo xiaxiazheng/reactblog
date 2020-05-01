@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Input, Pagination, Icon, Radio, Checkbox } from "antd";
-import { withRouter, match } from "react-router";
-import { History, Location } from "history";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getLogListIsVisible, getAllLogList } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogListType } from "../LogType";
@@ -11,19 +10,16 @@ import { LogContext, LogContextType } from "../LogContext";
 import Loading from "@/components/loading";
 import classnames from "classnames";
 
-interface PropsType {
-  history: History;
-  location: Location;
-  match: match;
+interface PropsType extends RouteComponentProps {
 }
 
 const LogList: React.FC<PropsType> = props => {
-  const { history, match } = props;
+  const { history } = props;
   const { isLogin } = useContext(IsLoginContext); // 获取是否登录
 
   const [loading, setLoading] = useState(true);
 
-  const { tabsState, setTabsState, activeTag, tagList } = useContext<
+  const { tabsState, setTabsState, activeTag } = useContext<
     LogContextType
   >(LogContext);
   // 展开方便用
@@ -42,10 +38,25 @@ const LogList: React.FC<PropsType> = props => {
     total: 0 // 日志总数
   });
 
+  // 切换 activeTag 的时候，pageNo 要重置为 1
+  useEffect(() => {
+    if (activeTag || activeTag === '') {
+      if (pageNo === 1) {
+        getLogList()
+      } else {
+        setTabsState({
+          ...tabsState,
+          pageNo: 1
+        })
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTag])
+
   useEffect(() => {
     getLogList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTag, tabsState]);
+  }, [tabsState]);
 
   // 初始化日志列表
   const getLogList = async () => {
