@@ -45,7 +45,7 @@ const LogList: React.FC<PropsType> = props => {
   useEffect(() => {
     getLogList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tagList, activeTag, tabsState]);
+  }, [activeTag, tabsState]);
 
   // 初始化日志列表
   const getLogList = async () => {

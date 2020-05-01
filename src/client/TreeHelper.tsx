@@ -23,6 +23,8 @@ export async function searchTree(keyword: string): Promise<any[]> {
 
 export async function getChildName(id: string): Promise<any[]> {
   const data = await getHelper(`/getchildname?id=${id}`);
+  console.log('data', data);
+  
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
