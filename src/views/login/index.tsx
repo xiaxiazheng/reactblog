@@ -2,21 +2,22 @@ import React, { useState, useContext } from 'react';
 import { Input, Button, Icon, message } from 'antd';
 import styles from './index.module.scss';
 import { postLogin } from '@/client/UserHelper';
-import { withRouter, match } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Location, History } from 'history';
 import { IsLoginContext } from '@/context/IsLoginContext';
 
-interface PropsType {
-  match: match;
-  location: Location;
-  history: History;
+interface PropsType extends RouteComponentProps {
 };
 
-const Login: React.FC<PropsType> = ({ history, location }) => {
+const Login: React.FC<PropsType> = (props) => {
+  const { history, location } = props;
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [isShowPwd, setIsShowPwd] = useState(false);
   const { setIsLogin } = useContext(IsLoginContext);
+
+  console.log('history', history);
+  
 
   // 查是否为空
   const checkEmpty = () => {
@@ -42,7 +43,8 @@ const Login: React.FC<PropsType> = ({ history, location }) => {
       sessionStorage.setItem("xia_username", user);
       sessionStorage.setItem("xia_password", window.btoa(password));
       message.success("登录成功");
-      history.push("/admin");
+      const state: any = history.location.state;
+      history.push(state? state.from.pathname : "/admin");
     } else {
       message.error("密码错误或用户不存在，请重新输入");
       setPassword('');
