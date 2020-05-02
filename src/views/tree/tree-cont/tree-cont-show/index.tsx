@@ -178,13 +178,13 @@ const TreeContShow: React.FC<PropsType> = props => {
                           ref={refMap[imgItem.img_id]}
                           src={imgPlaceHolder}
                           data-src={
-                            baseUrl + "/treecont/" + imgItem.imgfilename
+                            `${baseUrl}/img/treecont/${imgItem.imgfilename}`
                           }
                           alt={imgItem.imgname}
                           title={imgItem.imgname}
                           onClick={() => {
                             setPreviewImg(
-                              baseUrl + "/treecont/" + imgItem.imgfilename
+                              `${baseUrl}/img/treecont/${imgItem.imgfilename}`
                             );
                             setPreviewImgName(imgItem.imgname);
                           }}
