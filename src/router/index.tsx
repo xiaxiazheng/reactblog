@@ -15,6 +15,7 @@ const LogCont = lazy(() => import('../views/log/log-cont'));
 const Login = lazy(() => import('../views/login'));
 const Admin = lazy(() => import('../views/admin'));
 const Wall = lazy(() => import('../views/wall'));
+const Video = lazy(() => import('../views/video'));
 
 const Router: React.FC = () => {
 
@@ -67,6 +68,7 @@ const Router: React.FC = () => {
             </Switch>
           </LogProvider>
           <DefaultLayout path="/wall" component={Wall} />
+          <DefaultLayout path="/video" component={Video} />
 
           {/* 控制台 */}
           <PrivateRoute exact path="/admin" component={Admin} />
@@ -83,6 +85,7 @@ const Router: React.FC = () => {
             </Switch>
           </LogProvider>
           <PrivateRoute path="/admin/wall" component={Wall} />
+          <PrivateRoute path="/admin/video" component={Video} />
         </Suspense>
       </Router>
     </div>

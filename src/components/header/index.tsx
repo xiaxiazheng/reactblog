@@ -3,26 +3,23 @@ import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { Menu, Icon, Switch } from "antd";
 import { navTitle } from "@/env_config";
-import { withRouter, match } from "react-router";
-import { Location, History } from "history";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import HeaderSearch from "./header-search";
 import moment from "moment";
 
-interface PropsType {
-  match: match;
-  location: Location;
-  history: History;
+interface PropsType extends RouteComponentProps {
 }
 
-const Header: React.FC<PropsType> = ({ location, history }) => {
+const Header: React.FC<PropsType> = (props) => {
+  const { location } = props
   const { theme, setTheme } = useContext(ThemeContext);
   const { isLogin } = useContext(IsLoginContext); // 获取登录状态
   const [current, setCurrent] = useState("home");
 
-  const [already, setAlready] = useState();
-  const [alreadyDays, setAlreadyDays] = useState();
+  const [already, setAlready] = useState<string>();
+  const [alreadyDays, setAlreadyDays] = useState<string | number>();
 
   useEffect(() => {
     getAlreadyDate()
@@ -61,7 +58,7 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
 
   // 用于刷新的时候将当前导航栏高亮
   useEffect(() => {
-    const list = ["/tree", "/log/", "/wall"];
+    const list = ["/tree", "/log/", "/wall", "/video"];
     list.forEach(item => {
       location.pathname.indexOf(item) !== -1 &&
         setCurrent(item.replace(/\//g, ""));
@@ -132,6 +129,12 @@ const Header: React.FC<PropsType> = ({ location, history }) => {
             <Menu.Item key="wall">
               <Icon type="picture" className={styles.headerIcon} />
               <Link to={isLogin ? "/admin/wall" : "/wall"}>图片墙</Link>
+            </Menu.Item>          
+          }
+          {isLogin &&
+            <Menu.Item key="video">
+              <Icon type="video-camera" className={styles.headerIcon} />
+              <Link to={isLogin ? "/admin/video" : "/video"}>视频库</Link>
             </Menu.Item>          
           }
           {/* <Menu.Item key="github">

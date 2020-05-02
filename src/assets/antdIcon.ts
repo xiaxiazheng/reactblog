@@ -11,6 +11,7 @@ export {
   BookOutline,
   TagsOutline,
   PictureOutline,
+  VideoCameraOutline,
   GithubOutline,
   CopyOutline,
   EyeOutline,
