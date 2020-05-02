@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import styles from './PreviewImage.module.scss';
+import styles from './index.module.scss';
 import MaskloadImage from '@/components/mask-load-image';
 
 interface PropsType {

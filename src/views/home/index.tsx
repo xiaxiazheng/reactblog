@@ -11,11 +11,12 @@ interface ImgType {
   imgname: string;
   other_id: string;
   type: string;
-  imgUrl?: string;
+  imageUrl: string;
+  has_min: '0' | '1';
+  imageMinUrl: string;
 }
 
 const Home: React.FC = () => {
-  // const [homeData, setHomeData] = useState({ imgList: [] });
   const [backgroundUrl, setBackgroundUrl] = useState("");
 
   useEffect(() => {
@@ -26,11 +27,11 @@ const Home: React.FC = () => {
         // 拼好 img 的 url
         imgList.push({
           ...item,
-          imgUrl: `${baseUrl}/main/${item.filename}`
+          imageUrl: `${baseUrl}/img/main/${item.filename}`,
+          imageMinUrl: item.has_min === '1' ? `${baseUrl}/min-img/${item.filename}` : ''
         });
       }
-      // setHomeData({ imgList });
-      imgList[0] && setBackgroundUrl(imgList[0].imgUrl);
+      imgList[0] && setBackgroundUrl(imgList[0].imageUrl);
     };
 
     getData();

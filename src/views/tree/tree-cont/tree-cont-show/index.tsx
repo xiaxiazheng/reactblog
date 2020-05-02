@@ -7,7 +7,7 @@ import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
 import { baseUrl } from "@/env_config";
 import Loading from "@/components/loading";
-import PreviewImage from "@/components/preview-image/PreviewImage";
+import PreviewImage from "@/components/preview-image";
 import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";
 // 代码高亮

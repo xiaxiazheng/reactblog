@@ -12,7 +12,9 @@ interface ImgType {
   imgname: string;
   other_id: string;
   type: string;
-  imgUrl?: string;
+  imageUrl: string;
+  has_min: '0' | '1';
+  imageMinUrl: string;
 };
 
 const WallControl: React.FC = () => {
@@ -32,7 +34,8 @@ const WallControl: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseUrl}/wall/${item.filename}`
+        imageUrl: `${baseUrl}/img/wall/${item.filename}`,
+        imageMinUrl: item.has_min === '1' ? `${baseUrl}/min-img/${item.filename}` : ''
       });
     }
     setWallList(imgList);
@@ -49,12 +52,13 @@ const WallControl: React.FC = () => {
             imageId={item.img_id}
             imageName={item.imgname}
             imageFileName={item.filename}
-            imageUrl={`${baseUrl}/wall/${item.filename}`}
+            imageUrl={item.imageUrl}
+            imageMinUrl={item.imageMinUrl}
             initImgList={getWallImageList}
           />
         )
       })}
-      <ImageBox type="wall" imageUrl="" initImgList={getWallImageList}/>
+      <ImageBox type="wall" imageUrl="" imageMinUrl="" initImgList={getWallImageList}/>
     </div>
   );
 }

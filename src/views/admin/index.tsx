@@ -11,7 +11,9 @@ interface ImgType {
   imgname: string;
   other_id: string;
   type: string;
-  imgUrl?: string;
+  has_min: '0' | '1';
+  imageMinUrl: string;
+  imageUrl: string;
 };
 
 const Admin: React.FC = () => {
@@ -29,9 +31,12 @@ const Admin: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseUrl}/main/${item.filename}`
+        imageUrl: `${baseUrl}/img/main/${item.filename}`, // 图片地址
+        imageMinUrl: item.has_min === '1' ? `${baseUrl}/min-img/${item.filename}` : '' // 缩略图地址
       });
     }
+    console.log('imgList', imgList);
+    
     setAdminImgList(imgList);
   };
   
@@ -45,12 +50,13 @@ const Admin: React.FC = () => {
             imageId={item.img_id}
             imageName={item.imgname}
             imageFileName={item.filename}
-            imageUrl={`${baseUrl}/main/${item.filename}`}
+            imageUrl={item.imageUrl}
+            imageMinUrl={item.imageMinUrl}
             initImgList={getImageList}
           />
         )
       })}
-      <ImageBox type="main" imageUrl="" initImgList={getImageList}/>
+      <ImageBox type="main" imageUrl="" imageMinUrl="" initImgList={getImageList}/>
     </div>
   );
 };

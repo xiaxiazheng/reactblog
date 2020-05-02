@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { baseUrl } from "@/env_config";
 import { deleteImg } from "@/client/ImgHelper";
 import Loading from "@/components/loading";
-import PreviewImage from "@/components/preview-image/PreviewImage";
+import PreviewImage from "@/components/preview-image";
 import UploadImage from "./upload-image";
 
 interface PropsType {
@@ -13,6 +13,7 @@ interface PropsType {
   imageId?: string; // 若有图片则有 id
   imageName?: string;
   imageFileName?: string;
+  imageMinUrl: string; // 缩略图地址，没有的话是''
   imageUrl: string; // 完整的 url 的路径，若为 '' 则该组件需提供上传，不为 '' 则提供大图或删除图片
   initImgList: Function; // 用于上传成功或删除后的图片列表初始化
   width?: string; // 可以传递宽高给组件
@@ -26,6 +27,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
     imageFileName,
     imageUrl,
     otherId,
+    imageMinUrl,
     initImgList,
     width = "170px",
   } = props;
@@ -144,25 +146,33 @@ const ImageBox: React.FC<PropsType> = (props) => {
           <Loading />
         </div>
       } */}
-      {/* 有图片的情况，展示图片名称 */}
+      {/* 有图片的情况，展示缩略图或图片名称 */}
       {
         imageUrl !== "" && (
-          <div
-            className={styles.shower}
-            onMouseEnter={(e) => {
-              e.stopPropagation();
-              setIsHover(true);
-            }}
-          >
-            {imageName}
-          </div>
+          <>
+            {imageMinUrl && imageMinUrl !== "" ? (
+              <img
+                className={styles.shower}
+                onMouseEnter={(e) => {
+                  e.stopPropagation();
+                  setIsHover(true);
+                }}
+                src={imageMinUrl}
+                alt={imageName}
+              />
+            ) : (
+              <div
+                className={styles.shower}
+                onMouseEnter={(e) => {
+                  e.stopPropagation();
+                  setIsHover(true);
+                }}
+              >
+                {imageName}
+              </div>
+            )}
+          </>
         )
-        // <img className={styles.Shower}
-        //   onMouseEnter={(e) => { e.stopPropagation(); setIsHover(true);}}
-        //   onLoad={() => setLoading(false)}
-        //   src={imageUrl}
-        //   alt={imageName}
-        // />
       }
       {/* 有图片的情况，显示操作 */}
       {imageUrl !== "" && isHover && (

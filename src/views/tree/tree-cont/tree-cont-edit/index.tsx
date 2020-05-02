@@ -286,7 +286,8 @@ const TreeContEdit: React.FC<PropsType> = props => {
                       imageId={jtem.img_id}
                       imageName={jtem.imgname}
                       imageFileName={jtem.imgfilename}
-                      imageUrl={`${baseUrl}/treecont/${jtem.imgfilename}`}
+                      imageUrl={`${baseUrl}/img/treecont/${jtem.imgfilename}`}
+                      imageMinUrl={`${baseUrl}/min-img/${jtem.imgfilename}`}
                       initImgList={getTreeCont}
                       width="120px"
                     />
@@ -296,6 +297,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
                   otherId={item.cont_id}
                   type="treecont"
                   imageUrl=""
+                  imageMinUrl=""
                   initImgList={getTreeCont}
                   width="120px"
                 />

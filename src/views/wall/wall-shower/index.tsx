@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { baseUrl } from '@/env_config';
-import PreviewImage from '@/components/preview-image/PreviewImage';
+import PreviewImage from '@/components/preview-image';
 import MaskloadImage from '@/components/mask-load-image';
 import Loading from '@/components/loading';
 
@@ -13,7 +13,9 @@ interface ImgType {
   imgname: string;
   other_id: string;
   type: string;
-  imgUrl: string;
+  imageUrl: string;
+  has_min: '0' | '1';
+  imageMinUrl: string;
 };
 
 const WallShower: React.FC = () => {
@@ -34,7 +36,8 @@ const WallShower: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imgUrl: `${baseUrl}/wall/${item.filename}`
+        imageUrl: `${baseUrl}/img/wall/${item.filename}`,
+        imageMinUrl: item.has_min === '1' ? `${baseUrl}/min-img/${item.filename}` : ''
       });
     }
     setWallList(imgList);
@@ -50,13 +53,13 @@ const WallShower: React.FC = () => {
             <div
               key={item.img_id}
               onClick={() => {
-                setPreviewImg(item.imgUrl);
+                setPreviewImg(item.imageUrl);
                 setPreviewImgName(item.imgname);
               }}
             >
               <MaskloadImage
                 imageName={item.imgname}
-                imageUrl={item.imgUrl}
+                imageUrl={item.imageMinUrl}
               />              
             </div>
           )
