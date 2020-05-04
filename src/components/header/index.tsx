@@ -6,7 +6,6 @@ import { navTitle } from "@/env_config";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
-import HeaderSearch from "./header-search";
 import moment from "moment";
 
 interface PropsType extends RouteComponentProps {
@@ -106,8 +105,6 @@ const Header: React.FC<PropsType> = (props) => {
           checked={theme === "light"}
           onClick={switchTheme}
         />
-        {/* 搜索树节点 */}
-        {/* <HeaderSearch /> */}
         {/* 导航 */}
         <Menu
           onClick={handleClickTabs}

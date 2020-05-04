@@ -26,6 +26,7 @@ interface ImageType {
   imgcTime: string;
   imgfilename: string;
   imgname: string;
+  has_min: '0' | '1';
 }
 
 interface TreeContType {
@@ -75,7 +76,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
   const getTreeCont = async () => {
     setIsLoading(true);
     const res = await getChildName(second_id);
-    setTitle(res.length !== 0 ? res[0].c_label : "");
+    setTitle(res || "");
     const res2 = await getNodeCont(second_id);
     if (res2) {
       setContList(res2);
@@ -129,7 +130,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
     };
     const res: any = await modifyNodeCont(params);
     if (res) {
-      message.success("修改成功");
+      message.success(res);
       setIsChange(false);
     } else {
       message.error("修改失败");
@@ -287,7 +288,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
                       imageName={jtem.imgname}
                       imageFileName={jtem.imgfilename}
                       imageUrl={`${baseUrl}/img/treecont/${jtem.imgfilename}`}
-                      imageMinUrl={`${baseUrl}/min-img/${jtem.imgfilename}`}
+                      imageMinUrl={jtem.has_min === '1' ? `${baseUrl}/min-img/${jtem.imgfilename}` : ''}
                       initImgList={getTreeCont}
                       width="120px"
                     />

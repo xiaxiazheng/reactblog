@@ -7,16 +7,6 @@ export async function getNodeCont(id: any): Promise<any> {
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
-export async function getAllCont(params: any): Promise<any> {
-  const data = await postHelper(`/allcont`, params);
-  return data && data.resultsCode === 'success' ? data.data : false;
-}
-
-export async function getAlmostCont(params: any): Promise<any> {
-  const data = await postHelper(`/almostcont`, params);
-  return data && data.resultsCode === 'success' ? data.data : false;
-}
-
 export async function addNodeCont(params: any): Promise<boolean> {
   const data = await postHelper(`/addnodecont`, params);
   return data && data.resultsCode === 'success' ? true : false;

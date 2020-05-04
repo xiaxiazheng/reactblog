@@ -89,7 +89,7 @@ const TreeContShow: React.FC<PropsType> = props => {
 
     // 获取标题，标题存到了 TreeContext
     const res = await getChildName(second_id);
-    res && setTreeContTitle(res.length !== 0 ? res[0].c_label : "");
+    res && setTreeContTitle(res || "");
 
     // 获取数据
     let res2 = await getNodeCont(second_id);

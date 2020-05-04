@@ -1,11 +1,6 @@
 import { getHelper, postHelper } from '.';
 
 /** 操作树 */
-export async function getTree(type: string): Promise<any[]> {
-  const data = await getHelper(`/tree?type=${type}`);
-  return data && data.resultsCode === 'success' ? data.data : false;
-}
-
 export async function getShowTreeList(): Promise<any[]> {
   const data = await getHelper(`/getShowTreeList`);
   return data && data.resultsCode === 'success' ? data.data : false;
@@ -21,10 +16,8 @@ export async function searchTree(keyword: string): Promise<any[]> {
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
-export async function getChildName(id: string): Promise<any[]> {
+export async function getChildName(id: string): Promise<any> {
   const data = await getHelper(`/getchildname?id=${id}`);
-  console.log('data', data);
-  
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 

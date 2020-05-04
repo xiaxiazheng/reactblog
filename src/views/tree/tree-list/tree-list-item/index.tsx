@@ -199,10 +199,10 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
     };
     const res = await updateIsShow(params);
     if (res) {
-      message.success("修改节点名称成功");
+      message.success(`修改节点状态为${isShow !== "true" ? "显示" : "隐藏"}成功`);
       getTreeData();
     } else {
-      message.error(`修改节点${isShow ? "显示" : "隐藏"}状态失败`);
+      message.error(`修改节点状态为${isShow !== "true" ? "显示" : "隐藏"}失败`);
     }
   };
 

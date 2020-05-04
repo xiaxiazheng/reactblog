@@ -25,6 +25,7 @@ export interface ImageType {
   imgcTime: string;
   filename: string;
   imgname: string;
+  has_min: '0' | '1';
 }
 
 // export const a = 1;  // 这个用来绕过 export interface 的报错
