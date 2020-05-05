@@ -194,10 +194,10 @@ const LogListItem: React.FC<PropsType> = props => {
               setTag(val);
             }}
           >
-            {tagList.map((item: { tag_id: string; tag_name: string }) => {
+            {tagList.map((item: { tag_id: string; tag_name: string; count: number; }) => {
               return (
                 <Option key={item.tag_id} value={item.tag_id}>
-                  {item.tag_name}
+                  {item.tag_name} ({item.count})
                 </Option>
               );
             })}
