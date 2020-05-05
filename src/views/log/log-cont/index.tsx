@@ -2,24 +2,22 @@ import React, { useState, useEffect, useContext } from 'react';
 import styles from './index.module.scss';
 import { getLogCont } from '@/client/LogHelper';
 import { Button, Icon, Switch } from 'antd';
-import { withRouter, match } from 'react-router';
-import { History, Location } from 'history';
+import { withRouter, RouteComponentProps, match } from 'react-router-dom';
 import { IsLoginContext } from '@/context/IsLoginContext';
 import LogContEditByClass from './log-cont-edit';
 import LogContEditByMD from './log-cont-edit-md';
 import LogContShow from './log-cont-show';
 import { OneLogType } from '../LogType';
 
-interface PropsType {
+interface PropsType extends RouteComponentProps {
   match: match<{
     log_class: string;
     log_id: string;
   }>;
-  history: History;
-  location: Location;
 };
 
-const LogCont: React.FC<PropsType> = ({ match, history }) => {
+const LogCont: React.FC<PropsType> = (props) => {
+  const { match, history } = props
   const { isLogin } = useContext(IsLoginContext);
 
   const [isEdit, setIsEdit] = useState(false);

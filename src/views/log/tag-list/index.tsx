@@ -14,15 +14,17 @@ import { addTag } from "@/client/TagHelper";
 interface TagType {
   tag_id: string;
   tag_name: string;
+  count: number
 }
 
 const { confirm } = Modal;
 
-interface PropsType {}
+interface PropsType {
+}
 
 const TagList: React.FC<PropsType> = props => {
   const { isLogin } = useContext(IsLoginContext);
-  const { activeTag, setActiveTag, tagList, setTagList } = useContext(
+  const { activeTag, setActiveTag, tagList, setTagList, isUpdateTag, setIsUpdateTag } = useContext(
     LogContext
   );
 
@@ -40,6 +42,15 @@ const TagList: React.FC<PropsType> = props => {
       setLoading(false);
     }
   };
+
+  // loglist 那边更新了 tag 的话要重新获取
+  useEffect(() => {
+    if (isUpdateTag) {
+      getTagData();
+      setIsUpdateTag(false)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateTag])
 
   useEffect(() => {
     getTagData();
@@ -131,15 +142,12 @@ const TagList: React.FC<PropsType> = props => {
                 e.stopPropagation();
                 editting_id !== item.tag_id && setEditting_id(item.tag_id);
               }}
-              // onMouseLeave={e => {
-              //   e.stopPropagation();
-              //   editting_id === item.tag_id && setEditting_id("");
-              // }}
             >
               {
                 <div className={styles.allIconBox}>
                   {/* tag name */}
-                  <span>{item.tag_name}</span>
+                  <span>{item.tag_name} ({item.count})
+                  </span>
                   {/* 工具们 */}
                   {isLogin &&
                     editting_id !== "" &&

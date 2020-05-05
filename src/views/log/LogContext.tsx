@@ -31,6 +31,8 @@ export const LogProvider: React.FC = props => {
 
   const [activeTag, setActiveTag] = useState<string>()
   const [tagList, setTagList] = useState([])
+  // 记录 loglist 那边是否更新了 tag（修改log的tag或者删除log都要改变状态）
+  const [ isUpdateTag, setIsUpdateTag ] = useState(false)
   
   return (
     <LogContext.Provider
@@ -38,7 +40,8 @@ export const LogProvider: React.FC = props => {
         {
           tabsState, setTabsState,
           activeTag, setActiveTag,
-          tagList, setTagList
+          tagList, setTagList,
+          isUpdateTag, setIsUpdateTag
         }
       }>
       {props.children}
@@ -53,5 +56,7 @@ export interface LogContextType {
   setActiveTag: React.Dispatch<React.SetStateAction<TabsStateType>>
   tagList: { tag_name: string; tag_id: string }[]
   setTagList: React.Dispatch<React.SetStateAction<{ tag_name: string; tag_id: string }[]>>
+  isUpdateTag: boolean
+  setIsUpdateTag: React.Dispatch<React.SetStateAction<boolean>>
 }
 export const LogConsumer = LogContext.Consumer;

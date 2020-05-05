@@ -41,21 +41,19 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
       let id = decodeURIComponent(atob(log_id));
       const res: OneLogType = await getLogCont(id);
       if (res) {
-        console.log("res", res);
         setlogdata(res);
         setEdittype(res.edittype);
         setLoading(false);
+
+        if (res.edittype === 'markdown') {
+          setMarkdownHtml({
+            __html: markdown.toHTML(res.logcont),
+          });
+        }
       }
     };
     getData();
   }, [log_id]);
-
-  useEffect(() => {
-    logdata &&
-      setMarkdownHtml({
-        __html: markdown.toHTML(logdata.logcont),
-      });
-  }, [logdata]);
 
   const className = classnames({
     [styles.logcontShow]: true,

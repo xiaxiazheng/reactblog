@@ -26,7 +26,7 @@ const { Option } = Select;
 const LogListItem: React.FC<PropsType> = props => {
   const { logItemData, orderBy, getNewList } = props;
   const { isLogin } = useContext(IsLoginContext);
-  const { tagList } = useContext(LogContext);
+  const { tagList, setIsUpdateTag } = useContext(LogContext);
 
   const [isShowPopup, setIsShowPopup] = useState(false);
 
@@ -49,6 +49,7 @@ const LogListItem: React.FC<PropsType> = props => {
       message.success("切换分类成功", 1);
       getNewList();
       setIsShowPopup(false);
+      setIsUpdateTag(true);
     } else {
       message.error("切换分类失败", 1);
     }
@@ -105,6 +106,10 @@ const LogListItem: React.FC<PropsType> = props => {
           getNewList();
         } else {
           message.error("删除失败", 1);
+        }
+
+        if (logItemData.tag.length !== 0) {
+          setIsUpdateTag(true);
         }
       },
       onCancel() {

@@ -11,16 +11,6 @@ export async function getLogListIsVisible(params: any): Promise<any> {
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
-export async function searchHomeTree(params: any): Promise<any[]> {
-  const data = await postHelper(`/searchhomelog`, params);
-  return data && data.resultsCode === 'success' ? data.data : [];
-}
-
-export async function searchAdminTree(params: any): Promise<any[]> {
-  const data = await postHelper(`/searchadminlog`, params);
-  return data && data.resultsCode === 'success' ? data.data : [];
-}
-
 export async function isStickLog(params: any): Promise<any> {
   const data = await postHelper(`/issticklog`, params);
   return data && data.resultsCode === 'success' ? true : false;
