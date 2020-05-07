@@ -35,7 +35,7 @@ const Video: React.FC = () => {
         // video.autoplay = true;
         video.name = "media";
         const source = document.createElement("source");
-        source.src = `${baseUrl}/api/video?videoName=${activeVideo}`;
+        source.src = `${baseUrl}/video/${activeVideo}`;
         source.type = "video/mp4";
         video.appendChild(source);
         dom.current.appendChild(video);
@@ -49,14 +49,18 @@ const Video: React.FC = () => {
       <div className={styles.videoList}>
         {list &&
           list.map((item) => (
-            <span key={item} onClick={() => choiceVideo(item)} className={activeVideo === item ? styles.active : ''}>
+            <span
+              key={item}
+              onClick={() => choiceVideo(item)}
+              className={activeVideo === item ? styles.active : ""}
+            >
               {item}
             </span>
           ))}
       </div>
       {/* 视频播放 */}
       <div className={styles.videoBox} ref={videoBox}>
-        <video width='100%' height='100%' controls src={``}></video>
+        <video width="100%" height="100%" controls src={``}></video>
       </div>
     </div>
   );
