@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
-import { baseUrl } from '@/env_config';
+import { staticUrl } from '@/env_config';
 import ImageBox from '@/components/image-box';
 import Loading from '@/components/loading';
 
@@ -34,8 +34,8 @@ const WallControl: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imageUrl: `${baseUrl}/img/wall/${item.filename}`,
-        imageMinUrl: item.has_min === '1' ? `${baseUrl}/min-img/${item.filename}` : ''
+        imageUrl: `${staticUrl}/img/wall/${item.filename}`,
+        imageMinUrl: item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''
       });
     }
     setWallList(imgList);

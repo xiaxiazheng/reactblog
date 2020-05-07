@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getImgList } from '@/client/ImgHelper';
-import { baseUrl } from '@/env_config';
+import { staticUrl } from '@/env_config';
 import ImageBox from '@/components/image-box';
 import styles from './index.module.scss';
 
@@ -31,8 +31,8 @@ const Admin: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imageUrl: `${baseUrl}/img/main/${item.filename}`, // 图片地址
-        imageMinUrl: item.has_min === '1' ? `${baseUrl}/min-img/${item.filename}` : '' // 缩略图地址
+        imageUrl: `${staticUrl}/img/main/${item.filename}`, // 图片地址
+        imageMinUrl: item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : '' // 缩略图地址
       });
     }
     console.log('imgList', imgList);

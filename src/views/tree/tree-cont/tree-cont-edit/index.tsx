@@ -11,7 +11,7 @@ import {
   changeContSort,
   addNodeCont
 } from "@/client/TreeContHelper";
-import { baseUrl } from "@/env_config";
+import { staticUrl } from "@/env_config";
 import { Input, Button, message, Icon, Modal } from "antd";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
@@ -287,8 +287,8 @@ const TreeContEdit: React.FC<PropsType> = props => {
                       imageId={jtem.img_id}
                       imageName={jtem.imgname}
                       imageFileName={jtem.imgfilename}
-                      imageUrl={`${baseUrl}/img/treecont/${jtem.imgfilename}`}
-                      imageMinUrl={jtem.has_min === '1' ? `${baseUrl}/min-img/${jtem.imgfilename}` : ''}
+                      imageUrl={`${staticUrl}/img/treecont/${jtem.imgfilename}`}
+                      imageMinUrl={jtem.has_min === '1' ? `${staticUrl}/min-img/${jtem.imgfilename}` : ''}
                       initImgList={getTreeCont}
                       width="120px"
                     />

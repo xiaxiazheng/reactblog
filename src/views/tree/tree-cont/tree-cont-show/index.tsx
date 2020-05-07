@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
-import { baseUrl } from "@/env_config";
+import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
 import { TreeContext } from "../../TreeContext";
@@ -178,13 +178,13 @@ const TreeContShow: React.FC<PropsType> = props => {
                           ref={refMap[imgItem.img_id]}
                           src={imgPlaceHolder}
                           data-src={
-                            `${baseUrl}/img/treecont/${imgItem.imgfilename}`
+                            `${staticUrl}/img/treecont/${imgItem.imgfilename}`
                           }
                           alt={imgItem.imgname}
                           title={imgItem.imgname}
                           onClick={() => {
                             setPreviewImg(
-                              `${baseUrl}/img/treecont/${imgItem.imgfilename}`
+                              `${staticUrl}/img/treecont/${imgItem.imgfilename}`
                             );
                             setPreviewImgName(imgItem.imgname);
                           }}

@@ -1,6 +1,7 @@
 // 前端访问路径及所在环境
 let host: string = "https://www.xiaxiazheng.cn";
 let url: string = `${host}`;
+const staticurl = `${host}:2333`
 
 let nav: string = 'XIAXIAZheng';
 
@@ -19,4 +20,5 @@ if (process.env.REACT_APP_IS_LocalHost && process.env.REACT_APP_IS_LocalHost ===
 export const isDev = process.env.NODE_ENV === 'development';
 export const appUser = process.env.REACT_APP_User === 'hyp' ? 'hyp' : 'zyb';
 export const baseUrl = url;
+export const staticUrl = staticurl;
 export const navTitle = nav;

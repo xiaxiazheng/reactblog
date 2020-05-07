@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
-import { getVideoList } from "@/client/VideoHelper";
-import { baseUrl } from "@/env_config";
+import { getVideoList, getMusicList } from "@/client/VideoHelper";
+import { staticUrl } from "@/env_config";
 
 const Video: React.FC = () => {
   const { isLogin } = useContext(IsLoginContext);
@@ -11,56 +11,87 @@ const Video: React.FC = () => {
     getList();
   }, []);
 
+  const [activeTab, setActiveTab] = useState("音乐");
+
   const [list, setList] = useState<string[]>([]);
+  const [videoList, setVideoList] = useState<string[]>([]);
+  const [musicList, setMusicList] = useState<string[]>([]);
   const getList = async () => {
-    const res: any = await getVideoList();
-    if (res) {
-      setList(res);
+    const res1: any = await getVideoList();
+    res1 && setVideoList(res1);
+    const res2: any = await getMusicList();
+    if (res2) {
+      setMusicList(res2);
+      setList(res2);
     }
   };
 
   const videoBox = useRef(null);
-  const [activeVideo, setActiveVideo] = useState<string>();
-  const choiceVideo = (item: string) => {
-    setActiveVideo(item);
-  };
+  const [active, setActive] = useState<string>();
 
   useEffect(() => {
-    if (activeVideo) {
+    if (active) {
       const dom: any = videoBox;
       if (dom.current) {
+        const list = active.split('.')
+        const type = list[list.length - 1]
+
+        dom.current.childNodes[0].pause()
+        dom.current.childNodes[0].src = ''
+        dom.current.childNodes[0].childNodes[0].src = ''
         dom.current.removeChild(dom.current.childNodes[0]);
-        const video: any = document.createElement("video");
-        video.controls = true;
-        // video.autoplay = true;
-        video.name = "media";
+        // console.log('dom.current.childNodes[0]', dom.current.childNodes[0])
+
+        const audio: any = document.createElement(activeTab === '音乐' ? "audio" : "video");
+        audio.controls = true;
+        activeTab === '音乐' && (audio.autoplay = true);
+
         const source = document.createElement("source");
-        source.src = `${baseUrl}/video/${activeVideo}`;
-        source.type = "video/mp4";
-        video.appendChild(source);
-        dom.current.appendChild(video);
+        source.src = `${staticUrl}/${activeTab === '音乐' ? 'music' : 'video'}/${active}`;
+        source.type = activeTab === '音乐' ? `audio/${type}` : `video/mp4`;
+        audio.appendChild(source);
+        dom.current.appendChild(audio);
       }
     }
-  }, [activeVideo]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  const handleChoiceTab = (item: string) => {
+    setActiveTab(item)
+    setList(item === "音乐" ? musicList : videoList)
+  };
 
   return (
     <div className={styles.video}>
-      {/* 视频列表 */}
+      <div className={styles.tabs}>
+        {["音乐", "视频"].map((item) => (
+          <span
+            key={item}
+            className={item === activeTab ? styles.active : ""}
+            onClick={() => handleChoiceTab(item)}
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+      {/* 列表 */}
       <div className={styles.videoList}>
         {list &&
           list.map((item) => (
             <span
               key={item}
-              onClick={() => choiceVideo(item)}
-              className={activeVideo === item ? styles.active : ""}
+              onClick={() => setActive(item)}
+              className={active === item ? styles.active : ""}
             >
               {item}
             </span>
           ))}
       </div>
-      {/* 视频播放 */}
+      {/* 播放 */}
       <div className={styles.videoBox} ref={videoBox}>
-        <video width="100%" height="100%" controls src={``}></video>
+        <audio controls>
+          <source src={''} />
+        </audio>
       </div>
     </div>
   );

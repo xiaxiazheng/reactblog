@@ -4,7 +4,7 @@ import { OneLogType } from '../../LogType';
 import { modifyLogCont } from '@/client/LogHelper';
 import './index.scss';
 import ImageBox from '@/components/image-box';
-import { baseUrl } from '@/env_config';
+import { staticUrl } from '@/env_config';
 // 代码高亮
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -194,8 +194,8 @@ class LogContEdit extends React.Component<PropsType> {
                     imageId={item.img_id}
                     imageName={item.imgname}
                     imageFileName={item.filename}
-                    imageUrl={`${baseUrl}/img/log/${item.filename}`}
-                    imageMinUrl={`${baseUrl}/min-img/${item.filename}`}
+                    imageUrl={`${staticUrl}/img/log/${item.filename}`}
+                    imageMinUrl={`${staticUrl}/min-img/${item.filename}`}
                     initImgList={this.props.getImageList}
                     width="140px"
                   />
