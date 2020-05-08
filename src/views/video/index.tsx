@@ -46,6 +46,17 @@ const Video: React.FC = () => {
         audio.controls = true;
         activeTab === '音乐' && (audio.autoplay = true);
 
+        // 播放完随机播放下一首
+        audio.addEventListener('ended', () => {
+          if (activeTab === '音乐') {
+            let index = Math.floor(Math.random() * (list.length))
+            if (list[index] === active) {
+              index = Math.floor(Math.random() * (list.length))
+            }
+            setActive(list[index])
+          }
+        })
+
         const source = document.createElement("source");
         source.src = `${staticUrl}/${activeTab === '音乐' ? 'music' : 'video'}/${active}`;
         source.type = activeTab === '音乐' ? `audio/${type}` : `video/mp4`;
