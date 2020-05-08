@@ -49,11 +49,12 @@ const Video: React.FC = () => {
         // 播放完随机播放下一首
         audio.addEventListener('ended', () => {
           if (activeTab === '音乐') {
-            let index = Math.floor(Math.random() * (list.length))
-            if (list[index] === active) {
-              index = Math.floor(Math.random() * (list.length))
+            let index = Math.floor(Math.random() * (musicList.length))
+            if (musicList[index] === active) {
+              index = Math.floor(Math.random() * (musicList.length))
             }
-            setActive(list[index])
+            console.log(musicList[index])
+            setActive(musicList[index])
           }
         })
 
