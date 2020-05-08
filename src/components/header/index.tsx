@@ -6,6 +6,7 @@ import { navTitle } from "@/env_config";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
+import MusicPlayer from "./music-player";
 import moment from "moment";
 
 interface PropsType extends RouteComponentProps {
@@ -96,6 +97,9 @@ const Header: React.FC<PropsType> = (props) => {
           已经 {already} 啦（{alreadyDays}天）
         </span>
       )}
+      {isLogin && (
+        <MusicPlayer />
+      )}
       <span className={styles.headerRight}>
         {/* 主题切换开关 */}
         <Switch
@@ -125,13 +129,13 @@ const Header: React.FC<PropsType> = (props) => {
           {isLogin &&
             <Menu.Item key="wall">
               <Icon type="picture" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/wall" : "/wall"}>图片墙</Link>
+              <Link to={isLogin ? "/admin/wall" : "/wall"}>图库</Link>
             </Menu.Item>          
           }
           {isLogin &&
-            <Menu.Item key="video">
+            <Menu.Item key="media">
               <Icon type="video-camera" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/video" : "/video"}>视频库</Link>
+              <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
             </Menu.Item>          
           }
           {/* <Menu.Item key="github">

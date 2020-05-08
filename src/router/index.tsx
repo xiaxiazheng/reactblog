@@ -7,6 +7,7 @@ import Header from '@/components/header';
 import { LogProvider } from '@/views/log/LogContext';
 import { TreeProvider } from '@/views/tree/TreeContext';
 import Loading from '@/components/loading';
+import RouterView from './RouterView'
 
 const Home = lazy(() => import('../views/home'));
 const Tree = lazy(() => import('../views/tree'));
@@ -15,7 +16,7 @@ const LogCont = lazy(() => import('../views/log/log-cont'));
 const Login = lazy(() => import('../views/login'));
 const Admin = lazy(() => import('../views/admin'));
 const Wall = lazy(() => import('../views/wall'));
-const Video = lazy(() => import('../views/video'));
+const Media = lazy(() => import('../views/media'));
 
 const Router: React.FC = () => {
 
@@ -68,10 +69,12 @@ const Router: React.FC = () => {
             </Switch>
           </LogProvider>
           <DefaultLayout path="/wall" component={Wall} />
-          <DefaultLayout path="/video" component={Video} />
+          <DefaultLayout path="/media" component={Media} />
+
+          <RouterView />
 
           {/* 控制台 */}
-          <PrivateRoute exact path="/admin" component={Admin} />
+          {/* <PrivateRoute exact path="/admin" component={Admin} />
           <TreeProvider>
             <Switch>
               <PrivateRoute path="/admin/tree/:first_id/:second_id" exact component={Tree} />
@@ -85,7 +88,7 @@ const Router: React.FC = () => {
             </Switch>
           </LogProvider>
           <PrivateRoute path="/admin/wall" component={Wall} />
-          <PrivateRoute path="/admin/video" component={Video} />
+          <PrivateRoute path="/admin/media" component={Media} /> */}
         </Suspense>
       </Router>
     </div>

@@ -38,9 +38,10 @@
   }
 
   .headerRight {
+    display: flex;
+    align-items: center;
     .themeSwitch {
       border: 1px solid var(--border_color);
-      margin-right: 10px;
       &:global(.ant-switch-checked) {
         background-color: transparent;
       }
