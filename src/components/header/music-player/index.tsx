@@ -9,7 +9,6 @@ const Music: React.FC = () => {
 
   useEffect(() => {
     getList();
-    console.log("又特么重载了");
   }, []);
 
   const [list, setList] = useState<string[]>([]);

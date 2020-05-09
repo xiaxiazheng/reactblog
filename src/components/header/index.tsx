@@ -58,17 +58,19 @@ const Header: React.FC<PropsType> = (props) => {
 
   // 用于刷新的时候将当前导航栏高亮
   useEffect(() => {
-    const list = ["/tree", "/log/", "/wall", "/video"];
+    const list = ["admin/tree", "admin/log", "admin/wall", "admin/media"];
     list.forEach(item => {
       location.pathname.indexOf(item) !== -1 &&
-        setCurrent(item.replace(/\//g, ""));
+        setCurrent(item.replace(/admin\//g, ""));
+        console.log(location.pathname)
+        console.log(item.replace(/admin\//g, ""))
     });
 
     if (location.pathname === "/login") {
       setCurrent("admin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLogin]);
+  }, []);
 
   /** 点击切换主题 */
   const switchTheme = () => {

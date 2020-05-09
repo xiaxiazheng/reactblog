@@ -61,4 +61,12 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+const AdminBox: React.FC = () => {
+  return (
+    <div>
+      <Admin />
+    </div>
+  )
+}
+
+export default AdminBox;

@@ -16,9 +16,6 @@ const Login: React.FC<PropsType> = (props) => {
   const [isShowPwd, setIsShowPwd] = useState(false);
   const { setIsLogin } = useContext(IsLoginContext);
 
-  console.log('history', history);
-  
-
   // 查是否为空
   const checkEmpty = () => {
     if (user !== '' && password !== '') {

@@ -10,7 +10,8 @@ interface PropsType {
   exact?: boolean;
 }
 
-export const PrivateRoute: React.FC<PropsType> = ({
+// 路由登录鉴权
+export const AuthRoute: React.FC<PropsType> = ({
   component: Component,
   ...rest
 }) => {
@@ -21,7 +22,7 @@ export const PrivateRoute: React.FC<PropsType> = ({
       <Route
         {...rest}
         render={(props) => {
-          // 使用了 PrivateRoute 代替 Route 的组件都会先执行这里，检查是否登录
+          // 使用了 AuthRoute 代替 Route 的组件都会先执行这里，检查是否登录
 
           // 登录函数，主要是用于 sessionStorage 中存在用户名和密码时的登录
           const login = async () => {
