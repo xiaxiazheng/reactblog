@@ -2,10 +2,10 @@ import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styles from './index.module.scss';
 import Loading from '@/components/loading';
-import AdminRouterView from './AdminRouterView'
-import HomeRouterView from './HomeRouterView'
 
 const Login = lazy(() => import('../views/login'));
+const AdminRouterView = lazy(() => import('./AdminRouterView'));
+const HomeRouterView = lazy(() => import('./HomeRouterView'));
 
 const Router: React.FC = () => {
 
