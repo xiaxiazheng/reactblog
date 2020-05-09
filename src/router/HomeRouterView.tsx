@@ -1,5 +1,5 @@
-import React, { lazy, useContext, Suspense } from "react";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, { lazy } from "react";
+import { Route, Switch } from 'react-router-dom';
 import styles from "./index.module.scss";
 import Header from "@/components/header";
 import { LogProvider } from "@/views/log/LogContext";
@@ -18,8 +18,6 @@ interface PropsType {
 }
 
 const HomeRouterView: React.FC<PropsType> = ({ component: Component, ...rest }) => {
-  // const { isLogin, setIsLogin } = useContext(IsLoginContext);
-
   const RouteBox = () => {
     return (
       <>

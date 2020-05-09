@@ -18,10 +18,7 @@ interface PropsType {
   exact?: boolean;
 }
 
-const RouterView: React.FC<PropsType> = ({ component: Component, ...rest }) => {
-  // const { isLogin, setIsLogin } = useContext(IsLoginContext);
-
-  // 把 RouteBox 分离出来，这样 header 就不会重新渲染
+const AdminRouterView: React.FC<PropsType> = ({ component: Component, ...rest }) => {
   const RouteBox = () => {
     return (
       <>
@@ -60,4 +57,4 @@ const RouterView: React.FC<PropsType> = ({ component: Component, ...rest }) => {
   );
 };
 
-export default RouterView;
+export default AdminRouterView;
