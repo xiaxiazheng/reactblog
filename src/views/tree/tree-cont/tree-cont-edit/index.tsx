@@ -33,9 +33,9 @@ interface TreeContType {
   c_id: string; // 第三级树节点 id
   cont: string;
   cont_id: string; // 树内容每个节点的单独 id
-  createtime: string;
+  cTime: string;
   imgList: ImageType[];
-  motifytime: string;
+  mTime: string;
   sort: number;
   title: string;
 }
@@ -149,9 +149,9 @@ const TreeContEdit: React.FC<PropsType> = props => {
     // 上移内容节点
     const upTreeContNode = async () => {
       let params = {
-        thiscTime: props.itemData.createtime,
+        thiscTime: props.itemData.cTime,
         thisSort: props.itemData.sort,
-        othercTime: contList[props.index - 1].createtime,
+        othercTime: contList[props.index - 1].cTime,
         otherSort: contList[props.index - 1].sort
       };
       let res: any = await changeContSort(params);
@@ -166,9 +166,9 @@ const TreeContEdit: React.FC<PropsType> = props => {
     // 下移内容节点
     const downTreeContNode = async () => {
       let params = {
-        thiscTime: props.itemData.createtime,
+        thiscTime: props.itemData.cTime,
         thisSort: props.itemData.sort,
-        othercTime: contList[props.index + 1].createtime,
+        othercTime: contList[props.index + 1].cTime,
         otherSort: contList[props.index + 1].sort
       };
       let res: any = await changeContSort(params);
@@ -234,8 +234,8 @@ const TreeContEdit: React.FC<PropsType> = props => {
           />
         </div>
         <div className={styles.contitemTime}>
-          <span>创建时间：{props.itemData.createtime}</span>
-          <span>修改时间：{props.itemData.motifytime}</span>
+          <span>创建时间：{props.itemData.cTime}</span>
+          <span>修改时间：{props.itemData.mTime}</span>
         </div>
       </div>
     );

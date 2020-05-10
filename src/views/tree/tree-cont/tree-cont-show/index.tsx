@@ -30,9 +30,9 @@ interface TreeContType {
   c_id: string;
   cont: string;
   cont_id: string;
-  createtime: string;
+  cTime: string;
   imgList: ImageType[];
-  motifytime: string;
+  mTime: string;
   sort: number;
   title: string;
 }
@@ -164,7 +164,7 @@ const TreeContShow: React.FC<PropsType> = props => {
                   >
                     {item.title}
                   </a>
-                  <span>修改时间：{item.motifytime}</span>
+                  <span>修改时间：{item.mTime}</span>
                 </h3>
                 <div
                   className={styles.contitemCont}
