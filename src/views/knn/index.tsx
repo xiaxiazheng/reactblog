@@ -104,7 +104,7 @@ const Knn: React.FC = () => {
 
   // 获取随机 Y
   const getY = () => {
-    return Math.floor(Math.random() * 10);
+    return Math.floor(Math.random() * 80);
   };
 
   // 训练数据数量
