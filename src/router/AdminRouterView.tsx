@@ -18,10 +18,17 @@ interface PropsType {
   exact?: boolean;
 }
 
-const AdminRouterView: React.FC<PropsType> = ({ component: Component, ...rest }) => {
-  const RouteBox = () => {
-    return (
-      <>
+const AdminRouterView: React.FC<PropsType> = ({
+  component: Component,
+  ...rest
+}) => {
+
+  return (
+    <>
+      <div className={styles.RouterHead}>
+        <Header />
+      </div>
+      <div className={styles.RouterView}>
         <AuthRoute exact path="/admin" component={Admin} />
         <TreeProvider>
           <Switch>
@@ -41,17 +48,6 @@ const AdminRouterView: React.FC<PropsType> = ({ component: Component, ...rest })
         </LogProvider>
         <AuthRoute path="/admin/wall" component={Wall} />
         <AuthRoute path="/admin/media" component={Media} />
-      </>
-    )
-  };
-
-  return (
-    <>
-      <div className={styles.RouterHead}>
-        <Header />
-      </div>
-      <div className={styles.RouterView}>
-        <RouteBox />
       </div>
     </>
   );
