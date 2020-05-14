@@ -107,11 +107,13 @@ const Knn: React.FC = () => {
     return Math.floor(Math.random() * 10);
   };
 
+  // 训练数据数量
+  const [count, setCount] = useState(20)
   // 生成训练数据
   const getRandomList = () => {
     const list = [];
     const map = ["I类", "II类", "III类"];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < count; i++) {
       list.push({
         x: getX(),
         y: getY(),
@@ -343,10 +345,11 @@ const Knn: React.FC = () => {
     meanTestList.forEach((item: any, index: any) => {
       const type = knn(meanRandomList, k, item.x, item.y);
       myTestList[index].type = type;
-      console.log(`${JSON.stringify(myTestList[index])}: ${type}`);
+      console.log(`[${myTestList[index].x}, ${myTestList[index].y}]: ${type}`);
     });
 
     initRing(randomList, myTestList);
+    console.log('------------------------------------')
   };
 
   return (
@@ -376,6 +379,14 @@ const Knn: React.FC = () => {
         >
           加入测试数据
         </button>
+        <input
+          className={styles.inputTest}
+          type="text"
+          value={count}
+          onChange={(e: any) => {
+            setCount(e.target.value);
+          }}
+        />
         <button
           className={styles.button}
           onClick={() => {
