@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { Menu, Icon, Switch } from "antd";
-import { navTitle } from "@/env_config";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -14,10 +13,11 @@ interface PropsType extends RouteComponentProps {
 }
 
 const Header: React.FC<PropsType> = (props) => {
-  const { location } = props
+  const { location, history } = props
   const { theme, setTheme } = useContext(ThemeContext);
   const { username, setUsername } = useContext(UserContext);
   const { isLogin } = useContext(IsLoginContext); // 获取登录状态
+
   const [current, setCurrent] = useState("home");
 
   const [already, setAlready] = useState<string>();
@@ -95,13 +95,22 @@ const Header: React.FC<PropsType> = (props) => {
     dom.setAttribute("class", `App ${theme}Theme`);
   }, [theme]);
 
+  const titleMap: any = {
+    zyb: 'XIAXIAZheng',
+    hyp: 'XIAXIAHuang'
+  }
+
+  const jumpToLogin = () => {
+    history.push('/login')
+  }
+
   return (
     <header className={styles.Header}>
       <span
         className={styles.headerLeft}
         onClick={() => setCurrent(isLogin ? "admin" : "home")}
       >
-        <Link to={isLogin ? "/admin" : "/"}>{navTitle}</Link>
+        <Link to={isLogin ? "/admin" : "/"}>{titleMap[username]}</Link>
       </span>
       {isLogin && (
         <span className={styles.headerMiddle}>
@@ -170,6 +179,7 @@ const Header: React.FC<PropsType> = (props) => {
             <span>github</span>
           </Menu.Item> */}
         </Menu>
+        <Icon title="退出登录" className={styles.exportIcon} type="export" onClick={jumpToLogin} />
       </span>
     </header>
   );

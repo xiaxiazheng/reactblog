@@ -33,5 +33,6 @@ export {
   RocketOutline,
   CheckCircleFill,
   CloseCircleFill,
-  ExclamationCircleFill
+  ExclamationCircleFill,
+  ExportOutline
 } from '@ant-design/icons'

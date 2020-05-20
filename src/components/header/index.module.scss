@@ -61,5 +61,13 @@
       display: inline-block;
       color: var(--color);
     }
+    .exportIcon {
+      font-size: 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      &:hover {
+        color: var(--color_active);
+      }
+    }
   }
 }
