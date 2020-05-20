@@ -98,6 +98,9 @@ export const getHelper = async (url: string) => {
   let res: ResType;
   try {
     res = await instance.get(url, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`
+      },
       cancelToken: source.token
     });
   } catch (e) {
@@ -116,6 +119,9 @@ export const postHelper = async (url: string, params?: any) => {
   let res: any;
   try {
     res = await instance.post(url, params, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`
+      },
       cancelToken: source.token
     });
   } catch (e) {

@@ -26,9 +26,9 @@ export const AuthRoute: React.FC<PropsType> = ({
 
           // 登录函数，主要是用于 sessionStorage 中存在用户名和密码时的登录
           const login = async () => {
-            let name = sessionStorage.getItem("xia_username");
+            let name = sessionStorage.getItem("username");
             let pword = window.atob(
-              sessionStorage.getItem("xia_password") as string
+              sessionStorage.getItem("password") as string
             );
             let params = {
               username: name,
@@ -58,8 +58,8 @@ export const AuthRoute: React.FC<PropsType> = ({
           if (!isLogin) {
             // 若是 sessionStorage 存在用户名和密码，则尝试登录
             if (
-              sessionStorage.getItem("xia_username") &&
-              sessionStorage.getItem("xia_password")
+              sessionStorage.getItem("username") &&
+              sessionStorage.getItem("password")
             ) {
               login();
             } else {

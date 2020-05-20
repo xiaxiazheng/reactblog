@@ -12,6 +12,7 @@ import { ShuttleBox, ShuttleMsgType } from "./shuttle-box";
 import Loading from "@/components/loading";
 import classnames from "classnames";
 import { ThemeContext } from "@/context/ThemeContext";
+import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface PropsType extends RouteComponentProps {
@@ -22,6 +23,7 @@ interface PropsType extends RouteComponentProps {
 const TreeMenu: React.FC<PropsType> = props => {
   const { history, match, first_id, second_id } = props;
   const { theme } = useContext(ThemeContext);
+  const { username } = useContext(UserContext)
   const { isLogin } = useContext(IsLoginContext);
 
   const { SubMenu } = Menu;
@@ -40,7 +42,7 @@ const TreeMenu: React.FC<PropsType> = props => {
     };
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [username]);
 
   // 初始化数据
   const [originTreeList, setOriginTreeList] = useState<any[]>([]);
@@ -50,14 +52,14 @@ const TreeMenu: React.FC<PropsType> = props => {
     if (isLogin) {
       res = await getAllTreeList();
     } else {
-      res = await getShowTreeList();
+      res = await getShowTreeList(username);
     }
     if (res) {
       setOriginTreeList(res);
       setTreeList(res);
       setLoading(false);
       /** 主要是为了返回给初始化的时候默认展开 */
-      return res[0].id;
+      return res[0] ? res[0].id : false;
     }
     return false;
   };

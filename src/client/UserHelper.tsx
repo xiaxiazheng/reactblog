@@ -1,7 +1,7 @@
 import { postHelper } from '.';
 
 /** 用户 */
-export async function postLogin(params: any): Promise<boolean> {
+export async function postLogin(params: any): Promise<any | boolean> {
   const data = await postHelper(`/login`, params);
-  return data && data.resultsCode === 'success' ? true : false;
+  return data && data.resultsCode === 'success' ? data : false;
 }

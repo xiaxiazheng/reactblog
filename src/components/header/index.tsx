@@ -6,6 +6,7 @@ import { navTitle } from "@/env_config";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
+import { UserContext } from "@/context/UserContext";
 import MusicPlayer from "./music-player";
 import moment from "moment";
 
@@ -15,6 +16,7 @@ interface PropsType extends RouteComponentProps {
 const Header: React.FC<PropsType> = (props) => {
   const { location } = props
   const { theme, setTheme } = useContext(ThemeContext);
+  const { username, setUsername } = useContext(UserContext);
   const { isLogin } = useContext(IsLoginContext); // 获取登录状态
   const [current, setCurrent] = useState("home");
 
@@ -62,8 +64,8 @@ const Header: React.FC<PropsType> = (props) => {
     list.forEach(item => {
       location.pathname.indexOf(item) !== -1 &&
         setCurrent(item.replace(/admin\//g, ""));
-        console.log(location.pathname)
-        console.log(item.replace(/admin\//g, ""))
+        // console.log(location.pathname)
+        // console.log(item.replace(/admin\//g, ""))
     });
 
     if (location.pathname === "/login") {
@@ -77,6 +79,13 @@ const Header: React.FC<PropsType> = (props) => {
     const nowTheme = theme === "dark" ? "light" : "dark";
     localStorage.setItem('theme', nowTheme);
     setTheme(nowTheme);
+  };
+
+  /** 点击切换用户 */
+  const switchUser = () => {
+    const nowUser = username === "zyb" ? "hyp" : "zyb";
+    localStorage.setItem('username', nowUser);
+    setUsername(nowUser);
   };
 
   /** 切换主题的原理是通过切换类切换 css 变量 */
@@ -103,9 +112,19 @@ const Header: React.FC<PropsType> = (props) => {
         <MusicPlayer />
       )}
       <span className={styles.headerRight}>
+        {/* 用户切换开关 */}
+        {!isLogin &&
+          <Switch
+            className={styles.switch}
+            checkedChildren="hyp"
+            unCheckedChildren="zyb"
+            checked={username === "hyp"}
+            onClick={switchUser}
+          />        
+        }
         {/* 主题切换开关 */}
         <Switch
-          className={styles.themeSwitch}
+          className={styles.switch}
           checkedChildren="light"
           unCheckedChildren="dark"
           checked={theme === "light"}
@@ -140,6 +159,12 @@ const Header: React.FC<PropsType> = (props) => {
               <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
             </Menu.Item>          
           }
+          <Menu.Item key="knn">
+            <Icon type="book" className={styles.headerIcon} />
+            <Link to={isLogin ? "/admin/knn" : "/knn"}>
+              KNN
+            </Link>
+          </Menu.Item>
           {/* <Menu.Item key="github">
             <Icon type="github" className={styles.headerIcon} />
             <span>github</span>

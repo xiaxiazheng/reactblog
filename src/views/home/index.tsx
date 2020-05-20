@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { getImgList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import classnames from "classnames";
+import { UserContext } from '@/context/UserContext';
 
 interface ImgType {
   cTime: string;
@@ -18,11 +19,12 @@ interface ImgType {
 
 const Home: React.FC = () => {
   const [backgroundUrl, setBackgroundUrl] = useState("");
+  const { username } = useContext(UserContext)
 
   useEffect(() => {
     let imgList: any = [];
     const getData = async () => {
-      const res: ImgType[] = await getImgList("main");
+      const res: ImgType[] = await getImgList("main", username);
       for (let item of res) {
         // 拼好 img 的 url
         imgList.push({
@@ -35,7 +37,8 @@ const Home: React.FC = () => {
     };
 
     getData();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [username]);
 
   const homgClass = classnames({
     [styles.Home]: true,

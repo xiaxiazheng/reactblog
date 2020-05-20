@@ -2,8 +2,8 @@ import { getHelper, postHelper } from '.';
 
 /** 操作图片 */
 // 获取某个类型的图片名称列表
-export async function getImgList (type: string): Promise<any[]> {
-  const data = await getHelper(`/getimglist?type=${type}`);
+export async function getImgList (type: string, username: string): Promise<any[]> {
+  const data = await getHelper(`/getimglist?type=${type}&username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Icon, message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
 import { baseUrl } from "@/env_config";
@@ -6,6 +6,7 @@ import { deleteImg } from "@/client/ImgHelper";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
 import UploadImage from "./upload-image";
+import { UserContext } from '@/context/UserContext'
 
 interface PropsType {
   otherId?: string; // 跟这个图片要插入的地方有关联的记录 id
@@ -20,6 +21,8 @@ interface PropsType {
 }
 
 const ImageBox: React.FC<PropsType> = (props) => {
+  const { username } = useContext(UserContext)
+
   const {
     type,
     imageId,
@@ -131,6 +134,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             action={`${baseUrl}/api/${type}_upload`}
             data={{
               other_id: otherId || undefined,
+              username
             }}
             listType="picture-card"
             onChange={handleChange}

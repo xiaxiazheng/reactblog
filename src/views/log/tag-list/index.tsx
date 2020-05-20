@@ -10,6 +10,7 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogContext } from "../LogContext";
 import { message, Modal, Icon, Button } from "antd";
 import { addTag } from "@/client/TagHelper";
+import { UserContext } from "@/context/UserContext"
 
 interface TagType {
   tag_id: string;
@@ -24,6 +25,7 @@ interface PropsType {
 
 const TagList: React.FC<PropsType> = props => {
   const { isLogin } = useContext(IsLoginContext);
+  const { username } = useContext(UserContext)
   const { activeTag, setActiveTag, tagList, setTagList, isUpdateTag, setIsUpdateTag } = useContext(
     LogContext
   );
@@ -35,7 +37,7 @@ const TagList: React.FC<PropsType> = props => {
     if (isLogin) {
       res = await getAllLogTags();
     } else {
-      res = await getShowLogTags();
+      res = await getShowLogTags(username);
     }
     if (res) {
       setTagList(res);
@@ -55,7 +57,7 @@ const TagList: React.FC<PropsType> = props => {
   useEffect(() => {
     getTagData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [username]);
 
   /** 选中 tag */
   const choiceTag = (tag_id: string) => {

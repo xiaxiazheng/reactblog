@@ -11,6 +11,7 @@ const LogCont = lazy(() => import("../views/log/log-cont"));
 const Admin = lazy(() => import("../views/admin"));
 const Wall = lazy(() => import("../views/wall"));
 const Media = lazy(() => import("../views/media"));
+const Knn = lazy(() => import("../views/knn"));
 
 interface PropsType {
   component?: any;
@@ -48,6 +49,7 @@ const AdminRouterView: React.FC<PropsType> = ({
         </LogProvider>
         <AuthRoute path="/admin/wall" component={Wall} />
         <AuthRoute path="/admin/media" component={Media} />
+        <AuthRoute path="/admin/knn" component={Knn} />
       </div>
     </>
   );

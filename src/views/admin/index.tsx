@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getImgList } from '@/client/ImgHelper';
 import { staticUrl } from '@/env_config';
 import ImageBox from '@/components/image-box';
 import styles from './index.module.scss';
+import { UserContext } from '@/context/UserContext';
 
 interface ImgType {
   cTime: string;
@@ -17,16 +18,17 @@ interface ImgType {
 };
 
 const Admin: React.FC = () => {
-
   const [AdminImgList, setAdminImgList] = useState<ImgType[]>([])
+  const { username } = useContext(UserContext)
 
   useEffect(() => {
     getImageList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getImageList = async () => {
     let imgList: any = [];
-    const res: ImgType[] = await getImgList('main');
+    const res: ImgType[] = await getImgList('main', username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({

@@ -6,8 +6,8 @@ export async function getAllLogTags(): Promise<any> {
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
-export async function getShowLogTags(): Promise<any> {
-  const data = await getHelper(`/getShowLogTags`);
+export async function getShowLogTags(username: string): Promise<any> {
+  const data = await getHelper(`/getShowLogTags?username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 

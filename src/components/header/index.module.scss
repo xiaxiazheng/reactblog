@@ -40,7 +40,8 @@
   .headerRight {
     display: flex;
     align-items: center;
-    .themeSwitch {
+    .switch {
+      margin: 0 10px;
       border: 1px solid var(--border_color);
       &:global(.ant-switch-checked) {
         background-color: transparent;

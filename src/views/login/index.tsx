@@ -3,8 +3,8 @@ import { Input, Button, Icon, message } from 'antd';
 import styles from './index.module.scss';
 import { postLogin } from '@/client/UserHelper';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Location, History } from 'history';
 import { IsLoginContext } from '@/context/IsLoginContext';
+import { UserContext } from '@/context/UserContext';
 
 interface PropsType extends RouteComponentProps {
 };
@@ -15,6 +15,7 @@ const Login: React.FC<PropsType> = (props) => {
   const [password, setPassword] = useState('');
   const [isShowPwd, setIsShowPwd] = useState(false);
   const { setIsLogin } = useContext(IsLoginContext);
+  const { setUsername } = useContext(UserContext)
 
   // 查是否为空
   const checkEmpty = () => {
@@ -37,8 +38,11 @@ const Login: React.FC<PropsType> = (props) => {
     let res = await postLogin(params);
     if (res) {
       setIsLogin(true);  // 将 context 的 isLogin 设置为 true
-      sessionStorage.setItem("xia_username", user);
-      sessionStorage.setItem("xia_password", window.btoa(password));
+      sessionStorage.setItem("token", res.data);
+      sessionStorage.setItem("username", user);
+      sessionStorage.setItem("password", window.btoa(password));
+      localStorage.setItem("username", user);
+      setUsername(user)
       message.success("登录成功");
       const state: any = history.location.state;
       history.push(state? state.from.pathname : "/admin");

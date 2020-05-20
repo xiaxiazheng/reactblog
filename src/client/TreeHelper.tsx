@@ -1,8 +1,8 @@
 import { getHelper, postHelper } from '.';
 
 /** 操作树 */
-export async function getShowTreeList(): Promise<any[]> {
-  const data = await getHelper(`/getShowTreeList`);
+export async function getShowTreeList(username: string): Promise<any[]> {
+  const data = await getHelper(`/getShowTreeList?username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 

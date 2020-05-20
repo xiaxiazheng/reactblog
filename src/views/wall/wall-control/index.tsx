@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { staticUrl } from '@/env_config';
 import ImageBox from '@/components/image-box';
 import Loading from '@/components/loading';
+import { UserContext } from '@/context/UserContext';
 
 interface ImgType {
   cTime: string;
@@ -19,6 +20,7 @@ interface ImgType {
 
 const WallControl: React.FC = () => {
   const [wallList, setWallList] = useState<ImgType[]>([])
+  const { username } = useContext(UserContext)
 
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +31,7 @@ const WallControl: React.FC = () => {
   const getWallImageList = async () => {
     let imgList: any = [];
     setLoading(true);
-    const res: ImgType[] = await getImgList('wall');
+    const res: ImgType[] = await getImgList('wall', username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({

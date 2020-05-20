@@ -9,6 +9,7 @@ import LogListItem from "./log-list-item";
 import { LogContext, LogContextType } from "../LogContext";
 import Loading from "@/components/loading";
 import classnames from "classnames";
+import { UserContext } from "@/context/UserContext";
 
 interface PropsType extends RouteComponentProps {
 }
@@ -16,6 +17,7 @@ interface PropsType extends RouteComponentProps {
 const LogList: React.FC<PropsType> = props => {
   const { history } = props;
   const { isLogin } = useContext(IsLoginContext); // 获取是否登录
+  const { username } = useContext(UserContext);
 
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +58,7 @@ const LogList: React.FC<PropsType> = props => {
   useEffect(() => {
     getLogList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabsState]);
+  }, [tabsState, username]);
 
   // 初始化日志列表
   const getLogList = async () => {
@@ -89,6 +91,7 @@ const LogList: React.FC<PropsType> = props => {
     } else {
       // 没登录只能显示可见
       params.isVisible = true;
+      params.username = username;
       res = await getLogListIsVisible(params);
     }
     setLogListData({

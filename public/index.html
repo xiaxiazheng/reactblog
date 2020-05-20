@@ -26,11 +26,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>
-      <% if(process.env.REACT_APP_User && process.env.REACT_APP_User === 'hyp') { %>
-        <%= "黄猪猪的个人网站" %>
-      <% } else { %>
-        <%= "虾虾郑的个人网站" %>
-      <% } %>
+      虾虾郑的个人网站
     </title>
     <script>
       var _hmt = _hmt || [];
@@ -40,7 +36,16 @@
         var s = document.getElementsByTagName("script")[0]; 
         s.parentNode.insertBefore(hm, s);
       })();
-      </script>      
+    </script>
+    <script type="text/JavaScript">
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "%PUBLIC_URL%/track.js";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

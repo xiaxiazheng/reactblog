@@ -12,7 +12,6 @@ const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 module.exports = {
   webpack: function (config, env) {
-
     override(
       addWebpackExternals({
         'react': 'React',

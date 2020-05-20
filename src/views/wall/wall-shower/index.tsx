@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './index.module.scss';
 import { getImgList } from '@/client/ImgHelper';
 import { staticUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image';
 import MaskloadImage from '@/components/mask-load-image';
 import Loading from '@/components/loading';
+import { UserContext } from '@/context/UserContext';
 
 interface ImgType {
   cTime: string;
@@ -23,15 +24,17 @@ const WallShower: React.FC = () => {
   const [previewImg, setPreviewImg] = useState('');
   const [previewImgName, setPreviewImgName] = useState('');
   const [loading, setLoading] = useState(true);
+  const { username } = useContext(UserContext)
 
   useEffect(() => {
     getWallImgList();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [username]);
   
   const getWallImgList = async () => {
     let imgList: any = [];
     setLoading(true);
-    const res: ImgType[] = await getImgList('wall');
+    const res: ImgType[] = await getImgList('wall', username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({
