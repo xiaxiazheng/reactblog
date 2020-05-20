@@ -9,11 +9,10 @@ import { UserContext } from "@/context/UserContext";
 import MusicPlayer from "./music-player";
 import moment from "moment";
 
-interface PropsType extends RouteComponentProps {
-}
+interface PropsType extends RouteComponentProps {}
 
 const Header: React.FC<PropsType> = (props) => {
-  const { location, history } = props
+  const { location, history } = props;
   const { theme, setTheme } = useContext(ThemeContext);
   const { username, setUsername } = useContext(UserContext);
   const { isLogin } = useContext(IsLoginContext); // 获取登录状态
@@ -24,7 +23,7 @@ const Header: React.FC<PropsType> = (props) => {
   const [alreadyDays, setAlreadyDays] = useState<string | number>();
 
   useEffect(() => {
-    getAlreadyDate()
+    getAlreadyDate();
   }, []);
 
   // 获取已经在一起多久的日期
@@ -50,7 +49,7 @@ const Header: React.FC<PropsType> = (props) => {
     };
     getAlreadyDate();
     getAlreadyDays();
-  }
+  };
 
   const handleClickTabs = (e: any) => {
     e.key !== "github"
@@ -61,11 +60,11 @@ const Header: React.FC<PropsType> = (props) => {
   // 用于刷新的时候将当前导航栏高亮
   useEffect(() => {
     const list = ["admin/tree", "admin/log", "admin/wall", "admin/media"];
-    list.forEach(item => {
+    list.forEach((item) => {
       location.pathname.indexOf(item) !== -1 &&
         setCurrent(item.replace(/admin\//g, ""));
-        // console.log(location.pathname)
-        // console.log(item.replace(/admin\//g, ""))
+      // console.log(location.pathname)
+      // console.log(item.replace(/admin\//g, ""))
     });
 
     if (location.pathname === "/login") {
@@ -77,14 +76,14 @@ const Header: React.FC<PropsType> = (props) => {
   /** 点击切换主题 */
   const switchTheme = () => {
     const nowTheme = theme === "dark" ? "light" : "dark";
-    localStorage.setItem('theme', nowTheme);
+    localStorage.setItem("theme", nowTheme);
     setTheme(nowTheme);
   };
 
   /** 点击切换用户 */
   const switchUser = () => {
     const nowUser = username === "zyb" ? "hyp" : "zyb";
-    localStorage.setItem('username', nowUser);
+    localStorage.setItem("username", nowUser);
     setUsername(nowUser);
   };
 
@@ -96,13 +95,13 @@ const Header: React.FC<PropsType> = (props) => {
   }, [theme]);
 
   const titleMap: any = {
-    zyb: 'XIAXIAZheng',
-    hyp: 'XIAXIAHuang'
-  }
+    zyb: "XIAXIAZheng",
+    hyp: "XIAXIAHuang",
+  };
 
   const jumpToLogin = () => {
-    history.push('/login')
-  }
+    history.push("/login");
+  };
 
   return (
     <header className={styles.Header}>
@@ -117,20 +116,18 @@ const Header: React.FC<PropsType> = (props) => {
           已经 {already} 啦（{alreadyDays}天）
         </span>
       )}
-      {isLogin && (
-        <MusicPlayer />
-      )}
+      {isLogin && <MusicPlayer />}
       <span className={styles.headerRight}>
         {/* 用户切换开关 */}
-        {!isLogin &&
+        {!isLogin && (
           <Switch
             className={styles.switch}
             checkedChildren="hyp"
             unCheckedChildren="zyb"
             checked={username === "hyp"}
             onClick={switchUser}
-          />        
-        }
+          />
+        )}
         {/* 主题切换开关 */}
         <Switch
           className={styles.switch}
@@ -152,34 +149,37 @@ const Header: React.FC<PropsType> = (props) => {
           </Menu.Item>
           <Menu.Item key="log">
             <Icon type="book" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/log" : "/log"}>
-              日志
-            </Link>
+            <Link to={isLogin ? "/admin/log" : "/log"}>日志</Link>
           </Menu.Item>
-          {isLogin &&
+          {isLogin && (
             <Menu.Item key="wall">
               <Icon type="picture" className={styles.headerIcon} />
               <Link to={isLogin ? "/admin/wall" : "/wall"}>图库</Link>
-            </Menu.Item>          
-          }
-          {isLogin &&
+            </Menu.Item>
+          )}
+          {isLogin && (
             <Menu.Item key="media">
               <Icon type="video-camera" className={styles.headerIcon} />
               <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
-            </Menu.Item>          
-          }
+            </Menu.Item>
+          )}
           <Menu.Item key="knn">
             <Icon type="book" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/knn" : "/knn"}>
-              KNN
-            </Link>
+            <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
           </Menu.Item>
           {/* <Menu.Item key="github">
             <Icon type="github" className={styles.headerIcon} />
             <span>github</span>
           </Menu.Item> */}
         </Menu>
-        <Icon title="退出登录" className={styles.exportIcon} type="export" onClick={jumpToLogin} />
+        {isLogin && (
+          <Icon
+            title="退出登录"
+            className={styles.exportIcon}
+            type="export"
+            onClick={jumpToLogin}
+          />
+        )}
       </span>
     </header>
   );
