@@ -21,7 +21,7 @@ class Track {
   // 是否不上报
   public silence = false
 
-  private constructor(options: ITrackType) {
+  constructor(options: ITrackType) {
     this.env = options.env
     this.trackUrl = options.trackUrl
     this.commonData = options.commonData

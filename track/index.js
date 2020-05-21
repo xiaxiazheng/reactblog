@@ -1,15 +1,15 @@
 // window.onload = function () {
-  const Track = require("./track");
-  // import * as Track from './track.js'
+  // const Track = require("./track");
+  import Track from './track'
 
   // 区分环境
   const getEnv = () => {
     if (process.env.NODE_ENV === "development") {
       return process.env.NODE_ENV;
     } else {
-      if (window.location.includes("localhost")) {
+      if (window.location.href.includes("localhost")) {
         return "development"; // 开发环境
-      } else if (window.location.includes("test")) {
+      } else if (window.location.href.includes("test")) {
         return "test"; // 测试环境
       } else {
         return "production"; // 生产环境
@@ -33,4 +33,4 @@
   console.log("track", track);
 // };
 
-// export default track;
+export default track;
