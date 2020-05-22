@@ -2,6 +2,7 @@
   background: var(--bg_color);
   box-sizing: border-box;
   border-bottom: 1px solid var(--border_color);
+  overflow: hidden;
   .treeFilterInput {
     width: calc(100% - 1.4rem);
     height: 40px;

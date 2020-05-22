@@ -34,5 +34,7 @@ export {
   CheckCircleFill,
   CloseCircleFill,
   ExclamationCircleFill,
-  ExportOutline
+  ExportOutline,
+  LeftSquareOutline,
+  RightSquareOutline
 } from '@ant-design/icons'
