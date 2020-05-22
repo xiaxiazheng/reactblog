@@ -38,6 +38,12 @@ const checkStatus = (res: AxiosError['response']) => {
 
 function apiErrorLog(res: any) {
   const status: any = res.status;
+
+  if (res.status === 401) {
+    window.location.href = `${window.location.origin}/login?from=${window.location.pathname}`
+    return;
+  }
+
   const errortext = httpCodeMessage[status] || res.statusText
   const errorDesc = `${res.status}: ${errortext}`
   const duration = isDev ? 4 : 2
