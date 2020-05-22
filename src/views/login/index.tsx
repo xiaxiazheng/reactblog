@@ -11,6 +11,8 @@ interface PropsType extends RouteComponentProps {
 
 const Login: React.FC<PropsType> = (props) => {
   const { history, location } = props;
+  console.log('history', history)
+  console.log('location', location)
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [isShowPwd, setIsShowPwd] = useState(false);
@@ -45,7 +47,7 @@ const Login: React.FC<PropsType> = (props) => {
       setUsername(user)
       message.success("登录成功");
       const state: any = history.location.state;
-      history.push(state? state.from.pathname : "/admin");
+      history.push(state.from? state.from : "/admin");
     } else {
       message.error("密码错误或用户不存在，请重新输入");
       setPassword('');

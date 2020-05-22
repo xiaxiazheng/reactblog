@@ -100,7 +100,12 @@ const Header: React.FC<PropsType> = (props) => {
   };
 
   const jumpToLogin = () => {
-    history.push("/login");
+    history.push({
+      pathname: "/login",
+      state: {
+        from: location.pathname
+      }
+    });
   };
 
   return (
@@ -113,7 +118,7 @@ const Header: React.FC<PropsType> = (props) => {
       </span>
       {isLogin && (
         <span className={styles.headerMiddle}>
-          已经 {already} 啦（{alreadyDays}天）
+          已经 {already} 啦({alreadyDays}天)
         </span>
       )}
       {isLogin && <MusicPlayer />}

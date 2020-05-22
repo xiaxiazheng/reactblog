@@ -69,7 +69,7 @@ export const AuthRoute: React.FC<PropsType> = ({
                 <Redirect
                   to={{
                     pathname: "/login",
-                    state: { from: props.location },
+                    state: { from: props.location.pathname },
                   }}
                 />
               );
