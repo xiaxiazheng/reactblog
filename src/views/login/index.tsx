@@ -52,7 +52,7 @@ const Login: React.FC<PropsType> = (props) => {
       const state: any = history.location.state;
       const jumpTo = search
         ? search.replace("?from=", "")
-        : state.from
+        : (state && state.from)
         ? state.from
         : "/admin";
       history.push(jumpTo);
