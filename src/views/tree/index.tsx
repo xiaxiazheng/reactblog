@@ -44,7 +44,7 @@ const Tree: React.FC<PropsType> = (props) => {
         />
       </div>
       {/* 右边的展示 & 编辑 */}
-      <div className={`${styles.treeRight} ScrollBar`}>
+      <div className={`${styles.treeRight}`}>
         {
           // 编辑与查看的切换按钮
           isLogin && (

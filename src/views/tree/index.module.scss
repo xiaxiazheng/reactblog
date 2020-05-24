@@ -59,6 +59,7 @@ $TreeMenuWidth: 21rem;
     flex: 1;
     min-width: calc(100% - #{$TreeMenuWidth});
     vertical-align: top;
+    overflow: hidden;
     .treeEditSwitch {
       position: absolute;
       top: 1rem;

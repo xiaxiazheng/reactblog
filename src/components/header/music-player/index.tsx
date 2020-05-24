@@ -21,7 +21,7 @@ const Music: React.FC = () => {
       // 每次初始化生成随机列表
       const list = [...res2].sort(() => Math.random() - Math.random());
       setRandomList(list)
-      console.log('本次随机列表：', list);
+      // console.log('本次随机列表：', list);
     }
   };
 

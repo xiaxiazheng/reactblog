@@ -37,7 +37,7 @@ const Admin: React.FC = () => {
         imageMinUrl: item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : '' // 缩略图地址
       });
     }
-    console.log('imgList', imgList);
+    // console.log('imgList', imgList);
     
     setAdminImgList(imgList);
   };

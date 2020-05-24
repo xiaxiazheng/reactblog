@@ -16,7 +16,7 @@ const TreeCont: React.FC<ITreeCont> = props => {
   const { isMain, isEdit, first_id, second_id } = props;
 
   return (
-    <div className={styles.treecont}>
+    <div className={`${styles.treecont} ScrollBar`}>
       {isMain && (isEdit ? <TreeContMainEdit /> : <TreeContMain />)}
       {!isMain &&
         (isEdit ? (
