@@ -2,9 +2,17 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 300px;
   margin-right: 10px;
+  .playIcon {
+    font-size: 20px;
+    margin: 0 5px 0 0;
+    cursor: pointer;
+    &:hover {
+      color: var(--color_active);
+    }
+  }
   .musicBox {
+    width: 300px;
     height: 30px;
     >audio {
       height: 100%;

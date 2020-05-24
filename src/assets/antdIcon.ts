@@ -36,5 +36,7 @@ export {
   ExclamationCircleFill,
   ExportOutline,
   LeftSquareOutline,
-  RightSquareOutline
+  RightSquareOutline,
+  ArrowLeftOutline,
+  ArrowRightOutline
 } from '@ant-design/icons'

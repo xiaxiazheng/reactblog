@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMusicList } from "@/client/VideoHelper";
 import { staticUrl } from "@/env_config";
+import { Icon, message } from 'antd';
 
 const Music: React.FC = () => {
   // const { isLogin } = useContext(IsLoginContext);
@@ -11,18 +12,21 @@ const Music: React.FC = () => {
     getList();
   }, []);
 
-  const [list, setList] = useState<string[]>([]);
   const [musicList, setMusicList] = useState<string[]>([]);
+  const [randomList, setRandomList] = useState<string[]>([]);
   const getList = async () => {
     const res2: any = await getMusicList();
     if (res2) {
       setMusicList(res2);
-      setList(res2);
+      // 每次初始化生成随机列表
+      const list = [...res2].sort(() => Math.random() - Math.random());
+      setRandomList(list)
+      console.log('本次随机列表：', list);
     }
   };
 
   const musicBox = useRef(null);
-  const [active, setActive] = useState<string>();
+  const [active, setActive] = useState<string>(); // 当前播放歌曲
   const [showList, setShowList] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -36,7 +40,6 @@ const Music: React.FC = () => {
         dom.current.childNodes[0].src = "";
         dom.current.childNodes[0].childNodes[0].src = "";
         dom.current.removeChild(dom.current.childNodes[0]);
-        // console.log('dom.current.childNodes[0]', dom.current.childNodes[0])
 
         const audio: any = document.createElement("audio");
         audio.controls = true;
@@ -44,12 +47,7 @@ const Music: React.FC = () => {
 
         // 播放完随机播放下一首
         audio.addEventListener("ended", () => {
-          let index = Math.floor(Math.random() * musicList.length);
-          if (musicList[index] === active) {
-            index = Math.floor(Math.random() * musicList.length);
-          }
-          console.log(musicList[index]);
-          setActive(musicList[index]);
+          playAfterSong()
         });
 
         const source = document.createElement("source");
@@ -62,9 +60,43 @@ const Music: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
+  const choiceSong = (item: string) => {
+    setActive(item)
+    message.success(`当前播放：${item}`, 1)
+  }
+
+  const playBeforeSong = () => {
+    let index = randomList.findIndex(item => item === active);
+    index = index === 0 ? randomList.length - 1 : index - 1;
+    setActive(randomList[index]);
+    message.success(`当前播放：${randomList[index]}`, 1)
+  }
+
+  const playAfterSong = () => {
+    let index = randomList.findIndex(item => item === active);
+    index = index === randomList.length - 1 ? 0 : index + 1;
+    setActive(randomList[index]);
+    message.success(`当前播放：${randomList[index]}`, 1)
+  }
+
+  const getBeforeSong = () => {
+    let index = randomList.findIndex(item => item === active);
+    index = index === 0 ? randomList.length - 1 : index - 1;
+    return randomList[index]
+  }
+
+  const getAfterSong = () => {
+    let index = randomList.findIndex(item => item === active);
+    index = index === randomList.length - 1 ? 0 : index + 1;
+    return randomList[index]
+  }
+
   return (
     <div
       className={styles.music}
+      onMouseEnter={() => {
+        setShowList(true);
+      }}
       onMouseLeave={() => {
         setShowList(false);
         setTimeout(() => {
@@ -72,13 +104,12 @@ const Music: React.FC = () => {
         }, 300);
       }}
     >
+      <Icon className={styles.playIcon} type="arrow-left" title={`上一首：${getBeforeSong()}`} onClick={playBeforeSong} />
+      <Icon className={styles.playIcon} type="arrow-right" title={`下一首：${getAfterSong()}`} onClick={playAfterSong} />
       {/* 播放 */}
       <div
         className={styles.musicBox}
         ref={musicBox}
-        onMouseEnter={() => {
-          setShowList(true);
-        }}
       >
         <audio controls>
           <source src={""} />
@@ -90,11 +121,11 @@ const Music: React.FC = () => {
           showList === null ? "" : showList ? styles.show : styles.hide
         } ScrollBar`}
       >
-        {list &&
-          list.map((item) => (
+        {musicList &&
+          musicList.map((item) => (
             <span
               key={item}
-              onClick={() => setActive(item)}
+              onClick={() => choiceSong(item)}
               className={active === item ? styles.active : ""}
             >
               {item}
