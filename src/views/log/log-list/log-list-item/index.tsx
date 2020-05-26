@@ -14,7 +14,7 @@ import { LogContext } from "../../LogContext";
 interface PropsType {
   // logClass: string;
   logItemData: LogListType;
-  orderBy: "create" | "modify";
+  orderBy: "create" | "modify" | "letter" | "letterDesc";
   getNewList: Function; // 完成操作后刷新数组
   // getAllLogClass: Function;
 }

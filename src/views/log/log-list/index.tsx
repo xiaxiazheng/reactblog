@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Input, Pagination, Icon, Radio, Checkbox } from "antd";
+import { Input, Pagination, Icon, Radio, Checkbox, Select } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getLogListIsVisible, getAllLogList } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
@@ -180,10 +180,10 @@ const LogList: React.FC<PropsType> = props => {
   };
 
   // 处理按什么排序
-  const handleOrderBy = (e: any) => {
+  const handleOrderBy = (value: any) => {
     setTabsState({
       ...tabsState,
-      orderBy: e.target.value,
+      orderBy: value,
       pageNo: 1
     });
   };
@@ -209,14 +209,16 @@ const LogList: React.FC<PropsType> = props => {
     <>
       <div className={styles.operateBox}>
         {/* 排序条件 */}
-        <Radio.Group
+        <Select
           className={styles.orderbyBox}
           value={orderBy}
           onChange={handleOrderBy}
         >
-          <Radio.Button value="create">按创建</Radio.Button>
-          <Radio.Button value="modify">按修改</Radio.Button>
-        </Radio.Group>
+          <Select.Option value="create">按创建时间</Select.Option>
+          <Select.Option value="modify">按修改时间</Select.Option>
+          <Select.Option value="letter">首字母升序</Select.Option>
+          <Select.Option value="letterDesc">首字母降序</Select.Option>
+        </Select>
         {/* 显示条件 */}
         {isLogin && (
           <Checkbox

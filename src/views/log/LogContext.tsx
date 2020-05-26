@@ -7,8 +7,8 @@ interface TabsStateType {
   keyword: string | null
   pageNo: number
   pageSize: number
-  /** 按什么排序 */
-  orderBy: 'create' | 'modify'
+  /** 按什么排序，后两个是按照首字母升序降序 */
+  orderBy: 'create' | 'modify' | 'letter' | 'letterDesc'
   /** 可见 */
   showVisible: boolean
   /** 不可见 */
