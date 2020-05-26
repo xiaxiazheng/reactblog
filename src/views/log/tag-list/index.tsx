@@ -129,8 +129,8 @@ const TagList: React.FC<PropsType> = props => {
   const [editting_id, setEditting_id] = useState("");
 
   return (
-    <>
-      <div className={styles.tagList}>
+    <div className={`${styles.wrapper}`}>
+      <div className={`${styles.tagList} ScrollBar`}>
         {loading && <div>loading...</div>}
         {tagList &&
           tagList.map((item: TagType) => (
@@ -195,7 +195,7 @@ const TagList: React.FC<PropsType> = props => {
           add tag
         </Button>
       )}
-    </>
+    </div>
   );
 };
 

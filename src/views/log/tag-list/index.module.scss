@@ -1,3 +1,7 @@
+.wrapper {
+  height: calc(100% - 74px);
+}
+
 .tagList {
   display: flex;
   flex-wrap: wrap;
@@ -5,10 +9,10 @@
   padding-top: 15px;
   padding-left: 10px;
   font-size: 12px;
-
+  height: calc(100% - 34px);
   .tagItem {
     display: flex;
-    margin: 0 20px 12px 0;
+    margin: 0 4% 12px 0;
     padding: 4px 10px;
     background-color: var(--bg_color_mask);
     color: var(--color);
@@ -62,5 +66,5 @@
 }
 // 新增按钮
 .addTag {
-  
+  margin: 5px 0;
 }
