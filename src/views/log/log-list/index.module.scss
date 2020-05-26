@@ -4,8 +4,11 @@
   .orderbyBox {
     color: var(--color);
     :global {
-      .ant-radio-button-wrapper {
+      .ant-select-selection {
         background-color: var(--bg_color);
+        color: var(--color);
+      }
+      .ant-select-arrow {
         color: var(--color);
       }
     }
