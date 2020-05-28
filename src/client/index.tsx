@@ -10,7 +10,7 @@ import { notification } from 'antd';
 import { isDev, baseUrl } from '@/env_config';
 import httpCodeMessage from './lib/http-code-msg';
 
-export const instance = axios.create({
+const instance = axios.create({
   baseURL: `${baseUrl}/api`,
   timeout: isDev ? 5 * 1000 : 10 * 1000
 })
@@ -86,7 +86,7 @@ instance.interceptors.response.use(
   }
 )
 
-interface ResType {
+export interface ResType {
   data: DataType
 }
 

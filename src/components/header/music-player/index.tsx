@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import { IsLoginContext } from "@/context/IsLoginContext";
+// import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
 import { Icon, message } from "antd";
@@ -65,7 +65,7 @@ const Music: React.FC = () => {
 
   const choiceSong = (item: FileType) => {
     setActive(item);
-    message.success(`当前播放：${item}`, 1);
+    message.success(`当前播放：${item.key}`, 1);
   };
 
   const playBeforeSong = () => {
