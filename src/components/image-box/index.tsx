@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Icon, message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
-import { baseUrl } from "@/env_config";
+import { staticUrl } from "@/env_config";
 import { deleteImg } from "@/client/ImgHelper";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
@@ -131,7 +131,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             className={styles.Upload}
             name={type}
             showUploadList={false}
-            action={`${baseUrl}/api/${type}_upload`}
+            action={`${staticUrl}/api/${type}_upload`}
             data={{
               other_id: otherId || undefined,
               username
