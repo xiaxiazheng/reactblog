@@ -1,9 +1,14 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
-import { getMusicList } from "@/client/VideoHelper";
-import { staticUrl } from "@/env_config";
-import { Icon, message } from 'antd';
+import { getMediaList } from "@/client/VideoHelper";
+import { cdnUrl } from "@/env_config";
+import { Icon, message } from "antd";
+
+interface FileType {
+  key: string;
+  mimeType: string;
+}
 
 const Music: React.FC = () => {
   // const { isLogin } = useContext(IsLoginContext);
@@ -12,30 +17,28 @@ const Music: React.FC = () => {
     getList();
   }, []);
 
-  const [musicList, setMusicList] = useState<string[]>([]);
-  const [randomList, setRandomList] = useState<string[]>([]);
+  const [musicList, setMusicList] = useState<FileType[]>([]);
+  const [randomList, setRandomList] = useState<FileType[]>([]);
   const getList = async () => {
-    const res2: any = await getMusicList();
+    const res2: any = await getMediaList();
     if (res2) {
-      setMusicList(res2);
+      const music = res2.filter((item: FileType) => item.mimeType.includes('audio'))
+      setMusicList(music);
       // 每次初始化生成随机列表
-      const list = [...res2].sort(() => Math.random() - Math.random());
-      setRandomList(list)
+      const list = [...music].sort(() => Math.random() - Math.random());
+      setRandomList(list);
       // console.log('本次随机列表：', list);
     }
   };
 
   const musicBox = useRef(null);
-  const [active, setActive] = useState<string>(); // 当前播放歌曲
+  const [active, setActive] = useState<FileType>(); // 当前播放歌曲
   const [showList, setShowList] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (active) {
       const dom: any = musicBox;
       if (dom.current) {
-        const list = active.split(".");
-        const type = list[list.length - 1];
-
         dom.current.childNodes[0].pause();
         dom.current.childNodes[0].src = "";
         dom.current.childNodes[0].childNodes[0].src = "";
@@ -47,12 +50,12 @@ const Music: React.FC = () => {
 
         // 播放完随机播放下一首
         audio.addEventListener("ended", () => {
-          playAfterSong()
+          playAfterSong();
         });
 
         const source = document.createElement("source");
-        source.src = `${staticUrl}/${"music"}/${active}`;
-        source.type = `audio/${type}`;
+        source.src = `${cdnUrl}/${active.key}`;
+        source.type = active.mimeType;
         audio.appendChild(source);
         dom.current.appendChild(audio);
       }
@@ -60,36 +63,36 @@ const Music: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  const choiceSong = (item: string) => {
-    setActive(item)
-    message.success(`当前播放：${item}`, 1)
-  }
+  const choiceSong = (item: FileType) => {
+    setActive(item);
+    message.success(`当前播放：${item}`, 1);
+  };
 
   const playBeforeSong = () => {
-    let index = randomList.findIndex(item => item === active);
+    let index = randomList.findIndex((item) => active && item.key === active.key);
     index = index === 0 ? randomList.length - 1 : index - 1;
     setActive(randomList[index]);
-    message.success(`当前播放：${randomList[index]}`, 1)
-  }
+    message.success(`当前播放：${randomList[index]}`, 1);
+  };
 
   const playAfterSong = () => {
-    let index = randomList.findIndex(item => item === active);
+    let index = randomList.findIndex((item) => active && item.key === active.key);
     index = index === randomList.length - 1 ? 0 : index + 1;
     setActive(randomList[index]);
-    message.success(`当前播放：${randomList[index]}`, 1)
-  }
+    message.success(`当前播放：${randomList[index]}`, 1);
+  };
 
   const getBeforeSong = () => {
-    let index = randomList.findIndex(item => item === active);
+    let index = randomList.findIndex((item) => active && item.key === active.key);
     index = index === 0 ? randomList.length - 1 : index - 1;
-    return randomList[index]
-  }
+    return randomList[index];
+  };
 
   const getAfterSong = () => {
-    let index = randomList.findIndex(item => item === active);
+    let index = randomList.findIndex((item) => active && item.key === active.key);
     index = index === randomList.length - 1 ? 0 : index + 1;
-    return randomList[index]
-  }
+    return randomList[index];
+  };
 
   return (
     <div
@@ -104,13 +107,20 @@ const Music: React.FC = () => {
         }, 300);
       }}
     >
-      <Icon className={styles.playIcon} type="arrow-left" title={`上一首：${getBeforeSong()}`} onClick={playBeforeSong} />
-      <Icon className={styles.playIcon} type="arrow-right" title={`下一首：${getAfterSong()}`} onClick={playAfterSong} />
+      <Icon
+        className={styles.playIcon}
+        type="arrow-left"
+        title={`上一首：${getBeforeSong()}`}
+        onClick={playBeforeSong}
+      />
+      <Icon
+        className={styles.playIcon}
+        type="arrow-right"
+        title={`下一首：${getAfterSong()}`}
+        onClick={playAfterSong}
+      />
       {/* 播放 */}
-      <div
-        className={styles.musicBox}
-        ref={musicBox}
-      >
+      <div className={styles.musicBox} ref={musicBox}>
         <audio controls>
           <source src={""} />
         </audio>
@@ -124,11 +134,11 @@ const Music: React.FC = () => {
         {musicList &&
           musicList.map((item) => (
             <span
-              key={item}
+              key={item.key}
               onClick={() => choiceSong(item)}
-              className={active === item ? styles.active : ""}
+              className={active && active.key === item.key ? styles.active : ""}
             >
-              {item}
+              {item.key}
             </span>
           ))}
       </div>

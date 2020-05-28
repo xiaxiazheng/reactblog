@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
-import { getVideoList, getMusicList } from "@/client/VideoHelper";
-import { staticUrl } from "@/env_config";
+import { getMediaList } from "@/client/VideoHelper";
+import { cdnUrl } from "@/env_config";
+
+interface FileType {
+  key: string;
+  mimeType: string;
+}
 
 const Video: React.FC = () => {
   const { isLogin } = useContext(IsLoginContext);
@@ -13,29 +18,28 @@ const Video: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState("音乐");
 
-  const [list, setList] = useState<string[]>([]);
-  const [videoList, setVideoList] = useState<string[]>([]);
-  const [musicList, setMusicList] = useState<string[]>([]);
+  const [list, setList] = useState<FileType[]>([]);  // 当前播放列表
+  const [videoList, setVideoList] = useState<FileType[]>([]);
+  const [musicList, setMusicList] = useState<FileType[]>([]);
   const getList = async () => {
-    const res1: any = await getVideoList();
-    res1 && setVideoList(res1);
-    const res2: any = await getMusicList();
-    if (res2) {
-      setMusicList(res2);
-      setList(res2);
+    const res: FileType[] | false = await getMediaList();
+    if (res) {
+      const music = res.filter((item: FileType) => item.mimeType.includes('audio')) 
+      setMusicList(music)
+      setList(music)
+      
+      const video = res.filter((item: FileType) => item.mimeType.includes('video')) 
+      setVideoList(video)
     }
   };
 
   const videoBox = useRef(null);
-  const [active, setActive] = useState<string>();
+  const [active, setActive] = useState<FileType>();
 
   useEffect(() => {
     if (active) {
       const dom: any = videoBox;
       if (dom.current) {
-        const list = active.split('.')
-        const type = list[list.length - 1]
-
         dom.current.childNodes[0].pause()
         dom.current.childNodes[0].src = ''
         dom.current.childNodes[0].childNodes[0].src = ''
@@ -50,17 +54,17 @@ const Video: React.FC = () => {
         audio.addEventListener('ended', () => {
           if (activeTab === '音乐') {
             let index = Math.floor(Math.random() * (musicList.length))
-            if (musicList[index] === active) {
+            if (musicList[index].key === active.key) {
               index = Math.floor(Math.random() * (musicList.length))
             }
-            console.log(musicList[index])
+            // console.log(musicList[index])
             setActive(musicList[index])
           }
         })
 
         const source = document.createElement("source");
-        source.src = `${staticUrl}/${activeTab === '音乐' ? 'music' : 'video'}/${active}`;
-        source.type = activeTab === '音乐' ? `audio/${type}` : `video/mp4`;
+        source.src = `${cdnUrl}/${active.key}`;
+        source.type = active.mimeType;
         audio.appendChild(source);
         dom.current.appendChild(audio);
       }
@@ -91,11 +95,11 @@ const Video: React.FC = () => {
         {list &&
           list.map((item) => (
             <span
-              key={item}
+              key={item.key}
               onClick={() => setActive(item)}
               className={active === item ? styles.active : ""}
             >
-              {item}
+              {item.key}
             </span>
           ))}
       </div>
