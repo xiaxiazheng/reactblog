@@ -13,3 +13,9 @@ export async function getVideoList (): Promise<any[]> {
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 
+// 获取七牛文件列表
+export async function getMediaList (): Promise<any[]> {
+  const data = await getHelper(`/getMediaList`);
+  return data && data.resultsCode === 'success' ? data.data : [];
+}
+
