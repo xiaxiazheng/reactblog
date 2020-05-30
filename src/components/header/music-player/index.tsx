@@ -4,6 +4,7 @@ import styles from "./index.module.scss";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
 import { Icon, message } from "antd";
+import Item from "antd/lib/list/Item";
 
 interface FileType {
   key: string;
@@ -22,7 +23,9 @@ const Music: React.FC = () => {
   const getList = async () => {
     const res2: any = await getMediaList();
     if (res2) {
-      const music = res2.filter((item: FileType) => item.mimeType.includes('audio'))
+      const music = res2.filter((item: FileType) =>
+        item.mimeType.includes("audio")
+      );
       setMusicList(music);
       // 每次初始化生成随机列表
       const list = [...music].sort(() => Math.random() - Math.random());
@@ -32,6 +35,7 @@ const Music: React.FC = () => {
   };
 
   const musicBox = useRef(null);
+  const circle = useRef(null);
   const [active, setActive] = useState<FileType>(); // 当前播放歌曲
   const [showList, setShowList] = useState<boolean | null>(null);
 
@@ -65,65 +69,129 @@ const Music: React.FC = () => {
 
   const choiceSong = (item: FileType) => {
     setActive(item);
+    setShowList(null);
     message.success(`当前播放：${item.key}`, 1);
   };
 
   const playBeforeSong = () => {
-    let index = randomList.findIndex((item) => active && item.key === active.key);
+    let index = randomList.findIndex(
+      (item) => active && item.key === active.key
+    );
     index = index === 0 ? randomList.length - 1 : index - 1;
     setActive(randomList[index]);
     message.success(`当前播放：${randomList[index]}`, 1);
   };
 
   const playAfterSong = () => {
-    let index = randomList.findIndex((item) => active && item.key === active.key);
+    let index = randomList.findIndex(
+      (item) => active && item.key === active.key
+    );
     index = index === randomList.length - 1 ? 0 : index + 1;
     setActive(randomList[index]);
     message.success(`当前播放：${randomList[index]}`, 1);
   };
 
   const getBeforeSong = () => {
-    let index = randomList.findIndex((item) => active && item.key === active.key);
+    let index = randomList.findIndex(
+      (item) => active && item.key === active.key
+    );
     index = index === 0 ? randomList.length - 1 : index - 1;
     return randomList[index];
   };
 
   const getAfterSong = () => {
-    let index = randomList.findIndex((item) => active && item.key === active.key);
+    let index = randomList.findIndex(
+      (item) => active && item.key === active.key
+    );
     index = index === randomList.length - 1 ? 0 : index + 1;
     return randomList[index];
   };
 
+  const [isDrog, setIsDrog] = useState(false);
+  const [downX, setDownX] = useState<any>();
+  const [downY, setDownY] = useState<any>();
+  const [left, setLeft] = useState(
+    Number(localStorage.getItem("musicLeft") || 0)
+  );
+  const [top, setTop] = useState(Number(localStorage.getItem("musicTop") || 0));
+
+  const down = (e: any) => {
+    e.preventDefault();
+    setIsDrog(true);
+    const dom: any = circle.current;
+    setDownX(e.clientX - dom.offsetLeft);
+    setDownY(e.clientY - dom.offsetTop);
+  };
+
+  const move = (e: any) => {
+    e.preventDefault();
+    if (isDrog) {
+      setLeft(e.clientX - downX);
+      setTop(e.clientY - downY);
+    }
+  };
+
+  const up = (ev: any) => {
+    ev.preventDefault();
+    setIsDrog(false);
+    localStorage.setItem("musicLeft", String(left));
+    localStorage.setItem("musicTop", String(top));
+  };
+
+  const showSongList = () => {
+    if (!showList) {
+      setShowList(true);
+    } else {
+      setShowList(false);
+      setTimeout(() => {
+        setShowList(null);
+      }, 300);
+    }
+  };
+
   return (
     <div
+      ref={circle}
       className={styles.music}
-      onMouseEnter={() => {
-        setShowList(true);
-      }}
-      onMouseLeave={() => {
-        setShowList(false);
-        setTimeout(() => {
-          setShowList(null);
-        }, 300);
+      draggable={true}
+      onMouseDown={down}
+      onMouseMove={move}
+      onMouseUp={up}
+      onMouseLeave={up}
+      style={{
+        left: left,
+        top: top,
       }}
     >
-      <Icon
-        className={styles.playIcon}
-        type="arrow-left"
-        title={`上一首：${getBeforeSong()}`}
-        onClick={playBeforeSong}
-      />
-      <Icon
-        className={styles.playIcon}
-        type="arrow-right"
-        title={`下一首：${getAfterSong()}`}
-        onClick={playAfterSong}
-      />
       {/* 播放 */}
       <div className={styles.musicBox} ref={musicBox}>
         <audio controls>
           <source src={""} />
         </audio>
+      </div>
+      {/* 控件 */}
+      <div className={styles.iconBox}>
+        <span className={styles.songName} title={active ? active.key : ""}>
+          {active ? active.key : ""}
+        </span>
+        <Icon
+          className={styles.playIcon}
+          type="arrow-left"
+          title={`上一首：${getBeforeSong()}`}
+          onClick={playBeforeSong}
+        />
+        <Icon
+          className={styles.playIcon}
+          type="unordered-list"
+          title={`歌曲列表`}
+          onClick={showSongList}
+        />
+        <Icon
+          className={styles.playIcon}
+          type="arrow-right"
+          title={`下一首：${getAfterSong()}`}
+          onClick={playAfterSong}
+        />
       </div>
       {/* 列表 */}
       <div
