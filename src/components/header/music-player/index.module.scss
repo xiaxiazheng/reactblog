@@ -67,9 +67,9 @@
       }
     }
   }
-  
+  $height: 450px;
   .show {
-    max-height: 400px;
+    max-height: $height;
     animation: show 1s;
     opacity: 1;
   }
@@ -82,11 +82,11 @@
 
   @keyframes show {
     from { max-height: 0; }
-    to   { max-height: 600px; }
+    to   { max-height: $height; }
   }
 
   @keyframes hide {
-    from { max-height: 600px; }
+    from { max-height: $height; }
     to   { max-height: 0; }
   }
 }
