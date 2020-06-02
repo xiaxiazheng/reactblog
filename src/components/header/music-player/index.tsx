@@ -96,7 +96,7 @@ const Music: React.FC = () => {
       (item) => active && item.key === active.key
     );
     index = index === 0 ? randomList.length - 1 : index - 1;
-    return randomList[index];
+    return randomList[index] ? randomList[index].key : '';
   };
 
   const getAfterSong = () => {
@@ -104,7 +104,7 @@ const Music: React.FC = () => {
       (item) => active && item.key === active.key
     );
     index = index === randomList.length - 1 ? 0 : index + 1;
-    return randomList[index];
+    return randomList[index] ? randomList[index].key : '';
   };
 
   const [isDrog, setIsDrog] = useState(false);
