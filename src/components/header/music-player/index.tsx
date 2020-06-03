@@ -79,7 +79,7 @@ const Music: React.FC = () => {
     );
     index = index === 0 ? randomList.length - 1 : index - 1;
     setActive(randomList[index]);
-    message.success(`当前播放：${randomList[index]}`, 1);
+    message.success(`当前播放：${randomList[index].key}`, 1);
   };
 
   const playAfterSong = () => {
@@ -88,7 +88,7 @@ const Music: React.FC = () => {
     );
     index = index === randomList.length - 1 ? 0 : index + 1;
     setActive(randomList[index]);
-    message.success(`当前播放：${randomList[index]}`, 1);
+    message.success(`当前播放：${randomList[index].key}`, 1);
   };
 
   const getBeforeSong = () => {
