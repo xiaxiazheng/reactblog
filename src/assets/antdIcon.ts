@@ -39,5 +39,6 @@ export {
   RightSquareOutline,
   ArrowLeftOutline,
   ArrowRightOutline,
-  UnorderedListOutline
+  UnorderedListOutline,
+  RedoOutline
 } from '@ant-design/icons'
