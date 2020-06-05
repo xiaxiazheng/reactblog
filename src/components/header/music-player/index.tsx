@@ -30,7 +30,6 @@ const Music: React.FC = () => {
       // 每次初始化生成随机列表
       const list = [...music].sort(() => Math.random() - Math.random());
       setRandomList(list);
-      // console.log('本次随机列表：', list);
     }
   };
 
@@ -59,7 +58,7 @@ const Music: React.FC = () => {
       audio.controls = true;
       audio.autoplay = true;
 
-      audio.addEventListener("ended", () => handleFinish(isOneCircle));
+      audio.onended = handleFinish;
 
       const source = document.createElement("source");
       source.src = `${cdnUrl}/${song.key}`;
@@ -69,17 +68,26 @@ const Music: React.FC = () => {
     }
   };
 
+  // 由于 hooks 的原因，要重新绑定这个事件才能获取到当前的 isOneCircle 的状态
+  useEffect(() => {
+    const dom: any = musicBox;
+    if (dom.current) {
+      const audio = dom.current.childNodes[0];
+      audio.onended = handleFinish;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOneCircle]);
+
   // 处理播放完之后
-  const handleFinish = (isOneCircle: boolean) => {
-    console.log('isOneCircle', isOneCircle)
+  const handleFinish = () => {
     if (isOneCircle) {
       // 单曲循环
-      active && changeSong(active)
+      active && changeSong(active);
     } else {
       // 播放完随机播放下一首
       playAfterSong();
     }
-  }
+  };
 
   // 处理选择歌曲
   const handleChoice = (item: FileType) => {
