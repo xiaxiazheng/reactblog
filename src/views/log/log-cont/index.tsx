@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './index.module.scss';
 import { getLogCont } from '@/client/LogHelper';
-import { Button, Icon, Switch } from 'antd';
+import { LeftOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
+import { Button, Switch } from 'antd';
 import { withRouter, RouteComponentProps, match } from 'react-router-dom';
 import { IsLoginContext } from '@/context/IsLoginContext';
 import LogContEditByClass from './log-cont-edit';
@@ -14,7 +16,7 @@ interface PropsType extends RouteComponentProps {
     log_class: string;
     log_id: string;
   }>;
-};
+}
 
 const LogCont: React.FC<PropsType> = (props) => {
   const { match, history } = props
@@ -70,7 +72,7 @@ const LogCont: React.FC<PropsType> = (props) => {
           : <LogContEditByClass logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
       )}
     </div>
-  )
+  );
 }
 
 export default withRouter(LogCont);

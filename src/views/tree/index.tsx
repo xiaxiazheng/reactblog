@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import TreeList from "./tree-list";
-import { Switch, Icon } from "antd";
+import { Icon } from '@ant-design/compatible'
+import { Switch } from "antd";
 import TreeCont from "./tree-cont";
 import classnames from "classnames";
 import { withRouter, RouteComponentProps, match } from "react-router-dom";

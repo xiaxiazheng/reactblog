@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Input, Pagination, Icon, Checkbox, Select } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { Icon } from "@ant-design/compatible";
+import { Input, Pagination, Checkbox, Select } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getLogListIsVisible, getAllLogList } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
@@ -11,19 +13,18 @@ import Loading from "@/components/loading";
 import classnames from "classnames";
 import { UserContext } from "@/context/UserContext";
 
-interface PropsType extends RouteComponentProps {
-}
+interface PropsType extends RouteComponentProps {}
 
-const LogList: React.FC<PropsType> = props => {
+const LogList: React.FC<PropsType> = (props) => {
   const { history } = props;
   const { isLogin } = useContext(IsLoginContext); // 获取是否登录
   const { username } = useContext(UserContext);
 
   const [loading, setLoading] = useState(true);
 
-  const { tabsState, setTabsState, activeTag } = useContext<
-    LogContextType
-  >(LogContext);
+  const { tabsState, setTabsState, activeTag } = useContext<LogContextType>(
+    LogContext
+  );
   // 展开方便用
   const {
     keyword,
@@ -32,28 +33,28 @@ const LogList: React.FC<PropsType> = props => {
     orderBy,
     showVisible,
     showInvisible,
-    showNotClassify
+    showNotClassify,
   } = tabsState;
 
   const [logListData, setLogListData] = useState({
     logList: [], // 日志列表
-    total: 0 // 日志总数
+    total: 0, // 日志总数
   });
 
   // 切换 activeTag 的时候，pageNo 要重置为 1
   useEffect(() => {
-    if (activeTag || activeTag === '') {
+    if (activeTag || activeTag === "") {
       if (pageNo === 1) {
-        getLogList()
+        getLogList();
       } else {
         setTabsState({
           ...tabsState,
-          pageNo: 1
-        })
+          pageNo: 1,
+        });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTag])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTag]);
 
   useEffect(() => {
     getLogList();
@@ -69,11 +70,11 @@ const LogList: React.FC<PropsType> = props => {
       pageSize: pageSize,
       orderBy: orderBy,
       keyword: keyword || "",
-      activeTag: activeTag || ""
+      activeTag: activeTag || "",
     };
     let res = {
       list: [],
-      total: 0
+      total: 0,
     };
     if (isLogin) {
       if (showVisible && showInvisible) {
@@ -96,7 +97,7 @@ const LogList: React.FC<PropsType> = props => {
     }
     setLogListData({
       logList: res.list,
-      total: res.total
+      total: res.total,
     });
     setLoading(false);
   };
@@ -109,8 +110,8 @@ const LogList: React.FC<PropsType> = props => {
     history.push({
       pathname: path,
       state: {
-        editType: item.edittype // 要带上日志类型
-      }
+        editType: item.edittype, // 要带上日志类型
+      },
     });
   };
 
@@ -130,7 +131,7 @@ const LogList: React.FC<PropsType> = props => {
       setTabsState({
         ...tabsState,
         keyword: "",
-        pageNo: 1
+        pageNo: 1,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,14 +143,14 @@ const LogList: React.FC<PropsType> = props => {
       setTabsState({
         ...tabsState,
         keyword: myKeyword,
-        pageNo: 1
+        pageNo: 1,
       });
     }
   };
 
   const logListClass = classnames({
     [styles.logList]: true,
-    ScrollBar: true
+    ScrollBar: true,
   });
 
   // 处理可见
@@ -157,7 +158,7 @@ const LogList: React.FC<PropsType> = props => {
     setTabsState({
       ...tabsState,
       showVisible: !showVisible,
-      pageNo: 1
+      pageNo: 1,
     });
   };
 
@@ -166,7 +167,7 @@ const LogList: React.FC<PropsType> = props => {
     setTabsState({
       ...tabsState,
       showInvisible: !showInvisible,
-      pageNo: 1
+      pageNo: 1,
     });
   };
 
@@ -175,7 +176,7 @@ const LogList: React.FC<PropsType> = props => {
     setTabsState({
       ...tabsState,
       showNotClassify: !showNotClassify,
-      pageNo: 1
+      pageNo: 1,
     });
   };
 
@@ -184,7 +185,7 @@ const LogList: React.FC<PropsType> = props => {
     setTabsState({
       ...tabsState,
       orderBy: value,
-      pageNo: 1
+      pageNo: 1,
     });
   };
 
@@ -192,7 +193,7 @@ const LogList: React.FC<PropsType> = props => {
   const handlePageNo = (page: number) => {
     setTabsState({
       ...tabsState,
-      pageNo: page
+      pageNo: page,
     });
   };
 
@@ -201,7 +202,7 @@ const LogList: React.FC<PropsType> = props => {
     setTabsState({
       ...tabsState,
       pageSize: size,
-      pageNo: 1
+      pageNo: 1,
     });
   };
 
@@ -291,7 +292,7 @@ const LogList: React.FC<PropsType> = props => {
           pageSize={pageSize}
           current={pageNo}
           total={logListData.total}
-          showTotal={total => `共${total}篇`}
+          showTotal={(total) => `共${total}篇`}
           onChange={handlePageNo}
           onShowSizeChange={handlePageSize}
           showSizeChanger

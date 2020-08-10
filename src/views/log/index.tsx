@@ -5,6 +5,8 @@ import TagList from "./tag-list";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogContext } from "./LogContext";
 import { addLogCont } from "@/client/LogHelper";
+import { FileMarkdownOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
 import { Button, message } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 

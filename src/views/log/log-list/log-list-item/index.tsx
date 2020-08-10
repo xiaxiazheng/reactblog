@@ -1,11 +1,18 @@
 import React, { useState, useContext } from "react";
 import styles from "./index.module.scss";
-import { Icon, message, Modal, Select } from "antd";
+import {
+  DeleteOutlined,
+  EyeOutlined,
+  TagsOutlined,
+  VerticalAlignTopOutlined,
+} from "@ant-design/icons";
+import { Icon } from "@ant-design/compatible";
+import { message, Modal, Select } from "antd";
 import {
   isShowLog,
   isStickLog,
   deleteLogCont,
-  makeLogTag
+  makeLogTag,
 } from "@/client/LogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogListType } from "../../LogType";
@@ -23,14 +30,14 @@ const { confirm } = Modal;
 const { Option } = Select;
 
 // 单条日志记录
-const LogListItem: React.FC<PropsType> = props => {
+const LogListItem: React.FC<PropsType> = (props) => {
   const { logItemData, orderBy, getNewList } = props;
   const { isLogin } = useContext(IsLoginContext);
   const { tagList, setIsUpdateTag } = useContext(LogContext);
 
   const [isShowPopup, setIsShowPopup] = useState(false);
 
-  const [tag, setTag] = useState(logItemData.tag.map(item => item.tag_id));
+  const [tag, setTag] = useState(logItemData.tag.map((item) => item.tag_id));
 
   // 打开 tag 的弹窗
   const handleMakeLogTag = async (e: any) => {
@@ -42,7 +49,7 @@ const LogListItem: React.FC<PropsType> = props => {
   const submitMakeTag = async () => {
     const params = {
       log_id: logItemData.log_id,
-      tagIdList: tag
+      tagIdList: tag,
     };
     const res = await makeLogTag(params);
     if (res) {
@@ -60,7 +67,7 @@ const LogListItem: React.FC<PropsType> = props => {
     e.stopPropagation();
     const params = {
       id: logItemData.log_id,
-      isStick: logItemData.isStick === "true" ? "false" : "true"
+      isStick: logItemData.isStick === "true" ? "false" : "true",
     };
     let res = await isStickLog(params);
     if (res) {
@@ -76,7 +83,7 @@ const LogListItem: React.FC<PropsType> = props => {
     e.stopPropagation();
     const params = {
       id: logItemData.log_id,
-      isShow: logItemData.isShow === "true" ? "false" : "true"
+      isShow: logItemData.isShow === "true" ? "false" : "true",
     };
     const res = await isShowLog(params);
     if (res) {
@@ -98,7 +105,7 @@ const LogListItem: React.FC<PropsType> = props => {
       cancelText: "No",
       onOk: async () => {
         const params = {
-          id: logItemData.log_id
+          id: logItemData.log_id,
         };
         const res = await deleteLogCont(params);
         if (res) {
@@ -114,15 +121,17 @@ const LogListItem: React.FC<PropsType> = props => {
       },
       onCancel() {
         message.info("已取消删除", 1);
-      }
+      },
     });
   };
 
   return (
     <div className={styles.logListItem}>
-      <span className={styles.title} title={logItemData.title}>{logItemData.title}</span>
+      <span className={styles.title} title={logItemData.title}>
+        {logItemData.title}
+      </span>
       <span className={styles.tagBox}>
-        {logItemData.tag.map(item => {
+        {logItemData.tag.map((item) => {
           return <span className={styles.tag}>{item.tag_name}</span>;
         })}
       </span>
@@ -132,7 +141,7 @@ const LogListItem: React.FC<PropsType> = props => {
           <span className={styles.editType}>
             ({logItemData.edittype === "richtext" ? "富文本文档" : "markdown"})
           </span>
-        )}        
+        )}
       </div>
       <span className={styles.orderbyTime}>
         {orderBy === "create" ? "创建" : "修改"}时间：
@@ -177,7 +186,7 @@ const LogListItem: React.FC<PropsType> = props => {
         </div>
       )}
       {/* 切换分类的弹出框 */}
-      <div onClick={e => e.stopPropagation()}>
+      <div onClick={(e) => e.stopPropagation()}>
         <Modal
           title={`请选择要为 “${logItemData.title}” 设置的 tag：`}
           visible={isShowPopup}
@@ -194,13 +203,15 @@ const LogListItem: React.FC<PropsType> = props => {
               setTag(val);
             }}
           >
-            {tagList.map((item: { tag_id: string; tag_name: string; count: number; }) => {
-              return (
-                <Option key={item.tag_id} value={item.tag_id}>
-                  {item.tag_name} ({item.count})
-                </Option>
-              );
-            })}
+            {tagList.map(
+              (item: { tag_id: string; tag_name: string; count: number }) => {
+                return (
+                  <Option key={item.tag_id} value={item.tag_id}>
+                    {item.tag_name} ({item.count})
+                  </Option>
+                );
+              }
+            )}
           </Select>
         </Modal>
       </div>

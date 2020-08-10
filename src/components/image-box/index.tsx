@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Icon, message, Upload, Modal } from "antd";
+import { CopyOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
+import { message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import { deleteImg } from "@/client/ImgHelper";

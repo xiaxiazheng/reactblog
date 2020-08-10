@@ -1,7 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-import { Menu, Icon, Switch } from "antd";
+
+import {
+  BookOutlined,
+  ClusterOutlined,
+  ExportOutlined,
+  PictureOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Icon } from "@ant-design/compatible";
+
+import { Menu, Switch } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -103,8 +113,8 @@ const Header: React.FC<PropsType> = (props) => {
     history.push({
       pathname: "/login",
       state: {
-        from: location.pathname
-      }
+        from: location.pathname,
+      },
     });
   };
 

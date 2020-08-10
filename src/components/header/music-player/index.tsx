@@ -3,7 +3,14 @@ import styles from "./index.module.scss";
 // import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
-import { Icon, message } from "antd";
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  RedoOutlined,
+  UnorderedListOutlined,
+} from "@ant-design/icons";
+import { Icon } from '@ant-design/compatible'
+import { message } from "antd";
 
 interface FileType {
   key: string;
@@ -203,13 +210,11 @@ const Music: React.FC = () => {
         </span>
         <Icon
           className={`${styles.playIcon} ${isOneCircle ? styles.active : ""}`}
-          type="redo"
           title={"单曲循环"}
           onClick={() => setIsOneCircle(!isOneCircle)}
         />
         <Icon
           className={styles.playIcon}
-          type="arrow-left"
           title={`上一首：${getBeforeSong()}`}
           onClick={playBeforeSong}
         />
@@ -221,7 +226,6 @@ const Music: React.FC = () => {
         />
         <Icon
           className={styles.playIcon}
-          type="arrow-right"
           title={`下一首：${getAfterSong()}`}
           onClick={playAfterSong}
         />

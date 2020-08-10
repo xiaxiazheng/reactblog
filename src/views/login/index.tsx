@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Input, Button, Icon, message } from "antd";
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
+import { Input, Button, message } from "antd";
 import styles from "./index.module.scss";
 import { postLogin } from "@/client/UserHelper";
 import { withRouter, RouteComponentProps } from "react-router-dom";
