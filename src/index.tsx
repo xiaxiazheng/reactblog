@@ -4,12 +4,12 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.d';
-import Track from '@xiao-edu/track'
+// import Track from '@xiao-edu/track'
 
-const track = new Track({
-  commandData: {}
-})
-console.log(`track: `, track)
+// const track = new Track({
+//   commandData: {}
+// })
+// console.log(`track: `, track)
 
 
 ReactDOM.render(<App />, document.getElementById('root'));
