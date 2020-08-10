@@ -3,14 +3,16 @@ import { OneLogType } from '../../LogType';
 import styles from './index.module.scss';
 import classnames from 'classnames';
 import { markdown } from 'markdown';
-import { Input, Button, Icon, message } from 'antd';
+import { SaveOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
+import { Input, Button, message } from 'antd';
 import { modifyLogCont } from '@/client/LogHelper';
 import mdStyle from '../mdShower.module.scss';
 
 interface PropsType {
   logdata: OneLogType;
   getLogContData: Function;
-};
+}
 
 const LogContEditByMD: React.FC<PropsType> = (props) => {
   const {
@@ -20,10 +22,10 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
 
   const { TextArea } = Input;
 
-  const [title, setTitle] = useState();
-  const [author, setAuthor] = useState();
+  const [title, setTitle] = useState<string>();
+  const [author, setAuthor] = useState<string>();
   const [markString, setMarkString] = useState('');
-  const [markHtml, setMarkHtml] = useState();
+  const [markHtml, setMarkHtml] = useState<any>();
 
   const [isTitleChange, setIsTitleChange] = useState(false);
   const [isAuthorChange, setIsAuthorChange] = useState(false);
@@ -134,7 +136,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
         </>
       }
     </div>
-  )
+  );
 };
 
 export default LogContEditByMD;

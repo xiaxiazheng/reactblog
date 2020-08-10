@@ -4,31 +4,37 @@ import {
   getAllLogTags,
   getShowLogTags,
   updateTag,
-  deleteTag
+  deleteTag,
 } from "@/client/TagHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogContext } from "../LogContext";
-import { message, Modal, Icon, Button } from "antd";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Icon } from "@ant-design/compatible";
+import { message, Modal, Button } from "antd";
 import { addTag } from "@/client/TagHelper";
-import { UserContext } from "@/context/UserContext"
+import { UserContext } from "@/context/UserContext";
 
 interface TagType {
   tag_id: string;
   tag_name: string;
-  count: number
+  count: number;
 }
 
 const { confirm } = Modal;
 
-interface PropsType {
-}
+interface PropsType {}
 
-const TagList: React.FC<PropsType> = props => {
+const TagList: React.FC<PropsType> = (props) => {
   const { isLogin } = useContext(IsLoginContext);
-  const { username } = useContext(UserContext)
-  const { activeTag, setActiveTag, tagList, setTagList, isUpdateTag, setIsUpdateTag } = useContext(
-    LogContext
-  );
+  const { username } = useContext(UserContext);
+  const {
+    activeTag,
+    setActiveTag,
+    tagList,
+    setTagList,
+    isUpdateTag,
+    setIsUpdateTag,
+  } = useContext(LogContext);
 
   const [loading, setLoading] = useState(true);
   const getTagData = async () => {
@@ -49,10 +55,10 @@ const TagList: React.FC<PropsType> = props => {
   useEffect(() => {
     if (isUpdateTag) {
       getTagData();
-      setIsUpdateTag(false)
+      setIsUpdateTag(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdateTag])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateTag]);
 
   useEffect(() => {
     getTagData();
@@ -68,7 +74,7 @@ const TagList: React.FC<PropsType> = props => {
     const name = prompt(`请输入新增的 tag 的名称`, "new tag");
     if (name && name !== "") {
       const params = {
-        tag_name: name
+        tag_name: name,
       };
       const res = await addTag(params);
       if (res) {
@@ -89,7 +95,7 @@ const TagList: React.FC<PropsType> = props => {
     if (name && name !== "") {
       const params = {
         tag_id: id,
-        tag_name: name
+        tag_name: name,
       };
       const res = await updateTag(params);
       if (res) {
@@ -110,7 +116,7 @@ const TagList: React.FC<PropsType> = props => {
       cancelText: "No",
       onOk: async () => {
         const params = {
-          tag_id
+          tag_id,
         };
         const res = await deleteTag(params);
         if (res) {
@@ -122,7 +128,7 @@ const TagList: React.FC<PropsType> = props => {
       },
       onCancel() {
         message.info("已取消删除", 1);
-      }
+      },
     });
   };
 
@@ -140,7 +146,7 @@ const TagList: React.FC<PropsType> = props => {
                 activeTag === item.tag_id ? styles.active : ""
               }`}
               onClick={choiceTag.bind(null, item.tag_id)}
-              onMouseEnter={e => {
+              onMouseEnter={(e) => {
                 e.stopPropagation();
                 editting_id !== item.tag_id && setEditting_id(item.tag_id);
               }}
@@ -148,7 +154,8 @@ const TagList: React.FC<PropsType> = props => {
               {
                 <div className={styles.allIconBox}>
                   {/* tag name */}
-                  <span>{item.tag_name} ({item.count})
+                  <span>
+                    {item.tag_name} ({item.count})
                   </span>
                   {/* 工具们 */}
                   {isLogin &&
@@ -156,13 +163,12 @@ const TagList: React.FC<PropsType> = props => {
                     editting_id === item.tag_id && (
                       <div
                         className={styles.iconsBox}
-                        onClick={e => e.stopPropagation()}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <Icon
                           className={styles.treenodeIcon}
                           title="编辑名称"
-                          type="edit"
-                          onClick={e => {
+                          onClick={(e) => {
                             e.preventDefault();
                             editTag(item.tag_id, item.tag_name);
                           }}
@@ -170,8 +176,7 @@ const TagList: React.FC<PropsType> = props => {
                         <Icon
                           className={styles.treenodeIcon}
                           title="删除节点"
-                          type="delete"
-                          onClick={e => {
+                          onClick={(e) => {
                             e.preventDefault();
                             removeTag(item.tag_id, item.tag_name);
                           }}

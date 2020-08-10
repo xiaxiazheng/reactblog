@@ -30,8 +30,8 @@ module.exports = {
       //   new CompressionPlugin()
       // ),
       addWebpackAlias({
-        ['@']: path.resolve(__dirname, 'src'),
-        ['@ant-design/icons/lib/dist$']: path.resolve(__dirname, 'src/assets/antdIcon.ts')
+        ['@']: path.resolve(__dirname, 'src')
+        // ['@ant-design/icons/lib/dist$']: path.resolve(__dirname, 'src/assets/antdIcon.ts')
       }),
       fixBabelImports('import', {
         libraryName: 'antd',

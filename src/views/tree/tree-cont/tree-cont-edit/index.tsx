@@ -12,7 +12,15 @@ import {
   addNodeCont
 } from "@/client/TreeContHelper";
 import { staticUrl } from "@/env_config";
-import { Input, Button, message, Icon, Modal } from "antd";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  DeleteOutlined,
+  FileAddOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
+import { Input, Button, message, Modal } from "antd";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
 

@@ -6,7 +6,17 @@ import {
   changeSort,
   updateIsShow
 } from "@/client/TreeHelper";
-import { Icon, message, Modal } from "antd";
+import { Icon } from '@ant-design/compatible'
+
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  RocketOutlined,
+} from '@ant-design/icons';
+
+import { message, Modal } from "antd";
 import { IsLoginContext } from "@/context/IsLoginContext";
 // import { match } from 'react-router';
 import { TreeContext } from "../../TreeContext";
@@ -275,7 +285,6 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
                 <Icon
                   className={styles.treenodeIcon}
                   title="更换父节点"
-                  type="rocket"
                   onClick={() => {
                     openShuttle && openShuttle(id, label, fatherId || "");
                   }}

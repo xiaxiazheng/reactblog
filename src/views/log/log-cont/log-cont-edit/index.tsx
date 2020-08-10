@@ -1,5 +1,7 @@
 import React from 'react';
-import { Input, Button, message, Icon } from 'antd';
+import { SaveOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/compatible'
+import { Input, Button, message } from 'antd';
 import { OneLogType } from '../../LogType';
 import { modifyLogCont } from '@/client/LogHelper';
 import './index.scss';
@@ -9,7 +11,7 @@ import { staticUrl } from '@/env_config';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 // 富文本编辑器及图片拉伸
-import ReactQuill, { Quill } from 'react-quill'; 
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
@@ -18,7 +20,7 @@ interface PropsType {
   logdata: OneLogType;
   getLogContData: Function;  // 重新获取整个日志信息
   getImageList: Function;  // 只重新获取日志图片列表
-};
+}
 
 class LogContEdit extends React.Component<PropsType> {
   state = {
@@ -205,8 +207,8 @@ class LogContEdit extends React.Component<PropsType> {
           </div>
         </div>
       </div>
-    )
+    );
   }
-};
+}
 
 export default LogContEdit;
