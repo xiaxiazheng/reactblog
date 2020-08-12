@@ -167,6 +167,7 @@ const TagList: React.FC<PropsType> = (props) => {
                       >
                         <Icon
                           className={styles.treenodeIcon}
+                          type="edit"
                           title="编辑名称"
                           onClick={(e) => {
                             e.preventDefault();
@@ -175,6 +176,7 @@ const TagList: React.FC<PropsType> = (props) => {
                         />
                         <Icon
                           className={styles.treenodeIcon}
+                          type="delete"
                           title="删除节点"
                           onClick={(e) => {
                             e.preventDefault();

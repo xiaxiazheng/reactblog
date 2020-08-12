@@ -31,7 +31,6 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "commitmsg": "validate-commit-msg",
     "start": "react-app-rewired start",
     "startLocal": "(set REACT_APP_IS_LocalHost=yes) && react-app-rewired start",
     "build": "react-app-rewired build",
@@ -68,5 +67,10 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "validate-commit-msg": "^2.14.0",
     "webpack-bundle-analyzer": "^3.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "validate-commit-msg"
+    }
   }
 }

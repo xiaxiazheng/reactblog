@@ -23,7 +23,6 @@ const AdminRouterView: React.FC<PropsType> = ({
   component: Component,
   ...rest
 }) => {
-
   return (
     <>
       <div className={styles.RouterHead}>

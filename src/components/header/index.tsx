@@ -110,7 +110,7 @@ const Header: React.FC<PropsType> = (props) => {
   };
 
   const jumpToLogin = () => {
-    history.push({
+    history.replace({
       pathname: "/login",
       state: {
         from: location.pathname,

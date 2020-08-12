@@ -7,10 +7,13 @@ import './index.d';
 // import Track from '@xiao-edu/track'
 
 // const track = new Track({
-//   commandData: {}
+//   commonData: {
+//     module: 'bi',
+//     project_type: 4,
+//     env: 1
+//   }
 // })
 // console.log(`track: `, track)
-
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

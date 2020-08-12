@@ -4,8 +4,6 @@ let url: string = `${host}`;
 export const cdnUrl = 'http://cdn.xiaxiazheng.cn';
 const staticurl = `${host}:2333`
 
-console.log(`process.env.REACT_APP_IS_LocalHost: `, process.env.REACT_APP_IS_LocalHost)
-
 // 接本地后台 300 接口
 if (process.env.REACT_APP_IS_LocalHost && process.env.REACT_APP_IS_LocalHost === "yes") {
   host = "http://localhost";
