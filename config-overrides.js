@@ -20,9 +20,9 @@ module.exports = {
         'highlight.js': 'hljs',
         'quill': 'Quill',
       }),
-      addWebpackPlugin(
-        new HelloWorldPlugin({ options: true })
-      ),
+      // addWebpackPlugin(
+      //   new HelloWorldPlugin({ options: true })
+      // ),
       // addWebpackPlugin(
       //   new BundleAnalyzerPlugin(),
       // ),
