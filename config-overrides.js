@@ -1,4 +1,5 @@
 const path = require('path');
+const HelloWorldPlugin = require('./webpackPlugin/HelloWorldPlugin.ts')
 
 const {
   override,
@@ -19,6 +20,9 @@ module.exports = {
         'highlight.js': 'hljs',
         'quill': 'Quill',
       }),
+      addWebpackPlugin(
+        new HelloWorldPlugin({ options: true })
+      ),
       // addWebpackPlugin(
       //   new BundleAnalyzerPlugin(),
       // ),
