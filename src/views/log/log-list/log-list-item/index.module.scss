@@ -15,12 +15,12 @@
     margin: 7px 0;
     .tag {
       margin-left: 1rem;
-      padding: 0px 5px;
+      padding: 0px 5px 1px;
       font-size: .6rem;
       font-weight: normal;
       color: var(--color);
       border: 1px solid var(--border_color);
-      border-radius: 8px;
+      border-radius: 3px;
       &:first-child {
         margin-left: 0;
       }
@@ -33,6 +33,12 @@
     margin-bottom: 5px;
     font-size: 10px;
     color: var(--color);
+  }
+  .orderbyTime {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .logOperateBox {
     margin-top: 5px;

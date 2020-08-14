@@ -6,6 +6,7 @@
   background-color: var(--bg_color);
   color: var(--color);
   .logLeft {
+    position: relative;
     width: 17%;
     height: 100%;
     border-right: 1px solid var(--border_color);

@@ -57,8 +57,9 @@
     width: calc(20% - 1.2rem);
     vertical-align: middle;
     max-width: 300px;
-    min-width: 200px;
-    height: 170px;
+    min-width: 250px;
+    height: 23%;
+    min-height: 163px;
     margin: .6rem .6rem;
     padding: 0.5rem 1rem;
     border-radius: 3px;
@@ -114,8 +115,13 @@
   }
   :global {
     .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
-    .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+    .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis,
+    .ant-pagination-total-text {
       color: var(--color);
+    }
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+      background-color: var(--bg_color);
     }
     .ant-pagination-options-size-changer.ant-select {
       margin-right: 0;

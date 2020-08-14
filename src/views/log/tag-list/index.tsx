@@ -13,6 +13,7 @@ import { Icon } from "@ant-design/compatible";
 import { message, Modal, Button } from "antd";
 import { addTag } from "@/client/TagHelper";
 import { UserContext } from "@/context/UserContext";
+import Loading from "@/components/loading";
 
 interface TagType {
   tag_id: string;
@@ -137,7 +138,7 @@ const TagList: React.FC<PropsType> = (props) => {
   return (
     <div className={`${styles.wrapper}`}>
       <div className={`${styles.tagList} ScrollBar`}>
-        {loading && <div>loading...</div>}
+        {loading && <Loading />}
         {tagList &&
           tagList.map((item: TagType) => (
             <span
