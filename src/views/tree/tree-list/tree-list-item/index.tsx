@@ -285,6 +285,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
                 <Icon
                   className={styles.treenodeIcon}
                   title="更换父节点"
+                  type="rocket"
                   onClick={() => {
                     openShuttle && openShuttle(id, label, fatherId || "");
                   }}
