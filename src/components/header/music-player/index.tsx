@@ -209,22 +209,25 @@ const Music: React.FC = () => {
           {active ? active.key : ""}
         </span>
         <Icon
+          type="redo"
           className={`${styles.playIcon} ${isOneCircle ? styles.active : ""}`}
           title={"单曲循环"}
           onClick={() => setIsOneCircle(!isOneCircle)}
         />
         <Icon
+          type="arrow-left"
           className={styles.playIcon}
           title={`上一首：${getBeforeSong()}`}
           onClick={playBeforeSong}
         />
         <Icon
-          className={styles.playIcon}
           type="unordered-list"
+          className={styles.playIcon}
           title={`歌曲列表`}
           onClick={showSongList}
         />
         <Icon
+          type="arrow-right"
           className={styles.playIcon}
           title={`下一首：${getAfterSong()}`}
           onClick={playAfterSong}

@@ -250,6 +250,7 @@ const TreeMenu: React.FC<PropsType> = props => {
           <Menu.Item>
             <Icon
               className={styles.addRootTreenode}
+              type="plus-circle"
               title="新增首位一级节点"
               onClick={() => addNewTreeNode("front", "level1")}
             />
@@ -292,6 +293,7 @@ const TreeMenu: React.FC<PropsType> = props => {
                 <Menu.Item>
                   <Icon
                     className={styles.addRootTreenode}
+                    type="plus-circle"
                     title="新增首位二级节点"
                     onClick={() =>
                       addNewTreeNode(
@@ -359,6 +361,7 @@ const TreeMenu: React.FC<PropsType> = props => {
                 <Menu.Item>
                   <Icon
                     className={styles.addRootTreenode}
+                    type="plus-square"
                     title="新增末位二级节点"
                     onClick={() =>
                       addNewTreeNode(
@@ -381,6 +384,7 @@ const TreeMenu: React.FC<PropsType> = props => {
           <Menu.Item>
             <Icon
               className={styles.addRootTreenode}
+              type="plus-square"
               title="新增末位根节点"
               onClick={() => addNewTreeNode("behind", "level1")}
             />
