@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./index.module.scss";
 // import { withRouter, match } from 'react-router';
 // import { History, Location } from 'history';
@@ -12,13 +12,6 @@ import {
   addNodeCont
 } from "@/client/TreeContHelper";
 import { staticUrl } from "@/env_config";
-import {
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  DeleteOutlined,
-  FileAddOutlined,
-  SaveOutlined,
-} from '@ant-design/icons';
 import { Icon } from '@ant-design/compatible'
 import { Input, Button, message, Modal } from "antd";
 import ImageBox from "@/components/image-box";
@@ -50,6 +43,8 @@ interface TreeContType {
 
 const TreeContEdit: React.FC<PropsType> = props => {
   const { match, first_id, second_id } = props;
+
+  const scrollWrapper = useRef<any>(null)
 
   const { TextArea } = Input;
 
@@ -249,6 +244,15 @@ const TreeContEdit: React.FC<PropsType> = props => {
     );
   };
 
+  const scrollTo = (type: 'top' | 'bottom') => {
+    scrollWrapper.current.scroll({
+      left: 0,
+      top: type === 'top' ? 0 : Number.MAX_SAFE_INTEGER,
+      behavior: 'smooth'
+    })
+    // scrollWrapper.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
+  }
+
   return (
     <div className={styles.treecontedit}>
       {isLoading && (
@@ -256,7 +260,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
           <Loading />
         </div>
       )}
-      <div className={`${styles.treeconteditWrapper} ScrollBar`}>
+      <div className={`${styles.treeconteditWrapper} ScrollBar`} ref={scrollWrapper}>
         <h2 className={styles.treecontTitle}>{title}</h2>
         {contList.map((item, index) => {
           return (
@@ -343,6 +347,26 @@ const TreeContEdit: React.FC<PropsType> = props => {
         icon="save"
         size="large"
         onClick={saveTreeCont}
+      />
+      {/* 回到顶部 */}
+      <Button
+        className={styles.scrollToTop}
+        title="回到顶部"
+        type="primary"
+        shape="circle"
+        icon="vertical-align-top"
+        size="large"
+        onClick={scrollTo.bind(null, 'top')}
+      />
+      {/* 回到底部 */}
+      <Button
+        className={styles.scrollToBottom}
+        title="回到底部"
+        type="primary"
+        shape="circle"
+        icon="vertical-align-bottom"
+        size="large"
+        onClick={scrollTo.bind(null, 'bottom')}
       />
     </div>
   );

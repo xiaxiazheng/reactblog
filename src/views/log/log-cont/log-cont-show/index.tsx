@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { OneLogType } from "../../LogType";
 import styles from "./index.module.scss";
 import { getLogCont } from "@/client/LogHelper";
@@ -12,6 +12,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import { markdown } from "markdown";
 import mdStyle from "../mdShower.module.scss";
+import { Button } from 'antd'
 
 interface PropsType {
   log_id: string;
@@ -20,6 +21,8 @@ interface PropsType {
 const LogContShow: React.FC<PropsType> = ({ log_id }) => {
   const [edittype, setEdittype] = useState<"richtext" | "markdown">("richtext");
   const [loading, setLoading] = useState(true);
+
+  const logcontShowWrapper = useRef<any>(null)
 
   // 编辑器配置
   const modules: any = {
@@ -60,8 +63,17 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
     ScrollBar: true,
   });
 
+  const scrollTo = (type: 'top' | 'bottom') => {
+    logcontShowWrapper.current.scroll({
+      left: 0,
+      top: type === 'top' ? 0 : Number.MAX_SAFE_INTEGER,
+      behavior: 'smooth'
+    })
+    // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
+  }
+
   return (
-    <div className={className}>
+    <div className={className} ref={logcontShowWrapper}>
       {loading ? (
         <Loading />
       ) : (
@@ -98,6 +110,26 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
           </>
         )
       )}
+      {/* 回到顶部 */}
+      <Button
+        className={styles.scrollToTop}
+        title="回到顶部"
+        type="primary"
+        shape="circle"
+        icon="vertical-align-top"
+        size="large"
+        onClick={scrollTo.bind(null, 'top')}
+      />
+      {/* 回到底部 */}
+      <Button
+        className={styles.scrollToBottom}
+        title="回到底部"
+        type="primary"
+        shape="circle"
+        icon="vertical-align-bottom"
+        size="large"
+        onClick={scrollTo.bind(null, 'bottom')}
+      />
     </div>
   );
 };

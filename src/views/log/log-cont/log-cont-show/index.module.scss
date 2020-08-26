@@ -40,4 +40,18 @@
     vertical-align: top;
     box-sizing: border-box;
   }
+  
+  .scrollToTop {
+    position: fixed;
+    right: 2.5rem;
+    bottom: 5rem;
+    opacity: 0.6;
+  }
+
+  .scrollToBottom {
+    position: fixed;
+    right: 2.5rem;
+    bottom: 2rem;
+    opacity: 0.6;
+  }
 }
