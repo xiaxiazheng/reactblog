@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { SearchOutlined } from "@ant-design/icons";
 import { Icon } from "@ant-design/compatible";
 import { Input, Pagination, Checkbox, Select } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -22,7 +21,7 @@ const LogList: React.FC<PropsType> = (props) => {
 
   const [loading, setLoading] = useState(true);
 
-  const { tabsState, setTabsState, activeTag } = useContext<LogContextType>(
+  const { tabsState, setTabsState, activeTag, isTagChange, setIsTagChange } = useContext<LogContextType>(
     LogContext
   );
   // 展开方便用
@@ -43,7 +42,7 @@ const LogList: React.FC<PropsType> = (props) => {
 
   // 切换 activeTag 的时候，pageNo 要重置为 1
   useEffect(() => {
-    if (activeTag || activeTag === "") {
+    if (isTagChange) {
       if (pageNo === 1) {
         getLogList();
       } else {
@@ -52,9 +51,10 @@ const LogList: React.FC<PropsType> = (props) => {
           pageNo: 1,
         });
       }
+      setIsTagChange(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTag]);
+  }, [isTagChange]);
 
   useEffect(() => {
     getLogList();

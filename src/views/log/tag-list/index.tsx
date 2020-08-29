@@ -31,6 +31,7 @@ const TagList: React.FC<PropsType> = (props) => {
   const {
     activeTag,
     setActiveTag,
+    setIsTagChange,
     tagList,
     setTagList,
     isUpdateTag,
@@ -69,6 +70,7 @@ const TagList: React.FC<PropsType> = (props) => {
   /** 选中 tag */
   const choiceTag = (tag_id: string) => {
     setActiveTag(tag_id === activeTag ? "" : tag_id);
+    setIsTagChange(true)
   };
 
   const createTag = async () => {

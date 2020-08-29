@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './index.module.scss';
 import { getLogCont } from '@/client/LogHelper';
-import { LeftOutlined } from '@ant-design/icons';
 import { Icon } from '@ant-design/compatible'
 import { Button, Switch } from 'antd';
 import { withRouter, RouteComponentProps, match } from 'react-router-dom';
