@@ -83,10 +83,12 @@ const LogList: React.FC<PropsType> = (props) => {
       } else if (showVisible) {
         // 仅显示可见
         params.isVisible = true;
+        params.username = username;
         res = await getLogListIsVisible(params);
       } else if (showInvisible) {
         // 仅显示不可见
         params.isVisible = false;
+        params.username = username;
         res = await getLogListIsVisible(params);
       }
     } else {
