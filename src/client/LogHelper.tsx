@@ -26,6 +26,11 @@ export async function getLogCont(id: string): Promise<any> {
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
+export async function addVisits(params: any): Promise<any> {
+  const data = await postHelper(`/addVisits`, params);
+  return data && data.resultsCode === 'success' ? data.data : false;
+}
+
 export async function addLogCont(params: any): Promise<boolean> {
   const data = await postHelper(`/addlogcont`, params);
   return data && data.resultsCode === 'success' ? data.data : false;

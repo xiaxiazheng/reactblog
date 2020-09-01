@@ -221,6 +221,7 @@ const LogList: React.FC<PropsType> = (props) => {
           <Select.Option value="modify">按修改时间</Select.Option>
           <Select.Option value="letter">首字母升序</Select.Option>
           <Select.Option value="letterDesc">首字母降序</Select.Option>
+          <Select.Option value="visits">按访问量</Select.Option>
         </Select>
         {/* 显示条件 */}
         {isLogin && (
