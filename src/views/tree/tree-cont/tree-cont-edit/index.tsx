@@ -53,7 +53,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getTreeCont();
+    second_id && getTreeCont();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [second_id]);
 
