@@ -12,6 +12,7 @@ export interface LogListType {
     tag_id: string;
     tag_name: string;
   }[];
+  visits: number;
 };
 
 // 单篇日志用到的日志数据，比列表多一个具体内容和图片
