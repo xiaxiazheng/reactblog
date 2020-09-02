@@ -13,8 +13,8 @@ interface TabsStateType {
   showVisible: boolean
   /** 不可见 */
   showInvisible: boolean
-  /** 未分类 */
-  showNotClassify: boolean
+  /** 未设置 tag */
+  showNotTag: boolean
 }
 
 export const LogProvider: React.FC = props => {
@@ -26,14 +26,14 @@ export const LogProvider: React.FC = props => {
     orderBy: 'modify',
     showVisible: true,
     showInvisible: true,
-    showNotClassify: false
+    showNotTag: false
   });
 
   const [activeTag, setActiveTag] = useState<string>()
   const [isTagChange, setIsTagChange] = useState<boolean>(false)
   const [tagList, setTagList] = useState([])
   // 记录 loglist 那边是否更新了 tag（修改log的tag或者删除log都要改变状态）
-  const [ isUpdateTag, setIsUpdateTag ] = useState(false)
+  const [isUpdateTag, setIsUpdateTag] = useState(false)
   
   return (
     <LogContext.Provider

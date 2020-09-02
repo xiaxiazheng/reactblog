@@ -32,7 +32,7 @@ const LogList: React.FC<PropsType> = (props) => {
     orderBy,
     showVisible,
     showInvisible,
-    showNotClassify,
+    showNotTag
   } = tabsState;
 
   const [logListData, setLogListData] = useState({
@@ -70,8 +70,11 @@ const LogList: React.FC<PropsType> = (props) => {
       pageSize: pageSize,
       orderBy: orderBy,
       keyword: keyword || "",
-      activeTag: activeTag || "",
+      activeTag: activeTag || ""
     };
+    if (showNotTag) {
+      params.showNotTag = true
+    }
     let res = {
       list: [],
       total: 0,
@@ -173,11 +176,11 @@ const LogList: React.FC<PropsType> = (props) => {
     });
   };
 
-  // 处理未分类
-  const handleNotClassify = () => {
+  // 处理未设置 tag
+  const handleNotTag = () => {
     setTabsState({
       ...tabsState,
-      showNotClassify: !showNotClassify,
+      showNotTag: !showNotTag,
       pageNo: 1,
     });
   };
@@ -245,8 +248,8 @@ const LogList: React.FC<PropsType> = (props) => {
         {isLogin && (
           <Checkbox
             className={styles.checkBox}
-            checked={showNotClassify}
-            onChange={handleNotClassify}
+            checked={!showNotTag}
+            onChange={handleNotTag}
           >
             未设置 tag
           </Checkbox>
