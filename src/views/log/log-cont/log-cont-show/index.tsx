@@ -59,20 +59,31 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
             __html: markdown.toHTML(res.logcont),
           });
         }
-        // 统计访问量
-        setTimeout(async () => {
-          const res1 = await addVisits({
-            log_id: id,
-            visits: Number(res.visits),
-          });
-          isLogin && message.success(res1.message, 1);
-          setVisits(res1.data.visits);
-        }, 6000);
       }
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [log_id]);
+
+  // 统计访问量
+  useEffect(() => {
+    let visit: any;
+    if (logdata) {
+      visit = setTimeout(async () => {
+        const res1 = await addVisits({
+          log_id,
+          visits: Number(visits),
+        });
+        isLogin && message.success(res1.message, 1);
+        setVisits(res1.data.visits);
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(visit);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logdata]);
 
   const className = classnames({
     [styles.logcontShow]: true,
