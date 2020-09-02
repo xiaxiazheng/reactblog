@@ -71,12 +71,12 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
     if (logdata) {
       visit = setTimeout(async () => {
         const res1 = await addVisits({
-          log_id,
+          log_id: decodeURIComponent(atob(log_id)),
           visits: Number(visits),
         });
         isLogin && message.success(res1.message, 1);
         setVisits(res1.data.visits);
-      }, 3000);
+      }, 6000);
     }
 
     return () => {
