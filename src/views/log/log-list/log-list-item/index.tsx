@@ -138,9 +138,12 @@ const LogListItem: React.FC<PropsType> = (props) => {
       <div>
         <span className={styles.author}>{logItemData.author}</span>
         {isLogin && (
-          <span className={styles.editType}>
-            ({logItemData.edittype === "richtext" ? "富文本文档" : "markdown"})
-          </span>
+          <>
+            <span className={styles.editType}>
+              ({logItemData.edittype === "richtext" ? "富文本文档" : "markdown"})
+            </span>
+            <span className={styles.visits}>访问量：{logItemData.visits}</span>
+          </>
         )}
       </div>
       <span className={styles.orderbyTime}>
