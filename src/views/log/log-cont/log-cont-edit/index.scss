@@ -1,3 +1,5 @@
+@import '../rich.module.scss';
+
 .logcontedit {
   width: 80%;
   height: calc(100% - 2rem);
@@ -43,6 +45,14 @@
       }
       .ql-toolbar.ql-snow {
         background: rgba(255, 255, 255, 0.9);
+        .ql-formats {
+          color: black;
+          .header-icon {
+            font-size: 16px;
+            line-height: 1;
+            font-weight: 600;
+          }
+        }
       }
       .ql-container {
         width: 100%;
@@ -52,36 +62,14 @@
         img {
           max-width: 100%;
         }
+        // 富文本编辑器样式
         .ql-editor {
           width: 100%;
           height: 100%;
           overflow-y: auto;
-          h1, h2, h3, h4, h5, h6 {
-            color: var(--color);
-          }
-          blockquote {
-            font-size: 18px;
-          }
-          // 缩进
-          .ql-indent-1:not(.ql-direction-rtl) {
-            padding-left: 1rem;
-          }
-          .ql-indent-2:not(.ql-direction-rtl) {
-            padding-left: 2rem;
-          }
-          .ql-indent-3:not(.ql-direction-rtl) {
-            padding-left: 3rem;
-          }
-          .ql-indent-4:not(.ql-direction-rtl) {
-            padding-left: 4rem;
-          }
-          // 列表
-          ol, ul {
-            padding-left: 1rem;
-            li:not(.ql-direction-rtl)::before {
-              margin-right: .6rem;
-            }
-          }
+          // 公共的富文本展示样式
+          @extend %rich-common;
+          // 进度条
           & {
             display: inline-block;
             overflow: hidden;

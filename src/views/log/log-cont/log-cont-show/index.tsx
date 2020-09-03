@@ -41,7 +41,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
 
   const [logdata, setlogdata] = useState<OneLogType>();
   const [markdownHtml, setMarkdownHtml] = useState<any>();
-  const [visits, setVisits] = useState<Number>(0);
+  const [visits, setVisits] = useState<Number>();
 
   useEffect(() => {
     const getData = async () => {
@@ -49,8 +49,8 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
       let id = decodeURIComponent(atob(log_id));
       const res: OneLogType = await getLogCont(id);
       if (res) {
-        setlogdata(res);
         setVisits(res.visits);
+        setlogdata(res);
         setEdittype(res.edittype);
         setLoading(false);
 
@@ -106,15 +106,15 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
       ) : (
         logdata && (
           <>
-            <h2 className={styles.title}>{logdata.title}</h2>
-            <h3 className={styles.author}>{logdata.author}</h3>
+            <div className={styles.title}>{logdata.title}</div>
+            <div className={styles.author}>{logdata.author}</div>
             <div className={styles.time}>
               <span>创建时间: {logdata.cTime}</span>
               <span>修改时间: {logdata.mTime}</span>
               {isLogin && <span>访问量：{visits}</span>}
             </div>
             {
-              // 富文本
+              // 富文本展示
               edittype === "richtext" && (
                 <div className={styles.logcontEditor}>
                   <ReactQuill
@@ -127,7 +127,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
               )
             }
             {
-              // markdown
+              // markdown 展示
               edittype === "markdown" && (
                 <div
                   className={`${styles.markdownShower} ${mdStyle.markdownShower}`}

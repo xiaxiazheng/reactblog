@@ -15,6 +15,10 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
+const icons = Quill.import('ui/icons');
+icons['header']['2'] = `<span class="header-icon">H2</span>`
+icons['header']['3'] = `<span class="header-icon">H3</span>`
+icons['header']['4'] = `<span class="header-icon">H4</span>`
 
 interface PropsType {
   logdata: OneLogType;
@@ -53,7 +57,7 @@ class LogContEdit extends React.Component<PropsType> {
   toolbarOption: any = [
     ['code-block', 'blockquote'],
     ['bold', 'italic', 'underline', 'strike', 'clean'],
-    [{ 'header': 1 }, { 'header': 2 }],
+    [{ 'header': 2 }, { 'header': 3 }, { 'header': 4 }],
     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
     [{ 'indent': '-1' }, { 'indent': '+1' }],

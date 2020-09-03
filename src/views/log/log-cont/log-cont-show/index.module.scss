@@ -1,3 +1,5 @@
+@import '../rich.module.scss';
+
 .logcontShow {
   height: 100%;
   padding: 1rem calc(15% + 8px) 2rem;
@@ -5,9 +7,6 @@
   font-size: 16px;
   letter-spacing: 2px;
   color: var(--color);
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--color);
-  }
   .title {
     color: var(--color);
     font-weight: bold;
@@ -26,10 +25,12 @@
       margin: 0 3px;
     }
   }
+  // 富文本编辑器样式
   :global(.ql-container) {
     width: 100%;
     color: var(--color);
     font-size: 16px;
+    @extend %rich-common;
     img {
       max-width: 100%;
     }
