@@ -76,7 +76,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
         });
         isLogin && message.success(res1.message, 1);
         setVisits(res1.data.visits);
-      }, 6000);
+      }, 8000);
     }
 
     return () => {

@@ -88,17 +88,17 @@
     }
   }
 
+  // 滚动到顶部 or 底部
   .scrollToTop {
     position: fixed;
     right: 2.5rem;
-    bottom: 5rem;
+    top: calc(50% - 1.5rem);
     opacity: 0.6;
   }
-
   .scrollToBottom {
     position: fixed;
     right: 2.5rem;
-    bottom: 2rem;
+    top: calc(50% + 1.5rem);
     opacity: 0.6;
   }
 }
