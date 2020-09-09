@@ -78,7 +78,7 @@ const Video: React.FC = () => {
   };
 
   return (
-    <div className={styles.video}>
+    <div className={`${styles.video} ScrollBar`}>
       <div className={styles.tabs}>
         {["音乐", "视频"].map((item) => (
           <span

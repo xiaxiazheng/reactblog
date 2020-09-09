@@ -18,7 +18,8 @@
     overflow: hidden;
     >span {
       display: inline-block;
-      padding: 5px 35px;
+      width: 100px;
+      padding: 5px 0;
       cursor: pointer;
       &.active {
         color: white;
@@ -27,7 +28,7 @@
     }
   }
   .videoList {
-    width: 80%;
+    width: 77%;
     margin: 15px auto 5px;
     text-align: left;
     >span {

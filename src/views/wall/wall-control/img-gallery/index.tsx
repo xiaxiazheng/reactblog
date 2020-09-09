@@ -46,17 +46,21 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
 
   const { confirm } = Modal;
 
+  // 父文件夹的 id，如果是顶层则为空串
+  const [parentId, setParentId] = useState<string>("");
   // 文件夹列表
   const [folderList, setFolderList] = useState<FolderType[]>([]);
+  const [hoverFolder, setHoverFolder] = useState<FolderType>();
   // 图片列表
   const [imgList, setImgList] = useState<ImgType[]>([]);
 
   useEffect(() => {
-    const parentId = (match.params as any).parent_id || "";
+    const parent_id = (match.params as any).parent_id || "";
+    setParentId(parent_id);
     // 获取文件夹列表
-    getFolderList(parentId);
+    getFolderList(parent_id);
     // 获取图片列表
-    getImgList(parentId);
+    getImgList(parent_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match]);
 
@@ -100,7 +104,6 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
   const addAFolder = async () => {
     const name = prompt(`请输入新增的文件夹的名称`, "new folder");
     if (name && name !== "") {
-      const parentId = (match.params as any).parent_id || "";
       const params = {
         name,
         parent_id: parentId,
@@ -119,7 +122,6 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
   const editFolderName = async (oldName: string, folder_id: string) => {
     const name = prompt(`请输入新增的文件夹的名称`, oldName);
     if (name && name !== "") {
-      const parentId = (match.params as any).parent_id || "";
       const params = {
         name,
         folder_id,
@@ -144,9 +146,8 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
       okType: "danger",
       cancelText: "No",
       onOk: async () => {
-        const parentId = (match.params as any).parent_id || "";
         const params = {
-          folder_id
+          folder_id,
         };
         const res = await deleteFolder(params);
         if (res) {
@@ -164,14 +165,14 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
 
   return (
     <>
-      <div className={styles.addFolder} onClick={addAFolder}>
-        新增文件夹
-      </div>
-      {(match.params as any).parent_id && (
+      {parentId !== "" && (
         <div className={styles.goback} onClick={goback}>
-          返回上一层
+          <Icon type="arrow-up" />返回上一层
         </div>
       )}
+      <div className={styles.addFolder} onClick={addAFolder}>
+          <Icon type="folder-add" />新增文件夹
+      </div>
       <div className={styles.ImgGallery}>
         {/* 文件夹列表 */}
         {folderList.map((item) => {
@@ -180,32 +181,56 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
               key={item.folder_id}
               className={styles.folderBox}
               onDoubleClick={clickFolder.bind(null, item.folder_id)}
+              onMouseEnter={() => {
+                setHoverFolder(item);
+              }}
+              onMouseLeave={() => {
+                setHoverFolder(undefined);
+              }}
             >
-              <Icon className={styles.folderIcon} type="folder-open" />
+              <Icon
+                className={styles.folderIcon}
+                type={
+                  hoverFolder && hoverFolder.folder_id === item.folder_id
+                    ? "folder-open"
+                    : "folder"
+                }
+              />
               <div>{item.name}</div>
-              <div>
-                <Icon
-                  className={styles.icon}
-                  type="edit"
-                  title="编辑文件夹名称"
-                  onClick={editFolderName.bind(null, item.name, item.folder_id)}
-                />
-                <Icon
-                  className={styles.icon}
-                  type="delete"
-                  title="删除文件夹"
-                  onClick={deleteAFolder.bind(null, item.name, item.folder_id)}
-                />
-              </div>
+              {hoverFolder && hoverFolder.folder_id === item.folder_id && (
+                <div>
+                  <Icon
+                    className={styles.icon}
+                    type="edit"
+                    title="编辑文件夹名称"
+                    onClick={editFolderName.bind(
+                      null,
+                      item.name,
+                      item.folder_id
+                    )}
+                  />
+                  <Icon
+                    className={styles.icon}
+                    type="delete"
+                    title="删除文件夹"
+                    onClick={deleteAFolder.bind(
+                      null,
+                      item.name,
+                      item.folder_id
+                    )}
+                  />
+                </div>
+              )}
             </div>
           );
         })}
         {/* 图片列表 */}
         <ImageBox
+          otherId={parentId}
           type={"wall"}
           imageUrl=""
           imageMinUrl=""
-          initImgList={getImgList.bind(null, (match.params as any).parent_id)}
+          initImgList={getImgList.bind(null, parentId)}
         />
         {imgList.map((item: ImgType) => {
           return (
@@ -217,10 +242,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
               imageFileName={item.filename}
               imageUrl={item.imageUrl}
               imageMinUrl={item.imageMinUrl}
-              initImgList={getImgList.bind(
-                null,
-                (match.params as any).parent_id
-              )}
+              initImgList={getImgList.bind(null, parentId)}
             />
           );
         })}

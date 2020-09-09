@@ -30,7 +30,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
     imageName = "一张图片",
     imageFileName,
     imageUrl,
-    otherId,
+    otherId = '',
     imageMinUrl,
     initImgList,
     width = "170px",

@@ -9,7 +9,7 @@
   .tabs {
     position: fixed;
     top: 68px;
-    left: 2.5%;
+    left: 2%;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--color_active);
@@ -18,7 +18,8 @@
     overflow: hidden;
     >span {
       display: inline-block;
-      padding: 5px 35px;
+      width: 100px;
+      padding: 5px 0;
       cursor: pointer;
       &.active {
         color: white;

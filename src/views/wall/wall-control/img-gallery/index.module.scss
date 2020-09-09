@@ -11,6 +11,7 @@
     border: 1px solid var(--border_color);
     border-radius: 3px;
     text-align: center;
+    vertical-align: middle;
     cursor: pointer;
     &:hover {
       color: var(--color_active);
@@ -22,8 +23,9 @@
       font-size: 70px;
     }
     .icon {
-      margin: 0 10px;
-      font-size: 30px;
+      margin: 5px 10px 0;
+      color: var(--color);
+      font-size: 24px;
       &:hover {
         color: var(--color_active);
       }
@@ -31,14 +33,29 @@
   }
 }
 
-.addFolder {
+.addFolder, .goback {
   position: fixed;
-  top: 140px;
-  left: 1.5%;
+  left: 2%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color_active);
+  box-sizing: border-box;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100px;
+  padding: 7px 0 5px;
+  line-height: 1.7;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: var(--color_active);
+  }
+}
+
+.addFolder {
+  top: 150px;
 }
 
 .goback {
-  position: fixed;
-  top: 180px;
-  left: 1.5%;
+  top: 220px;
 }
