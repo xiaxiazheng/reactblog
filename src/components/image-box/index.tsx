@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Icon } from '@ant-design/compatible'
 import { message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
@@ -37,6 +37,23 @@ const ImageBox: React.FC<PropsType> = (props) => {
   } = props;
 
   const { confirm } = Modal;
+
+  // 图片的 ref，用于交叉观察
+  const imgRef: any = React.createRef()
+  // 交叉观察器加载图片
+  useEffect(() => {
+    let observer = new IntersectionObserver((entries) => {
+      entries.forEach((item) => {
+        if (item.isIntersecting) {
+          const img: any = item.target;
+          if (encodeURI(img["dataset"]["src"]) !== img["src"]) {
+            img["src"] = img["dataset"]["src"];
+          }
+        }
+      });
+    });
+    imgRef.current !== null && observer.observe(imgRef.current)
+  }, [imgRef]);
 
   // const [loading, setLoading] = useState(true);
   const [isHover, setIsHover] = useState(false);
@@ -140,7 +157,8 @@ const ImageBox: React.FC<PropsType> = (props) => {
             listType="picture-card"
             onChange={handleChange}
           >
-            <Icon type="plus" />
+            <Icon className={styles.addIcon} type="plus" />
+            点击上传图片
           </Upload>
         )
         // <UploadImage />
@@ -157,12 +175,13 @@ const ImageBox: React.FC<PropsType> = (props) => {
           <>
             {imageMinUrl && imageMinUrl !== "" ? (
               <img
+                ref={imgRef}
                 className={styles.shower}
                 onMouseEnter={(e) => {
                   e.stopPropagation();
                   setIsHover(true);
                 }}
-                src={imageMinUrl}
+                data-src={imageMinUrl}
                 alt={imageName}
               />
             ) : (

@@ -117,7 +117,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
   });
 
   // 保存所有图片的 ref
-  const [refMap, setResMap] = useState<any>({});
+  const [refMap, setRefMap] = useState<any>({});
   useEffect(() => {
     const map: any = {};
     contList.forEach((item) => {
@@ -126,7 +126,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
         map[imgId] = React.createRef();
       });
     });
-    setResMap(map);
+    setRefMap(map);
   }, [contList]);
 
   // 交叉观察器加载图片
@@ -179,6 +179,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                   className={styles.contitemCont}
                   dangerouslySetInnerHTML={{ __html: item.cont }}
                 ></div>
+                {/* 展示图片 */}
                 {item.imgList.length !== 0 &&
                   item.imgList.map((imgItem) => {
                     return (
