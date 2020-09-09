@@ -1,0 +1,44 @@
+.ImgGallery {
+  margin: 20px;
+  text-align: left;
+  .folderBox {
+    position: relative;
+    display: inline-block;
+    width: 170px;
+    height: 170px;
+    margin: 0 0 10px 10px;
+    color: var(--color);
+    border: 1px solid var(--border_color);
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      color: var(--color_active);
+      border-color: var(--color_active);
+    }
+    .folderIcon {
+      display: block;
+      margin: 35px auto 0;
+      font-size: 70px;
+    }
+    .icon {
+      margin: 0 10px;
+      font-size: 30px;
+      &:hover {
+        color: var(--color_active);
+      }
+    }
+  }
+}
+
+.addFolder {
+  position: fixed;
+  top: 140px;
+  left: 1.5%;
+}
+
+.goback {
+  position: fixed;
+  top: 180px;
+  left: 1.5%;
+}

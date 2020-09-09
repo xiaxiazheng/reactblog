@@ -65,6 +65,15 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [log_id]);
 
+  useEffect(() => {
+    if (logdata) {
+      // TODO，这里要获取所有的 <hX> 的标签内容，卡在了正则上面
+      // const cont: any = logdata.logcont;
+      // console.dir(cont)
+      // console.log(cont.matchAll(new RegExp(/<h/)))
+    }
+  }, [logdata])
+
   // 统计访问量
   useEffect(() => {
     let visit: any;

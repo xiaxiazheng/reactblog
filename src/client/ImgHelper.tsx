@@ -11,6 +11,11 @@ export async function getImgList (type: string, username: string): Promise<any[]
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 
+export async function getImgListByOtherId (otherId: string, username: string): Promise<any[]> {
+  const data = await getHelper(`/getImgListByOtherId?otherId=${otherId}&username=${username}`);
+  return data && data.resultsCode === 'success' ? data.data : [];
+}
+
 // 获取图片的所有类型
 export async function getImgTypeList (username: string): Promise<any[]> {
   const data = await getHelper(`/getImgTypeList?username=${username}`);

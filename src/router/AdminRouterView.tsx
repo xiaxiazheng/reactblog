@@ -46,7 +46,10 @@ const AdminRouterView: React.FC<PropsType> = ({
             <AuthRoute path="/admin/log" component={Log} />
           </Switch>
         </LogProvider>
-        <AuthRoute path="/admin/wall" component={Wall} />
+        <Switch>
+          <AuthRoute path="/admin/wall/:parent_id" component={Wall} />
+          <AuthRoute path="/admin/wall" component={Wall} />
+        </Switch>
         <AuthRoute path="/admin/media" component={Media} />
         <AuthRoute path="/admin/knn" component={Knn} />
       </div>
