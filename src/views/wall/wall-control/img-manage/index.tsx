@@ -28,6 +28,7 @@ const ImgManage: React.FC = () => {
   // 当前选择类型
   const [activeType, setActiveType] = useState<string>("");
 
+  // 图片数组
   const [wallList, setWallList] = useState<ImgType[]>([]);
   const { username } = useContext(UserContext);
 
@@ -42,8 +43,8 @@ const ImgManage: React.FC = () => {
   const getImageTypeList = async () => {
     const res = await getImgTypeList(username);
     if (res) {
-      setTypeList(['所有', ...res]);
-      res.length !== 0 && setActiveType('所有');
+      setTypeList(["所有", ...res]);
+      res.length !== 0 && setActiveType("所有");
     }
   };
 
@@ -72,39 +73,41 @@ const ImgManage: React.FC = () => {
     setLoading(false);
   };
 
-  return loading ? (
-    <Loading />
-  ) : (
-    <Tabs activeKey={activeType} onChange={(key) => setActiveType(key)}>
-      {typeList.map((item) => {
-        return (
-          <TabPane tab={<span>{item}</span>} key={item}>
-            <div className={styles.ImgManage}>
-              <ImageBox
-                type={activeType}
-                imageUrl=""
-                imageMinUrl=""
-                initImgList={getImageListByType.bind(null, activeType)}
-              />
-              {wallList.map((item: ImgType) => {
-                return (
-                  <ImageBox
-                    key={item.img_id}
-                    type={activeType}
-                    imageId={item.img_id}
-                    imageName={item.imgname}
-                    imageFileName={item.filename}
-                    imageUrl={item.imageUrl}
-                    imageMinUrl={item.imageMinUrl}
-                    initImgList={getImageListByType.bind(null, activeType)}
-                  />
-                );
-              })}
-            </div>
-          </TabPane>
-        );
-      })}
-    </Tabs>
+  return (
+    <>
+      <div className={styles.imgLength}>{!loading && <>共 {wallList.length} 张</>}</div>
+      <Tabs activeKey={activeType} onChange={(key) => setActiveType(key)}>
+        {typeList.map((item) => {
+          return (
+            <TabPane tab={<span>{item}</span>} key={item}>
+              {loading && <Loading />}
+              <div className={styles.ImgManage}>
+                <ImageBox
+                  type={activeType}
+                  imageUrl=""
+                  imageMinUrl=""
+                  initImgList={getImageListByType.bind(null, activeType)}
+                />
+                {wallList.map((item: ImgType) => {
+                  return (
+                    <ImageBox
+                      key={item.img_id}
+                      type={activeType}
+                      imageId={item.img_id}
+                      imageName={item.imgname}
+                      imageFileName={item.filename}
+                      imageUrl={item.imageUrl}
+                      imageMinUrl={item.imageMinUrl}
+                      initImgList={getImageListByType.bind(null, activeType)}
+                    />
+                  );
+                })}
+              </div>
+            </TabPane>
+          );
+        })}
+      </Tabs>
+    </>
   );
 };
 
