@@ -291,6 +291,14 @@ const TreeContEdit: React.FC<PropsType> = props => {
                 />
               </div>
               <div className={styles.contitemImg}>
+                <ImageBox
+                  otherId={item.cont_id}
+                  type="treecont"
+                  imageUrl=""
+                  imageMinUrl=""
+                  initImgList={getTreeCont}
+                  width="120px"
+                />
                 {item.imgList.map(jtem => {
                   return (
                     <ImageBox
@@ -306,14 +314,6 @@ const TreeContEdit: React.FC<PropsType> = props => {
                     />
                   );
                 })}
-                <ImageBox
-                  otherId={item.cont_id}
-                  type="treecont"
-                  imageUrl=""
-                  imageMinUrl=""
-                  initImgList={getTreeCont}
-                  width="120px"
-                />
               </div>
             </div>
           );

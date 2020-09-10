@@ -219,6 +219,14 @@ class LogContEdit extends React.Component<PropsType> {
           </div>
           {/* 图片列表 */}
           <div className="logcont-imgbox">
+            <ImageBox
+              otherId={this.props.logdata.log_id}
+              type="log"
+              imageUrl=""
+              imageMinUrl=""
+              initImgList={this.props.getImageList}
+              width="140px"
+            />
             {this.props.logdata.imgList.map((item) => {
               return (
                 <ImageBox
@@ -234,19 +242,11 @@ class LogContEdit extends React.Component<PropsType> {
                 />
               );
             })}
-            <ImageBox
-              otherId={this.props.logdata.log_id}
-              type="log"
-              imageUrl=""
-              imageMinUrl=""
-              initImgList={this.props.getImageList}
-              width="140px"
-            />
           </div>
         </div>
         {/* 回到顶部 */}
         <Button
-          className={'scrollToTop'}
+          className={"scrollToTop"}
           title="回到顶部"
           type="primary"
           shape="circle"
@@ -256,7 +256,7 @@ class LogContEdit extends React.Component<PropsType> {
         />
         {/* 回到底部 */}
         <Button
-          className={'scrollToBottom'}
+          className={"scrollToBottom"}
           title="回到底部"
           type="primary"
           shape="circle"

@@ -42,8 +42,8 @@ const ImgManage: React.FC = () => {
   const getImageTypeList = async () => {
     const res = await getImgTypeList(username);
     if (res) {
-      setTypeList(res);
-      res.length !== 0 && setActiveType(res[0]);
+      setTypeList(['所有', ...res]);
+      res.length !== 0 && setActiveType('所有');
     }
   };
 
