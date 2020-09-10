@@ -53,6 +53,8 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
   const [hoverFolder, setHoverFolder] = useState<FolderType>();
   // 图片列表
   const [imgList, setImgList] = useState<ImgType[]>([]);
+  
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const parent_id = (match.params as any).parent_id || "";
@@ -74,6 +76,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
 
   // 获取图片列表
   const getImgList = async (parent_id: string) => {
+    setLoading(true)
     const res = await getImgListByOtherId(parent_id, username);
     if (res) {
       const list: ImgType[] = [];
@@ -88,6 +91,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
       }
       setImgList(list);
     }
+    setLoading(false)
   };
 
   // 双击打开文件夹
@@ -173,7 +177,9 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
       <div className={styles.addFolder} onClick={addAFolder}>
           <Icon type="folder-add" />新增文件夹
       </div>
+      <div className={styles.imgLength}>{!loading && <>共 {imgList.length} 张图片</>}</div>
       <div className={styles.ImgGallery}>
+        {loading && <Loading />}
         {/* 文件夹列表 */}
         {folderList.map((item) => {
           return (

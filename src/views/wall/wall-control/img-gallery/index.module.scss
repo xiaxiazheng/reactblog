@@ -53,9 +53,19 @@
 }
 
 .addFolder {
-  top: 150px;
+  top: 170px;
 }
 
 .goback {
-  top: 220px;
+  top: 240px;
+}
+
+.imgLength {
+  position: fixed;
+  left: 2%;
+  top: 140px;
+  display: inline-block;
+  width: 100px;
+  border-radius: 4px;
+  text-align: center;
 }
