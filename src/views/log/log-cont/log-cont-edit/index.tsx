@@ -236,8 +236,8 @@ class LogContEdit extends React.Component<PropsType> {
                   imageName={item.imgname}
                   imageFileName={item.filename}
                   imageUrl={`${staticUrl}/img/log/${item.filename}`}
-                  imageMinUrl={`${staticUrl}/min-img/${item.filename}`}
-                  initImgList={this.props.getImageList}
+                  imageMinUrl={item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''}
+                  initImgList={this.props.getImageList} 
                   width="140px"
                 />
               );
