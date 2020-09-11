@@ -182,6 +182,10 @@ const Header: React.FC<PropsType> = (props) => {
             <Icon type="book" className={styles.headerIcon} />
             <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
           </Menu.Item>
+          <Menu.Item key="maopu">
+            <Icon type="cat" className={styles.headerIcon} />
+            <Link to={isLogin ? "/admin/maopu" : "/maopu"}>猫谱</Link>
+          </Menu.Item>
           {/* <Menu.Item key="github">
             <Icon type="github" className={styles.headerIcon} />
             <span>github</span>
