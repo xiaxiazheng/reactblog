@@ -18,6 +18,7 @@ interface ImgType {
 }
 
 interface Mao {
+  appearance: string;
   birthday: string;
   description: string;
   father: string;
@@ -83,6 +84,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         <div>{mao.birthday}</div>
         <div>{mao.description}</div>
         <div>{mao.father}</div>
+        <div>{mao.appearance}</div>
         <div>{mao.feature}</div>
         <div>{mao.head_img_id}</div>
         <div>{mao.mao_id}</div>
