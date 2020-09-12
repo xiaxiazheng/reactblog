@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { getImgList, getImgTypeList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
@@ -80,7 +79,12 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
     const res = await getImgListByOtherId(parent_id, username);
     if (res) {
       const list: ImgType[] = [];
-      for (let item of res) {
+      let resList = [...res]
+      // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 wall 的
+      if (parent_id === '') {
+        resList = resList.filter(item => item.type === 'wall')
+      }
+      for (let item of resList) {
         // 拼好 img 的 url
         list.push({
           ...item,
