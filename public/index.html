@@ -31,15 +31,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>
-      虾虾郑的个人网站
-    </title>
+    <title>虾虾郑的个人网站</title>
     <!-- 自己尝试的埋点 -->
     <script>
       (function () {
         var hm = document.createElement("script");
         hm.src = "%PUBLIC_URL%/track.js";
-        hm.type = "text/javascript"
+        hm.type = "text/javascript";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
       })();
@@ -54,6 +52,25 @@
         s.parentNode.insertBefore(hm, s);
       })();
     </script> -->
+    <!-- 这里会从inject/index.js导出的内容来注入 -->
+    <script type="text/x-template" id="injectTpl">
+      <%= htmlWebpackPlugin.options.injectObj %>
+    </script>
+    <script id="injectLog">
+      ;(function() {
+        try {
+          const injectObj = eval((function() { return <%= htmlWebpackPlugin.options.injectObj %> })())
+          window.injectObj = injectObj
+          const isProd=/bi\./ig.test(location.origin)
+          isProd&&console.log("%c buildTime: %c " + injectObj.buildTime + " %c",
+           "background:#909399 ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff",
+           "background:#409eff ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff",
+           "background:transparent");
+        } catch (e) {
+          console.log('injectObj未成功注入！', e);
+        }
+      })()
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
