@@ -15,6 +15,8 @@ import { markdown } from "markdown";
 import mdStyle from "../mdShower.module.scss";
 import { Button, message } from "antd";
 import { addVisits } from "@/client/LogHelper";
+import logCont from "..";
+import LogContMao from "../log-cont-mao";
 
 interface PropsType {
   log_id: string;
@@ -72,7 +74,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
       // console.dir(cont)
       // console.log(cont.matchAll(new RegExp(/<h/)))
     }
-  }, [logdata])
+  }, [logdata]);
 
   // 统计访问量
   useEffect(() => {
@@ -167,6 +169,8 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
         size="large"
         onClick={scrollTo.bind(null, "bottom")}
       />
+      {/* 锚点 */}
+      {logdata && <LogContMao logcont={logdata.logcont} />}
     </div>
   );
 };

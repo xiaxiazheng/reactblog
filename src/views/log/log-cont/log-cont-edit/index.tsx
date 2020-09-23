@@ -6,6 +6,7 @@ import { modifyLogCont } from "@/client/LogHelper";
 import "./index.scss";
 import ImageBox from "@/components/image-box";
 import { staticUrl } from "@/env_config";
+import LogContMao from '../log-cont-mao'
 // 代码高亮
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css";
@@ -264,6 +265,8 @@ class LogContEdit extends React.Component<PropsType> {
           size="large"
           onClick={this.scrollTo.bind(null, "bottom")}
         />
+        {/* 锚点，有点小问题 */}
+        {/* <LogContMao logcont={this.state.logcont} /> */}
       </div>
     );
   }
