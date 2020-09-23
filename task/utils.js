@@ -4,7 +4,7 @@ const axios = require('axios')
 const fse = require('fs-extra')
 const unzip = require('unzipper')
 const globby = require('globby')
-const shell = require('shelljs')
+const shelljs = require('shelljs')
 const cash = require('cash')
 const cp = require('child_process')
 
@@ -126,11 +126,11 @@ function execSync(cmd, options = {}) {
 
 function shellExec(cmd, options = { exitIfError: true }) {
   logger.waiting(`正在执行命令: `, cmd)
-  if (shell.exec(cmd, options).code !== 0) {
+  if (shelljs.exec(cmd, options).code !== 0) {
     logger.error(`执行命令失败: `, cmd)
     if (options.exitIfError) {
       logger.error(`执行命令失败: `, cmd, ` 不会再继续向下运行`)
-      shell.exit(1)
+      shelljs.exit(1)
     }
   }
   logger.success(`执行命令成功: `, cmd)
@@ -139,13 +139,12 @@ function shellExec(cmd, options = { exitIfError: true }) {
 module.exports = {
   chalk,
   logger,
-  log: logger,
   clearConsole,
   axios,
   fse,
   unzip,
   globby,
-  shell,
+  shelljs,
   execSync,
   shellExec
 }
