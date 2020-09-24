@@ -9,14 +9,9 @@ shelljs.set("-e");
 
 function start() {
   // 打包代码
-  // execSync(`
-  //   yarn build
-  // `);
-  // console.log(shellExec(`cd ../myserver`))
-  // console.log(shellExec(`yarn build`))
+  console.log(shellExec(`yarn build`))
   console.log(shelljs.cd('../myserver'))
   console.log(shellExec(`git pull`))
-  // console.log(shellExec(`ls -l`))
   console.log(shellExec(`rm -rf www`))
   console.log(shellExec(`mkdir www`))
   console.log(shellExec(`cp -rf ../reactblog/build/* www`))
@@ -28,12 +23,3 @@ function start() {
 }
 
 start();
-
-// yarn build
-// cd ../myserver
-// git pull
-// cleardir www
-// mv ../reactblog/build www
-// git add .
-// git commit -m "feat: 更新前段代码"
-// git push
