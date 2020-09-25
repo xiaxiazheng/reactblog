@@ -3,18 +3,20 @@ import styles from "./index.module.scss";
 // import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  RedoOutlined,
-  UnorderedListOutlined,
-} from "@ant-design/icons";
-import { Icon } from '@ant-design/compatible'
+// import {
+//   ArrowLeftOutlined,
+//   ArrowRightOutlined,
+//   RedoOutlined,
+//   UnorderedListOutlined,
+// } from "@ant-design/icons";
+import { Icon } from "@ant-design/compatible";
 import { message } from "antd";
+import { timesofSongAddOne } from '@/client/TimesofSong'
 
 interface FileType {
   key: string;
   mimeType: string;
+  times: string;
 }
 
 const Music: React.FC = () => {
@@ -24,6 +26,7 @@ const Music: React.FC = () => {
     getList();
   }, []);
 
+  // 是否单曲循环
   const [isOneCircle, setIsOneCircle] = useState<boolean>(false);
   const [musicList, setMusicList] = useState<FileType[]>([]);
   const [randomList, setRandomList] = useState<FileType[]>([]);
@@ -45,6 +48,7 @@ const Music: React.FC = () => {
   const [active, setActive] = useState<FileType>(); // 当前播放歌曲
   const [showList, setShowList] = useState<boolean | null>(null);
 
+  // 根据 active 的不同切换播放的歌曲
   useEffect(() => {
     if (active) {
       changeSong(active);
@@ -64,7 +68,9 @@ const Music: React.FC = () => {
       const audio: any = document.createElement("audio");
       audio.controls = true;
       audio.autoplay = true;
+      audio.onplaying = handlePlaying.bind(null, song.key);
 
+      // 监听播放结束
       audio.onended = handleFinish;
 
       const source = document.createElement("source");
@@ -74,6 +80,20 @@ const Music: React.FC = () => {
       dom.current.appendChild(audio);
     }
   };
+
+  // 开始播放后计时
+  const handlePlaying = (song_name: string) => {
+    // 听了 20s 就当做听了一次这首歌
+    setTimeout(async () => {
+      let params = {
+        song_name
+      }
+      const res = await timesofSongAddOne(params)
+      if (res) {
+        message.success(`${res.message}；当前次数：${res.data}`)
+      }
+    }, 20000)
+  }
 
   // 由于 hooks 的原因，要重新绑定这个事件才能获取到当前的 isOneCircle 的状态
   useEffect(() => {
@@ -247,6 +267,8 @@ const Music: React.FC = () => {
               className={active && active.key === item.key ? styles.active : ""}
             >
               {item.key}
+              {/* 这个是已播放次数 */}
+              <span className={styles.times}> [ {item.times} ] </span>
             </span>
           ))}
       </div>
