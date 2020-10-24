@@ -265,8 +265,8 @@ class LogContEdit extends React.Component<PropsType> {
           size="large"
           onClick={this.scrollTo.bind(null, "bottom")}
         />
-        {/* 锚点，有点小问题 */}
-        {/* <LogContMao logcont={this.state.logcont} /> */}
+        {/* 锚点 */}
+        <LogContMao logcont={this.state.logcont} />
       </div>
     );
   }

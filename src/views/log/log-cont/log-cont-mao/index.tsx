@@ -19,7 +19,7 @@ const LogCont: React.FC<PropsType> = (props) => {
 
   let activeDom: any = undefined;
 
-  const scrollIntoMao = (name: string) => {
+  const scrollIntoMao = (content: string) => {
     // 把上一个亮的熄灭
     if (activeDom) {
       activeDom.style.color = "unset";
@@ -31,23 +31,28 @@ const LogCont: React.FC<PropsType> = (props) => {
       const l = Array.from(document.querySelectorAll(item));
       list = list.concat(l);
     });
-    const dom = list.filter((item) => item.innerText === name);
+
+    const dom = list.filter((item) => item.innerHTML === content);
     if (dom.length !== 0) {
       activeDom = dom[0];
-      dom[0].scrollIntoView({ behavior: 'smooth' });
+      dom[0].scrollIntoView({ behavior: "smooth" });
       dom[0].style.color = "#e4d149";
     }
   };
 
   const getMaoName = (header: string) => {
     // eslint-disable-next-line no-useless-escape
-    const name = header.replace(/\<h\d\>|\<\/h\d\>/g, "");
+    console.dir(header);
+    // 这是剥掉了标题标签后剩下的内容
+    const content = header.replace(/\<h\d[^>]*\>|\<\/h\d>/g, '');
+    // 这是剥掉了内容里的其他 html 标签元素（例如加粗、斜体之类的标签及样式等）
+    const name = content.replace(/\<[^>]*\>|\<\/[^>]*>/g, '')
 
     return (
       <div
         key={header}
         className={styles.maoItem}
-        onClick={() => scrollIntoMao(name)}
+        onClick={() => scrollIntoMao(content)}
       >
         {name}
       </div>
@@ -55,11 +60,15 @@ const LogCont: React.FC<PropsType> = (props) => {
   };
 
   return (
-    <div className={styles.logMao}>
-      {maoList.map((item) => {
-        return getMaoName(item);
-      })}
-    </div>
+    <>
+      {maoList.length !== 0 && (
+        <div className={styles.logMao}>
+          {maoList.map((item) => {
+            return getMaoName(item);
+          })}
+        </div>
+      )}
+    </>
   );
 };
 
