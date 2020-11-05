@@ -9,9 +9,12 @@
       display: inline-block;
       font-size: 16px;
       margin: 10px;
+      padding: 5px 15px;
+      border: 1px solid black;
       cursor: pointer;
       &:hover {
         color: var(--color_active);
+        border-color: var(--color_active);
       }
     }
   }

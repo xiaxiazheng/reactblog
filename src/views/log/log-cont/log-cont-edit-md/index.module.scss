@@ -1,5 +1,5 @@
 .logcontEditByMD {
-  width: 80%;
+  width: calc(100% - 4rem);
   height: calc(100% - 2rem);
   margin: 1rem auto;
   color: var(--color);
@@ -11,7 +11,7 @@
   }
   .logcontTitle {
     display: block;
-    width: 50%;
+    width: 30%;
     margin: 0 auto;
     text-align: center;
     color: unset;
@@ -19,7 +19,7 @@
   }
   .logcontAuthor {
     display: block;
-    width: 30%;
+    width: 15%;
     margin: .5rem auto;
     text-align: center;
     color: unset;

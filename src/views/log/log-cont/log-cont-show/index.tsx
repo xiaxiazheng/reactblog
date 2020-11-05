@@ -15,14 +15,16 @@ import { markdown } from "markdown";
 import mdStyle from "../mdShower.module.scss";
 import { Button, message } from "antd";
 import { addVisits } from "@/client/LogHelper";
-import logCont from "..";
 import LogContMao from "../log-cont-mao";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import { Icon } from '@ant-design/compatible'
+import { FilePdfOutlined } from '@ant-design/icons'
 
-interface PropsType {
+interface PropsType extends RouteComponentProps {
   log_id: string;
 }
 
-const LogContShow: React.FC<PropsType> = ({ log_id }) => {
+const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
   const [edittype, setEdittype] = useState<"richtext" | "markdown">("richtext");
   const [loading, setLoading] = useState(true);
 
@@ -101,6 +103,7 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
     ScrollBar: true,
   });
 
+  // 回到顶部或底部
   const scrollTo = (type: "top" | "bottom") => {
     logcontShowWrapper.current.scroll({
       left: 0,
@@ -109,6 +112,18 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
     });
     // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
   };
+
+  // 导出到 pdf
+  const exportPdf = () => {
+    history.push({
+      pathname: '/pdf',
+      state: {
+        type: edittype,
+        html: markdownHtml,
+        logcont: logdata
+      }
+    })
+  }
 
   return (
     <div className={className} ref={logcontShowWrapper}>
@@ -149,6 +164,14 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
           </>
         )
       )}
+      {/* 导出到 pdf 按钮 */}
+      <Button
+        className={styles.exportPdf}
+        // type={'danger'}
+        onClick={exportPdf}
+      >
+        <Icon type="file-pdf" />导出
+      </Button>
       {/* 回到顶部 */}
       <Button
         className={styles.scrollToTop}
@@ -175,4 +198,4 @@ const LogContShow: React.FC<PropsType> = ({ log_id }) => {
   );
 };
 
-export default LogContShow;
+export default withRouter(LogContShow);

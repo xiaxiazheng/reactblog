@@ -37,9 +37,17 @@
   }
   .markdownShower {
     display: inline-block;
+    width: 100%;
     text-align: left;
     vertical-align: top;
     box-sizing: border-box;
+  }
+
+  // 导出 pdf
+  .exportPdf {
+    position: fixed;
+    left: 2rem;
+    top: 6.5rem;
   }
   
   // 滚动到顶部 or 底部
