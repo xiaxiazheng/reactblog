@@ -16,7 +16,7 @@ const Test: React.FC<ITest> = (props) => {
   return (
     <div className={styles.test}>
       {data}
-      <button onClick={() => {setData(data * 10)}}>点我</button>
+      <button onClick={() => {setData(data + 1)}}>点我</button>
     </div>
   );
 }

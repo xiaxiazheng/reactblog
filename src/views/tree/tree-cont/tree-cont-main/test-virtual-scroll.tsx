@@ -6,6 +6,7 @@ const itemHeight = 50;
 const total = 100;
 const itemNum = Math.floor(boxHeight / itemHeight) + 1;
 
+// 虚拟滚动的 demo
 const Scroll: React.FC = () => {
   const [list, setlist] = useState<number[]>([]);
   const [showList, setShowList] = useState<number[]>([]);

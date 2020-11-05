@@ -6,6 +6,7 @@ import Loading from '@/components/loading';
 const Login = lazy(() => import('../views/login'));
 const AdminRouterView = lazy(() => import('./AdminRouterView'));
 const HomeRouterView = lazy(() => import('./HomeRouterView'));
+const PDFView = lazy(() => import('@/views/pdf'))
 
 const Router: React.FC = () => {
 
@@ -27,6 +28,8 @@ const Router: React.FC = () => {
             <Route exact path="/login" component={Login} />
             {/* 控制台页 */}
             <Route path='/admin' component={AdminRouterView} />
+            {/* 空白页 */}
+            <Route path='/pdf' component={PDFView} />
             {/* 访客页 */}
             <Route path='/' component={HomeRouterView} />
           </Switch>

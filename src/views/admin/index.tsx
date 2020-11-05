@@ -4,7 +4,6 @@ import { staticUrl } from "@/env_config";
 import ImageBox from "@/components/image-box";
 import styles from "./index.module.scss";
 import { UserContext } from "@/context/UserContext";
-import Scroll from './scroll'
 
 interface ImgType {
   cTime: string;
@@ -66,7 +65,6 @@ const Admin: React.FC = () => {
           />
         );
       })}
-      <Scroll />
     </div>
   );
 };
