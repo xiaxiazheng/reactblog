@@ -1,7 +1,12 @@
 // 富文本编辑器通用样式
 %rich-common {
   // 标题
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin-top: 8px;
     margin-bottom: 16px;
     padding-bottom: 6px;
@@ -27,10 +32,11 @@
     padding-left: 4rem;
   }
   // 列表
-  ol, ul {
+  ol,
+  ul {
     padding-left: 1rem;
     li:not(.ql-direction-rtl)::before {
-      margin-right: .6rem;
+      margin-right: 0.6rem;
     }
   }
 }

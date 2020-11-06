@@ -5,7 +5,7 @@ import { Icon } from '@ant-design/compatible'
 import { Button, Switch } from 'antd';
 import { withRouter, RouteComponentProps, match } from 'react-router-dom';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import LogContEditByClass from './log-cont-edit';
+import LogContEditByRH from './log-cont-edit-rh';
 import LogContEditByMD from './log-cont-edit-md';
 import LogContShow from './log-cont-show';
 import { OneLogType } from '../LogType';
@@ -68,7 +68,7 @@ const LogCont: React.FC<PropsType> = (props) => {
       {isLogin && isEdit && logdata && (
         logdata.edittype === 'markdown'
           ? <LogContEditByMD logdata={logdata} getLogContData={getData} />
-          : <LogContEditByClass logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
+          : <LogContEditByRH logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
       )}
     </div>
   );
