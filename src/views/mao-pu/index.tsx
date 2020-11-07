@@ -1,22 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { IsLoginContext } from "@/context/IsLoginContext";
-// import WallShower from './wall-shower';
 import MaoControl, { Mao } from "./mao-control";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
 import { Button, Icon, message, Switch } from "antd";
 
 const statusColor: any = {
   // 持有
-  'hold': styles.hold,
+  hold: styles.hold,
   // 已送走
-  'gone': styles.gone,
+  gone: styles.gone,
   // 死亡
-  'dead': styles.dead
-}
+  dead: styles.dead,
+};
 
 const MaoPu: React.FC = () => {
-  // const { isLogin } = useContext(IsLoginContext);
 
   useEffect(() => {
     getMaoList();
@@ -82,44 +79,13 @@ const MaoPu: React.FC = () => {
   const [showType, setShowType] = useState<"所有猫猫" | "分层猫猫">("分层猫猫");
 
   // 展示猫的层级
-  const renderLevelMao = (list: any[]) => {
+  const renderLevelMao = (list: Mao[]) => {
     if (typeof list === "undefined") return null;
 
     return list.map((item) => {
       return (
-        <div className={item.children ? styles.box : ""}>
-          <div
-            className={`${styles.parent} ${
-              hoverMao && hoverMao.mao_id === item.mao_id ? styles.hover : ""
-            } ${
-              hoverMao &&
-              hoverMao.mao_id !== item.mao_id &&
-              hoverMao.birthday === item.birthday
-                ? styles.hoverBroSis
-                : ""
-            }
-            ${
-              hoverMao &&
-              item.children &&
-              item.children.some((jtem: any) => jtem.mao_id === hoverMao.mao_id)
-                ? styles.hoverParent
-                : ""
-            }
-            ${isShowStatus ? statusColor[item.status] : ''}
-            `}
-            onMouseEnter={(e) => {
-              e.stopPropagation();
-              !isShowStatus && (!hoverMao || hoverMao.mao_id !== item.mao_id) &&
-                setHoverMao(item);
-            }}
-            onMouseLeave={(e) => {
-              e.stopPropagation();
-              !isShowStatus && hoverMao && hoverMao === item.mao_id && setHoverMao(null);
-            }}
-            onClick={() => setActiveMao(item)}
-          >
-            {item.name}
-          </div>
+        <div key={item.mao_id} className={item.children ? styles.box : ""}>
+          {renderSingleMao(item)}
           {item.children && (
             <div className={styles.children}>
               {renderLevelMao(item.children)}
@@ -128,6 +94,49 @@ const MaoPu: React.FC = () => {
         </div>
       );
     });
+  };
+
+  // 渲染单个猫咪的状态
+  const renderSingleMao = (item: Mao) => {
+    return (
+      <div
+        className={`${styles.parent} ${
+          hoverMao && hoverMao.mao_id === item.mao_id ? styles.hover : ""
+        } ${
+          hoverMao &&
+          hoverMao.mao_id !== item.mao_id &&
+          hoverMao.birthday === item.birthday
+            ? styles.hoverBroSis
+            : ""
+        }
+            ${
+              hoverMao &&
+              item.children &&
+              item.children.some((jtem) => jtem.mao_id === hoverMao.mao_id)
+                ? styles.hoverParent
+                : ""
+            }
+            ${isShowStatus ? statusColor[item.status] : ""}
+            `}
+        onMouseEnter={(e) => {
+          e.stopPropagation();
+          !isShowStatus &&
+            (!hoverMao || hoverMao.mao_id !== item.mao_id) &&
+            setHoverMao(item);
+        }}
+        // 发现不移除hover也挺好的哈哈哈
+        // onMouseLeave={(e) => {
+        //   e.stopPropagation();
+        //   !isShowStatus &&
+        //     hoverMao &&
+        //     hoverMao.mao_id === item.mao_id &&
+        //     setHoverMao(null);
+        // }}
+        onClick={() => setActiveMao(item)}
+      >
+        {item.name}
+      </div>
+    );
   };
 
   // 显示猫咪当前状态
@@ -139,6 +148,7 @@ const MaoPu: React.FC = () => {
 
   return (
     <div className={styles.MaoPu}>
+      {/* 展示所有猫猫及之间的联系 */}
       {!activeMao && (
         <div className={`${styles.maopuWrapper} ScrollBar`}>
           {/* 新增按钮 */}
@@ -152,6 +162,7 @@ const MaoPu: React.FC = () => {
               (item) => {
                 return (
                   <span
+                    key={item}
                     className={showType === item ? styles.active : ""}
                     onClick={() => setShowType(item)}
                   >
@@ -184,21 +195,14 @@ const MaoPu: React.FC = () => {
           {/* 所有猫咪展示 */}
           {showType === "所有猫猫" && (
             <div className={styles.maoList}>
-              {maoList.map((item) => {
-                return (
-                  <div
-                    className={styles.maoItem}
-                    onClick={() => setActiveMao(item)}
-                  >
-                    {item.name}
-                  </div>
-                );
+              {levelList.map((item) => {
+                return renderSingleMao(item);
               })}
             </div>
           )}
         </div>
       )}
-
+      {/* 单个猫猫信息的具体操作 */}
       {activeMao && (
         <MaoControl
           maoList={maoList}

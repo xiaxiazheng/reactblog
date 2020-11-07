@@ -10,10 +10,10 @@ import { updateMaoPu } from "@/client/MaoPuHelper";
 const { Option } = Select;
 
 const statusList = [
-  { label: '持有', value: 'hold' },
-  { label: '已送走', value: 'gone' },
-  { label: '死亡', value: 'dead' }
-]
+  { label: "持有", value: "hold" },
+  { label: "已送走", value: "gone" },
+  { label: "死亡", value: "dead" },
+];
 
 interface ImgType {
   cTime: string;
@@ -28,18 +28,19 @@ interface ImgType {
 }
 
 export interface Mao {
-  appearance: string
-  birthday:  string
-  description: string
-  father: string
-  feature: string
-  head_img_id: string
-  mao_id: string
-  mother: string
-  name: string
-  mother_id: string
-  father_id: string
-  status: string
+  appearance: string;
+  birthday: string;
+  description: string;
+  father: string;
+  feature: string;
+  head_img_id: string;
+  mao_id: string;
+  mother: string;
+  name: string;
+  mother_id: string;
+  father_id: string;
+  status: string;
+  children?: Mao[];
 }
 
 interface IMaoControlProps {
@@ -62,9 +63,9 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
   const [birthday, setBirthday] = useState<string>(mao.birthday);
   const [status, setstatus] = useState<string>(mao.status);
   const [father, setFather] = useState<string>(mao.father);
-  const [fatherId, setFatherId] = useState<string>(mao.father_id)
+  const [fatherId, setFatherId] = useState<string>(mao.father_id);
   const [mother, setMother] = useState<string>(mao.mother);
-  const [motherId, setMotherId] = useState<string>(mao.mother_id)
+  const [motherId, setMotherId] = useState<string>(mao.mother_id);
   const [appearance, setAppearance] = useState<string>(mao.appearance);
   const [feature, setFeature] = useState<string>(mao.feature);
   const [description, setDescription] = useState<string>(mao.description);
@@ -98,6 +99,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
     }
   };
 
+  // 监听是否有修改
   useEffect(() => {
     let isChange = false;
     if (
@@ -116,11 +118,23 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
     }
     setIsChange(isChange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, birthday, father, mother, appearance, feature, description, fatherId, motherId]);
+  }, [
+    name,
+    birthday,
+    father,
+    mother,
+    appearance,
+    feature,
+    description,
+    fatherId,
+    motherId,
+    status,
+  ]);
 
   const [headList, setHeadList] = useState<ImgType[]>([]);
   const [imgList, setImgList] = useState<ImgType[]>([]);
 
+  // 获取猫咪头像照片
   const getHeadImgList = async () => {
     let imgList: any = [];
     const res: ImgType[] = await getImgListByOtherId(mao.head_img_id, username);
@@ -136,6 +150,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
     setHeadList(imgList);
   };
 
+  // 获取猫咪所有照片
   const getOtherImgList = async () => {
     let imgList: any = [];
     const res: ImgType[] = await getImgListByOtherId(mao.mao_id, username);
@@ -151,6 +166,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
     setImgList(imgList);
   };
 
+  // 保存当前猫猫的数据
   const saveMaoPu = async () => {
     const params = {
       mao_id: mao.mao_id,
@@ -161,9 +177,9 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       appearance,
       feature,
       description,
-      father_id: fatherId || '',
-      mother_id: motherId || '',
-      status
+      father_id: fatherId || "",
+      mother_id: motherId || "",
+      status,
     };
     const res = await updateMaoPu(params);
     if (res) {
@@ -174,14 +190,6 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       message.error("更新成功");
     }
   };
-
-  const handleFather = (id: any) => {
-    setFatherId(id || '')
-  }
-
-  const handleMother = (id: any) => {
-    setMotherId(id || '')
-  }
 
   return (
     <div className={`${styles.maoControl} ScrollBar`}>
@@ -223,14 +231,18 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         </div>
         <div>
           <span>状态：</span>
-          <Select value={status} onChange={(val: string) => setstatus(val)} style={{ flex: 1 }}>
-            {
-              statusList.map(item => {
-                return (
-                  <Option key={item.value} value={item.value}>{item.label}</Option>
-                )
-              })
-            }
+          <Select
+            value={status}
+            onChange={(val: string) => setstatus(val)}
+            style={{ flex: 1 }}
+          >
+            {statusList.map((item) => {
+              return (
+                <Option key={item.value} value={item.value}>
+                  {item.label}
+                </Option>
+              );
+            })}
           </Select>
         </div>
         <div>
@@ -239,14 +251,23 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         </div>
         <div>
           <span>父亲：</span>
-          <Select value={fatherId} onChange={handleFather} style={{ flex: 1 }} allowClear>
-            {
-              maoList.filter(item => item.mao_id !== mao.mao_id).map(item => {
+          <Select
+            value={fatherId}
+            onChange={(id: any) => {
+              setFatherId(id || "");
+            }}
+            style={{ flex: 1 }}
+            allowClear
+          >
+            {maoList
+              .filter((item) => item.mao_id !== mao.mao_id)
+              .map((item) => {
                 return (
-                  <Option key={item.mao_id} value={item.mao_id}>{item.name}</Option>
-                )
-              })
-            }
+                  <Option key={item.mao_id} value={item.mao_id}>
+                    {item.name}
+                  </Option>
+                );
+              })}
           </Select>
         </div>
         <div>
@@ -255,14 +276,23 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         </div>
         <div>
           <span>母亲：</span>
-          <Select value={motherId} onChange={handleMother} style={{ flex: 1 }} allowClear>
-            {
-              maoList.filter(item => item.mao_id !== mao.mao_id).map(item => {
+          <Select
+            value={motherId}
+            onChange={(id: any) => {
+              setMotherId(id || "");
+            }}
+            style={{ flex: 1 }}
+            allowClear
+          >
+            {maoList
+              .filter((item) => item.mao_id !== mao.mao_id)
+              .map((item) => {
                 return (
-                  <Option key={item.mao_id} value={item.mao_id}>{item.name}</Option>
-                )
-              })
-            }
+                  <Option key={item.mao_id} value={item.mao_id}>
+                    {item.name}
+                  </Option>
+                );
+              })}
           </Select>
         </div>
         <div>

@@ -25,7 +25,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     overflow: hidden;
-    >span {
+    > span {
       display: inline-block;
       width: 100px;
       padding: 5px 0;
@@ -56,20 +56,14 @@
 
   // 所有猫咪展示
   .maoList {
+    display: flex;
+    flex-wrap: wrap;
     width: 75%;
     margin: 0 auto;
     text-align: left;
-    .maoItem {
-      display: inline-block;
-      font-size: 16px;
+    > div {
       margin: 10px;
       padding: 5px 15px;
-      border: 1px solid black;
-      cursor: pointer;
-      &:hover {
-        color: var(--color_active);
-        border-color: var(--color_active);
-      }
     }
   }
   // 层级猫咪展示
@@ -80,29 +74,30 @@
       margin: 8px 10px;
       padding: 8px 10px;
       border: 1px solid #ccc;
-      .hover {
-        border-color: #61dafb;
-        background-color: #61dafb;
-      }
-      .hoverBroSis {
-        border-color: #ff4d4f;
-        background-color: #ff4d4f;
-      }
-      .hoverParent {
-        border-color: yellow;
-        background-color: yellow;
-      }
     }
-    .parent {
-      margin: 7px 5px;
-      padding: 5px 5px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-    }
-    .children {
-      // margin: 8px 10px;
-      // padding: 8px 10px;
-      border: 1px solid #ccc;
-    }
+  }
+  // 猫在各个状态下的样式
+  .hover {
+    border-color: #61dafb;
+    background-color: #61dafb;
+  }
+  .hoverBroSis {
+    border-color: #ff4d4f;
+    background-color: #ff4d4f;
+  }
+  .hoverParent {
+    border-color: yellow;
+    background-color: yellow;
+  }
+  .parent {
+    margin: 7px 5px;
+    padding: 5px 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  .children {
+    // margin: 8px 10px;
+    // padding: 8px 10px;
+    border: 1px solid #ccc;
   }
 }
