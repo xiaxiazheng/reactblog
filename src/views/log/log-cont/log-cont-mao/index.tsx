@@ -42,7 +42,7 @@ const LogCont: React.FC<PropsType> = (props) => {
 
   const getMaoName = (header: string) => {
     // eslint-disable-next-line no-useless-escape
-    console.dir(header);
+    // console.dir(header);
     // 这是剥掉了标题标签后剩下的内容
     const content = header.replace(/\<h\d[^>]*\>|\<\/h\d>/g, '');
     // 这是剥掉了内容里的其他 html 标签元素（例如加粗、斜体之类的标签及样式等）

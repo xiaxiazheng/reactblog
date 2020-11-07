@@ -1,13 +1,14 @@
 .pdf {
   width: 100%;
   height: 100%;
+  color: black;
   background-color: white;
 }
 :global() {
   @media print {
     html,
     body {
-      height: inherit;
+      height: auto;
     }
   }
 }

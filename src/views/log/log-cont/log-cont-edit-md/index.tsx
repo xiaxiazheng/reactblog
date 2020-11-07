@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { OneLogType } from '../../LogType';
-import styles from './index.module.scss';
-import classnames from 'classnames';
-import { markdown } from 'markdown';
-import { SaveOutlined } from '@ant-design/icons';
-import { Icon } from '@ant-design/compatible'
-import { Input, Button, message } from 'antd';
-import { modifyLogCont } from '@/client/LogHelper';
-import mdStyle from '../mdShower.module.scss';
+import React, { useState, useEffect } from "react";
+import { OneLogType } from "../../LogType";
+import styles from "./index.module.scss";
+import classnames from "classnames";
+import { Icon } from "@ant-design/compatible";
+import { Input, Button, message } from "antd";
+import { modifyLogCont } from "@/client/LogHelper";
+import MarkdownShow from "../markdown-show";
 
 interface PropsType {
   logdata: OneLogType;
@@ -15,17 +13,13 @@ interface PropsType {
 }
 
 const LogContEditByMD: React.FC<PropsType> = (props) => {
-  const {
-    logdata,
-    getLogContData
-  } = props;
+  const { logdata, getLogContData } = props;
 
   const { TextArea } = Input;
 
   const [title, setTitle] = useState<string>();
   const [author, setAuthor] = useState<string>();
-  const [markString, setMarkString] = useState('');
-  const [markHtml, setMarkHtml] = useState<any>();
+  const [markString, setMarkString] = useState("");
 
   const [isTitleChange, setIsTitleChange] = useState(false);
   const [isAuthorChange, setIsAuthorChange] = useState(false);
@@ -38,8 +32,8 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
@@ -49,8 +43,8 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
       saveEditLog();
       setIsKeyDown(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKeyDown])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isKeyDown]);
 
   // 键盘事件
   const onKeyDown = (e: any) => {
@@ -58,22 +52,12 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
       e.preventDefault();
       setIsKeyDown(true);
     }
-  }
-
-  /** 将字符串转化成 markdown html */
-  useEffect(() => {
-    if (markString) {
-      const html = markdown.toHTML(markString);
-      setMarkHtml({
-        __html: html
-      });
-    }
-  }, [markString]);
+  };
 
   const className = classnames({
     [styles.logcontEditByMD]: true,
-    'ScrollBar': true,
-  })
+    ScrollBar: true,
+  });
 
   // 保存日志
   const saveEditLog = async () => {
@@ -81,7 +65,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
       id: logdata.log_id,
       title: title,
       author: author,
-      logcont: markString
+      logcont: markString,
     };
     let res = await modifyLogCont(params);
     if (res) {
@@ -89,7 +73,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
       setIsTitleChange(false);
       setIsAuthorChange(false);
       setIsLogContChange(false);
-      getLogContData();  // 调用父组件的函数，获取最新的东西
+      getLogContData(); // 调用父组件的函数，获取最新的东西
     } else {
       message.error("保存失败");
     }
@@ -98,7 +82,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
   const handleLogContChange = (e: any) => {
     setMarkString(e.target.value);
     setIsLogContChange(logdata.logcont !== e.target.value);
-  }
+  };
 
   // 监听标题变化
   const handleTitleChange = (e: any) => {
@@ -114,29 +98,50 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
 
   return (
     <div className={className}>
-      {logdata && 
+      {logdata && (
         <>
           {/* 保存按钮 */}
           <Button
             className={styles.saveButton}
-            type={isTitleChange || isAuthorChange || isLogContChange ? 'danger' : 'primary'}
+            type={
+              isTitleChange || isAuthorChange || isLogContChange
+                ? "danger"
+                : "primary"
+            }
             onClick={saveEditLog}
           >
-            <Icon type="save" />保存
+            <Icon type="save" />
+            保存
           </Button>
           {/* 标题名称和时间 */}
-          <Input className={styles.logcontTitle} size="large" value={title} onChange={handleTitleChange}/>
-          <Input className={styles.logcontAuthor} value={author} onChange={handleAuthorChange}/>
+          <Input
+            className={styles.logcontTitle}
+            size="large"
+            value={title}
+            onChange={handleTitleChange}
+          />
+          <Input
+            className={styles.logcontAuthor}
+            value={author}
+            onChange={handleAuthorChange}
+          />
           <div className={styles.logcontTime}>
             <span>创建时间：{logdata.cTime}</span>
             <span>修改时间：{logdata.mTime}</span>
           </div>
           {/* markdown 展示 */}
-          <div className={`${styles.markdownShower} ${mdStyle.markdownShower} ScrollBar`} dangerouslySetInnerHTML={markHtml} />
+          <div className={`${styles.markdownShower} ScrollBar`}>
+            <MarkdownShow logcont={markString} />
+          </div>
           {/* markdown 编辑 */}
-          <TextArea rows={10} className={`${styles.markdownEditor} ScrollBar`} value={markString} onChange={handleLogContChange} />
+          <TextArea
+            rows={10}
+            className={`${styles.markdownEditor} ScrollBar`}
+            value={markString}
+            onChange={handleLogContChange}
+          />
         </>
-      }
+      )}
     </div>
   );
 };

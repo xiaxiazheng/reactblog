@@ -1,30 +1,26 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { OneLogType } from "../../LogType";
+import { OneLogType } from "@/views/log/LogType";
 import styles from "./index.module.scss";
 import { getLogCont } from "@/client/LogHelper";
 import Loading from "@/components/loading";
 import classnames from "classnames";
 import { IsLoginContext } from "@/context/IsLoginContext";
-// 代码高亮
-import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark-reasonable.css";
-// 富文本编辑器
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.bubble.css";
-import { markdown } from "markdown";
-import mdStyle from "../mdShower.module.scss";
 import { Button, message } from "antd";
 import { addVisits } from "@/client/LogHelper";
 import LogContMao from "../log-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { Icon } from '@ant-design/compatible'
-import { FilePdfOutlined } from '@ant-design/icons'
+import { Icon } from "@ant-design/compatible";
+
+import MarkdownShow from "../markdown-show";
+import RichtextShow from "../richtext-show";
 
 interface PropsType extends RouteComponentProps {
   log_id: string;
 }
 
-const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
+const LogContShow: React.FC<PropsType> = (props) => {
+  const { history, log_id } = props
+
   const [edittype, setEdittype] = useState<"richtext" | "markdown">("richtext");
   const [loading, setLoading] = useState(true);
 
@@ -32,19 +28,7 @@ const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
 
   const logcontShowWrapper = useRef<any>(null);
 
-  // 编辑器配置
-  const modules: any = {
-    syntax: {
-      highlight: (text: any) => hljs.highlightAuto(text).value,
-    },
-    clipboard: {
-      // 这个设置是防止每次保存都有莫名其妙的空行“<p><br></p>”插入到内容中
-      matchVisual: false,
-    },
-  };
-
   const [logdata, setlogdata] = useState<OneLogType>();
-  const [markdownHtml, setMarkdownHtml] = useState<any>();
   const [visits, setVisits] = useState<Number>();
 
   useEffect(() => {
@@ -57,26 +41,11 @@ const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
         setlogdata(res);
         setEdittype(res.edittype);
         setLoading(false);
-
-        if (res.edittype === "markdown") {
-          setMarkdownHtml({
-            __html: markdown.toHTML(res.logcont),
-          });
-        }
       }
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [log_id]);
-
-  useEffect(() => {
-    if (logdata) {
-      // TODO，这里要获取所有的 <hX> 的标签内容，卡在了正则上面
-      // const cont: any = logdata.logcont;
-      // console.dir(cont)
-      // console.log(cont.matchAll(new RegExp(/<h/)))
-    }
-  }, [logdata]);
 
   // 统计访问量
   useEffect(() => {
@@ -116,14 +85,13 @@ const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
   // 导出到 pdf
   const exportPdf = () => {
     history.push({
-      pathname: '/pdf',
+      pathname: "/pdf",
       state: {
         type: edittype,
-        html: markdownHtml,
-        logcont: logdata
-      }
-    })
-  }
+        logdata: logdata,
+      },
+    });
+  };
 
   return (
     <div className={className} ref={logcontShowWrapper}>
@@ -142,23 +110,13 @@ const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
             {
               // 富文本展示
               edittype === "richtext" && (
-                <div className={styles.logcontEditor}>
-                  <ReactQuill
-                    readOnly
-                    theme="bubble"
-                    value={logdata.logcont}
-                    modules={modules}
-                  />
-                </div>
+                <RichtextShow logcont={logdata.logcont} />
               )
             }
             {
               // markdown 展示
               edittype === "markdown" && (
-                <div
-                  className={`${styles.markdownShower} ${mdStyle.markdownShower}`}
-                  dangerouslySetInnerHTML={markdownHtml}
-                />
+                <MarkdownShow logcont={logdata.logcont} />
               )
             }
           </>
@@ -170,7 +128,8 @@ const LogContShow: React.FC<PropsType> = ({ history, log_id }) => {
         // type={'danger'}
         onClick={exportPdf}
       >
-        <Icon type="file-pdf" />导出
+        <Icon type="file-pdf" />
+        导出
       </Button>
       {/* 回到顶部 */}
       <Button
