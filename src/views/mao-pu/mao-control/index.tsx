@@ -9,6 +9,12 @@ import { updateMaoPu } from "@/client/MaoPuHelper";
 
 const { Option } = Select;
 
+const statusList = [
+  { label: '持有', value: 'hold' },
+  { label: '已送走', value: 'gone' },
+  { label: '死亡', value: 'dead' }
+]
+
 interface ImgType {
   cTime: string;
   filename: string;
@@ -33,6 +39,7 @@ export interface Mao {
   name: string
   mother_id: string
   father_id: string
+  status: string
 }
 
 interface IMaoControlProps {
@@ -53,6 +60,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
 
   const [name, setName] = useState<string>(mao.name);
   const [birthday, setBirthday] = useState<string>(mao.birthday);
+  const [status, setstatus] = useState<string>(mao.status);
   const [father, setFather] = useState<string>(mao.father);
   const [fatherId, setFatherId] = useState<string>(mao.father_id)
   const [mother, setMother] = useState<string>(mao.mother);
@@ -101,7 +109,8 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       feature !== mao.feature ||
       description !== mao.description ||
       fatherId !== mao.father_id ||
-      motherId !== mao.mother_id
+      motherId !== mao.mother_id ||
+      status !== mao.status
     ) {
       isChange = true;
     }
@@ -153,7 +162,8 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       feature,
       description,
       father_id: fatherId || '',
-      mother_id: motherId || ''
+      mother_id: motherId || '',
+      status
     };
     const res = await updateMaoPu(params);
     if (res) {
@@ -210,6 +220,18 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
             value={birthday}
             onChange={(e) => setBirthday(e.target.value)}
           />
+        </div>
+        <div>
+          <span>状态：</span>
+          <Select value={status} onChange={(val: string) => setstatus(val)} style={{ flex: 1 }}>
+            {
+              statusList.map(item => {
+                return (
+                  <Option key={item.value} value={item.value}>{item.label}</Option>
+                )
+              })
+            }
+          </Select>
         </div>
         <div>
           <span>父亲：</span>

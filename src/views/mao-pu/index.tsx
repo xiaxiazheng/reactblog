@@ -4,14 +4,23 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 // import WallShower from './wall-shower';
 import MaoControl, { Mao } from "./mao-control";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
-import { Button, Icon, message } from "antd";
+import { Button, Icon, message, Switch } from "antd";
+
+const statusColor: any = {
+  // 持有
+  'hold': styles.hold,
+  // 已送走
+  'gone': styles.gone,
+  // 死亡
+  'dead': styles.dead
+}
 
 const MaoPu: React.FC = () => {
   // const { isLogin } = useContext(IsLoginContext);
 
   useEffect(() => {
     getMaoList();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [maoList, setMaoList] = useState<Mao[]>([]);
@@ -20,6 +29,7 @@ const MaoPu: React.FC = () => {
 
   const [hoverMao, setHoverMao] = useState<Mao | null>(null);
 
+  // 处理猫咪的父母层级
   const handleParent = (list: Mao[]) => {
     const map: any = {};
     list.forEach((item) => {
@@ -62,6 +72,7 @@ const MaoPu: React.FC = () => {
     }
   };
 
+  // 新增一只猫咪
   const newACat = async () => {
     const res = await addMaoPu({});
     res && getMaoList();
@@ -94,15 +105,16 @@ const MaoPu: React.FC = () => {
                 ? styles.hoverParent
                 : ""
             }
+            ${isShowStatus ? statusColor[item.status] : ''}
             `}
             onMouseEnter={(e) => {
               e.stopPropagation();
-              (!hoverMao || hoverMao.mao_id !== item.mao_id) &&
+              !isShowStatus && (!hoverMao || hoverMao.mao_id !== item.mao_id) &&
                 setHoverMao(item);
             }}
             onMouseLeave={(e) => {
               e.stopPropagation();
-              hoverMao && hoverMao === item.mao_id && setHoverMao(null);
+              !isShowStatus && hoverMao && hoverMao === item.mao_id && setHoverMao(null);
             }}
             onClick={() => setActiveMao(item)}
           >
@@ -118,6 +130,13 @@ const MaoPu: React.FC = () => {
     });
   };
 
+  // 显示猫咪当前状态
+  const [isShowStatus, setIsShowStatus] = useState<boolean>(false);
+  const showMaoStatus = (bool: boolean) => {
+    setIsShowStatus(bool);
+    setHoverMao(null);
+  };
+
   return (
     <div className={styles.MaoPu}>
       {!activeMao && (
@@ -127,6 +146,7 @@ const MaoPu: React.FC = () => {
             <Icon type="plus" />
             新增猫猫
           </Button>
+          {/* 切换猫谱显示方式 */}
           <div className={styles.switchShowType}>
             {(["分层猫猫", "所有猫猫"] as ("所有猫猫" | "分层猫猫")[]).map(
               (item) => {
@@ -140,6 +160,16 @@ const MaoPu: React.FC = () => {
                 );
               }
             )}
+          </div>
+          {/* 是否显示猫猫状态 */}
+          <div className={styles.showMaoStatus}>
+            <Switch
+              checkedChildren="显示猫咪状态"
+              unCheckedChildren="显示猫咪状态"
+              defaultChecked
+              checked={isShowStatus}
+              onChange={(bool) => showMaoStatus(bool)}
+            />
           </div>
           {/* 层级猫咪展示 */}
           {showType === "分层猫猫" && (

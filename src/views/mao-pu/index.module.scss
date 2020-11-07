@@ -36,6 +36,24 @@
       }
     }
   }
+  .showMaoStatus {
+    position: absolute;
+    top: 9rem;
+    left: 2rem;
+  }
+  .hold {
+    border-color: #61dafb;
+    background-color: #61dafb;
+  }
+  .gone {
+    border-color: #cccccc;
+    background-color: #cccccc;
+  }
+  .dead {
+    border-color: #ff4d4f;
+    background-color: #ff4d4f;
+  }
+
   // 所有猫咪展示
   .maoList {
     width: 75%;
