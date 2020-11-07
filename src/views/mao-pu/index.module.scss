@@ -54,6 +54,42 @@
     background-color: #ff4d4f;
   }
 
+  .colorWall {
+    position: absolute;
+    top: 11.5rem;
+    left: 2rem;
+    font-size: 16px;
+    text-align: left;
+    > div {
+      .dot {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+      }
+      &:nth-child(1) .dot {
+        background-color: #61dafb;
+      }
+      &:nth-child(2) .dot {
+        background-color: yellow;
+      }
+      &:nth-child(3) .dot {
+        background-color: #61dafb47;
+      }
+      &:nth-child(4) .dot {
+        background-color: pink;
+      }
+      &:nth-child(5) .dot {
+        background-color: #61dafb;
+      }
+      &:nth-child(6) .dot {
+        background-color: #cccccc;
+      }
+      &:nth-child(7) .dot {
+        background-color: #ff4d4f;
+      }
+    }
+  }
+
   // 所有猫咪展示
   .maoList {
     display: flex;
@@ -82,12 +118,16 @@
     background-color: #61dafb;
   }
   .hoverBroSis {
-    border-color: #ff4d4f;
-    background-color: #ff4d4f;
+    border-color: #61dafb47;
+    background-color: #61dafb47;
   }
-  .hoverParent {
+  .hoverChildren {
     border-color: yellow;
     background-color: yellow;
+  }
+  .hoverParent {
+    border-color: pink;
+    background-color: pink;
   }
   .parent {
     margin: 7px 5px;

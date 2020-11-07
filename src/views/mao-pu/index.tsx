@@ -14,7 +14,6 @@ const statusColor: any = {
 };
 
 const MaoPu: React.FC = () => {
-
   useEffect(() => {
     getMaoList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,15 +108,22 @@ const MaoPu: React.FC = () => {
             ? styles.hoverBroSis
             : ""
         }
-            ${
-              hoverMao &&
-              item.children &&
-              item.children.some((jtem) => jtem.mao_id === hoverMao.mao_id)
-                ? styles.hoverParent
-                : ""
-            }
-            ${isShowStatus ? statusColor[item.status] : ""}
-            `}
+        ${
+          hoverMao &&
+          item.children &&
+          item.children.some((jtem) => jtem.mao_id === hoverMao.mao_id)
+            ? styles.hoverChildren
+            : ""
+        }
+        ${
+          hoverMao &&
+          (item.mother_id === hoverMao.mao_id ||
+            item.father_id === hoverMao.mao_id)
+            ? styles.hoverParent
+            : ""
+        }
+        ${isShowStatus ? statusColor[item.status] : ""}
+        `}
         onMouseEnter={(e) => {
           e.stopPropagation();
           !isShowStatus &&
@@ -185,13 +191,38 @@ const MaoPu: React.FC = () => {
           {/* 层级猫咪展示 */}
           {showType === "分层猫猫" && (
             <div className={`${styles.levelMao}`}>
+              {/* 双亲未知且没有孩子的单独渲染一列 */}
+              <div className={styles.singleMao}>
+                {levelList
+                  .filter(
+                    (item) =>
+                      item.father_id === "" &&
+                      item.mother_id === "" &&
+                      !item.children
+                  )
+                  .map((item) => {
+                    return renderSingleMao(item);
+                  })}
+              </div>
+              {/* 双亲未知但有孩子的渲染成层级结构 */}
               {renderLevelMao(
                 levelList.filter(
-                  (item) => item.father_id === "" && item.mother_id === ""
+                  (item) =>
+                    item.father_id === "" &&
+                    item.mother_id === "" &&
+                    item.children
                 )
               )}
             </div>
           )}
+          {/* 当前页面使用的颜色含义 */}
+          <div className={styles.colorWall}>
+            {['当前猫咪', '父母', '兄弟姐妹', '孩子', '持有', '已送走', '死亡'].map(item => (
+              <div>
+                <span className={styles.dot}/> {item}
+              </div>
+            ))}
+          </div>
           {/* 所有猫咪展示 */}
           {showType === "所有猫猫" && (
             <div className={styles.maoList}>
