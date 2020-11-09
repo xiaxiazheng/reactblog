@@ -33,6 +33,7 @@ const ImgManage: React.FC<IProps> = (props) => {
         imageUrl=""
         imageMinUrl=""
         initImgList={initImgList}
+        width="150px"
       />
       {imgList.map((item: ImgType) => {
         return (
@@ -45,6 +46,7 @@ const ImgManage: React.FC<IProps> = (props) => {
             imageUrl={item.imageUrl}
             imageMinUrl={item.imageMinUrl}
             initImgList={initImgList}
+            width="150px"
           />
         );
       })}

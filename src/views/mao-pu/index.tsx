@@ -31,27 +31,22 @@ const MaoPu: React.FC = () => {
     list.forEach((item) => {
       map[item.mao_id] = item;
     });
-    list
-      .sort(
-        (a: any, b: any) =>
-          new Date(a.birthday).getTime() - new Date(b.birthday).getTime()
-      )
-      .forEach((item) => {
-        if (item.father_id) {
-          if (map[item.father_id].children) {
-            map[item.father_id].children.push(map[item.mao_id]);
-          } else {
-            map[item.father_id].children = [map[item.mao_id]];
-          }
+    list.forEach((item) => {
+      if (item.father_id) {
+        if (map[item.father_id].children) {
+          map[item.father_id].children.push(map[item.mao_id]);
+        } else {
+          map[item.father_id].children = [map[item.mao_id]];
         }
-        if (item.mother_id) {
-          if (map[item.mother_id].children) {
-            map[item.mother_id].children.push(map[item.mao_id]);
-          } else {
-            map[item.mother_id].children = [map[item.mao_id]];
-          }
+      }
+      if (item.mother_id) {
+        if (map[item.mother_id].children) {
+          map[item.mother_id].children.push(map[item.mao_id]);
+        } else {
+          map[item.mother_id].children = [map[item.mao_id]];
         }
-      });
+      }
+    });
 
     return list;
   };
@@ -71,8 +66,12 @@ const MaoPu: React.FC = () => {
   // 新增一只猫咪
   const newACat = async () => {
     const res = await addMaoPu({});
-    res && getMaoList();
-    message.success("新增猫猫成功");
+    if (res) {
+      message.success("新增猫猫成功");
+      // 打开新增的猫的编辑
+      setActiveMao(res)
+      getMaoList()
+    }
   };
 
   const [showType, setShowType] = useState<"所有猫猫" | "分层猫猫">("分层猫猫");
@@ -104,6 +103,7 @@ const MaoPu: React.FC = () => {
         } ${
           hoverMao &&
           hoverMao.mao_id !== item.mao_id &&
+          hoverMao.birthday.length === 10 &&
           hoverMao.birthday === item.birthday
             ? styles.hoverBroSis
             : ""
@@ -217,9 +217,17 @@ const MaoPu: React.FC = () => {
           )}
           {/* 当前页面使用的颜色含义 */}
           <div className={styles.colorWall}>
-            {['当前猫咪', '父母', '兄弟姐妹', '孩子', '持有', '已送走', '死亡'].map(item => (
+            {[
+              "当前猫咪",
+              "父母",
+              "兄弟姐妹",
+              "孩子",
+              "持有",
+              "已送走",
+              "死亡",
+            ].map((item) => (
               <div>
-                <span className={styles.dot}/> {item}
+                <span className={styles.dot} /> {item}
               </div>
             ))}
           </div>
@@ -237,7 +245,7 @@ const MaoPu: React.FC = () => {
       {activeMao && (
         <MaoControl
           maoList={maoList}
-          mao={maoList.filter((item) => item.mao_id === activeMao.mao_id)[0]}
+          mao={activeMao}
           back={() => setActiveMao(undefined)}
           initFn={() => getMaoList()}
         />

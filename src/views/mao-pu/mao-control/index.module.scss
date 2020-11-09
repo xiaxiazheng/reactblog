@@ -7,46 +7,56 @@
   font-size: 14px;
   box-sizing: border-box;
   .backButton {
-    position: absolute;
+    position: fixed;
     left: 2rem;
-    top: 1rem;
+    top: 4rem;
     z-index: 2;
   }
   .saveButton {
-    position: absolute;
+    position: fixed;
     left: 2rem;
-    top: 3.5rem;
+    top: 6.5rem;
   }
   .maoData {
-    width: 600px;
+    width: 800px;
     margin: 0 auto;
-    >h2 {
+    > h2 {
       margin: 10px 0 5px;
       letter-spacing: 4px;
       font-size: 24px;
       font-weight: 600;
     }
-    >div {
+    .boxWrapper {
+      display: flex;
+      justify-content: space-between;
+      > div {
+        width: 49%;
+      }
+    }
+    .box {
       display: flex;
       align-items: center;
       margin-top: 10px;
-      >span {
+      > span {
+        font-weight: 600;
         vertical-align: middle;
       }
-      input, textarea {
+      input,
+      textarea {
         flex: 1;
       }
-      &:last-child {
-        align-items: flex-start;
-      }
+    }
+    > div:last-child {
+      align-items: flex-start;
     }
   }
   .maoContent {
     display: inline-block;
     width: 80%;
     margin: 20px auto;
-    >div {
-      font-size: 18px;
+    text-align: left;
+    > div {
+      font-size: 16px;
       font-weight: 600;
     }
   }

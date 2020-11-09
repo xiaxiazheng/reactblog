@@ -177,8 +177,8 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       appearance,
       feature,
       description,
-      father_id: fatherId || "",
-      mother_id: motherId || "",
+      father_id: fatherId,
+      mother_id: motherId,
       status,
     };
     const res = await updateMaoPu(params);
@@ -214,22 +214,79 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       {/* 猫咪基本信息 */}
       <div className={styles.maoData}>
         <h2>{mao.name}</h2>
-        <div>
-          <span>姓名：</span>
-          <Input
-            size="large"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <div className={styles.boxWrapper}>
+          <div className={styles.box}>
+            <span>姓名：</span>
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
+          <div className={styles.box}>
+            <span>生日：</span>
+            <Input
+              value={birthday}
+              placeholder={"尽量写10位日期如：2020-01-01，用于找兄弟姐妹"}
+              onChange={(e) => setBirthday(e.target.value)}
+            />
+          </div>
         </div>
-        <div>
-          <span>生日：</span>
-          <Input
-            value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}
-          />
+        <div className={styles.boxWrapper}>
+          <div className={styles.box}>
+            <span>父亲姓名：</span>
+            <Input value={father} onChange={(e) => setFather(e.target.value)} />
+          </div>
+          <div className={styles.box}>
+            <span>父亲 ID：</span>
+            <Select
+              value={fatherId}
+              onChange={(id: any) => {
+                setFatherId(id || "");
+              }}
+              style={{ flex: 1 }}
+            >
+              <Option key={"无记录"} value={""}>
+                无记录
+              </Option>
+              {maoList
+                .filter((item) => item.mao_id !== mao.mao_id)
+                .map((item) => {
+                  return (
+                    <Option key={item.mao_id} value={item.mao_id}>
+                      {item.name}
+                    </Option>
+                  );
+                })}
+            </Select>
+          </div>
         </div>
-        <div>
+        <div className={styles.boxWrapper}>
+          <div className={styles.box}>
+            <span>母亲姓名：</span>
+            <Input value={mother} onChange={(e) => setMother(e.target.value)} />
+          </div>
+          <div className={styles.box}>
+            <span>母亲 ID：</span>
+            <Select
+              value={motherId}
+              onChange={(id: any) => {
+                setMotherId(id || "");
+              }}
+              style={{ flex: 1 }}
+            >
+              <Option key={"无记录"} value={""}>
+                无记录
+              </Option>
+              {maoList
+                .filter((item) => item.mao_id !== mao.mao_id)
+                .map((item) => {
+                  return (
+                    <Option key={item.mao_id} value={item.mao_id}>
+                      {item.name}
+                    </Option>
+                  );
+                })}
+            </Select>
+          </div>
+        </div>
+        <div className={styles.box}>
           <span>状态：</span>
           <Select
             value={status}
@@ -245,71 +302,21 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
             })}
           </Select>
         </div>
-        <div>
-          <span>父亲：</span>
-          <Input value={father} onChange={(e) => setFather(e.target.value)} />
-        </div>
-        <div>
-          <span>父亲：</span>
-          <Select
-            value={fatherId}
-            onChange={(id: any) => {
-              setFatherId(id || "");
-            }}
-            style={{ flex: 1 }}
-            allowClear
-          >
-            {maoList
-              .filter((item) => item.mao_id !== mao.mao_id)
-              .map((item) => {
-                return (
-                  <Option key={item.mao_id} value={item.mao_id}>
-                    {item.name}
-                  </Option>
-                );
-              })}
-          </Select>
-        </div>
-        <div>
-          <span>母亲：</span>
-          <Input value={mother} onChange={(e) => setMother(e.target.value)} />
-        </div>
-        <div>
-          <span>母亲：</span>
-          <Select
-            value={motherId}
-            onChange={(id: any) => {
-              setMotherId(id || "");
-            }}
-            style={{ flex: 1 }}
-            allowClear
-          >
-            {maoList
-              .filter((item) => item.mao_id !== mao.mao_id)
-              .map((item) => {
-                return (
-                  <Option key={item.mao_id} value={item.mao_id}>
-                    {item.name}
-                  </Option>
-                );
-              })}
-          </Select>
-        </div>
-        <div>
+        <div className={styles.box}>
           <span>外貌：</span>
           <Input
             value={appearance}
             onChange={(e) => setAppearance(e.target.value)}
           />
         </div>
-        <div>
+        <div className={styles.box}>
           <span>特点：</span>
           <Input value={feature} onChange={(e) => setFeature(e.target.value)} />
         </div>
-        <div>
+        <div className={styles.box}>
           <span>描述：</span>
           <TextArea
-            rows={4}
+            rows={6}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

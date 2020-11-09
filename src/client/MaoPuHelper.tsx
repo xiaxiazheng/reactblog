@@ -8,7 +8,7 @@ export async function getMaoPuList(): Promise<any> {
 
 export async function addMaoPu(params: any): Promise<any> {
   const data = await postHelper(`/addMaoPu`, params);
-  return data && data.resultsCode === 'success' ? true : false;
+  return data && data.resultsCode === 'success' ? data.data : false;
 }
 
 export async function updateMaoPu(params: any): Promise<any> {
