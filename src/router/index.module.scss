@@ -15,3 +15,10 @@ $headerHight: 3rem;
   height: calc(100% - #{$headerHight});
   font-size: 0;
 }
+
+@media (max-width: 720px) {
+  .RouterHead {
+    height: 0;
+  }
+}
+

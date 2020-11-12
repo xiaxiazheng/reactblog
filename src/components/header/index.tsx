@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import { Icon } from "@ant-design/compatible";
 
-import { Menu, Switch } from "antd";
+import { Menu, Switch, Drawer, Divider } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -65,6 +65,7 @@ const Header: React.FC<PropsType> = (props) => {
     e.key !== "github"
       ? setCurrent(e.key)
       : window.open("https://github.com/xiaxiazheng/reactblog", "_blank");
+    setVisible(false);
   };
 
   // 用于刷新的时候将当前导航栏高亮
@@ -106,7 +107,7 @@ const Header: React.FC<PropsType> = (props) => {
 
   const titleMap: any = {
     zyb: "XIAXIAZheng",
-    hyp: "XIAXIAHuang",
+    hyp: "阿苹的小站",
   };
 
   const jumpToLogin = () => {
@@ -118,7 +119,9 @@ const Header: React.FC<PropsType> = (props) => {
     });
   };
 
-  return (
+  const [visible, setVisible] = useState<boolean>(true);
+
+  const Header = () => (
     <header className={styles.Header}>
       <span
         className={styles.headerLeft}
@@ -155,7 +158,7 @@ const Header: React.FC<PropsType> = (props) => {
         <Menu
           onClick={handleClickTabs}
           selectedKeys={[current]}
-          mode="horizontal"
+          mode={window.screen.availWidth <= 720 ? "vertical" : "horizontal"}
           className={styles.headerRouteList}
         >
           <Menu.Item key="tree">
@@ -184,7 +187,7 @@ const Header: React.FC<PropsType> = (props) => {
           </Menu.Item>
           {isLogin && (
             <Menu.Item key="maopu">
-              <Icon type="cat" className={styles.headerIcon} />
+              <Icon type="reddit" className={styles.headerIcon} />
               <Link to={isLogin ? "/admin/maopu" : "/maopu"}>猫谱</Link>
             </Menu.Item>
           )}
@@ -205,6 +208,36 @@ const Header: React.FC<PropsType> = (props) => {
         )}
       </span>
     </header>
+  );
+
+  return (
+    <>
+      {window.screen.availWidth > 720 && <Header />}
+      {/* 移动端展示 */}
+      {window.screen.availWidth <= 720 && (
+        <>
+          <Drawer
+            // title="Basic Drawer"
+            placement="left"
+            closable={false}
+            onClose={() => {
+              setVisible(!visible);
+            }}
+            className={styles.drawer}
+            width={"calc(100% - 100px)"}
+            visible={visible}
+          >
+            <Header />
+          </Drawer>
+          <div
+            className={styles.drawerControl}
+            onClick={() => setVisible(true)}
+          >
+            <Icon type="home" className={styles.headerIcon} />
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

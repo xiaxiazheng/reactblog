@@ -16,7 +16,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     overflow: hidden;
-    >span {
+    > span {
       display: inline-block;
       width: 100px;
       padding: 5px 0;
@@ -31,7 +31,7 @@
     width: 77%;
     margin: 15px auto 5px;
     text-align: left;
-    >span {
+    > span {
       display: inline-block;
       margin: 0 10px 10px 0;
       padding: 5px 20px;
@@ -50,12 +50,82 @@
     width: 80%;
     height: 80%;
     margin: 0 auto;
-    >audio {
+    > audio {
       width: 100%;
     }
-    >video {
+    > video {
       max-width: 100%;
       max-height: 100%;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .video {
+    .tabs,
+    .videoList {
+      display: none;
+    }
+  }
+  .videoBox {
+    width: 90%;
+    height: 90%;
+    padding-top: 40%;
+  }
+  .mediaType {
+    position: fixed;
+    bottom: 6px;
+    right: 60px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: rgba(140, 220, 222, 0.4);
+  }
+  .songList {
+    position: fixed;
+    bottom: 6px;
+    right: 110px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: rgba(140, 220, 222, 0.4);
+  }
+  .drawer {
+    :global {
+      .ant-drawer-wrapper-body {
+        background-color: #083c51;
+      }
+      .ant-drawer-header {
+        background-color: #083c51;
+        > div {
+          color: white;
+        }
+      }
+      .ant-drawer-body {
+        background-color: #083c51;
+        height: calc(100% - 56px);
+        padding: 12px 12px;
+        overflow-y: auto;
+      }
+    }
+  }
+  .drawerVideoList {
+    > span {
+      display: inline-block;
+      width: 100%;
+      color: white;
+      font-size: 14px;
+      padding: 5px 12px;
+      background-color: #083c51;
+      &:nth-child(2n) {
+        background-color: #083c51;
+      }
+      &.active {
+        color: #48e3f6;
+        background-color: #0f4156;
+      }
     }
   }
 }

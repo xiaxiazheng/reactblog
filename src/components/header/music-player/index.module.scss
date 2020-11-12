@@ -1,3 +1,9 @@
+@media (max-width: 720px) {
+  .music {
+    display: none;
+  }
+}
+
 .music {
   position: absolute;
   border: 1px solid #ccc;

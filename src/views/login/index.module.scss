@@ -49,3 +49,13 @@
     z-index: 2;
   }
 }
+
+
+@media (max-width: 720px) {
+  .Login {
+    width: 100%;
+    .loginCont {
+      width: 100%;
+    }
+  }
+}
