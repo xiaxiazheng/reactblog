@@ -27,8 +27,13 @@
       }
     }
   }
+  .musicBox {
+    width: 77%;
+    margin: 15px auto 5px;
+  }
   .videoList {
     width: 77%;
+    height: calc(100% - 200px);
     margin: 15px auto 5px;
     text-align: left;
     > span {
@@ -65,6 +70,10 @@
     .tabs,
     .videoList {
       display: none;
+    }
+    .musicBox {
+      width: 100%;
+      margin-top: 50%;
     }
   }
   .videoBox {

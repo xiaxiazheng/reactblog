@@ -1,14 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-
-import {
-  BookOutlined,
-  ClusterOutlined,
-  ExportOutlined,
-  PictureOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
 import { Icon } from "@ant-design/compatible";
 
 import { Menu, Switch, Drawer, Divider } from "antd";
@@ -16,7 +8,8 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
-import MusicPlayer from "../music-player";
+// import MusicPlayer from "../music-player";
+import MiniMusicPlayer from "./mini-music-player";
 import moment from "moment";
 
 interface PropsType extends RouteComponentProps {}
@@ -134,7 +127,8 @@ const Header: React.FC<PropsType> = (props) => {
           已经 {already} 啦({alreadyDays}天)
         </span>
       )}
-      {isLogin && <MusicPlayer />}
+      {/* 音乐播放器 */}
+      {isLogin && <MiniMusicPlayer />}
       <span className={styles.headerRight}>
         {/* 用户切换开关 */}
         {!isLogin && (

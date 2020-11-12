@@ -4,11 +4,7 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
 import { Drawer, Icon, message } from "antd";
-
-interface FileType {
-  key: string;
-  mimeType: string;
-}
+import MusicPlayer, { FileType } from "@/components/music-player";
 
 const Video: React.FC = () => {
   const { isLogin } = useContext(IsLoginContext);
@@ -42,38 +38,22 @@ const Video: React.FC = () => {
   const [active, setActive] = useState<FileType>();
 
   useEffect(() => {
-    if (active) {
+    if (active && activeTab === "视频") {
       const dom: any = videoBox;
       if (dom.current) {
         dom.current.childNodes[0].pause();
         dom.current.childNodes[0].src = "";
         dom.current.childNodes[0].childNodes[0].src = "";
         dom.current.removeChild(dom.current.childNodes[0]);
-        // console.log('dom.current.childNodes[0]', dom.current.childNodes[0])
 
-        const audio: any = document.createElement(
-          activeTab === "音乐" ? "audio" : "video"
-        );
-        audio.controls = true;
-        activeTab === "音乐" && (audio.autoplay = true);
-
-        // 播放完随机播放下一首
-        audio.addEventListener("ended", () => {
-          if (activeTab === "音乐") {
-            let index = Math.floor(Math.random() * musicList.length);
-            if (musicList[index].key === active.key) {
-              index = Math.floor(Math.random() * musicList.length);
-            }
-            // console.log(musicList[index])
-            setActive(musicList[index]);
-          }
-        });
+        const video: any = document.createElement("video");
+        video.controls = true;
 
         const source = document.createElement("source");
         source.src = `${cdnUrl}/${active.key}`;
         source.type = active.mimeType;
-        audio.appendChild(source);
-        dom.current.appendChild(audio);
+        video.appendChild(source);
+        dom.current.appendChild(video);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,6 +61,7 @@ const Video: React.FC = () => {
 
   const handleChoiceTab = (item: string) => {
     setActiveTab(item);
+    setActive(undefined);
     setList(item === "音乐" ? musicList : videoList);
   };
 
@@ -108,6 +89,11 @@ const Video: React.FC = () => {
 
   return (
     <div className={`${styles.video} ScrollBar`}>
+      {activeTab === "音乐" && (
+        <div className={styles.musicBox}>
+          <MusicPlayer activeSong={active} />
+        </div>
+      )}
       <div className={styles.tabs}>
         {["音乐", "视频"].map((item) => (
           <span
@@ -119,22 +105,26 @@ const Video: React.FC = () => {
           </span>
         ))}
       </div>
-      <div className={styles.videoList}>
+      <div className={`${styles.videoList} ScrollBar`}>
         <VideoList />
       </div>
       {/* 播放 */}
-      <div className={styles.videoBox} ref={videoBox}>
-        <audio controls>
-          <source src={""} />
-        </audio>
-      </div>
+      {activeTab === "视频" && (
+        <div className={styles.videoBox} ref={videoBox}>
+          <audio controls>
+            <source src={""} />
+          </audio>
+        </div>
+      )}
 
       {/* 移动端展示 */}
       {window.screen.availWidth <= 720 && (
         <>
+          {/* 展开歌曲列表 */}
           <div className={styles.songList} onClick={() => setVisible(true)}>
             <Icon type="unordered-list" />
           </div>
+          {/* 切换音乐/视频 */}
           <div
             className={styles.mediaType}
             onClick={() => {
@@ -149,6 +139,7 @@ const Video: React.FC = () => {
               <Icon type="youtube" />
             )}
           </div>
+          {/* 歌曲列表抽屉 */}
           <Drawer
             title={activeTab + "列表"}
             placement="bottom"

@@ -3,28 +3,35 @@ import styles from "./index.module.scss";
 // import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
-// import {
-//   ArrowLeftOutlined,
-//   ArrowRightOutlined,
-//   RedoOutlined,
-//   UnorderedListOutlined,
-// } from "@ant-design/icons";
 import { Icon } from "@ant-design/compatible";
 import { message } from "antd";
-import { timesofSongAddOne } from '@/client/TimesofSong'
+import { timesofSongAddOne } from "@/client/TimesofSong";
 
-interface FileType {
+export interface FileType {
   key: string;
   mimeType: string;
   times: string;
 }
 
-const Music: React.FC = () => {
+interface PropsType {
+  activeSong?: FileType;
+}
+
+const Music: React.FC<PropsType> = (props) => {
+  const { activeSong } = props;
   // const { isLogin } = useContext(IsLoginContext);
 
   useEffect(() => {
     getList();
   }, []);
+
+  // 如果有传值进来，就播放传值的歌
+  useEffect(() => {
+    if (activeSong) {
+      setActive(activeSong);
+      setIsPlaying(false);
+    }
+  }, [activeSong]);
 
   // 是否单曲循环
   const [isOneCircle, setIsOneCircle] = useState<boolean>(false);
@@ -44,14 +51,15 @@ const Music: React.FC = () => {
   };
 
   const musicBox = useRef(null);
-  const circle = useRef(null);
   const [active, setActive] = useState<FileType>(); // 当前播放歌曲
-  const [showList, setShowList] = useState<boolean | null>(null);
+  const [isShowList, setIsShowList] = useState<boolean | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   // 根据 active 的不同切换播放的歌曲
   useEffect(() => {
     if (active) {
       changeSong(active);
+      setIsPlaying(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
@@ -68,7 +76,7 @@ const Music: React.FC = () => {
       const audio: any = document.createElement("audio");
       audio.controls = true;
       audio.autoplay = true;
-      audio.onplaying = handlePlaying.bind(null, song.key);
+      audio.onplaying = countingPlaying.bind(null, song.key);
 
       // 监听播放结束
       audio.onended = handleFinish;
@@ -76,24 +84,39 @@ const Music: React.FC = () => {
       const source = document.createElement("source");
       source.src = `${cdnUrl}/${song.key}`;
       source.type = song.mimeType;
+      
       audio.appendChild(source);
       dom.current.appendChild(audio);
     }
   };
 
+  // 播放 & 暂停
+  const handlePlaying = (bool: boolean) => {
+    const dom: any = musicBox;
+    if (dom.current && dom.current.childNodes && dom.current.childNodes.length === 1) {
+      const music: any = dom.current.childNodes[0]
+      if (bool) {
+        music.play()
+      } else {
+        music.pause()
+      }
+      setIsPlaying(bool);
+    }
+  };
+
   // 开始播放后计时
-  const handlePlaying = (song_name: string) => {
+  const countingPlaying = (song_name: string) => {
     // 听了 20s 就当做听了一次这首歌
     setTimeout(async () => {
       let params = {
-        song_name
-      }
-      const res = await timesofSongAddOne(params)
+        song_name,
+      };
+      const res = await timesofSongAddOne(params);
       if (res) {
-        message.success(`${res.message}；当前次数：${res.data}`)
+        message.success(`${res.message}；当前次数：${res.data}`);
       }
-    }, 20000)
-  }
+    }, 20000);
+  };
 
   // 由于 hooks 的原因，要重新绑定这个事件才能获取到当前的 isOneCircle 的状态
   useEffect(() => {
@@ -119,7 +142,7 @@ const Music: React.FC = () => {
   // 处理选择歌曲
   const handleChoice = (item: FileType) => {
     setActive(item);
-    setShowList(null);
+    setIsShowList(null);
     message.success(`当前播放：${item.key}`, 1);
   };
 
@@ -161,73 +184,31 @@ const Music: React.FC = () => {
     return randomList[index] ? randomList[index].key : "";
   };
 
-  const [isDrog, setIsDrog] = useState(false);
-  const [downX, setDownX] = useState<any>();
-  const [downY, setDownY] = useState<any>();
-  const [left, setLeft] = useState(
-    Number(localStorage.getItem("musicLeft") || 0)
-  );
-  const [top, setTop] = useState(Number(localStorage.getItem("musicTop") || 0));
-
-  const down = (e: any) => {
-    e.preventDefault();
-    setIsDrog(true);
-    const dom: any = circle.current;
-    setDownX(e.clientX - dom.offsetLeft);
-    setDownY(e.clientY - dom.offsetTop);
-  };
-
-  const move = (e: any) => {
-    e.preventDefault();
-    if (isDrog) {
-      setLeft(e.clientX - downX);
-      setTop(e.clientY - downY);
-    }
-  };
-
-  const up = (ev: any) => {
-    ev.preventDefault();
-    setIsDrog(false);
-    localStorage.setItem("musicLeft", String(left));
-    localStorage.setItem("musicTop", String(top));
-  };
-
+  // 展示歌曲列表
   const showSongList = () => {
-    if (!showList) {
-      setShowList(true);
+    if (!isShowList) {
+      setIsShowList(true);
     } else {
-      setShowList(false);
+      setIsShowList(false);
       setTimeout(() => {
-        setShowList(null);
+        setIsShowList(null);
       }, 300);
     }
   };
 
   return (
-    <div
-      ref={circle}
-      className={styles.music}
-      draggable={true}
-      onMouseDown={down}
-      onMouseMove={move}
-      onMouseUp={up}
-      onMouseLeave={up}
-      style={{
-        left: left,
-        top: top,
-      }}
-    >
+    <div className={styles.music}>
       {/* 播放 */}
       <div className={styles.musicBox} ref={musicBox}>
         <audio controls>
           <source src={""} />
         </audio>
       </div>
+      <div className={styles.songName} title={active ? active.key : ""}>
+        {active ? active.key : "暂无播放"}
+      </div>
       {/* 控件 */}
       <div className={styles.iconBox}>
-        <span className={styles.songName} title={active ? active.key : ""}>
-          {active ? active.key : ""}
-        </span>
         <Icon
           type="redo"
           className={`${styles.playIcon} ${isOneCircle ? styles.active : ""}`}
@@ -240,23 +221,39 @@ const Music: React.FC = () => {
           title={`上一首：${getBeforeSong()}`}
           onClick={playBeforeSong}
         />
-        <Icon
-          type="unordered-list"
-          className={styles.playIcon}
-          title={`歌曲列表`}
-          onClick={showSongList}
-        />
+        {!isPlaying && (
+          <Icon
+            type="play-circle"
+            className={`${styles.playIcon}`}
+            title={`播放`}
+            onClick={handlePlaying.bind(null, true)}
+          />
+        )}
+        {isPlaying && (
+          <Icon
+            type="pause-circle"
+            className={`${styles.playIcon}`}
+            title={`暂停`}
+            onClick={handlePlaying.bind(null, false)}
+          />
+        )}
         <Icon
           type="arrow-right"
           className={styles.playIcon}
           title={`下一首：${getAfterSong()}`}
           onClick={playAfterSong}
         />
+        <Icon
+          type="unordered-list"
+          className={`${styles.playIcon} ${isShowList ? styles.active : ""}`}
+          title={`歌曲列表`}
+          onClick={showSongList}
+        />
       </div>
       {/* 列表 */}
       <div
         className={`${styles.musicList} ${
-          showList === null ? "" : showList ? styles.show : styles.hide
+          isShowList === null ? "" : isShowList ? styles.show : styles.hide
         } ScrollBar`}
       >
         {musicList &&
