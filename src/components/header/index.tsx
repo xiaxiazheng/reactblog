@@ -16,7 +16,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
-import MusicPlayer from "./music-player";
+import MusicPlayer from "../music-player";
 import moment from "moment";
 
 interface PropsType extends RouteComponentProps {}
@@ -224,7 +224,7 @@ const Header: React.FC<PropsType> = (props) => {
               setVisible(!visible);
             }}
             className={styles.drawer}
-            width={"calc(100% - 100px)"}
+            width={"calc(100% - 80px)"}
             visible={visible}
           >
             <Header />

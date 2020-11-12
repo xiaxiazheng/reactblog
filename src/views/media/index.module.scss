@@ -75,22 +75,22 @@
   .mediaType {
     position: fixed;
     bottom: 6px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: rgba(12, 239, 176, 0.55);
+  }
+  .songList {
+    position: fixed;
+    bottom: 6px;
     right: 60px;
     width: 40px;
     height: 40px;
     line-height: 40px;
     border-radius: 50%;
-    background-color: rgba(140, 220, 222, 0.4);
-  }
-  .songList {
-    position: fixed;
-    bottom: 6px;
-    right: 110px;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    background-color: rgba(140, 220, 222, 0.4);
+    background-color: rgba(12, 239, 176, 0.55);
   }
   .drawer {
     :global {
