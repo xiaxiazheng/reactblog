@@ -56,3 +56,19 @@
     }
   }
 }
+
+@media (max-width: 720px) {
+  .logListItem {
+    .title {
+      display: inline-block;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .tagBox {
+      vertical-align: middle;
+    }
+    .author, .orderbyTime, .editType, .visits, .logOperateBox {
+      display: none;
+    }
+  }
+}

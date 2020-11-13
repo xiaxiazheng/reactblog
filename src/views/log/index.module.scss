@@ -62,3 +62,31 @@
     }
   }
 }
+
+@media (max-width: 720px) {
+  .log {
+    .logLeft {
+      display: none;
+    }
+  }
+  .songList {
+    position: fixed;
+    bottom: 6px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: rgba(12, 239, 176, 0.55);
+  }
+  .drawer {
+    :global {
+      .ant-drawer-body {
+        padding: 0;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+    }
+  }
+}

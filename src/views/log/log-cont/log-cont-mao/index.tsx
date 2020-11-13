@@ -4,10 +4,11 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface PropsType extends RouteComponentProps {
   logcont: string;
+  closeDrawer?: Function;
 }
 
 const LogCont: React.FC<PropsType> = (props) => {
-  const { logcont } = props;
+  const { logcont, closeDrawer } = props;
   const [maoList, setMaoList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -38,21 +39,26 @@ const LogCont: React.FC<PropsType> = (props) => {
       dom[0].scrollIntoView({ behavior: "smooth" });
       dom[0].style.color = "#e4d149";
     }
+
+    // 必须延迟才会等到动画结束再执行，否则不会 scroll
+    closeDrawer && setTimeout(() => closeDrawer(), 500);
   };
 
   const getMaoName = (header: string) => {
     // eslint-disable-next-line no-useless-escape
     // console.dir(header);
     // 这是剥掉了标题标签后剩下的内容
-    const content = header.replace(/\<h\d[^>]*\>|\<\/h\d>/g, '');
+    const content = header.replace(/\<h\d[^>]*\>|\<\/h\d>/g, "");
     // 这是剥掉了内容里的其他 html 标签元素（例如加粗、斜体之类的标签及样式等）
-    const name = content.replace(/\<[^>]*\>|\<\/[^>]*>/g, '')
+    const name = content.replace(/\<[^>]*\>|\<\/[^>]*>/g, "");
 
     return (
       <div
         key={header}
         className={styles.maoItem}
-        onClick={() => scrollIntoMao(content)}
+        onClick={() => {
+          scrollIntoMao(content);
+        }}
       >
         {name}
       </div>

@@ -5,14 +5,13 @@ import TagList from "./tag-list";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogContext } from "./LogContext";
 import { addLogCont } from "@/client/LogHelper";
-import { FileMarkdownOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Icon } from '@ant-design/compatible'
-import { Button, message } from "antd";
+import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
+import { Button, message, Icon, Drawer } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface PropsType extends RouteComponentProps {}
 
-const Log: React.FC<PropsType> = props => {
+const Log: React.FC<PropsType> = (props) => {
   const { history } = props;
 
   const { isLogin } = useContext(IsLoginContext);
@@ -21,7 +20,7 @@ const Log: React.FC<PropsType> = props => {
   // 添加日志
   const addNewLog = async (type: "richtext" | "markdown") => {
     const params = {
-      edittype: type
+      edittype: type,
     };
     const res: any = await addLogCont(params);
     if (res) {
@@ -33,49 +32,73 @@ const Log: React.FC<PropsType> = props => {
       history.push({
         pathname: path,
         state: {
-          editType: type // 要带上日志类型
-        }
+          editType: type, // 要带上日志类型
+        },
       });
     } else {
       message.error("新建失败");
     }
   };
 
+  const [visible, setVisible] = useState<boolean>(false);
+
   return (
-    <div className={styles.log}>
-      <div className={styles.logLeft}>
-        {isLogin && (
-          // 新建日志
-          <div className={styles.addLog}>
-            <Button
-              className={styles.addLogButton}
-              title="新建富文本日志"
-              type="primary"
-              size="small"
-              icon="file-text"
-              onClick={addNewLog.bind(null, "richtext")}
-            >
-              新建富文本日志
-            </Button>
-            <Button
-              className={styles.addLogButton}
-              title="新建 MarkDown 日志"
-              type="primary"
-              size="small"
-              icon="file-markdown"
-              onClick={addNewLog.bind(null, "markdown")}
-            >
-              新建 markdown 日志
-            </Button>
+    <>
+      <div className={styles.log}>
+        <div className={styles.logLeft}>
+          {isLogin && (
+            // 新建日志
+            <div className={styles.addLog}>
+              <Button
+                className={styles.addLogButton}
+                title="新建富文本日志"
+                type="primary"
+                size="small"
+                icon="file-text"
+                onClick={addNewLog.bind(null, "richtext")}
+              >
+                新建富文本日志
+              </Button>
+              <Button
+                className={styles.addLogButton}
+                title="新建 MarkDown 日志"
+                type="primary"
+                size="small"
+                icon="file-markdown"
+                onClick={addNewLog.bind(null, "markdown")}
+              >
+                新建 markdown 日志
+              </Button>
+            </div>
+          )}
+          <TagList />
+        </div>
+        <div className={`${styles.logRight} ScrollBar`}>
+          {/* 日志列表 */}
+          <LogList />
+        </div>
+      </div>
+      {window.screen.availWidth <= 720 && (
+        <>
+          <div className={styles.songList} onClick={() => setVisible(true)}>
+            <Icon type="unordered-list" />
           </div>
-        )}
-        <TagList/>
-      </div>
-      <div className={`${styles.logRight} ScrollBar`}>
-        {/* 日志列表 */}
-        <LogList/>
-      </div>
-    </div>
+          <Drawer
+            title={"tag 列表"}
+            placement="bottom"
+            closable={true}
+            onClose={() => {
+              setVisible(!visible);
+            }}
+            className={styles.drawer}
+            height={"auto"}
+            visible={visible}
+          >
+            <TagList closeDrawer={() => setVisible(false)} />
+          </Drawer>
+        </>
+      )}
+    </>
   );
 };
 

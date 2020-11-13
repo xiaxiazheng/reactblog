@@ -68,3 +68,23 @@
 .addTag {
   margin: 10px 0;
 }
+
+@media (max-width: 720px) {
+  .addTag {
+    display: none;
+  }
+  .tagList {
+    .tagItem {
+      border-color: black;
+      &.active {
+        color: white;
+        background-color: #00a4ff;
+      }
+      .allIconBox {
+        .iconsBox {
+          display: none;
+        }
+      }
+    }
+  }
+}

@@ -5,11 +5,10 @@ import { getLogCont } from "@/client/LogHelper";
 import Loading from "@/components/loading";
 import classnames from "classnames";
 import { IsLoginContext } from "@/context/IsLoginContext";
-import { Button, message } from "antd";
+import { Button, message, Icon, Drawer } from "antd";
 import { addVisits } from "@/client/LogHelper";
 import LogContMao from "../log-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { Icon } from "@ant-design/compatible";
 
 import MarkdownShow from "../markdown-show";
 import RichtextShow from "../richtext-show";
@@ -19,7 +18,7 @@ interface PropsType extends RouteComponentProps {
 }
 
 const LogContShow: React.FC<PropsType> = (props) => {
-  const { history, log_id } = props
+  const { history, log_id } = props;
 
   const [edittype, setEdittype] = useState<"richtext" | "markdown">("richtext");
   const [loading, setLoading] = useState(true);
@@ -93,67 +92,106 @@ const LogContShow: React.FC<PropsType> = (props) => {
     });
   };
 
+  const [visible, setVisible] = useState<boolean>(false);
+
   return (
-    <div className={className} ref={logcontShowWrapper}>
-      {loading ? (
-        <Loading />
-      ) : (
-        logdata && (
+    <>
+      <div className={className} ref={logcontShowWrapper}>
+        {loading ? (
+          <Loading />
+        ) : (
+          logdata && (
+            <>
+              <div className={styles.title}>{logdata.title}</div>
+              <div className={styles.author}>{logdata.author}</div>
+              <div className={styles.time}>
+                <span>创建时间: {logdata.cTime}</span>
+                <span>修改时间: {logdata.mTime}</span>
+                {isLogin && <span>访问量：{visits}</span>}
+              </div>
+              {
+                // 富文本展示
+                edittype === "richtext" && (
+                  <RichtextShow logcont={logdata.logcont} />
+                )
+              }
+              {
+                // markdown 展示
+                edittype === "markdown" && (
+                  <MarkdownShow logcont={logdata.logcont} />
+                )
+              }
+            </>
+          )
+        )}
+        {/* 导出到 pdf 按钮 */}
+        <Button
+          className={styles.exportPdf}
+          // type={'danger'}
+          onClick={exportPdf}
+        >
+          <Icon type="file-pdf" />
+          导出
+        </Button>
+        {/* 回到顶部 */}
+        <Button
+          className={styles.scrollToTop}
+          title="回到顶部"
+          type="primary"
+          shape="circle"
+          icon="vertical-align-top"
+          size="large"
+          onClick={scrollTo.bind(null, "top")}
+        />
+        {/* 回到底部 */}
+        <Button
+          className={styles.scrollToBottom}
+          title="回到底部"
+          type="primary"
+          shape="circle"
+          icon="vertical-align-bottom"
+          size="large"
+          onClick={scrollTo.bind(null, "bottom")}
+        />
+        {/* 锚点 */}
+        {window.screen.availWidth > 720 && logdata && (
+          <LogContMao logcont={logdata.logcont} />
+        )}
+        {window.screen.availWidth <= 720 && (
           <>
-            <div className={styles.title}>{logdata.title}</div>
-            <div className={styles.author}>{logdata.author}</div>
-            <div className={styles.time}>
-              <span>创建时间: {logdata.cTime}</span>
-              <span>修改时间: {logdata.mTime}</span>
-              {isLogin && <span>访问量：{visits}</span>}
-            </div>
-            {
-              // 富文本展示
-              edittype === "richtext" && (
-                <RichtextShow logcont={logdata.logcont} />
-              )
-            }
-            {
-              // markdown 展示
-              edittype === "markdown" && (
-                <MarkdownShow logcont={logdata.logcont} />
-              )
-            }
+            <Drawer
+              title={"锚点"}
+              placement="bottom"
+              closable={true}
+              onClose={() => {
+                setVisible(!visible);
+              }}
+              className={styles.drawer}
+              height={"auto"}
+              visible={visible}
+            >
+              {logdata && (
+                <LogContMao
+                  logcont={logdata.logcont}
+                  closeDrawer={() => setVisible(false)}
+                />
+              )}
+            </Drawer>
+            <Button
+              className={styles.openMao}
+              title="打开锚点列表"
+              type="primary"
+              shape="circle"
+              icon="environment"
+              size="large"
+              onClick={() => {
+                setVisible(true);
+              }}
+            />
           </>
-        )
-      )}
-      {/* 导出到 pdf 按钮 */}
-      <Button
-        className={styles.exportPdf}
-        // type={'danger'}
-        onClick={exportPdf}
-      >
-        <Icon type="file-pdf" />
-        导出
-      </Button>
-      {/* 回到顶部 */}
-      <Button
-        className={styles.scrollToTop}
-        title="回到顶部"
-        type="primary"
-        shape="circle"
-        icon="vertical-align-top"
-        size="large"
-        onClick={scrollTo.bind(null, "top")}
-      />
-      {/* 回到底部 */}
-      <Button
-        className={styles.scrollToBottom}
-        title="回到底部"
-        type="primary"
-        shape="circle"
-        icon="vertical-align-bottom"
-        size="large"
-        onClick={scrollTo.bind(null, "bottom")}
-      />
-      {/* 锚点 */}
-      {logdata && <LogContMao logcont={logdata.logcont} />}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

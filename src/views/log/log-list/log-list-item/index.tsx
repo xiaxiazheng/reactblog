@@ -1,11 +1,5 @@
 import React, { useState, useContext } from "react";
 import styles from "./index.module.scss";
-import {
-  DeleteOutlined,
-  EyeOutlined,
-  TagsOutlined,
-  VerticalAlignTopOutlined,
-} from "@ant-design/icons";
 import { Icon } from "@ant-design/compatible";
 import { message, Modal, Select } from "antd";
 import {

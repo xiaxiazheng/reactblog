@@ -23,9 +23,13 @@ interface TagType {
 
 const { confirm } = Modal;
 
-interface PropsType {}
+interface PropsType {
+  closeDrawer?: Function;
+}
 
 const TagList: React.FC<PropsType> = (props) => {
+  const { closeDrawer } = props
+
   const { isLogin } = useContext(IsLoginContext);
   const { username } = useContext(UserContext);
   const {
@@ -71,6 +75,7 @@ const TagList: React.FC<PropsType> = (props) => {
   const choiceTag = (tag_id: string) => {
     setActiveTag(tag_id === activeTag ? "" : tag_id);
     setIsTagChange(true)
+    closeDrawer && closeDrawer()
   };
 
   const createTag = async () => {
@@ -158,7 +163,7 @@ const TagList: React.FC<PropsType> = (props) => {
                 <div className={styles.allIconBox}>
                   {/* tag name */}
                   <span>
-                    {item.tag_name} ({item.count})
+                    {item.tag_name}({item.count})
                   </span>
                   {/* 工具们 */}
                   {isLogin &&

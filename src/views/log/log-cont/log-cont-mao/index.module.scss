@@ -30,3 +30,20 @@
     }
   }
 }
+
+@media (max-width: 720px) {
+  .logMao {
+    position: relative;
+    top: unset;
+    font-size: 16px;
+    max-width: unset;
+    width: 100%;
+    opacity: 1;
+    &:hover {
+      opacity: 1;
+    }
+    >div {
+      color: black;
+    }
+  }
+}
