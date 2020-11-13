@@ -5,6 +5,7 @@
   height: 100%;
   border-bottom: 1px solid var(--border_color);
   box-sizing: border-box;
+  overflow: hidden;
 
   :global(.ant-menu-horizontal) {
     border-bottom: none;

@@ -17,6 +17,9 @@ interface PropsType {
   activeSong?: FileType;
 }
 
+// 放组件内会被不断初始化，要放这做全局变量
+let timer: any = -1
+
 const Music: React.FC<PropsType> = (props) => {
   const { activeSong } = props;
   // const { isLogin } = useContext(IsLoginContext);
@@ -66,6 +69,9 @@ const Music: React.FC<PropsType> = (props) => {
 
   // 播放 song
   const changeSong = (song: FileType) => {
+    // 清除上一个的定时器
+    clearTimeout(timer)
+
     const dom: any = musicBox;
     if (dom.current) {
       dom.current.childNodes[0].pause();
@@ -76,15 +82,33 @@ const Music: React.FC<PropsType> = (props) => {
       const audio: any = document.createElement("audio");
       audio.controls = true;
       audio.autoplay = true;
-      audio.onplaying = countingPlaying.bind(null, song.key);
 
-      // 监听播放结束
+      audio.onloadeddata = () => {
+        // 加载了 45s 就当做听了一次这首歌
+        timer = setTimeout(async () => {
+          if (active) {
+            let params = {
+              song_name: song.key
+            };
+            const res = await timesofSongAddOne(params);
+            if (res) {
+              message.success(`${res.message}；当前次数：${res.data}`);
+            }
+          }
+        }, 45000);
+      };
+
+      // 更新播放按钮的状态
+      audio.onplay = () => setIsPlaying(true);
+      audio.onpause = () => setIsPlaying(false);
+
+      // 监听播放结束，单曲循环或下一首
       audio.onended = handleFinish;
 
       const source = document.createElement("source");
       source.src = `${cdnUrl}/${song.key}`;
       source.type = song.mimeType;
-      
+
       audio.appendChild(source);
       dom.current.appendChild(audio);
     }
@@ -93,40 +117,20 @@ const Music: React.FC<PropsType> = (props) => {
   // 播放 & 暂停
   const handlePlaying = (bool: boolean) => {
     const dom: any = musicBox;
-    if (dom.current && dom.current.childNodes && dom.current.childNodes.length === 1) {
-      const music: any = dom.current.childNodes[0]
+    if (
+      dom.current &&
+      dom.current.childNodes &&
+      dom.current.childNodes.length === 1
+    ) {
+      const music: any = dom.current.childNodes[0];
       if (bool) {
-        music.play()
+        music.play();
       } else {
-        music.pause()
+        music.pause();
       }
       setIsPlaying(bool);
     }
   };
-
-  // 开始播放后计时
-  const countingPlaying = (song_name: string) => {
-    // 听了 20s 就当做听了一次这首歌
-    setTimeout(async () => {
-      let params = {
-        song_name,
-      };
-      const res = await timesofSongAddOne(params);
-      if (res) {
-        message.success(`${res.message}；当前次数：${res.data}`);
-      }
-    }, 20000);
-  };
-
-  // 由于 hooks 的原因，要重新绑定这个事件才能获取到当前的 isOneCircle 的状态
-  useEffect(() => {
-    const dom: any = musicBox;
-    if (dom.current) {
-      const audio = dom.current.childNodes[0];
-      audio.onended = handleFinish;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOneCircle]);
 
   // 处理播放完之后
   const handleFinish = () => {
@@ -138,6 +142,16 @@ const Music: React.FC<PropsType> = (props) => {
       playAfterSong();
     }
   };
+
+  // 由于 hooks 的原因，要重新绑定这个事件才能获取到当前的 isOneCircle 的状态
+  useEffect(() => {
+    const dom: any = musicBox;
+    if (dom.current) {
+      const audio = dom.current.childNodes[0];
+      audio.onended = handleFinish;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOneCircle]);
 
   // 处理选择歌曲
   const handleChoice = (item: FileType) => {
