@@ -79,3 +79,33 @@ $TreeMenuWidth: 21rem;
     }
   }
 }
+
+@media (max-width: 720px) {
+  .drawer {
+    :global {
+      .ant-drawer-wrapper-body {
+        border-top: 1px solid white;
+      }
+      .ant-drawer-body {
+        padding: 0;
+      }
+    }
+  }
+  .Tree {
+    font-size: 16px;
+    .treeLeft {
+      display: none;
+    }
+    .songList {
+      position: fixed;
+      bottom: 6px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 50%;
+      background-color: rgba(12, 239, 176, 0.55);
+    }
+  }
+
+}

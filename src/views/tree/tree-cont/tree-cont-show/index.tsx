@@ -13,7 +13,7 @@ import { default as imgPlaceHolder } from "@/assets/loading.svg";
 // 代码高亮
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
-import { Button } from 'antd'
+import { Button, Drawer } from "antd";
 
 interface PropsType extends RouteComponentProps {
   first_id: string;
@@ -147,14 +147,34 @@ const TreeContShow: React.FC<PropsType> = (props) => {
     );
   }, [refMap]);
 
-  const scrollTo = (type: 'top' | 'bottom') => {
+  const scrollTo = (type: "top" | "bottom") => {
     contShowRef.current.scroll({
       left: 0,
-      top: type === 'top' ? 0 : Number.MAX_SAFE_INTEGER,
-      behavior: 'smooth'
-    })
+      top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
+      behavior: "smooth",
+    });
     // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
-  }
+  };
+
+  const Mao = () => (
+    <>
+      {loading && <Loading />}
+      {contList.map((item) => {
+        return (
+          <a
+            key={item.sort}
+            href={`#${item.sort}`}
+            className={hashValue === `${item.sort}` ? "active" : ""}
+            onClick={() => setVisible(false)}
+          >
+            {item.title}
+          </a>
+        );
+      })}
+    </>
+  );
+
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -210,18 +230,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
 
         {/* 锚点们 */}
         <div className={styles.mao}>
-          {loading && <Loading />}
-          {contList.map((item) => {
-            return (
-              <a
-                key={item.sort}
-                href={`#${item.sort}`}
-                className={hashValue === `${item.sort}` ? "active" : ""}
-              >
-                {item.title}
-              </a>
-            );
-          })}
+          <Mao />
         </div>
 
         {/* 图片预览 */}
@@ -243,7 +252,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
           shape="circle"
           icon="vertical-align-top"
           size="large"
-          onClick={scrollTo.bind(null, 'top')}
+          onClick={scrollTo.bind(null, "top")}
         />
         {/* 回到底部 */}
         <Button
@@ -253,8 +262,35 @@ const TreeContShow: React.FC<PropsType> = (props) => {
           shape="circle"
           icon="vertical-align-bottom"
           size="large"
-          onClick={scrollTo.bind(null, 'bottom')}
+          onClick={scrollTo.bind(null, "bottom")}
         />
+
+        {window.screen.availWidth <= 720 && (
+          <>
+            <Drawer
+              title={"锚点"}
+              placement="bottom"
+              closable={true}
+              onClose={() => {
+                setVisible(!visible);
+              }}
+              className={styles.drawer}
+              height={"auto"}
+              visible={visible}
+            >
+              <Mao />
+            </Drawer>
+            <Button
+              className={styles.openMao}
+              title="打开锚点列表"
+              type="primary"
+              shape="circle"
+              icon="environment"
+              size="large"
+              onClick={() => { setVisible(true) }}
+            />
+          </>
+        )}
       </div>
     </>
   );

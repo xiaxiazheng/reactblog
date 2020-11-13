@@ -112,3 +112,60 @@
     opacity: 0.6;
   }
 }
+
+@media (max-width: 720px) {
+  .treecontedit {
+    .treeconteditWrapper {
+      padding: 0 15px 2rem;
+      .treecontTitle {
+        padding: 0;
+      }
+      .contitem {
+        flex-wrap: wrap;
+        .contitemEdit {
+          width: 100%;
+        }
+        .contitemImg {
+          width: 100%;
+          margin-top: 5px;
+          >div {
+            margin: 0 10px 10px 0;
+          }
+        }
+        .contitemIcons {
+          .contitemTime {
+            display: none;
+          }
+        }
+      }
+    }
+    .treecontAddbuttonFront {
+      position: fixed;
+      top: unset;
+      right: 260px;
+      bottom: 6px;
+    }
+    .treecontAddbuttonBehind {
+      position: fixed;
+      top: unset;
+      right: 210px;
+      bottom: 6px;
+    }
+    .treecontSavebutton {
+      position: fixed;
+      top: unset;
+      right: 160px;
+      bottom: 6px;
+    }
+    .scrollToTop {
+      top: unset;
+      right: 110px;
+      bottom: 6px;
+    }
+    .scrollToBottom {
+      top: unset;
+      right: 60px;
+      bottom: 6px;
+    }
+  }
+}

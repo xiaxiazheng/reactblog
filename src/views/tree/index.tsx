@@ -2,8 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import TreeList from "./tree-list";
-import { Icon } from '@ant-design/compatible'
-import { Switch } from "antd";
+import { Drawer, Switch, Icon } from "antd";
 import TreeCont from "./tree-cont";
 import classnames from "classnames";
 import { withRouter, RouteComponentProps, match } from "react-router-dom";
@@ -28,6 +27,8 @@ const Tree: React.FC<PropsType> = (props) => {
   useEffect(() => {
     setIsMain(JSON.stringify(match.params) === "{}");
   }, [match.params]);
+
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <div className={styles.Tree}>
@@ -65,6 +66,26 @@ const Tree: React.FC<PropsType> = (props) => {
           second_id={second_id}
         />
       </div>
+      {window.screen.availWidth <= 720 && (
+        <>
+          <div className={styles.songList} onClick={() => setVisible(true)}>
+            <Icon type="unordered-list" />
+          </div>
+          <Drawer
+            // title={activeTab + "列表"}
+            placement="bottom"
+            closable={true}
+            onClose={() => {
+              setVisible(!visible);
+            }}
+            className={styles.drawer}
+            height={"calc(100% - 150px)"}
+            visible={visible}
+          >
+            <TreeList first_id={first_id} second_id={second_id} closeDrawer={() => setVisible(false)} />
+          </Drawer>
+        </>
+      )}
     </div>
   );
 };

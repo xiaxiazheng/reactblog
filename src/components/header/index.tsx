@@ -175,10 +175,12 @@ const Header: React.FC<PropsType> = (props) => {
               <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
             </Menu.Item>
           )}
-          <Menu.Item key="knn">
-            <Icon type="book" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
-          </Menu.Item>
+          {window.screen.availWidth > 720 && (
+            <Menu.Item key="knn">
+              <Icon type="book" className={styles.headerIcon} />
+              <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
+            </Menu.Item>
+          )}
           {isLogin && (
             <Menu.Item key="maopu">
               <Icon type="reddit" className={styles.headerIcon} />

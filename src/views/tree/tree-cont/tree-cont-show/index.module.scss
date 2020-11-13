@@ -102,3 +102,55 @@
     opacity: 0.6;
   }
 }
+
+@media (max-width: 720px) {
+  .mao {
+    display: none;
+  }
+  .drawer {
+    a {
+      display: block;
+      padding: .2rem .6rem;
+      word-break: break-all;
+      color: var(--color);
+      &:global(.active) {
+        color: var(--color);
+        background-color: var(--bg_color_mask);
+      }
+    }
+    :global {
+      .ant-drawer-body {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+    }
+  }
+  .treecontshow {
+    .treecontshowWrapper {
+      width: calc(100% - 30px);
+      .contitem {
+        .contitemTitle {
+          > span {
+            display: none;
+          }
+        }
+      }
+    }
+    .scrollToTop {
+      top: unset;
+      bottom: 6px;
+      right: 60px;
+    }
+    .scrollToBottom {
+      top: unset;
+      bottom: 6px;
+      right: 110px;
+    }
+    .openMao {
+      position: fixed;
+      bottom: 6px;
+      right: 160px;
+      opacity: 0.6;
+    }
+  }
+}

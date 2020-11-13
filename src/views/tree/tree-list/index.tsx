@@ -20,10 +20,11 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 interface PropsType extends RouteComponentProps {
   first_id: string;
   second_id: string;
+  closeDrawer?: Function;
 }
 
 const TreeMenu: React.FC<PropsType> = props => {
-  const { history, match, first_id, second_id } = props;
+  const { history, match, first_id, second_id, closeDrawer } = props;
   const { theme } = useContext(ThemeContext);
   const { username } = useContext(UserContext)
   const { isLogin } = useContext(IsLoginContext);
@@ -91,6 +92,7 @@ const TreeMenu: React.FC<PropsType> = props => {
       }
     }
     if (level === "level2") {
+      closeDrawer && closeDrawer()
       history.push(`${isLogin ? "/admin" : ""}/tree/${first_id}/${second_id}`);
     }
   };
