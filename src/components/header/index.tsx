@@ -155,10 +155,12 @@ const Header: React.FC<PropsType> = (props) => {
           mode={window.screen.availWidth <= 720 ? "vertical" : "horizontal"}
           className={styles.headerRouteList}
         >
-          <Menu.Item key="tree">
-            <Icon type="cluster" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/tree" : "/tree"}>知识树</Link>
-          </Menu.Item>
+          {isLogin && (
+            <Menu.Item key="tree">
+              <Icon type="cluster" className={styles.headerIcon} />
+              <Link to={isLogin ? "/admin/tree" : "/tree"}>知识树</Link>
+            </Menu.Item>
+          )}
           <Menu.Item key="log">
             <Icon type="book" className={styles.headerIcon} />
             <Link to={isLogin ? "/admin/log" : "/log"}>日志</Link>
