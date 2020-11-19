@@ -46,7 +46,7 @@
         flex: 1;
       }
     }
-    > div:last-child {
+    > div:last-child, > div:nth-last-child(2) {
       align-items: flex-start;
     }
   }

@@ -40,6 +40,7 @@ export interface Mao {
   mother_id: string;
   father_id: string;
   status: string;
+  remarks: string
   children?: Mao[];
 }
 
@@ -69,6 +70,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
   const [appearance, setAppearance] = useState<string>(mao.appearance);
   const [feature, setFeature] = useState<string>(mao.feature);
   const [description, setDescription] = useState<string>(mao.description);
+  const [remarks, setRemarks] = useState<string>(mao.remarks)
 
   useEffect(() => {
     getHeadImgList();
@@ -112,7 +114,8 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       description !== mao.description ||
       fatherId !== mao.father_id ||
       motherId !== mao.mother_id ||
-      status !== mao.status
+      status !== mao.status ||
+      remarks !== mao.remarks
     ) {
       isChange = true;
     }
@@ -129,6 +132,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
     fatherId,
     motherId,
     status,
+    remarks
   ]);
 
   const [headList, setHeadList] = useState<ImgType[]>([]);
@@ -180,6 +184,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
       father_id: fatherId,
       mother_id: motherId,
       status,
+      remarks
     };
     const res = await updateMaoPu(params);
     if (res) {
@@ -319,6 +324,16 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
             rows={6}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className={styles.box}>
+          <span>备注：</span>
+          {/* <Input value={remarks} onChange={(e) => setRemarks(e.target.value)} /> */}
+          <TextArea
+            rows={2}
+            placeholder={'这个字段不会显示在小程序'} 
+            value={remarks}
+            onChange={(e) => setRemarks(e.target.value)}
           />
         </div>
       </div>
