@@ -8,9 +8,8 @@ import {
 } from "@/client/TagHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { LogContext } from "../LogContext";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Icon } from "@ant-design/compatible";
-import { message, Modal, Button } from "antd";
+import { message, Modal, Button, Input } from "antd";
 import { addTag } from "@/client/TagHelper";
 import { UserContext } from "@/context/UserContext";
 import Loading from "@/components/loading";
@@ -28,7 +27,7 @@ interface PropsType {
 }
 
 const TagList: React.FC<PropsType> = (props) => {
-  const { closeDrawer } = props
+  const { closeDrawer } = props;
 
   const { isLogin } = useContext(IsLoginContext);
   const { username } = useContext(UserContext);
@@ -74,8 +73,8 @@ const TagList: React.FC<PropsType> = (props) => {
   /** 选中 tag */
   const choiceTag = (tag_id: string) => {
     setActiveTag(tag_id === activeTag ? "" : tag_id);
-    setIsTagChange(true)
-    closeDrawer && closeDrawer()
+    setIsTagChange(true);
+    closeDrawer && closeDrawer();
   };
 
   const createTag = async () => {
@@ -140,63 +139,98 @@ const TagList: React.FC<PropsType> = (props) => {
     });
   };
 
+  // 正在编辑的 tag 的 id
   const [editting_id, setEditting_id] = useState("");
+
+  const [keyword, setKeyword] = useState<string>("");
+  const handleKeyword = (e: any) => {
+    setKeyword(e.target.value);
+  };
+  const [showList, setShowList] = useState<any[]>([]);
+  useEffect(() => {
+    setShowList(
+      tagList.filter(
+        (item: any) =>
+          item.tag_name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+      )
+    );
+  }, [tagList, keyword]);
 
   return (
     <div className={`${styles.wrapper}`}>
+      {/* 筛选关键字输入框 */}
+      <div className={styles.tagFilter}>
+        <Input
+          className={styles.tagFilterInput}
+          value={keyword}
+          onChange={handleKeyword}
+          allowClear
+          prefix={<Icon type="search" />}
+        />
+      </div>
+      {/* 当前选中的 tag */}
+      <div className={styles.nowActiveTag}>
+        当前选中 tag：
+        {activeTag && activeTag !== "" && (
+          <span
+            className={`${styles.tagItem} ${styles.active}`}
+            onClick={choiceTag.bind(null, activeTag)}
+          >
+            {tagList
+              .filter((item: any) => item.tag_id === activeTag)
+              .map((item: any) => `${item.tag_name}(${item.count})`)}
+          </span>
+        )}
+      </div>
+      {/* tag list */}
       <div className={`${styles.tagList} ScrollBar`}>
         {loading && <Loading />}
-        {tagList &&
-          tagList.map((item: TagType) => (
-            <span
-              key={item.tag_id}
-              className={`${styles.tagItem} ${
-                activeTag === item.tag_id ? styles.active : ""
-              }`}
-              onClick={choiceTag.bind(null, item.tag_id)}
-              onMouseEnter={(e) => {
-                e.stopPropagation();
-                editting_id !== item.tag_id && setEditting_id(item.tag_id);
-              }}
-            >
-              {
-                <div className={styles.allIconBox}>
-                  {/* tag name */}
-                  <span>
-                    {item.tag_name}({item.count})
-                  </span>
-                  {/* 工具们 */}
-                  {isLogin &&
-                    editting_id !== "" &&
-                    editting_id === item.tag_id && (
-                      <div
-                        className={styles.iconsBox}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Icon
-                          className={styles.treenodeIcon}
-                          type="edit"
-                          title="编辑名称"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            editTag(item.tag_id, item.tag_name);
-                          }}
-                        />
-                        <Icon
-                          className={styles.treenodeIcon}
-                          type="delete"
-                          title="删除节点"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            removeTag(item.tag_id, item.tag_name);
-                          }}
-                        />
-                      </div>
-                    )}
+        {showList.map((item: TagType) => (
+          <span
+            key={item.tag_id}
+            className={`${styles.tagItem} ${
+              activeTag === item.tag_id ? styles.active : ""
+            }`}
+            onClick={choiceTag.bind(null, item.tag_id)}
+            onMouseEnter={(e) => {
+              e.stopPropagation();
+              editting_id !== item.tag_id && setEditting_id(item.tag_id);
+            }}
+          >
+            <div className={styles.allIconBox}>
+              {/* tag name */}
+              <span>
+                {item.tag_name}({item.count})
+              </span>
+              {/* 工具们 */}
+              {isLogin && editting_id !== "" && editting_id === item.tag_id && (
+                <div
+                  className={styles.iconsBox}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Icon
+                    className={styles.treenodeIcon}
+                    type="edit"
+                    title="编辑名称"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      editTag(item.tag_id, item.tag_name);
+                    }}
+                  />
+                  <Icon
+                    className={styles.treenodeIcon}
+                    type="delete"
+                    title="删除节点"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      removeTag(item.tag_id, item.tag_name);
+                    }}
+                  />
                 </div>
-              }
-            </span>
-          ))}
+              )}
+            </div>
+          </span>
+        ))}
       </div>
       {isLogin && (
         <Button

@@ -119,6 +119,8 @@ const LogListItem: React.FC<PropsType> = (props) => {
     });
   };
 
+  const [showList, setShowList] = useState<any[]>(tagList);
+
   return (
     <div className={styles.logListItem}>
       <span className={styles.title} title={logItemData.title}>
@@ -134,7 +136,8 @@ const LogListItem: React.FC<PropsType> = (props) => {
         {isLogin && (
           <>
             <span className={styles.editType}>
-              ({logItemData.edittype === "richtext" ? "富文本文档" : "markdown"})
+              ({logItemData.edittype === "richtext" ? "富文本文档" : "markdown"}
+              )
             </span>
             <span className={styles.visits}>访问量：{logItemData.visits}</span>
           </>
@@ -196,11 +199,17 @@ const LogListItem: React.FC<PropsType> = (props) => {
             placeholder="请选择 tag"
             value={tag}
             style={{ width: 200 }}
+            filterOption={false}
+            onSearch={(val) => {
+              setShowList(
+                tagList.filter((item: any) => item.tag_name.toLowerCase().indexOf(val.toLowerCase()) !== -1)
+              );
+            }}
             onChange={(val: any) => {
               setTag(val);
             }}
           >
-            {tagList.map(
+            {showList.map(
               (item: { tag_id: string; tag_name: string; count: number }) => {
                 return (
                   <Option key={item.tag_id} value={item.tag_id}>

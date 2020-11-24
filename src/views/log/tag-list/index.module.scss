@@ -2,6 +2,51 @@
   height: calc(100% - 74px);
 }
 
+.tagFilter {
+  background: var(--bg_color);
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--border_color);
+  overflow: hidden;
+  .tagFilterInput {
+    // width: calc(100% - 1.4rem);
+    height: 40px;
+    margin: 0;
+  }
+  :global(.ant-input) {
+    letter-spacing: 1px;
+    font-size: 15px;
+    border: none;
+    box-shadow: none;
+    background: var(--bg_color);
+    color: var(--color);
+  }
+
+  :global(.ant-input-prefix) {
+    color: var(--color);
+  }
+  
+  :global(.ant-input-suffix) {
+    right: 6px;
+    >i {
+      color: var(--color);
+    }
+  }
+}
+
+.nowActiveTag {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 12px;
+  text-align: left;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--border_color);
+  .tagItem {
+    margin: 0;
+  }
+}
+
 .tagList {
   display: flex;
   flex-wrap: wrap;
@@ -9,61 +54,62 @@
   padding-top: 15px;
   padding-left: 10px;
   font-size: 12px;
-  max-height: calc(100% - 44px);
-  .tagItem {
-    display: flex;
-    margin: 0 4% 12px 0;
-    padding: 4px 10px;
-    background-color: var(--bg_color_mask);
-    color: var(--color);
-    border: 1px solid transparent;
-    box-sizing: border-box;
-    border-radius: 8px;
-    letter-spacing: 1px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    &.active {
-      color: var(--color_active);
-      border-color: var(--color_active);
-    }
-    .allIconBox {
+  max-height: calc(100% - 124px);
+}
+.tagItem {
+  display: flex;
+  margin: 0 4% 12px 0;
+  padding: 4px 10px;
+  background-color: var(--bg_color_mask);
+  color: var(--color);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  &.active {
+    color: var(--color_active);
+    border-color: var(--color_active);
+  }
+  .allIconBox {
+    position: relative;
+    .moreOperateIcon {
       position: relative;
-      .moreOperateIcon {
-        position: relative;
-        margin-left: 4px;
-        &.editting {
-          color: var(--color_active);
-        }
-      }
-      .isShow {
+      margin-left: 4px;
+      &.editting {
         color: var(--color_active);
       }
-      .iconsBox {
-        position: absolute;
-        right: -55px;
-        top: -3px;
-        z-index: 2;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 5px;
-        height: 25px;
-        background-color: var(--bg_color_hover);
-        border-radius: 4px;
-        .treenodeIcon {
-          display: inline-block;
-          margin: 0 3px;
-          margin-right: 4px;
-          color: var(--color);
-          &:hover {
-            color: var(--color_active);
-          }
+    }
+    .isShow {
+      color: var(--color_active);
+    }
+    .iconsBox {
+      position: absolute;
+      right: -55px;
+      top: -3px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5px;
+      height: 25px;
+      background-color: var(--bg_color_hover);
+      border-radius: 4px;
+      .treenodeIcon {
+        display: inline-block;
+        margin: 0 3px;
+        margin-right: 4px;
+        color: var(--color);
+        &:hover {
+          color: var(--color_active);
         }
       }
     }
   }
 }
+
 // 新增按钮
 .addTag {
   margin: 10px 0;
