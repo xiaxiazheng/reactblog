@@ -10,7 +10,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "deploy": "node task/deploy",
-    "open": "node open/server"
+    "open": "node src/open/server"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.5",

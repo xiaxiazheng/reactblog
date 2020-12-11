@@ -17,7 +17,7 @@
     }
   };
 
-  console.log("fdlkjhflds");
+  console.log("埋点生效");
   const env = getEnv();
 
   const track = new Track({
