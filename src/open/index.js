@@ -25,15 +25,17 @@ function handleOver(e) {
   }
 }
 
-const axios = require('axios')
-const instance = axios.create({
-  baseURL: `http://localhost:8080/`
-})
+// const axios = require('axios')
+// const instance = axios.create({
+//   baseURL: `http://localhost:8080/`
+// })
 function handleClick(e) {
   e.preventDefault()
+  e.stopPropagation()
   console.log(e)
   if (e.path[0]) {
     console.dir(e.path[0])
-    instance.get(`?path=${e.path[0].className}`).then((data) => { console.log(data) })
+    // instance.get(`?path=${e.path[0]['dataset']['inspectorRelativePath']}`).then((data) => { console.log(data) })
+    fetch(`/__open_in_editor?path=${e.path[0]['dataset']['inspectorRelativePath']}`)
   }
 }
