@@ -9,14 +9,13 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "deploy": "node task/deploy",
-    "open": "node src/open/server"
+    "deploy": "node task/deploy"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.5",
     "@ant-design/icons": "^4.2.2",
     "@types/jest": "24.0.18",
-    "@types/node": "12.7.4",
+    "@types/node": "^14.14.14",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
     "@types/react-router": "^5.0.3",

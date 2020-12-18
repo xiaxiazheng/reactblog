@@ -1,9 +1,12 @@
-const path = require("path");
-const HelloWorldPlugin = require("./webpackPlugin/HelloWorldPlugin.ts");
-// const { addMyOpenLoaderConfig } = require('./webpackPlugin/addOpenLoader.js')
 const { getEnvInfo } = require("./utils/index.ts");
-const { exec } = require("child_process");
-const url = require('url')
+const path = require("path");
+
+const HelloWorldPlugin = require("./webpackPlugin/HelloWorldPlugin.ts");
+
+const addLoaderConfig = require('./openInVscode/addLoaderConfig.ts');
+const devServerMiddleware = require('./openInVscode/devServerMiddleware.ts');
+
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 
 const {
   override,
@@ -25,28 +28,6 @@ function findPlugin(plugins, nameMatcher) {
       nameMatcher(plugin.constructor.name)
     );
   });
-}
-
-// 添加给页面元素加上对应的组件路径的 loader
-function addMyOpenLoaderConfig(config) {
-  config.module.rules.push({
-    test: /\.(js|mjs|jsx|ts|tsx)$/,
-    include: path.resolve(__dirname, "./src"),
-    exclude: [/node_modules/],
-    use: [
-      {
-        loader: "babel-loader",
-        options: {
-          presets: ["babel-preset-react-app"],
-        },
-      },
-      {
-        loader: path.resolve(__dirname, "./webpackPlugin/addOpenLoader.ts"),
-      },
-    ],
-  });
-
-  return config;
 }
 
 async function handleHTMLPlugin(plugins) {
@@ -95,8 +76,11 @@ module.exports = {
 
     // 给页面元素加上对应的组件路径
     if (env !== 'production') {
-      config = addMyOpenLoaderConfig(config);
+      config = addLoaderConfig(config);
     }
+
+    // 去掉只能用 src 文件夹内的文件的限制
+    config.resolve.plugins = config.resolve.plugins.filter(plugin => !(plugin instanceof ModuleScopePlugin));
 
     // 添加 react-hot-loader，用来支持模块热替换 HMR
     config = rewireReactHotLoader(config, env);
@@ -108,24 +92,8 @@ module.exports = {
 
       const devServerConfig = {
         before: (app, server) => {
-          app.use("/__open_in_editor", (req, res, next) => {
-            const params = url.parse(req.url, true).query
-            
-            console.log(req.url)
-            console.log(`code -g ${params.path}:${params.line}:${params.col}`)
-            
-            exec(
-              `code -g ${params.path}:${params.line}:${params.col}`,
-              (error, stdout, stderr) => {
-                if (error) {
-                  console.error(`执行的错误: ${error}`);
-                  return;
-                }
-                // console.log(`stdout: ${stdout}`);
-                // console.error(`stderr: ${stderr}`);
-              }
-            );
-          });
+          // 监听打开 vscode 的请求
+          devServerMiddleware(app)
         },
       };
 

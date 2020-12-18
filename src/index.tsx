@@ -4,7 +4,6 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.d';
-import './open/index'
 // import Track from '@xiao-edu/track'
 
 // const track = new Track({

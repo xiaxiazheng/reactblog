@@ -1,3 +1,6 @@
+/**
+ * 添加对应组件的路径、行和列到 jsx 中的 dom 元素上的 loader
+ */
 // import { getOptions } from 'loader-utils'
 const { parse } = require('@babel/parser')
 const generate = require('@babel/generator').default
