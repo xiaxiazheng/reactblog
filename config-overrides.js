@@ -3,6 +3,7 @@ const HelloWorldPlugin = require("./webpackPlugin/HelloWorldPlugin.ts");
 // const { addMyOpenLoaderConfig } = require('./webpackPlugin/addOpenLoader.js')
 const { getEnvInfo } = require("./utils/index.ts");
 const { exec } = require("child_process");
+const url = require('url')
 
 const {
   override,
@@ -102,21 +103,19 @@ module.exports = {
     return config;
   },
   devServer: function (configFunction) {
-    // Return the replacement function for create-react-app to use to generate the Webpack
-    // Development Server config. "configFunction" is the function that would normally have
-    // been used to generate the Webpack Development server config - you can use it to create
-    // a starting configuration to then modify instead of having to create a config from scratch.
     return function (proxy, allowedHost) {
-      // Create the default config by calling configFunction with the proxy/allowedHost parameters
       const config = configFunction(proxy, allowedHost);
 
       const devServerConfig = {
         before: (app, server) => {
           app.use("/__open_in_editor", (req, res, next) => {
+            const params = url.parse(req.url, true).query
+            
             console.log(req.url)
-            console.log(`code ${req.url.replace("/?path=", "")}`)
+            console.log(`code -g ${params.path}:${params.line}:${params.col}`)
+            
             exec(
-              `code ${req.url.replace("/?path=", "")}`,
+              `code -g ${params.path}:${params.line}:${params.col}`,
               (error, stdout, stderr) => {
                 if (error) {
                   console.error(`执行的错误: ${error}`);

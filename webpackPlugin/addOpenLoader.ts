@@ -7,12 +7,14 @@ const {
   jsxIdentifier,
   stringLiteral,
   // Node,
-  // JSXOpeningElement,
-  // JSXIdentifier,
-  // JSXMemberExpression,
-  // JSXNamespacedName,
+  JSXOpeningElement,
+  JSXIdentifier,
+  JSXMemberExpression,
+  JSXNamespacedName,
   // JSXAttribute,
 } = require('@babel/types')
+
+const isNil = value => value === null || value === void 0
 
 const doJSXIdentifierName = (name) => {
   if (name.name.endsWith("Fragment")) {
@@ -44,6 +46,24 @@ const doJSXOpeningElement = (node, option) => {
   if (stop) return { stop };
 
   const { relativePath } = option;
+  const line = node.loc?.start.line
+  const column = node.loc?.start.column
+
+  // 写入元素的行
+  const lineAttr = isNil(line)
+    ? null
+    : jsxAttribute(
+      jsxIdentifier('data-inspector-line'),
+      stringLiteral(line.toString()),
+    )
+
+  // 写入元素的列
+  const columnAttr = isNil(column)
+    ? null
+    : jsxAttribute(
+      jsxIdentifier('data-inspector-column'),
+      stringLiteral(column.toString()),
+    )
 
   // 写入组件所在的相对路径
   const relativePathAttr = jsxAttribute(
@@ -52,7 +72,11 @@ const doJSXOpeningElement = (node, option) => {
   );
 
   // 在元素上增加这几个属性
-  node.attributes.push(relativePathAttr);
+  const attributes = [lineAttr, columnAttr, relativePathAttr]
+  // Make sure that there are exist together
+  if (attributes.every(Boolean)) {
+    node.attributes.push(...attributes)
+  }
 
   return { result: node };
 };
