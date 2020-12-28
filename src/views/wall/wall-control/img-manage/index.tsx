@@ -84,22 +84,22 @@ const ImgManage: React.FC = () => {
             <TabPane tab={<span>{item}</span>} key={item}>
               {loading && <Loading />}
               <div className={styles.ImgManage}>
-                {/* 只有类型是 main 的时候，才可以添加图片 */}
-                {activeType === "main" && (
+                {/* 图片管理中不允许添加图片，因为加了也没有关联，没用 */}
+                {/* {activeType === "main" && (
                   <ImageBox
                     type={activeType}
                     imageUrl=""
                     imageMinUrl=""
                     initImgList={getImageListByType.bind(null, activeType)}
                   />
-                )}
+                )} */}
                 {wallList.map((item: ImgType) => {
                   return (
                     <ImageBox
                       key={item.img_id}
                       type={item.type}
                       imageId={item.img_id}
-                      imageName={item.imgname}
+                      imageName={`${item.imgname}${activeType === '所有' ? ' - ' + item.type : ''}`}
                       imageFileName={item.filename}
                       imageUrl={item.imageUrl}
                       imageMinUrl={item.imageMinUrl}
