@@ -151,7 +151,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             showUploadList={false}
             action={`${staticUrl}/api/${type}_upload`}
             data={{
-              other_id: otherId || undefined,
+              other_id: otherId || '',
               username
             }}
             listType="picture-card"

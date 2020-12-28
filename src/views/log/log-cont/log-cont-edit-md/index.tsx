@@ -6,14 +6,17 @@ import { Icon } from "@ant-design/compatible";
 import { Input, Button, message } from "antd";
 import { modifyLogCont } from "@/client/LogHelper";
 import MarkdownShow from "../markdown-show";
+import ImageBox from "@/components/image-box";
+import { staticUrl } from "@/env_config";
 
 interface PropsType {
   logdata: OneLogType;
-  getLogContData: Function;
+  getLogContData: Function; // 重新获取整个日志信息
+  getImageList: Function; // 只重新获取日志图片列表
 }
 
 const LogContEditByMD: React.FC<PropsType> = (props) => {
-  const { logdata, getLogContData } = props;
+  const { logdata, getLogContData, getImageList } = props;
 
   const { TextArea } = Input;
 
@@ -140,6 +143,32 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             value={markString}
             onChange={handleLogContChange}
           />
+          {/* 图片列表 */}
+          <div className={`${styles.imgBox} ScrollBar`}>
+            <ImageBox
+              otherId={logdata.log_id}
+              type="log"
+              imageUrl=""
+              imageMinUrl=""
+              initImgList={getImageList}
+              width="140px"
+            />
+            {logdata.imgList.map((item) => {
+              return (
+                <ImageBox
+                  key={item.img_id}
+                  type="log"
+                  imageId={item.img_id}
+                  imageName={item.imgname}
+                  imageFileName={item.filename}
+                  imageUrl={`${staticUrl}/img/log/${item.filename}`}
+                  imageMinUrl={item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''}
+                  initImgList={getImageList} 
+                  width="140px"
+                />
+              );
+            })}
+          </div>
         </>
       )}
     </div>

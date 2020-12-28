@@ -67,8 +67,8 @@ const LogCont: React.FC<PropsType> = (props) => {
       {/* 编辑 */}
       {isLogin && isEdit && logdata && (
         logdata.edittype === 'markdown'
-          ? <LogContEditByMD logdata={logdata} getLogContData={getData} />
-          : <LogContEditByRH logdata={logdata} getLogContData={getData} getImageList={getImageList}/>
+          ? <LogContEditByMD logdata={logdata} getLogContData={getData} getImageList={getImageList} />
+          : <LogContEditByRH logdata={logdata} getLogContData={getData} getImageList={getImageList} />
       )}
     </div>
   );

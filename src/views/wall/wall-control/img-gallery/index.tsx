@@ -236,7 +236,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
         })}
         {/* 图片列表 */}
         <ImageBox
-          otherId={parentId}
+          otherId={parentId || ''}
           type={"wall"}
           imageUrl=""
           imageMinUrl=""

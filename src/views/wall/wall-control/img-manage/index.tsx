@@ -64,7 +64,7 @@ const ImgManage: React.FC = () => {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imageUrl: `${staticUrl}/img/${type}/${item.filename}`,
+        imageUrl: `${staticUrl}/img/${item.type}/${item.filename}`,
         imageMinUrl:
           item.has_min === "1" ? `${staticUrl}/min-img/${item.filename}` : "",
       });
@@ -75,24 +75,29 @@ const ImgManage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.imgLength}>{!loading && <>共 {wallList.length} 张</>}</div>
+      <div className={styles.imgLength}>
+        {!loading && <>共 {wallList.length} 张</>}
+      </div>
       <Tabs activeKey={activeType} onChange={(key) => setActiveType(key)}>
         {typeList.map((item) => {
           return (
             <TabPane tab={<span>{item}</span>} key={item}>
               {loading && <Loading />}
               <div className={styles.ImgManage}>
-                <ImageBox
-                  type={activeType}
-                  imageUrl=""
-                  imageMinUrl=""
-                  initImgList={getImageListByType.bind(null, activeType)}
-                />
+                {/* 只有类型是 main 的时候，才可以添加图片 */}
+                {activeType === "main" && (
+                  <ImageBox
+                    type={activeType}
+                    imageUrl=""
+                    imageMinUrl=""
+                    initImgList={getImageListByType.bind(null, activeType)}
+                  />
+                )}
                 {wallList.map((item: ImgType) => {
                   return (
                     <ImageBox
                       key={item.img_id}
-                      type={activeType}
+                      type={item.type}
                       imageId={item.img_id}
                       imageName={item.imgname}
                       imageFileName={item.filename}
