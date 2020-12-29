@@ -21,9 +21,14 @@ const LogList: React.FC<PropsType> = (props) => {
 
   const [loading, setLoading] = useState(true);
 
-  const { tabsState, setTabsState, activeTag, isTagChange, setIsTagChange } = useContext<LogContextType>(
-    LogContext
-  );
+  const {
+    tabsState,
+    setTabsState,
+    activeTag,
+    isTagChange,
+    setIsTagChange,
+  } = useContext<LogContextType>(LogContext);
+
   // 展开方便用
   const {
     keyword,
@@ -32,7 +37,7 @@ const LogList: React.FC<PropsType> = (props) => {
     orderBy,
     showVisible,
     showInvisible,
-    showNotTag
+    showNotTag,
   } = tabsState;
 
   const [logListData, setLogListData] = useState({
@@ -51,7 +56,7 @@ const LogList: React.FC<PropsType> = (props) => {
           pageNo: 1,
         });
       }
-      setIsTagChange(false)
+      setIsTagChange(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTagChange]);
@@ -70,10 +75,10 @@ const LogList: React.FC<PropsType> = (props) => {
       pageSize: pageSize,
       orderBy: orderBy,
       keyword: keyword || "",
-      activeTag: activeTag || ""
+      activeTag: activeTag || "",
     };
     if (showNotTag) {
-      params.showNotTag = true
+      params.showNotTag = true;
     }
     let res = {
       list: [],

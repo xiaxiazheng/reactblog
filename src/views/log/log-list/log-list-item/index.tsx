@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Icon } from "@ant-design/compatible";
 import { message, Modal, Select } from "antd";
@@ -30,6 +30,11 @@ const LogListItem: React.FC<PropsType> = (props) => {
   const { tagList, setIsUpdateTag } = useContext(LogContext);
 
   const [isShowPopup, setIsShowPopup] = useState(false);
+
+  const [showList, setShowList] = useState<any[]>([]);
+  useEffect(() => {
+    setShowList(tagList)
+  }, [tagList])
 
   const [tag, setTag] = useState(logItemData.tag.map((item) => item.tag_id));
 
@@ -118,8 +123,6 @@ const LogListItem: React.FC<PropsType> = (props) => {
       },
     });
   };
-
-  const [showList, setShowList] = useState<any[]>(tagList);
 
   return (
     <div className={styles.logListItem}>
