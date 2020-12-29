@@ -27,11 +27,17 @@
     background: transparent;
   }
   .logcont-time {
+    position: relative;
     margin-bottom: .5rem;
     font-size: 12px;
     >span {
       display: inline-block;
       margin: 0 .5rem;
+    }
+    >span:last-child {
+      position: absolute;
+      right: 160px;
+      margin: 0;
     }
   }
   .editor-n-imgbox {

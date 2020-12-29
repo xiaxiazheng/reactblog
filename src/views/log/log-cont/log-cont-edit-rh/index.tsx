@@ -6,7 +6,7 @@ import { modifyLogCont } from "@/client/LogHelper";
 import "./index.scss";
 import ImageBox from "@/components/image-box";
 import { staticUrl } from "@/env_config";
-import LogContMao from '../log-cont-mao'
+import LogContMao from "../log-cont-mao";
 // 代码高亮
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css";
@@ -19,6 +19,16 @@ const icons = Quill.import("ui/icons");
 icons["header"]["2"] = `<span class="header-icon">H2</span>`;
 icons["header"]["3"] = `<span class="header-icon">H3</span>`;
 icons["header"]["4"] = `<span class="header-icon">H4</span>`;
+
+Quill.register("modules/counter", function (quill: any, options: any) {
+  var container: any = document.querySelector("#counter");
+  quill.on("text-change", function () {
+    var text: string = quill.getText();
+    // There are a couple issues with counting words
+    // this way but we'll fix these later
+    container.innerText = text.split("").filter((item) => item !== " ").length;
+  });
+});
 
 interface PropsType {
   logdata: OneLogType;
@@ -35,6 +45,7 @@ class LogContEdit extends React.Component<PropsType> {
     isTitleChange: false,
     isAuthorChange: false,
     isLogContChange: false,
+    words: "0",
   };
 
   componentDidMount() {
@@ -59,16 +70,18 @@ class LogContEdit extends React.Component<PropsType> {
     ["bold", "italic", "underline", "strike", "clean"],
     [{ header: 2 }, { header: 3 }, { header: 4 }],
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+    [{ list: "ordered" }, { list: "bullet" }, { list: "check" }, { align: [] }],
     [{ indent: "-1" }, { indent: "+1" }],
     [{ size: ["small", false, "large", "huge"] }],
     [{ color: [] }, { background: [] }],
-    [{ align: [] }],
     ["link", "image"],
+    [{ script: "sub" }, { script: "super" }],
+    // ["insertStar"]
   ];
 
   // 编辑器配置
   modules: any = {
+    counter: true,
     imageResize: {
       //调整大小组件。
       displayStyles: {
@@ -206,6 +219,9 @@ class LogContEdit extends React.Component<PropsType> {
         <div className="logcont-time">
           <span>创建时间：{this.props.logdata.cTime}</span>
           <span>修改时间：{this.props.logdata.mTime}</span>
+          <span>
+            <span id={"counter"}>{this.state.words}</span> 字
+          </span>
         </div>
         <div className="editor-n-imgbox">
           {/* 富文本编辑器 */}
@@ -237,8 +253,12 @@ class LogContEdit extends React.Component<PropsType> {
                   imageName={item.imgname}
                   imageFileName={item.filename}
                   imageUrl={`${staticUrl}/img/log/${item.filename}`}
-                  imageMinUrl={item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''}
-                  initImgList={this.props.getImageList} 
+                  imageMinUrl={
+                    item.has_min === "1"
+                      ? `${staticUrl}/min-img/${item.filename}`
+                      : ""
+                  }
+                  initImgList={this.props.getImageList}
                   width="140px"
                 />
               );
