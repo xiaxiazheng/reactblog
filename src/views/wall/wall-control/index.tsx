@@ -17,7 +17,7 @@ interface ImgType {
 
 // 图片墙
 const WallControl: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("图库");
+  const [activeTab, setActiveTab] = useState<string>("云盘");
 
   const handleChoiceTab = (tab: string) => {
     setActiveTab(tab)
@@ -26,7 +26,7 @@ const WallControl: React.FC = () => {
   return (
     <div className={`${styles.wallControl} ScrollBar`}>
       <div className={styles.tabs}>
-        {["图库", "图片管理"].map((item) => (
+        {["云盘", "图片管理"].map((item) => (
           <span
             key={item}
             className={item === activeTab ? styles.active : ""}
@@ -37,7 +37,7 @@ const WallControl: React.FC = () => {
         ))}
       </div>
       <div className={styles.wallContent}>
-        {activeTab === "图库" && <ImgGallery />}
+        {activeTab === "云盘" && <ImgGallery />}
         {activeTab === "图片管理" && <ImgManage />}
       </div>
     </div>

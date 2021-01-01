@@ -167,8 +167,8 @@ const Header: React.FC<PropsType> = (props) => {
           </Menu.Item>
           {isLogin && (
             <Menu.Item key="wall">
-              <Icon type="picture" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/wall" : "/wall"}>图库</Link>
+              <Icon type="cloud" className={styles.headerIcon} />
+              <Link to={isLogin ? "/admin/wall" : "/wall"}>云盘</Link>
             </Menu.Item>
           )}
           {isLogin && (

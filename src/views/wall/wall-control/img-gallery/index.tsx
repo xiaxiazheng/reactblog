@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import ImageBox from "@/components/image-box";
+import FileBox from "@/components/file-box";
 import Loading from "@/components/loading";
 import { UserContext } from "@/context/UserContext";
 import {
@@ -11,6 +12,7 @@ import {
   deleteFolder,
 } from "@/client/FolderHelper";
 import { getImgListByOtherId } from "@/client/ImgHelper";
+import { getFileListByOtherId } from "@/client/FileHelper";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Icon } from "@ant-design/compatible";
 import { message, Modal } from "antd";
@@ -25,6 +27,16 @@ interface ImgType {
   imageUrl: string;
   has_min: "0" | "1";
   imageMinUrl: string;
+}
+
+interface FileType {
+  cTime: string;
+  originalname: string;
+  filename: string;
+  file_id: string;
+  other_id: string;
+  type: string;
+  fileUrl: string;
 }
 
 interface FolderType {
@@ -52,7 +64,9 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
   const [hoverFolder, setHoverFolder] = useState<FolderType>();
   // 图片列表
   const [imgList, setImgList] = useState<ImgType[]>([]);
-  
+  // 文件列表
+  const [fileList, setFileList] = useState<FileType[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,6 +76,8 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
     getFolderList(parent_id);
     // 获取图片列表
     getImgList(parent_id);
+    // 获取文件列表
+    getFileList(parent_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match]);
 
@@ -75,14 +91,14 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
 
   // 获取图片列表
   const getImgList = async (parent_id: string) => {
-    setLoading(true)
+    setLoading(true);
     const res = await getImgListByOtherId(parent_id, username);
     if (res) {
       const list: ImgType[] = [];
-      let resList = [...res]
+      let resList = [...res];
       // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 wall 的
-      if (parent_id === '') {
-        resList = resList.filter(item => item.type === 'wall')
+      if (parent_id === "") {
+        resList = resList.filter((item) => item.type === "wall");
       }
       for (let item of resList) {
         // 拼好 img 的 url
@@ -95,7 +111,30 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
       }
       setImgList(list);
     }
-    setLoading(false)
+    setLoading(false);
+  };
+
+  // 获取文件列表
+  const getFileList = async (parent_id: string) => {
+    setLoading(true);
+    const res = await getFileListByOtherId(parent_id, username);
+    if (res) {
+      const list: FileType[] = [];
+      let resList = [...res];
+      // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 wall 的
+      if (parent_id === "") {
+        resList = resList.filter((item) => item.type === "wall");
+      }
+      for (let item of resList) {
+        // 拼好 img 的 url
+        list.push({
+          ...item,
+          fileUrl: `${staticUrl}/file/wall/${item.filename}`,
+        });
+      }
+      setFileList(list);
+    }
+    setLoading(false);
   };
 
   // 双击打开文件夹
@@ -175,13 +214,19 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
     <>
       {parentId !== "" && (
         <div className={styles.goback} onClick={goback}>
-          <Icon type="arrow-up" />返回上一层
+          <Icon type="arrow-up" />
+          返回上一层
         </div>
       )}
       <div className={styles.addFolder} onClick={addAFolder}>
-          <Icon type="folder-add" />新增文件夹
+        <Icon type="folder-add" />
+        新增文件夹
       </div>
-      <div className={styles.imgLength}>{!loading && <>共 {imgList.length} 张图片</>}</div>
+      <div className={styles.imgLength}>
+        {!loading && <>共 {imgList.length} 张图片</>}
+        <br/>
+        {!loading && <>共 {fileList.length} 个文件</>}
+      </div>
       <div className={styles.ImgGallery}>
         {loading && <Loading />}
         {/* 文件夹列表 */}
@@ -236,7 +281,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
         })}
         {/* 图片列表 */}
         <ImageBox
-          otherId={parentId || ''}
+          otherId={parentId}
           type={"wall"}
           imageUrl=""
           imageMinUrl=""
@@ -253,6 +298,26 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
               imageUrl={item.imageUrl}
               imageMinUrl={item.imageMinUrl}
               initImgList={getImgList.bind(null, parentId)}
+            />
+          );
+        })}
+        {/* 文件列表 */}
+        <FileBox
+          otherId={parentId}
+          type={"wall"}
+          fileUrl=""
+          initFileList={getFileList.bind(null, parentId)}
+        />
+        {fileList.map((item: FileType) => {
+          return (
+            <FileBox
+              key={item.file_id}
+              type={"wall"}
+              fileId={item.file_id}
+              originalName={item.originalname}
+              fileName={item.filename}
+              fileUrl={item.fileUrl}
+              initFileList={getFileList.bind(null, parentId)}
             />
           );
         })}
