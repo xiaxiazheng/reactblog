@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { Icon } from "@ant-design/compatible";
@@ -75,7 +75,7 @@ const Header: React.FC<PropsType> = (props) => {
       setCurrent("admin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
 
   /** 点击切换主题 */
   const switchTheme = () => {
@@ -114,103 +114,111 @@ const Header: React.FC<PropsType> = (props) => {
 
   const [visible, setVisible] = useState<boolean>(true);
 
-  const Header = () => (
-    <header className={styles.Header}>
-      <span
-        className={styles.headerLeft}
-        onClick={() => setCurrent(isLogin ? "admin" : "home")}
-      >
-        <Link to={isLogin ? "/admin" : "/"}>{titleMap[username]}</Link>
-      </span>
-      {isLogin && (
-        <span className={styles.headerMiddle}>
-          已经 {already} 啦({alreadyDays}天)
+  const HeaderContent = useCallback(
+    () => (
+      <header className={styles.Header}>
+        <span
+          className={styles.headerLeft}
+          onClick={() => setCurrent(isLogin ? "admin" : "home")}
+        >
+          <Link to={isLogin ? "/admin" : "/"}>{titleMap[username]}</Link>
         </span>
-      )}
-      {/* 音乐播放器 */}
-      {isLogin && <MiniMusicPlayer />}
-      <span className={styles.headerRight}>
-        {/* 用户切换开关 */}
-        {!isLogin && (
+        {isLogin && (
+          <span className={styles.headerMiddle}>
+            已经 {already} 啦({alreadyDays}天)
+          </span>
+        )}
+        {/* 音乐播放器 */}
+        {/* {isLogin && props.children} */}
+        <span className={styles.headerRight}>
+          {/* 用户切换开关 */}
+          {!isLogin && (
+            <Switch
+              className={styles.switch}
+              checkedChildren="hyp"
+              unCheckedChildren="zyb"
+              checked={username === "hyp"}
+              onClick={switchUser}
+            />
+          )}
+          {/* 主题切换开关 */}
           <Switch
             className={styles.switch}
-            checkedChildren="hyp"
-            unCheckedChildren="zyb"
-            checked={username === "hyp"}
-            onClick={switchUser}
+            checkedChildren="light"
+            unCheckedChildren="dark"
+            checked={theme === "light"}
+            onClick={switchTheme}
           />
-        )}
-        {/* 主题切换开关 */}
-        <Switch
-          className={styles.switch}
-          checkedChildren="light"
-          unCheckedChildren="dark"
-          checked={theme === "light"}
-          onClick={switchTheme}
-        />
-        {/* 导航 */}
-        <Menu
-          onClick={handleClickTabs}
-          selectedKeys={[current]}
-          mode={window.screen.availWidth <= 720 ? "vertical" : "horizontal"}
-          className={styles.headerRouteList}
-        >
-          {isLogin && (
-            <Menu.Item key="tree">
-              <Icon type="cluster" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/tree" : "/tree"}>知识树</Link>
-            </Menu.Item>
-          )}
-          <Menu.Item key="log">
-            <Icon type="book" className={styles.headerIcon} />
-            <Link to={isLogin ? "/admin/log" : "/log"}>日志</Link>
-          </Menu.Item>
-          {isLogin && (
-            <Menu.Item key="wall">
-              <Icon type="cloud" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/wall" : "/wall"}>云盘</Link>
-            </Menu.Item>
-          )}
-          {isLogin && (
-            <Menu.Item key="media">
-              <Icon type="video-camera" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
-            </Menu.Item>
-          )}
-          {window.screen.availWidth > 720 && (
-            <Menu.Item key="knn">
+          {/* 导航 */}
+          <Menu
+            onClick={handleClickTabs}
+            selectedKeys={[current]}
+            mode={window.screen.availWidth <= 720 ? "vertical" : "horizontal"}
+            className={styles.headerRouteList}
+          >
+            {isLogin && (
+              <Menu.Item key="tree">
+                <Icon type="cluster" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/tree" : "/tree"}>知识树</Link>
+              </Menu.Item>
+            )}
+            <Menu.Item key="log">
               <Icon type="book" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
+              <Link to={isLogin ? "/admin/log" : "/log"}>日志</Link>
             </Menu.Item>
-          )}
+            {isLogin && (
+              <Menu.Item key="wall">
+                <Icon type="cloud" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/wall" : "/wall"}>云盘</Link>
+              </Menu.Item>
+            )}
+            {isLogin && (
+              <Menu.Item key="media">
+                <Icon type="video-camera" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
+              </Menu.Item>
+            )}
+            {window.screen.availWidth > 720 && (
+              <Menu.Item key="knn">
+                <Icon type="book" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
+              </Menu.Item>
+            )}
+            {isLogin && (
+              <Menu.Item key="maopu">
+                <Icon type="reddit" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/maopu" : "/maopu"}>猫谱</Link>
+              </Menu.Item>
+            )}
+            {isLogin && (
+              <Menu.Item key="github">
+                <Icon type="github" className={styles.headerIcon} />
+                <span>github</span>
+              </Menu.Item>
+            )}
+          </Menu>
           {isLogin && (
-            <Menu.Item key="maopu">
-              <Icon type="reddit" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/maopu" : "/maopu"}>猫谱</Link>
-            </Menu.Item>
+            <Icon
+              title="退出登录"
+              className={styles.exportIcon}
+              type="export"
+              onClick={jumpToLogin}
+            />
           )}
-          {isLogin && (
-            <Menu.Item key="github">
-              <Icon type="github" className={styles.headerIcon} />
-              <span>github</span>
-            </Menu.Item>
-          )}
-        </Menu>
-        {isLogin && (
-          <Icon
-            title="退出登录"
-            className={styles.exportIcon}
-            type="export"
-            onClick={jumpToLogin}
-          />
-        )}
-      </span>
-    </header>
+        </span>
+      </header>
+    ),
+    [isLogin, current]
   );
 
   return (
     <>
-      {window.screen.availWidth > 720 && <Header />}
+      {window.screen.availWidth > 720 && (
+        <>
+          {isLogin && <MiniMusicPlayer />}
+          <HeaderContent />
+        </>
+      )}
       {/* 移动端展示 */}
       {window.screen.availWidth <= 720 && (
         <>
@@ -225,7 +233,8 @@ const Header: React.FC<PropsType> = (props) => {
             width={"calc(100% - 80px)"}
             visible={visible}
           >
-            <Header />
+            {isLogin && <MiniMusicPlayer />}
+            <HeaderContent />
           </Drawer>
           <div
             className={styles.drawerControl}
