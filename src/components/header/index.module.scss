@@ -1,3 +1,9 @@
+:global {
+  .ant-menu-item > a {
+    display: inline-block;
+  }
+}
+
 .Header {
   display: flex;
   justify-content: space-between;
@@ -10,7 +16,7 @@
   :global(.ant-menu-horizontal) {
     border-bottom: none;
   }
-  
+
   :global(.ant-input-affix-wrapper .ant-input-prefix),
   :global(.ant-input-affix-wrapper .ant-input-suffix),
   :global(.ant-input-affix-wrapper) {
@@ -19,7 +25,7 @@
 
   .headerLeft {
     padding-left: 1rem;
-    >a {
+    > a {
       line-height: 3rem;
       font-size: 1.3rem;
       font-weight: 600;
@@ -31,16 +37,17 @@
     }
   }
 
-  .headerMiddle {
-    flex: 1;
-    text-align: right;
-    line-height: 3rem;
-    padding-right: 10px;
-  }
-
   .headerRight {
+    flex: 1;
     display: flex;
     align-items: center;
+    text-align: right;
+    .already {
+      flex: 1;
+      text-align: right;
+      line-height: 3rem;
+      padding-right: 10px;
+    }
     .switch {
       margin: 0 10px;
       border: 1px solid var(--border_color);
@@ -54,11 +61,13 @@
     .headerRouteList {
       display: inline-block;
       background-color: var(--bg_color);
+      max-width: 40%;
       .headerIcon {
         color: var(--color);
       }
     }
-    a, span {
+    a,
+    span {
       display: inline-block;
       color: var(--color);
     }
@@ -92,13 +101,19 @@
       .headerLeft {
         padding-left: 15px;
       }
-      .headerMiddle {
-        text-align: center;
-      }
       .headerRight {
         flex-wrap: wrap;
         flex-direction: column;
         align-items: unset;
+        text-align: left;
+        .already {
+          text-align: left;
+          margin-left: 15px;
+        }
+        .switch {
+          width: 60px;
+          margin: 0 15px;
+        }
         .headerRouteList {
           display: flex;
           flex-direction: column;
@@ -107,6 +122,8 @@
         }
         .exportIcon {
           text-align: left;
+          padding-left: 5px;
+          font-size: 30px;
         }
       }
     }

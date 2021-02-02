@@ -123,12 +123,12 @@ const Header: React.FC<PropsType> = (props) => {
         >
           <Link to={isLogin ? "/admin" : "/"}>{titleMap[username]}</Link>
         </span>
-        {isLogin && (
-          <span className={styles.headerMiddle}>
-            已经 {already} 啦({alreadyDays}天)
-          </span>
-        )}
         <span className={styles.headerRight}>
+          {isLogin && (
+            <span className={styles.already}>
+              已经 {already} 啦({alreadyDays}天)
+            </span>
+          )}
           {/* 用户切换开关 */}
           {!isLogin && (
             <Switch
