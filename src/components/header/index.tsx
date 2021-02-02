@@ -128,8 +128,6 @@ const Header: React.FC<PropsType> = (props) => {
             已经 {already} 啦({alreadyDays}天)
           </span>
         )}
-        {/* 音乐播放器 */}
-        {/* {isLogin && props.children} */}
         <span className={styles.headerRight}>
           {/* 用户切换开关 */}
           {!isLogin && (
@@ -208,7 +206,7 @@ const Header: React.FC<PropsType> = (props) => {
         </span>
       </header>
     ),
-    [isLogin, current]
+    [isLogin, current, theme, username]
   );
 
   return (
