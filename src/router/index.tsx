@@ -16,7 +16,6 @@ export const fallback = () =>{
 };
 
 const Router: React.FC = () => {
-
   const Router = BrowserRouter;
 
   return (

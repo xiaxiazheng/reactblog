@@ -46,7 +46,7 @@ const HomeRouterView: React.FC<PropsType> = ({
           {/* <Route path="/wall" component={Wall} /> */}
           {/* <Route path="/media" component={Media} /> */}
           <Route path="/knn" component={Knn} />
-        </div>{" "}
+        </div>
       </Suspense>
     </>
   );

@@ -1,12 +1,12 @@
 .music {
-  padding: 10px 10px 5px 10px;
+  padding: 10px 6px 5px;
   text-align: center;
   .musicBox {
     width: 100%;
-    height: 40px;
+    height: 28px;
     // width: 270px;
     // height: 100%;
-    >audio {
+    > audio {
       width: 100%;
       height: 100%;
       &:focus {
@@ -16,17 +16,18 @@
   }
   .songName {
     display: inline-block;
-    padding: 5px 15px;
+    padding: 4px 15px 1px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     vertical-align: middle;
+    font-size: 15px;
   }
   .iconBox {
     position: relative;
-    padding: 3px 0 5px;
+    padding: 0 0 5px;
     .playIcon {
-      font-size: 20px;
+      font-size: 18px;
       margin: 0 8px;
       vertical-align: middle;
       cursor: pointer;
@@ -40,7 +41,7 @@
   }
   .musicList {
     position: absolute;
-    top: 118px;
+    top: 99px;
     left: 0;
     right: 0;
     overflow-y: auto;
@@ -52,7 +53,7 @@
     opacity: 0;
     max-height: 0;
     font-size: 13px;
-    >span {
+    > span {
       display: inline-block;
       width: 100%;
       padding: 8px 0;
@@ -81,18 +82,29 @@
   }
 
   @keyframes show {
-    from { max-height: 0; }
-    to   { max-height: $height; }
+    from {
+      max-height: 0;
+    }
+    to {
+      max-height: $height;
+    }
   }
 
   @keyframes hide {
-    from { max-height: $height; }
-    to   { max-height: 0; }
+    from {
+      max-height: $height;
+    }
+    to {
+      max-height: 0;
+    }
   }
 }
 
 @media (max-width: 720px) {
   .music {
+    .musicBox {
+      height: 40px;
+    }
     .songName {
       font-size: 20px;
       margin: 15px 0;
