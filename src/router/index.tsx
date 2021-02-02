@@ -8,14 +8,14 @@ const AdminRouterView = lazy(() => import('./AdminRouterView'));
 const HomeRouterView = lazy(() => import('./HomeRouterView'));
 const PDFView = lazy(() => import('@/views/pdf'))
 
-const Router: React.FC = () => {
+// loading 界面
+export const fallback = () =>{
+  return (
+    <Loading />
+  );
+};
 
-  // loading 界面
-  const fallback = () =>{
-    return (
-      <Loading />
-    );
-  };
+const Router: React.FC = () => {
 
   const Router = BrowserRouter;
 
