@@ -16,12 +16,25 @@
   }
   .songName {
     display: inline-block;
-    padding: 4px 15px 1px;
-    text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     vertical-align: middle;
     font-size: 15px;
+    width: 100%;
+    padding: 4px 5px 1px;
+    > span {
+      display: inline-block;
+      min-width: 216px;
+      animation: scroll 4s infinite alternate-reverse ease-in-out;
+    }
+    @keyframes scroll {
+      0%, 15% {
+        transform: translateX(calc(-100% + 216px));
+      }
+      85%, 100% {
+        transform: translateX(0px);
+      }
+    }
   }
   .iconBox {
     position: relative;

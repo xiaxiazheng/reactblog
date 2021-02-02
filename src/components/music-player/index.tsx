@@ -219,7 +219,7 @@ const Music: React.FC<PropsType> = (props) => {
         </audio>
       </div>
       <div className={styles.songName} title={active ? active.key : ""}>
-        {active ? active.key : "暂无播放"}
+        <span>{active ? active.key : "暂无播放"}</span>
       </div>
       {/* 控件 */}
       <div className={styles.iconBox}>
