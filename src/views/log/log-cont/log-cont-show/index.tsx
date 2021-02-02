@@ -55,9 +55,9 @@ const LogContShow: React.FC<PropsType> = (props) => {
           log_id: decodeURIComponent(atob(log_id)),
           visits: Number(visits),
         });
-        isLogin && message.success(res1.message, 1);
+        // isLogin && message.success(res1.message, 1);
         setVisits(res1.data.visits);
-      }, 12000);
+      }, 20000);
     }
 
     return () => {

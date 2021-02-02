@@ -91,9 +91,9 @@ const Music: React.FC<PropsType> = (props) => {
               song_name: song.key
             };
             const res = await timesofSongAddOne(params);
-            if (res) {
-              message.success(`${res.message}；当前次数：${res.data}`);
-            }
+            // if (res) {
+            //   message.success(`${res.message}；当前次数：${res.data}`);
+            // }
           }
         }, 45000);
       };
