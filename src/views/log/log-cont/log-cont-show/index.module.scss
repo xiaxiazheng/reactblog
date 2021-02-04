@@ -34,13 +34,13 @@
   // 滚动到顶部 or 底部
   .scrollToTop {
     position: fixed;
-    right: 2.5rem;
+    left: 2.5rem;
     top: calc(50% - 1.5rem);
     opacity: 0.6;
   }
   .scrollToBottom {
     position: fixed;
-    right: 2.5rem;
+    left: 2.5rem;
     top: calc(50% + 1.5rem);
     opacity: 0.6;
   }
@@ -58,12 +58,14 @@
     .scrollToTop {
       right: 110px;
       top: unset;
+      left: unset;
       bottom: 6px;
     }
     .scrollToBottom {
       position: fixed;
       right: 60px;
       top: unset;
+      left: unset;
       bottom: 6px;
     }
   }
