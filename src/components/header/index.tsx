@@ -206,7 +206,7 @@ const Header: React.FC<PropsType> = (props) => {
         </span>
       </header>
     ),
-    [isLogin, current, theme, username]
+    [isLogin, current, theme, username, already, alreadyDays]
   );
 
   return (

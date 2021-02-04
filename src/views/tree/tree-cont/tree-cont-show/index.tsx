@@ -229,7 +229,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
         </div>
 
         {/* 锚点们 */}
-        <div className={styles.mao}>
+        <div className={`${styles.mao} ScrollBar`}>
           <Mao />
         </div>
 

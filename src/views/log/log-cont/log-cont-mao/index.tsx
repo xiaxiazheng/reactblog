@@ -68,7 +68,7 @@ const LogCont: React.FC<PropsType> = (props) => {
   return (
     <>
       {maoList.length !== 0 && (
-        <div className={styles.logMao}>
+        <div className={`${styles.logMao} ScrollBar`}>
           {maoList.map((item) => {
             return getMaoName(item);
           })}

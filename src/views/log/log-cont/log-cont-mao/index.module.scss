@@ -1,6 +1,8 @@
 .logMao {
-  max-width: 10%;
+  max-width: 13%;
   min-width: 130px;
+  max-height: calc(100% - 7rem - 2rem);
+  padding: 3px 0;
   position: fixed;
   top: 7rem;
   right: 0.5rem;
