@@ -55,9 +55,15 @@ const Header: React.FC<PropsType> = (props) => {
   };
 
   const handleClickTabs = (e: any) => {
-    e.key !== "github"
-      ? setCurrent(e.key)
-      : window.open("https://github.com/xiaxiazheng/reactblog", "_blank");
+    e.key === "github"
+      ? window.open("https://github.com/xiaxiazheng/reactblog", "_blank")
+      : e.key === "baidu"
+      ? window.open(
+          "https://tongji.baidu.com/web/10000199972/overview/index?siteId=15040289",
+          "_blank"
+        )
+      : setCurrent(e.key);
+
     setVisible(false);
   };
 
@@ -186,6 +192,12 @@ const Header: React.FC<PropsType> = (props) => {
               <Menu.Item key="maopu">
                 <Icon type="reddit" className={styles.headerIcon} />
                 <Link to={isLogin ? "/admin/maopu" : "/maopu"}>猫谱</Link>
+              </Menu.Item>
+            )}
+            {isLogin && (
+              <Menu.Item key="baidu">
+                <Icon type="bar-chart" className={styles.headerIcon} />
+                <span>百度统计</span>
               </Menu.Item>
             )}
             {isLogin && (
