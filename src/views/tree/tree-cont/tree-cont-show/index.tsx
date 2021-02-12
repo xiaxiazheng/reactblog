@@ -178,9 +178,9 @@ const TreeContShow: React.FC<PropsType> = (props) => {
 
   return (
     <>
-      <div className={`${styles.treecontshow} ScrollBar`} ref={contShowRef}>
+      <div className={`${styles.treecontshow}`}>
         {loading && <Loading />}
-        <div className={`${styles.treecontshowWrapper}`}>
+        <div className={`${styles.treecontshowWrapper} ScrollBar`} ref={contShowRef}>
           <h2 className={styles.treecontTitle}>{treeContTitle}</h2>
           {contList.map((item) => {
             return (
