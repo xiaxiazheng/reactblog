@@ -1,6 +1,7 @@
 /**
  * 监听打开元素对应组件的请求，并打开文件
  * 这是要单独起服务的方案，如果是 cra 的话，在 webpack 的 devServer.before 中使用中间件监听会更好
+ * 本项目未采用使用本文件单独起服务的方案，而是在 config-overrides.js 文件中引入 devServerMiddleware.ts 中间件监听
  */
 const http = require("http");
 const { exec } = require("child_process");

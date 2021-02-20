@@ -3,7 +3,9 @@ const path = require("path");
 
 const HelloWorldPlugin = require("./webpackPlugin/HelloWorldPlugin.ts");
 
+// 引入 loader 修改的配置
 const addLoaderConfig = require('./openInVscode/addLoaderConfig.ts');
+// 引入 webpack 起的服务的中间件
 const devServerMiddleware = require('./openInVscode/devServerMiddleware.ts');
 
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');

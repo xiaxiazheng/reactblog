@@ -1,5 +1,6 @@
 /**
  * 用于 webpack 中 devServer.before 的中间件，监听打开文件的请求并在 vscode 中打开文件
+ * 该文件在 config-overrides.js 文件中被引入
  */
 const { exec } = require("child_process");
 const url = require('url')
