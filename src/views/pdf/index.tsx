@@ -1,45 +1,45 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import MarkdownShow from "@/views/log/log-cont/markdown-show";
-import RichtextShow from "@/views/log/log-cont/richtext-show";
-import rhStyles from "@/views/log/log-cont/log-cont-show/index.module.scss";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
+import RichtextShow from "@/views/blog/blog-cont/richtext-show";
+import rhStyles from "@/views/blog/blog-cont/blog-cont-show/index.module.scss";
 
 interface IPDF extends RouteComponentProps {}
 
 const PDF: React.FC<IPDF> = (props) => {
   const { state } = props.location;
 
-  const [logType, setLogType] = useState<"richtext" | "markdown" | "">("");
-  const [logdata, setLogdata] = useState<any>();
+  const [blogType, setBLogType] = useState<"richtext" | "markdown" | "">("");
+  const [blogdata, setBlogdata] = useState<any>();
 
   useEffect(() => {
     let myState: any = state;
     if (myState && myState.type) {
-      setLogType(myState.type);
-      setLogdata(myState.logdata);
+      setBLogType(myState.type);
+      setBlogdata(myState.blogdata);
     }
   }, [state]);
 
   useEffect(() => {
-    if (logType !== "") {
-      // 这里在下一个宏任务才执行打印，因为 MarkdownShow 需要拿到 logcont 之后再做一次转换才能渲染
+    if (blogType !== "") {
+      // 这里在下一个宏任务才执行打印，因为 MarkdownShow 需要拿到 blogcont 之后再做一次转换才能渲染
       // setTimeout(() => {
       window.print();
       // }, 0)
     }
-  }, [logType]);
+  }, [blogType]);
 
   return (
     <div className={`${styles.pdf} ScrollBar`}>
       {/* 打印 markdown */}
-      {logType === "markdown" && <MarkdownShow logcont={logdata.logcont} />}
+      {blogType === "markdown" && <MarkdownShow blogcont={blogdata.blogcont} />}
       {/* 打印富文本 */}
-      {logType === "richtext" && (
-        <div className={rhStyles.logcontShow}>
-          <div className={rhStyles.title}>{logdata.title}</div>
-          <div className={rhStyles.author}>{logdata.author}</div>
-          <RichtextShow logcont={logdata.logcont} />
+      {blogType === "richtext" && (
+        <div className={rhStyles.blogcontShow}>
+          <div className={rhStyles.title}>{blogdata.title}</div>
+          <div className={rhStyles.author}>{blogdata.author}</div>
+          <RichtextShow blogcont={blogdata.blogcont} />
         </div>
       )}
     </div>

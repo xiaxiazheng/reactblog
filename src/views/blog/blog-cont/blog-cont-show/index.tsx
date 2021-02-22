@@ -1,0 +1,198 @@
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { OneBlogType } from "@/views/blog/BlogType";
+import styles from "./index.module.scss";
+import { getBlogCont } from "@/client/BlogHelper";
+import Loading from "@/components/loading";
+import classnames from "classnames";
+import { IsLoginContext } from "@/context/IsLoginContext";
+import { Button, message, Icon, Drawer } from "antd";
+import { addVisits } from "@/client/BlogHelper";
+import BlogContMao from "../blog-cont-mao";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+
+import MarkdownShow from "../markdown-show";
+import RichtextShow from "../richtext-show";
+
+interface PropsType extends RouteComponentProps {
+  blog_id: string;
+}
+
+const BlogContShow: React.FC<PropsType> = (props) => {
+  const { history, blog_id } = props;
+
+  const [edittype, setEdittype] = useState<"richtext" | "markdown">("richtext");
+  const [loading, setLoading] = useState(true);
+
+  const { isLogin } = useContext(IsLoginContext);
+
+  const blogcontShowWrapper = useRef<any>(null);
+
+  const [blogdata, setblogdata] = useState<OneBlogType>();
+  const [visits, setVisits] = useState<Number>();
+
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      let id = decodeURIComponent(atob(blog_id));
+      const res: OneBlogType = await getBlogCont(id);
+      if (res) {
+        setVisits(res.visits);
+        setblogdata(res);
+        setEdittype(res.edittype);
+        setLoading(false);
+      }
+    };
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blog_id]);
+
+  // 统计访问量
+  useEffect(() => {
+    let visit: any;
+    if (blogdata) {
+      visit = setTimeout(async () => {
+        const res1 = await addVisits({
+          blog_id: decodeURIComponent(atob(blog_id)),
+          visits: Number(visits),
+        });
+        // isLogin && message.success(res1.message, 1);
+        setVisits(res1.data.visits);
+      }, 20000);
+    }
+
+    return () => {
+      clearTimeout(visit);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blogdata]);
+
+  const className = classnames({
+    [styles.blogcontShow]: true,
+    ScrollBar: true,
+  });
+
+  // 回到顶部或底部
+  const scrollTo = (type: "top" | "bottom") => {
+    blogcontShowWrapper.current.scroll({
+      left: 0,
+      top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
+      behavior: "smooth",
+    });
+    // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
+  };
+
+  // 导出到 pdf
+  const exportPdf = () => {
+    history.push({
+      pathname: "/pdf",
+      state: {
+        type: edittype,
+        blogdata: blogdata,
+      },
+    });
+  };
+
+  const [visible, setVisible] = useState<boolean>(false);
+
+  return (
+    <>
+      <div className={className} ref={blogcontShowWrapper}>
+        {loading ? (
+          <Loading />
+        ) : (
+          blogdata && (
+            <>
+              <div className={styles.title}>{blogdata.title}</div>
+              <div className={styles.author}>{blogdata.author}</div>
+              <div className={styles.time}>
+                <span>创建时间: {blogdata.cTime}</span>
+                <span>修改时间: {blogdata.mTime}</span>
+                {isLogin && <span>访问量：{visits}</span>}
+              </div>
+              {
+                // 富文本展示
+                edittype === "richtext" && (
+                  <RichtextShow blogcont={blogdata.blogcont} />
+                )
+              }
+              {
+                // markdown 展示
+                edittype === "markdown" && (
+                  <MarkdownShow blogcont={blogdata.blogcont} />
+                )
+              }
+            </>
+          )
+        )}
+        {/* 导出到 pdf 按钮 */}
+        <Button
+          className={styles.exportPdf}
+          // type={'danger'}
+          onClick={exportPdf}
+        >
+          <Icon type="file-pdf" />
+          导出
+        </Button>
+        {/* 回到顶部 */}
+        <Button
+          className={styles.scrollToTop}
+          title="回到顶部"
+          type="primary"
+          shape="circle"
+          icon="vertical-align-top"
+          size="large"
+          onClick={scrollTo.bind(null, "top")}
+        />
+        {/* 回到底部 */}
+        <Button
+          className={styles.scrollToBottom}
+          title="回到底部"
+          type="primary"
+          shape="circle"
+          icon="vertical-align-bottom"
+          size="large"
+          onClick={scrollTo.bind(null, "bottom")}
+        />
+        {/* 锚点 */}
+        {window.screen.availWidth > 720 && blogdata && (
+          <BlogContMao blogcont={blogdata.blogcont} />
+        )}
+        {window.screen.availWidth <= 720 && (
+          <>
+            <Drawer
+              title={"锚点"}
+              placement="bottom"
+              closable={true}
+              onClose={() => {
+                setVisible(!visible);
+              }}
+              className={styles.drawer}
+              height={"auto"}
+              visible={visible}
+            >
+              {blogdata && (
+                <BlogContMao
+                  blogcont={blogdata.blogcont}
+                  closeDrawer={() => setVisible(false)}
+                />
+              )}
+            </Drawer>
+            <Button
+              className={styles.openMao}
+              title="打开锚点列表"
+              type="primary"
+              shape="circle"
+              icon="environment"
+              size="large"
+              onClick={() => {
+                setVisible(true);
+              }}
+            />
+          </>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default withRouter(BlogContShow);

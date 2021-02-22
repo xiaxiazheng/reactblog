@@ -3,12 +3,12 @@ import { Switch } from "react-router-dom";
 import styles from "./index.module.scss";
 import Header from "@/components/header";
 import { AuthRoute } from "./AuthRoute";
-import { LogProvider } from "@/views/log/LogContext";
+import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";
 import { fallback } from "./index";
 const Tree = lazy(() => import("../views/tree"));
-const Log = lazy(() => import("../views/log"));
-const LogCont = lazy(() => import("../views/log/log-cont"));
+const Log = lazy(() => import("../views/blog"));
+const BlogCont = lazy(() => import("../views/blog/blog-cont"));
 const Admin = lazy(() => import("../views/admin"));
 const Wall = lazy(() => import("../views/wall"));
 const Media = lazy(() => import("../views/media"));
@@ -43,12 +43,12 @@ const AdminRouterView: React.FC<PropsType> = ({
               <AuthRoute path="/admin/tree" component={Tree} />
             </Switch>
           </TreeProvider>
-          <LogProvider>
+          <BlogProvider>
             <Switch>
-              <AuthRoute path="/admin/log/:log_id" exact component={LogCont} />
-              <AuthRoute path="/admin/log" component={Log} />
+              <AuthRoute path="/admin/blog/:blog_id" exact component={BlogCont} />
+              <AuthRoute path="/admin/blog" component={Log} />
             </Switch>
-          </LogProvider>
+          </BlogProvider>
           <Switch>
             <AuthRoute path="/admin/wall/:parent_id" component={Wall} />
             <AuthRoute path="/admin/wall" component={Wall} />

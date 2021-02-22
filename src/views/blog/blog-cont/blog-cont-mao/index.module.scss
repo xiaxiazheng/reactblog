@@ -1,0 +1,51 @@
+.blogMao {
+  max-width: 13%;
+  min-width: 130px;
+  max-height: calc(100% - 7rem - 2rem);
+  padding: 3px 0;
+  position: fixed;
+  top: 7rem;
+  right: 0.5rem;
+  overflow: hidden;
+  overflow-y: auto;
+  border: 2px solid var(--border_color);
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: left;
+  &:hover {
+    opacity: 0.9;
+  }
+  > div {
+    display: block;
+    padding: 0.2rem 0.6rem;
+    word-break: break-all;
+    color: var(--color);
+    cursor: pointer;
+    &:global(.active) {
+      color: var(--color);
+      background-color: var(--bg_color_mask);
+    }
+    &:hover {
+      background-color: var(--bg_color_mask);
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .blogMao {
+    position: relative;
+    top: unset;
+    font-size: 16px;
+    max-width: unset;
+    width: 100%;
+    opacity: 1;
+    &:hover {
+      opacity: 1;
+    }
+    >div {
+      color: black;
+    }
+  }
+}

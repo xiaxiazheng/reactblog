@@ -1,13 +1,13 @@
 import { getHelper, postHelper } from '.';
 
 /** 操作 tag */
-export async function getAllLogTags(): Promise<any> {
-  const data = await getHelper(`/getAllLogTags`);
+export async function getAllBlogTags(): Promise<any> {
+  const data = await getHelper(`/getAllBlogTags`);
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
-export async function getShowLogTags(username: string): Promise<any> {
-  const data = await getHelper(`/getShowLogTags?username=${username}`);
+export async function getShowBlogTags(username: string): Promise<any> {
+  const data = await getHelper(`/getShowBlogTags?username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 

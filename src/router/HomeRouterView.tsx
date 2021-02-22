@@ -2,13 +2,13 @@ import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import styles from "./index.module.scss";
 import Header from "@/components/header";
-import { LogProvider } from "@/views/log/LogContext";
+import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";
 import { fallback } from "./index";
 const Home = lazy(() => import("../views/home"));
 const Tree = lazy(() => import("../views/tree"));
-const Log = lazy(() => import("../views/log"));
-const LogCont = lazy(() => import("../views/log/log-cont"));
+const Blog = lazy(() => import("../views/blog"));
+const BlogCont = lazy(() => import("../views/blog/blog-cont"));
 const Wall = lazy(() => import("../views/wall"));
 const Media = lazy(() => import("../views/media"));
 const Knn = lazy(() => import("../views/knn"));
@@ -37,12 +37,12 @@ const HomeRouterView: React.FC<PropsType> = ({
               <Route path="/tree" component={Tree} />
             </Switch>
           </TreeProvider>
-          <LogProvider>
+          <BlogProvider>
             <Switch>
-              <Route path="/log/:log_id" exact component={LogCont} />
-              <Route path="/log" component={Log} />
+              <Route path="/blog/:blog_id" exact component={BlogCont} />
+              <Route path="/blog" component={Blog} />
             </Switch>
-          </LogProvider>
+          </BlogProvider>
           {/* <Route path="/wall" component={Wall} /> */}
           {/* <Route path="/media" component={Media} /> */}
           <Route path="/knn" component={Knn} />
