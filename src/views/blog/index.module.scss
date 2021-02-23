@@ -1,30 +1,30 @@
-.log {
+.blog {
   position: relative;
   display: flex;
   width: 100%;
   height: 100%;
   background-color: var(--bg_color);
   color: var(--color);
-  .logLeft {
+  .blogLeft {
     position: relative;
     width: 17%;
     min-width: 276px;
     height: 100%;
     border-right: 1px solid var(--border_color);
-    .addLog {
+    .addBlog {
       text-align: left;
       border-bottom: 1px solid var(--border_color);
       padding: 10px 10px 5px;
-      .addLogButton {
+      .addBlogButton {
         margin-bottom: 5px;
       }
     }
   }
-  .logRight {
+  .blogRight {
     position: relative;
     flex: 1;
     height: 100%;
-    .logTab {
+    .blogTab {
       width: 92%;
       max-width: 1360px;
       // min-width: 1280px;
@@ -43,9 +43,9 @@
         margin-left: 0.3rem;
         margin-right: 0;
       }
-      .logTabPane {
+      .blogTabPane {
         height: 100%;
-        .logList {
+        .blogList {
           height: calc(100% - 40px);
           margin-bottom: 0;
           padding: .3rem 0 .9rem;
@@ -64,8 +64,8 @@
 }
 
 @media (max-width: 720px) {
-  .log {
-    .logLeft {
+  .blog {
+    .blogLeft {
       display: none;
     }
   }

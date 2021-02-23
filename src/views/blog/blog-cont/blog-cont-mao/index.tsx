@@ -5,10 +5,11 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 interface PropsType extends RouteComponentProps {
   blogcont: string;
   closeDrawer?: Function;
+  isHasFiles?: boolean; // 是否有附件
 }
 
-const LogCont: React.FC<PropsType> = (props) => {
-  const { blogcont, closeDrawer } = props;
+const BlogCont: React.FC<PropsType> = (props) => {
+  const { blogcont, closeDrawer, isHasFiles = false } = props;
   const [maoList, setMaoList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -72,10 +73,11 @@ const LogCont: React.FC<PropsType> = (props) => {
           {maoList.map((item) => {
             return getMaoName(item);
           })}
+          {isHasFiles && getMaoName('附件：')}
         </div>
       )}
     </>
   );
 };
 
-export default withRouter(LogCont);
+export default withRouter(BlogCont);

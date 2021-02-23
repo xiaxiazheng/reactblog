@@ -7,16 +7,18 @@ import { Input, Button, message } from "antd";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import MarkdownShow from "../markdown-show";
 import ImageBox from "@/components/image-box";
+import FileBox from "@/components/file-box";
 import { staticUrl } from "@/env_config";
 
 interface PropsType {
   blogdata: OneBlogType;
   getBlogContData: Function; // 重新获取整个日志信息
   getImageList: Function; // 只重新获取日志图片列表
+  getFileList: Function; // 只重新获取日志附件列表
 }
 
 const LogContEditByMD: React.FC<PropsType> = (props) => {
-  const { blogdata, getBlogContData, getImageList } = props;
+  const { blogdata, getBlogContData, getImageList, getFileList } = props;
 
   const { TextArea } = Input;
 
@@ -145,6 +147,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
           />
           {/* 图片列表 */}
           <div className={`${styles.imgBox} ScrollBar`}>
+            {/* 上传图片 */}
             <ImageBox
               otherId={blogdata.blog_id}
               type="log"
@@ -153,6 +156,15 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               initImgList={getImageList}
               width="140px"
             />
+            {/* 上传附件 */}
+            <FileBox
+              otherId={blogdata.blog_id}
+              type="log"
+              fileUrl=""
+              initFileList={getFileList}
+              width="140px"
+            />
+            {/* 图片列表 */}
             {blogdata.imgList.map((item) => {
               return (
                 <ImageBox
@@ -164,6 +176,21 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                   imageUrl={`${staticUrl}/img/log/${item.filename}`}
                   imageMinUrl={item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''}
                   initImgList={getImageList} 
+                  width="140px"
+                />
+              );
+            })}
+            {/* 附件列表 */}
+            {blogdata.fileList.map((item) => {
+              return (
+                <FileBox
+                  key={item.file_id}
+                  type="log"
+                  fileId={item.file_id}
+                  originalName={item.originalname}
+                  fileName={item.filename}
+                  fileUrl={`${staticUrl}/file/log/${item.filename}`}
+                  initFileList={getFileList}
                   width="140px"
                 />
               );

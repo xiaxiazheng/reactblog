@@ -5,6 +5,7 @@ import { OneBlogType } from "../../BlogType";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import "./index.scss";
 import ImageBox from "@/components/image-box";
+import FileBox from "@/components/file-box";
 import { staticUrl } from "@/env_config";
 import BlogContMao from "../blog-cont-mao";
 // 代码高亮
@@ -34,6 +35,7 @@ interface PropsType {
   blogdata: OneBlogType;
   getBlogContData: Function; // 重新获取整个日志信息
   getImageList: Function; // 只重新获取日志图片列表
+  getFileList: Function; // 只重新获取日志附件列表
 }
 
 class BlogContEdit extends React.Component<PropsType> {
@@ -234,8 +236,9 @@ class BlogContEdit extends React.Component<PropsType> {
               ref={this.state.quillref as any}
             />
           </div>
-          {/* 图片列表 */}
+          {/* 图片列表和附件列表 */}
           <div className="blogcont-imgbox">
+            {/* 上传图片 */}
             <ImageBox
               otherId={this.props.blogdata.blog_id}
               type="log"
@@ -244,6 +247,15 @@ class BlogContEdit extends React.Component<PropsType> {
               initImgList={this.props.getImageList}
               width="140px"
             />
+            {/* 上传附件 */}
+            <FileBox
+              otherId={this.props.blogdata.blog_id}
+              type="log"
+              fileUrl=""
+              initFileList={this.props.getFileList}
+              width="140px"
+            />
+            {/* 图片列表 */}
             {this.props.blogdata.imgList.map((item) => {
               return (
                 <ImageBox
@@ -259,6 +271,21 @@ class BlogContEdit extends React.Component<PropsType> {
                       : ""
                   }
                   initImgList={this.props.getImageList}
+                  width="140px"
+                />
+              );
+            })}
+            {/* 附件列表 */}
+            {this.props.blogdata.fileList.map((item) => {
+              return (
+                <FileBox
+                  key={item.file_id}
+                  type="log"
+                  fileId={item.file_id}
+                  originalName={item.originalname}
+                  fileName={item.filename}
+                  fileUrl={item.fileUrl}
+                  initFileList={this.props.getFileList}
                   width="140px"
                 />
               );
@@ -286,7 +313,9 @@ class BlogContEdit extends React.Component<PropsType> {
           onClick={this.scrollTo.bind(null, "bottom")}
         />
         {/* 锚点 */}
-        <BlogContMao blogcont={this.state.blogcont} />
+        <BlogContMao
+          blogcont={this.state.blogcont}
+        />
       </div>
     );
   }

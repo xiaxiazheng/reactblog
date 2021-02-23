@@ -2,7 +2,7 @@
 export interface BlogListType {
   author: string;
   cTime: string;
-  edittype: 'richtext' | 'markdown';
+  edittype: "richtext" | "markdown";
   isShow: string;
   isStick: string;
   blog_id: string;
@@ -13,20 +13,31 @@ export interface BlogListType {
     tag_name: string;
   }[];
   visits: number;
-};
+}
 
 // 单篇日志用到的日志数据，比列表多一个具体内容和图片
 export interface OneBlogType extends BlogListType {
   blogcont: string;
   imgList: ImageType[];
-};
+  fileList: FileType[];
+}
 
 export interface ImageType {
   img_id: string;
   imgcTime: string;
   filename: string;
   imgname: string;
-  has_min: '0' | '1';
+  has_min: "0" | "1";
+}
+
+export interface FileType {
+  cTime: string;
+  originalname: string;
+  filename: string;
+  file_id: string;
+  other_id: string;
+  type: string;
+  fileUrl: string;
 }
 
 // export const a = 1;  // 这个用来绕过 export interface 的报错

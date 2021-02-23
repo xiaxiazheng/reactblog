@@ -16,6 +16,7 @@ interface PropsType {
   fileUrl: string; // 完整的 url 的路径，若为 '' 则该组件需提供上传，不为 '' 则提供大图或删除图片
   initFileList: Function; // 用于上传成功或删除后的图片列表初始化
   width?: string; // 可以传递宽高给组件
+  isOnlyShow?: boolean; // 是否只查看，若是只查看则不给删除
 }
 
 const FileBox: React.FC<PropsType> = (props) => {
@@ -30,6 +31,7 @@ const FileBox: React.FC<PropsType> = (props) => {
     otherId = "",
     initFileList,
     width = "170px",
+    isOnlyShow = false
   } = props;
 
   const { confirm } = Modal;
@@ -154,12 +156,15 @@ const FileBox: React.FC<PropsType> = (props) => {
             type="download"
             onClick={downloadFile}
           />
+          {!isOnlyShow && (
           <Icon
             className={styles.iconBoxIcon}
             title="删除文件"
             type="delete"
             onClick={deleteThisFile}
-          />
+          />            
+          )}
+
         </div>
       )}
     </div>

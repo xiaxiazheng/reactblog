@@ -12,7 +12,7 @@ interface PropsType {
 }
 
 const LogContShow: React.FC<PropsType> = (props) => {
-  const { blogcont } = props
+  const { blogcont } = props;
 
   // 编辑器配置
   const modules: any = {
@@ -27,12 +27,7 @@ const LogContShow: React.FC<PropsType> = (props) => {
 
   return (
     <div className={styles.blogcontEditor}>
-      <ReactQuill
-        readOnly
-        theme="bubble"
-        value={blogcont}
-        modules={modules}
-      />
+      <ReactQuill readOnly theme="bubble" value={blogcont} modules={modules} />
     </div>
   );
 };

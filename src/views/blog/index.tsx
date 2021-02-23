@@ -5,20 +5,20 @@ import TagList from "./tag-list";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "./BlogContext";
 import { addBlogCont } from "@/client/BlogHelper";
-import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
+// import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
 import { Button, message, Icon, Drawer } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface PropsType extends RouteComponentProps {}
 
-const Log: React.FC<PropsType> = (props) => {
+const Blog: React.FC<PropsType> = (props) => {
   const { history } = props;
 
   const { isLogin } = useContext(IsLoginContext);
   const { setActiveTag } = useContext(BlogContext);
 
   // 添加日志
-  const addNewLog = async (type: "richtext" | "markdown") => {
+  const addNewBlog = async (type: "richtext" | "markdown") => {
     const params = {
       edittype: type,
     };
@@ -28,7 +28,7 @@ const Log: React.FC<PropsType> = (props) => {
       setActiveTag("");
       /** 新建成功直接跳转到新日志 */
       const newId = res.newid;
-      const path = `/admin/log/${btoa(decodeURIComponent(newId))}`;
+      const path = `/admin/blog/${btoa(decodeURIComponent(newId))}`;
       history.push({
         pathname: path,
         state: {
@@ -44,28 +44,28 @@ const Log: React.FC<PropsType> = (props) => {
 
   return (
     <>
-      <div className={styles.log}>
-        <div className={styles.logLeft}>
+      <div className={styles.blog}>
+        <div className={styles.blogLeft}>
           {isLogin && (
             // 新建日志
-            <div className={styles.addLog}>
+            <div className={styles.addBlog}>
               <Button
-                className={styles.addLogButton}
-                title="新建富文本日志"
+                className={styles.addBlogButton}
+                title="新建富文本 blog"
                 type="primary"
                 size="small"
                 icon="file-text"
-                onClick={addNewLog.bind(null, "richtext")}
+                onClick={addNewBlog.bind(null, "richtext")}
               >
                 新建富文本日志
               </Button>
               <Button
-                className={styles.addLogButton}
-                title="新建 MarkDown 日志"
+                className={styles.addBlogButton}
+                title="新建 MarkDown blog"
                 type="primary"
                 size="small"
                 icon="file-markdown"
-                onClick={addNewLog.bind(null, "markdown")}
+                onClick={addNewBlog.bind(null, "markdown")}
               >
                 新建 markdown 日志
               </Button>
@@ -73,7 +73,7 @@ const Log: React.FC<PropsType> = (props) => {
           )}
           <TagList />
         </div>
-        <div className={`${styles.logRight} ScrollBar`}>
+        <div className={`${styles.blogRight} ScrollBar`}>
           {/* 日志列表 */}
           <BlogList />
         </div>
@@ -102,4 +102,4 @@ const Log: React.FC<PropsType> = (props) => {
   );
 };
 
-export default withRouter(Log);
+export default withRouter(Blog);

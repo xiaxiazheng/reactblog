@@ -224,7 +224,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
       </div>
       <div className={styles.imgLength}>
         {!loading && <>共 {imgList.length} 张图片</>}
-        <br/>
+        <br />
         {!loading && <>共 {fileList.length} 个文件</>}
       </div>
       <div className={styles.ImgGallery}>

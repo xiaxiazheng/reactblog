@@ -9,6 +9,7 @@ import { Button, message, Icon, Drawer } from "antd";
 import { addVisits } from "@/client/BlogHelper";
 import BlogContMao from "../blog-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import FileBox from "@/components/file-box";
 
 import MarkdownShow from "../markdown-show";
 import RichtextShow from "../richtext-show";
@@ -121,6 +122,28 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                   <MarkdownShow blogcont={blogdata.blogcont} />
                 )
               }
+              {blogdata.fileList && blogdata.fileList.length !== 0 && (
+                <div className={styles.fileList}>
+                  <h4>附件：</h4>
+                  <div>
+                    {blogdata.fileList.map((item) => {
+                      return (
+                        <FileBox
+                          key={item.file_id}
+                          type="log"
+                          fileId={item.file_id}
+                          originalName={item.originalname}
+                          fileName={item.filename}
+                          fileUrl={item.fileUrl}
+                          initFileList={() => {}}
+                          width="140px"
+                          isOnlyShow={true}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </>
           )
         )}
@@ -155,7 +178,10 @@ const BlogContShow: React.FC<PropsType> = (props) => {
         />
         {/* 锚点 */}
         {window.screen.availWidth > 720 && blogdata && (
-          <BlogContMao blogcont={blogdata.blogcont} />
+          <BlogContMao
+            blogcont={blogdata.blogcont}
+            isHasFiles={blogdata.fileList && blogdata.fileList.length !== 0}
+          />
         )}
         {window.screen.availWidth <= 720 && (
           <>
@@ -174,6 +200,9 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                 <BlogContMao
                   blogcont={blogdata.blogcont}
                   closeDrawer={() => setVisible(false)}
+                  isHasFiles={
+                    blogdata.fileList && blogdata.fileList.length !== 0
+                  }
                 />
               )}
             </Drawer>
