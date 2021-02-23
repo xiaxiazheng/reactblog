@@ -163,42 +163,6 @@ const BlogList: React.FC<PropsType> = (props) => {
     ScrollBar: true,
   });
 
-  // 处理可见
-  const handleVisible = () => {
-    setTabsState({
-      ...tabsState,
-      showVisible: !showVisible,
-      pageNo: 1,
-    });
-  };
-
-  // 处理不可见
-  const handleInvisible = () => {
-    setTabsState({
-      ...tabsState,
-      showInvisible: !showInvisible,
-      pageNo: 1,
-    });
-  };
-
-  // 处理未设置 tag
-  const handleNotTag = () => {
-    setTabsState({
-      ...tabsState,
-      showNotTag: !showNotTag,
-      pageNo: 1,
-    });
-  };
-
-  // 处理按什么排序
-  const handleOrderBy = (value: any) => {
-    setTabsState({
-      ...tabsState,
-      orderBy: value,
-      pageNo: 1,
-    });
-  };
-
   // 切换页
   const handlePageNo = (page: number) => {
     setTabsState({
@@ -216,6 +180,36 @@ const BlogList: React.FC<PropsType> = (props) => {
     });
   };
 
+  // 处理按什么排序
+  const handleOrderBy = (
+    value: "create" | "modify" | "letter" | "letterDesc" | "visits"
+  ) => {
+    setTabsState({
+      ...tabsState,
+      orderBy: value,
+      pageNo: 1,
+    });
+  };
+
+  // 处理可见
+  const handleVisible = (value: "all" | "show" | "hide") => {
+    setTabsState({
+      ...tabsState,
+      showVisible: value === "all" || value === "show",
+      showInvisible: value === "all" || value === "hide",
+      pageNo: 1,
+    });
+  };
+
+  // 处理未设置 tag
+  const handleShowTag = (value: "all" | "hide") => {
+    setTabsState({
+      ...tabsState,
+      showNotTag: value === "hide",
+      pageNo: 1,
+    });
+  };
+
   return (
     <>
       <div className={styles.operateBox}>
@@ -229,36 +223,37 @@ const BlogList: React.FC<PropsType> = (props) => {
           <Select.Option value="modify">按修改时间</Select.Option>
           <Select.Option value="letter">首字母升序</Select.Option>
           <Select.Option value="letterDesc">首字母降序</Select.Option>
-          <Select.Option value="visits">按访问量</Select.Option>
+          <Select.Option value="visits">按访问的量</Select.Option>
         </Select>
-        {/* 显示条件 */}
         {isLogin && (
-          <Checkbox
-            className={styles.checkBox}
-            checked={showVisible}
-            onChange={handleVisible}
-          >
-            可见
-          </Checkbox>
+          <>
+            {/* 是否可见 */}
+            <Select
+              className={styles.orderbyBox}
+              value={showVisible ? (showInvisible ? "all" : "show") : "hide"}
+              onChange={handleVisible}
+            >
+              <Select.Option value="all">
+                <Icon type="eye" />
+                全部
+              </Select.Option>
+              <Select.Option value="show">仅可见</Select.Option>
+              <Select.Option value="hide">不可见</Select.Option>
+            </Select>
+          </>
         )}
-        {isLogin && (
-          <Checkbox
-            className={styles.checkBox}
-            checked={showInvisible}
-            onChange={handleInvisible}
-          >
-            不可见
-          </Checkbox>
-        )}
-        {isLogin && (
-          <Checkbox
-            className={styles.checkBox}
-            checked={!showNotTag}
-            onChange={handleNotTag}
-          >
-            未设置 tag
-          </Checkbox>
-        )}
+
+        {/* 是否设置 tag */}
+        <Select
+          className={styles.orderbyBox}
+          value={showNotTag ? "hide" : "all"}
+          onChange={handleShowTag}
+        >
+          <Select.Option value="all">不管 tag</Select.Option>
+          {/* <Select.Option value="show">设置了tag</Select.Option> */}
+          <Select.Option value="hide">未设置tag</Select.Option>
+        </Select>
+
         {/* 搜索框 */}
         <Input
           className={styles.searchBox}

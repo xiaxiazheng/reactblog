@@ -15,7 +15,7 @@ import { BlogContext } from "../../BlogContext";
 interface PropsType {
   // logClass: string;
   blogItemData: BlogListType;
-  orderBy: "create" | "modify" | "letter" | "letterDesc";
+  orderBy: "create" | "modify" | "letter" | "letterDesc" | "visits";
   getNewList: Function; // 完成操作后刷新数组
   // getAllLogClass: Function;
 }
