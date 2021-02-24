@@ -14,6 +14,7 @@ export interface IImageType {
   other_id: string;
   type: string;
   username: string;
+  size: string;
 }
 
 // 项目中使用的稍微拓展过的类型

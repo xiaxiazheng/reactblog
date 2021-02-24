@@ -34,6 +34,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
     imageMinUrl,
     initImgList,
     width = "170px",
+    imageData
   } = props;
 
   const { confirm } = Modal;
@@ -222,24 +223,27 @@ const ImageBox: React.FC<PropsType> = (props) => {
       {/* 有图片的情况，显示操作 */}
       {imageUrl !== "" && isHover && (
         <div className={styles.Icons}>
-          <Icon
-            className={styles.iconBoxIcon}
-            title="复制图片链接"
-            type="copy"
-            onClick={copyImgUrl}
-          />
-          <Icon
-            className={styles.iconBoxIcon}
-            title="预览图片"
-            type="eye"
-            onClick={() => setIsPreview(true)}
-          />
-          <Icon
-            className={styles.iconBoxIcon}
-            title="删除图片"
-            type="delete"
-            onClick={deleteImage}
-          />
+          <div>
+            <Icon
+              className={styles.iconBoxIcon}
+              title="复制图片链接"
+              type="copy"
+              onClick={copyImgUrl}
+            />
+            <Icon
+              className={styles.iconBoxIcon}
+              title="预览图片"
+              type="eye"
+              onClick={() => setIsPreview(true)}
+            />
+            <Icon
+              className={styles.iconBoxIcon}
+              title="删除图片"
+              type="delete"
+              onClick={deleteImage}
+            />
+          </div>
+          <div className={styles.size}>{handleSize(Number((imageData as ImgType).size || 0))}</div>
         </div>
       )}
       {/* 图片预览 */}

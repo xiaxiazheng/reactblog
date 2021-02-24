@@ -17,7 +17,7 @@ interface PropsType {
   initFileList: Function; // 用于上传成功或删除后的图片列表初始化
   width?: string; // 可以传递宽高给组件
   isOnlyShow?: boolean; // 是否只查看，若是只查看则不给删除
-  fileData: IFileType | {};  // 从接口拿的文件原始信息
+  fileData: IFileType | {}; // 从接口拿的文件原始信息
 }
 
 const FileBox: React.FC<PropsType> = (props) => {
@@ -33,6 +33,7 @@ const FileBox: React.FC<PropsType> = (props) => {
     initFileList,
     width = "170px",
     isOnlyShow = false,
+    fileData,
   } = props;
 
   const { confirm } = Modal;
@@ -41,7 +42,7 @@ const FileBox: React.FC<PropsType> = (props) => {
   const [isHover, setIsHover] = useState(false);
   const [name, setName] = useState<string>();
   const [percent, setPercent] = useState<number>();
-  const [size, setSize] = useState<number>()
+  const [size, setSize] = useState<number>();
 
   const handleChange = (info: any) => {
     // 上传中
@@ -109,20 +110,20 @@ const FileBox: React.FC<PropsType> = (props) => {
   };
 
   const beforeUpload = (info: any) => {
-    setName(info.name)
-    setPercent(0)
-    setSize(info.size)
+    setName(info.name);
+    setPercent(0);
+    setSize(info.size);
 
-    return true // 为 false 就不会上传
-  }
+    return true; // 为 false 就不会上传
+  };
 
   const handleSize = (size: number) => {
     if (size < 1024 * 1024) {
-      return `${(size / 1024).toFixed(1)}KB`
+      return `${(size / 1024).toFixed(1)}KB`;
     } else {
-      return `${(size / 1024 / 1024).toFixed(2)}MB`
+      return `${(size / 1024 / 1024).toFixed(2)}MB`;
     }
-  }
+  };
 
   return (
     <div
@@ -159,8 +160,8 @@ const FileBox: React.FC<PropsType> = (props) => {
               <div>进度：{(percent || 0).toFixed(1)}%</div>
               <Progress
                 strokeColor={{
-                  from: '#108ee9',
-                  to: '#87d068',
+                  from: "#108ee9",
+                  to: "#87d068",
                 }}
                 percent={percent}
                 status="active"
@@ -176,15 +177,18 @@ const FileBox: React.FC<PropsType> = (props) => {
       )}
       {/* 有文件路径的情况，展示名称 */}
       {fileUrl !== "" && (
-        <span
-          className={styles.filename}
+        <div
+          className={styles.content}
           onMouseEnter={(e) => {
             e.stopPropagation();
             setIsHover(true);
           }}
         >
-          {originalName}
-        </span>
+          <div className={styles.filename}>{originalName}</div>
+          <div className={styles.size}>
+            {handleSize(Number((fileData as IFileType).size || 0))}
+          </div>
+        </div>
       )}
       {/* 有文件路径的情况，显示操作 */}
       {fileUrl !== "" && isHover && (

@@ -12,6 +12,7 @@ export interface IFileType {
   other_id: string
   type: string
   username: string
+  size: string
 }
 
 export interface FileType extends IFileType {
