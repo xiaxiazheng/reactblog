@@ -6,6 +6,7 @@
     "commit": "git-cz",
     "start": "react-app-rewired start",
     "startLocal": "(set REACT_APP_IS_LocalHost=yes) && react-app-rewired start",
+    "startLocalStatic": "(set REACT_APP_IS_LOCALSTATIC=yes) && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
