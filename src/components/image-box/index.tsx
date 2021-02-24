@@ -244,6 +244,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             />
           </div>
           <div className={styles.size}>{handleSize(Number((imageData as ImgType).size || 0))}</div>
+          <div className={styles.time}>{(imageData as ImgType).cTime}</div>
         </div>
       )}
       {/* 图片预览 */}

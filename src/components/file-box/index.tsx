@@ -188,6 +188,7 @@ const FileBox: React.FC<PropsType> = (props) => {
           <div className={styles.size}>
             {handleSize(Number((fileData as IFileType).size || 0))}
           </div>
+          <div className={styles.time}>{(fileData as IFileType).cTime}</div>
         </div>
       )}
       {/* 有文件路径的情况，显示操作 */}
