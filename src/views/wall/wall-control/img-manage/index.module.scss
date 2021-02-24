@@ -11,3 +11,11 @@
 .ImgManage {
   margin: 20px;
 }
+
+.tabs {
+  :global {
+    .ant-tabs-tab {
+      color: var(--color);
+    }
+  }
+}

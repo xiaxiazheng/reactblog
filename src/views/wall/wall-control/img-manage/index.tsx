@@ -66,7 +66,7 @@ const ImgManage: React.FC = () => {
       <div className={styles.imgLength}>
         {!loading && <>共 {wallList.length} 张</>}
       </div>
-      <Tabs activeKey={activeType} onChange={(key) => setActiveType(key)}>
+      <Tabs className={styles.tabs} activeKey={activeType} onChange={(key) => setActiveType(key)}>
         {typeList.map((item) => {
           return (
             <TabPane tab={<span>{item}</span>} key={item}>

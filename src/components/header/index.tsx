@@ -163,23 +163,23 @@ const Header: React.FC<PropsType> = (props) => {
             {isLogin && (
               <Menu.Item key="tree">
                 <Icon type="cluster" className={styles.headerIcon} />
-                <Link to={isLogin ? "/admin/tree" : "/tree"}>知识树</Link>
+                <Link to={isLogin ? "/admin/tree" : "/tree"}>Tree</Link>
               </Menu.Item>
             )}
             <Menu.Item key="blog">
               <Icon type="book" className={styles.headerIcon} />
-              <Link to={isLogin ? "/admin/blog" : "/blog"}>博客</Link>
+              <Link to={isLogin ? "/admin/blog" : "/blog"}>Blog</Link>
             </Menu.Item>
             {isLogin && (
               <Menu.Item key="wall">
                 <Icon type="cloud" className={styles.headerIcon} />
-                <Link to={isLogin ? "/admin/wall" : "/wall"}>云盘</Link>
+                <Link to={isLogin ? "/admin/wall" : "/wall"}>Cloud</Link>
               </Menu.Item>
             )}
             {isLogin && (
               <Menu.Item key="media">
                 <Icon type="video-camera" className={styles.headerIcon} />
-                <Link to={isLogin ? "/admin/media" : "/media"}>媒体库</Link>
+                <Link to={isLogin ? "/admin/media" : "/media"}>Media</Link>
               </Menu.Item>
             )}
             {window.screen.availWidth > 720 && (
