@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Icon } from '@ant-design/compatible'
-import { message, Upload, Modal } from "antd";
+import { Progress, message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import { deleteImg } from "@/client/ImgHelper";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
-import UploadImage from "./upload-image";
 import { UserContext } from '@/context/UserContext'
 
 interface PropsType {
@@ -57,37 +56,24 @@ const ImageBox: React.FC<PropsType> = (props) => {
 
   // const [loading, setLoading] = useState(true);
   const [isHover, setIsHover] = useState(false);
+  const [name, setName] = useState<string>();
+  const [percent, setPercent] = useState<number>();
+  const [size, setSize] = useState<number>()
 
   const handleChange = (info: any) => {
+    // 上传中
+    if (info.file.status === "uploading") {
+      setPercent(info.file.percent);
+    }
     // 上传成功触发
     if (info.file.status === "done") {
       message.success("上传图片成功");
+      setName(undefined);
       initImgList();
     }
     if (info.file.status === "error") {
       message.error("上传图片失败");
     }
-  };
-
-  // 上传图片
-  const handleUpload = () => {
-    // axios.put(this.uploadUrl, this.files[0], {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   },
-    //   transformRequest: [function (data) {
-    //     return data
-    //   }],
-    //   onUploadProgress: progressEvent => {
-    //     let complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-    //     self.uploadMessage = '上传 ' + complete
-    //   }
-    // })
-    // .then((response) => {
-    //   if (response.status === 200) {
-    //     self.uploadMessage = '上传成功！'
-    //   }
-    // })
   };
 
   const [isPreview, setIsPreview] = useState(false);
@@ -130,6 +116,22 @@ const ImageBox: React.FC<PropsType> = (props) => {
     document.body.removeChild(input);
   };
 
+  const beforeUpload = (info: any) => {
+    setName(info.name)
+    setPercent(0)
+    setSize(info.size)
+
+    return true // 为 false 就不会上传
+  }
+
+  const handleSize = (size: number) => {
+    if (size < 1024 * 1024) {
+      return `${(size / 1024).toFixed(1)}KB`
+    } else {
+      return `${(size / 1024 / 1024).toFixed(2)}MB`
+    }
+  }
+
   return (
     <div
       className={styles.Imagebox}
@@ -154,14 +156,32 @@ const ImageBox: React.FC<PropsType> = (props) => {
               other_id: otherId || '',
               username
             }}
+            beforeUpload={beforeUpload}
             listType="picture-card"
             onChange={handleChange}
           >
+                      {name ? (
+            <div className={styles.progress}>
+              <div className={styles.name}>{name}</div>
+              <div>{handleSize(size || 0)}</div>
+              <div>进度：{(percent || 0).toFixed(1)}%</div>
+              <Progress
+                strokeColor={{
+                  from: '#108ee9',
+                  to: '#87d068',
+                }}
+                percent={percent}
+                status="active"
+              />
+            </div>
+          ) : (
+            <>
             <Icon className={styles.addIcon} type="plus" />
             点击上传图片
+            </>
+          )}
           </Upload>
         )
-        // <UploadImage />
       }
       {/* 加载中。。。 */}
       {/* {imageUrl !== '' && loading &&

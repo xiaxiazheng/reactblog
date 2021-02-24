@@ -20,6 +20,17 @@
         color: var(--color);
       }
     }
+    .progress {
+      font-size: 12px;
+      .name {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      :global(.ant-progress-text) {
+        display: none;
+      }
+    }
     .addIcon {
       display: block;
       margin-bottom: 10px;

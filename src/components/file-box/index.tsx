@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Icon } from "@ant-design/compatible";
-import { message, Upload, Modal } from "antd";
+import { Progress, message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import { deleteFile } from "@/client/FileHelper";
@@ -31,30 +31,39 @@ const FileBox: React.FC<PropsType> = (props) => {
     otherId = "",
     initFileList,
     width = "170px",
-    isOnlyShow = false
+    isOnlyShow = false,
   } = props;
 
   const { confirm } = Modal;
 
   // const [loading, setLoading] = useState(true);
   const [isHover, setIsHover] = useState(false);
+  const [name, setName] = useState<string>();
+  const [percent, setPercent] = useState<number>();
+  const [size, setSize] = useState<number>()
 
   const handleChange = (info: any) => {
+    // 上传中
+    if (info.file.status === "uploading") {
+      setPercent(info.file.percent);
+    }
     // 上传成功触发
     if (info.file.status === "done") {
       message.success("上传图片成功");
+      setName(undefined);
       initFileList();
     }
     if (info.file.status === "error") {
+      setPercent(undefined);
       message.error("上传图片失败");
     }
   };
 
   // 下载文件
   const downloadFile = () => {
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = fileUrl;
-    a.download = originalName || '文件名';
+    a.download = originalName || "文件名";
     a.click();
   };
 
@@ -98,6 +107,22 @@ const FileBox: React.FC<PropsType> = (props) => {
     document.body.removeChild(input);
   };
 
+  const beforeUpload = (info: any) => {
+    setName(info.name)
+    setPercent(0)
+    setSize(info.size)
+
+    return true // 为 false 就不会上传
+  }
+
+  const handleSize = (size: number) => {
+    if (size < 1024 * 1024) {
+      return `${(size / 1024).toFixed(1)}KB`
+    } else {
+      return `${(size / 1024 / 1024).toFixed(2)}MB`
+    }
+  }
+
   return (
     <div
       className={styles.filebox}
@@ -122,11 +147,30 @@ const FileBox: React.FC<PropsType> = (props) => {
             other_id: otherId || "",
             username,
           }}
+          beforeUpload={beforeUpload}
           listType="picture-card"
           onChange={handleChange}
         >
-          <Icon className={styles.addIcon} type="plus" />
-          点击上传文件
+          {name ? (
+            <div className={styles.progress}>
+              <div className={styles.name}>{name}</div>
+              <div>{handleSize(size || 0)}</div>
+              <div>进度：{(percent || 0).toFixed(1)}%</div>
+              <Progress
+                strokeColor={{
+                  from: '#108ee9',
+                  to: '#87d068',
+                }}
+                percent={percent}
+                status="active"
+              />
+            </div>
+          ) : (
+            <>
+              <Icon className={styles.addIcon} type="plus" />
+              点击上传文件
+            </>
+          )}
         </Upload>
       )}
       {/* 有文件路径的情况，展示名称 */}
@@ -157,14 +201,13 @@ const FileBox: React.FC<PropsType> = (props) => {
             onClick={downloadFile}
           />
           {!isOnlyShow && (
-          <Icon
-            className={styles.iconBoxIcon}
-            title="删除文件"
-            type="delete"
-            onClick={deleteThisFile}
-          />            
+            <Icon
+              className={styles.iconBoxIcon}
+              title="删除文件"
+              type="delete"
+              onClick={deleteThisFile}
+            />
           )}
-
         </div>
       )}
     </div>
