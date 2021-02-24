@@ -16,18 +16,11 @@ import { Icon } from '@ant-design/compatible'
 import { Input, Button, message, Modal } from "antd";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
+import { ImgType } from '@/client/ImgHelper'
 
 interface PropsType extends RouteComponentProps {
   first_id: string;
   second_id: string;
-}
-
-interface ImageType {
-  img_id: string;
-  imgcTime: string;
-  imgfilename: string;
-  imgname: string;
-  has_min: '0' | '1';
 }
 
 interface TreeContType {
@@ -35,7 +28,7 @@ interface TreeContType {
   cont: string;
   cont_id: string; // 树内容每个节点的单独 id
   cTime: string;
-  imgList: ImageType[];
+  imgList: ImgType[];
   mTime: string;
   sort: number;
   title: string;
@@ -291,6 +284,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
                 />
               </div>
               <div className={styles.contitemImg}>
+                {/* 上传图片 */}
                 <ImageBox
                   otherId={item.cont_id}
                   type="treecont"
@@ -298,19 +292,22 @@ const TreeContEdit: React.FC<PropsType> = props => {
                   imageMinUrl=""
                   initImgList={getTreeCont}
                   width="120px"
+                  imageData={{}}
                 />
-                {item.imgList.map(jtem => {
+                {/* 图片列表 */}
+                {item.imgList.map((jtem: ImgType) => {
                   return (
                     <ImageBox
                       key={jtem.img_id}
                       type="treecont"
                       imageId={jtem.img_id}
                       imageName={jtem.imgname}
-                      imageFileName={jtem.imgfilename}
-                      imageUrl={`${staticUrl}/img/treecont/${jtem.imgfilename}`}
-                      imageMinUrl={jtem.has_min === '1' ? `${staticUrl}/min-img/${jtem.imgfilename}` : ''}
+                      imageFileName={jtem.filename}
+                      imageUrl={`${staticUrl}/img/treecont/${jtem.filename}`}
+                      imageMinUrl={jtem.has_min === '1' ? `${staticUrl}/min-img/${jtem.filename}` : ''}
                       initImgList={getTreeCont}
                       width="120px"
+                      imageData={jtem}
                     />
                   );
                 })}

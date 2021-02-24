@@ -1,23 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { getImgList, getImgTypeList } from "@/client/ImgHelper";
+import { IImageType, ImgType, getImgList, getImgTypeList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
 import { UserContext } from "@/context/UserContext";
 import { Tabs } from "antd";
-
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: "0" | "1";
-  imageMinUrl: string;
-}
 
 // 图片管理
 const ImgManage: React.FC = () => {
@@ -59,7 +47,7 @@ const ImgManage: React.FC = () => {
   const getImageListByType = async (type: string) => {
     let imgList: any = [];
     setLoading(true);
-    const res: ImgType[] = await getImgList(type, username);
+    const res: IImageType[] = await getImgList(type, username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({
@@ -104,6 +92,7 @@ const ImgManage: React.FC = () => {
                       imageUrl={item.imageUrl}
                       imageMinUrl={item.imageMinUrl}
                       initImgList={getImageListByType.bind(null, activeType)}
+                      imageData={item}
                     />
                   );
                 })}

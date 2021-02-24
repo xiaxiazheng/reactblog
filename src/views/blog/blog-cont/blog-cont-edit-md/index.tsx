@@ -155,6 +155,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               imageMinUrl=""
               initImgList={getImageList}
               width="140px"
+              imageData={{}}
             />
             {/* 上传附件 */}
             <FileBox
@@ -163,6 +164,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               fileUrl=""
               initFileList={getFileList}
               width="140px"
+              fileData={{}}
             />
             {/* 图片列表 */}
             {blogdata.imgList.map((item) => {
@@ -177,6 +179,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                   imageMinUrl={item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''}
                   initImgList={getImageList} 
                   width="140px"
+                  imageData={item}
                 />
               );
             })}
@@ -192,6 +195,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                   fileUrl={`${staticUrl}/file/log/${item.filename}`}
                   initFileList={getFileList}
                   width="140px"
+                  fileData={item}
                 />
               );
             })}

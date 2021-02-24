@@ -138,6 +138,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                           initFileList={() => {}}
                           width="140px"
                           isOnlyShow={true}
+                          fileData={item}
                         />
                       );
                     })}

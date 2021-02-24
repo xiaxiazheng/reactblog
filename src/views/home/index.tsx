@@ -1,21 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { getImgList } from "@/client/ImgHelper";
+import { IImageType, getImgList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import classnames from "classnames";
 import { UserContext } from '@/context/UserContext';
 
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: '0' | '1';
-  imageMinUrl: string;
-}
 
 const Home: React.FC = () => {
   const [backgroundUrl, setBackgroundUrl] = useState("");
@@ -24,7 +13,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     let imgList: any = [];
     const getData = async () => {
-      const res: ImgType[] = await getImgList("main", username);
+      const res: IImageType[] = await getImgList("main", username);
       for (let item of res) {
         // 拼好 img 的 url
         imgList.push({

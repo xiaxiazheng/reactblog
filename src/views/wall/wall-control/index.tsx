@@ -3,18 +3,6 @@ import styles from "./index.module.scss";
 import ImgManage from "./img-manage";
 import ImgGallery from "./img-gallery";
 
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: "0" | "1";
-  imageMinUrl: string;
-}
-
 // 图片墙
 const WallControl: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("云盘");

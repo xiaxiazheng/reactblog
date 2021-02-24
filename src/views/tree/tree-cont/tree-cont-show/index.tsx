@@ -5,6 +5,7 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
+import { ImgType } from '@/client/ImgHelper'
 import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
@@ -20,19 +21,12 @@ interface PropsType extends RouteComponentProps {
   second_id: string;
 }
 
-interface ImageType {
-  img_id: string;
-  imgcTime: string;
-  imgfilename: string;
-  imgname: string;
-}
-
 interface TreeContType {
   c_id: string;
   cont: string;
   cont_id: string;
   cTime: string;
-  imgList: ImageType[];
+  imgList: ImgType[];
   mTime: string;
   sort: number;
   title: string;
@@ -207,12 +201,12 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                         <img
                           ref={refMap[imgItem.img_id]}
                           src={imgPlaceHolder}
-                          data-src={`${staticUrl}/img/treecont/${imgItem.imgfilename}`}
+                          data-src={`${staticUrl}/img/treecont/${imgItem.filename}`}
                           alt={imgItem.imgname}
                           title={imgItem.imgname}
                           onClick={() => {
                             setPreviewImg(
-                              `${staticUrl}/img/treecont/${imgItem.imgfilename}`
+                              `${staticUrl}/img/treecont/${imgItem.filename}`
                             );
                             setPreviewImgName(imgItem.imgname);
                           }}

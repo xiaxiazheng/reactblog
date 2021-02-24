@@ -11,33 +11,11 @@ import {
   updateFolderName,
   deleteFolder,
 } from "@/client/FolderHelper";
-import { getImgListByOtherId } from "@/client/ImgHelper";
-import { getFileListByOtherId } from "@/client/FileHelper";
+import { ImgType, getImgListByOtherId } from "@/client/ImgHelper";
+import { FileType, getFileListByOtherId } from "@/client/FileHelper";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Icon } from "@ant-design/compatible";
 import { message, Modal } from "antd";
-
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: "0" | "1";
-  imageMinUrl: string;
-}
-
-interface FileType {
-  cTime: string;
-  originalname: string;
-  filename: string;
-  file_id: string;
-  other_id: string;
-  type: string;
-  fileUrl: string;
-}
 
 interface FolderType {
   cTime: string;
@@ -286,6 +264,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
           imageUrl=""
           imageMinUrl=""
           initImgList={getImgList.bind(null, parentId)}
+          imageData={{}}
         />
         {imgList.map((item: ImgType) => {
           return (
@@ -298,6 +277,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
               imageUrl={item.imageUrl}
               imageMinUrl={item.imageMinUrl}
               initImgList={getImgList.bind(null, parentId)}
+              imageData={item}
             />
           );
         })}
@@ -307,6 +287,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
           type={"wall"}
           fileUrl=""
           initFileList={getFileList.bind(null, parentId)}
+          fileData={{}}
         />
         {fileList.map((item: FileType) => {
           return (
@@ -318,6 +299,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
               fileName={item.filename}
               fileUrl={item.fileUrl}
               initFileList={getFileList.bind(null, parentId)}
+              fileData={item}
             />
           );
         })}

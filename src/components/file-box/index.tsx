@@ -3,7 +3,7 @@ import { Icon } from "@ant-design/compatible";
 import { Progress, message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { deleteFile } from "@/client/FileHelper";
+import { IFileType, deleteFile } from "@/client/FileHelper";
 import { UserContext } from "@/context/UserContext";
 import Item from "antd/lib/list/Item";
 
@@ -17,6 +17,7 @@ interface PropsType {
   initFileList: Function; // 用于上传成功或删除后的图片列表初始化
   width?: string; // 可以传递宽高给组件
   isOnlyShow?: boolean; // 是否只查看，若是只查看则不给删除
+  fileData: IFileType | {};  // 从接口拿的文件原始信息
 }
 
 const FileBox: React.FC<PropsType> = (props) => {

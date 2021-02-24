@@ -1,18 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import ImageBox from "@/components/image-box";
-
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: "0" | "1";
-  imageMinUrl: string;
-}
+import { ImgType } from '@/client/ImgHelper'
 
 interface IProps {
   type: string
@@ -34,6 +23,7 @@ const ImgManage: React.FC<IProps> = (props) => {
         imageMinUrl=""
         initImgList={initImgList}
         width="150px"
+        imageData={{}}
       />
       {imgList.map((item: ImgType) => {
         return (
@@ -47,6 +37,7 @@ const ImgManage: React.FC<IProps> = (props) => {
             imageMinUrl={item.imageMinUrl}
             initImgList={initImgList}
             width="150px"
+            imageData={item}
           />
         );
       })}

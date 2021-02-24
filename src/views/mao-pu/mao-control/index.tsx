@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import ImgManage from "./mao-img-manage";
-import { getImgListByOtherId } from "@/client/ImgHelper";
+import { IImageType, ImgType, getImgListByOtherId } from "@/client/ImgHelper";
 import { UserContext } from "@/context/UserContext";
 import { staticUrl } from "@/env_config";
 import { Input, Button, Icon, message, Select } from "antd";
@@ -14,18 +14,6 @@ const statusList = [
   { label: "已送走", value: "gone" },
   { label: "死亡", value: "dead" },
 ];
-
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: "0" | "1";
-  imageMinUrl: string;
-}
 
 export interface Mao {
   appearance: string;
@@ -141,7 +129,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
   // 获取猫咪头像照片
   const getHeadImgList = async () => {
     let imgList: any = [];
-    const res: ImgType[] = await getImgListByOtherId(mao.head_img_id, username);
+    const res: IImageType[] = await getImgListByOtherId(mao.head_img_id, username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({
@@ -157,7 +145,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
   // 获取猫咪所有照片
   const getOtherImgList = async () => {
     let imgList: any = [];
-    const res: ImgType[] = await getImgListByOtherId(mao.mao_id, username);
+    const res: IImageType[] = await getImgListByOtherId(mao.mao_id, username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({

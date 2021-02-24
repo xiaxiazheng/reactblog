@@ -246,6 +246,7 @@ class BlogContEdit extends React.Component<PropsType> {
               imageMinUrl=""
               initImgList={this.props.getImageList}
               width="140px"
+              imageData={{}}
             />
             {/* 上传附件 */}
             <FileBox
@@ -254,6 +255,7 @@ class BlogContEdit extends React.Component<PropsType> {
               fileUrl=""
               initFileList={this.props.getFileList}
               width="140px"
+              fileData={{}}
             />
             {/* 图片列表 */}
             {this.props.blogdata.imgList.map((item) => {
@@ -272,6 +274,7 @@ class BlogContEdit extends React.Component<PropsType> {
                   }
                   initImgList={this.props.getImageList}
                   width="140px"
+                  imageData={item}
                 />
               );
             })}
@@ -287,6 +290,7 @@ class BlogContEdit extends React.Component<PropsType> {
                   fileUrl={item.fileUrl}
                   initFileList={this.props.getFileList}
                   width="140px"
+                  fileData={item}
                 />
               );
             })}
@@ -313,9 +317,7 @@ class BlogContEdit extends React.Component<PropsType> {
           onClick={this.scrollTo.bind(null, "bottom")}
         />
         {/* 锚点 */}
-        <BlogContMao
-          blogcont={this.state.blogcont}
-        />
+        <BlogContMao blogcont={this.state.blogcont} />
       </div>
     );
   }

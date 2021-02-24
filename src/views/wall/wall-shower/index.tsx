@@ -1,23 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './index.module.scss';
-import { getImgList } from '@/client/ImgHelper';
+import { IImageType, ImgType, getImgList } from '@/client/ImgHelper';
 import { staticUrl } from '@/env_config';
 import PreviewImage from '@/components/preview-image';
 import MaskloadImage from '@/components/mask-load-image';
 import Loading from '@/components/loading';
 import { UserContext } from '@/context/UserContext';
-
-interface ImgType {
-  cTime: string;
-  filename: string;
-  img_id: string;
-  imgname: string;
-  other_id: string;
-  type: string;
-  imageUrl: string;
-  has_min: '0' | '1';
-  imageMinUrl: string;
-};
 
 const WallShower: React.FC = () => {
   const [wallList, setWallList] = useState<ImgType[]>([]);
@@ -34,7 +22,7 @@ const WallShower: React.FC = () => {
   const getWallImgList = async () => {
     let imgList: any = [];
     setLoading(true);
-    const res: ImgType[] = await getImgList('wall', username);
+    const res: IImageType[] = await getImgList('wall', username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({

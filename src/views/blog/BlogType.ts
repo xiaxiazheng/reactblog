@@ -1,3 +1,6 @@
+import { ImgType } from '@/client/ImgHelper'
+import { FileType } from '@/client/FileHelper'
+
 // 日志列表用到的日志数据
 export interface BlogListType {
   author: string;
@@ -18,26 +21,8 @@ export interface BlogListType {
 // 单篇日志用到的日志数据，比列表多一个具体内容和图片
 export interface OneBlogType extends BlogListType {
   blogcont: string;
-  imgList: ImageType[];
+  imgList: ImgType[];
   fileList: FileType[];
-}
-
-export interface ImageType {
-  img_id: string;
-  imgcTime: string;
-  filename: string;
-  imgname: string;
-  has_min: "0" | "1";
-}
-
-export interface FileType {
-  cTime: string;
-  originalname: string;
-  filename: string;
-  file_id: string;
-  other_id: string;
-  type: string;
-  fileUrl: string;
 }
 
 // export const a = 1;  // 这个用来绕过 export interface 的报错
