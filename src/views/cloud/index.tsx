@@ -1,22 +1,22 @@
 import React, { useContext } from 'react';
 import styles from './index.module.scss';
 import { IsLoginContext } from '@/context/IsLoginContext';
-import WallShower from './wall-shower';
-import WallControl from './wall-control';
+import CloudShower from './cloud-shower';
+import CloudControl from './cloud-control';
 
-const Wall: React.FC = () => {
+const Cloud: React.FC = () => {
   const { isLogin } = useContext(IsLoginContext);
 
   return (
-    <div className={styles.Wall}>
+    <div className={styles.cloud}>
       {!isLogin &&
-        <WallShower />
+        <CloudShower />
       }
       {isLogin &&
-        <WallControl />
+        <CloudControl />
       }
     </div>
   );
 }
 
-export default Wall;
+export default Cloud;

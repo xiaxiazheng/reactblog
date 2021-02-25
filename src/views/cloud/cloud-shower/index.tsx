@@ -7,19 +7,20 @@ import MaskloadImage from '@/components/mask-load-image';
 import Loading from '@/components/loading';
 import { UserContext } from '@/context/UserContext';
 
-const WallShower: React.FC = () => {
-  const [wallList, setWallList] = useState<ImgType[]>([]);
+// 暂时弃用，云盘不对游客开放，而且这里目前只展示了图片，没有文件
+const CloudShower: React.FC = () => {
+  const [imgList, setImgList] = useState<ImgType[]>([]);
   const [previewImg, setPreviewImg] = useState('');
   const [previewImgName, setPreviewImgName] = useState('');
   const [loading, setLoading] = useState(true);
   const { username } = useContext(UserContext)
 
   useEffect(() => {
-    getWallImgList();
+    getCloudImgList();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
   
-  const getWallImgList = async () => {
+  const getCloudImgList = async () => {
     let imgList: any = [];
     setLoading(true);
     const res: IImageType[] = await getImgList('wall', username);
@@ -31,7 +32,7 @@ const WallShower: React.FC = () => {
         imageMinUrl: item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''
       });
     }
-    setWallList(imgList);
+    setImgList(imgList);
     setLoading(false);
   };
 
@@ -39,7 +40,7 @@ const WallShower: React.FC = () => {
     <div className={styles.wallShower}>
       {/* 展示 */}
       <div className={styles.imgWrapper}>
-        {wallList.map((item: ImgType) => {
+        {imgList.map((item: ImgType) => {
           return (
             <div
               key={item.img_id}
@@ -70,4 +71,4 @@ const WallShower: React.FC = () => {
   );
 }
 
-export default WallShower;
+export default CloudShower;

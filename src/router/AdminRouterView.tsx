@@ -10,7 +10,7 @@ const Tree = lazy(() => import("../views/tree"));
 const Log = lazy(() => import("../views/blog"));
 const BlogCont = lazy(() => import("../views/blog/blog-cont"));
 const Admin = lazy(() => import("../views/admin"));
-const Wall = lazy(() => import("../views/wall"));
+const Cloud = lazy(() => import("../views/cloud"));
 const Media = lazy(() => import("../views/media"));
 const Knn = lazy(() => import("../views/knn"));
 const MaoPu = lazy(() => import("../views/mao-pu"));
@@ -50,8 +50,8 @@ const AdminRouterView: React.FC<PropsType> = ({
             </Switch>
           </BlogProvider>
           <Switch>
-            <AuthRoute path="/admin/wall/:parent_id" component={Wall} />
-            <AuthRoute path="/admin/wall" component={Wall} />
+            <AuthRoute path="/admin/wall/:parent_id" component={Cloud} />
+            <AuthRoute path="/admin/wall" component={Cloud} />
           </Switch>
           <AuthRoute path="/admin/media" component={Media} />
           <AuthRoute path="/admin/knn" component={Knn} />

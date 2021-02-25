@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import ImgManage from "./img-manage";
-import ImgGallery from "./img-gallery";
+import CloudStorage from "./cloud-storage";
 
-// 图片墙
-const WallControl: React.FC = () => {
+// 云盘
+const CloudControl: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("云盘");
 
   const handleChoiceTab = (tab: string) => {
@@ -12,7 +12,7 @@ const WallControl: React.FC = () => {
   }
 
   return (
-    <div className={`${styles.wallControl} ScrollBar`}>
+    <div className={`${styles.cloudControl} ScrollBar`}>
       <div className={styles.tabs}>
         {["云盘", "图片管理"].map((item) => (
           <span
@@ -24,12 +24,12 @@ const WallControl: React.FC = () => {
           </span>
         ))}
       </div>
-      <div className={styles.wallContent}>
-        {activeTab === "云盘" && <ImgGallery />}
+      <div className={styles.cloudContent}>
+        {activeTab === "云盘" && <CloudStorage />}
         {activeTab === "图片管理" && <ImgManage />}
       </div>
     </div>
   );
 };
 
-export default WallControl;
+export default CloudControl;

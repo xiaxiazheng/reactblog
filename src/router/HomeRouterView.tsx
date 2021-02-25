@@ -9,8 +9,8 @@ const Home = lazy(() => import("../views/home"));
 const Tree = lazy(() => import("../views/tree"));
 const Blog = lazy(() => import("../views/blog"));
 const BlogCont = lazy(() => import("../views/blog/blog-cont"));
-const Wall = lazy(() => import("../views/wall"));
-const Media = lazy(() => import("../views/media"));
+// const Cloud = lazy(() => import("../views/cloud"));
+// const Media = lazy(() => import("../views/media"));
 const Knn = lazy(() => import("../views/knn"));
 
 interface PropsType {
@@ -43,7 +43,7 @@ const HomeRouterView: React.FC<PropsType> = ({
               <Route path="/blog" component={Blog} />
             </Switch>
           </BlogProvider>
-          {/* <Route path="/wall" component={Wall} /> */}
+          {/* <Route path="/wall" component={Cloud} /> */}
           {/* <Route path="/media" component={Media} /> */}
           <Route path="/knn" component={Knn} />
         </div>

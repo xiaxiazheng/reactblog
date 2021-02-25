@@ -26,10 +26,10 @@ interface FolderType {
   username: string;
 }
 
-interface ImgGalleryProps extends RouteComponentProps {}
+interface CloudStorageProps extends RouteComponentProps {}
 
-// 图库
-const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
+// 云盘
+const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const { match, history } = props;
   const { username } = useContext(UserContext);
 
@@ -205,7 +205,7 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
         <br />
         {!loading && <>共 {fileList.length} 个文件</>}
       </div>
-      <div className={styles.ImgGallery}>
+      <div className={styles.cloudStorage}>
         {loading && <Loading />}
         {/* 文件夹列表 */}
         {folderList.map((item) => {
@@ -308,4 +308,4 @@ const ImgGallery: React.FC<ImgGalleryProps> = (props) => {
   );
 };
 
-export default withRouter(ImgGallery);
+export default withRouter(CloudStorage);
