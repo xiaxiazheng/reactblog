@@ -19,6 +19,7 @@ interface PropsType {
   initImgList: Function; // 用于上传成功或删除后的图片列表初始化
   width?: string; // 可以传递宽高给组件
   imageData: ImgType | {}; // 从接口拿的图片原始信息
+  iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
 }
 
 const ImageBox: React.FC<PropsType> = (props) => {
@@ -34,7 +35,8 @@ const ImageBox: React.FC<PropsType> = (props) => {
     imageMinUrl,
     initImgList,
     width = "170px",
-    imageData
+    imageData,
+    iconRender
   } = props;
 
   const { confirm } = Modal;
@@ -242,6 +244,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
               type="delete"
               onClick={deleteImage}
             />
+            {iconRender || <></>}
           </div>
           <div className={styles.size}>{handleSize(Number((imageData as ImgType).size || 0))}</div>
           <div className={styles.time}>{(imageData as ImgType).cTime}</div>

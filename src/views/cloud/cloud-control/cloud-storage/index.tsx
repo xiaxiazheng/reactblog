@@ -11,9 +11,18 @@ import {
   updateFolderName,
   deleteFolder,
   getAllFolder,
+  switchFolderParent,
 } from "@/client/FolderHelper";
-import { ImgType, getImgListByOtherId } from "@/client/ImgHelper";
-import { FileType, getFileListByOtherId } from "@/client/FileHelper";
+import {
+  ImgType,
+  getImgListByOtherId,
+  switchImgOtherId,
+} from "@/client/ImgHelper";
+import {
+  FileType,
+  getFileListByOtherId,
+  switchFileOtherId,
+} from "@/client/FileHelper";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Icon } from "@ant-design/compatible";
 import { message, Modal, Tree } from "antd";
@@ -39,7 +48,7 @@ interface FolderTreeType extends FolderType {
   icon: any;
 }
 
-const Width = '160px'
+const Width = "160px";
 
 interface CloudStorageProps extends RouteComponentProps {}
 
@@ -52,10 +61,10 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
 
   // 文件夹树
   const [folderTree, setFolderTree] = useState<any>();
-  const [folderMap, setFolderMap] = useState<any>({})
+  const [folderMap, setFolderMap] = useState<any>({});
 
   // 父文件夹的 id，如果是顶层则为空串
-  const [parentId, setParentId] = useState<string>("");
+  const [parentId, setParentId] = useState<string>("root");
   // 文件夹列表
   const [folderList, setFolderList] = useState<FolderType[]>([]);
   const [hoverFolder, setHoverFolder] = useState<FolderType>();
@@ -67,8 +76,12 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 获取文件夹树
     getAllFolderList();
-    const parent_id = (match.params as any).parent_id || "";
+  }, []);
+
+  useEffect(() => {
+    const parent_id = (match.params as any).parent_id || "root";
     setParentId(parent_id);
     // 获取文件夹列表
     getFolderList(parent_id);
@@ -83,22 +96,32 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const getAllFolderList = async () => {
     const res = await getAllFolder(username);
     if (res) {
-      const { tree, map } = res
+      const { tree, map } = res;
       const walk = (list: FolderTreeType[]) => {
         list.forEach((item) => {
           item.title = item.name;
           item.icon = ({ selected }: any) =>
             // @ts-ignore
             selected ? <FolderOpenFilled /> : <FolderFilled />;
-          item.key = item.folder_id
+          item.key = item.folder_id;
           if (item.children) {
-            item.children = walk(item.children)
+            item.children = walk(item.children);
           }
         });
-        return list
+        return list;
       };
       const newTree = walk(tree);
-      setFolderTree(newTree);
+      setFolderTree([
+        {
+          title: "根目录",
+          key: 'root',
+          // @ts-ignore
+          icon: ({ selected }: any) =>
+            // @ts-ignore
+            selected ? <FolderOpenFilled /> : <FolderFilled />,
+          children: newTree,
+        },
+      ]);
       setFolderMap(map);
     }
   };
@@ -164,9 +187,9 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     history.push(`/admin/cloud/${id}`);
   };
 
-  // 回退
+  // 回退上一层
   const goback = () => {
-    history.push(`/admin/cloud/${folderMap[parentId].parent_id}`)
+    history.push(`/admin/cloud/${folderMap[parentId].parent_id}`);
   };
 
   // 新增文件夹
@@ -181,6 +204,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
       if (res) {
         message.success("新增文件夹成功");
         getFolderList(parentId);
+        getAllFolderList();
       } else {
         message.error("新增文件夹失败");
       }
@@ -225,6 +249,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
         } else {
           message.error("删除文件夹失败");
         }
+        getAllFolderList();
       },
       onCancel() {
         message.info("已取消删除文件夹", 1);
@@ -235,6 +260,135 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   // 点击文件夹
   const onSelect = (selectedKeys: any, info: any) => {
     history.push(`/admin/cloud/${selectedKeys[0]}`);
+  };
+
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [active, setActive] = useState<any>();
+  const [activeType, setActiveType] = useState<"folder" | "image" | "file">();
+  const [newParentId, setNewParentId] = useState<string>();
+
+  const showModal = (item: any, type: "folder" | "image" | "file") => {
+    console.log(item);
+    if (type === "folder") {
+      setActive({
+        name: item.name,
+        id: item.folder_id,
+        parent_id: item.parent_id,
+      });
+    }
+    if (type === "image") {
+      setActive({
+        name: item.imgname,
+        id: item.img_id,
+        parent_id: item.parent_id,
+      });
+    }
+    if (type === "file") {
+      setActive({
+        name: item.originalname,
+        id: item.file_id,
+        parent_id: item.parent_id,
+      });
+    }
+    setActiveType(type);
+    setIsModalVisible(true);
+    setNewParentId(item.parent_id);
+  };
+
+  const handleOk = async () => {
+    if (!newParentId) {
+      message.warn("请选择一个节点", 0.5);
+      return;
+    }
+    if (newParentId === active.parent_id) {
+      message.warn("与原文件夹相同，无需切换", 0.5);
+      return;
+    }
+
+    // 这里要加额外的判断：如果是文件夹转移的话，文件夹不能够转移到自己及自己的子文件夹下（不然这文件夹就没了）
+    // if (activeType === "folder") {
+    //   message.error("本功能暂不开放");
+    //   return;
+    // }
+
+    let request: any = new Promise(() => {});
+    let params = {};
+    if (activeType === "file") {
+      request = switchFileOtherId;
+      params = {
+        file_id: active.id,
+        other_id: newParentId,
+      };
+    }
+    if (activeType === "image") {
+      request = switchImgOtherId;
+      params = {
+        img_id: active.id,
+        other_id: newParentId,
+      };
+    }
+    if (activeType === "folder") {
+      request = switchFolderParent;
+      params = {
+        folder_id: active.id,
+        parent_id: newParentId,
+      };
+    }
+
+    let res = await request(params);
+    const map: any = {
+      folder: "文件夹",
+      image: "图片",
+      file: "文件",
+    };
+
+    if (res) {
+      message.success(
+        `更换${map[activeType || ""]} “${active.name}” 到 “${
+          folderMap[newParentId] ? folderMap[newParentId].name : '根目录'
+        }” 文件夹下成功`
+      );
+
+      setIsModalVisible(false);
+      setActive(undefined);
+      setActiveType(undefined);
+      setNewParentId(undefined);
+
+      if (activeType === "image") {
+        getImgList(parentId);
+      }
+      if (activeType === "file") {
+        getFileList(parentId);
+      }
+      if (activeType === "folder") {
+        getFolderList(parentId);
+        getAllFolderList();
+      }
+    } else {
+      message.error(
+        `更换${map[activeType || ""]} “${active.name}” 到 “${
+          folderMap[newParentId] ? folderMap[newParentId].name : '根目录'
+        }” 文件夹下失败`
+      );
+    }
+  };
+
+  const handleCancel = () => {
+    message.warn("已取消更换文件夹", 0.5);
+
+    setIsModalVisible(false);
+    setActive(undefined);
+    setActiveType(undefined);
+    setNewParentId(undefined);
+  };
+
+  const onSwitchSelect = (selectedKeys: any, info: any) => {
+    if (selectedKeys[0] === active.parent_id) {
+      message.warn("与源文件夹一致", 0.5);
+    } else {
+      setNewParentId(selectedKeys[0]);
+      console.log(selectedKeys[0]);
+    }
   };
 
   return (
@@ -258,7 +412,6 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
       <div className={styles.cloudTree}>
         <Tree
           showIcon
-          // showLine
           defaultExpandAll
           onSelect={onSelect}
           // @ts-ignore
@@ -278,7 +431,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
               className={styles.folderBox}
               style={{
                 width: `${Width}`,
-                height: `${Width}`
+                height: `${Width}`,
               }}
               onDoubleClick={clickFolder.bind(null, item.folder_id)}
               onMouseEnter={() => {
@@ -319,6 +472,12 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
                       item.folder_id
                     )}
                   />
+                  <Icon
+                    className={styles.icon}
+                    type="rocket"
+                    title="切换文件夹"
+                    onClick={showModal.bind(null, item, "folder")}
+                  />
                 </div>
               )}
             </div>
@@ -347,6 +506,13 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
               initImgList={getImgList.bind(null, parentId)}
               imageData={item}
               width={Width}
+              iconRender={
+                <Icon
+                  type="rocket"
+                  title="切换文件夹"
+                  onClick={showModal.bind(null, item, "image")}
+                />
+              }
             />
           );
         })}
@@ -371,10 +537,33 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
               initFileList={getFileList.bind(null, parentId)}
               fileData={item}
               width={Width}
+              iconRender={
+                <Icon
+                  type="rocket"
+                  title="切换文件夹"
+                  onClick={showModal.bind(null, item, "file")}
+                />
+              }
             />
           );
         })}
       </div>
+      <Modal
+        title={`请选择要将 “${active ? active.name : ""}” 更换到的目录`}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Tree
+          showIcon
+          defaultExpandAll
+          onSelect={onSwitchSelect}
+          // @ts-ignore
+          switcherIcon={<DownOutlined />}
+          treeData={folderTree}
+          selectedKeys={[newParentId || ""]}
+        />
+      </Modal>
     </>
   );
 };

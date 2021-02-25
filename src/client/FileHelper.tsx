@@ -31,6 +31,11 @@ export async function getFileListByOtherId (otherId: string, username: string): 
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 
+export async function switchFileOtherId (params: any): Promise<any> {
+  const data = await postHelper(`/switchFileOtherId`, params);
+  return data && data.resultsCode === 'success' ? true : false;
+}
+
 // 访问静态服务的 axios 实例
 const staticInstance = axios.create({
   baseURL: `${staticUrl}/api`,

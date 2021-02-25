@@ -18,6 +18,7 @@ interface PropsType {
   width?: string; // 可以传递宽高给组件
   isOnlyShow?: boolean; // 是否只查看，若是只查看则不给删除
   fileData: IFileType | {}; // 从接口拿的文件原始信息
+  iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
 }
 
 const FileBox: React.FC<PropsType> = (props) => {
@@ -34,6 +35,7 @@ const FileBox: React.FC<PropsType> = (props) => {
     width = "170px",
     isOnlyShow = false,
     fileData,
+    iconRender
   } = props;
 
   const { confirm } = Modal;
@@ -214,6 +216,7 @@ const FileBox: React.FC<PropsType> = (props) => {
               onClick={deleteThisFile}
             />
           )}
+          {iconRender || <></>}
         </div>
       )}
     </div>

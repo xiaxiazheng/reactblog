@@ -49,6 +49,11 @@ export async function getImgTypeList(username: string): Promise<string[]> {
   return data && data.resultsCode === "success" ? data.data : [];
 }
 
+export async function switchImgOtherId (params: any): Promise<any> {
+  const data = await postHelper(`/switchImgOtherId`, params);
+  return data && data.resultsCode === 'success' ? true : false;
+}
+
 // 访问静态服务的 axios 实例
 const staticInstance = axios.create({
   baseURL: `${staticUrl}/api`,

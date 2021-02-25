@@ -34,6 +34,11 @@ export async function updateFolderName(params: any): Promise<any> {
   return data && data.resultsCode === "success" ? data : false;
 }
 
+export async function switchFolderParent (params: any): Promise<any> {
+  const data = await postHelper(`/switchFolderParent`, params);
+  return data && data.resultsCode === 'success' ? true : false;
+}
+
 // 删除文件夹
 export async function deleteFolder(params: any): Promise<any> {
   const data = await postHelper(`/deleteFolder`, params);
