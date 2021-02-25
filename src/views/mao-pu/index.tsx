@@ -216,7 +216,7 @@ const MaoPu: React.FC = () => {
             </div>
           )}
           {/* 当前页面使用的颜色含义 */}
-          <div className={styles.colorWall}>
+          <div className={styles.colorCloud}>
             {[
               "当前猫咪",
               "父母",

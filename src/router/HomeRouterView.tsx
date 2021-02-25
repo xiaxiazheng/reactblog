@@ -43,7 +43,7 @@ const HomeRouterView: React.FC<PropsType> = ({
               <Route path="/blog" component={Blog} />
             </Switch>
           </BlogProvider>
-          {/* <Route path="/wall" component={Cloud} /> */}
+          {/* <Route path="/cloud" component={Cloud} /> */}
           {/* <Route path="/media" component={Media} /> */}
           <Route path="/knn" component={Knn} />
         </div>

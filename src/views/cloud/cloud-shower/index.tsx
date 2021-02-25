@@ -23,12 +23,12 @@ const CloudShower: React.FC = () => {
   const getCloudImgList = async () => {
     let imgList: any = [];
     setLoading(true);
-    const res: IImageType[] = await getImgList('wall', username);
+    const res: IImageType[] = await getImgList('cloud', username);
     for (let item of res) {
       // 拼好 img 的 url
       imgList.push({
         ...item,
-        imageUrl: `${staticUrl}/img/wall/${item.filename}`,
+        imageUrl: `${staticUrl}/img/cloud/${item.filename}`,
         imageMinUrl: item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''
       });
     }
@@ -37,7 +37,7 @@ const CloudShower: React.FC = () => {
   };
 
   return loading ? <Loading width={300} /> : (
-    <div className={styles.wallShower}>
+    <div className={styles.cloudShower}>
       {/* 展示 */}
       <div className={styles.imgWrapper}>
         {imgList.map((item: ImgType) => {

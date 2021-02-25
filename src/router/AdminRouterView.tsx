@@ -50,8 +50,8 @@ const AdminRouterView: React.FC<PropsType> = ({
             </Switch>
           </BlogProvider>
           <Switch>
-            <AuthRoute path="/admin/wall/:parent_id" component={Cloud} />
-            <AuthRoute path="/admin/wall" component={Cloud} />
+            <AuthRoute path="/admin/cloud/:parent_id" component={Cloud} />
+            <AuthRoute path="/admin/cloud" component={Cloud} />
           </Switch>
           <AuthRoute path="/admin/media" component={Media} />
           <AuthRoute path="/admin/knn" component={Knn} />

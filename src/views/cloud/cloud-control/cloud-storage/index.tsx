@@ -10,12 +10,18 @@ import {
   addFolder,
   updateFolderName,
   deleteFolder,
+  getAllFolder,
 } from "@/client/FolderHelper";
 import { ImgType, getImgListByOtherId } from "@/client/ImgHelper";
 import { FileType, getFileListByOtherId } from "@/client/FileHelper";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Icon } from "@ant-design/compatible";
-import { message, Modal } from "antd";
+import { message, Modal, Tree } from "antd";
+import {
+  FolderFilled,
+  FolderOpenFilled,
+  DownOutlined,
+} from "@ant-design/icons";
 
 interface FolderType {
   cTime: string;
@@ -26,6 +32,15 @@ interface FolderType {
   username: string;
 }
 
+interface FolderTreeType extends FolderType {
+  children?: FolderTreeType[];
+  title: string;
+  key: string;
+  icon: any;
+}
+
+const Width = '160px'
+
 interface CloudStorageProps extends RouteComponentProps {}
 
 // 云盘
@@ -34,6 +49,10 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const { username } = useContext(UserContext);
 
   const { confirm } = Modal;
+
+  // 文件夹树
+  const [folderTree, setFolderTree] = useState<any>();
+  const [folderMap, setFolderMap] = useState<any>({})
 
   // 父文件夹的 id，如果是顶层则为空串
   const [parentId, setParentId] = useState<string>("");
@@ -48,6 +67,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getAllFolderList();
     const parent_id = (match.params as any).parent_id || "";
     setParentId(parent_id);
     // 获取文件夹列表
@@ -58,6 +78,30 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     getFileList(parent_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match]);
+
+  // 获取所有文件夹（树状）
+  const getAllFolderList = async () => {
+    const res = await getAllFolder(username);
+    if (res) {
+      const { tree, map } = res
+      const walk = (list: FolderTreeType[]) => {
+        list.forEach((item) => {
+          item.title = item.name;
+          item.icon = ({ selected }: any) =>
+            // @ts-ignore
+            selected ? <FolderOpenFilled /> : <FolderFilled />;
+          item.key = item.folder_id
+          if (item.children) {
+            item.children = walk(item.children)
+          }
+        });
+        return list
+      };
+      const newTree = walk(tree);
+      setFolderTree(newTree);
+      setFolderMap(map);
+    }
+  };
 
   // 获取文件夹
   const getFolderList = async (parent_id: string) => {
@@ -74,15 +118,15 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     if (res) {
       const list: ImgType[] = [];
       let resList = [...res];
-      // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 wall 的
+      // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 cloud 的
       if (parent_id === "") {
-        resList = resList.filter((item) => item.type === "wall");
+        resList = resList.filter((item) => item.type === "cloud");
       }
       for (let item of resList) {
         // 拼好 img 的 url
         list.push({
           ...item,
-          imageUrl: `${staticUrl}/img/wall/${item.filename}`,
+          imageUrl: `${staticUrl}/img/cloud/${item.filename}`,
           imageMinUrl:
             item.has_min === "1" ? `${staticUrl}/min-img/${item.filename}` : "",
         });
@@ -99,15 +143,15 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     if (res) {
       const list: FileType[] = [];
       let resList = [...res];
-      // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 wall 的
+      // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 cloud 的
       if (parent_id === "") {
-        resList = resList.filter((item) => item.type === "wall");
+        resList = resList.filter((item) => item.type === "cloud");
       }
       for (let item of resList) {
         // 拼好 img 的 url
         list.push({
           ...item,
-          fileUrl: `${staticUrl}/file/wall/${item.filename}`,
+          fileUrl: `${staticUrl}/file/cloud/${item.filename}`,
         });
       }
       setFileList(list);
@@ -117,12 +161,12 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
 
   // 双击打开文件夹
   const clickFolder = (id: string) => {
-    history.push(`/admin/wall/${id}`);
+    history.push(`/admin/cloud/${id}`);
   };
 
   // 回退
   const goback = () => {
-    history.goBack();
+    history.push(`/admin/cloud/${folderMap[parentId].parent_id}`)
   };
 
   // 新增文件夹
@@ -188,6 +232,11 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     });
   };
 
+  // 点击文件夹
+  const onSelect = (selectedKeys: any, info: any) => {
+    history.push(`/admin/cloud/${selectedKeys[0]}`);
+  };
+
   return (
     <>
       {parentId !== "" && (
@@ -205,6 +254,20 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
         <br />
         {!loading && <>共 {fileList.length} 个文件</>}
       </div>
+      {/* 文件夹树 */}
+      <div className={styles.cloudTree}>
+        <Tree
+          showIcon
+          // showLine
+          defaultExpandAll
+          onSelect={onSelect}
+          // @ts-ignore
+          switcherIcon={<DownOutlined />}
+          treeData={folderTree}
+          selectedKeys={[parentId]}
+        />
+      </div>
+      {/* 具体的文件夹内容 */}
       <div className={styles.cloudStorage}>
         {loading && <Loading />}
         {/* 文件夹列表 */}
@@ -213,6 +276,10 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
             <div
               key={item.folder_id}
               className={styles.folderBox}
+              style={{
+                width: `${Width}`,
+                height: `${Width}`
+              }}
               onDoubleClick={clickFolder.bind(null, item.folder_id)}
               onMouseEnter={() => {
                 setHoverFolder(item);
@@ -260,17 +327,18 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
         {/* 图片列表 */}
         <ImageBox
           otherId={parentId}
-          type={"wall"}
+          type={"cloud"}
           imageUrl=""
           imageMinUrl=""
           initImgList={getImgList.bind(null, parentId)}
           imageData={{}}
+          width={Width}
         />
         {imgList.map((item: ImgType) => {
           return (
             <ImageBox
               key={item.img_id}
-              type={"wall"}
+              type={"cloud"}
               imageId={item.img_id}
               imageName={item.imgname}
               imageFileName={item.filename}
@@ -278,28 +346,31 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
               imageMinUrl={item.imageMinUrl}
               initImgList={getImgList.bind(null, parentId)}
               imageData={item}
+              width={Width}
             />
           );
         })}
         {/* 文件列表 */}
         <FileBox
           otherId={parentId}
-          type={"wall"}
+          type={"cloud"}
           fileUrl=""
           initFileList={getFileList.bind(null, parentId)}
           fileData={{}}
+          width={Width}
         />
         {fileList.map((item: FileType) => {
           return (
             <FileBox
               key={item.file_id}
-              type={"wall"}
+              type={"cloud"}
               fileId={item.file_id}
               originalName={item.originalname}
               fileName={item.filename}
               fileUrl={item.fileUrl}
               initFileList={getFileList.bind(null, parentId)}
               fileData={item}
+              width={Width}
             />
           );
         })}

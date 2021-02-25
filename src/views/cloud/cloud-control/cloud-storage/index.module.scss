@@ -4,8 +4,6 @@
   .folderBox {
     position: relative;
     display: inline-block;
-    width: 170px;
-    height: 170px;
     margin: 0 0 10px 10px;
     color: var(--color);
     border: 1px solid var(--border_color);
@@ -30,6 +28,27 @@
       &:hover {
         color: var(--color_active);
       }
+    }
+  }
+}
+
+.cloudTree {
+  position: fixed;
+  left: 1%;
+  top: 310px;
+  text-align: left;
+  :global {
+    .ant-tree {
+      color: var(--color);
+    }
+    .ant-tree li .ant-tree-node-content-wrapper {
+      color: var(--color);
+    }
+    .ant-tree li .ant-tree-node-content-wrapper:hover {
+      background-color: var(--bg_color_hover);
+    }
+    .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
+      background-color: var(--bg_color_mask);
     }
   }
 }

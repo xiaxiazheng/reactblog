@@ -69,7 +69,7 @@ const Header: React.FC<PropsType> = (props) => {
 
   // 用于刷新的时候将当前导航栏高亮
   useEffect(() => {
-    const list = ["admin/tree", "admin/blog", "admin/wall", "admin/media"];
+    const list = ["admin/tree", "admin/blog", "admin/cloud", "admin/media"];
     list.forEach((item) => {
       location.pathname.indexOf(item) !== -1 &&
         setCurrent(item.replace(/admin\//g, ""));
@@ -171,9 +171,9 @@ const Header: React.FC<PropsType> = (props) => {
               <Link to={isLogin ? "/admin/blog" : "/blog"}>Blog</Link>
             </Menu.Item>
             {isLogin && (
-              <Menu.Item key="wall">
+              <Menu.Item key="cloud">
                 <Icon type="cloud" className={styles.headerIcon} />
-                <Link to={isLogin ? "/admin/wall" : "/wall"}>Cloud</Link>
+                <Link to={isLogin ? "/admin/cloud" : "/cloud"}>Cloud</Link>
               </Menu.Item>
             )}
             {isLogin && (

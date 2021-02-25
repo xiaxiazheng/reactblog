@@ -17,7 +17,7 @@ const ImgManage: React.FC = () => {
   const [activeType, setActiveType] = useState<string>("");
 
   // 图片数组
-  const [wallList, setWallList] = useState<ImgType[]>([]);
+  const [cloudList, setCloudList] = useState<ImgType[]>([]);
   const { username } = useContext(UserContext);
 
   const [loading, setLoading] = useState(true);
@@ -57,14 +57,14 @@ const ImgManage: React.FC = () => {
           item.has_min === "1" ? `${staticUrl}/min-img/${item.filename}` : "",
       });
     }
-    setWallList(imgList);
+    setCloudList(imgList);
     setLoading(false);
   };
 
   return (
     <>
       <div className={styles.imgLength}>
-        {!loading && <>共 {wallList.length} 张</>}
+        {!loading && <>共 {cloudList.length} 张</>}
       </div>
       <Tabs className={styles.tabs} activeKey={activeType} onChange={(key) => setActiveType(key)}>
         {typeList.map((item) => {
@@ -81,7 +81,7 @@ const ImgManage: React.FC = () => {
                     initImgList={getImageListByType.bind(null, activeType)}
                   />
                 )} */}
-                {wallList.map((item: ImgType) => {
+                {cloudList.map((item: ImgType) => {
                   return (
                     <ImageBox
                       key={item.img_id}
