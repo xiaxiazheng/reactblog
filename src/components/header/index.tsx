@@ -11,6 +11,7 @@ import { UserContext } from "@/context/UserContext";
 // import MusicPlayer from "../music-player";
 import MiniMusicPlayer from "./mini-music-player";
 import moment from "moment";
+import { CodepenOutlined } from "@ant-design/icons";
 
 interface PropsType extends RouteComponentProps {}
 
@@ -183,9 +184,12 @@ const Header: React.FC<PropsType> = (props) => {
               </Menu.Item>
             )}
             {window.screen.availWidth > 720 && (
-              <Menu.Item key="knn">
-                <Icon type="book" className={styles.headerIcon} />
-                <Link to={isLogin ? "/admin/knn" : "/knn"}>KNN</Link>
+              <Menu.Item key="test-page">
+                {
+                  // @ts-ignore
+                  <CodepenOutlined className={styles.headerIcon} />
+                }
+                <Link to={isLogin ? "/admin/test-page" : "/test-page"}>TestPage</Link>
               </Menu.Item>
             )}
             {isLogin && (

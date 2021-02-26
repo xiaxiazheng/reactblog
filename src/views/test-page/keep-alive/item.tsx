@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
-interface ITest {
+interface IItem {
   flag: string;
 }
 
-const Test: React.FC<ITest> = (props) => {
+const Item: React.FC<IItem> = (props) => {
   const { flag } = props;
 
   const [data, setData] = useState<number>();
@@ -30,4 +30,4 @@ const Test: React.FC<ITest> = (props) => {
   );
 };
 
-export default Test;
+export default Item;

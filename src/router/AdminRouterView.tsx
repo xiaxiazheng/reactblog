@@ -12,7 +12,7 @@ const BlogCont = lazy(() => import("../views/blog/blog-cont"));
 const Admin = lazy(() => import("../views/admin"));
 const Cloud = lazy(() => import("../views/cloud"));
 const Media = lazy(() => import("../views/media"));
-const Knn = lazy(() => import("../views/knn"));
+const TestPage = lazy(() => import("../views/test-page"));
 const MaoPu = lazy(() => import("../views/mao-pu"));
 
 interface PropsType {
@@ -54,7 +54,7 @@ const AdminRouterView: React.FC<PropsType> = ({
             <AuthRoute path="/admin/cloud" component={Cloud} />
           </Switch>
           <AuthRoute path="/admin/media" component={Media} />
-          <AuthRoute path="/admin/knn" component={Knn} />
+          <AuthRoute path="/admin/test-page" component={TestPage} />
           <AuthRoute path="/admin/maopu" component={MaoPu} />
         </div>
       </Suspense>

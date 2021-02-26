@@ -7,7 +7,7 @@ const total = 100;
 const itemNum = Math.floor(boxHeight / itemHeight) + 1;
 
 // 虚拟滚动的 demo
-const Scroll: React.FC = () => {
+const VirtualScroll: React.FC = () => {
   const [list, setlist] = useState<number[]>([]);
   const [showList, setShowList] = useState<number[]>([]);
   const [paddingTop, setPaddingTop] = useState<number>(0);
@@ -71,4 +71,4 @@ const Scroll: React.FC = () => {
   );
 };
 
-export default Scroll;
+export default VirtualScroll;

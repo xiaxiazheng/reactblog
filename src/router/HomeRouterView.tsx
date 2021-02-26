@@ -11,7 +11,7 @@ const Blog = lazy(() => import("../views/blog"));
 const BlogCont = lazy(() => import("../views/blog/blog-cont"));
 // const Cloud = lazy(() => import("../views/cloud"));
 // const Media = lazy(() => import("../views/media"));
-const Knn = lazy(() => import("../views/knn"));
+const TestPage = lazy(() => import("../views/test-page"));
 
 interface PropsType {
   component?: any;
@@ -45,7 +45,7 @@ const HomeRouterView: React.FC<PropsType> = ({
           </BlogProvider>
           {/* <Route path="/cloud" component={Cloud} /> */}
           {/* <Route path="/media" component={Media} /> */}
-          <Route path="/knn" component={Knn} />
+          <Route path="/test-page" component={TestPage} />
         </div>
       </Suspense>
     </>
