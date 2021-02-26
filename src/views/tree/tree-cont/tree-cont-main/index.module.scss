@@ -7,9 +7,10 @@
 .scroll {
   width: 200px;
   margin: 0 auto;
-  border: 1px solid black;
+  border: 1px solid var(--border_color);
   box-sizing: border-box;
   overflow-y: auto;
+  font-size: 16px;
   .scrollBox {
     display: inline-block;
     width: 100%;
@@ -19,8 +20,23 @@
       // height: 50px;
       border: 1px solid red;
       box-sizing: border-box;
-      color: black;
-      font-size: 16px;
+      // color: black;
     }
   }
+}
+
+.router {
+  >span {
+    display: inline-block;
+    border: 1px solid var(--color);
+    margin-right: 10px;
+    padding: 0 10px;
+  }
+}
+
+.test >button {
+  margin-left: 10px;
+  color: var(--color);
+  background-color: var(--bg_color);
+  padding: 0 10px;
 }

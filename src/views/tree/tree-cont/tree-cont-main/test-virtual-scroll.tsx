@@ -31,38 +31,43 @@ const Scroll: React.FC = () => {
     setPaddingBottom((total - itemNum - topNum) * itemHeight);
     setShowList(list.slice(topNum + 1, topNum + 1 + itemNum));
 
-    console.dir(e.target.scrollTop);
-    console.log("list", list.slice(topNum + 1, topNum + 1 + itemNum));
+    // console.dir(e.target.scrollTop);
+    // console.log("list", list.slice(topNum + 1, topNum + 1 + itemNum));
   };
 
   return (
-    <div
-      className={styles.scroll}
-      style={{
-        height: boxHeight,
-      }}
-      onScroll={handleScroll}
-    >
+    <>
       <div
-        className={styles.scrollBox}
+        className={styles.scroll}
         style={{
-          paddingTop: paddingTop,
-          paddingBottom: paddingBottom,
+          height: boxHeight,
         }}
+        onScroll={handleScroll}
       >
-        {showList.map((item) => {
-          return (
-            <div
-              key={item}
-              className={styles.scrollItem}
-              style={{ height: itemHeight }}
-            >
-              {item}
-            </div>
-          );
-        })}
+        <div
+          className={styles.scrollBox}
+          style={{
+            paddingTop: paddingTop,
+            paddingBottom: paddingBottom,
+          }}
+        >
+          {showList.map((item) => {
+            return (
+              <div
+                key={item}
+                className={styles.scrollItem}
+                style={{ height: itemHeight }}
+              >
+                {item}
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+      <div>paddingTop：{paddingTop}px</div>
+      <div>paddingBottom：{paddingBottom}px</div>
+      <div>当前渲染元素：{showList.join(',')}</div>
+    </>
   );
 };
 

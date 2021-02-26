@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import styles from './index.module.scss';
+import React, { useEffect, useState } from "react";
+import styles from "./index.module.scss";
 
 interface ITest {
-  data: number
+  flag: string;
 }
 
 const Test: React.FC<ITest> = (props) => {
-  const [data, setData] = useState(props.data)
+  const { flag } = props;
+
+  const [data, setData] = useState<number>();
 
   useEffect(() => {
-    console.log(`初始化：${data}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    console.log(`初始化：${data}`);
+    setData(1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.test}>
-      {data}
-      <button onClick={() => {setData(data + 1)}}>点我</button>
+      {flag}：{data}
+      <button
+        onClick={() => {
+          setData((data || 0) + 1);
+        }}
+      >
+        点我 + 1
+      </button>
     </div>
   );
-}
+};
 
 export default Test;

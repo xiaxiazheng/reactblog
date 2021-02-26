@@ -4,9 +4,9 @@ import TestKeepAlive from "./test-keep-alive";
 import TestVirtualScroll from './test-virtual-scroll'
 
 const TreeContMain: React.FC = () => {
-  const [list, setList] = useState([1, 2, 3, 4, 5, 6]);
-  const [active, setActive] = useState(1);
-  const [already, setAlready] = useState<number[]>([]);
+  const list = ['A','B','C','D','E','F','G'];
+  const [active, setActive] = useState<string>('A');
+  const [already, setAlready] = useState<string[]>([]);
 
   useEffect(() => {
     if (!already.includes(active)) {
@@ -17,20 +17,21 @@ const TreeContMain: React.FC = () => {
 
   return (
     <div className={styles.treecontmain}>
-      {/* 知识树逐步废弃，转移到日志去吧 */}
-      <div>知识树逐步废弃，转移到日志去吧</div>
-      <br />
       {/* keep-alive */}
-      <div>测试用数组实现的组件 keep-alive</div>
-      <div>
+      <div>测试用数组实现的组件 keep-alive，原理 list.map + 判断条件，还有 display: none</div>
+      <div className={styles.router}>
+        点击切换路由：
         {list.map((item) => (
-          <div onClick={() => setActive(item)}>{item}</div>
+          <span onClick={() => setActive(item)}>{item}</span>
         ))}
+      </div>
+      <div>
+        具体组件：
         {list.map((item) => {
           if (already.includes(item)) {
             return (
               <div style={{ display: item === active ? "block" : "none" }}>
-                <TestKeepAlive key={item} data={item} />
+                <TestKeepAlive key={item} flag={item} />
               </div>
             );
           } else {
@@ -38,7 +39,7 @@ const TreeContMain: React.FC = () => {
               <>
                 {item === active && (
                   <div>
-                    <TestKeepAlive key={item} data={item} />
+                    <TestKeepAlive key={item} flag={item} />
                   </div>
                 )}
               </>
