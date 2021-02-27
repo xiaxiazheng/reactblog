@@ -241,7 +241,7 @@ class BlogContEdit extends React.Component<PropsType> {
             {/* 上传图片 */}
             <ImageBox
               otherId={this.props.blogdata.blog_id}
-              type="log"
+              type="blog"
               imageUrl=""
               imageMinUrl=""
               initImgList={this.props.getImageList}
@@ -251,7 +251,7 @@ class BlogContEdit extends React.Component<PropsType> {
             {/* 上传附件 */}
             <FileBox
               otherId={this.props.blogdata.blog_id}
-              type="log"
+              type="blog"
               fileUrl=""
               initFileList={this.props.getFileList}
               width="140px"
@@ -262,11 +262,11 @@ class BlogContEdit extends React.Component<PropsType> {
               return (
                 <ImageBox
                   key={item.img_id}
-                  type="log"
+                  type="blog"
                   imageId={item.img_id}
                   imageName={item.imgname}
                   imageFileName={item.filename}
-                  imageUrl={`${staticUrl}/img/log/${item.filename}`}
+                  imageUrl={`${staticUrl}/img/blog/${item.filename}`}
                   imageMinUrl={
                     item.has_min === "1"
                       ? `${staticUrl}/min-img/${item.filename}`
@@ -283,7 +283,7 @@ class BlogContEdit extends React.Component<PropsType> {
               return (
                 <FileBox
                   key={item.file_id}
-                  type="log"
+                  type="blog"
                   fileId={item.file_id}
                   originalName={item.originalname}
                   fileName={item.filename}

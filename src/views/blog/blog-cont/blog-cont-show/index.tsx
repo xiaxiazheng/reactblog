@@ -130,7 +130,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                       return (
                         <FileBox
                           key={item.file_id}
-                          type="log"
+                          type="blog"
                           fileId={item.file_id}
                           originalName={item.originalname}
                           fileName={item.filename}

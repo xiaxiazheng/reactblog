@@ -150,7 +150,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             {/* 上传图片 */}
             <ImageBox
               otherId={blogdata.blog_id}
-              type="log"
+              type="blog"
               imageUrl=""
               imageMinUrl=""
               initImgList={getImageList}
@@ -160,7 +160,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             {/* 上传附件 */}
             <FileBox
               otherId={blogdata.blog_id}
-              type="log"
+              type="blog"
               fileUrl=""
               initFileList={getFileList}
               width="140px"
@@ -171,11 +171,11 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               return (
                 <ImageBox
                   key={item.img_id}
-                  type="log"
+                  type="blog"
                   imageId={item.img_id}
                   imageName={item.imgname}
                   imageFileName={item.filename}
-                  imageUrl={`${staticUrl}/img/log/${item.filename}`}
+                  imageUrl={`${staticUrl}/img/blog/${item.filename}`}
                   imageMinUrl={item.has_min === '1' ? `${staticUrl}/min-img/${item.filename}` : ''}
                   initImgList={getImageList} 
                   width="140px"
@@ -188,11 +188,11 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               return (
                 <FileBox
                   key={item.file_id}
-                  type="log"
+                  type="blog"
                   fileId={item.file_id}
                   originalName={item.originalname}
                   fileName={item.filename}
-                  fileUrl={`${staticUrl}/file/log/${item.filename}`}
+                  fileUrl={`${staticUrl}/file/blog/${item.filename}`}
                   initFileList={getFileList}
                   width="140px"
                   fileData={item}
