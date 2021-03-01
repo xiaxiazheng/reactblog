@@ -4,11 +4,33 @@ import { IImageType, getImgList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import classnames from "classnames";
 import { UserContext } from '@/context/UserContext';
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
+interface IHome extends RouteComponentProps {
+}
 
-const Home: React.FC = () => {
+const Home: React.FC<RouteComponentProps> = (props) => {
+  const { history } = props
+
   const [backgroundUrl, setBackgroundUrl] = useState("");
   const { username } = useContext(UserContext)
+
+  useEffect(() => {
+    const listenLogin = (event: any) => {
+      // 监听 ctrl + l 组合键，跳转到登录界面
+      if (event.ctrlKey && event.keyCode === 76) {
+        console.log('跳转到登录')
+        history.push('/login')
+        // 禁止浏览器的默认行为
+        event.preventDefault()
+      }
+    }
+    document.addEventListener('keydown', listenLogin)
+
+    return () => {
+      document.removeEventListener('keydown', listenLogin)
+    }
+  }, [])
 
   useEffect(() => {
     let imgList: any = [];
@@ -72,4 +94,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default withRouter(Home);
