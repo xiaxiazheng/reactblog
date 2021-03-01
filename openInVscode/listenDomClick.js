@@ -5,15 +5,21 @@
 const run = () => {
   // 监听到 control 被按着的时候，绑定鼠标事件
   document.onkeydown = (e) => {
-    if (e.key === "Control") {
+    // 只有在单单只按了 control 的情况下才能开启鼠标监听
+    if (e.ctrlKey && e.key === 'Control') {
       document.addEventListener("mouseover", handleHover);
       document.addEventListener("click", handleClick);
+    } else {
+      // 这里是为了规避组合键的情况，要是有组合键点击例如 ctrl + l，只会触发两个 down 事件，不会触发 up 事件
+      // 所以要在这里点了 ctrl 以外的键时撤销监听
+      document.removeEventListener("mouseover", handleHover);
+      document.removeEventListener("click", handleClick);
     }
   };
 
   // control 被松开的时候，撤销鼠标事件
   document.onkeyup = (e) => {
-    if (e.key === "Control") {
+    if (!e.ctrlKey) {
       if (preHoverDom) {
         document.body.removeChild(preHoverDom);
         // const style = preHoverDom.getAttribute("style");
