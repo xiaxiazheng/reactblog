@@ -42,7 +42,7 @@ interface FolderType {
 }
 
 interface FolderMapType {
-  [k: string]: FolderType
+  [k: string]: FolderTreeType
 }
 
 interface FolderTreeType extends FolderType {
@@ -107,7 +107,8 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const getAllFolderList = async () => {
     const res = await getAllFolder(username);
     if (res) {
-      const { tree, map } = res;
+      const { tree } = res;
+      const map: FolderMapType = {}
       const walk = (list: FolderTreeType[]) => {
         list.forEach((item) => {
           item.title = item.name;
@@ -118,6 +119,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
           if (item.children) {
             item.children = walk(item.children);
           }
+          map[item.folder_id] = item
         });
         return list;
       };
@@ -242,6 +244,10 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
 
   // 删除文件夹
   const deleteAFolder = async (name: string, folder_id: string) => {
+    if (typeof folderMap[folder_id].children !== 'undefined') {
+      message.warn('该文件夹内还有文件夹，暂不支持递归删除（其实里面有文件的话也不推荐删除）')
+      return
+    }
     confirm({
       title: `你将删除"${name}"`,
       content: "Are you sure？",
