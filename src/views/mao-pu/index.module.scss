@@ -3,6 +3,7 @@
   display: inline-block;
   width: 100%;
   height: 100%;
+  padding-left: 150px;
   background-color: var(--bg_color);
   font-size: 16px;
   .maopuWrapper {
@@ -61,30 +62,30 @@
     font-size: 16px;
     text-align: left;
     > div {
-      .dot {
+      .status {
         display: inline-block;
         width: 1rem;
         height: 1rem;
       }
-      &:nth-child(1) .dot {
+      &:nth-child(1) .status {
         background-color: #61dafb;
       }
-      &:nth-child(2) .dot {
+      &:nth-child(2) .status {
         background-color: yellow;
       }
-      &:nth-child(3) .dot {
+      &:nth-child(3) .status {
         background-color: #61dafb47;
       }
-      &:nth-child(4) .dot {
+      &:nth-child(4) .status {
         background-color: pink;
       }
-      &:nth-child(5) .dot {
+      &:nth-child(5) .status {
         background-color: #61dafb;
       }
-      &:nth-child(6) .dot {
+      &:nth-child(6) .status {
         background-color: #cccccc;
       }
-      &:nth-child(7) .dot {
+      &:nth-child(7) .status {
         background-color: #ff4d4f;
       }
     }
@@ -94,7 +95,7 @@
   .maoList {
     display: flex;
     flex-wrap: wrap;
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
     text-align: left;
     > div {
@@ -106,6 +107,9 @@
   .levelMao {
     display: flex;
     justify-content: center;
+    width: 100%;
+    min-width: 1300px;
+    overflow-x: auto;
     .box {
       margin: 8px 10px;
       padding: 8px 10px;
@@ -114,18 +118,22 @@
   }
   // 猫在各个状态下的样式
   .hover {
+    color: black;
     border-color: #61dafb;
     background-color: #61dafb;
   }
   .hoverBroSis {
+    color: white;
     border-color: #61dafb47;
     background-color: #61dafb47;
   }
   .hoverChildren {
+    color: black;
     border-color: yellow;
     background-color: yellow;
   }
   .hoverParent {
+    color: black;
     border-color: pink;
     background-color: pink;
   }
@@ -134,6 +142,10 @@
     padding: 5px 5px;
     border: 1px solid #ccc;
     cursor: pointer;
+    > span {
+      display: inline-block;
+      max-width: 140px;
+    }
   }
   .children {
     // margin: 8px 10px;

@@ -69,8 +69,8 @@ const MaoPu: React.FC = () => {
     if (res) {
       message.success("新增猫猫成功");
       // 打开新增的猫的编辑
-      setActiveMao(res)
-      getMaoList()
+      setActiveMao(res);
+      getMaoList();
     }
   };
 
@@ -140,7 +140,7 @@ const MaoPu: React.FC = () => {
         // }}
         onClick={() => setActiveMao(item)}
       >
-        {item.name}
+        <span>{item.name}</span>
       </div>
     );
   };
@@ -227,7 +227,7 @@ const MaoPu: React.FC = () => {
               "死亡",
             ].map((item) => (
               <div>
-                <span className={styles.dot} /> {item}
+                <span className={styles.status} /> {item}
               </div>
             ))}
           </div>
