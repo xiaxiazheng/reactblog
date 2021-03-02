@@ -41,11 +41,22 @@ interface FolderType {
   username: string;
 }
 
+interface FolderMapType {
+  [k: string]: FolderType
+}
+
 interface FolderTreeType extends FolderType {
-  children?: FolderTreeType[];
   title: string;
   key: string;
-  icon: any;
+  icon: Function;
+  children?: FolderTreeType[];
+}
+
+interface IFolderTreeType {
+  title: string;
+  key: string;
+  icon: Function;
+  children?: FolderTreeType[];
 }
 
 const Width = "160px";
@@ -60,8 +71,8 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
   const { confirm } = Modal;
 
   // 文件夹树
-  const [folderTree, setFolderTree] = useState<any>();
-  const [folderMap, setFolderMap] = useState<any>({});
+  const [folderTree, setFolderTree] = useState<IFolderTreeType[]>();
+  const [folderMap, setFolderMap] = useState<FolderMapType>({});
 
   // 父文件夹的 id，如果是顶层则为空串
   const [parentId, setParentId] = useState<string>("root");
