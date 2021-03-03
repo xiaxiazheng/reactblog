@@ -64,6 +64,21 @@ const Login: React.FC<PropsType> = (props) => {
     }
   };
 
+  // 监听回车
+  useEffect(() => {
+    const listenLogin = (event: any) => {
+      // 监听回车直接登录
+      if (event.key === 'Enter') {
+        submitLogin()
+      }
+    }
+    document.addEventListener('keydown', listenLogin)
+
+    return () => {
+      document.removeEventListener('keydown', listenLogin)
+    }
+  }, [user, password])
+
   return (
     <div className={styles.Login}>
       <div className={styles.loginCont}>
