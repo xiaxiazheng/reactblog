@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Icon } from '@ant-design/compatible'
+import { Icon } from "@ant-design/compatible";
 import { Progress, message, Upload, Modal } from "antd";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import { IImageType, ImgType, deleteImg } from "@/client/ImgHelper";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
-import { UserContext } from '@/context/UserContext'
+import { UserContext } from "@/context/UserContext";
 
 interface PropsType {
   otherId?: string; // 跟这个图片要插入的地方有关联的记录 id
@@ -23,7 +23,7 @@ interface PropsType {
 }
 
 const ImageBox: React.FC<PropsType> = (props) => {
-  const { username } = useContext(UserContext)
+  const { username } = useContext(UserContext);
 
   const {
     type,
@@ -31,18 +31,18 @@ const ImageBox: React.FC<PropsType> = (props) => {
     imageName = "一张图片",
     imageFileName,
     imageUrl,
-    otherId = '',
+    otherId = "",
     imageMinUrl,
     initImgList,
     width = "170px",
     imageData,
-    iconRender
+    iconRender,
   } = props;
 
   const { confirm } = Modal;
 
   // 图片的 ref，用于交叉观察
-  const imgRef: any = React.createRef()
+  const imgRef: any = React.createRef();
   // 交叉观察器加载图片
   useEffect(() => {
     let observer = new IntersectionObserver((entries) => {
@@ -55,14 +55,14 @@ const ImageBox: React.FC<PropsType> = (props) => {
         }
       });
     });
-    imgRef.current !== null && observer.observe(imgRef.current)
+    imgRef.current !== null && observer.observe(imgRef.current);
   }, [imgRef]);
 
   // const [loading, setLoading] = useState(true);
   const [isHover, setIsHover] = useState(false);
   const [name, setName] = useState<string>();
   const [percent, setPercent] = useState<number>();
-  const [size, setSize] = useState<number>()
+  const [size, setSize] = useState<number>();
 
   const handleChange = (info: any) => {
     // 上传中
@@ -121,20 +121,20 @@ const ImageBox: React.FC<PropsType> = (props) => {
   };
 
   const beforeUpload = (info: any) => {
-    setName(info.name)
-    setPercent(0)
-    setSize(info.size)
+    setName(info.name);
+    setPercent(0);
+    setSize(info.size);
 
-    return true // 为 false 就不会上传
-  }
+    return true; // 为 false 就不会上传
+  };
 
   const handleSize = (size: number) => {
     if (size < 1024 * 1024) {
-      return `${(size / 1024).toFixed(1)}KB`
+      return `${(size / 1024).toFixed(1)}KB`;
     } else {
-      return `${(size / 1024 / 1024).toFixed(2)}MB`
+      return `${(size / 1024 / 1024).toFixed(2)}MB`;
     }
-  }
+  };
 
   return (
     <div
@@ -149,30 +149,29 @@ const ImageBox: React.FC<PropsType> = (props) => {
       }}
     >
       {/* 没有图片的情况，展示添加 */}
-      {
-        imageUrl === "" && (
-          <Upload
-            className={styles.Upload}
-            name={type}
-            showUploadList={false}
-            action={`${staticUrl}/api/${type}_upload`}
-            data={{
-              other_id: otherId || '',
-              username
-            }}
-            beforeUpload={beforeUpload}
-            listType="picture-card"
-            onChange={handleChange}
-          >
-                      {name ? (
+      {imageUrl === "" && (
+        <Upload
+          className={styles.Upload}
+          name={type}
+          showUploadList={false}
+          action={`${staticUrl}/api/${type}_upload`}
+          data={{
+            other_id: otherId || "",
+            username,
+          }}
+          beforeUpload={beforeUpload}
+          listType="picture-card"
+          onChange={handleChange}
+        >
+          {name ? (
             <div className={styles.progress}>
               <div className={styles.name}>{name}</div>
               <div>{handleSize(size || 0)}</div>
               <div>进度：{(percent || 0).toFixed(1)}%</div>
               <Progress
                 strokeColor={{
-                  from: '#108ee9',
-                  to: '#87d068',
+                  from: "#108ee9",
+                  to: "#87d068",
                 }}
                 percent={percent}
                 status="active"
@@ -180,13 +179,12 @@ const ImageBox: React.FC<PropsType> = (props) => {
             </div>
           ) : (
             <>
-            <Icon className={styles.addIcon} type="plus" />
-            点击上传图片
+              <Icon className={styles.addIcon} type="plus" />
+              点击上传图片
             </>
           )}
-          </Upload>
-        )
-      }
+        </Upload>
+      )}
       {/* 加载中。。。 */}
       {/* {imageUrl !== '' && loading &&
         <div className={styles.imageLoading}>
@@ -194,37 +192,40 @@ const ImageBox: React.FC<PropsType> = (props) => {
         </div>
       } */}
       {/* 有图片的情况，展示缩略图或图片名称 */}
-      {
-        imageUrl !== "" && (
-          <>
-            {imageMinUrl && imageMinUrl !== "" ? (
-              <img
-                ref={imgRef}
-                className={styles.shower}
-                onMouseEnter={(e) => {
-                  e.stopPropagation();
-                  setIsHover(true);
-                }}
-                data-src={imageMinUrl}
-                alt={imageName}
-              />
-            ) : (
-              <div
-                className={styles.shower}
-                onMouseEnter={(e) => {
-                  e.stopPropagation();
-                  setIsHover(true);
-                }}
-              >
-                {imageName}
-              </div>
-            )}
-          </>
-        )
-      }
+      {imageUrl !== "" && (
+        <>
+          {imageMinUrl && imageMinUrl !== "" ? (
+            <img
+              ref={imgRef}
+              className={styles.shower}
+              onMouseEnter={(e) => {
+                e.stopPropagation();
+                setIsHover(true);
+              }}
+              data-src={imageMinUrl}
+              alt={imageName}
+            />
+          ) : (
+            <div
+              className={styles.shower}
+              onMouseEnter={(e) => {
+                e.stopPropagation();
+                setIsHover(true);
+              }}
+            >
+              {imageName}
+            </div>
+          )}
+        </>
+      )}
       {/* 有图片的情况，显示操作 */}
       {imageUrl !== "" && isHover && (
-        <div className={styles.Icons}>
+        <div
+          className={styles.Icons}
+          title={`${(imageData as ImgType).imgname}\n${handleSize(
+            Number((imageData as ImgType).size || 0)
+          )}\n${(imageData as ImgType).cTime}`}
+        >
           <div>
             <Icon
               className={styles.iconBoxIcon}
@@ -246,7 +247,10 @@ const ImageBox: React.FC<PropsType> = (props) => {
             />
             {iconRender || <></>}
           </div>
-          <div className={styles.size}>{handleSize(Number((imageData as ImgType).size || 0))}</div>
+          <div className={styles.name}>{(imageData as ImgType).imgname}</div>
+          <div className={styles.size}>
+            {handleSize(Number((imageData as ImgType).size || 0))}
+          </div>
           <div className={styles.time}>{(imageData as ImgType).cTime}</div>
         </div>
       )}
