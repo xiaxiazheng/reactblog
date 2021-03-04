@@ -20,7 +20,7 @@ const run = () => {
   // control 被松开的时候，撤销鼠标事件
   document.onkeyup = (e) => {
     if (!e.ctrlKey) {
-      if (preHoverDom) {
+      if (preHoverDom && document.body.contains(preHoverDom)) {
         document.body.removeChild(preHoverDom);
         // const style = preHoverDom.getAttribute("style");
         // style &&
