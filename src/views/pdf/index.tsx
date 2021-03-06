@@ -5,6 +5,7 @@ import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 import RichtextShow from "@/views/blog/blog-cont/richtext-show";
 import rhStyles from "@/views/blog/blog-cont/blog-cont-show/index.module.scss";
 import { message } from "antd";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 interface IPDF extends RouteComponentProps {}
 
@@ -13,6 +14,8 @@ const PDF: React.FC<IPDF> = (props) => {
 
   const [blogType, setBLogType] = useState<"richtext" | "markdown" | "">("");
   const [blogdata, setBlogdata] = useState<any>();
+
+  useDocumentTitle(`打印：${blogdata?.title || ''}`)
 
   useEffect(() => {
     setTimeout(() => {

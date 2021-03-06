@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import MaoControl, { Mao } from "./mao-control";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
 import { Button, Icon, message, Switch } from "antd";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const statusColor: any = {
   // 持有
@@ -18,6 +19,8 @@ const MaoPu: React.FC = () => {
     getMaoList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useDocumentTitle('猫谱')
 
   const [maoList, setMaoList] = useState<Mao[]>([]);
   const [levelList, setLevelList] = useState<any[]>([]);

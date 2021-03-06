@@ -8,6 +8,7 @@ import { addBlogCont } from "@/client/BlogHelper";
 // import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
 import { Button, message, Icon, Drawer } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 interface PropsType extends RouteComponentProps {}
 
@@ -16,6 +17,8 @@ const Blog: React.FC<PropsType> = (props) => {
 
   const { isLogin } = useContext(IsLoginContext);
   const { setActiveTag } = useContext(BlogContext);
+
+  useDocumentTitle('blog')
 
   // 添加日志
   const addNewBlog = async (type: "richtext" | "markdown") => {

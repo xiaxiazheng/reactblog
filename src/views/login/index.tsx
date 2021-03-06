@@ -7,6 +7,7 @@ import { postLogin } from "@/client/UserHelper";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { UserContext } from "@/context/UserContext";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 interface PropsType extends RouteComponentProps {}
 
@@ -17,6 +18,8 @@ const Login: React.FC<PropsType> = (props) => {
   const [isShowPwd, setIsShowPwd] = useState(false);
   const { setIsLogin } = useContext(IsLoginContext);
   const { setUsername } = useContext(UserContext);
+
+  useDocumentTitle('login')
 
   useEffect(() => {
     location.search && message.warning("状态码 401：登录已过期，请重新登录");
