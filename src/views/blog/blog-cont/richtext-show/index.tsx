@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./index.module.scss";
 // 代码高亮
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark-reasonable.css";
+// import "highlight.js/styles/monokai-sublime.css";
+import "highlight.js/styles/vs2015.css";
 // 富文本编辑器
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";

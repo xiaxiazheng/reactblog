@@ -13,7 +13,8 @@ import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";
 // 代码高亮
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark-reasonable.css";
+// import "highlight.js/styles/atom-one-dark-reasonable.css";
+import "highlight.js/styles/vs2015.css";
 import { Button, Drawer } from "antd";
 
 interface PropsType extends RouteComponentProps {

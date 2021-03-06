@@ -10,7 +10,7 @@ import { staticUrl } from "@/env_config";
 import BlogContMao from "../blog-cont-mao";
 // 代码高亮
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
+import "highlight.js/styles/vs2015.css";
 // 富文本编辑器及图片拉伸
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
