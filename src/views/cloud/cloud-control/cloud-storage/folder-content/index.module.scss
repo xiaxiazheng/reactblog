@@ -1,0 +1,43 @@
+.cloudStorage {
+  margin: 20px;
+  text-align: left;
+  .folderBox {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 10px 10px;
+    color: var(--color);
+    border: 1px solid var(--border_color);
+    border-radius: 3px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+      color: var(--color_active);
+      border-color: var(--color_active);
+    }
+    .folderIcon {
+      display: block;
+      margin: 35px auto 0;
+      font-size: 70px;
+    }
+    .icon {
+      margin: 5px 10px 0;
+      color: var(--color);
+      font-size: 24px;
+      &:hover {
+        color: var(--color_active);
+      }
+    }
+  }
+}
+
+.imgLength {
+  position: fixed;
+  left: 2%;
+  top: 140px;
+  display: inline-block;
+  width: 100px;
+  border-radius: 4px;
+  text-align: center;
+}
