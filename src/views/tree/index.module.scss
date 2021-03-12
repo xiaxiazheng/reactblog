@@ -11,25 +11,32 @@ $TreeMenuWidth: 21rem;
     // width: $TreeMenuWidth;
     text-align: left;
     background-color: var(--bg_color);
-    border-right: 1px solid var(--border_color);
+    border-right: 1px solid transparent;
     box-sizing: border-box;
     letter-spacing: 1px;
     vertical-align: top;
     .showLeft {
       position: absolute;
-      top: 0.6rem;
-      right: -30px;
+      // top: calc(50% - 22px);
+      top: 50%;
+      right: -28px;
       z-index: 2;
-      font-size: 32px;
+      font-size: 26px;
+      color: var(--color);
       opacity: 0.5;
+      border: 2px solid var(--border_color);
+      border-left-width: 0px;
+      border-radius: 0px 3px 3px 0px;
     }
     &.show {
+      border-color: var(--border_color);
       width: $TreeMenuWidth;
       animation: show 0.8s;
     }
 
     &.hide {
       width: 0;
+      // border-color: transparent;
       animation: hide 0.3s;
     }
   }
@@ -45,10 +52,15 @@ $TreeMenuWidth: 21rem;
 
   @keyframes hide {
     from {
+      border-color: var(--border_color);
       width: $TreeMenuWidth;
+    }
+    90% {
+      border-color: var(--border_color);
     }
     to {
       width: 0;
+      // border-color: transparent;
     }
   }
 
@@ -107,5 +119,4 @@ $TreeMenuWidth: 21rem;
       background-color: rgba(12, 239, 176, 0.55);
     }
   }
-
 }

@@ -116,6 +116,13 @@
       border: 1px solid #ccc;
     }
   }
+  // 树状猫咪展示
+  .maoTree {
+    display: flex;
+    text-align: left;
+  }
+
+
   // 猫在各个状态下的样式
   .hover {
     color: black;
