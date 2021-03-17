@@ -213,6 +213,7 @@ const BlogList: React.FC<PropsType> = (props) => {
   return (
     <>
       <div className={styles.operateBox}>
+        {props.children}
         {/* 排序条件 */}
         <Select
           className={styles.orderbyBox}

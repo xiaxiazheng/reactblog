@@ -10,6 +10,9 @@ import { notification } from 'antd';
 import { isDev, baseUrl } from '@/env_config';
 import httpCodeMessage from './lib/http-code-msg';
 
+// 是否是游客
+const isVisitor = location.href.indexOf('admin') === -1
+
 const instance = axios.create({
   baseURL: `${baseUrl}/api`,
   timeout: isDev ? 5 * 1000 : 10 * 1000
@@ -22,7 +25,7 @@ const instance = axios.create({
 // axios.defaults.retryDelay = 1000
 
 const checkStatus = (res: AxiosError['response']) => {
-  if (!res) {
+  if (!res && !isVisitor) {
     notification.error({
       description: '您的网络发生异常，无法连接服务器',
       message: '网络异常'
@@ -44,16 +47,18 @@ function apiErrorLog(res: any) {
     return;
   }
 
-  const errortext = httpCodeMessage[status] || res.statusText
-  const errorDesc = `${res.status}: ${errortext}`
-  const duration = isDev ? 4 : 2
-  notification.error({
-    message: `请求错误 ${res.status}:  \n${res.config.url}\n`,
-    description: `${errorDesc} \n 您可以点击刷新按钮进行重试\n ${JSON.stringify(
-      res.data
-    )}`,
-    duration
-  })
+  if (!isVisitor) {
+    const errortext = httpCodeMessage[status] || res.statusText
+    const errorDesc = `${res.status}: ${errortext}`
+    const duration = isDev ? 4 : 2
+    notification.error({
+      message: `请求错误 ${res.status}:  \n${res.config.url}\n`,
+      description: `${errorDesc} \n 您可以点击刷新按钮进行重试\n ${JSON.stringify(
+        res.data
+      )}`,
+      duration
+    })
+  }
 }
 
 // 定义全局变量clearRequest，在route.js中要用到

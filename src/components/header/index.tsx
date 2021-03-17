@@ -137,7 +137,7 @@ const Header: React.FC<PropsType> = (props) => {
             </span>
           )}
           {/* 用户切换开关 */}
-          {!isLogin && (
+          {/* {!isLogin && (
             <Switch
               className={styles.switch}
               checkedChildren="hyp"
@@ -145,7 +145,7 @@ const Header: React.FC<PropsType> = (props) => {
               checked={username === "hyp"}
               onClick={switchUser}
             />
-          )}
+          )} */}
           {/* 主题切换开关 */}
           <Switch
             className={styles.switch}

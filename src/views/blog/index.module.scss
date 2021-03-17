@@ -11,13 +11,14 @@
     min-width: 276px;
     height: 100%;
     border-right: 1px solid var(--border_color);
-    .addBlog {
-      text-align: left;
-      border-bottom: 1px solid var(--border_color);
-      padding: 10px 10px 5px;
-      .addBlogButton {
-        margin-bottom: 5px;
-      }
+  }
+  .addBlog {
+    text-align: left;
+    // border-bottom: 1px solid var(--border_color);
+    // padding: 10px 10px 5px;
+    .addBlogButton {
+      height: 32px;
+      margin-right: 5px;
     }
   }
   .blogRight {
