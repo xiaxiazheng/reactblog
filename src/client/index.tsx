@@ -11,7 +11,7 @@ import { isDev, baseUrl } from '@/env_config';
 import httpCodeMessage from './lib/http-code-msg';
 
 // 是否是游客
-const isVisitor = location.href.indexOf('admin') === -1
+const isVisitor = window.location.href.indexOf('admin') === -1
 
 const instance = axios.create({
   baseURL: `${baseUrl}/api`,
