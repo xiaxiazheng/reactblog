@@ -2,14 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import MaoControl, { Mao } from "./mao-control";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
-<<<<<<< HEAD
-import { Button, Icon, message, Switch } from "antd";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-=======
 import { Button, Icon, message, Switch, Tree } from "antd";
 
 type ShowMaoType = "所有猫猫" | "分层猫猫" | "树状猫猫";
->>>>>>> 48424f451a442f19fb2a8affe5f91cb1d3ef5946
 
 const statusColor: any = {
   // 持有
@@ -32,13 +28,9 @@ const MaoPu: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-<<<<<<< HEAD
   useDocumentTitle('猫谱')
 
-  const [maoList, setMaoList] = useState<Mao[]>([]);
-=======
   const [maoList, setMaoList] = useState<IMao[]>([]);
->>>>>>> 48424f451a442f19fb2a8affe5f91cb1d3ef5946
   const [levelList, setLevelList] = useState<any[]>([]);
   const [activeMao, setActiveMao] = useState<any>();
 
