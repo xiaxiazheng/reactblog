@@ -1,5 +1,5 @@
 .wrapper {
-  height: calc(100% - 74px);
+  height: 100%;
 }
 
 .tagFilter {
@@ -24,10 +24,10 @@
   :global(.ant-input-prefix) {
     color: var(--color);
   }
-  
+
   :global(.ant-input-suffix) {
     right: 6px;
-    >i {
+    > i {
       color: var(--color);
     }
   }
@@ -54,8 +54,17 @@
   padding-top: 15px;
   padding-left: 10px;
   font-size: 12px;
-  max-height: calc(100% - 124px);
+  max-height: calc(100% - 84px);
+  // 新增按钮
+  .addTag {
+    align-items: center;
+    height: 30px;
+    padding: 5px 10px;
+    color: white;
+    background-color: #1890ff;
+  }
 }
+
 .tagItem {
   display: flex;
   margin: 0 4% 12px 0;
@@ -108,11 +117,6 @@
       }
     }
   }
-}
-
-// 新增按钮
-.addTag {
-  margin: 10px 0;
 }
 
 @media (max-width: 720px) {

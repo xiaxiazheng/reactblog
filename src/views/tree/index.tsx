@@ -40,13 +40,15 @@ const Tree: React.FC<PropsType> = (props) => {
         className={`${styles.treeLeft} ${showLeft ? styles.show : styles.hide}`}
       >
         <TreeList first_id={first_id} second_id={second_id} />
-        <Icon
-          type={showLeft ? "left-square" : "right-square"}
-          className={styles.showLeft}
-          onClick={() => {
-            setShowLeft(!showLeft);
-          }}
-        />
+        <div className={styles.showLeft}>
+          <Icon
+            type={showLeft ? "left" : "right"}
+            className={styles.leftIcon}
+            onClick={() => {
+              setShowLeft(!showLeft);
+            }}
+          />          
+        </div>
       </div>
       {/* 右边的展示 & 编辑 */}
       <div className={`${styles.treeRight}`}>
@@ -85,7 +87,11 @@ const Tree: React.FC<PropsType> = (props) => {
             height={"calc(100% - 150px)"}
             visible={visible}
           >
-            <TreeList first_id={first_id} second_id={second_id} closeDrawer={() => setVisible(false)} />
+            <TreeList
+              first_id={first_id}
+              second_id={second_id}
+              closeDrawer={() => setVisible(false)}
+            />
           </Drawer>
         </>
       )}

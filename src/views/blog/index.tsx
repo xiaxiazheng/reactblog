@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-03-07 17:05:23
+ * @LastEditTime: 2021-03-17 22:32:41
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \reactblog\src\views\blog\index.tsx
+ */
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import BlogList from "./blog-list";
@@ -49,36 +57,37 @@ const Blog: React.FC<PropsType> = (props) => {
     <>
       <div className={styles.blog}>
         <div className={styles.blogLeft}>
-          {isLogin && (
-            // 新建日志
-            <div className={styles.addBlog}>
-              <Button
-                className={styles.addBlogButton}
-                title="新建富文本 blog"
-                type="primary"
-                size="small"
-                icon="file-text"
-                onClick={addNewBlog.bind(null, "richtext")}
-              >
-                新建富文本日志
-              </Button>
-              <Button
-                className={styles.addBlogButton}
-                title="新建 MarkDown blog"
-                type="primary"
-                size="small"
-                icon="file-markdown"
-                onClick={addNewBlog.bind(null, "markdown")}
-              >
-                新建 markdown 日志
-              </Button>
-            </div>
-          )}
           <TagList />
         </div>
         <div className={`${styles.blogRight} ScrollBar`}>
           {/* 日志列表 */}
-          <BlogList />
+          <BlogList>
+            {isLogin && (
+              // 新建日志
+              <div className={styles.addBlog}>
+                <Button
+                  className={styles.addBlogButton}
+                  title="新建富文本 blog"
+                  type="primary"
+                  size="small"
+                  icon="file-text"
+                  onClick={addNewBlog.bind(null, "richtext")}
+                >
+                  富文本
+                </Button>
+                <Button
+                  className={styles.addBlogButton}
+                  title="新建 MarkDown blog"
+                  type="primary"
+                  size="small"
+                  icon="file-markdown"
+                  onClick={addNewBlog.bind(null, "markdown")}
+                >
+                  MD
+                </Button>
+              </div>
+            )}
+          </BlogList>
         </div>
       </div>
       {window.screen.availWidth <= 720 && (

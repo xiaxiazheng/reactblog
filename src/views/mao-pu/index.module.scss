@@ -39,7 +39,7 @@
   }
   .showMaoStatus {
     position: absolute;
-    top: 9rem;
+    top: 11rem;
     left: 2rem;
   }
   .hold {
@@ -57,8 +57,8 @@
 
   .colorCloud {
     position: absolute;
-    top: 11.5rem;
-    left: 2rem;
+    top: 13rem;
+    left: 2.2rem;
     font-size: 16px;
     text-align: left;
     > div {
@@ -116,6 +116,23 @@
       border: 1px solid #ccc;
     }
   }
+  // 树状猫咪展示
+  .maoTree {
+    display: flex;
+    justify-content: space-around;
+    text-align: left;
+    :global {
+      li .ant-tree-node-content-wrapper {
+        color: var(--color);
+      }
+      .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
+        color: var(--color);
+        background: transparent;
+      }
+    }
+  }
+
+
   // 猫在各个状态下的样式
   .hover {
     color: black;

@@ -184,6 +184,18 @@ const TagList: React.FC<PropsType> = (props) => {
       </div>
       {/* tag list */}
       <div className={`${styles.tagList} ScrollBar`}>
+        {isLogin && (
+          <Button
+            className={`${styles.tagItem} ${styles.addTag}`}
+            title="新增 tag"
+            type="primary"
+            size="small"
+            icon="plus"
+            onClick={createTag}
+          >
+            Tag
+          </Button>
+        )}
         {loading && <Loading />}
         {showList.map((item: TagType) => (
           <span
@@ -232,18 +244,6 @@ const TagList: React.FC<PropsType> = (props) => {
           </span>
         ))}
       </div>
-      {isLogin && (
-        <Button
-          className={styles.addTag}
-          title="add tag"
-          type="primary"
-          size="small"
-          icon="plus"
-          onClick={createTag}
-        >
-          add tag
-        </Button>
-      )}
     </div>
   );
 };

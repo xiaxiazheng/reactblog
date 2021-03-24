@@ -4,10 +4,14 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import {
   addTreeNode,
   getShowTreeList,
-  getAllTreeList
+  getAllTreeList,
 } from "@/client/TreeHelper";
-import { PlusCircleOutlined, PlusSquareOutlined, SearchOutlined } from '@ant-design/icons';
-import { Icon } from '@ant-design/compatible'
+import {
+  PlusCircleOutlined,
+  PlusSquareOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { Icon } from "@ant-design/compatible";
 import { Menu, message, Input } from "antd";
 import TreeListItem from "./tree-list-item";
 import { ShuttleBox, ShuttleMsgType } from "./shuttle-box";
@@ -23,10 +27,10 @@ interface PropsType extends RouteComponentProps {
   closeDrawer?: Function;
 }
 
-const TreeMenu: React.FC<PropsType> = props => {
+const TreeMenu: React.FC<PropsType> = (props) => {
   const { history, match, first_id, second_id, closeDrawer } = props;
   const { theme } = useContext(ThemeContext);
-  const { username } = useContext(UserContext)
+  const { username } = useContext(UserContext);
   const { isLogin } = useContext(IsLoginContext);
 
   const { SubMenu } = Menu;
@@ -92,7 +96,7 @@ const TreeMenu: React.FC<PropsType> = props => {
       }
     }
     if (level === "level2") {
-      closeDrawer && closeDrawer()
+      closeDrawer && closeDrawer();
       history.push(`${isLogin ? "/admin" : ""}/tree/${first_id}/${second_id}`);
     }
   };
@@ -115,7 +119,7 @@ const TreeMenu: React.FC<PropsType> = props => {
           addtype === "front"
             ? treeList[0].sort
             : treeList[treeList.length - 1].sort,
-        addtype: addtype
+        addtype: addtype,
       };
     }
     // 新增二级节点
@@ -126,7 +130,7 @@ const TreeMenu: React.FC<PropsType> = props => {
         f_label: first_label,
         f_sort: first_sort,
         c_sort: childSort,
-        addtype: addtype
+        addtype: addtype,
       };
     }
     const res = await addTreeNode(params);
@@ -144,7 +148,7 @@ const TreeMenu: React.FC<PropsType> = props => {
     c_label: "",
     c_id: "",
     f_id: "",
-    options: []
+    options: [],
   });
 
   // 打开穿梭框，并保存相关信息
@@ -153,14 +157,14 @@ const TreeMenu: React.FC<PropsType> = props => {
       c_label: c_label,
       c_id: c_id,
       f_id: f_id,
-      options: originTreeList.map(item => {
+      options: originTreeList.map((item) => {
         return {
           f_id: item.id,
           f_label: item.label,
           f_sort: item.sort,
-          last_child_sort: item.children[item.children.length - 1].sort
+          last_child_sort: item.children[item.children.length - 1].sort,
         };
-      })
+      }),
     });
     setIsShuttle(true);
   };
@@ -188,8 +192,8 @@ const TreeMenu: React.FC<PropsType> = props => {
   const handleKeyword = (e: any) => {
     setKeyword(e.target.value);
     let keyword = e.target.value.toLowerCase();
-    console.log('originTreeList', originTreeList);
-    
+    console.log("originTreeList", originTreeList);
+
     // 搜第一层
     let list = originTreeList.map((item: any) => {
       // 如果第一层包含关键字，返回该层
@@ -205,7 +209,7 @@ const TreeMenu: React.FC<PropsType> = props => {
         if (newItemChildren.length !== 0) {
           return {
             ...item,
-            children: newItemChildren
+            children: newItemChildren,
           };
         } else {
           // 二层没有搜索结果，返回 false
@@ -223,7 +227,7 @@ const TreeMenu: React.FC<PropsType> = props => {
 
   const treeMenuClass = classnames({
     [styles.treeMenu]: true,
-    ScrollBar: true
+    ScrollBar: true,
   });
 
   return (
@@ -247,151 +251,167 @@ const TreeMenu: React.FC<PropsType> = props => {
         openKeys={openKeys}
         selectedKeys={selectedKeys}
       >
-        {/** 在上方添加一级节点 */
-        isLogin && (
-          <Menu.Item>
-            <Icon
-              className={styles.addRootTreenode}
-              type="plus-circle"
-              title="新增首位一级节点"
-              onClick={() => addNewTreeNode("front", "level1")}
-            />
-          </Menu.Item>
-        )}
-        {/** 第一层 */
-        treeList.map((item: any, index: number) => {
-          return (
-            <SubMenu
-              key={item.id}
-              onTitleClick={() => clickTreeNode("level1", item.id)}
-              title={
-                <TreeListItem
-                  isOnly={treeList.length === 1}
-                  isFirst={index === 0}
-                  isLast={index === treeList.length - 1}
-                  level="level1"
-                  label={item.label}
-                  id={item.id}
-                  sort={item.sort}
-                  isShow={item.isShow}
-                  previousSort={index !== 0 ? treeList[index - 1].sort : -1}
-                  previousId={index !== 0 ? treeList[index - 1].id : ""}
-                  nextSort={
-                    index !== treeList.length - 1
-                      ? treeList[index + 1].sort
-                      : -1
-                  }
-                  nextId={
-                    index !== treeList.length - 1 ? treeList[index + 1].id : ""
-                  }
-                  getTreeData={getTreeData}
-                  keyword={keyword}
-                  afterDelete={afterDelete}
-                />
-              }
-            >
-              {/** 在上方添加二级节点 */
-              isLogin && (
-                <Menu.Item>
-                  <Icon
-                    className={styles.addRootTreenode}
-                    type="plus-circle"
-                    title="新增首位二级节点"
-                    onClick={() =>
-                      addNewTreeNode(
-                        "front",
-                        "level2",
-                        item.id,
-                        item.label,
-                        item.sort,
-                        item.children[0].sort
-                      )
+        {
+          /** 在上方添加一级节点 */
+          isLogin && (
+            <Menu.Item>
+              <Icon
+                className={styles.addRootTreenode}
+                type="plus-circle"
+                title="新增首位一级节点"
+                onClick={() => addNewTreeNode("front", "level1")}
+              />
+            </Menu.Item>
+          )
+        }
+        {
+          /** 第一层 */
+          treeList.map((item: any, index: number) => {
+            return (
+              <SubMenu
+                key={item.id}
+                onTitleClick={() => clickTreeNode("level1", item.id)}
+                title={
+                  <TreeListItem
+                    isOnly={treeList.length === 1}
+                    isFirst={index === 0}
+                    isLast={index === treeList.length - 1}
+                    level="level1"
+                    label={item.label}
+                    id={item.id}
+                    sort={item.sort}
+                    isShow={item.isShow}
+                    previousSort={index !== 0 ? treeList[index - 1].sort : -1}
+                    previousId={index !== 0 ? treeList[index - 1].id : ""}
+                    nextSort={
+                      index !== treeList.length - 1
+                        ? treeList[index + 1].sort
+                        : -1
                     }
-                  />
-                </Menu.Item>
-              )}
-              {/** 第二层 */
-              item.children.map((jtem: any, jndex: number) => {
-                return (
-                  <Menu.Item
-                    key={jtem.id}
-                    onClick={() => clickTreeNode("level2", item.id, jtem.id)}
-                  >
-                    <TreeListItem
-                      second_id={second_id}
-                      grandFatherChildren={item.children.map((i: any) => {
-                        return {
-                          id: i.id,
-                          label: i.label
-                        };
-                      })}
-                      fatherId={item.id}
-                      isOnly={item.children.length === 1}
-                      isFirst={jndex === 0}
-                      isLast={jndex === item.children.length - 1}
-                      level="level2"
-                      label={jtem.label}
-                      id={jtem.id}
-                      isShow={jtem.isShow}
-                      sort={jtem.sort}
-                      previousSort={
-                        jndex !== 0 ? item.children[jndex - 1].sort : -1
-                      }
-                      previousId={
-                        jndex !== 0 ? item.children[jndex - 1].id : ""
-                      }
-                      nextSort={
-                        jndex !== item.children.length - 1
-                          ? item.children[jndex + 1].sort
-                          : -1
-                      }
-                      nextId={
-                        jndex !== item.children.length - 1
-                          ? item.children[jndex + 1].id
-                          : ""
-                      }
-                      openShuttle={openShuttle}
-                      getTreeData={getTreeData}
-                      keyword={keyword}
-                      afterDelete={afterDelete}
-                    />
-                  </Menu.Item>
-                );
-              })}
-              {/** 在下方添加二级节点 */
-              isLogin && (
-                <Menu.Item>
-                  <Icon
-                    className={styles.addRootTreenode}
-                    type="plus-square"
-                    title="新增末位二级节点"
-                    onClick={() =>
-                      addNewTreeNode(
-                        "behind",
-                        "level2",
-                        item.id,
-                        item.label,
-                        item.sort,
-                        item.children[item.children.length - 1].sort
-                      )
+                    nextId={
+                      index !== treeList.length - 1
+                        ? treeList[index + 1].id
+                        : ""
                     }
+                    getTreeData={getTreeData}
+                    keyword={keyword}
+                    afterDelete={afterDelete}
                   />
-                </Menu.Item>
-              )}
-            </SubMenu>
-          );
-        })}
-        {/** 在下方添加一级节点 */
-        isLogin && (
-          <Menu.Item>
-            <Icon
-              className={styles.addRootTreenode}
-              type="plus-square"
-              title="新增末位根节点"
-              onClick={() => addNewTreeNode("behind", "level1")}
-            />
-          </Menu.Item>
-        )}
+                }
+              >
+                {
+                  /** 在上方添加二级节点 */
+                  isLogin && (
+                    <Menu.Item>
+                      <Icon
+                        className={styles.addRootTreenode}
+                        type="plus-circle"
+                        title="新增首位二级节点"
+                        onClick={() =>
+                          addNewTreeNode(
+                            "front",
+                            "level2",
+                            item.id,
+                            item.label,
+                            item.sort,
+                            item.children[0].sort
+                          )
+                        }
+                      />
+                    </Menu.Item>
+                  )
+                }
+                {
+                  /** 第二层 */
+                  item.children.map((jtem: any, jndex: number) => {
+                    return (
+                      <Menu.Item
+                        key={jtem.id}
+                        onClick={() =>
+                          clickTreeNode("level2", item.id, jtem.id)
+                        }
+                      >
+                        <TreeListItem
+                          second_id={second_id}
+                          grandFatherChildren={item.children.map((i: any) => {
+                            return {
+                              id: i.id,
+                              label: i.label,
+                            };
+                          })}
+                          fatherId={item.id}
+                          isOnly={item.children.length === 1}
+                          isFirst={jndex === 0}
+                          isLast={jndex === item.children.length - 1}
+                          level="level2"
+                          label={jtem.label}
+                          id={jtem.id}
+                          isShow={jtem.isShow}
+                          sort={jtem.sort}
+                          previousSort={
+                            jndex !== 0 ? item.children[jndex - 1].sort : -1
+                          }
+                          previousId={
+                            jndex !== 0 ? item.children[jndex - 1].id : ""
+                          }
+                          nextSort={
+                            jndex !== item.children.length - 1
+                              ? item.children[jndex + 1].sort
+                              : -1
+                          }
+                          nextId={
+                            jndex !== item.children.length - 1
+                              ? item.children[jndex + 1].id
+                              : ""
+                          }
+                          openShuttle={openShuttle}
+                          getTreeData={getTreeData}
+                          keyword={keyword}
+                          afterDelete={afterDelete}
+                        />
+                      </Menu.Item>
+                    );
+                  })
+                }
+                {
+                  /** 在下方添加二级节点 */
+                  isLogin && (
+                    <Menu.Item>
+                      <Icon
+                        className={styles.addRootTreenode}
+                        type="plus-square"
+                        title="新增末位二级节点"
+                        onClick={() =>
+                          addNewTreeNode(
+                            "behind",
+                            "level2",
+                            item.id,
+                            item.label,
+                            item.sort,
+                            item.children[item.children.length - 1].sort
+                          )
+                        }
+                      />
+                    </Menu.Item>
+                  )
+                }
+              </SubMenu>
+            );
+          })
+        }
+        {
+          /** 在下方添加一级节点 */
+          isLogin && (
+            <Menu.Item>
+              <Icon
+                className={styles.addRootTreenode}
+                type="plus-square"
+                title="新增末位根节点"
+                onClick={() => addNewTreeNode("behind", "level1")}
+              />
+            </Menu.Item>
+          )
+        }
       </Menu>
 
       {
