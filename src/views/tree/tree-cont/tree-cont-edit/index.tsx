@@ -135,6 +135,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
 
   // 内容详情的单个节点的 icons
   const ContItemIcons = (props: {
+    contLength: number; // 字数
     itemData: TreeContType;
     isFirst: boolean;
     isLast: boolean;
@@ -230,6 +231,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
           />
         </div>
         <div className={styles.contitemTime}>
+          <span>字数：{props.contLength}</span>
           <span>创建时间：{props.itemData.cTime}</span>
           <span>修改时间：{props.itemData.mTime}</span>
         </div>
@@ -256,6 +258,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
       <div className={`${styles.treeconteditWrapper} ScrollBar`} ref={scrollWrapper}>
         <h2 className={styles.treecontTitle}>{title}</h2>
         {contList.map((item, index) => {
+          console.log(`item.cont: `, JSON.stringify(item.cont))
           return (
             <div key={item.cont_id} className={styles.contitem}>
               <div className={styles.contitemEdit}>
@@ -277,6 +280,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
                   }
                 />
                 <ContItemIcons
+                  contLength={item.cont.replaceAll('\n', '').length} // 这里回车不算一个字符
                   itemData={item}
                   isFirst={index === 0}
                   isLast={index === contList.length - 1}

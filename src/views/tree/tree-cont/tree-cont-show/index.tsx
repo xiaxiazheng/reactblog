@@ -188,7 +188,11 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                   >
                     {item.title}
                   </a>
-                  <span>修改时间：{item.mTime}</span>
+                  <span>
+                    <span>字数：{item.cont.replaceAll('\n', '').length}</span>
+                    &nbsp;&nbsp;
+                    <span>修改时间：{item.mTime}</span>                    
+                  </span>
                 </h3>
                 <div
                   className={styles.contitemCont}
