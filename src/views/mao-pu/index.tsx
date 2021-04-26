@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import MaoControl, { Mao } from "./mao-control";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { Button, Icon, message, Switch, Tree } from "antd";
 
 type ShowMaoType = "所有猫猫" | "分层猫猫" | "树状猫猫";
@@ -26,6 +27,8 @@ const MaoPu: React.FC = () => {
     getMaoList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useDocumentTitle('猫谱')
 
   const [maoList, setMaoList] = useState<IMao[]>([]);
   const [levelList, setLevelList] = useState<any[]>([]);

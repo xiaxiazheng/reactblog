@@ -13,6 +13,7 @@ import FileBox from "@/components/file-box";
 
 import MarkdownShow from "../markdown-show";
 import RichtextShow from "../richtext-show";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 interface PropsType extends RouteComponentProps {
   blog_id: string;
@@ -30,6 +31,8 @@ const BlogContShow: React.FC<PropsType> = (props) => {
 
   const [blogdata, setblogdata] = useState<OneBlogType>();
   const [visits, setVisits] = useState<Number>();
+
+  useDocumentTitle(blogdata?.title || '日志')
 
   useEffect(() => {
     const getData = async () => {

@@ -13,7 +13,8 @@ import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";
 // 代码高亮
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark-reasonable.css";
+// import "highlight.js/styles/atom-one-dark-reasonable.css";
+import "highlight.js/styles/vs2015.css";
 import { Button, Drawer } from "antd";
 
 interface PropsType extends RouteComponentProps {
@@ -187,7 +188,11 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                   >
                     {item.title}
                   </a>
-                  <span>修改时间：{item.mTime}</span>
+                  <span>
+                    <span>字数：{item.cont.replaceAll('\n', '').length}</span>
+                    &nbsp;&nbsp;
+                    <span>修改时间：{item.mTime}</span>                    
+                  </span>
                 </h3>
                 <div
                   className={styles.contitemCont}

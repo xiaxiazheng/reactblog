@@ -6,6 +6,7 @@ import { Drawer, Switch, Icon } from "antd";
 import TreeCont from "./tree-cont";
 import classnames from "classnames";
 import { withRouter, RouteComponentProps, match } from "react-router-dom";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 interface PropsType extends RouteComponentProps {
   match: match<{
@@ -18,6 +19,8 @@ const Tree: React.FC<PropsType> = (props) => {
   const { match } = props;
   const { first_id, second_id } = match.params;
   const { isLogin } = useContext(IsLoginContext);
+
+  useDocumentTitle('tree')
 
   const [showLeft, setShowLeft] = useState(true);
 

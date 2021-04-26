@@ -5,9 +5,12 @@ import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
 import { Drawer, Icon, message } from "antd";
 import MusicPlayer, { FileType } from "@/components/music-player";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const Video: React.FC = () => {
-  const { isLogin } = useContext(IsLoginContext);
+  // const { isLogin } = useContext(IsLoginContext);
+
+  useDocumentTitle('media')
 
   useEffect(() => {
     getList();

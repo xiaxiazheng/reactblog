@@ -1,4 +1,4 @@
-.LogCont {
+.BlogCont {
   position: relative;
   height: 100%;
   overflow: auto;
@@ -28,7 +28,7 @@
 }
 
 @media (max-width: 720px) {
-  .LogCont {
+  .BlogCont {
     .backButton {
       display: none;
     }

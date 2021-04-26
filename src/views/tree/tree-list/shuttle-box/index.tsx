@@ -35,7 +35,7 @@ export const ShuttleBox = (props: ShuttleBoxType) => {
     options
   } = shuttleMsg;
 
-  const [newFId, setNewFId] = useState();
+  const [newFId, setNewFId] = useState<string>();
   useEffect(() => {
     setNewFId(f_id)
   }, [f_id])

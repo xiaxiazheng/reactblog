@@ -11,10 +11,13 @@ import styles from "./index.module.scss";
 import KNN from "./knn";
 import VirtualScroll from "./virtual-scroll";
 import KeepAlive from "./keep-alive";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const TestPage: React.FC = () => {
   const list = ["knn", "keep-alive", "virtual-scroll"];
   const [active, setActive] = useState<string>("virtual-scroll");
+
+  useDocumentTitle('测试页')
 
   const Component = () => {
     const map: any = {
