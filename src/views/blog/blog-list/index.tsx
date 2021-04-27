@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Icon } from "@ant-design/compatible";
-import { Input, Pagination, Checkbox, Select } from "antd";
+import { Input, Pagination, Radio, Select } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getVisiableBlogList, getAllBlogList } from "@/client/BlogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
@@ -45,6 +45,13 @@ const BlogList: React.FC<PropsType> = (props) => {
     total: 0, // 日志总数
   });
 
+  const [searchType, setSearchType] = useState<"分词查找" | "精准查找">(
+    "精准查找"
+  );
+  const handleSearchType = (e: any) => {
+    setSearchType(e.target.value);
+  };
+
   // 切换 activeTag 的时候，pageNo 要重置为 1
   useEffect(() => {
     if (isTagChange) {
@@ -64,7 +71,7 @@ const BlogList: React.FC<PropsType> = (props) => {
   useEffect(() => {
     getLogList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabsState, username]);
+  }, [tabsState, username, searchType]);
 
   // 初始化日志列表
   const getLogList = async () => {
@@ -74,7 +81,11 @@ const BlogList: React.FC<PropsType> = (props) => {
       pageNo: pageNo,
       pageSize: pageSize,
       orderBy: orderBy,
-      keyword: keyword || "",
+      keyword: keyword
+        ? searchType === "精准查找"
+          ? keyword
+          : keyword.split("").join("%")
+        : "",
       activeTag: activeTag || "",
     };
     if (showNotTag) {
@@ -261,10 +272,19 @@ const BlogList: React.FC<PropsType> = (props) => {
           value={myKeyword || ""}
           onChange={handleKeyword}
           onKeyDownCapture={handleSearch}
-          placeholder="回车搜当前分类日志"
+          placeholder="回车搜，可用 % 分词查"
           prefix={<Icon type="search"></Icon>}
           allowClear
         ></Input>
+        {/* 查找方式 */}
+        <Radio.Group
+          onChange={handleSearchType}
+          value={searchType}
+          className={styles.searchType}
+        >
+          <Radio value={"精准查找"}>精准查</Radio>
+          <Radio value={"分词查找"}>分词查</Radio>
+        </Radio.Group>
       </div>
       {/* 日志列表 */}
       {loading && <Loading />}

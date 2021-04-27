@@ -1,5 +1,6 @@
 .operateBox {
   display: flex;
+  align-items: center;
   padding: 1.3rem 2rem 0.5rem;
   .orderbyBox {
     margin-right: 0.5rem;
@@ -39,6 +40,14 @@
       }
       .ant-input {
         background: var(--bg_color);
+        color: var(--color);
+      }
+    }
+  }
+  .searchType {
+    margin-left: 0.5rem;
+    :global {
+      .ant-radio-wrapper {
         color: var(--color);
       }
     }
