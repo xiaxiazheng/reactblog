@@ -1,3 +1,6 @@
+/*
+ * @Author: xiaxiazheng
+ */
 import React, { lazy, Suspense } from "react";
 import { Switch } from "react-router-dom";
 import styles from "./index.module.scss";
@@ -14,6 +17,7 @@ const Cloud = lazy(() => import("../views/cloud"));
 const Media = lazy(() => import("../views/media"));
 const TestPage = lazy(() => import("../views/test-page"));
 const MaoPu = lazy(() => import("../views/mao-pu"));
+const MindMap = lazy(() => import("../views/mind-map"))
 
 interface PropsType {
   component?: any;
@@ -56,6 +60,7 @@ const AdminRouterView: React.FC<PropsType> = ({
           <AuthRoute path="/admin/media" component={Media} />
           <AuthRoute path="/admin/test-page" component={TestPage} />
           <AuthRoute path="/admin/maopu" component={MaoPu} />
+          <AuthRoute path="/admin/mindmap" component={MindMap} />
         </div>
       </Suspense>
     </>

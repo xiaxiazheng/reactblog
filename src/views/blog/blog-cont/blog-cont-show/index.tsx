@@ -20,7 +20,7 @@ interface PropsType extends RouteComponentProps {
 }
 
 const BlogContShow: React.FC<PropsType> = (props) => {
-  const { history, blog_id } = props;
+  const { history, blog_id, match, location } = props;
 
   const [edittype, setEdittype] = useState<"richtext" | "markdown">("richtext");
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
   const [blogdata, setblogdata] = useState<OneBlogType>();
   const [visits, setVisits] = useState<Number>();
 
-  useDocumentTitle(blogdata?.title || '日志')
+  useDocumentTitle(blogdata?.title || "日志");
 
   useEffect(() => {
     const getData = async () => {
@@ -95,6 +95,22 @@ const BlogContShow: React.FC<PropsType> = (props) => {
       },
     });
   };
+
+  // 打开游客界面
+  const openVisitor = () => {
+    window.open(window.location.href.replace('/admin', ''), '__blank')
+  }
+
+  // 复制访客 url
+  const copyVisitor = () => {
+    const input = document.createElement("input");
+    document.body.appendChild(input);
+    input.setAttribute("value", window.location.href.replace('/admin', ''));
+    input.select();
+    document.execCommand("copy");
+    message.success("复制访客路径成功", 1);
+    document.body.removeChild(input);
+  }
 
   const [visible, setVisible] = useState<boolean>(false);
 
@@ -160,6 +176,28 @@ const BlogContShow: React.FC<PropsType> = (props) => {
           <Icon type="file-pdf" />
           导出
         </Button>
+        {/* 打开访客界面 */}
+        {isLogin && (
+          <Button
+            className={styles.openVisitor}
+            onClick={openVisitor}
+            title={'新窗口打开访客界面'}
+          >
+            <Icon type="credit-card" />
+            访客
+          </Button>
+        )}
+        {/* 复制访客 url */}
+        {isLogin && (
+          <Button
+            className={styles.copyVisitor}
+            onClick={copyVisitor}
+            title={'复制访客 url'}
+          >
+            <Icon type="share-alt" />
+            分享
+          </Button>
+        )}
         {/* 回到顶部 */}
         <Button
           className={styles.scrollToTop}

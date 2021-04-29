@@ -172,6 +172,12 @@ const Header: React.FC<PropsType> = (props) => {
               <Link to={isLogin ? "/admin/blog" : "/blog"}>Blog</Link>
             </Menu.Item>
             {isLogin && (
+              <Menu.Item key="mind-map">
+                <Icon type="partition" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/mindmap" : "/mindmap"}>MindMap</Link>
+              </Menu.Item>
+            )}
+            {isLogin && (
               <Menu.Item key="cloud">
                 <Icon type="cloud" className={styles.headerIcon} />
                 <Link to={isLogin ? "/admin/cloud" : "/cloud"}>Cloud</Link>
