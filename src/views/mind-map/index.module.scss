@@ -1,4 +1,5 @@
 .MindMap {
+  position: relative;
   height: 100%;
   background-color: white;
   color: var(--color);
@@ -11,5 +12,12 @@
   iframe {
     width: 100%;
     height: calc(100% - 20px);
+  }
+  .origin {
+    position: absolute;
+    left: 10px;
+    top: 40px;
+    z-index: 3333;
+    font-size: 16px;
   }
 }
