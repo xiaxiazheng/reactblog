@@ -3,31 +3,31 @@
  * 该文件在 App.tsx 中引入
  */
 const run = () => {
-  // 监听到 control 被按着的时候，绑定鼠标事件
+  // 监听到 alt 被按着的时候，绑定鼠标事件
   document.onkeydown = (e) => {
-    // 只有在单单只按了 control 的情况下才能开启鼠标监听
-    if (e.ctrlKey && e.key === 'Control') {
-      document.addEventListener("mouseover", handleHover);
-      document.addEventListener("click", handleClick);
+    // 只有在单单只按了 alt 的情况下才能开启鼠标监听
+    if (e.altKey && e.key === 'Alt') {
+      document.addEventListener("mouseover", handleHover, false);
+      document.addEventListener("click", handleClick, false);
     } else {
       // 这里是为了规避组合键的情况，要是有组合键点击例如 ctrl + l，只会触发两个 down 事件，不会触发 up 事件
       // 所以要在这里点了 ctrl 以外的键时撤销监听
-      document.removeEventListener("mouseover", handleHover);
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("mouseover", handleHover, false);
+      document.removeEventListener("click", handleClick, false);
     }
   };
 
-  // control 被松开的时候，撤销鼠标事件
+  // alt 被松开的时候，撤销鼠标事件
   document.onkeyup = (e) => {
-    if (!e.ctrlKey) {
+    if (!e.altKey) {
       if (preHoverDom && document.body.contains(preHoverDom)) {
         document.body.removeChild(preHoverDom);
         // const style = preHoverDom.getAttribute("style");
         // style &&
         //   preHoverDom.setAttribute("style", `${style.replace(maskStyle, "")}`);
       }
-      document.removeEventListener("mouseover", handleHover);
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("mouseover", handleHover, false);
+      document.removeEventListener("click", handleClick, false);
     }
   };
 };
@@ -105,6 +105,7 @@ function handleHover(e) {
 function handleClick(e) {
   e.preventDefault();
   e.stopPropagation();
+  e.stopImmediatePropagation();
   if (e.path[0]) {
     console.dir(e.path[0]);
     const data = e.path[0]["dataset"];
@@ -112,5 +113,8 @@ function handleClick(e) {
     fetch(
       `/__open_in_editor?path=${data["inspectorRelativePath"]}&line=${data["inspectorLine"]}&col=${data["inspectorColumn"]}`
     );
+
+    document.removeEventListener("mouseover", handleHover, false);
+    document.removeEventListener("click", handleClick, false);
   }
 }
