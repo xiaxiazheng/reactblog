@@ -1,4 +1,5 @@
 $headerHight: 3rem;
+$adminHeaderHight: 1.8rem;
 .routerWrapper {
   position: relative;
   width: 100%;
@@ -13,6 +14,16 @@ $headerHight: 3rem;
 .RouterView {
   width: 100%;
   height: calc(100% - #{$headerHight});
+  font-size: 0;
+}
+
+.AdminRouterHead {
+  height: $adminHeaderHight;
+}
+
+.AdminRouterView {
+  width: 100%;
+  height: calc(100% - #{$adminHeaderHight});
   font-size: 0;
 }
 

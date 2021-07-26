@@ -15,7 +15,7 @@ const {
   addWebpackAlias,
   addWebpackExternals,
   fixBabelImports,
-  addWebpackPlugin,
+  // addWebpackPlugin,
 } = require("customize-cra");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;

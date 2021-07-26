@@ -2,14 +2,11 @@ import React, { useState, useContext, useEffect, useCallback } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { Icon } from "@ant-design/compatible";
-
 import { Menu, Switch, Drawer, Divider } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
-// import MusicPlayer from "../music-player";
-import MiniMusicPlayer from "./mini-music-player";
 import moment from "moment";
 import { CodepenOutlined } from "@ant-design/icons";
 
@@ -162,6 +159,14 @@ const Header: React.FC<PropsType> = (props) => {
             className={styles.headerRouteList}
           >
             {isLogin && (
+              <Menu.Item key="todo-list">
+                <Icon type="cluster" className={styles.headerIcon} />
+                <Link to={isLogin ? "/admin/todo-list" : "/todo-list"}>
+                  todoList
+                </Link>
+              </Menu.Item>
+            )}
+            {isLogin && (
               <Menu.Item key="tree">
                 <Icon type="cluster" className={styles.headerIcon} />
                 <Link to={isLogin ? "/admin/tree" : "/tree"}>Tree</Link>
@@ -174,7 +179,9 @@ const Header: React.FC<PropsType> = (props) => {
             {isLogin && (
               <Menu.Item key="mind-map">
                 <Icon type="partition" className={styles.headerIcon} />
-                <Link to={isLogin ? "/admin/mindmap" : "/mindmap"}>MindMap</Link>
+                <Link to={isLogin ? "/admin/mindmap" : "/mindmap"}>
+                  MindMap
+                </Link>
               </Menu.Item>
             )}
             {isLogin && (
@@ -195,7 +202,9 @@ const Header: React.FC<PropsType> = (props) => {
                   // @ts-ignore
                   <CodepenOutlined className={styles.headerIcon} />
                 }
-                <Link to={isLogin ? "/admin/test-page" : "/test-page"}>TestPage</Link>
+                <Link to={isLogin ? "/admin/test-page" : "/test-page"}>
+                  TestPage
+                </Link>
               </Menu.Item>
             )}
             {isLogin && (
@@ -233,12 +242,7 @@ const Header: React.FC<PropsType> = (props) => {
 
   return (
     <>
-      {window.screen.availWidth > 720 && (
-        <>
-          {isLogin && <MiniMusicPlayer />}
-          <HeaderContent />
-        </>
-      )}
+      {window.screen.availWidth > 720 && <HeaderContent />}
       {/* 移动端展示 */}
       {window.screen.availWidth <= 720 && (
         <>
@@ -253,7 +257,6 @@ const Header: React.FC<PropsType> = (props) => {
             width={"calc(100% - 80px)"}
             visible={visible}
           >
-            {isLogin && <MiniMusicPlayer />}
             <HeaderContent />
           </Drawer>
           <div
