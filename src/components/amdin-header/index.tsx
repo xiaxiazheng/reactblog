@@ -161,7 +161,12 @@ const Header: React.FC<PropsType> = (props) => {
       {window.screen.availWidth > 720 && (
         <>
           {
-            <div style={{ opacity: showPlayer ? 1 : 0 }}>
+            <div
+              style={{
+                opacity: showPlayer ? 1 : 0,
+                pointerEvents: showPlayer ? "unset" : "none",
+              }}
+            >
               <MiniMusicPlayer />
             </div>
           }
