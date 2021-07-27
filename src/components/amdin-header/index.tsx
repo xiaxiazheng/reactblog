@@ -7,7 +7,6 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
-// import MusicPlayer from "../music-player";
 import MiniMusicPlayer from "./mini-music-player";
 import moment from "moment";
 
@@ -21,7 +20,6 @@ const Header: React.FC<PropsType> = (props) => {
   const { location, history, routes, current, setCurrent } = props;
   const { theme, setTheme } = useContext(ThemeContext);
   const { username, setUsername } = useContext(UserContext);
-  const { isLogin } = useContext(IsLoginContext); // 获取登录状态
 
   const [already, setAlready] = useState<string>();
   const [alreadyDays, setAlreadyDays] = useState<string | number>();
@@ -54,13 +52,6 @@ const Header: React.FC<PropsType> = (props) => {
     getAlreadyDate();
     getAlreadyDays();
   };
-
-  /** 点击切换用户 */
-  // const switchUser = () => {
-  //   const nowUser = username === "zyb" ? "hyp" : "zyb";
-  //   localStorage.setItem("username", nowUser);
-  //   setUsername(nowUser);
-  // };
 
   /** 点击切换主题 */
   const switchTheme = () => {
@@ -117,16 +108,6 @@ const Header: React.FC<PropsType> = (props) => {
               已经 {already} 啦({alreadyDays}天)
             </span>
           }
-          {/* 用户切换开关 */}
-          {/* {!(
-            <Switch
-              className={styles.switch}
-              checkedChildren="hyp"
-              unCheckedChildren="zyb"
-              checked={username === "hyp"}
-              onClick={switchUser}
-            />
-          )} */}
           {/* 音乐播放器开关 */}
           <Switch
             className={styles.switch}
