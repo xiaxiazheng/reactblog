@@ -1,0 +1,41 @@
+.list {
+    flex: 1;
+    padding: 20px;
+    &:nth-child(1) {
+        border-right: 1px solid var(--border_color);
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .oneDay {
+        margin-bottom: 20px;
+        .time {
+            margin-bottom: 5px;
+            border-bottom: 1px solid var(--border_color);
+        }
+        .item {
+            display: flex;
+            justify-content: space-around;
+            >span:nth-child(1) {
+                flex: 1;
+            }
+            .delete {
+                color: grey;
+            }
+            .name {
+                // display: inline-block;
+                // width: 100%;
+            }
+        }
+    }
+    .icon {
+        &:hover {
+            color: var(--color_hover_green);
+        }
+    }
+}

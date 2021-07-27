@@ -1,50 +1,52 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Button, Popconfirm } from "antd";
-// import { FileDoneOutlined } from
+import { Modal, Form } from "antd";
+import { formatArrayToTimeMap } from "./utils";
+import List from "./list";
+import moment from "moment";
+import TodoForm from "./todo-form";
+import {
+  getTodoList,
+  addTodoItem,
+  editTodoItem,
+} from "@/client/TodoListHelper";
 
-interface mapList {
+export interface todoItem {
   todo_id?: string;
   time: string;
   name: string;
+  status: number | string;
 }
 
-const formatData = (list: any[]) => {
-  return list.reduce((prev, cur) => {
-    prev[cur.time] =
-      typeof prev[cur.time] === "undefined"
-        ? [cur]
-        : prev[cur.time].concat(cur);
-    return prev;
-  }, {});
-};
-
 const TodoList: React.FC = () => {
-  const getTodo = (type: "todo" | "done") => {
-    const res1: mapList[] = [
-      { time: "2021-07-21", name: "123" },
-      { time: "2021-07-21", name: "1234" },
-      { time: "2021-07-22", name: "1235" },
-      { time: "2021-07-22", name: "1235" },
-      { time: "2021-07-22", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
+  const getTodo = async (type: "todo" | "done") => {
+    const req = {};
+    // const res = await getTodoList(req);
+
+    const res1: todoItem[] = [
+      { time: "2021-07-21", name: "123", status: 0 },
+      { time: "2021-07-21", name: "1234", status: 0 },
+      { time: "2021-07-22", name: "1235", status: 0 },
+      { time: "2021-07-22", name: "1235", status: 0 },
+      { time: "2021-07-22", name: "1235", status: 0 },
+      { time: "2021-07-23", name: "1235", status: 0 },
+      { time: "2021-07-23", name: "1235", status: 0 },
+      { time: "2021-07-23", name: "1235", status: 0 },
+      { time: "2021-07-23", name: "1235", status: 0 },
     ];
-    const res2: mapList[] = [
-      { time: "2021-07-21", name: "123" },
-      { time: "2021-07-21", name: "1234" },
-      { time: "2021-07-22", name: "1235" },
-      { time: "2021-07-22", name: "1235" },
-      { time: "2021-07-22", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
-      { time: "2021-07-23", name: "1235" },
+    const res2: todoItem[] = [
+      { time: "2021-07-21", name: "123", status: 1 },
+      { time: "2021-07-21", name: "1234", status: 1 },
+      { time: "2021-07-22", name: "1235", status: 1 },
+      { time: "2021-07-22", name: "1235", status: 1 },
+      { time: "2021-07-22", name: "1235", status: 1 },
+      { time: "2021-07-23", name: "1235", status: 1 },
+      { time: "2021-07-23", name: "1235", status: 1 },
+      { time: "2021-07-23", name: "1235", status: 1 },
+      { time: "2021-07-23", name: "1235", status: 1 },
     ];
-    type === "todo" && setTodoMap(formatData(res1));
-    type === "done" && setDoneMap(formatData(res2));
+    type === "todo" && setTodoMap(formatArrayToTimeMap(res1));
+    type === "done" && setDoneMap(formatArrayToTimeMap(res2));
   };
 
   useEffect(() => {
@@ -52,70 +54,83 @@ const TodoList: React.FC = () => {
     getTodo("done");
   }, []);
 
-  const List = (props: any) => {
-    const { title, mapList } = props;
+  // 两种列表
+  const [todoMap, setTodoMap] = useState({});
+  const [doneMap, setDoneMap] = useState({});
+  // 编辑相关
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [editedTodo, setEditedTodo] = useState<todoItem>();
 
-    const addTodo = () => {};
-
-    const doneTodo = (todo_id: string) => {};
-
-    const deleteTodo = (todo_id: string) => {};
-
-    return (
-      <div className={styles.list}>
-        <div className={styles.header}>
-          <span>{title}</span>
-          <Button onClick={() => addTodo()}>新增</Button>
-        </div>
-        {Object.keys(mapList).map((time) => {
-          return (
-            <div className={styles.oneDay} key={time}>
-              <div className={styles.time}>{time}</div>
-              {mapList[time].map((item: any, index: number) => {
-                return (
-                  <div className={styles.item} key={index}>
-                    <span>
-                      <Popconfirm
-                        title="确认已完成吗？"
-                        onConfirm={() => doneTodo(item.todo_id)}
-                        // onCancel={() => {})}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <Button type="text">完成</Button>
-                        {/* <FileDoneOutlined /> */}
-                      </Popconfirm>
-                      <span className={styles.name}>{item.name}</span>
-                    </span>
-                    <span>
-                      <Button type="text">编辑</Button>
-                      <Popconfirm
-                        title="确认要删除吗？"
-                        onConfirm={() => deleteTodo(item.todo_id)}
-                        // onCancel={cancel}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <Button type="text">删除</Button>
-                      </Popconfirm>
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-    );
+  const handleAdd = () => {
+    setEditedTodo(undefined);
+    setIsEdit(false);
+    form.setFieldsValue({
+      time: moment(),
+      status: 0,
+    });
+    setShowEdit(true);
   };
 
-  const [todoMap, setTodoMap] = useState([]);
-  const [doneMap, setDoneMap] = useState([]);
+  const handleEdit = (item: todoItem) => {
+    setEditedTodo(item);
+    setIsEdit(true);
+    form.setFieldsValue({
+      name: item.name,
+      time: moment(item.time),
+      status: item.status,
+    });
+    setShowEdit(true);
+  };
+
+  const addTodo = async () => {
+    const req = {
+      ...form.getFieldsValue(),
+    };
+    const res = await addTodoItem(req);
+    setShowEdit(false);
+  };
+
+  const editTodo = async () => {
+    const req = {
+      todo_id: editedTodo,
+      ...form.getFieldsValue(),
+    };
+    const res = await editTodoItem(req);
+    setShowEdit(false);
+  };
+
+  const [form] = Form.useForm();
 
   return (
     <div className={styles.todoList}>
-      <List title="代办" mapList={todoMap} />
-      <List title="已完成" mapList={doneMap} />
+      <List
+        getTodo={getTodo}
+        title="代办"
+        mapList={todoMap}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+      />
+      <List
+        getTodo={getTodo}
+        title="已完成"
+        mapList={doneMap}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+      />
+      {/* 新增/编辑 todo */}
+      <Modal
+        title={`${isEdit ? "编辑" : "新增"} todo`}
+        visible={showEdit}
+        onOk={isEdit ? editTodo : addTodo}
+        onCancel={() => {
+          setEditedTodo(undefined);
+          setShowEdit(false);
+          form.resetFields();
+        }}
+      >
+        <TodoForm form={form} />
+      </Modal>
     </div>
   );
 };
