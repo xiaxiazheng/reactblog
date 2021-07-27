@@ -5,7 +5,12 @@ import { getBlogCont } from "@/client/BlogHelper";
 import Loading from "@/components/loading";
 import classnames from "classnames";
 import { IsLoginContext } from "@/context/IsLoginContext";
-import { Button, message, Icon, Drawer } from "antd";
+import { Button, message, Drawer } from "antd";
+import {
+  CreditCardOutlined,
+  FilePdfOutlined,
+  ShareAltOutlined,
+} from "@ant-design/icons";
 import { addVisits } from "@/client/BlogHelper";
 import BlogContMao from "../blog-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -98,19 +103,19 @@ const BlogContShow: React.FC<PropsType> = (props) => {
 
   // 打开游客界面
   const openVisitor = () => {
-    window.open(window.location.href.replace('/admin', ''), '__blank')
-  }
+    window.open(window.location.href.replace("/admin", ""), "__blank");
+  };
 
   // 复制访客 url
   const copyVisitor = () => {
     const input = document.createElement("input");
     document.body.appendChild(input);
-    input.setAttribute("value", window.location.href.replace('/admin', ''));
+    input.setAttribute("value", window.location.href.replace("/admin", ""));
     input.select();
     document.execCommand("copy");
     message.success("复制访客路径成功", 1);
     document.body.removeChild(input);
-  }
+  };
 
   const [visible, setVisible] = useState<boolean>(false);
 
@@ -173,7 +178,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
           // type={'danger'}
           onClick={exportPdf}
         >
-          <Icon type="file-pdf" />
+          <FilePdfOutlined />
           导出
         </Button>
         {/* 打开访客界面 */}
@@ -181,9 +186,9 @@ const BlogContShow: React.FC<PropsType> = (props) => {
           <Button
             className={styles.openVisitor}
             onClick={openVisitor}
-            title={'新窗口打开访客界面'}
+            title={"新窗口打开访客界面"}
           >
-            <Icon type="credit-card" />
+            <CreditCardOutlined />
             访客
           </Button>
         )}
@@ -192,9 +197,9 @@ const BlogContShow: React.FC<PropsType> = (props) => {
           <Button
             className={styles.copyVisitor}
             onClick={copyVisitor}
-            title={'复制访客 url'}
+            title={"复制访客 url"}
           >
-            <Icon type="share-alt" />
+            <ShareAltOutlined />
             分享
           </Button>
         )}

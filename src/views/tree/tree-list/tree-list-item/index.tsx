@@ -4,19 +4,18 @@ import {
   modifyTreeNode,
   deleteTreeNode,
   changeSort,
-  updateIsShow
+  updateIsShow,
 } from "@/client/TreeHelper";
-import { Icon } from '@ant-design/compatible'
-
-// import {
-//   ArrowDownOutlined,
-//   ArrowUpOutlined,
-//   DeleteOutlined,
-//   EditOutlined,
-//   RocketOutlined,
-// } from '@ant-design/icons';
-
 import { message, Modal } from "antd";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  RocketOutlined,
+} from "@ant-design/icons";
 import { IsLoginContext } from "@/context/IsLoginContext";
 // import { match } from 'react-router';
 import { TreeContext } from "../../TreeContext";
@@ -85,7 +84,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
     openShuttle,
     getTreeData,
     keyword,
-    afterDelete
+    afterDelete,
   } = props;
 
   const { isLogin } = useContext(IsLoginContext);
@@ -112,7 +111,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       otherSort,
       level: Number(level.split("").pop()),
       thisId: id,
-      thisSort: sort
+      thisSort: sort,
     };
 
     let res: any = await changeSort(params);
@@ -131,7 +130,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       let params = {
         id: id,
         label: name,
-        level: Number(level.split("").pop())
+        level: Number(level.split("").pop()),
       };
       const res: any = await modifyTreeNode(params);
       if (res) {
@@ -163,7 +162,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
         const levelValue = Number(level.split("").pop());
         const params = {
           id: id,
-          level: levelValue
+          level: levelValue,
         };
         const res = await deleteTreeNode(params);
         if (res) {
@@ -176,7 +175,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       },
       onCancel() {
         message.info("已取消删除", 1);
-      }
+      },
     });
   };
 
@@ -205,11 +204,13 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
     const params = {
       level: Number(level.split("").pop()),
       id: id,
-      isShow: isShow === "true" ? "false" : "true"
+      isShow: isShow === "true" ? "false" : "true",
     };
     const res = await updateIsShow(params);
     if (res) {
-      message.success(`修改节点状态为${isShow !== "true" ? "显示" : "隐藏"}成功`);
+      message.success(
+        `修改节点状态为${isShow !== "true" ? "显示" : "隐藏"}成功`
+      );
       getTreeData();
     } else {
       message.error(`修改节点状态为${isShow !== "true" ? "显示" : "隐藏"}失败`);
@@ -222,7 +223,7 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
   return (
     <span
       className={styles.treeMenuItem}
-      onMouseLeave={e => {
+      onMouseLeave={(e) => {
         e.stopPropagation();
         editting_id === id && setEditting_id("");
       }}
@@ -237,64 +238,70 @@ const TreeMenuItem = (props: TreeMenuItemType) => {
       {isLogin && (
         <div
           className={styles.allIconBox}
-          onMouseEnter={e => {
+          onMouseEnter={(e) => {
             e.stopPropagation();
             editting_id !== id && setEditting_id(id);
           }}
-          onMouseLeave={e => {
+          onMouseLeave={(e) => {
             e.stopPropagation();
             editting_id === id && setEditting_id("");
           }}
         >
-          <Icon
-            title="显示or隐藏节点"
-            type={isShow === "true" ? "eye" : "eye-invisible"}
-            className={`${editting_id === id ? styles.editting : ""} ${
-              styles.moreOperateIcon
-            } ${
-              isShow === 'true' ? styles.isShow : ''
-            }`}
-            onClick={changeIsShow}
-          />
+          {isShow && (
+            <EyeOutlined
+              title="显示or隐藏节点"
+              className={`${editting_id === id ? styles.editting : ""} ${
+                styles.moreOperateIcon
+              } ${isShow === "true" ? styles.isShow : ""}`}
+              onClick={changeIsShow}
+            />
+          )}
+          {!isShow && (
+            <EyeInvisibleOutlined
+              title="显示or隐藏节点"
+              className={`${editting_id === id ? styles.editting : ""} ${
+                styles.moreOperateIcon
+              } ${isShow === "true" ? styles.isShow : ""}`}
+              onClick={changeIsShow}
+            />
+          )}
           {editting_id !== "" && editting_id === id && (
             // 树节点操作的操作 icons
-            <div className={styles.iconsBox} onClick={e => e.stopPropagation()}>
+            <div
+              className={styles.iconsBox}
+              onClick={(e) => e.stopPropagation()}
+            >
               {!isFirst && (
-                <Icon
+                <ArrowUpOutlined
                   className={styles.treenodeIcon}
                   title="向上移动"
-                  type="arrow-up"
                   onClick={changeNodeSort.bind(null, "up")}
                 />
               )}
               {!isLast && (
-                <Icon
+                <ArrowDownOutlined
                   className={styles.treenodeIcon}
                   title="向下移动"
-                  type="arrow-down"
                   onClick={changeNodeSort.bind(null, "down")}
                 />
               )}
-              <Icon
+              <EditOutlined
                 className={styles.treenodeIcon}
                 title="编辑名称"
-                type="edit"
                 onClick={editTreeNode}
               />
               {level !== "level1" && (
-                <Icon
+                <RocketOutlined
                   className={styles.treenodeIcon}
                   title="更换父节点"
-                  type="rocket"
                   onClick={() => {
                     openShuttle && openShuttle(id, label, fatherId || "");
                   }}
                 />
               )}
-              <Icon
+              <DeleteOutlined
                 className={styles.treenodeIcon}
                 title="删除节点"
-                type="delete"
                 onClick={removeTreeNode}
               />
             </div>

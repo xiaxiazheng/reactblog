@@ -3,7 +3,8 @@ import styles from "./index.module.scss";
 import MaoControl, { Mao } from "./mao-control";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { Button, Icon, message, Switch, Tree } from "antd";
+import { Button, message, Switch, Tree } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 type ShowMaoType = "所有猫猫" | "分层猫猫" | "树状猫猫";
 
@@ -194,7 +195,7 @@ const MaoPu: React.FC = () => {
         <div className={`${styles.maopuWrapper} ScrollBar`}>
           {/* 新增按钮 */}
           <Button className={styles.addButton} type="primary" onClick={newACat}>
-            <Icon type="plus" />
+            <PlusOutlined />
             新增猫猫
           </Button>
           {/* 切换猫谱显示方式 */}

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.module.scss';
 import { Drawer } from "antd";
-import { Icon } from "@ant-design/compatible";
+import { HomeOutlined } from '@ant-design/icons';
 
 interface Props {
   visible: boolean;
@@ -33,7 +33,7 @@ const MinHeader: React.FC<Props> = (props) => {
             className={styles.drawerControl}
             onClick={() => setVisible(true)}
           >
-            <Icon type="home" className={styles.headerIcon} />
+            <HomeOutlined className={styles.headerIcon} />
           </div>
         </>
       )}

@@ -3,8 +3,8 @@ import styles from "./index.module.scss";
 import { UserContext } from "@/context/UserContext";
 import { getFolder, addFolder, getAllFolder } from "@/client/FolderHelper";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { Icon } from "@ant-design/compatible";
 import { message, Tree } from "antd";
+import { ArrowUpOutlined, FolderAddOutlined } from "@ant-design/icons";
 import {
   FolderFilled,
   FolderOpenFilled,
@@ -143,12 +143,12 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     <>
       {parentId !== "root" && (
         <div className={styles.goback} onClick={goback}>
-          <Icon type="arrow-up" />
+          <ArrowUpOutlined />
           返回上一层
         </div>
       )}
       <div className={styles.addFolder} onClick={addAFolder}>
-        <Icon type="folder-add" />
+        <FolderAddOutlined />
         新增文件夹
       </div>
       {/* 文件夹树 */}

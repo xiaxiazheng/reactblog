@@ -3,7 +3,8 @@ import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
-import { Drawer, Icon, message } from "antd";
+import { Drawer, message } from "antd";
+import { BellOutlined, UnorderedListOutlined, YoutubeOutlined } from "@ant-design/icons";
 import MusicPlayer, { FileType } from "@/components/music-player";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
@@ -125,7 +126,7 @@ const Video: React.FC = () => {
         <>
           {/* 展开歌曲列表 */}
           <div className={styles.songList} onClick={() => setVisible(true)}>
-            <Icon type="unordered-list" />
+            <UnorderedListOutlined />
           </div>
           {/* 切换音乐/视频 */}
           <div
@@ -137,9 +138,9 @@ const Video: React.FC = () => {
             }}
           >
             {activeTab === "音乐" ? (
-              <Icon type="bell" />
+              <BellOutlined />
             ) : (
-              <Icon type="youtube" />
+              <YoutubeOutlined />
             )}
           </div>
           {/* 歌曲列表抽屉 */}

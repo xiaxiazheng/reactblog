@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Icon } from "@ant-design/compatible";
 import { Progress, message, Upload, Modal } from "antd";
+import { CopyOutlined, DownloadOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import { IFileType, deleteFile } from "@/client/FileHelper";
 import { UserContext } from "@/context/UserContext";
-import Item from "antd/lib/list/Item";
 
 interface PropsType {
   otherId?: string; // 跟这个图片要插入的地方有关联的记录 id
@@ -35,7 +34,7 @@ const FileBox: React.FC<PropsType> = (props) => {
     width = "170px",
     isOnlyShow = false,
     fileData,
-    iconRender
+    iconRender,
   } = props;
 
   const { confirm } = Modal;
@@ -171,7 +170,7 @@ const FileBox: React.FC<PropsType> = (props) => {
             </div>
           ) : (
             <>
-              <Icon className={styles.addIcon} type="plus" />
+              <PlusOutlined className={styles.addIcon} />
               点击上传文件
             </>
           )}
@@ -196,23 +195,20 @@ const FileBox: React.FC<PropsType> = (props) => {
       {/* 有文件路径的情况，显示操作 */}
       {fileUrl !== "" && isHover && (
         <div className={styles.Icons}>
-          <Icon
+          <CopyOutlined
             className={styles.iconBoxIcon}
             title="复制文件链接"
-            type="copy"
             onClick={copyFileUrl}
           />
-          <Icon
+          <DownloadOutlined
             className={styles.iconBoxIcon}
             title="下载文件"
-            type="download"
             onClick={downloadFile}
           />
           {!isOnlyShow && (
-            <Icon
+            <DeleteOutlined
               className={styles.iconBoxIcon}
               title="删除文件"
-              type="delete"
               onClick={deleteThisFile}
             />
           )}

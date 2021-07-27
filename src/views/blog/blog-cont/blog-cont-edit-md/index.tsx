@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { OneBlogType } from "../../BlogType";
 import styles from "./index.module.scss";
 import classnames from "classnames";
-import { Icon } from "@ant-design/compatible";
+import { SaveOutlined } from "@ant-design/icons";
 import { Input, Button, message } from "antd";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import MarkdownShow from "../markdown-show";
@@ -108,14 +108,11 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
           {/* 保存按钮 */}
           <Button
             className={styles.saveButton}
-            type={
-              isTitleChange || isAuthorChange || isLogContChange
-                ? "danger"
-                : "primary"
-            }
+            danger={(isTitleChange || isAuthorChange || isLogContChange)}
+            type={"primary"}
             onClick={saveEditLog}
           >
-            <Icon type="save" />
+            <SaveOutlined />
             保存
           </Button>
           {/* 标题名称和时间 */}

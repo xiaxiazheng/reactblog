@@ -1,6 +1,6 @@
 import React from "react";
-import { Icon } from "@ant-design/compatible";
 import { Input, Button, message } from "antd";
+import { SaveOutlined } from "@ant-design/icons";
 import { OneBlogType } from "../../BlogType";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import "./index.scss";
@@ -194,16 +194,15 @@ class BlogContEdit extends React.Component<PropsType> {
         {/* 保存按钮 */}
         <Button
           className="save-button"
-          type={
+          danger={
             this.state.isTitleChange ||
             this.state.isAuthorChange ||
             this.state.isLogContChange
-              ? "danger"
-              : "primary"
           }
+          type="primary"
           onClick={this.saveEditLog}
         >
-          <Icon type="save" />
+          <SaveOutlined type="save" />
           保存
         </Button>
         {/* 标题名称和时间 */}

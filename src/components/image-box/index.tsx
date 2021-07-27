@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Icon } from "@ant-design/compatible";
 import { Progress, message, Upload, Modal } from "antd";
+import { CopyOutlined, EyeOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
 import { IImageType, ImgType, deleteImg } from "@/client/ImgHelper";
@@ -179,7 +179,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             </div>
           ) : (
             <>
-              <Icon className={styles.addIcon} type="plus" />
+              <PlusOutlined className={styles.addIcon} />
               点击上传图片
             </>
           )}
@@ -227,22 +227,19 @@ const ImageBox: React.FC<PropsType> = (props) => {
           )}\n${(imageData as ImgType).cTime}`}
         >
           <div>
-            <Icon
+            <CopyOutlined
               className={styles.iconBoxIcon}
               title="复制图片链接"
-              type="copy"
               onClick={copyImgUrl}
             />
-            <Icon
+            <EyeOutlined
               className={styles.iconBoxIcon}
               title="预览图片"
-              type="eye"
               onClick={() => setIsPreview(true)}
             />
-            <Icon
+            <DeleteOutlined
               className={styles.iconBoxIcon}
               title="删除图片"
-              type="delete"
               onClick={deleteImage}
             />
             {iconRender || <></>}

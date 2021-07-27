@@ -12,8 +12,12 @@ import {
   addNodeCont
 } from "@/client/TreeContHelper";
 import { staticUrl } from "@/env_config";
-import { Icon } from '@ant-design/compatible'
 import { Input, Button, message, Modal } from "antd";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
 import { ImgType } from '@/client/ImgHelper'
@@ -208,7 +212,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
       <div className={styles.contitemIcons}>
         <div className={styles.contitemIconsBox}>
           {!props.isFirst && (
-            <Icon
+            <ArrowUpOutlined
               className={styles.contnodeIcon}
               title="向上移动"
               type="arrow-up"
@@ -216,14 +220,14 @@ const TreeContEdit: React.FC<PropsType> = props => {
             />
           )}
           {!props.isLast && (
-            <Icon
+            <ArrowDownOutlined
               className={styles.contnodeIcon}
               title="向下移动"
               type="arrow-down"
               onClick={downTreeContNode}
             />
           )}
-          <Icon
+          <DeleteOutlined
             className={styles.contnodeIcon}
             title="删除节点"
             type="delete"
@@ -273,7 +277,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
                 <TextArea
                   className={`${styles.contitemTextarea} ScrollBar`}
                   placeholder="请输入内容"
-                  autosize={{ minRows: 6, maxRows: 21 }}
+                  autoSize={{ minRows: 6, maxRows: 21 }}
                   value={item.cont}
                   onChange={e =>
                     handleChange(item.cont_id, "content", e.target.value)
@@ -343,7 +347,8 @@ const TreeContEdit: React.FC<PropsType> = props => {
       <Button
         className={styles.treecontSavebutton}
         title="保存"
-        type={isChange ? "danger" : "primary"}
+        type={"primary"}
+        danger={isChange}
         shape="circle"
         icon="save"
         size="large"

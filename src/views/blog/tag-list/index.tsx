@@ -8,7 +8,7 @@ import {
 } from "@/client/TagHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "../BlogContext";
-import { Icon } from "@ant-design/compatible";
+import { DeleteOutlined, EditOutlined, SearchOutlined } from "@ant-design/icons";
 import { message, Modal, Button, Input } from "antd";
 import { addTag } from "@/client/TagHelper";
 import { UserContext } from "@/context/UserContext";
@@ -165,7 +165,7 @@ const TagList: React.FC<PropsType> = (props) => {
           value={keyword}
           onChange={handleKeyword}
           allowClear
-          prefix={<Icon type="search" />}
+          prefix={<SearchOutlined />}
         />
       </div>
       {/* 当前选中的 tag */}
@@ -220,18 +220,16 @@ const TagList: React.FC<PropsType> = (props) => {
                   className={styles.iconsBox}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Icon
+                  <EditOutlined
                     className={styles.treenodeIcon}
-                    type="edit"
                     title="编辑名称"
                     onClick={(e) => {
                       e.preventDefault();
                       editTag(item.tag_id, item.tag_name);
                     }}
                   />
-                  <Icon
+                  <DeleteOutlined
                     className={styles.treenodeIcon}
-                    type="delete"
                     title="删除节点"
                     onClick={(e) => {
                       e.preventDefault();

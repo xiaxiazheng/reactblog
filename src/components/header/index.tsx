@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-import { Icon } from "@ant-design/compatible";
 import { Menu, Switch, Drawer, Divider } from "antd";
+import { BookOutlined, ExportOutlined } from '@ant-design/icons';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -102,7 +102,7 @@ const Header: React.FC<PropsType> = (props) => {
           className={styles.headerRouteList}
         >
           <Menu.Item key="blog">
-            <Icon type="book" className={styles.headerIcon} />
+            <BookOutlined className={styles.headerIcon} />
             <Link to={"/blog"}>Blog</Link>
           </Menu.Item>
           {window.screen.availWidth > 720 && (
@@ -116,10 +116,9 @@ const Header: React.FC<PropsType> = (props) => {
           )}
         </Menu>
         {isLogin && (
-          <Icon
+          <ExportOutlined
             title="退出登录"
             className={styles.exportIcon}
-            type="export"
             onClick={jumpToLogin}
           />
         )}

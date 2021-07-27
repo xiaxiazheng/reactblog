@@ -2,7 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import styles from "./index.module.scss";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { message, Modal, Tree } from "antd";
-import { Icon } from "@ant-design/compatible";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FolderOpenOutlined,
+  FolderOutlined,
+  RocketOutlined,
+} from "@ant-design/icons";
 import { DownOutlined } from "@ant-design/icons";
 import {
   ImgType,
@@ -332,20 +338,16 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                 setHoverFolder(undefined);
               }}
             >
-              <Icon
-                className={styles.folderIcon}
-                type={
-                  hoverFolder && hoverFolder.folder_id === item.folder_id
-                    ? "folder-open"
-                    : "folder"
-                }
-              />
+              {hoverFolder && hoverFolder.folder_id === item.folder_id ? (
+                <FolderOpenOutlined className={styles.folderIcon} />
+              ) : (
+                <FolderOutlined className={styles.folderIcon} />
+              )}
               <div>{item.name}</div>
               {hoverFolder && hoverFolder.folder_id === item.folder_id && (
                 <div>
-                  <Icon
+                  <EditOutlined
                     className={styles.icon}
-                    type="edit"
                     title="编辑文件夹名称"
                     onClick={editFolderName.bind(
                       null,
@@ -353,9 +355,8 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                       item.folder_id
                     )}
                   />
-                  <Icon
+                  <DeleteOutlined
                     className={styles.icon}
-                    type="delete"
                     title="删除文件夹"
                     onClick={deleteAFolder.bind(
                       null,
@@ -363,9 +364,8 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                       item.folder_id
                     )}
                   />
-                  <Icon
+                  <RocketOutlined
                     className={styles.icon}
-                    type="rocket"
                     title="切换文件夹"
                     onClick={showModal.bind(null, item, "folder")}
                   />
@@ -398,8 +398,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
               imageData={item}
               width={Width}
               iconRender={
-                <Icon
-                  type="rocket"
+                <RocketOutlined
                   title="切换文件夹"
                   onClick={showModal.bind(null, item, "image")}
                 />
@@ -429,8 +428,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
               fileData={item}
               width={Width}
               iconRender={
-                <Icon
-                  type="rocket"
+                <RocketOutlined
                   title="切换文件夹"
                   onClick={showModal.bind(null, item, "file")}
                 />

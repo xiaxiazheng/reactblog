@@ -6,13 +6,12 @@ import {
   getShowTreeList,
   getAllTreeList,
 } from "@/client/TreeHelper";
+import { Menu, message, Input } from "antd";
 import {
   PlusCircleOutlined,
   PlusSquareOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Icon } from "@ant-design/compatible";
-import { Menu, message, Input } from "antd";
 import TreeListItem from "./tree-list-item";
 import { ShuttleBox, ShuttleMsgType } from "./shuttle-box";
 import Loading from "@/components/loading";
@@ -239,7 +238,7 @@ const TreeMenu: React.FC<PropsType> = (props) => {
           value={keyword}
           onChange={handleKeyword}
           allowClear
-          prefix={<Icon type="search" />}
+          prefix={<SearchOutlined />}
         />
       </div>
       {/* 树 */}
@@ -255,9 +254,8 @@ const TreeMenu: React.FC<PropsType> = (props) => {
           /** 在上方添加一级节点 */
           isLogin && (
             <Menu.Item>
-              <Icon
+              <PlusCircleOutlined
                 className={styles.addRootTreenode}
-                type="plus-circle"
                 title="新增首位一级节点"
                 onClick={() => addNewTreeNode("front", "level1")}
               />
@@ -303,9 +301,8 @@ const TreeMenu: React.FC<PropsType> = (props) => {
                   /** 在上方添加二级节点 */
                   isLogin && (
                     <Menu.Item>
-                      <Icon
+                      <PlusCircleOutlined
                         className={styles.addRootTreenode}
-                        type="plus-circle"
                         title="新增首位二级节点"
                         onClick={() =>
                           addNewTreeNode(
@@ -377,9 +374,8 @@ const TreeMenu: React.FC<PropsType> = (props) => {
                   /** 在下方添加二级节点 */
                   isLogin && (
                     <Menu.Item>
-                      <Icon
+                      <PlusSquareOutlined
                         className={styles.addRootTreenode}
-                        type="plus-square"
                         title="新增末位二级节点"
                         onClick={() =>
                           addNewTreeNode(
@@ -403,9 +399,8 @@ const TreeMenu: React.FC<PropsType> = (props) => {
           /** 在下方添加一级节点 */
           isLogin && (
             <Menu.Item>
-              <Icon
+              <PlusSquareOutlined
                 className={styles.addRootTreenode}
-                type="plus-square"
                 title="新增末位根节点"
                 onClick={() => addNewTreeNode("behind", "level1")}
               />

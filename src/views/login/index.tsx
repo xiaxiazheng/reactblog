@@ -1,7 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Icon } from '@ant-design/compatible'
 import { Input, Button, message } from "antd";
+import {
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  LockOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { postLogin } from "@/client/UserHelper";
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -19,7 +23,7 @@ const Login: React.FC<PropsType> = (props) => {
   const { setIsLogin } = useContext(IsLoginContext);
   const { setUsername } = useContext(UserContext);
 
-  useDocumentTitle('login')
+  useDocumentTitle("login");
 
   useEffect(() => {
     location.search && message.warning("状态码 401：登录已过期，请重新登录");
@@ -57,7 +61,7 @@ const Login: React.FC<PropsType> = (props) => {
       const state: any = history.location.state;
       const jumpTo = search
         ? search.replace("?from=", "")
-        : (state && state.from)
+        : state && state.from
         ? state.from
         : "/admin";
       history.push(jumpTo);
@@ -71,16 +75,16 @@ const Login: React.FC<PropsType> = (props) => {
   useEffect(() => {
     const listenLogin = (event: any) => {
       // 监听回车直接登录
-      if (event.key === 'Enter') {
-        submitLogin()
+      if (event.key === "Enter") {
+        submitLogin();
       }
-    }
-    document.addEventListener('keydown', listenLogin)
+    };
+    document.addEventListener("keydown", listenLogin);
 
     return () => {
-      document.removeEventListener('keydown', listenLogin)
-    }
-  }, [user, password])
+      document.removeEventListener("keydown", listenLogin);
+    };
+  }, [user, password]);
 
   return (
     <div className={styles.Login}>
@@ -94,7 +98,7 @@ const Login: React.FC<PropsType> = (props) => {
             value={user}
             onChange={(e) => setUser(e.target.value)}
             onPressEnter={submitLogin}
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
           />
           <Input
             className={styles.pwdInput}
@@ -104,14 +108,23 @@ const Login: React.FC<PropsType> = (props) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onPressEnter={submitLogin}
-            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={
+              <LockOutlined type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+            }
             suffix={
-              <Icon
-                className={styles.pwdEye}
-                type={!isShowPwd ? "eye" : "eye-invisible"}
-                style={{ color: "rgba(0,0,0,.25)" }}
-                onClick={() => setIsShowPwd(!isShowPwd)}
-              />
+              !isShowPwd ? (
+                <EyeOutlined
+                  className={styles.pwdEye}
+                  style={{ color: "rgba(0,0,0,.25)" }}
+                  onClick={() => setIsShowPwd(!isShowPwd)}
+                />
+              ) : (
+                <EyeInvisibleOutlined
+                  className={styles.pwdEye}
+                  style={{ color: "rgba(0,0,0,.25)" }}
+                  onClick={() => setIsShowPwd(!isShowPwd)}
+                />
+              )
             }
           />
           <Button

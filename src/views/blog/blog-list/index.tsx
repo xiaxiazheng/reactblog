@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Icon } from "@ant-design/compatible";
+import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input, Pagination, Radio, Select } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getVisiableBlogList, getAllBlogList } from "@/client/BlogHelper";
@@ -246,7 +246,7 @@ const BlogList: React.FC<PropsType> = (props) => {
               onChange={handleVisible}
             >
               <Select.Option value="all">
-                <Icon type="eye" />
+                <EyeOutlined />
                 全部
               </Select.Option>
               <Select.Option value="show">仅可见</Select.Option>
@@ -273,7 +273,7 @@ const BlogList: React.FC<PropsType> = (props) => {
           onChange={handleKeyword}
           onKeyDownCapture={handleSearch}
           placeholder="回车搜，可用 % 分词查"
-          prefix={<Icon type="search"></Icon>}
+          prefix={<SearchOutlined />}
           allowClear
         ></Input>
         {/* 查找方式 */}

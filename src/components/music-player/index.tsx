@@ -3,8 +3,15 @@ import styles from "./index.module.scss";
 // import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
-import { Icon } from "@ant-design/compatible";
 import { message } from "antd";
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  PauseCircleOutlined,
+  PlayCircleOutlined,
+  RedoOutlined,
+  UnorderedListOutlined,
+} from "@ant-design/icons";
 import { timesofSongAddOne } from "@/client/TimesofSong";
 
 export interface FileType {
@@ -18,7 +25,7 @@ interface PropsType {
 }
 
 // 放组件内会被不断初始化，要放这做全局变量
-let timer: any = -1
+let timer: any = -1;
 
 const Music: React.FC<PropsType> = (props) => {
   const { activeSong } = props;
@@ -70,7 +77,7 @@ const Music: React.FC<PropsType> = (props) => {
   // 播放 song
   const changeSong = (song: FileType) => {
     // 清除上一个的定时器
-    clearTimeout(timer)
+    clearTimeout(timer);
 
     const dom: any = musicBox;
     if (dom.current) {
@@ -88,7 +95,7 @@ const Music: React.FC<PropsType> = (props) => {
         timer = setTimeout(async () => {
           if (active) {
             let params = {
-              song_name: song.key
+              song_name: song.key,
             };
             const res = await timesofSongAddOne(params);
             // if (res) {
@@ -223,42 +230,36 @@ const Music: React.FC<PropsType> = (props) => {
       </div>
       {/* 控件 */}
       <div className={styles.iconBox}>
-        <Icon
-          type="redo"
+        <RedoOutlined
           className={`${styles.playIcon} ${isOneCircle ? styles.active : ""}`}
           title={"单曲循环"}
           onClick={() => setIsOneCircle(!isOneCircle)}
         />
-        <Icon
-          type="arrow-left"
+        <ArrowLeftOutlined
           className={styles.playIcon}
           title={`上一首：${getBeforeSong()}`}
           onClick={playBeforeSong}
         />
         {!isPlaying && (
-          <Icon
-            type="play-circle"
+          <PlayCircleOutlined
             className={`${styles.playIcon}`}
             title={`播放`}
             onClick={handlePlaying.bind(null, true)}
           />
         )}
         {isPlaying && (
-          <Icon
-            type="pause-circle"
+          <PauseCircleOutlined
             className={`${styles.playIcon}`}
             title={`暂停`}
             onClick={handlePlaying.bind(null, false)}
           />
         )}
-        <Icon
-          type="arrow-right"
+        <ArrowRightOutlined
           className={styles.playIcon}
           title={`下一首：${getAfterSong()}`}
           onClick={playAfterSong}
         />
-        <Icon
-          type="unordered-list"
+        <UnorderedListOutlined
           className={`${styles.playIcon} ${isShowList ? styles.active : ""}`}
           title={`歌曲列表`}
           onClick={showSongList}

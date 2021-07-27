@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import TreeList from "./tree-list";
-import { Drawer, Switch, Icon } from "antd";
+import { Drawer, Switch } from "antd";
 import TreeCont from "./tree-cont";
-import classnames from "classnames";
 import { withRouter, RouteComponentProps, match } from "react-router-dom";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import { LeftOutlined, RightOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 interface PropsType extends RouteComponentProps {
   match: match<{
@@ -20,7 +20,7 @@ const Tree: React.FC<PropsType> = (props) => {
   const { first_id, second_id } = match.params;
   const { isLogin } = useContext(IsLoginContext);
 
-  useDocumentTitle('tree')
+  useDocumentTitle("tree");
 
   const [showLeft, setShowLeft] = useState(true);
 
@@ -41,13 +41,22 @@ const Tree: React.FC<PropsType> = (props) => {
       >
         <TreeList first_id={first_id} second_id={second_id} />
         <div className={styles.showLeft}>
-          <Icon
-            type={showLeft ? "left" : "right"}
-            className={styles.leftIcon}
-            onClick={() => {
-              setShowLeft(!showLeft);
-            }}
-          />          
+          {showLeft && (
+            <LeftOutlined
+              className={styles.leftIcon}
+              onClick={() => {
+                setShowLeft(!showLeft);
+              }}
+            />
+          )}
+          {!showLeft && (
+            <RightOutlined
+              className={styles.leftIcon}
+              onClick={() => {
+                setShowLeft(!showLeft);
+              }}
+            />
+          )}
         </div>
       </div>
       {/* 右边的展示 & 编辑 */}
@@ -74,7 +83,7 @@ const Tree: React.FC<PropsType> = (props) => {
       {window.screen.availWidth <= 720 && (
         <>
           <div className={styles.songList} onClick={() => setVisible(true)}>
-            <Icon type="unordered-list" />
+            <UnorderedListOutlined />
           </div>
           <Drawer
             // title={activeTab + "列表"}

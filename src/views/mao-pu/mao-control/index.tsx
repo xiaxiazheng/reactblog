@@ -4,7 +4,8 @@ import ImgManage from "./mao-img-manage";
 import { IImageType, ImgType, getImgListByOtherId } from "@/client/ImgHelper";
 import { UserContext } from "@/context/UserContext";
 import { staticUrl } from "@/env_config";
-import { Input, Button, Icon, message, Select } from "antd";
+import { Input, Button, message, Select } from "antd";
+import { LeftOutlined, SaveOutlined } from "@ant-design/icons";
 import { updateMaoPu } from "@/client/MaoPuHelper";
 
 const { Option } = Select;
@@ -192,16 +193,17 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         type="primary"
         onClick={() => back()}
       >
-        <Icon type="left" />
+        <LeftOutlined type="left" />
         返回
       </Button>
       {/* 保存按钮 */}
       <Button
         className={styles.saveButton}
-        type={isChange ? "danger" : "primary"}
+        type={"primary"}
+        danger={isChange}
         onClick={saveMaoPu}
       >
-        <Icon type="save" />
+        <SaveOutlined />
         保存
       </Button>
       {/* 猫咪基本信息 */}

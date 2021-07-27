@@ -1,4 +1,31 @@
 .todoList {
     display: flex;
+    height: 100%;
     font-size: 16px;
+    text-align: left;
+    .list {
+        flex: 1;
+        padding: 20px;
+        &:nth-child(1) {
+            border-right: 1px solid #ccc;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16;
+            font-weight: 500;
+        }
+        .oneDay {
+            .time {
+
+            }
+            .item {
+                display: flex;
+                justify-content: space-around;
+                >span:nth-child(1) {
+                    flex: 1;
+                }
+            }
+        }
+    }
 }

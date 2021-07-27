@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { getBlogCont } from "@/client/BlogHelper";
-import { Icon } from "@ant-design/compatible";
+import { LeftOutlined } from "@ant-design/icons";
 import { Button, Switch } from "antd";
 import { withRouter, RouteComponentProps, match } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
@@ -73,7 +73,7 @@ const BlogCont: React.FC<PropsType> = (props) => {
         type="primary"
         onClick={backToLogList}
       >
-        <Icon type="left" />
+        <LeftOutlined />
         返回
       </Button>
       {

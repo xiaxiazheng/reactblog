@@ -13,8 +13,8 @@ import TagList from "./tag-list";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "./BlogContext";
 import { addBlogCont } from "@/client/BlogHelper";
-// import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
-import { Button, message, Icon, Drawer } from "antd";
+import { Button, message, Drawer } from "antd";
+import { UnorderedListOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
@@ -93,7 +93,7 @@ const Blog: React.FC<PropsType> = (props) => {
       {window.screen.availWidth <= 720 && (
         <>
           <div className={styles.songList} onClick={() => setVisible(true)}>
-            <Icon type="unordered-list" />
+            <UnorderedListOutlined />
           </div>
           <Drawer
             title={"tag 列表"}

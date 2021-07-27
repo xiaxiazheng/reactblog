@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Icon } from "@ant-design/compatible";
 import { message, Modal, Select } from "antd";
+import { DeleteOutlined, EyeOutlined, TagsOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
 import {
   isShowBlog,
   isStickBlog,
@@ -152,15 +152,14 @@ const LogListItem: React.FC<PropsType> = (props) => {
       </span>
       {isLogin && (
         <div className={styles.blogOperateBox}>
-          <Icon
+          <TagsOutlined
             onClick={handleMakeBlogTag}
             className={`${blogItemData.tag.length !== 0 ? styles.active : ""} ${
               styles.logOperateIcon
             }`}
             title={"点击设置该日志的 tag"}
-            type="tags"
           />
-          <Icon
+          <VerticalAlignTopOutlined
             onClick={handleStickBlog}
             className={`${
               blogItemData.isStick === "true" ? styles.active : ""
@@ -168,9 +167,8 @@ const LogListItem: React.FC<PropsType> = (props) => {
             title={
               blogItemData.isStick === "true" ? "点击取消置顶" : "点击置顶该日志"
             }
-            type="vertical-align-top"
           />
-          <Icon
+          <EyeOutlined
             onClick={handleShowBlog}
             className={`${blogItemData.isShow === "true" ? styles.active : ""} ${
               styles.logOperateIcon
@@ -178,13 +176,11 @@ const LogListItem: React.FC<PropsType> = (props) => {
             title={
               blogItemData.isShow === "true" ? "当前日志可见" : "当前日志不可见"
             }
-            type="eye"
           />
-          <Icon
+          <DeleteOutlined
             onClick={handleDeleteBlog}
             className={styles.logOperateIcon}
             title="点击删除该日志"
-            type="delete"
           />
         </div>
       )}
