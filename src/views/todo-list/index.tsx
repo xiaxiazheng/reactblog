@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Modal, Form } from "antd";
+import { Modal, Form, message } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import moment from "moment";
@@ -18,35 +18,23 @@ export interface todoItem {
   status: number | string;
 }
 
+enum TodoStatus {
+  todo = 0,
+  done = 1
+}
+
 const TodoList: React.FC = () => {
   const getTodo = async (type: "todo" | "done") => {
-    const req = {};
-    // const res = await getTodoList(req);
-
-    const res1: todoItem[] = [
-      { time: "2021-07-21", name: "123", status: 0 },
-      { time: "2021-07-21", name: "1234", status: 0 },
-      { time: "2021-07-22", name: "1235", status: 0 },
-      { time: "2021-07-22", name: "1235", status: 0 },
-      { time: "2021-07-22", name: "1235", status: 0 },
-      { time: "2021-07-23", name: "1235", status: 0 },
-      { time: "2021-07-23", name: "1235", status: 0 },
-      { time: "2021-07-23", name: "1235", status: 0 },
-      { time: "2021-07-23", name: "1235", status: 0 },
-    ];
-    const res2: todoItem[] = [
-      { time: "2021-07-21", name: "123", status: 1 },
-      { time: "2021-07-21", name: "1234", status: 1 },
-      { time: "2021-07-22", name: "1235", status: 1 },
-      { time: "2021-07-22", name: "1235", status: 1 },
-      { time: "2021-07-22", name: "1235", status: 1 },
-      { time: "2021-07-23", name: "1235", status: 1 },
-      { time: "2021-07-23", name: "1235", status: 1 },
-      { time: "2021-07-23", name: "1235", status: 1 },
-      { time: "2021-07-23", name: "1235", status: 1 },
-    ];
-    type === "todo" && setTodoMap(formatArrayToTimeMap(res1));
-    type === "done" && setDoneMap(formatArrayToTimeMap(res2));
+    const req = {
+      status: TodoStatus[type]
+    };
+    const res = await getTodoList(req);
+    if (res) {
+      type === "todo" && setTodoMap(formatArrayToTimeMap(res.data));
+      type === "done" && setDoneMap(formatArrayToTimeMap(res.data));      
+    } else {
+      message.error('获取 todolist 失败');
+    }
   };
 
   useEffect(() => {
@@ -78,26 +66,48 @@ const TodoList: React.FC = () => {
     form.setFieldsValue({
       name: item.name,
       time: moment(item.time),
-      status: item.status,
+      status: Number(item.status),
     });
     setShowEdit(true);
   };
 
   const addTodo = async () => {
+    const formData = form.getFieldsValue();
     const req = {
-      ...form.getFieldsValue(),
+      name: formData.name,
+      time: moment(formData.time).format('YYYY-MM-DD'),
+      status: formData.status
     };
     const res = await addTodoItem(req);
-    setShowEdit(false);
+    if (res) {
+      message.success(res.message);
+      setShowEdit(false);
+      getTodo('todo');
+      getTodo('done');
+      form.resetFields();
+    } else {
+      message.error('新增 todo 失败');
+    }
   };
 
   const editTodo = async () => {
+    const formData = form.getFieldsValue();
     const req = {
-      todo_id: editedTodo,
-      ...form.getFieldsValue(),
+      todo_id: editedTodo?.todo_id,
+      name: formData.name,
+      time: moment(formData.time).format('YYYY-MM-DD'),
+      status: formData.status
     };
     const res = await editTodoItem(req);
-    setShowEdit(false);
+    if (res) {
+      message.success(res.message);
+      setShowEdit(false);
+      getTodo('todo');
+      getTodo('done');
+      form.resetFields();
+    } else {
+      message.error('编辑 todo 失败');
+    }
   };
 
   const [form] = Form.useForm();

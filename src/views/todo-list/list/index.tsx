@@ -33,9 +33,13 @@ const List: React.FC<Props> = (props) => {
       todo_id,
     };
     const res = await doneTodoItem(req);
-    message.success('完成成功');
-    getTodo("todo");
-    getTodo("done");
+    if (res) {
+      message.success(res.message);
+      getTodo("todo");
+      getTodo("done");
+    } else {
+      message.error('完成 todo 失败');
+    }
   };
 
   // 删除 todo
@@ -44,10 +48,13 @@ const List: React.FC<Props> = (props) => {
       todo_id,
     };
     const res = await deleteTodoItem(req);
-    message.success('删除成功');
-
-    title === "代办" && getTodo("todo");
-    title === "已完成" && getTodo("done");
+    if (res) {
+      message.success(res.message);
+      title === "代办" && getTodo("todo");
+      title === "已完成" && getTodo("done");
+    } else {
+      message.error('删除 todo 失败');
+    }
   };
 
   return (

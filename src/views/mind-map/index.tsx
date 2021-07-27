@@ -8,7 +8,7 @@ interface IMindMap extends RouteComponentProps {}
 
 const MindMap: React.FC<IMindMap> = (props) => {
   // const { state } = props.location;
-  useDocumentTitle(`思维导图'}`);
+  useDocumentTitle(`思维导图`);
 
   const href = "https://www.processon.com/mindmap/6098ed92f346fb5a37674c7c";
 

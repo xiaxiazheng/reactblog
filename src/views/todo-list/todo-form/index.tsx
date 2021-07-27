@@ -21,7 +21,7 @@ const TodoForm: React.FC<Props> = (props) => {
       <Form.Item
         name="status"
         label="状态"
-        // rules={[{ required: true }]}
+        rules={[{ required: true }]}
       >
         <Select>
           <Option value={0}>代办</Option>
