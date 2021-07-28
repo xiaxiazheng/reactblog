@@ -53,6 +53,7 @@ const List: React.FC<Props> = (props) => {
   };
 
   const today = moment().format("YYYY-MM-DD");
+  const weekList = ['日', '一', '二', '三', '四', '五', '六']
 
   return (
     <div className={styles.list}>
@@ -79,7 +80,8 @@ const List: React.FC<Props> = (props) => {
                   : ""
               }`}
             >
-              {time}
+              {time}&nbsp;
+              (周{weekList[moment(time).day()]})
             </div>
             {mapList[time].map((item: any, index: number) => {
               return (
