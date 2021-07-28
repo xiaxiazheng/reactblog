@@ -75,45 +75,59 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const addTodo = async () => {
-        const formData = form.getFieldsValue();
-        const req = {
-            name: formData.name,
-            time: moment(formData.time).format("YYYY-MM-DD"),
-            status: formData.status,
-        };
-        const res = await addTodoItem(req);
-        if (res) {
-            message.success(res.message);
-            setShowEdit(false);
-            getTodo("todo");
-            getTodo("done");
-            getTodo("pool");
-            form.resetFields();
-        } else {
-            message.error("新增 todo 失败");
-        }
+    const addTodo = () => {
+        form.validateFields()
+            .then(async () => {
+                const formData = form.getFieldsValue();
+                const req = {
+                    name: formData.name,
+                    time: moment(formData.time).format("YYYY-MM-DD"),
+                    status: formData.status,
+                    description: formData.description || ''
+                };
+                const res = await addTodoItem(req);
+                if (res) {
+                    message.success(res.message);
+                    setShowEdit(false);
+                    getTodo("todo");
+                    getTodo("done");
+                    getTodo("pool");
+                    form.resetFields();
+                } else {
+                    message.error("新增 todo 失败");
+                }
+            })
+            .catch((err) => {
+                message.warning("请检查表单输入");
+            });
     };
 
-    const editTodo = async () => {
-        const formData = form.getFieldsValue();
-        const req = {
-            todo_id: editedTodo?.todo_id,
-            name: formData.name,
-            time: moment(formData.time).format("YYYY-MM-DD"),
-            status: formData.status,
-        };
-        const res = await editTodoItem(req);
-        if (res) {
-            message.success(res.message);
-            setShowEdit(false);
-            getTodo("todo");
-            getTodo("done");
-            getTodo("pool");
-            form.resetFields();
-        } else {
-            message.error("编辑 todo 失败");
-        }
+    const editTodo = () => {
+        form.validateFields()
+            .then(async () => {
+                const formData = form.getFieldsValue();
+                const req = {
+                    todo_id: editedTodo?.todo_id,
+                    name: formData.name,
+                    time: moment(formData.time).format("YYYY-MM-DD"),
+                    status: formData.status,
+                    description: formData.description || ''
+                };
+                const res = await editTodoItem(req);
+                if (res) {
+                    message.success(res.message);
+                    setShowEdit(false);
+                    getTodo("todo");
+                    getTodo("done");
+                    getTodo("pool");
+                    form.resetFields();
+                } else {
+                    message.error("编辑 todo 失败");
+                }
+            })
+            .catch((err) => {
+                message.warning("请检查表单输入");
+            });
     };
 
     const [form] = Form.useForm();
@@ -145,7 +159,7 @@ const TodoList: React.FC = () => {
                     form.resetFields();
                 }}
             >
-                <TodoForm form={form} />
+                <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
             </Modal>
         </div>
     );

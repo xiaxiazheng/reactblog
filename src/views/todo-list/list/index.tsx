@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, message, Popconfirm } from "antd";
+import { Button, message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
     EditOutlined,
     DeleteOutlined,
     PlusOutlined,
+    QuestionCircleOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
@@ -60,6 +61,22 @@ const List: React.FC<Props> = (props) => {
     const ListItem = (props: any) => {
         const { list } = props;
 
+        const Name = (item: any) => {
+            return (
+                <span>
+                    {item.name}&nbsp;&nbsp;
+                    {item.description && (
+                        <Tooltip
+                            title={item.description || "1234"}
+                            placement="bottom"
+                        >
+                            <QuestionCircleOutlined className={styles.icon} />
+                        </Tooltip>
+                    )}
+                </span>
+            );
+        };
+
         return list.map((item: any) => {
             return (
                 <div className={styles.item} key={item.todo_id}>
@@ -71,29 +88,24 @@ const List: React.FC<Props> = (props) => {
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <Button type="text" title="完成">
-                                    <CheckCircleOutlined
-                                        className={styles.icon}
-                                    />
-                                </Button>
+                                <CheckCircleOutlined
+                                    title="完成"
+                                    className={styles.doneIcon}
+                                />
                             </Popconfirm>
                         )}
                         {title !== "已完成" ? (
-                            <span className={styles.name}>{item.name}</span>
+                            Name(item)
                         ) : (
-                            <s className={styles.delete}>
-                                <span className={styles.name}>{item.name}</span>
-                            </s>
+                            <s className={styles.throughout}>{Name(item)}</s>
                         )}
                     </span>
                     <span>
-                        <Button
-                            type="text"
+                        <EditOutlined
+                            className={styles.icon}
                             title="编辑"
                             onClick={handleEdit.bind(null, item)}
-                        >
-                            <EditOutlined className={styles.icon} />
-                        </Button>
+                        />
                         <Popconfirm
                             title="确认要删除吗？"
                             onConfirm={() => deleteTodo(item.todo_id)}
@@ -101,9 +113,10 @@ const List: React.FC<Props> = (props) => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button type="text" title="删除">
-                                <DeleteOutlined className={styles.icon} />
-                            </Button>
+                            <DeleteOutlined
+                                title="删除"
+                                className={styles.icon}
+                            />
                         </Popconfirm>
                     </span>
                 </div>
