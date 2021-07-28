@@ -98,7 +98,17 @@ const Header: React.FC<PropsType> = (props) => {
               }`}
               key={item.name}
             >
-              <Link to={`${item.route}`}>{item.name}</Link>
+              {/* <Link to={`${item.route}`}>{item.name}</Link> */}
+              <span
+                onClick={() => {
+                  window.open(
+                    `${window.location.origin}${item.route}`,
+                    "_blank"
+                  );
+                }}
+              >
+                {item.name}
+              </span>
             </span>
           ))}
         </div>
