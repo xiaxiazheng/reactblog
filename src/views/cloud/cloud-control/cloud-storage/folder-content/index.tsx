@@ -447,7 +447,6 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
           showIcon
           defaultExpandAll
           onSelect={onSwitchSelect}
-          // @ts-ignore
           switcherIcon={<DownOutlined />}
           treeData={folderTree}
           selectedKeys={[newParentId || ""]}

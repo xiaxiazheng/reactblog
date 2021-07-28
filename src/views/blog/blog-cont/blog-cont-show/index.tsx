@@ -8,8 +8,11 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { Button, message, Drawer } from "antd";
 import {
   CreditCardOutlined,
+  EnvironmentOutlined,
   FilePdfOutlined,
   ShareAltOutlined,
+  VerticalAlignBottomOutlined,
+  VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 import { addVisits } from "@/client/BlogHelper";
 import BlogContMao from "../blog-cont-mao";
@@ -209,7 +212,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
           title="回到顶部"
           type="primary"
           shape="circle"
-          icon="vertical-align-top"
+          icon={<VerticalAlignTopOutlined />}
           size="large"
           onClick={scrollTo.bind(null, "top")}
         />
@@ -219,7 +222,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
           title="回到底部"
           type="primary"
           shape="circle"
-          icon="vertical-align-bottom"
+          icon={<VerticalAlignBottomOutlined />}
           size="large"
           onClick={scrollTo.bind(null, "bottom")}
         />
@@ -258,7 +261,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
               title="打开锚点列表"
               type="primary"
               shape="circle"
-              icon="environment"
+              icon={<EnvironmentOutlined />}
               size="large"
               onClick={() => {
                 setVisible(true);

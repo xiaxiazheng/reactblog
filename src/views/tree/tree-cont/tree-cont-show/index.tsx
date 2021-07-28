@@ -16,6 +16,7 @@ import hljs from "highlight.js";
 // import "highlight.js/styles/atom-one-dark-reasonable.css";
 import "highlight.js/styles/vs2015.css";
 import { Button, Drawer } from "antd";
+import { EnvironmentOutlined, VerticalAlignBottomOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
 
 interface PropsType extends RouteComponentProps {
   first_id: string;
@@ -249,7 +250,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
           title="回到顶部"
           type="primary"
           shape="circle"
-          icon="vertical-align-top"
+          icon={<VerticalAlignTopOutlined />}
           size="large"
           onClick={scrollTo.bind(null, "top")}
         />
@@ -259,7 +260,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
           title="回到底部"
           type="primary"
           shape="circle"
-          icon="vertical-align-bottom"
+          icon={<VerticalAlignBottomOutlined />}
           size="large"
           onClick={scrollTo.bind(null, "bottom")}
         />
@@ -284,7 +285,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
               title="打开锚点列表"
               type="primary"
               shape="circle"
-              icon="environment"
+              icon={<EnvironmentOutlined />}
               size="large"
               onClick={() => { setVisible(true) }}
             />

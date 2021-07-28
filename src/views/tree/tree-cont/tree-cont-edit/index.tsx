@@ -17,6 +17,10 @@ import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   DeleteOutlined,
+  FileAddOutlined,
+  SaveOutlined,
+  VerticalAlignBottomOutlined,
+  VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 import ImageBox from "@/components/image-box";
 import Loading from "@/components/loading";
@@ -330,7 +334,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
         title="最上方新增一个节点"
         type="primary"
         shape="circle"
-        icon="file-add"
+        icon={<FileAddOutlined />}
         size="large"
         onClick={addTreeCont.bind(null, "front")}
       />
@@ -339,7 +343,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
         title="最下方新增一个节点"
         type="primary"
         shape="circle"
-        icon="file-add"
+        icon={<FileAddOutlined />}
         size="large"
         onClick={addTreeCont.bind(null, "behind")}
       />
@@ -350,7 +354,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
         type={"primary"}
         danger={isChange}
         shape="circle"
-        icon="save"
+        icon={<SaveOutlined />}
         size="large"
         onClick={saveTreeCont}
       />
@@ -360,7 +364,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
         title="回到顶部"
         type="primary"
         shape="circle"
-        icon="vertical-align-top"
+        icon={<VerticalAlignTopOutlined />}
         size="large"
         onClick={scrollTo.bind(null, 'top')}
       />
@@ -370,7 +374,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
         title="回到底部"
         type="primary"
         shape="circle"
-        icon="vertical-align-bottom"
+        icon={<VerticalAlignBottomOutlined />}
         size="large"
         onClick={scrollTo.bind(null, 'bottom')}
       />

@@ -157,7 +157,6 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
           showIcon
           defaultExpandAll
           onSelect={onSelect}
-          // @ts-ignore
           switcherIcon={<DownOutlined />}
           treeData={folderTree}
           selectedKeys={[parentId]}

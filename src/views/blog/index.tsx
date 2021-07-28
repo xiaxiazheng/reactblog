@@ -14,7 +14,7 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "./BlogContext";
 import { addBlogCont } from "@/client/BlogHelper";
 import { Button, message, Drawer } from "antd";
-import { UnorderedListOutlined } from "@ant-design/icons";
+import { FileMarkdownOutlined, FileTextOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
@@ -70,7 +70,7 @@ const Blog: React.FC<PropsType> = (props) => {
                   title="新建富文本 blog"
                   type="primary"
                   size="small"
-                  icon="file-text"
+                  icon={<FileTextOutlined />}
                   onClick={addNewBlog.bind(null, "richtext")}
                 >
                   富文本
@@ -80,7 +80,7 @@ const Blog: React.FC<PropsType> = (props) => {
                   title="新建 MarkDown blog"
                   type="primary"
                   size="small"
-                  icon="file-markdown"
+                  icon={<FileMarkdownOutlined />}
                   onClick={addNewBlog.bind(null, "markdown")}
                 >
                   MD

@@ -1,6 +1,10 @@
 import React from "react";
 import { Input, Button, message } from "antd";
-import { SaveOutlined } from "@ant-design/icons";
+import {
+  SaveOutlined,
+  VerticalAlignBottomOutlined,
+  VerticalAlignTopOutlined,
+} from "@ant-design/icons";
 import { OneBlogType } from "../../BlogType";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import "./index.scss";
@@ -301,7 +305,7 @@ class BlogContEdit extends React.Component<PropsType> {
           title="回到顶部"
           type="primary"
           shape="circle"
-          icon="vertical-align-top"
+          icon={<VerticalAlignTopOutlined />}
           size="large"
           onClick={this.scrollTo.bind(null, "top")}
         />
@@ -311,7 +315,7 @@ class BlogContEdit extends React.Component<PropsType> {
           title="回到底部"
           type="primary"
           shape="circle"
-          icon="vertical-align-bottom"
+          icon={<VerticalAlignBottomOutlined />}
           size="large"
           onClick={this.scrollTo.bind(null, "bottom")}
         />

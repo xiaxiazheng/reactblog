@@ -8,7 +8,7 @@ import {
 } from "@/client/TagHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "../BlogContext";
-import { DeleteOutlined, EditOutlined, SearchOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { message, Modal, Button, Input } from "antd";
 import { addTag } from "@/client/TagHelper";
 import { UserContext } from "@/context/UserContext";
@@ -190,7 +190,7 @@ const TagList: React.FC<PropsType> = (props) => {
             title="新增 tag"
             type="primary"
             size="small"
-            icon="plus"
+            icon={<PlusOutlined />}
             onClick={createTag}
           >
             Tag
