@@ -115,7 +115,7 @@ const Header: React.FC<PropsType> = (props) => {
         <div className={styles.headerRight}>
           {
             <span className={styles.already}>
-              已经 {already} 啦({alreadyDays}天)
+              已经{already}s啦({alreadyDays}天)
             </span>
           }
           {/* 音乐播放器开关 */}

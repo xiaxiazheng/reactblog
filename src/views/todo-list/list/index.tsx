@@ -7,7 +7,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import { doneTodoItem, deleteTodoItem } from '@/client/TodoListHelper';
+import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
+import moment from "moment";
 
 interface Props {
   title: "代办" | "已完成";
@@ -19,13 +20,7 @@ interface Props {
 
 // 两个todo列表
 const List: React.FC<Props> = (props) => {
-  const {
-    title,
-    mapList,
-    getTodo,
-    handleAdd,
-    handleEdit
-  } = props;
+  const { title, mapList, getTodo, handleAdd, handleEdit } = props;
 
   // 完成 todo
   const doneTodo = async (todo_id: string) => {
@@ -38,7 +33,7 @@ const List: React.FC<Props> = (props) => {
       getTodo("todo");
       getTodo("done");
     } else {
-      message.error('完成 todo 失败');
+      message.error("完成 todo 失败");
     }
   };
 
@@ -53,9 +48,11 @@ const List: React.FC<Props> = (props) => {
       title === "代办" && getTodo("todo");
       title === "已完成" && getTodo("done");
     } else {
-      message.error('删除 todo 失败');
+      message.error("删除 todo 失败");
     }
   };
+
+  const today = moment().format("YYYY-MM-DD");
 
   return (
     <div className={styles.list}>
@@ -71,7 +68,19 @@ const List: React.FC<Props> = (props) => {
       {Object.keys(mapList).map((time) => {
         return (
           <div className={styles.oneDay} key={time}>
-            <div className={styles.time}>{time}</div>
+            <div
+              className={`${styles.time} ${
+                time === today
+                  ? styles.today
+                  : time > today
+                  ? styles.future
+                  : title === "代办"
+                  ? styles.previously
+                  : ""
+              }`}
+            >
+              {time}
+            </div>
             {mapList[time].map((item: any, index: number) => {
               return (
                 <div className={styles.item} key={index}>

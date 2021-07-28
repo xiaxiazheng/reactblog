@@ -17,6 +17,15 @@
         .time {
             margin-bottom: 5px;
             border-bottom: 1px solid var(--border_color);
+            &.today {
+                color: #20d420;
+            }
+            &.previously {
+                color: red;
+            }
+            &.future {
+                color: grey;
+            }
         }
         .item {
             display: flex;
