@@ -51,7 +51,8 @@ module.exports = {
         "react-dom": "ReactDOM",
         "highlight.js": "hljs",
         quill: "Quill",
-        echarts: "echarts"
+        echarts: "echarts",
+        "markdown-it": "markdownIt"
       }),
       // addWebpackPlugin(
       //   new HelloWorldPlugin({ options: true })
