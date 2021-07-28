@@ -15,7 +15,7 @@ const {
   addWebpackAlias,
   addWebpackExternals,
   fixBabelImports,
-  // addWebpackPlugin,
+  addWebpackPlugin,
 } = require("customize-cra");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
@@ -51,6 +51,7 @@ module.exports = {
         "react-dom": "ReactDOM",
         "highlight.js": "hljs",
         quill: "Quill",
+        echarts: "echarts"
       }),
       // addWebpackPlugin(
       //   new HelloWorldPlugin({ options: true })
@@ -58,13 +59,9 @@ module.exports = {
       // addWebpackPlugin(
       //   new BundleAnalyzerPlugin(),
       // ),
-      // addWebpackPlugin(
-      //   new CompressionPlugin()
-      // ),
       addWebpackAlias({
         // eslint-disable-next-line no-useless-computed-key
         ["@"]: path.resolve(__dirname, "src"),
-        // ['@ant-design/icons/lib/dist$']: path.resolve(__dirname, 'src/assets/antdIcon.ts')
       }),
       fixBabelImports("import", {
         libraryName: "antd",
@@ -79,6 +76,10 @@ module.exports = {
     // 给页面元素加上对应的组件路径
     if (env !== 'production') {
       config = addLoaderConfig(config);
+    }
+
+    if (env === 'production') {
+      config.devtool = 'none';
     }
 
     // 去掉只能用 src 文件夹内的文件的限制
