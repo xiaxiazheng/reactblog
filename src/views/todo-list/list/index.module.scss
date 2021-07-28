@@ -15,7 +15,7 @@
     .oneDay {
         margin-bottom: 20px;
         .time {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             border-bottom: 1px solid var(--border_color);
             &.today {
                 color: #20d420;
@@ -30,8 +30,11 @@
         .item {
             display: flex;
             justify-content: space-around;
+            margin: 5px 0;
             >span:nth-child(1) {
                 flex: 1;
+                display: flex;
+                align-items: baseline;
             }
             .delete {
                 color: grey;

@@ -8,7 +8,7 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import MiniMusicPlayer from "./mini-music-player";
-import moment from "moment";
+import { getAlreadyDate } from "./utils";
 
 interface PropsType extends RouteComponentProps {
   routes: any[];
@@ -25,33 +25,10 @@ const Header: React.FC<PropsType> = (props) => {
   const [alreadyDays, setAlreadyDays] = useState<string | number>();
 
   useEffect(() => {
-    getAlreadyDate();
+    const obj = getAlreadyDate();
+    setAlready(obj.date);
+    setAlreadyDays(obj.days);
   }, []);
-
-  // 获取已经在一起多久的日期
-  const getAlreadyDate = () => {
-    // 获取相隔的年月日
-    const getAlreadyDate = () => {
-      const startDate = moment("2016-04-16");
-      const endDate = moment(new Date());
-      // 計算兩者差異年數
-      const years = endDate.diff(startDate, "years");
-      // 計算兩者差異月數，這邊要扣掉上面計算的差異年，否則會得到12個月
-      const months = endDate.diff(startDate, "months") - years * 12;
-      // 把差異的年、月數加回來，否則會變成計算起訖日相差的天數(365天)
-      startDate.add(years, "years").add(months, "months");
-      const days = endDate.diff(startDate, "days");
-      setAlready(`${years} 年 ${months} 个月 ${days} 天`);
-    };
-    // 获取相隔的日期
-    const getAlreadyDays = () => {
-      const startDate = moment("2016-04-16");
-      const endDate = moment(new Date());
-      setAlreadyDays(endDate.diff(startDate, "days"));
-    };
-    getAlreadyDate();
-    getAlreadyDays();
-  };
 
   /** 点击切换主题 */
   const switchTheme = () => {
@@ -115,7 +92,7 @@ const Header: React.FC<PropsType> = (props) => {
         <div className={styles.headerRight}>
           {
             <span className={styles.already}>
-              已经{already}s啦({alreadyDays}天)
+              已经 {already} 啦({alreadyDays}天)
             </span>
           }
           {/* 音乐播放器开关 */}
