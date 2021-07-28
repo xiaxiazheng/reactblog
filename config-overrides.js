@@ -52,7 +52,7 @@ module.exports = {
         "highlight.js": "hljs",
         quill: "Quill",
         echarts: "echarts",
-        "markdown-it": "markdownIt"
+        "markdown-it": "markdownit"
       }),
       // addWebpackPlugin(
       //   new HelloWorldPlugin({ options: true })
