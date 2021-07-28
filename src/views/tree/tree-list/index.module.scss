@@ -1,56 +1,63 @@
 .treeFilter {
-  background: var(--bg_color);
-  box-sizing: border-box;
-  border-bottom: 1px solid var(--border_color);
-  overflow: hidden;
-  .treeFilterInput {
-    width: calc(100% - 1.4rem);
-    height: 40px;
-    margin: 4px 0.7rem;
-  }
-  :global(.ant-input) {
-    letter-spacing: 1px;
-    font-size: 15px;
-    border: none;
-    box-shadow: none;
     background: var(--bg_color);
-    color: var(--color);
-  }
-
-  :global(.ant-input-prefix) {
-    color: var(--color);
-  }
-  
-  :global(.ant-input-suffix) {
-    right: 6px;
-    >i {
-      color: var(--color);
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--border_color);
+    overflow: hidden;
+    .treeFilterInput {
+        width: calc(100% - 1.4rem);
+        height: 40px;
+        margin: 4px 0.7rem;
     }
-  }
+    :global(.ant-input) {
+        letter-spacing: 1px;
+        font-size: 15px;
+        border: none;
+        box-shadow: none;
+        background: var(--bg_color);
+        color: var(--color);
+    }
+
+    :global(.ant-input-prefix) {
+        color: var(--color);
+    }
+
+    :global(.ant-input-suffix) {
+        right: 6px;
+        > i {
+            color: var(--color);
+        }
+    }
+    :global {
+        .ant-input-affix-wrapper {
+            background: var(--bg_color);
+            color: var(--color);
+            border-color: transparent;
+        }
+    }
 }
 
 .treeMenu {
-  height: calc(100% - 49px);
+    height: calc(100% - 49px);
 
-  .hiddenFirstLevel {
-    >:global(.ant-menu-submenu-title) {
-      display: none;
+    .hiddenFirstLevel {
+        > :global(.ant-menu-submenu-title) {
+            display: none;
+        }
     }
-  }
 
-  .addRootTreenode {
-    &:hover {
-      color: var(--color_active);
+    .addRootTreenode {
+        &:hover {
+            color: var(--color_active);
+        }
     }
-  }
 
-  :global(li) {
-    color: var(--color);
-  }
+    :global(li) {
+        color: var(--color);
+    }
 }
 
 @media (max-width: 720px) {
-  .treeFilterInput {
-    display: none;
-  }
+    .treeFilterInput {
+        display: none;
+    }
 }
