@@ -57,6 +57,60 @@ const List: React.FC<Props> = (props) => {
     const today = moment().format("YYYY-MM-DD");
     const weekList = ["日", "一", "二", "三", "四", "五", "六"];
 
+    const ListItem = (props: any) => {
+        const { list } = props;
+
+        return list.map((item: any) => {
+            return (
+                <div className={styles.item} key={item.todo_id}>
+                    <span>
+                        {title === "待办" && (
+                            <Popconfirm
+                                title="确认已完成吗？"
+                                onConfirm={() => doneTodo(item.todo_id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <Button type="text" title="完成">
+                                    <CheckCircleOutlined
+                                        className={styles.icon}
+                                    />
+                                </Button>
+                            </Popconfirm>
+                        )}
+                        {title !== "已完成" ? (
+                            <span className={styles.name}>{item.name}</span>
+                        ) : (
+                            <s className={styles.delete}>
+                                <span className={styles.name}>{item.name}</span>
+                            </s>
+                        )}
+                    </span>
+                    <span>
+                        <Button
+                            type="text"
+                            title="编辑"
+                            onClick={handleEdit.bind(null, item)}
+                        >
+                            <EditOutlined className={styles.icon} />
+                        </Button>
+                        <Popconfirm
+                            title="确认要删除吗？"
+                            onConfirm={() => deleteTodo(item.todo_id)}
+                            // onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button type="text" title="删除">
+                                <DeleteOutlined className={styles.icon} />
+                            </Button>
+                        </Popconfirm>
+                    </span>
+                </div>
+            );
+        });
+    };
+
     return (
         <div className={styles.list}>
             <div className={styles.header}>
@@ -72,7 +126,10 @@ const List: React.FC<Props> = (props) => {
             </div>
             <div className={`${styles.listItemWrap} ScrollBar`}>
                 {Object.keys(mapList).map((time) => {
-                    return (
+                    return title === "待办池" ? (
+                        // 待办池不区分日期
+                        <ListItem list={mapList[time]} />
+                    ) : (
                         <div className={styles.oneDay} key={time}>
                             <div
                                 className={`${styles.time} ${
@@ -87,80 +144,7 @@ const List: React.FC<Props> = (props) => {
                             >
                                 {time}&nbsp; (周{weekList[moment(time).day()]})
                             </div>
-                            {mapList[time].map((item: any, index: number) => {
-                                return (
-                                    <div className={styles.item} key={index}>
-                                        <span>
-                                            {title === "待办" && (
-                                                <Popconfirm
-                                                    title="确认已完成吗？"
-                                                    onConfirm={() =>
-                                                        doneTodo(item.todo_id)
-                                                    }
-                                                    okText="Yes"
-                                                    cancelText="No"
-                                                >
-                                                    <Button
-                                                        type="text"
-                                                        title="完成"
-                                                    >
-                                                        <CheckCircleOutlined
-                                                            className={
-                                                                styles.icon
-                                                            }
-                                                        />
-                                                    </Button>
-                                                </Popconfirm>
-                                            )}
-                                            {title !== "已完成" ? (
-                                                <span className={styles.name}>
-                                                    {item.name}
-                                                </span>
-                                            ) : (
-                                                <s className={styles.delete}>
-                                                    <span
-                                                        className={styles.name}
-                                                    >
-                                                        {item.name}
-                                                    </span>
-                                                </s>
-                                            )}
-                                        </span>
-                                        <span>
-                                            <Button
-                                                type="text"
-                                                title="编辑"
-                                                onClick={handleEdit.bind(
-                                                    null,
-                                                    item
-                                                )}
-                                            >
-                                                <EditOutlined
-                                                    className={styles.icon}
-                                                />
-                                            </Button>
-                                            <Popconfirm
-                                                title="确认要删除吗？"
-                                                onConfirm={() =>
-                                                    deleteTodo(item.todo_id)
-                                                }
-                                                // onCancel={cancel}
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <Button
-                                                    type="text"
-                                                    title="删除"
-                                                >
-                                                    <DeleteOutlined
-                                                        className={styles.icon}
-                                                    />
-                                                </Button>
-                                            </Popconfirm>
-                                        </span>
-                                    </div>
-                                );
-                            })}
+                            {<ListItem list={mapList[time]} />}
                         </div>
                     );
                 })}
