@@ -56,10 +56,7 @@ const Blog: React.FC<PropsType> = (props) => {
   return (
     <>
       <div className={styles.blog}>
-        <div className={styles.blogLeft}>
-          <TagList />
-        </div>
-        <div className={`${styles.blogRight} ScrollBar`}>
+        <div className={`${styles.blogLeft} ScrollBar`}>
           {/* 日志列表 */}
           <BlogList>
             {isLogin && (
@@ -88,6 +85,9 @@ const Blog: React.FC<PropsType> = (props) => {
               </div>
             )}
           </BlogList>
+        </div>
+        <div className={styles.blogRight}>
+          <TagList />
         </div>
       </div>
       {window.screen.availWidth <= 720 && (

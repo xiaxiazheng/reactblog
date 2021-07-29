@@ -62,7 +62,9 @@
 }
 
 .blogList {
-    height: calc(100% - 160px);
+    display: flex;
+    flex-wrap: wrap;
+    height: calc(100% - 140px);
     padding: 0 22px 10px;
     text-align: left;
     .emptyList {
@@ -71,11 +73,11 @@
     }
     .blogListLi {
         display: inline-block;
-        width: calc(20% - 1.2rem);
+        flex: 1 1 calc(20% - 1.2rem);
         vertical-align: middle;
         max-width: 300px;
         min-width: 250px;
-        height: 23%;
+        max-height: 23%;
         min-height: 163px;
         margin: 0.6rem 0.6rem;
         padding: 0.5rem 1rem;
