@@ -19,6 +19,7 @@ const TestPage = lazy(() => import("../views/test-page"));
 const MaoPu = lazy(() => import("../views/mao-pu"));
 const MindMap = lazy(() => import("../views/mind-map"));
 const TodoList = lazy(() => import("../views/todo-list"));
+const Log = lazy(() => import("../views/log"));
 
 interface PropsType extends RouteComponentProps {
   component?: any;
@@ -42,6 +43,7 @@ export const routes = [
   { route: "/admin/media", name: "Media", component: Media },
   { route: "/admin/test-page", name: "TestPage", component: TestPage },
   { route: "/admin/maopu", name: "猫谱", component: MaoPu },
+  { route: "/admin/log", name: 'log', component: Log },
 ];
 
 const AdminRouterView: React.FC<PropsType> = (props) => {
