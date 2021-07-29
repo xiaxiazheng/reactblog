@@ -17,6 +17,9 @@ if (process.env.REACT_APP_IS_LOCALSTATIC && process.env.REACT_APP_IS_LOCALSTATIC
   staticurl = `${host}:2333`;
 }
 
+console.log(process.env)
+console.log(url);
+
 export const isDev = process.env.NODE_ENV === 'development';
 export const baseUrl = url;
 export const staticUrl = staticurl;
