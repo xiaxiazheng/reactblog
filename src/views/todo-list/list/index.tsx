@@ -66,10 +66,7 @@ const List: React.FC<Props> = (props) => {
                 <span>
                     {item.name}&nbsp;&nbsp;
                     {item.description && (
-                        <Tooltip
-                            title={item.description || "1234"}
-                            placement="bottom"
-                        >
+                        <Tooltip title={item.description} color="#1890ff">
                             <QuestionCircleOutlined className={styles.icon} />
                         </Tooltip>
                     )}
@@ -88,10 +85,12 @@ const List: React.FC<Props> = (props) => {
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <CheckCircleOutlined
-                                    title="完成"
-                                    className={styles.doneIcon}
-                                />
+                                <Tooltip title={"点击完成"} color="#20d420">
+                                    <CheckCircleOutlined
+                                        title="完成"
+                                        className={styles.doneIcon}
+                                    />
+                                </Tooltip>
                             </Popconfirm>
                         )}
                         {title !== "已完成" ? (
