@@ -10,6 +10,7 @@ import {
     addTodoItem,
     editTodoItem,
 } from "@/client/TodoListHelper";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 export interface todoItem {
     todo_id?: string;
@@ -25,6 +26,8 @@ enum TodoStatus {
 }
 
 const TodoList: React.FC = () => {
+    useDocumentTitle("todo-list");
+
     const getTodo = async (type: "todo" | "done" | "pool") => {
         const req = {
             status: TodoStatus[type],
@@ -83,7 +86,7 @@ const TodoList: React.FC = () => {
                     name: formData.name,
                     time: moment(formData.time).format("YYYY-MM-DD"),
                     status: formData.status,
-                    description: formData.description || ''
+                    description: formData.description || "",
                 };
                 const res = await addTodoItem(req);
                 if (res) {
@@ -111,7 +114,7 @@ const TodoList: React.FC = () => {
                     name: formData.name,
                     time: moment(formData.time).format("YYYY-MM-DD"),
                     status: formData.status,
-                    description: formData.description || ''
+                    description: formData.description || "",
                 };
                 const res = await editTodoItem(req);
                 if (res) {

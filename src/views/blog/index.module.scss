@@ -5,13 +5,6 @@
   height: 100%;
   background-color: var(--bg_color);
   color: var(--color);
-  .blogLeft {
-    position: relative;
-    width: 17%;
-    min-width: 276px;
-    height: 100%;
-    border-right: 1px solid var(--border_color);
-  }
   .addBlog {
     text-align: left;
     // border-bottom: 1px solid var(--border_color);
@@ -21,7 +14,7 @@
       margin-right: 5px;
     }
   }
-  .blogRight {
+  .blogLeft {
     position: relative;
     flex: 1;
     height: 100%;
@@ -53,6 +46,13 @@
         }
       }
     }
+  }
+  .blogRight {
+    position: relative;
+    width: 330px;
+    min-width: 276px;
+    height: 100%;
+    border-left: 1px solid var(--border_color);
   }
   :global {
     .ant-tabs-tab-prev-icon, .ant-tabs-tab-next-icon {
