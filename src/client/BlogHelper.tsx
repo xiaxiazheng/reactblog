@@ -22,7 +22,7 @@ export async function isShowBlog(params: any): Promise<any> {
 }
 
 export async function getBlogCont(id: string): Promise<any> {
-  const data = await getHelper(`/getBlogcont?id=${id}`);
+  const data = await getHelper(`/blog/getBlogcont?id=${id}`);
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
