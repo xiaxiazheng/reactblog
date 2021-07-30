@@ -11,36 +11,36 @@ export async function getFolder(
   username: string
 ): Promise<any[]> {
   const data = await getHelper(
-    `/getFolder?parentId=${parentId}&username=${username}`
+    `/folder/getFolder?parentId=${parentId}&username=${username}`
   );
   return data && data.resultsCode === "success" ? data.data : [];
 }
 
 // 获取所有文件夹（树状）
 export async function getAllFolder(username: string): Promise<any> {
-  const data = await getHelper(`/getAllFolder?username=${username}`);
+  const data = await getHelper(`/folder/getAllFolder?username=${username}`);
   return data && data.resultsCode === "success" ? data.data : [];
 }
 
 // 新增文件夹
 export async function addFolder(params: any): Promise<any> {
-  const data = await postHelper(`/addFolder`, params);
+  const data = await postHelper(`/folder/addFolder`, params);
   return data && data.resultsCode === "success" ? data : false;
 }
 
 // 文件夹改名
 export async function updateFolderName(params: any): Promise<any> {
-  const data = await postHelper(`/updateFolderName`, params);
+  const data = await postHelper(`/folder/updateFolderName`, params);
   return data && data.resultsCode === "success" ? data : false;
 }
 
 export async function switchFolderParent (params: any): Promise<any> {
-  const data = await postHelper(`/switchFolderParent`, params);
+  const data = await postHelper(`/folder/switchFolderParent`, params);
   return data && data.resultsCode === 'success' ? true : false;
 }
 
 // 删除文件夹
 export async function deleteFolder(params: any): Promise<any> {
-  const data = await postHelper(`/deleteFolder`, params);
+  const data = await postHelper(`/folder/deleteFolder`, params);
   return data && data.resultsCode === "success" ? data : false;
 }

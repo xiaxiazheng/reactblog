@@ -29,7 +29,7 @@ export async function getImgList(
   type: string,
   username: string
 ): Promise<IImageType[]> {
-  const data = await getHelper(`/getImgList?type=${type}&username=${username}`);
+  const data = await getHelper(`/image/getImgList?type=${type}&username=${username}`);
   return data && data.resultsCode === "success" ? data.data : [];
 }
 
@@ -38,14 +38,14 @@ export async function getImgListByOtherId(
   username: string
 ): Promise<IImageType[]> {
   const data = await getHelper(
-    `/getImgListByOtherId?otherId=${otherId}&username=${username}`
+    `/image/getImgListByOtherId?otherId=${otherId}&username=${username}`
   );
   return data && data.resultsCode === "success" ? data.data : [];
 }
 
 // 获取图片的所有类型
 export async function getImgTypeList(username: string): Promise<string[]> {
-  const data = await getHelper(`/getImgTypeList?username=${username}`);
+  const data = await getHelper(`/image/getImgTypeList?username=${username}`);
   return data && data.resultsCode === "success" ? data.data : [];
 }
 
@@ -59,12 +59,6 @@ const staticInstance = axios.create({
   baseURL: `${staticUrl}/api`,
   timeout: isDev ? 5 * 1000 : 10 * 1000,
 });
-
-// 删除图片，这个比较特殊要操作图片，要访问静态资源服务
-export async function deleteImg(params: any): Promise<boolean> {
-  const data = await postStaticHelper(`/deleteImg`, params);
-  return data && data.resultsCode === "success" ? true : false;
-}
 
 const postStaticHelper = async (url: string, params?: any) => {
   let res: any;
@@ -85,6 +79,12 @@ const postStaticHelper = async (url: string, params?: any) => {
   }
   return res.data;
 };
+
+// 删除图片，这个比较特殊要操作图片，要访问静态资源服务
+export async function deleteImg(params: any): Promise<boolean> {
+  const data = await postStaticHelper(`/deleteImg`, params);
+  return data && data.resultsCode === "success" ? true : false;
+}
 
 // 封装 Get
 // const getHelper = async (url: string) => {
