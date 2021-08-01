@@ -45,8 +45,3 @@ export async function deleteBlogCont(params: any): Promise<boolean> {
   const data = await postHelper(`/blog/deleteBlogcont`, params);
   return data && data.resultsCode === 'success' ? true : false;
 }
-
-export async function makeBlogTag(params: any): Promise<any> {
-  const data = await postHelper(`/blog/makeBlogTag`, params);
-  return data && data.resultsCode === 'success' ? true : false;
-}

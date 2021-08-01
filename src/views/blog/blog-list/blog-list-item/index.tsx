@@ -5,9 +5,11 @@ import { DeleteOutlined, EyeOutlined, TagsOutlined, VerticalAlignTopOutlined } f
 import {
   isShowBlog,
   isStickBlog,
-  deleteBlogCont,
-  makeBlogTag,
+  deleteBlogCont
 } from "@/client/BlogHelper";
+import {
+  makeBlogTag,
+} from '@/client/TagHelper'
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogListType } from "../../BlogType";
 import { BlogContext } from "../../BlogContext";

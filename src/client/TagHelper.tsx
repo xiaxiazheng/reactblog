@@ -25,3 +25,8 @@ export async function deleteTag(params: any): Promise<any> {
   const data = await postHelper(`/tag/deleteTag`, params);
   return data && data.resultsCode === 'success' ? true : false;
 }
+
+export async function makeBlogTag(params: any): Promise<any> {
+  const data = await postHelper(`/tag/makeBlogTag`, params);
+  return data && data.resultsCode === 'success' ? true : false;
+}
