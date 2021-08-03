@@ -4,7 +4,7 @@ const path = require("path");
 const HelloWorldPlugin = require("./webpackPlugin/HelloWorldPlugin.ts");
 
 // 引入 loader 修改的配置
-const addLoaderConfig = require('./openInVscode/addLoaderConfig.ts');
+// const addLoaderConfig = require('./openInVscode/addLoaderConfig.ts');
 // 引入 webpack 起的服务的中间件
 const devServerMiddleware = require('./openInVscode/devServerMiddleware.ts');
 
@@ -75,9 +75,9 @@ module.exports = {
     handleHTMLPlugin(config.plugins);
 
     // 给页面元素加上对应的组件路径
-    if (env !== 'production') {
-      config = addLoaderConfig(config);
-    }
+    // if (env !== 'production') {
+    //   config = addLoaderConfig(config);
+    // }
 
     if (env === 'production') {
       config.devtool = 'none';
