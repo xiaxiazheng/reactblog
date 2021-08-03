@@ -154,9 +154,9 @@ const TreeContEdit: React.FC<PropsType> = props => {
     // 上移内容节点
     const upTreeContNode = async () => {
       let params = {
-        thiscTime: props.itemData.cTime,
+        thisContId: props.itemData.cont_id,
         thisSort: props.itemData.sort,
-        othercTime: contList[props.index - 1].cTime,
+        otherContId: contList[props.index - 1].cont_id,
         otherSort: contList[props.index - 1].sort
       };
       let res: any = await changeContSort(params);
