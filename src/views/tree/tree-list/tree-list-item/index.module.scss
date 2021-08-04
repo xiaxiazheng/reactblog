@@ -1,44 +1,40 @@
 .treeMenuItem {
-  display: flex;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    width: 100%;
+    height: 100%;
 
-  .titleName {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    .activeKeyword {
-      color: var(--color);
-      background: var(--keyword_highlight);
+    .titleName {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        .activeKeyword {
+            color: var(--color);
+            background: var(--keyword_highlight);
+        }
     }
-  }
-  .allIconBox {
-    position: relative;
-    .moreOperateIcon {
-      position: relative;
-      line-height: 44px;
-      margin-left: 10px;
-      &.editting {
-        color: var(--color_active);
-      }
+    .allIconBox {
+        position: relative;
+        .moreOperateIcon {
+            position: relative;
+            line-height: 44px;
+            margin-left: 10px;
+            &:hover {
+                color: var(--color_active);
+            }
+        }
+        .isShow {
+            color: var(--color_active);
+        }
     }
-    .isShow {
-      color: var(--color_active);
-    }
-    .iconsBox {
-      position: absolute;
-      right: 30px;
-      top: 1px;
-      height: 38px;
-      padding-left: 10px;
-      background-color: var(--bg_color_hover);
-      border-radius: 4px;
-      .treenodeIcon {
+}
+.toolbox {
+    font-size: 16px;
+    .toolboxIcon {
+        display: inline-block;
+        padding: 0 3px;
         color: var(--color);
         &:hover {
-          color: var(--color_active);
+            color: var(--color_active);
         }
-      }
     }
-  }
 }

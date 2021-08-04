@@ -18,7 +18,7 @@ export async function modifyNodeCont(params: any): Promise<any> {
 }
 
 export async function deleteNodeCont(params: any): Promise<boolean> {
-  const data = await postHelper(`/treeCont/deletenodecont`, params);
+  const data = await postHelper(`/treeCont/deleteNodeCont`, params);
   return data && data.resultsCode === 'success' ? true : false;
 }
 

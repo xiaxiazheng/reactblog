@@ -129,7 +129,7 @@ const TreeContEdit: React.FC<PropsType> = props => {
   // 保存内容
   const saveTreeCont = async () => {
     const params: any = {
-      id: second_id,
+      c_id: second_id,
       list: contList
     };
     const res: any = await modifyNodeCont(params);
@@ -195,9 +195,8 @@ const TreeContEdit: React.FC<PropsType> = props => {
         cancelText: "No",
         onOk: async () => {
           const params = {
-            id: props.itemData.c_id,
-            sort: props.itemData.sort
-          };
+            cont_id: props.itemData.cont_id
+          }
           const res = await deleteNodeCont(params);
           if (res) {
             message.success("删除成功", 1);
