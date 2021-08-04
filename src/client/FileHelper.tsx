@@ -22,17 +22,17 @@ export interface FileType extends IFileType {
 /** 操作文件 */
 // 获取某个类型的文件名称列表
 export async function getFileList (type: string, username: string): Promise<IFileType[]> {
-  const data = await getHelper(`/getFileList?type=${type}&username=${username}`);
+  const data = await getHelper(`/file/getFileList?type=${type}&username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 
 export async function getFileListByOtherId (otherId: string, username: string): Promise<IFileType[]> {
-  const data = await getHelper(`/getFileListByOtherId?otherId=${otherId}&username=${username}`);
+  const data = await getHelper(`/file/getFileListByOtherId?otherId=${otherId}&username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 
 export async function switchFileOtherId (params: any): Promise<any> {
-  const data = await postHelper(`/switchFileOtherId`, params);
+  const data = await postHelper(`/file/switchFileOtherId`, params);
   return data && data.resultsCode === 'success' ? true : false;
 }
 
