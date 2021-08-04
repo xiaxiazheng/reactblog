@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input, Pagination, Radio, Select } from "antd";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getVisiableBlogList, getAllBlogList } from "@/client/BlogHelper";
+import { getAllBlogList, getShowBlogList } from "@/client/BlogHelper";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogListType } from "../BlogType";
 import BlogListItem from "./blog-list-item";
@@ -98,18 +98,17 @@ const BlogList: React.FC<PropsType> = (props) => {
                 // 仅显示可见
                 params.isVisible = true;
                 params.username = username;
-                res = await getVisiableBlogList(params);
+                res = await getAllBlogList(params);
             } else if (showInvisible) {
                 // 仅显示不可见
                 params.isVisible = false;
                 params.username = username;
-                res = await getVisiableBlogList(params);
+                res = await getAllBlogList(params);
             }
         } else {
             // 没登录只能显示可见
-            params.isVisible = true;
             params.username = username;
-            res = await getVisiableBlogList(params);
+            res = await getShowBlogList(params);
         }
         setBlogListData({
             blogList: res.list,

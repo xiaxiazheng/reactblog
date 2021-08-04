@@ -6,8 +6,8 @@ export async function getAllBlogList(params: any): Promise<any> {
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
-export async function getVisiableBlogList(params: any): Promise<any> {
-  const data = await postHelper(`/blog/getVisiableBlogList`, params);
+export async function getShowBlogList(params: any): Promise<any> {
+  const data = await postHelper(`/blog/getShowBlogList`, params);
   return data && data.resultsCode === 'success' ? data.data : false;
 }
 
