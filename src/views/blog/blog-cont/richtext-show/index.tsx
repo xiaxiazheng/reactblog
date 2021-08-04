@@ -9,7 +9,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 interface PropsType {
-  blogcont: string;
+  blogcont: string | undefined;
 }
 
 const LogContShow: React.FC<PropsType> = (props) => {

@@ -19,10 +19,11 @@ export interface BlogListType {
 }
 
 // 单篇日志用到的日志数据，比列表多一个具体内容和图片
-export interface OneBlogType extends BlogListType {
+export interface Inter extends BlogListType {
   blogcont: string;
   imgList: ImgType[];
   fileList: FileType[];
 }
 
-// export const a = 1;  // 这个用来绕过 export interface 的报错
+export type OneBlogType = Partial<Inter>
+

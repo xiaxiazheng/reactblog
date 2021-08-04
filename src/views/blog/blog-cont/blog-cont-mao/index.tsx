@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface PropsType extends RouteComponentProps {
-  blogcont: string;
+  blogcont: string | undefined;
   closeDrawer?: Function;
   isHasFiles?: boolean; // 是否有附件
 }
@@ -14,7 +14,7 @@ const BlogCont: React.FC<PropsType> = (props) => {
 
   useEffect(() => {
     // eslint-disable-next-line no-useless-escape
-    const list = blogcont.match(/\<(h\d+)(.*?)\>(.*?)\<\/h\d+\>/gm);
+    const list = blogcont?.match(/\<(h\d+)(.*?)\>(.*?)\<\/h\d+\>/gm);
     list && setMaoList(list);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blogcont]);

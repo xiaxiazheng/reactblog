@@ -11,14 +11,14 @@ import FileBox from "@/components/file-box";
 import { staticUrl } from "@/env_config";
 
 interface PropsType {
-  blogdata: OneBlogType;
+  blogData: OneBlogType;
   getBlogContData: Function; // 重新获取整个日志信息
   getImageList: Function; // 只重新获取日志图片列表
   getFileList: Function; // 只重新获取日志附件列表
 }
 
 const LogContEditByMD: React.FC<PropsType> = (props) => {
-  const { blogdata, getBlogContData, getImageList, getFileList } = props;
+  const { blogData, getBlogContData, getImageList, getFileList } = props;
 
   const { TextArea } = Input;
 
@@ -31,9 +31,9 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
   const [isLogContChange, setIsLogContChange] = useState(false);
 
   useEffect(() => {
-    setTitle(blogdata.title);
-    setAuthor(blogdata.author);
-    setMarkString(blogdata.blogcont);
+    setTitle(blogData.title);
+    setAuthor(blogData.author);
+    setMarkString(blogData.blogcont || "");
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
@@ -67,7 +67,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
   // 保存日志
   const saveEditLog = async () => {
     const params: any = {
-      id: blogdata.blog_id,
+      id: blogData.blog_id,
       title: title,
       author: author,
       blogcont: markString,
@@ -86,24 +86,24 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
 
   const handleLogContChange = (e: any) => {
     setMarkString(e.target.value);
-    setIsLogContChange(blogdata.blogcont !== e.target.value);
+    setIsLogContChange(blogData.blogcont !== e.target.value);
   };
 
   // 监听标题变化
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
-    setIsTitleChange(blogdata.title !== e.target.value);
+    setIsTitleChange(blogData.title !== e.target.value);
   };
 
   // 监听作者变化
   const handleAuthorChange = (e: any) => {
     setAuthor(e.target.value);
-    setIsAuthorChange(blogdata.author !== e.target.value);
+    setIsAuthorChange(blogData.author !== e.target.value);
   };
 
   return (
     <div className={className}>
-      {blogdata && (
+      {blogData && (
         <>
           {/* 保存按钮 */}
           <Button
@@ -128,8 +128,8 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             onChange={handleAuthorChange}
           />
           <div className={styles.blogcontTime}>
-            <span>创建时间：{blogdata.cTime}</span>
-            <span>修改时间：{blogdata.mTime}</span>
+            <span>创建时间：{blogData.cTime}</span>
+            <span>修改时间：{blogData.mTime}</span>
           </div>
           {/* markdown 展示 */}
           <div className={`${styles.markdownShower} ScrollBar`}>
@@ -146,7 +146,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
           <div className={`${styles.imgBox} ScrollBar`}>
             {/* 上传图片 */}
             <ImageBox
-              otherId={blogdata.blog_id}
+              otherId={blogData.blog_id}
               type="blog"
               imageUrl=""
               imageMinUrl=""
@@ -156,7 +156,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
             />
             {/* 上传附件 */}
             <FileBox
-              otherId={blogdata.blog_id}
+              otherId={blogData.blog_id}
               type="blog"
               fileUrl=""
               initFileList={getFileList}
@@ -164,7 +164,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               fileData={{}}
             />
             {/* 图片列表 */}
-            {blogdata.imgList.map((item) => {
+            {blogData?.imgList?.map((item) => {
               return (
                 <ImageBox
                   key={item.img_id}
@@ -181,7 +181,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
               );
             })}
             {/* 附件列表 */}
-            {blogdata.fileList.map((item) => {
+            {blogData?.fileList?.map((item) => {
               return (
                 <FileBox
                   key={item.file_id}

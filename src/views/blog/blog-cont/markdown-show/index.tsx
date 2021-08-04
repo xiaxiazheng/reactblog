@@ -7,7 +7,7 @@ import mdStyle from "./gitlab.module.scss";
 // import "highlight.js/styles/atom-one-dark-reasonable.css";
 
 interface PropsType {
-  blogcont: string;
+  blogcont: string | undefined;
 }
 
 const MarkdownShow: React.FC<PropsType> = (props) => {
