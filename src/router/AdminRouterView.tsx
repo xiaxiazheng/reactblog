@@ -43,7 +43,7 @@ export const routes = [
   { route: "/admin/media", name: "Media", component: Media },
   { route: "/admin/test-page", name: "TestPage", component: TestPage },
   { route: "/admin/maopu", name: "猫谱", component: MaoPu },
-  { route: "/admin/log", name: 'log', component: Log },
+  // { route: "/admin/log", name: 'log', component: Log },
 ];
 
 const AdminRouterView: React.FC<PropsType> = (props) => {
