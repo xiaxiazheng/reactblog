@@ -29,7 +29,7 @@ export const BlogProvider: React.FC = props => {
     showNotTag: false
   });
 
-  const [activeTag, setActiveTag] = useState<string>()
+  const [activeTagId, setActiveTagIdId] = useState<string>()
   const [isTagChange, setIsTagChange] = useState<boolean>(false)
   const [tagList, setTagList] = useState([])
   // 记录 loglist 那边是否更新了 tag（修改log的tag或者删除log都要改变状态）
@@ -41,7 +41,7 @@ export const BlogProvider: React.FC = props => {
         {
           tabsState, setTabsState,
           isTagChange, setIsTagChange,
-          activeTag, setActiveTag,
+          activeTagId, setActiveTagIdId,
           tagList, setTagList,
           isUpdateTag, setIsUpdateTag
         }
@@ -54,8 +54,8 @@ export const BlogProvider: React.FC = props => {
 export interface BlogContextType {
   tabsState: TabsStateType
   setTabsState: React.Dispatch<React.SetStateAction<TabsStateType>>
-  activeTag: string
-  setActiveTag: React.Dispatch<React.SetStateAction<TabsStateType>>
+  activeTagId: string
+  setActiveTagIdId: React.Dispatch<React.SetStateAction<TabsStateType>>
   isTagChange: boolean
   setIsTagChange: React.Dispatch<React.SetStateAction<boolean>>
   tagList: { tag_name: string; tag_id: string }[]

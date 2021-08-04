@@ -21,7 +21,7 @@ const BlogList: React.FC<PropsType> = (props) => {
 
     const [loading, setLoading] = useState(true);
 
-    const { tabsState, setTabsState, activeTag, isTagChange, setIsTagChange } =
+    const { tabsState, setTabsState, activeTagId, isTagChange, setIsTagChange } =
         useContext<BlogContextType>(BlogContext);
 
     // 展开方便用
@@ -47,7 +47,7 @@ const BlogList: React.FC<PropsType> = (props) => {
         setSearchType(e.target.value);
     };
 
-    // 切换 activeTag 的时候，pageNo 要重置为 1
+    // 切换 activeTagId 的时候，pageNo 要重置为 1
     useEffect(() => {
         if (isTagChange) {
             if (pageNo === 1) {
@@ -81,7 +81,7 @@ const BlogList: React.FC<PropsType> = (props) => {
                     ? keyword
                     : keyword.split("").join("%")
                 : "",
-            activeTag: activeTag || "",
+            activeTagId: activeTagId || "",
         };
         if (showNotTag) {
             params.showNotTag = true;

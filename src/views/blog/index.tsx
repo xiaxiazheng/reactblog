@@ -24,7 +24,7 @@ const Blog: React.FC<PropsType> = (props) => {
   const { history } = props;
 
   const { isLogin } = useContext(IsLoginContext);
-  const { setActiveTag } = useContext(BlogContext);
+  const { setActiveTagIdId } = useContext(BlogContext);
 
   useDocumentTitle('blog')
 
@@ -36,7 +36,7 @@ const Blog: React.FC<PropsType> = (props) => {
     const res: any = await addBlogCont(params);
     if (res) {
       message.success("新建成功");
-      setActiveTag("");
+      setActiveTagIdId("");
       /** 新建成功直接跳转到新日志 */
       const newId = res.newid;
       const path = `/admin/blog/${btoa(decodeURIComponent(newId))}`;

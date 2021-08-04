@@ -37,8 +37,8 @@ const TagList: React.FC<PropsType> = (props) => {
     const { isLogin } = useContext(IsLoginContext);
     const { username } = useContext(UserContext);
     const {
-        activeTag,
-        setActiveTag,
+        activeTagId,
+        setActiveTagIdId,
         setIsTagChange,
         tagList,
         setTagList,
@@ -77,7 +77,7 @@ const TagList: React.FC<PropsType> = (props) => {
 
     /** 选中 tag */
     const choiceTag = (tag_id: string) => {
-        setActiveTag(tag_id === activeTag ? "" : tag_id);
+        setActiveTagIdId(tag_id === activeTagId ? "" : tag_id);
         setIsTagChange(true);
         closeDrawer && closeDrawer();
     };
@@ -174,15 +174,15 @@ const TagList: React.FC<PropsType> = (props) => {
                 />
             </div>
             {/* 当前选中的 tag */}
-            <div className={styles.nowActiveTag}>
+            <div className={styles.nowactiveTagId}>
                 当前选中 tag：
-                {activeTag && activeTag !== "" && (
+                {activeTagId && activeTagId !== "" && (
                     <span
                         className={`${styles.tagItem} ${styles.active}`}
-                        onClick={choiceTag.bind(null, activeTag)}
+                        onClick={choiceTag.bind(null, activeTagId)}
                     >
                         {tagList
-                            .filter((item: any) => item.tag_id === activeTag)
+                            .filter((item: any) => item.tag_id === activeTagId)
                             .map(
                                 (item: any) => `${item.tag_name}(${item.count})`
                             )}
@@ -208,7 +208,7 @@ const TagList: React.FC<PropsType> = (props) => {
                     <span
                         key={item.tag_id}
                         className={`${styles.tagItem} ${
-                            activeTag === item.tag_id ? styles.active : ""
+                            activeTagId === item.tag_id ? styles.active : ""
                         }`}
                         onClick={choiceTag.bind(null, item.tag_id)}
                     >
