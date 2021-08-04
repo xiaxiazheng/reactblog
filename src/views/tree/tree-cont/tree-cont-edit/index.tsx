@@ -266,7 +266,6 @@ const TreeContEdit: React.FC<PropsType> = props => {
       <div className={`${styles.treeconteditWrapper} ScrollBar`} ref={scrollWrapper}>
         <h2 className={styles.treecontTitle}>{title}</h2>
         {contList.map((item, index) => {
-          console.log(`item.cont: `, JSON.stringify(item.cont))
           return (
             <div key={item.cont_id} className={styles.contitem}>
               <div className={styles.contitemEdit}>
