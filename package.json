@@ -8,9 +8,11 @@
     "startLocal": "cross-env REACT_APP_IS_LocalHost=yes react-app-rewired start",
     "startLocalStatic": "cross-env REACT_APP_IS_LOCALSTATIC=yes react-app-rewired start",
     "build": "react-app-rewired build",
+    "buildLocal": "cross-env REACT_APP_IS_LocalHost=yes react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "deploy": "sh deploy.sh"
+    "deploy": "sh deploy.sh",
+    "deployLocal": "sh deployLocal.sh"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
