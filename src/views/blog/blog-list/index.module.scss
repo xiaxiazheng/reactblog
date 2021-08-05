@@ -64,6 +64,7 @@
 .blogList {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     height: calc(100% - 140px);
     padding: 0 22px 10px;
     text-align: left;
