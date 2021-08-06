@@ -21,24 +21,43 @@ export interface todoItem {
     status: number | string;
 }
 
+type StatusType = "todo" | "done" | "pool";
 enum TodoStatus {
     todo = 0,
     done = 1,
     pool = 2,
 }
+const TodoStatusList: StatusType[] = ["todo", "done", "pool"];
 
 const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
 
-    const getTodo = async (type: "todo" | "done" | "pool") => {
+    const [todoLoading, setTodoLoading] = useState<boolean>(false);
+    const [doneLoading, setDoneLoading] = useState<boolean>(false);
+    const [poolLoading, setPoolLoading] = useState<boolean>(false);
+
+    const getTodo = async (type: StatusType) => {
+        type === "todo" && setTodoLoading(true);
+        type === "done" && setDoneLoading(true);
+        type === "pool" && setPoolLoading(true);
+
         const req = {
             status: TodoStatus[type],
         };
         const res = await getTodoList(req);
         if (res) {
-            type === "todo" && setTodoMap(formatArrayToTimeMap(res.data));
-            type === "done" && setDoneMap(formatArrayToTimeMap(res.data));
-            type === "pool" && setPoolMap(formatArrayToTimeMap(res.data));
+            if (type === "todo") {
+                setTodoMap(formatArrayToTimeMap(res.data));
+                setTodoLoading(false);
+            }
+            if (type === "done") {
+                setDoneMap(formatArrayToTimeMap(res.data));
+                setDoneLoading(false);
+            }
+            if (type === "pool") {
+                setPoolMap(formatArrayToTimeMap(res.data));
+                setPoolLoading(false);
+            }
         } else {
             message.error("获取 todolist 失败");
         }
@@ -95,9 +114,8 @@ const TodoList: React.FC = () => {
                 if (res) {
                     message.success(res.message);
                     setShowEdit(false);
-                    getTodo("todo");
-                    getTodo("done");
-                    getTodo("pool");
+                    // 新增的话只用更新新增到的那列
+                    getTodo(TodoStatusList[Number(formData.status)]);
                     form.resetFields();
                 } else {
                     message.error("新增 todo 失败");
@@ -123,9 +141,12 @@ const TodoList: React.FC = () => {
                 if (res) {
                     message.success(res.message);
                     setShowEdit(false);
-                    getTodo("todo");
-                    getTodo("done");
-                    getTodo("pool");
+                    // 变更到的状态那列绝对要更新
+                    getTodo(TodoStatusList[Number(formData.status)]);
+                    // 原本那列如果跟要变更到的那列不同那也要更新
+                    if (editedTodo?.status !== formData.status) {
+                        getTodo(TodoStatusList[Number(editedTodo?.todo_id)]);
+                    }
                     form.resetFields();
                 } else {
                     message.error("编辑 todo 失败");
@@ -143,10 +164,17 @@ const TodoList: React.FC = () => {
         待办池: poolMap,
     };
 
+    const loadingMap: any = {
+        待办: todoLoading,
+        已完成: doneLoading,
+        待办池: poolLoading,
+    };
+
     return (
         <div className={styles.todoList}>
             {["待办池", "待办", "已完成"].map((item) => (
                 <List
+                    loading={loadingMap[item]}
                     getTodo={getTodo}
                     title={item}
                     mapList={listMap[item]}
@@ -155,18 +183,20 @@ const TodoList: React.FC = () => {
                 />
             ))}
             {/* 新增/编辑 todo */}
-            {showEdit && <Modal
-                title={`${isEdit ? "编辑" : "新增"} todo`}
-                visible={showEdit}
-                onOk={isEdit ? editTodo : addTodo}
-                onCancel={() => {
-                    setEditedTodo(undefined);
-                    setShowEdit(false);
-                    form.resetFields();
-                }}
-            >
-                <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
-            </Modal>}
+            {showEdit && (
+                <Modal
+                    title={`${isEdit ? "编辑" : "新增"} todo`}
+                    visible={showEdit}
+                    onOk={isEdit ? editTodo : addTodo}
+                    onCancel={() => {
+                        setEditedTodo(undefined);
+                        setShowEdit(false);
+                        form.resetFields();
+                    }}
+                >
+                    <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
+                </Modal>
+            )}
         </div>
     );
 };

@@ -10,8 +10,10 @@ import {
 import styles from "./index.module.scss";
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
+import Loading from "@/components/loading";
 
 interface Props {
+    loading: boolean;
     title: "待办" | "已完成" | "待办池" | string;
     mapList: any;
     getTodo: Function;
@@ -21,7 +23,7 @@ interface Props {
 
 // 两个todo列表
 const List: React.FC<Props> = (props) => {
-    const { title, mapList, getTodo, handleAdd, handleEdit } = props;
+    const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
 
     // 完成 todo
     const doneTodo = async (todo_id: string) => {
@@ -31,9 +33,9 @@ const List: React.FC<Props> = (props) => {
         const res = await doneTodoItem(req);
         if (res) {
             message.success(res.message);
-            getTodo("todo");
             getTodo("done");
-            getTodo("pool");
+            title === "待办" && getTodo("todo");
+            title === "待办池" && getTodo("pool");
         } else {
             message.error("完成 todo 失败");
         }
@@ -125,6 +127,7 @@ const List: React.FC<Props> = (props) => {
 
     return (
         <div className={styles.list}>
+            {loading && <Loading />}
             <div className={styles.header}>
                 <span className={title === "待办" ? styles.active : ""}>
                     {title}
