@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@types/echarts": "^4.6.0",
+    "@types/lodash": "^4.14.172",
     "address": "^1.1.2",
     "babel-plugin-import": "^1.12.1",
     "cash": "^0.8.0",
@@ -69,6 +70,7 @@
     "globby": "^11.0.1",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^4.0.10",
+    "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "preload-webpack-plugin": "^2.3.0",
     "react-app-rewire-hot-loader": "^2.0.1",

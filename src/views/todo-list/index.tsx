@@ -11,6 +11,7 @@ import {
     editTodoItem,
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import { debounce } from 'lodash';
 
 export interface todoItem {
     todo_id?: string;
@@ -80,7 +81,7 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const addTodo = () => {
+    const addTodo = debounce(() => {
         form.validateFields()
             .then(async () => {
                 const formData = form.getFieldsValue();
@@ -105,9 +106,9 @@ const TodoList: React.FC = () => {
             .catch((err) => {
                 message.warning("请检查表单输入");
             });
-    };
+    }, 200);
 
-    const editTodo = () => {
+    const editTodo = debounce(() => {
         form.validateFields()
             .then(async () => {
                 const formData = form.getFieldsValue();
@@ -133,7 +134,7 @@ const TodoList: React.FC = () => {
             .catch((err) => {
                 message.warning("请检查表单输入");
             });
-    };
+    }, 200);
 
     const [form] = Form.useForm();
     const listMap: any = {
