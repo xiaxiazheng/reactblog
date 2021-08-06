@@ -15,6 +15,7 @@ import useDocumentTitle from "@/hooks/useDocumentTitle";
 export interface todoItem {
     todo_id?: string;
     time: string;
+    description: string;
     name: string;
     status: number | string;
 }
@@ -72,6 +73,7 @@ const TodoList: React.FC = () => {
         setIsEdit(true);
         form.setFieldsValue({
             name: item.name,
+            description: item.description,
             time: moment(item.time),
             status: Number(item.status),
         });
