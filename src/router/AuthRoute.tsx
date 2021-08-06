@@ -35,7 +35,7 @@ export const AuthRoute: React.FC<PropsType> = ({
                             password,
                         };
                         let res = await postLogin(params);
-                        if (!res.access_token) {
+                        if (!res?.access_token) {
                             // 说明本地 sessionStorage 的用户名或密码错误，跳转去 login 界面重新登录
                             message.error("请重新登录", 2);
                             return (

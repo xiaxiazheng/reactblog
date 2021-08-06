@@ -50,7 +50,7 @@ const Login: React.FC<PropsType> = (props) => {
             password,
         };
         let res = await postLogin(params);
-        if (res.access_token) {
+        if (res?.access_token) {
             setIsLogin(true); // 将 context 的 isLogin 设置为 true
             sessionStorage.setItem("token", res.access_token);
             sessionStorage.setItem("username", user);
