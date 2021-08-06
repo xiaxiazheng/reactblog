@@ -11,7 +11,7 @@ import {
     editTodoItem,
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 export interface todoItem {
     todo_id?: string;
@@ -155,7 +155,7 @@ const TodoList: React.FC = () => {
                 />
             ))}
             {/* 新增/编辑 todo */}
-            <Modal
+            {showEdit && <Modal
                 title={`${isEdit ? "编辑" : "新增"} todo`}
                 visible={showEdit}
                 onOk={isEdit ? editTodo : addTodo}
@@ -166,7 +166,7 @@ const TodoList: React.FC = () => {
                 }}
             >
                 <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
-            </Modal>
+            </Modal>}
         </div>
     );
 };

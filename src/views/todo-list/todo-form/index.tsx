@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Input, DatePicker, Select, FormInstance } from "antd";
 
 const { TextArea } = Input;
@@ -18,6 +18,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 <Input
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
                     onPressEnter={onOk}
+                    autoFocus={true}
                 />
             </Form.Item>
             <Form.Item name="description" label="详细描述">
