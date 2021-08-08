@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { Modal, Form, message } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
+import DoneList from "./done-list";
 import moment from "moment";
 import TodoForm from "./todo-form";
 import {
@@ -172,16 +173,27 @@ const TodoList: React.FC = () => {
 
     return (
         <div className={styles.todoList}>
-            {["待办池", "待办", "已完成"].map((item) => (
-                <List
-                    loading={loadingMap[item]}
-                    getTodo={getTodo}
-                    title={item}
-                    mapList={listMap[item]}
-                    handleAdd={handleAdd}
-                    handleEdit={handleEdit}
-                />
-            ))}
+            {["待办池", "待办", "已完成"].map((item) =>
+                item === "已完成" ? (
+                    <DoneList
+                        loading={loadingMap[item]}
+                        getTodo={getTodo}
+                        title={item}
+                        mapList={listMap[item]}
+                        handleAdd={handleAdd}
+                        handleEdit={handleEdit}
+                    />
+                ) : (
+                    <List
+                        loading={loadingMap[item]}
+                        getTodo={getTodo}
+                        title={item}
+                        mapList={listMap[item]}
+                        handleAdd={handleAdd}
+                        handleEdit={handleEdit}
+                    />
+                )
+            )}
             {/* 新增/编辑 todo */}
             {showEdit && (
                 <Modal

@@ -21,9 +21,9 @@ interface Props {
     handleEdit: Function;
 }
 
-// 待办池和待办列表
-const List: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
+// 已完成列表
+const DoneList: React.FC<Props> = (props) => {
+    const { loading, title, mapList, getTodo, handleEdit } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {
@@ -79,26 +79,7 @@ const List: React.FC<Props> = (props) => {
             return (
                 <div className={styles.item} key={item.todo_id}>
                     <span>
-                        {title === "待办" && (
-                            <Popconfirm
-                                title="确认已完成吗？"
-                                onConfirm={() => doneTodo(item.todo_id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Tooltip title={"点击完成"} color="#20d420">
-                                    <CheckCircleOutlined
-                                        title="完成"
-                                        className={styles.doneIcon}
-                                    />
-                                </Tooltip>
-                            </Popconfirm>
-                        )}
-                        {title !== "已完成" ? (
-                            Name(item)
-                        ) : (
-                            <s className={styles.throughout}>{Name(item)}</s>
-                        )}
+                        <s className={styles.throughout}>{Name(item)}</s>
                     </span>
                     <span>
                         <EditOutlined
@@ -128,22 +109,11 @@ const List: React.FC<Props> = (props) => {
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span className={title === "待办" ? styles.active : ""}>
-                    {title}
-                </span>
-                {title !== "已完成" && (
-                    <Button onClick={() => handleAdd(title)}>
-                        <PlusOutlined />
-                        todo
-                    </Button>
-                )}
+                <span>{title}</span>
             </div>
             <div className={`${styles.listItemWrap} ScrollBar`}>
                 {Object.keys(mapList).map((time) => {
-                    return title === "待办池" ? (
-                        // 待办池不区分日期
-                        <ListItem list={mapList[time]} />
-                    ) : (
+                    return (
                         <div className={styles.oneDay} key={time}>
                             <div
                                 className={`${styles.time} ${
@@ -151,8 +121,6 @@ const List: React.FC<Props> = (props) => {
                                         ? styles.today
                                         : time > today
                                         ? styles.future
-                                        : title === "待办"
-                                        ? styles.previously
                                         : ""
                                 }`}
                             >
@@ -167,4 +135,4 @@ const List: React.FC<Props> = (props) => {
     );
 };
 
-export default List;
+export default DoneList;
