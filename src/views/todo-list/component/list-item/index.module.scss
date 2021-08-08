@@ -1,0 +1,28 @@
+.item {
+    display: flex;
+    justify-content: space-around;
+    margin: 12px 0;
+
+    > span:nth-child(1) {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .throughout {
+        color: grey;
+    }
+}
+
+.doneIcon,
+.icon {
+    margin: 0 7px;
+    cursor: pointer;
+    &:hover {
+        color: var(--color_hover_green);
+    }
+}
+.doneIcon {
+    font-size: 20px;
+    margin-right: 14px;
+}
