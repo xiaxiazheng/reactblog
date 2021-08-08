@@ -1,8 +1,14 @@
-import { postHelper } from ".";
+import { getHelper, postHelper } from ".";
 
 /** 获取列表 */
 export async function getTodoList(params: any): Promise<any> {
   const data = await postHelper(`/todo/getTodoList`, params);
+  return data && data.resultsCode === "success" ? data : false;
+}
+
+/** 获取类别 */
+export async function getTodoCategory(): Promise<any> {
+  const data = await getHelper(`/todo/getTodoCategory`);
   return data && data.resultsCode === "success" ? data : false;
 }
 

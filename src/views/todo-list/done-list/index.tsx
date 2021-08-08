@@ -1,18 +1,11 @@
-import React from "react";
-import { Button, message, Popconfirm, Tooltip } from "antd";
-import {
-    CheckCircleOutlined,
-    EditOutlined,
-    DeleteOutlined,
-    PlusOutlined,
-    QuestionCircleOutlined,
-} from "@ant-design/icons";
+import React, { useEffect } from "react";
+import { Input, Pagination } from "antd";
 import styles from "./index.module.scss";
-import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { getWeek } from '../utils';
+import { getWeek } from "../utils";
+import { debounce } from "lodash";
 
 interface Props {
     loading: boolean;
@@ -21,13 +14,30 @@ interface Props {
     getTodo: Function;
     handleAdd: Function;
     handleEdit: Function;
+    pageNo: number;
+    setPageNo: Function;
+    keyword: string;
+    setKeyword: Function;
+    total: number;
 }
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleEdit } = props;
+    const {
+        loading,
+        title,
+        mapList,
+        getTodo,
+        handleEdit,
+        pageNo,
+        setPageNo,
+        keyword,
+        setKeyword,
+        total,
+    } = props;
 
     const today = moment().format("YYYY-MM-DD");
+    const getDoneList = debounce(() => getTodo("done"), 200);
 
     return (
         <div className={styles.list}>
@@ -35,6 +45,12 @@ const DoneList: React.FC<Props> = (props) => {
             <div className={styles.header}>
                 <span>{title}</span>
             </div>
+            <Input
+                className={styles.search}
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onPressEnter={() => getDoneList()}
+            />
             <div className={`${styles.listItemWrap} ScrollBar`}>
                 {Object.keys(mapList).map((time) => {
                     return (
@@ -62,6 +78,14 @@ const DoneList: React.FC<Props> = (props) => {
                     );
                 })}
             </div>
+            <Pagination
+                className={styles.pagination}
+                current={pageNo}
+                total={total}
+                showTotal={(total, range) => `共 ${total}`}
+                onChange={(page) => setPageNo(page)}
+                pageSize={15}
+            />
         </div>
     );
 };

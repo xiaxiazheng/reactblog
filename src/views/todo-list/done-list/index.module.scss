@@ -8,6 +8,14 @@
         border-right: 1px solid var(--border_color);
     }
 
+    .search {
+        display: inline-block;
+        margin: 0 20px 10px;
+        width: calc(100% - 40px);
+        background: var(--bg_color);
+        color: var(--color);
+    }
+
     .header {
         display: flex;
         justify-content: space-between;
@@ -24,7 +32,7 @@
     }
 
     .listItemWrap {
-        height: calc(100% - 75px);
+        height: calc(100% - 165px);
         padding: 0 20px;
     }
 
@@ -75,5 +83,11 @@
     .doneIcon {
         font-size: 20px;
         margin-right: 14px;
+    }
+
+    .pagination {
+        padding: 10px 20px;
+        text-align: right;
+        color: var(--color);
     }
 }

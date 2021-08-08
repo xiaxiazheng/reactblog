@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "./index.module.scss";
-import { Button, message, Popconfirm, Tooltip } from "antd";
+import { message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
     EditOutlined,
     DeleteOutlined,
-    PlusOutlined,
     QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
+import { colorMap } from "../../utils";
 
 interface Props {
     list: any[];
@@ -53,8 +53,14 @@ const ListItem: React.FC<Props> = (props) => {
 
     const Name = (item: any) => {
         return (
-            <span>
-                {item.name}&nbsp;&nbsp;
+            <span className={styles.name}>
+                <span
+                    className={styles.category}
+                    style={{ background: colorMap[item.color] }}
+                >
+                    {item.category}
+                </span>
+                <span>{item.name}</span>
                 {item.description && (
                     <Tooltip title={item.description} color="#1890ff">
                         <QuestionCircleOutlined className={styles.icon} />

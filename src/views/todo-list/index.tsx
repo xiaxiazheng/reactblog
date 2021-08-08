@@ -20,6 +20,8 @@ export interface todoItem {
     description: string;
     name: string;
     status: number | string;
+    color: string;
+    category: string;
 }
 
 type StatusType = "todo" | "done" | "pool";
@@ -37,14 +39,27 @@ const TodoList: React.FC = () => {
     const [doneLoading, setDoneLoading] = useState<boolean>(false);
     const [poolLoading, setPoolLoading] = useState<boolean>(false);
 
+    const [keyword, setKeyword] = useState<string>("");
+    const [pageNo, setPageNo] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0);
+    useEffect(() => {
+        getTodo("done");
+    }, [pageNo]);
     const getTodo = async (type: StatusType) => {
         type === "todo" && setTodoLoading(true);
         type === "done" && setDoneLoading(true);
         type === "pool" && setPoolLoading(true);
 
-        const req = {
-            status: TodoStatus[type],
-        };
+        const req =
+            type === "done"
+                ? {
+                      status: TodoStatus[type],
+                      keyword,
+                      pageNo,
+                  }
+                : {
+                      status: TodoStatus[type],
+                  };
         const res = await getTodoList(req);
         if (res) {
             if (type === "todo") {
@@ -52,7 +67,8 @@ const TodoList: React.FC = () => {
                 setTodoLoading(false);
             }
             if (type === "done") {
-                setDoneMap(formatArrayToTimeMap(res.data));
+                setDoneMap(formatArrayToTimeMap(res.data.list));
+                setTotal(res.data.total);
                 setDoneLoading(false);
             }
             if (type === "pool") {
@@ -85,6 +101,8 @@ const TodoList: React.FC = () => {
         form.setFieldsValue({
             time: moment(),
             status: title === "待办" ? TodoStatus.todo : TodoStatus.pool,
+            color: 'grey',
+            category: '其他'
         });
         setShowEdit(true);
     };
@@ -97,6 +115,8 @@ const TodoList: React.FC = () => {
             description: item.description,
             time: moment(item.time),
             status: Number(item.status),
+            color: item.color,
+            category: item.category,
         });
         setShowEdit(true);
     };
@@ -110,6 +130,8 @@ const TodoList: React.FC = () => {
                     time: moment(formData.time).format("YYYY-MM-DD"),
                     status: formData.status,
                     description: formData.description || "",
+                    color: formData.color,
+                    category: formData.category,
                 };
                 const res = await addTodoItem(req);
                 if (res) {
@@ -137,6 +159,8 @@ const TodoList: React.FC = () => {
                     time: moment(formData.time).format("YYYY-MM-DD"),
                     status: formData.status,
                     description: formData.description || "",
+                    color: formData.color,
+                    category: formData.category,
                 };
                 const res = await editTodoItem(req);
                 if (res) {
@@ -182,6 +206,11 @@ const TodoList: React.FC = () => {
                         mapList={listMap[item]}
                         handleAdd={handleAdd}
                         handleEdit={handleEdit}
+                        pageNo={pageNo}
+                        setPageNo={setPageNo}
+                        keyword={keyword}
+                        setKeyword={setKeyword}
+                        total={total}
                     />
                 ) : (
                     <List
