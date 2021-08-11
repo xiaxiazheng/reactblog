@@ -4,6 +4,7 @@ import { Modal, Form, message } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
+import PoolList from "./pool-list";
 import moment from "moment";
 import TodoForm from "./todo-form";
 import {
@@ -72,7 +73,7 @@ const TodoList: React.FC = () => {
                 setDoneLoading(false);
             }
             if (type === "pool") {
-                setPoolMap(formatArrayToTimeMap(res.data));
+                setPoolList(res.data);
                 setPoolLoading(false);
             }
         } else {
@@ -89,7 +90,7 @@ const TodoList: React.FC = () => {
     // 两种列表
     const [todoMap, setTodoMap] = useState({});
     const [doneMap, setDoneMap] = useState({});
-    const [poolMap, setPoolMap] = useState({});
+    const [poolList, setPoolList] = useState([]);
     // 编辑相关
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -101,8 +102,8 @@ const TodoList: React.FC = () => {
         form.setFieldsValue({
             time: moment(),
             status: title === "待办" ? TodoStatus.todo : TodoStatus.pool,
-            color: 'grey',
-            category: '其他'
+            color: "3",
+            category: "其他",
         });
         setShowEdit(true);
     };
@@ -183,46 +184,41 @@ const TodoList: React.FC = () => {
     }, 200);
 
     const [form] = Form.useForm();
-    const listMap: any = {
-        待办: todoMap,
-        已完成: doneMap,
-        待办池: poolMap,
-    };
-
-    const loadingMap: any = {
-        待办: todoLoading,
-        已完成: doneLoading,
-        待办池: poolLoading,
-    };
 
     return (
         <div className={styles.todoList}>
-            {["待办池", "待办", "已完成"].map((item) =>
-                item === "已完成" ? (
-                    <DoneList
-                        loading={loadingMap[item]}
-                        getTodo={getTodo}
-                        title={item}
-                        mapList={listMap[item]}
-                        handleAdd={handleAdd}
-                        handleEdit={handleEdit}
-                        pageNo={pageNo}
-                        setPageNo={setPageNo}
-                        keyword={keyword}
-                        setKeyword={setKeyword}
-                        total={total}
-                    />
-                ) : (
-                    <List
-                        loading={loadingMap[item]}
-                        getTodo={getTodo}
-                        title={item}
-                        mapList={listMap[item]}
-                        handleAdd={handleAdd}
-                        handleEdit={handleEdit}
-                    />
-                )
-            )}
+            {/* 待办池 */}
+            <PoolList
+                loading={poolLoading}
+                getTodo={getTodo}
+                title="待办池"
+                mapList={poolList}
+                handleAdd={handleAdd}
+                handleEdit={handleEdit}
+            />
+            {/* 待办 */}
+            <List
+                loading={todoLoading}
+                getTodo={getTodo}
+                title="待办"
+                mapList={todoMap}
+                handleAdd={handleAdd}
+                handleEdit={handleEdit}
+            />
+            {/* 已完成 */}
+            <DoneList
+                loading={doneLoading}
+                getTodo={getTodo}
+                title="已完成"
+                mapList={doneMap}
+                handleAdd={handleAdd}
+                handleEdit={handleEdit}
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                keyword={keyword}
+                setKeyword={setKeyword}
+                total={total}
+            />
             {/* 新增/编辑 todo */}
             {showEdit && (
                 <Modal

@@ -12,7 +12,7 @@ import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { getWeek } from '../utils';
+import { getWeek } from "../utils";
 
 interface Props {
     loading: boolean;
@@ -23,7 +23,7 @@ interface Props {
     handleEdit: Function;
 }
 
-// 待办池和待办列表
+// 待办
 const List: React.FC<Props> = (props) => {
     const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
 
@@ -33,27 +33,15 @@ const List: React.FC<Props> = (props) => {
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span className={title === "待办" ? styles.active : ""}>
-                    {title}
-                </span>
-                {title !== "已完成" && (
-                    <Button onClick={() => handleAdd(title)}>
-                        <PlusOutlined />
-                        todo
-                    </Button>
-                )}
+                <span className={styles.active}>{title}</span>
+                <Button onClick={() => handleAdd(title)}>
+                    <PlusOutlined />
+                    todo
+                </Button>
             </div>
             <div className={`${styles.listItemWrap} ScrollBar`}>
                 {Object.keys(mapList).map((time) => {
-                    return title === "待办池" ? (
-                        // 待办池不区分日期
-                        <ListItem
-                            list={mapList[time]}
-                            title="待办池"
-                            getTodo={getTodo}
-                            handleEdit={handleEdit}
-                        />
-                    ) : (
+                    return (
                         <div className={styles.oneDay} key={time}>
                             <div
                                 className={`${styles.time} ${
@@ -61,9 +49,7 @@ const List: React.FC<Props> = (props) => {
                                         ? styles.today
                                         : time > today
                                         ? styles.future
-                                        : title === "待办"
-                                        ? styles.previously
-                                        : ""
+                                        : styles.previously
                                 }`}
                             >
                                 {time}&nbsp; ({getWeek(time)})

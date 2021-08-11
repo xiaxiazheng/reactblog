@@ -44,11 +44,18 @@ const TodoForm: React.FC<Props> = (props) => {
         ]);
     };
 
+    const colorNameMap: any = {
+        0: 'red',
+        1: 'orange',
+        2: 'blue',
+        3: 'grey',
+    }
+    
     const descMap: any = {
-        red: "重要且紧急",
-        orange: "不重要但紧急",
-        blue: "重要但不紧急",
-        grey: "不重要且不紧急",
+        0: "重要且紧急",
+        1: "不重要但紧急",
+        2: "重要但不紧急",
+        3: "不重要且不紧急",
     };
 
     return (
@@ -68,9 +75,9 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
-                    {["red", "orange", "blue", "grey"].map((item) => (
+                    {['0', '1', '2', '3'].map((item) => (
                         <Radio value={item} style={{ color: colorMap[item] }}>
-                            <Tooltip title={descMap[item]}>{item}</Tooltip>
+                            <Tooltip title={descMap[item]}>{colorNameMap[item]}</Tooltip>
                         </Radio>
                     ))}
                 </Radio.Group>
