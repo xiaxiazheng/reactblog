@@ -170,7 +170,7 @@ const TodoList: React.FC = () => {
                     getTodo(TodoStatusList[Number(formData.status)]);
                     // 原本那列如果跟要变更到的那列不同那也要更新
                     if (editedTodo?.status !== formData.status) {
-                        getTodo(TodoStatusList[Number(editedTodo?.todo_id)]);
+                        getTodo(TodoStatusList[Number(editedTodo?.status)]);
                     }
                     form.resetFields();
                 } else {

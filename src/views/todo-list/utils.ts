@@ -19,5 +19,5 @@ export const colorMap: any = {
     red: "#f5222d",
     orange: "#fa8c16",
     blue: "#40a9ff",
-    grey: "#bfbfbf",
+    grey: "#827e7e",
 };
