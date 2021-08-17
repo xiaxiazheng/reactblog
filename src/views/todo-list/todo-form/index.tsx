@@ -11,7 +11,9 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap } from '../utils';
+import { colorMap } from "../utils";
+import styles from "./index.module.scss";
+import moment from "moment";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -45,17 +47,37 @@ const TodoForm: React.FC<Props> = (props) => {
     };
 
     const colorNameMap: any = {
-        0: 'red',
-        1: 'orange',
-        2: 'blue',
-        3: 'grey',
-    }
-    
+        0: "red",
+        1: "orange",
+        2: "blue",
+        3: "grey",
+    };
+
     const descMap: any = {
         0: "重要且紧急",
         1: "不重要但紧急",
         2: "重要但不紧急",
         3: "不重要且不紧急",
+    };
+
+    const MyDatePicker = (props: any) => {
+        const { value, onChange } = props;
+
+        return (
+            <>
+                <DatePicker value={value} onChange={onChange} />
+                <span
+                    className={styles.today}
+                    onClick={() => {
+                        form.setFieldsValue({
+                            time: moment(),
+                        });
+                    }}
+                >
+                    Today
+                </span>
+            </>
+        );
     };
 
     return (
@@ -75,9 +97,11 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
-                    {['0', '1', '2', '3'].map((item) => (
+                    {["0", "1", "2", "3"].map((item) => (
                         <Radio value={item} style={{ color: colorMap[item] }}>
-                            <Tooltip title={descMap[item]}>{colorNameMap[item]}</Tooltip>
+                            <Tooltip title={descMap[item]}>
+                                {colorNameMap[item]}
+                            </Tooltip>
                         </Radio>
                     ))}
                 </Radio.Group>
@@ -133,14 +157,14 @@ const TodoForm: React.FC<Props> = (props) => {
                 </Select>
             </Form.Item>
             <Form.Item name="time" label="时间" rules={[{ required: true }]}>
-                <DatePicker />
+                <MyDatePicker />
             </Form.Item>
             <Form.Item name="status" label="状态" rules={[{ required: true }]}>
-                <Select>
-                    <Option value={0}>待办</Option>
-                    <Option value={1}>已完成</Option>
-                    <Option value={2}>待办池</Option>
-                </Select>
+                <Radio.Group>
+                    <Radio value={0}>待办</Radio>
+                    <Radio value={1}>已完成</Radio>
+                    <Radio value={2}>待办池</Radio>
+                </Radio.Group>
             </Form.Item>
         </Form>
     );
