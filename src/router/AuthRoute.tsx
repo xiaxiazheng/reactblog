@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { IsLoginContext } from "../context/IsLoginContext";
-import { message } from "antd";
+import { message, notification, Button } from "antd";
 import { postLogin } from "../client/UserHelper";
 
 interface PropsType {
@@ -37,15 +37,27 @@ export const AuthRoute: React.FC<PropsType> = ({
                         let res = await postLogin(params);
                         if (!res?.access_token) {
                             // 说明本地 sessionStorage 的用户名或密码错误，跳转去 login 界面重新登录
-                            message.error("请重新登录", 2);
-                            return (
-                                <Redirect
-                                    to={{
-                                        pathname: "/login",
-                                        state: { from: props.location },
-                                    }}
-                                />
-                            );
+                            notification.warning({
+                                message: "token 已过期，请重新登录！",
+                                description: (
+                                    <>
+                                        <Button
+                                            type="link"
+                                            onClick={() => {
+                                                props.history.push({
+                                                    pathname: "/login",
+                                                    state: {
+                                                        from: props.location,
+                                                    },
+                                                });
+                                            }}
+                                        >
+                                            点击跳转至登录界面
+                                        </Button>
+                                    </>
+                                ),
+                            });
+                            return <Component {...props} />;
                         } else {
                             // 能到这里，说明是曾经登录过，但是由于刷新导致丢失了 context，所以重新设置 context 的 isLogin，返回要访问的组件即可
                             message.success("您已登录过", 1);

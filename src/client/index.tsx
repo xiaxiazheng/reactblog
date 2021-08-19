@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import axios from "axios";
 import {
     AxiosInstance,
@@ -6,7 +6,7 @@ import {
     AxiosResponse,
     AxiosError,
 } from "axios";
-import { notification, message } from "antd";
+import { notification, message, Button } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { isDev, baseUrl } from "@/env_config";
 import httpCodeMessage from "./lib/http-code-msg";
@@ -44,8 +44,23 @@ const checkStatus = (res: AxiosError["response"]) => {
 function apiErrorLog(res: any) {
     const status: any = res.status;
 
+    // 登录 401 校验
     if (res.status === 401) {
-        window.location.href = `${window.location.origin}/login?from=${window.location.pathname}`;
+        notification.warning({
+            message: "api报错, 登录已过期，请重新登录！",
+            description: (
+                <>
+                    <Button
+                        type="link"
+                        onClick={() => {
+                            window.location.href = `${window.location.origin}/login?from=${window.location.pathname}`;
+                        }}
+                    >
+                        点击跳转至登录界面
+                    </Button>
+                </>
+            ),
+        });
         return;
     }
 
