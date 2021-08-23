@@ -20,79 +20,82 @@ const MaoPu = lazy(() => import("../views/mao-pu"));
 const MindMap = lazy(() => import("../views/mind-map"));
 const TodoList = lazy(() => import("../views/todo-list"));
 const Log = lazy(() => import("../views/log"));
+const Music = lazy(() => import("../views/music"));
 
 interface PropsType extends RouteComponentProps {
-  component?: any;
-  path?: string;
-  exact?: boolean;
+    component?: any;
+    path?: string;
+    exact?: boolean;
 }
 
 export const routes = [
-  { route: "/admin/todo-list", name: "todoList", component: TodoList },
-  {
-    route: "/admin/tree/:first_id/:second_id",
-    name: "Tree",
-    component: Tree,
-  },
-  { route: "/admin/tree", name: "Tree", component: Tree },
-  { route: "/admin/blog/:blog_id", name: "Blog", component: BlogCont },
-  { route: "/admin/blog", name: "Blog", component: Blog },
-  { route: "/admin/mindmap", name: "MindMap", component: MindMap },
-  { route: "/admin/cloud/:parent_id", name: "Cloud", component: Cloud },
-  { route: "/admin/cloud", name: "Cloud", component: Cloud },
-  { route: "/admin/media", name: "Media", component: Media },
-  { route: "/admin/test-page", name: "TestPage", component: TestPage },
-  { route: "/admin/maopu", name: "猫谱", component: MaoPu },
-  // { route: "/admin/log", name: 'log', component: Log },
+    { route: "/admin/todo-list", name: "todoList", component: TodoList },
+    {
+        route: "/admin/tree/:first_id/:second_id",
+        name: "Tree",
+        component: Tree,
+    },
+    { route: "/admin/tree", name: "Tree", component: Tree },
+    { route: "/admin/blog/:blog_id", name: "Blog", component: BlogCont },
+    { route: "/admin/blog", name: "Blog", component: Blog },
+    { route: "/admin/mindmap", name: "MindMap", component: MindMap },
+    { route: "/admin/cloud/:parent_id", name: "Cloud", component: Cloud },
+    { route: "/admin/cloud", name: "Cloud", component: Cloud },
+    { route: "/admin/media", name: "Media", component: Media },
+    { route: "/admin/test-page", name: "TestPage", component: TestPage },
+    { route: "/admin/maopu", name: "猫谱", component: MaoPu },
+    { route: "/admin/music", name: "Music", component: Music },
+    // { route: "/admin/log", name: 'log', component: Log },
 ];
 
 const AdminRouterView: React.FC<PropsType> = (props) => {
-  const { location } = props;
+    const { location } = props;
 
-  const [current, setCurrent] = useState<string>();
-  // 用于刷新的时候将当前导航栏高亮
-  useEffect(() => {
-    const l = location.pathname.split("/");
-    if (l.length >= 3) {
-      setCurrent(`/${l[1]}/${l[2]}`);
-    } else {
-      setCurrent(location.pathname);
-    }
-    if (location.pathname === "/login") {
-      setCurrent("admin");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+    const [current, setCurrent] = useState<string>();
+    // 用于刷新的时候将当前导航栏高亮
+    useEffect(() => {
+        const l = location.pathname.split("/");
+        if (l.length >= 3) {
+            setCurrent(`/${l[1]}/${l[2]}`);
+        } else {
+            setCurrent(location.pathname);
+        }
+        if (location.pathname === "/login") {
+            setCurrent("admin");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location]);
 
-  return (
-    <>
-      <div className={styles.AdminRouterHead}>
-        <AdminHeader
-          routes={routes.filter((item) => !item.route.includes(":"))}
-          current={current}
-          setCurrent={setCurrent}
-        />
-      </div>
-      <Suspense fallback={fallback()}>
-        <div className={styles.AdminRouterView}>
-          <TreeProvider>
-            <BlogProvider>
-              <AuthRoute exact path="/admin" component={Admin} />
-              {routes.map((item) => {
-                return (
-                  <AuthRoute
-                    exact
-                    path={item.route}
-                    component={item.component}
-                  />
-                );
-              })}
-            </BlogProvider>
-          </TreeProvider>
-        </div>
-      </Suspense>
-    </>
-  );
+    return (
+        <>
+            <div className={styles.AdminRouterHead}>
+                <AdminHeader
+                    // 会显示到导航上的路由
+                    routes={routes.filter((item) => !item.route.includes(":"))}
+                    current={current}
+                    setCurrent={setCurrent}
+                />
+            </div>
+            <Suspense fallback={fallback()}>
+                <div className={styles.AdminRouterView}>
+                    <TreeProvider>
+                        <BlogProvider>
+                            <AuthRoute exact path="/admin" component={Admin} />
+                            {routes.map((item) => {
+                                return (
+                                    <AuthRoute
+                                        exact
+                                        path={item.route}
+                                        component={item.component}
+                                    />
+                                );
+                            })}
+                        </BlogProvider>
+                    </TreeProvider>
+                </div>
+            </Suspense>
+        </>
+    );
 };
 
 export default withRouter(AdminRouterView);
