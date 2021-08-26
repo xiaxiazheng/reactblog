@@ -28,7 +28,6 @@ const PoolList: React.FC<Props> = (props) => {
     const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
 
     const today = moment().format("YYYY-MM-DD");
-    console.log(mapList);
 
     return (
         <div className={styles.list}>

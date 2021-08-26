@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./index.module.scss";
 import { Modal, Form, message } from "antd";
 import { formatArrayToTimeMap } from "./utils";
@@ -14,6 +14,7 @@ import {
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { debounce } from "lodash";
+import DragModal from './component/drag-modal';
 
 export interface todoItem {
     todo_id?: string;
@@ -220,20 +221,18 @@ const TodoList: React.FC = () => {
                 total={total}
             />
             {/* 新增/编辑 todo */}
-            {showEdit && (
-                <Modal
-                    title={`${isEdit ? "编辑" : "新增"} todo`}
-                    visible={showEdit}
-                    onOk={isEdit ? editTodo : addTodo}
-                    onCancel={() => {
-                        setEditedTodo(undefined);
-                        setShowEdit(false);
-                        form.resetFields();
-                    }}
-                >
-                    <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
-                </Modal>
-            )}
+            <DragModal
+                title={`${isEdit ? "编辑" : "新增"} todo`}
+                visible={showEdit}
+                onOk={isEdit ? editTodo : addTodo}
+                onCancel={() => {
+                    setEditedTodo(undefined);
+                    setShowEdit(false);
+                    form.resetFields();
+                }}
+            >
+                <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
+            </DragModal>
         </div>
     );
 };
