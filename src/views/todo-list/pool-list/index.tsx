@@ -8,11 +8,8 @@ import {
     QuestionCircleOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
-import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { getWeek } from "../utils";
 
 interface Props {
     loading: boolean;
@@ -27,14 +24,12 @@ interface Props {
 const PoolList: React.FC<Props> = (props) => {
     const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
 
-    const today = moment().format("YYYY-MM-DD");
-
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
                 <span>
-                    {title}
+                    待办池({mapList.length})
                 </span>
                 <Button onClick={() => handleAdd(title)}>
                     <PlusOutlined />

@@ -43,7 +43,7 @@ const DoneList: React.FC<Props> = (props) => {
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>{title}</span>
+                <span>{title}({total})</span>
             </div>
             <Input
                 className={styles.search}
@@ -82,7 +82,6 @@ const DoneList: React.FC<Props> = (props) => {
                 className={styles.pagination}
                 current={pageNo}
                 total={total}
-                showTotal={(total, range) => `共 ${total}`}
                 onChange={(page) => setPageNo(page)}
                 pageSize={15}
             />

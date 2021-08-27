@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
@@ -29,11 +29,13 @@ const List: React.FC<Props> = (props) => {
 
     const today = moment().format("YYYY-MM-DD");
 
+    const total = Object.keys(mapList).reduce((prev, cur) => mapList[cur].length + prev, 0);
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span className={styles.active}>{title}</span>
+                <span className={styles.active}>{title}({total})</span>
                 <Button onClick={() => handleAdd(title)}>
                     <PlusOutlined />
                     todo
