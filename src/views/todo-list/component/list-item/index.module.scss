@@ -25,16 +25,24 @@
             color: white;
             border-radius: 2px;
         }
+
+        &.hasDesc {
+            cursor: pointer;
+            &:hover {
+                color: #40a9ff;
+            }
+        }
     }
+}
+
+.desc {
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
 .doneIcon,
 .icon {
     margin: 0 7px;
-    cursor: pointer;
-    &:hover {
-        color: var(--color_hover_green);
-    }
 }
 .doneIcon {
     font-size: 20px;
