@@ -86,6 +86,7 @@ const DragModal = (props: DragModalType) => {
             onCancel={onCancel}
             style={{ position: "absolute", transform, left, top }}
             transitionName=""
+            destroyOnClose
         >
             {props.children}
         </Modal>
