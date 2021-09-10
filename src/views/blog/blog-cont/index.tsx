@@ -58,7 +58,6 @@ const BlogCont: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         isEdit && getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.params.blog_id, isEdit]);
 
     // 回到日志列表

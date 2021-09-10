@@ -55,7 +55,6 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         second_id && getTreeCont();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [second_id]);
 
     // 监听键盘事件，实现 Ctrl+s 保存
@@ -72,7 +71,6 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
         return () => {
             document.removeEventListener("keydown", onKeyDown);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contList]);
 
     const [title, setTitle] = useState("");

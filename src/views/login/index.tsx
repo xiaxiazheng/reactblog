@@ -28,7 +28,6 @@ const Login: React.FC<PropsType> = (props) => {
     useEffect(() => {
         location.search &&
             message.warning("状态码 401：登录已过期，请重新登录");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 查是否为空

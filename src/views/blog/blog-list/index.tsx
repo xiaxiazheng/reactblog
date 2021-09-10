@@ -60,12 +60,10 @@ const BlogList: React.FC<PropsType> = (props) => {
             }
             setIsTagChange(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTagChange]);
 
     useEffect(() => {
         getLogList();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tabsState, username, searchType]);
 
     // 初始化日志列表
@@ -149,7 +147,6 @@ const BlogList: React.FC<PropsType> = (props) => {
                 pageNo: 1,
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [myKeyword]);
 
     // 回车搜索，是通过修改 tabsState 的 keyword 实现搜索的

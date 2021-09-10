@@ -57,7 +57,6 @@ const BlogContShow: React.FC<PropsType> = (props) => {
             }
         };
         getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [blog_id]);
 
     // 统计访问量
@@ -77,7 +76,6 @@ const BlogContShow: React.FC<PropsType> = (props) => {
         return () => {
             clearTimeout(visit);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [blogData]);
 
     const className = classnames({

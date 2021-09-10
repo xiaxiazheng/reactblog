@@ -47,7 +47,6 @@ const TreeMenu: React.FC<PropsType> = (props) => {
             }
         };
         init();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
 
     // 初始化数据
@@ -78,7 +77,6 @@ const TreeMenu: React.FC<PropsType> = (props) => {
             setOpenKeys([`${first_id}`]);
             setSelectedKeys([`${second_id}`]);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.params]);
 
     // 点击树节点

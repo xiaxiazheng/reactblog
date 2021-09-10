@@ -1,6 +1,3 @@
-/*
- * @Author: xiaxiazheng
- */
 import React, { lazy, Suspense, useState, useEffect } from "react";
 import { RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import styles from "./index.module.scss";
@@ -9,18 +6,19 @@ import { AuthRoute } from "./AuthRoute";
 import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";
 import { fallback } from "./index";
-const Tree = lazy(() => import("../views/tree"));
-const Blog = lazy(() => import("../views/blog"));
-const BlogCont = lazy(() => import("../views/blog/blog-cont"));
-const Admin = lazy(() => import("../views/admin"));
-const Cloud = lazy(() => import("../views/cloud"));
-const Media = lazy(() => import("../views/media"));
-const TestPage = lazy(() => import("../views/test-page"));
-const MaoPu = lazy(() => import("../views/mao-pu"));
-const MindMap = lazy(() => import("../views/mind-map"));
-const TodoList = lazy(() => import("../views/todo-list"));
-const Log = lazy(() => import("../views/log"));
-const Music = lazy(() => import("../views/music"));
+
+const Tree = lazy(() => import(/* webpackChunkName: "Tree" */ "../views/tree"));
+const Blog = lazy(() => import(/* webpackChunkName: "Blog" */ "../views/blog"));
+const BlogCont = lazy(() => import(/* webpackChunkName: "BlogCont" */ "../views/blog/blog-cont"));
+const Admin = lazy(() => import(/* webpackChunkName: "Admin" */ "../views/admin"));
+const Cloud = lazy(() => import(/* webpackChunkName: "Cloud" */ "../views/cloud"));
+const Media = lazy(() => import(/* webpackChunkName: "Media" */ "../views/media"));
+const TestPage = lazy(() => import(/* webpackChunkName: "TestPage" */ "../views/test-page"));
+const MaoPu = lazy(() => import(/* webpackChunkName: "MaoPu" */ "../views/mao-pu"));
+const MindMap = lazy(() => import(/* webpackChunkName: "MindMap" */ "../views/mind-map"));
+const TodoList = lazy(() => import(/* webpackChunkName: "Todo" */ "../views/todo-list"));
+const Log = lazy(() => import(/* webpackChunkName: "Log" */ "../views/log"));
+const Music = lazy(() => import(/* webpackChunkName: "Music" */ "../views/music"));
 
 interface PropsType extends RouteComponentProps {
     component?: any;
@@ -63,7 +61,6 @@ const AdminRouterView: React.FC<PropsType> = (props) => {
         if (location.pathname === "/login") {
             setCurrent("admin");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     return (
@@ -81,9 +78,10 @@ const AdminRouterView: React.FC<PropsType> = (props) => {
                     <TreeProvider>
                         <BlogProvider>
                             <AuthRoute exact path="/admin" component={Admin} />
-                            {routes.map((item) => {
+                            {routes.map((item, index) => {
                                 return (
                                     <AuthRoute
+                                        key={index}
                                         exact
                                         path={item.route}
                                         component={item.component}

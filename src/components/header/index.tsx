@@ -44,7 +44,6 @@ const Header: React.FC<PropsType> = (props) => {
     if (location.pathname === "/login") {
       setCurrent("admin");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   /** 点击切换主题 */

@@ -35,7 +35,6 @@ const DragModal = (props: DragModalType) => {
         return () => {
             document.removeEventListener("keydown", onKeyDown);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
@@ -45,7 +44,6 @@ const DragModal = (props: DragModalType) => {
             onOk && onOk({} as any);
             setIsKeyDown(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isKeyDown, onOk]);
 
     // 一开始的偏移量，后续需要被剪掉

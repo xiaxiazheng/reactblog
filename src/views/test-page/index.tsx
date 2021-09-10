@@ -34,7 +34,7 @@ const TestPage: React.FC = () => {
             <div>测试页</div>
             <div className={styles.router}>
                 {list.map((item) => (
-                    <span onClick={() => setActive(item)}>{item}</span>
+                    <span key={item} onClick={() => setActive(item)}>{item}</span>
                 ))}
             </div>
             {active && <Component />}

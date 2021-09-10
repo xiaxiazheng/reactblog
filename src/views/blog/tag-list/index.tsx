@@ -67,12 +67,10 @@ const TagList: React.FC<PropsType> = (props) => {
             getTagData();
             setIsUpdateTag(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isUpdateTag]);
 
     useEffect(() => {
         getTagData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
 
     /** 选中 tag */

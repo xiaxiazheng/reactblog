@@ -1,44 +1,45 @@
-import React from 'react';
-import styles from './index.module.scss';
+import React from "react";
+import styles from "./index.module.scss";
 import { Drawer } from "antd";
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined } from "@ant-design/icons";
 
 interface Props {
-  visible: boolean;
-  setVisible: Function;
+    visible: boolean;
+    setVisible: Function;
+    children?: any;
 }
 
 const MinHeader: React.FC<Props> = (props) => {
-  const { visible, setVisible } = props;
+    const { visible, setVisible } = props;
 
     return (
         <>
-              {/* 移动端展示 */}
-      {window.screen.availWidth <= 720 && (
-        <>
-          <Drawer
-            // title="Basic Drawer"
-            placement="left"
-            closable={false}
-            onClose={() => {
-              setVisible(!visible);
-            }}
-            className={styles.drawer}
-            width={"calc(100% - 80px)"}
-            visible={visible}
-          >
-            {props.children}
-          </Drawer>
-          <div
-            className={styles.drawerControl}
-            onClick={() => setVisible(true)}
-          >
-            <HomeOutlined className={styles.headerIcon} />
-          </div>
+            {/* 移动端展示 */}
+            {window.screen.availWidth <= 720 && (
+                <>
+                    <Drawer
+                        // title="Basic Drawer"
+                        placement="left"
+                        closable={false}
+                        onClose={() => {
+                            setVisible(!visible);
+                        }}
+                        className={styles.drawer}
+                        width={"calc(100% - 80px)"}
+                        visible={visible}
+                    >
+                        {props.children}
+                    </Drawer>
+                    <div
+                        className={styles.drawerControl}
+                        onClick={() => setVisible(true)}
+                    >
+                        <HomeOutlined className={styles.headerIcon} />
+                    </div>
+                </>
+            )}
         </>
-      )}
-      </>
-    )
-}
+    );
+};
 
 export default MinHeader;

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "../context/IsLoginContext";
 import { message, notification, Button } from "antd";
 import { postLogin } from "../client/UserHelper";
@@ -21,7 +21,7 @@ export const AuthRoute: React.FC<PropsType> = ({
         <>
             <Route
                 {...rest}
-                render={(props) => {
+                render={(props: RouteComponentProps) => {
                     // 使用了 AuthRoute 代替 Route 的组件都会先执行这里，检查是否登录
 
                     // 登录函数，主要是用于 sessionStorage 中存在用户名和密码时的登录

@@ -98,7 +98,7 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
                     {["0", "1", "2", "3"].map((item) => (
-                        <Radio value={item} style={{ color: colorMap[item] }}>
+                        <Radio key={item} value={item} style={{ color: colorMap[item] }}>
                             <Tooltip title={descMap[item]}>
                                 {colorNameMap[item]}
                             </Tooltip>
@@ -150,7 +150,10 @@ const TodoForm: React.FC<Props> = (props) => {
                     )}
                 >
                     {category.map((item) => (
-                        <Select.Option value={item.category}>
+                        <Select.Option
+                            key={item.category}
+                            value={item.category}
+                        >
                             {item.category}
                         </Select.Option>
                     ))}

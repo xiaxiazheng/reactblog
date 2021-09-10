@@ -69,7 +69,6 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         return () => {
             document.removeEventListener("keydown", onKeyDown);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
@@ -79,7 +78,6 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
             saveMaoPu();
             setIsKeyDown(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isKeyDown]);
 
     // 键盘事件
@@ -110,7 +108,6 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
             isChange = true;
         }
         setIsChange(isChange);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         name,
         birthday,

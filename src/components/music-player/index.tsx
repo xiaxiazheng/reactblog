@@ -72,7 +72,6 @@ const Music: React.FC<PropsType> = (props) => {
             changeSong(active);
             setIsPlaying(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active]);
 
     // 根据当前歌曲名称切换 title
@@ -161,7 +160,8 @@ const Music: React.FC<PropsType> = (props) => {
             const audio = dom.current.childNodes[0];
             audio.onended = handleFinish;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
+
     }, [isOneCircle]);
 
     // 处理选择歌曲
