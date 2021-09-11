@@ -153,7 +153,7 @@ export const getHelper = async (url: string) => {
     try {
         res = await instance.get(url, {
             headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             cancelToken: source.token,
         });
@@ -175,7 +175,7 @@ export const postHelper = async (url: string, params?: any) => {
     try {
         res = await instance.post(url, params, {
             headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             cancelToken: source.token,
         });

@@ -53,7 +53,7 @@ const postStaticHelper = async (url: string, params?: any) => {
   try {
     res = await staticInstance.post(url, params, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`
       },
       // cancelToken: source.token
     });
@@ -67,45 +67,3 @@ const postStaticHelper = async (url: string, params?: any) => {
   }
   return res.data;
 };
-
-// 封装 Get
-// const getHelper = async (url: string) => {
-//   let res: ResType;
-//   try {
-//     res = await instance.get(url, {
-//       headers: {
-//         Authorization: `Bearer ${sessionStorage.getItem("token")}`
-//       },
-//       // cancelToken: source.token
-//     });
-//   } catch (e) {
-//     console.log("get请求失败", e);
-//     return;
-//   }
-//   if (res.data.resultsCode === 'error') {
-//     console.log(res.data.message);
-//     return;
-//   }
-//   return res.data;
-// };
-
-// 封装 Post
-// const postHelper = async (url: string, params?: any) => {
-//   let res: any;
-//   try {
-//     res = await instance.post(url, params, {
-//       headers: {
-//         Authorization: `Bearer ${sessionStorage.getItem("token")}`
-//       },
-//       // cancelToken: source.token
-//     });
-//   } catch (e) {
-//     console.log("post请求失败", e);
-//     return;
-//   }
-//   if (res.data.resultsCode === 'error') {
-//     console.log(res.data.message);
-//     return;
-//   }
-//   return res.data;
-// };
