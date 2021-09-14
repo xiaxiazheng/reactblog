@@ -44,7 +44,7 @@
             border-bottom: 1px solid var(--border_color);
 
             &.today {
-                color: #20d420;
+                color: var(--color_active);
             }
 
             &.previously {

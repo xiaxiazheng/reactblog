@@ -69,7 +69,6 @@ module.exports = {
             })
         )(config, env);
 
-        console.log(process.env.OPEN_ANALYSIS);
         if (process.env.OPEN_ANALYSIS) {
             override(addWebpackPlugin(new BundleAnalyzerPlugin()))(config, env);
         }

@@ -16,6 +16,7 @@ export const getWeek = (time: string) => {
 };
 
 export const colorMap: any = {
+    [-1]: "#20d420",
     0: "#f5222d",
     1: "#fa8c16",
     2: "#40a9ff",
