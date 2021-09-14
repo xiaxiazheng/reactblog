@@ -19,6 +19,7 @@ interface Props {
     keyword: string;
     setKeyword: Function;
     total: number;
+    handleCopy: Function;
 }
 
 // 已完成列表
@@ -34,6 +35,7 @@ const DoneList: React.FC<Props> = (props) => {
         keyword,
         setKeyword,
         total,
+        handleCopy
     } = props;
 
     const today = moment().format("YYYY-MM-DD");
@@ -72,6 +74,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     title="已完成"
                                     getTodo={getTodo}
                                     handleEdit={handleEdit}
+                                    handleCopy={handleCopy}
                                 />
                             }
                         </div>

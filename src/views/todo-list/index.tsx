@@ -14,7 +14,7 @@ import {
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { debounce } from "lodash";
-import DragModal from './component/drag-modal';
+import DragModal from "./component/drag-modal";
 
 export interface todoItem {
     todo_id?: string;
@@ -93,13 +93,13 @@ const TodoList: React.FC = () => {
     const [doneMap, setDoneMap] = useState({});
     const [poolList, setPoolList] = useState([]);
     // 编辑相关
-    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [operType, setOperType] = useState<"add" | "edit" | "copy">();
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const [editedTodo, setEditedTodo] = useState<todoItem>();
 
     const handleAdd = (title: "待办" | "待办池") => {
         setEditedTodo(undefined);
-        setIsEdit(false);
+        setOperType("add");
         form.setFieldsValue({
             time: moment(),
             status: title === "待办" ? TodoStatus.todo : TodoStatus.pool,
@@ -109,9 +109,23 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
+    const handleCopy = (item: todoItem) => {
+        setEditedTodo(item);
+        setOperType("copy");
+        form.setFieldsValue({
+            name: item.name,
+            description: item.description,
+            time: moment(item.time),
+            status: Number(item.status),
+            color: item.color,
+            category: item.category,
+        });
+        setShowEdit(true);
+    };
+
     const handleEdit = (item: todoItem) => {
         setEditedTodo(item);
-        setIsEdit(true);
+        setOperType("edit");
         form.setFieldsValue({
             name: item.name,
             description: item.description,
@@ -196,6 +210,7 @@ const TodoList: React.FC = () => {
                 mapList={poolList}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
+                handleCopy={handleCopy}
             />
             {/* 待办 */}
             <List
@@ -205,6 +220,7 @@ const TodoList: React.FC = () => {
                 mapList={todoMap}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
+                handleCopy={handleCopy}
             />
             {/* 已完成 */}
             <DoneList
@@ -214,6 +230,7 @@ const TodoList: React.FC = () => {
                 mapList={doneMap}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
+                handleCopy={handleCopy}
                 pageNo={pageNo}
                 setPageNo={setPageNo}
                 keyword={keyword}
@@ -222,16 +239,26 @@ const TodoList: React.FC = () => {
             />
             {/* 新增/编辑 todo */}
             <DragModal
-                title={`${isEdit ? "编辑" : "新增"} todo`}
+                title={`${
+                    operType === "add"
+                        ? "新增"
+                        : operType === "edit"
+                        ? "编辑"
+                        : "复制"
+                } todo`}
                 visible={showEdit}
-                onOk={isEdit ? editTodo : addTodo}
+                onOk={operType === 'edit' ? editTodo : addTodo}
                 onCancel={() => {
                     setEditedTodo(undefined);
                     setShowEdit(false);
                     form.resetFields();
                 }}
             >
-                <TodoForm form={form} onOk={isEdit ? editTodo : addTodo} />
+                <TodoForm
+                    form={form}
+                    // 复制走的是新建的路子
+                    onOk={operType === "edit" ? editTodo : addTodo}
+                />
             </DragModal>
         </div>
     );

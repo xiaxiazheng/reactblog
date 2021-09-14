@@ -21,11 +21,12 @@ interface Props {
     getTodo: Function;
     handleAdd: Function;
     handleEdit: Function;
+    handleCopy: Function;
 }
 
 // 待办
 const List: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
+    const { loading, title, mapList, getTodo, handleAdd, handleEdit, handleCopy } = props;
 
     const today = moment().format("YYYY-MM-DD");
 
@@ -62,6 +63,7 @@ const List: React.FC<Props> = (props) => {
                                     title="待办"
                                     getTodo={getTodo}
                                     handleEdit={handleEdit}
+                                    handleCopy={handleCopy}
                                 />
                             }
                         </div>

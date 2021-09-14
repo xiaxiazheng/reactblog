@@ -18,11 +18,12 @@ interface Props {
     getTodo: Function;
     handleAdd: Function;
     handleEdit: Function;
+    handleCopy: Function;
 }
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleAdd, handleEdit } = props;
+    const { loading, title, mapList, getTodo, handleAdd, handleEdit, handleCopy } = props;
 
     return (
         <div className={styles.list}>
@@ -43,6 +44,7 @@ const PoolList: React.FC<Props> = (props) => {
                         title="待办池"
                         getTodo={getTodo}
                         handleEdit={handleEdit}
+                        handleCopy={handleCopy}
                     />
                 </div>
             </div>

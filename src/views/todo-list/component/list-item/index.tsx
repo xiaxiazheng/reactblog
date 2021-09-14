@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
+    CopyOutlined,
     EditOutlined,
     DeleteOutlined,
     QuestionCircleOutlined,
@@ -15,10 +16,11 @@ interface Props {
     title: "待办" | "待办池" | "已完成";
     getTodo: Function;
     handleEdit: Function;
+    handleCopy: Function;
 }
 
 const ListItem: React.FC<Props> = (props) => {
-    const { list, title, getTodo, handleEdit } = props;
+    const { list, title, getTodo, handleEdit, handleCopy } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {
@@ -124,6 +126,11 @@ const ListItem: React.FC<Props> = (props) => {
                             )}
                         </span>
                         <span>
+                            <CopyOutlined
+                                className={styles.icon}
+                                title="复制"
+                                onClick={handleCopy.bind(null, item)}
+                            />
                             <EditOutlined
                                 className={styles.icon}
                                 title="编辑"
