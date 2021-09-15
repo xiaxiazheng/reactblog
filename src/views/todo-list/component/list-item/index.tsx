@@ -53,6 +53,43 @@ const ListItem: React.FC<Props> = (props) => {
         }
     };
 
+    // 处理详细描述，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
+    const handleDesc = (str: string) => {
+        const re = /http[s]?:\/\/[^\s]*/g;
+        let match;
+        const urlList: string[] = [];
+        let s = str;
+        while ((match = re.exec(str)) !== null) {
+            const url = match[0];
+            urlList.push(url);
+            s = s.replace(url, "<url_flag>");
+        }
+
+        return urlList.length === 0 ? (
+            str
+        ) : (
+            <span>
+                {s.split("<url_flag>").map((item, index) => {
+                    return (
+                        <span key={index}>
+                            {item}
+                            {urlList[index] && (
+                                <a
+                                    style={{ color: "black" }}
+                                    href={urlList[index]}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {urlList[index]}
+                                </a>
+                            )}
+                        </span>
+                    );
+                })}
+            </span>
+        );
+    };
+
     const Name = (item: any) => {
         return (
             <>
@@ -60,7 +97,7 @@ const ListItem: React.FC<Props> = (props) => {
                     <Tooltip
                         title={
                             <div className={styles.desc}>
-                                {item.description}
+                                {handleDesc(item.description)}
                             </div>
                         }
                         color="#1890ff"
@@ -126,16 +163,20 @@ const ListItem: React.FC<Props> = (props) => {
                             )}
                         </span>
                         <span>
-                            <CopyOutlined
-                                className={styles.icon}
-                                title="复制"
-                                onClick={handleCopy.bind(null, item)}
-                            />
-                            <EditOutlined
-                                className={styles.icon}
-                                title="编辑"
-                                onClick={handleEdit.bind(null, item)}
-                            />
+                            <Tooltip title={"编辑"}>
+                                <EditOutlined
+                                    className={styles.icon}
+                                    title="编辑"
+                                    onClick={handleEdit.bind(null, item)}
+                                />
+                            </Tooltip>
+                            <Tooltip title={"复制"}>
+                                <CopyOutlined
+                                    className={styles.icon}
+                                    title="复制"
+                                    onClick={handleCopy.bind(null, item)}
+                                />
+                            </Tooltip>
                             <Popconfirm
                                 title="确认要删除吗？"
                                 onConfirm={() => deleteTodo(item.todo_id)}
@@ -143,10 +184,12 @@ const ListItem: React.FC<Props> = (props) => {
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <DeleteOutlined
-                                    title="删除"
-                                    className={styles.icon}
-                                />
+                                <Tooltip title={"删除"}>
+                                    <DeleteOutlined
+                                        title="删除"
+                                        className={styles.icon}
+                                    />
+                                </Tooltip>
                             </Popconfirm>
                         </span>
                     </div>
