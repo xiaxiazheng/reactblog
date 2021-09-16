@@ -7,32 +7,32 @@ import mdStyle from "./gitlab.module.scss";
 // import "highlight.js/styles/atom-one-dark-reasonable.css";
 
 interface PropsType {
-  blogcont: string | undefined;
+    blogcont: string | undefined;
 }
 
 const MarkdownShow: React.FC<PropsType> = (props) => {
-  const { blogcont } = props;
-  const md = new markdownIt({
-    // 代码高亮，貌似加不上去
-    // highlight: function (str: any, lang: any) {
-    //   if (lang && hljs.getLanguage(lang)) {
-    //     try {
-    //       return hljs.highlight(lang, str).value;
-    //     } catch (__) {}
-    //   }
-    //   return ''; // use external default escaping
-    //   // return hljs.highlightAuto(str).value
-    // }
-  });
+    const { blogcont } = props;
+    const md = new markdownIt({
+        // 代码高亮，貌似加不上去
+        // highlight: function (str: any, lang: any) {
+        //   if (lang && hljs.getLanguage(lang)) {
+        //     try {
+        //       return hljs.highlight(lang, str).value;
+        //     } catch (__) {}
+        //   }
+        //   return ''; // use external default escaping
+        //   // return hljs.highlightAuto(str).value
+        // }
+    });
 
-  return (
-    <div
-      className={`${styles.markdownShower} ${mdStyle.markdownShower}`}
-      dangerouslySetInnerHTML={{
-        __html: md.render(blogcont),
-      }}
-    />
-  );
+    return (
+        <div
+            className={`${styles.markdownShower} ${mdStyle.markdownShower}`}
+            dangerouslySetInnerHTML={{
+                __html: md.render(blogcont),
+            }}
+        />
+    );
 };
 
 export default MarkdownShow;

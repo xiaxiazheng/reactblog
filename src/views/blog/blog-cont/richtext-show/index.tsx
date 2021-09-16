@@ -9,28 +9,33 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 interface PropsType {
-  blogcont: string | undefined;
+    blogcont: string | undefined;
 }
 
 const LogContShow: React.FC<PropsType> = (props) => {
-  const { blogcont } = props;
+    const { blogcont } = props;
 
-  // 编辑器配置
-  const modules: any = {
-    syntax: {
-      highlight: (text: any) => hljs.highlightAuto(text).value,
-    },
-    clipboard: {
-      // 这个设置是防止每次保存都有莫名其妙的空行“<p><br></p>”插入到内容中
-      matchVisual: false,
-    },
-  };
+    // 编辑器配置
+    const modules: any = {
+        syntax: {
+            highlight: (text: any) => hljs.highlightAuto(text).value,
+        },
+        clipboard: {
+            // 这个设置是防止每次保存都有莫名其妙的空行“<p><br></p>”插入到内容中
+            matchVisual: false,
+        },
+    };
 
-  return (
-    <div className={styles.blogcontEditor}>
-      <ReactQuill readOnly theme="bubble" value={blogcont} modules={modules} />
-    </div>
-  );
+    return (
+        <div className={styles.blogcontEditor}>
+            <ReactQuill
+                readOnly
+                theme="bubble"
+                value={blogcont}
+                modules={modules}
+            />
+        </div>
+    );
 };
 
 export default LogContShow;

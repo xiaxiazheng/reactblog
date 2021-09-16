@@ -51,7 +51,7 @@ const BlogList: React.FC<PropsType> = (props) => {
     useEffect(() => {
         if (isTagChange) {
             if (pageNo === 1) {
-                getLogList();
+                getBlogList();
             } else {
                 setTabsState({
                     ...tabsState,
@@ -63,17 +63,17 @@ const BlogList: React.FC<PropsType> = (props) => {
     }, [isTagChange]);
 
     useEffect(() => {
-        getLogList();
+        getBlogList();
     }, [tabsState, username, searchType]);
 
     // 初始化日志列表
-    const getLogList = async () => {
+    const getBlogList = async () => {
         setLoading(true);
 
         let params: any = {
-            pageNo: pageNo,
-            pageSize: pageSize,
-            orderBy: orderBy,
+            pageNo,
+            pageSize,
+            orderBy,
             keyword: keyword
                 ? searchType === "精准查找"
                     ? keyword
@@ -116,7 +116,7 @@ const BlogList: React.FC<PropsType> = (props) => {
     };
 
     // 点击日志，路由跳转
-    const choiceOneLog = (item: BlogListType) => {
+    const choiceOneBlog = (item: BlogListType) => {
         const path = `${isLogin ? "/admin" : ""}/blog/${btoa(
             decodeURIComponent(item.blog_id)
         )}`;
@@ -299,12 +299,12 @@ const BlogList: React.FC<PropsType> = (props) => {
                                         : ""
                                 } ${styles.blogListLi}`}
                                 key={item.blog_id}
-                                onClick={choiceOneLog.bind(null, item)}
+                                onClick={choiceOneBlog.bind(null, item)}
                             >
                                 <BlogListItem
                                     blogItemData={item}
                                     orderBy={orderBy}
-                                    getNewList={getLogList}
+                                    getNewList={getBlogList}
                                 />
                             </li>
                         );

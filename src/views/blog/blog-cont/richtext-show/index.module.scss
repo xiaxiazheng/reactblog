@@ -1,14 +1,14 @@
 @import "./richtext.module.scss";
 
 .blogcontEditor {
-  // 富文本编辑器样式
-  :global(.ql-container) {
-    width: 100%;
-    color: var(--color);
-    font-size: 16px;
-    @extend %rich-common;
-    img {
-      max-width: 100%;
+    // 富文本编辑器样式
+    :global(.ql-container) {
+        width: 100%;
+        color: var(--color);
+        font-size: 16px;
+        @extend %rich-common;
+        img {
+            max-width: 100%;
+        }
     }
-  }
 }
