@@ -7,8 +7,8 @@
     color: var(--color);
 
     .empty {
-      font-size: 30px;
-      color: var(--color);
+        font-size: 30px;
+        color: var(--color);
     }
 
     .title {
@@ -72,39 +72,6 @@
         position: fixed;
         left: 2.5rem;
         top: calc(50% + 1.5rem);
-        opacity: 0.6;
-    }
-}
-
-@media (max-width: 720px) {
-    .blogcontShow {
-        padding: 10px 0 0;
-        .author,
-        .time {
-            display: none;
-        }
-        .exportPdf {
-            display: none;
-        }
-        .scrollToTop {
-            right: 110px;
-            top: unset;
-            left: unset;
-            bottom: 6px;
-        }
-        .scrollToBottom {
-            position: fixed;
-            right: 60px;
-            top: unset;
-            left: unset;
-            bottom: 6px;
-        }
-    }
-
-    .openMao {
-        position: fixed;
-        bottom: 6px;
-        right: 10px;
         opacity: 0.6;
     }
 }

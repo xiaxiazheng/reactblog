@@ -1,36 +1,28 @@
 .BlogCont {
-  position: relative;
-  height: 100%;
-  overflow: auto;
-  background-color: var(--bg_color);
-  .backButton {
-    position: absolute;
-    left: 2rem;
-    top: 1rem;
-    z-index: 2;
-  }
-  .logEditSwitch {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    background: var(--bg_color);
-    border: 1px solid var(--border_color);
-    >span {
-      color: var(--color);
-    }
-    &:global(.ant-switch-checked) {
-      background-color: transparent;
-    }
-    &:global(.ant-switch::after) {
-      border: 1px solid var(--border_color);
-    }
-  }
-}
-
-@media (max-width: 720px) {
-  .BlogCont {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--bg_color);
     .backButton {
-      display: none;
+        position: absolute;
+        left: 2rem;
+        top: 1rem;
+        z-index: 2;
     }
-  }
+    .logEditSwitch {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        background: var(--bg_color);
+        border: 1px solid var(--border_color);
+        > span {
+            color: var(--color);
+        }
+        &:global(.ant-switch-checked) {
+            background-color: transparent;
+        }
+        &:global(.ant-switch::after) {
+            border: 1px solid var(--border_color);
+        }
+    }
 }

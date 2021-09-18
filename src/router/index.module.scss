@@ -1,35 +1,28 @@
 $headerHight: 3rem;
 $adminHeaderHight: 1.8rem;
 .routerWrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .RouterHead {
-  height: $headerHight;
+    height: $headerHight;
 }
 
 .RouterView {
-  width: 100%;
-  height: calc(100% - #{$headerHight});
-  font-size: 0;
+    width: 100%;
+    height: calc(100% - #{$headerHight});
+    font-size: 0;
 }
 
 .AdminRouterHead {
-  height: $adminHeaderHight;
+    height: $adminHeaderHight;
 }
 
 .AdminRouterView {
-  width: 100%;
-  height: calc(100% - #{$adminHeaderHight});
-  font-size: 0;
+    width: 100%;
+    height: calc(100% - #{$adminHeaderHight});
+    font-size: 0;
 }
-
-@media (max-width: 720px) {
-  .RouterHead {
-    height: 0;
-  }
-}
-

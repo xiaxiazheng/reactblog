@@ -1,171 +1,114 @@
 .treecontedit {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  .mask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    padding-top: 17%;
-    z-index: 2;
-    background-color: var(--bg_color_mask);
-  }
-  .treeconteditWrapper {
+    position: relative;
     display: inline-block;
     width: 100%;
     height: 100%;
-    padding: 0 10% 2rem;
-    font-size: 16px;
-    letter-spacing: 1px;
-    .treecontTitle {
-      padding-right: 260px;
-      margin: 1rem 0;
-      font-weight: bold;
-      color: var(--color);
+    .mask {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding-top: 17%;
+        z-index: 2;
+        background-color: var(--bg_color_mask);
     }
-    .contitem {
-      display: flex;
-      margin-bottom: 1rem;
-      .contitemEdit {
-        flex: 1;
-        .contitemInput {
-          background: var(--bg_color);
-          color: var(--color);
-          letter-spacing: 1px;
-          font-size: 15px;
-        }
-        .contitemTextarea {
-          margin-top: .5rem;
-          resize: none;
-          letter-spacing: 2px;
-          background: var(--bg_color);
-          color: var(--color);
-          font-size: 15px;
-        }
-      }
-      .contitemImg {
-        width: 260px;
-        text-align: left;
-        .imgbox {
-          border: 1px solid var(--border_color);
-          border-radius: 3px;
-          width: 170px;
-          height: 170px;
-        }
-      }
-      .contitemIcons {
-        display: flex;
-        justify-content: space-between;
-        .contitemIconsBox {
-          font-size: 1rem;
-          text-align: left;
-          .contnodeIcon {
-            margin-right: .3rem;
-            &:hover {
-              color: var(--color_active);
-              cursor: pointer;
-            }
-          }
-        }
-        .contitemTime {
-          text-align: right;
-          font-size: .7rem;
-          color: var(--color);
-          >span {
-            margin-left: .7rem;
-          }
-        }
-      }
-    }
-  }
-
-  .treecontAddbuttonFront {
-    position: absolute;
-    right: 2.5rem;
-    top: 4rem;
-  }
-
-  .treecontAddbuttonBehind {
-    position: absolute;
-    right: 2.5rem;
-    top: 7rem;
-  }
-
-  .treecontSavebutton {
-    position: absolute;
-    right: 2.5rem;
-    top: 10rem;
-  }
-
-  // 滚动到顶部 or 底部
-  .scrollToTop {
-    position: absolute;
-    left: 2.5rem;
-    top: calc(50% - 1.5rem);
-    opacity: 0.6;
-  }
-  .scrollToBottom {
-    position: absolute;
-    left: 2.5rem;
-    top: calc(50% + 1.5rem);
-    opacity: 0.6;
-  }
-}
-
-@media (max-width: 720px) {
-  .treecontedit {
     .treeconteditWrapper {
-      padding: 0 15px 2rem;
-      .treecontTitle {
-        padding: 0;
-      }
-      .contitem {
-        flex-wrap: wrap;
-        .contitemEdit {
-          width: 100%;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        padding: 0 10% 2rem;
+        font-size: 16px;
+        letter-spacing: 1px;
+        .treecontTitle {
+            padding-right: 260px;
+            margin: 1rem 0;
+            font-weight: bold;
+            color: var(--color);
         }
-        .contitemImg {
-          width: 100%;
-          margin-top: 5px;
-          >div {
-            margin: 0 10px 10px 0;
-          }
+        .contitem {
+            display: flex;
+            margin-bottom: 1rem;
+            .contitemEdit {
+                flex: 1;
+                .contitemInput {
+                    background: var(--bg_color);
+                    color: var(--color);
+                    letter-spacing: 1px;
+                    font-size: 15px;
+                }
+                .contitemTextarea {
+                    margin-top: 0.5rem;
+                    resize: none;
+                    letter-spacing: 2px;
+                    background: var(--bg_color);
+                    color: var(--color);
+                    font-size: 15px;
+                }
+            }
+            .contitemImg {
+                width: 260px;
+                text-align: left;
+                .imgbox {
+                    border: 1px solid var(--border_color);
+                    border-radius: 3px;
+                    width: 170px;
+                    height: 170px;
+                }
+            }
+            .contitemIcons {
+                display: flex;
+                justify-content: space-between;
+                .contitemIconsBox {
+                    font-size: 1rem;
+                    text-align: left;
+                    .contnodeIcon {
+                        margin-right: 0.3rem;
+                        &:hover {
+                            color: var(--color_active);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .contitemTime {
+                    text-align: right;
+                    font-size: 0.7rem;
+                    color: var(--color);
+                    > span {
+                        margin-left: 0.7rem;
+                    }
+                }
+            }
         }
-        .contitemIcons {
-          .contitemTime {
-            display: none;
-          }
-        }
-      }
     }
+
     .treecontAddbuttonFront {
-      position: fixed;
-      top: unset;
-      right: 260px;
-      bottom: 6px;
+        position: absolute;
+        right: 2.5rem;
+        top: 4rem;
     }
+
     .treecontAddbuttonBehind {
-      position: fixed;
-      top: unset;
-      right: 210px;
-      bottom: 6px;
+        position: absolute;
+        right: 2.5rem;
+        top: 7rem;
     }
+
     .treecontSavebutton {
-      position: fixed;
-      top: unset;
-      right: 160px;
-      bottom: 6px;
+        position: absolute;
+        right: 2.5rem;
+        top: 10rem;
     }
+
+    // 滚动到顶部 or 底部
     .scrollToTop {
-      top: unset;
-      right: 110px;
-      bottom: 6px;
+        position: absolute;
+        left: 2.5rem;
+        top: calc(50% - 1.5rem);
+        opacity: 0.6;
     }
     .scrollToBottom {
-      top: unset;
-      right: 60px;
-      bottom: 6px;
+        position: absolute;
+        left: 2.5rem;
+        top: calc(50% + 1.5rem);
+        opacity: 0.6;
     }
-  }
 }

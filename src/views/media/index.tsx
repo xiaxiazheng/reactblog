@@ -123,50 +123,6 @@ const Video: React.FC = () => {
                     </audio>
                 </div>
             )}
-
-            {/* 移动端展示 */}
-            {window.screen.availWidth <= 720 && (
-                <>
-                    {/* 展开歌曲列表 */}
-                    <div
-                        className={styles.songList}
-                        onClick={() => setVisible(true)}
-                    >
-                        <UnorderedListOutlined />
-                    </div>
-                    {/* 切换音乐/视频 */}
-                    <div
-                        className={styles.mediaType}
-                        onClick={() => {
-                            let tab = activeTab === "音乐" ? "视频" : "音乐";
-                            handleChoiceTab(tab);
-                            message.info(tab, 0.5);
-                        }}
-                    >
-                        {activeTab === "音乐" ? (
-                            <BellOutlined />
-                        ) : (
-                            <YoutubeOutlined />
-                        )}
-                    </div>
-                    {/* 歌曲列表抽屉 */}
-                    <Drawer
-                        title={activeTab + "列表"}
-                        placement="bottom"
-                        closable={true}
-                        onClose={() => {
-                            setVisible(!visible);
-                        }}
-                        className={styles.drawer}
-                        height={"calc(100% - 150px)"}
-                        visible={visible}
-                    >
-                        <div className={styles.drawerVideoList}>
-                            <VideoList />
-                        </div>
-                    </Drawer>
-                </>
-            )}
         </div>
     );
 };

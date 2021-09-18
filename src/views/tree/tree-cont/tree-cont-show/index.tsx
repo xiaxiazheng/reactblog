@@ -294,35 +294,6 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                     size="large"
                     onClick={scrollTo.bind(null, "bottom")}
                 />
-
-                {window.screen.availWidth <= 720 && (
-                    <>
-                        <Drawer
-                            title={"锚点"}
-                            placement="bottom"
-                            closable={true}
-                            onClose={() => {
-                                setVisible(!visible);
-                            }}
-                            className={styles.drawer}
-                            height={"auto"}
-                            visible={visible}
-                        >
-                            <Mao />
-                        </Drawer>
-                        <Button
-                            className={styles.openMao}
-                            title="打开锚点列表"
-                            type="primary"
-                            shape="circle"
-                            icon={<EnvironmentOutlined />}
-                            size="large"
-                            onClick={() => {
-                                setVisible(true);
-                            }}
-                        />
-                    </>
-                )}
             </div>
         </>
     );

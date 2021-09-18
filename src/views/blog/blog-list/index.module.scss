@@ -111,7 +111,8 @@
         :global {
             .ant-select {
                 color: var(--color);
-                .ant-select-selection, .ant-select-selector {
+                .ant-select-selection,
+                .ant-select-selector {
                     background-color: var(--bg_color);
                     > span {
                         color: var(--color);
@@ -150,38 +151,5 @@
         .ant-pagination-options-size-changer.ant-select {
             margin-right: 0;
         }
-    }
-}
-
-@media (max-width: 720px) {
-    .operateBox {
-        padding: 10px 15px;
-        .orderbyBox,
-        .checkBox {
-            display: none;
-        }
-        .searchBox {
-            width: 100%;
-            margin-left: 0;
-        }
-    }
-
-    .blogList {
-        height: calc(100% - 100px);
-        padding: 0 15px;
-        .blogListLi {
-            width: 100%;
-            margin: 0 0 10px 0;
-            max-width: unset;
-            min-width: unset;
-            height: unset;
-            min-height: unset;
-        }
-    }
-
-    .pagination {
-        width: 100%;
-        margin-top: 10px;
-        margin-right: 10px;
     }
 }

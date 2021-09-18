@@ -1,122 +1,93 @@
 $TreeMenuWidth: 21rem;
 
 .Tree {
-  display: flex;
-  height: 100%;
-  background-color: var(--bg_color);
-  .treeLeft {
-    position: relative;
-    display: inline-block;
+    display: flex;
     height: 100%;
-    // width: $TreeMenuWidth;
-    text-align: left;
     background-color: var(--bg_color);
-    border-right: 1px solid transparent;
-    box-sizing: border-box;
-    letter-spacing: 1px;
-    vertical-align: top;
-    .showLeft {
-      position: absolute;
-      // top: calc(50% - 22px);
-      top: 50%;
-      right: -28px;
-      z-index: 2;
-      font-size: 26px;
-      color: var(--color);
-      opacity: 0.5;
-      border: 2px solid var(--border_color);
-      border-left-width: 0px;
-      border-radius: 0px 3px 3px 0px;
-    }
-    &.show {
-      border-color: var(--border_color);
-      width: $TreeMenuWidth;
-      animation: show 0.8s;
-    }
-
-    &.hide {
-      width: 0;
-      // border-color: transparent;
-      animation: hide 0.3s;
-    }
-  }
-
-  @keyframes show {
-    from {
-      width: 0;
-    }
-    to {
-      width: $TreeMenuWidth;
-    }
-  }
-
-  @keyframes hide {
-    from {
-      border-color: var(--border_color);
-      width: $TreeMenuWidth;
-    }
-    90% {
-      border-color: var(--border_color);
-    }
-    to {
-      width: 0;
-      // border-color: transparent;
-    }
-  }
-
-  .treeRight {
-    position: relative;
-    display: inline-block;
-    height: 100%;
-    flex: 1;
-    min-width: calc(100% - #{$TreeMenuWidth});
-    vertical-align: top;
-    overflow: hidden;
-    .treeEditSwitch {
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      z-index: 2;
-      border: 1px solid var(--border_color);
-      background-color: var(--bg_color);
-      &:global(.ant-switch::after) {
-        border: 1px solid var(--border_color);
-      }
-      &:global(.ant-switch-checked) {
-        background-color: transparent;
-      }
-      :global(.ant-switch-inner) {
-        color: var(--color);
-      }
-    }
-  }
-}
-
-@media (max-width: 720px) {
-  .drawer {
-    :global {
-      .ant-drawer-wrapper-body {
-        border-top: 1px solid white;
-      }
-      .ant-drawer-body {
-        padding: 0;
-      }
-    }
-  }
-  .Tree {
-    font-size: 16px;
     .treeLeft {
-      display: none;
+        position: relative;
+        display: inline-block;
+        height: 100%;
+        // width: $TreeMenuWidth;
+        text-align: left;
+        background-color: var(--bg_color);
+        border-right: 1px solid transparent;
+        box-sizing: border-box;
+        letter-spacing: 1px;
+        vertical-align: top;
+        .showLeft {
+            position: absolute;
+            // top: calc(50% - 22px);
+            top: 50%;
+            right: -28px;
+            z-index: 2;
+            font-size: 26px;
+            color: var(--color);
+            opacity: 0.5;
+            border: 2px solid var(--border_color);
+            border-left-width: 0px;
+            border-radius: 0px 3px 3px 0px;
+        }
+        &.show {
+            border-color: var(--border_color);
+            width: $TreeMenuWidth;
+            animation: show 0.8s;
+        }
+
+        &.hide {
+            width: 0;
+            // border-color: transparent;
+            animation: hide 0.3s;
+        }
     }
-    .songList {
-      position: fixed;
-      bottom: 6px;
-      right: 10px;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      border-radius: 50%;
-      background-color: rgba(12, 239, 176, 0.55);
+
+    @keyframes show {
+        from {
+            width: 0;
+        }
+        to {
+            width: $TreeMenuWidth;
+        }
     }
-  }
+
+    @keyframes hide {
+        from {
+            border-color: var(--border_color);
+            width: $TreeMenuWidth;
+        }
+        90% {
+            border-color: var(--border_color);
+        }
+        to {
+            width: 0;
+            // border-color: transparent;
+        }
+    }
+
+    .treeRight {
+        position: relative;
+        display: inline-block;
+        height: 100%;
+        flex: 1;
+        min-width: calc(100% - #{$TreeMenuWidth});
+        vertical-align: top;
+        overflow: hidden;
+        .treeEditSwitch {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            z-index: 2;
+            border: 1px solid var(--border_color);
+            background-color: var(--bg_color);
+            &:global(.ant-switch::after) {
+                border: 1px solid var(--border_color);
+            }
+            &:global(.ant-switch-checked) {
+                background-color: transparent;
+            }
+            :global(.ant-switch-inner) {
+                color: var(--color);
+            }
+        }
+    }
 }

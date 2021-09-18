@@ -10,6 +10,7 @@ import { fallback } from "./index";
 const Tree = lazy(() => import(/* webpackChunkName: "Tree" */ "../views/tree"));
 const Blog = lazy(() => import(/* webpackChunkName: "Blog" */ "../views/blog"));
 const BlogCont = lazy(() => import(/* webpackChunkName: "BlogCont" */ "../views/blog/blog-cont"));
+const Note = lazy(() => import(/* webpackChunkName: "Note" */ "../views/note"));
 const Admin = lazy(() => import(/* webpackChunkName: "Admin" */ "../views/admin"));
 const Cloud = lazy(() => import(/* webpackChunkName: "Cloud" */ "../views/cloud"));
 const Media = lazy(() => import(/* webpackChunkName: "Media" */ "../views/media"));
@@ -36,6 +37,7 @@ export const routes = [
     { route: "/admin/tree", name: "Tree", component: Tree },
     { route: "/admin/blog/:blog_id", name: "Blog", component: BlogCont },
     { route: "/admin/blog", name: "Blog", component: Blog },
+    { route: "/admin/note", name: "Note", component: Note },
     { route: "/admin/mindmap", name: "MindMap", component: MindMap },
     { route: "/admin/cloud/:parent_id", name: "Cloud", component: Cloud },
     { route: "/admin/cloud", name: "Cloud", component: Cloud },

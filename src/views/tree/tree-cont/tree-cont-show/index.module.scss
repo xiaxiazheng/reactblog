@@ -1,159 +1,107 @@
 .treecontshow {
-  position: relative;
-  height: 100%;
-  .treecontshowWrapper {
-    display: inline-block;
-    width: 100%;
+    position: relative;
     height: 100%;
-    padding: 0 calc(10% + 90px) 2rem;
-    font-size: 16px;
-    letter-spacing: 1px;
-    .treecontTitle {
-      margin: 1rem 0;
-      font-size: 21px;
-      font-weight: bold;
-      color: var(--color);
-    }
-    .contitem {
-      margin-bottom: 1rem;
-      text-align: left;
-      .contitemTitle {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: .5rem;
-        border-bottom: 1px solid var(--color);
-        box-sizing: border-box;
-        font-weight: bold;
-        font-size: 18px;
-        a {
-          color: var(--color);
-          &:global(.active) {
-            color: var(--keyword_highlight);
-          }
-        }
-        >span {
-          line-height: 1.7rem;
-          font-size: .7rem;
-          color: var(--small_color);
-        }
-      }
-      .contitemCont {
-        word-break: break-all;
-      }
-      .contitemImg {
-        text-align: center;
-        img {
-          width: 100%;
-          max-width: 20rem;
-          min-width: 10rem;
-          min-height: 10rem;
-          cursor: pointer;
-        }
-        .imgName {
-          display: block;
-          font-size: 12px;
-          color: var(--small_color);
-        }
-      }
-    }
-  }
-
-  .mao {
-    max-width: 13%;
-    min-width: 130px;
-    max-height: calc(100% - 7rem - 2rem);
-    padding: 3px 0;
-    position: fixed;
-    top: 7rem;
-    right: .5rem;
-    overflow: hidden;
-    overflow-y: auto;
-    border: 2px solid var(--border_color);
-    border-radius: 3px;
-    box-sizing: border-box;
-    font-size: 12px;
-    opacity: 0.5;
-    &:hover {
-      opacity: 0.9;
-    }
-    >a {
-      display: block;
-      padding: .2rem .6rem;
-      word-break: break-all;
-      color: var(--color);
-      &:global(.active) {
-        color: var(--color);
-        background-color: var(--bg_color_mask);
-      }
-      &:hover {
-        background-color: var(--bg_color_mask);
-      }
-    }
-  }
-
-  // 滚动到顶部 or 底部
-  .scrollToTop {
-    position: absolute;
-    left: 2.5rem;
-    top: calc(50% - 1.5rem);
-    opacity: 0.6;
-  }
-  .scrollToBottom {
-    position: absolute;
-    left: 2.5rem;
-    top: calc(50% + 1.5rem);
-    opacity: 0.6;
-  }
-}
-
-@media (max-width: 720px) {
-  .mao {
-    display: none;
-  }
-  .drawer {
-    a {
-      display: block;
-      padding: .2rem .6rem;
-      word-break: break-all;
-      color: var(--color);
-      &:global(.active) {
-        color: var(--color);
-        background-color: var(--bg_color_mask);
-      }
-    }
-    :global {
-      .ant-drawer-body {
-        max-height: 300px;
-        overflow-y: auto;
-      }
-    }
-  }
-  .treecontshow {
     .treecontshowWrapper {
-      width: calc(100% - 30px);
-      .contitem {
-        .contitemTitle {
-          > span {
-            display: none;
-          }
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        padding: 0 calc(10% + 90px) 2rem;
+        font-size: 16px;
+        letter-spacing: 1px;
+        .treecontTitle {
+            margin: 1rem 0;
+            font-size: 21px;
+            font-weight: bold;
+            color: var(--color);
         }
-      }
+        .contitem {
+            margin-bottom: 1rem;
+            text-align: left;
+            .contitemTitle {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+                border-bottom: 1px solid var(--color);
+                box-sizing: border-box;
+                font-weight: bold;
+                font-size: 18px;
+                a {
+                    color: var(--color);
+                    &:global(.active) {
+                        color: var(--keyword_highlight);
+                    }
+                }
+                > span {
+                    line-height: 1.7rem;
+                    font-size: 0.7rem;
+                    color: var(--small_color);
+                }
+            }
+            .contitemCont {
+                word-break: break-all;
+            }
+            .contitemImg {
+                text-align: center;
+                img {
+                    width: 100%;
+                    max-width: 20rem;
+                    min-width: 10rem;
+                    min-height: 10rem;
+                    cursor: pointer;
+                }
+                .imgName {
+                    display: block;
+                    font-size: 12px;
+                    color: var(--small_color);
+                }
+            }
+        }
     }
+
+    .mao {
+        max-width: 13%;
+        min-width: 130px;
+        max-height: calc(100% - 7rem - 2rem);
+        padding: 3px 0;
+        position: fixed;
+        top: 7rem;
+        right: 0.5rem;
+        overflow: hidden;
+        overflow-y: auto;
+        border: 2px solid var(--border_color);
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 12px;
+        opacity: 0.5;
+        &:hover {
+            opacity: 0.9;
+        }
+        > a {
+            display: block;
+            padding: 0.2rem 0.6rem;
+            word-break: break-all;
+            color: var(--color);
+            &:global(.active) {
+                color: var(--color);
+                background-color: var(--bg_color_mask);
+            }
+            &:hover {
+                background-color: var(--bg_color_mask);
+            }
+        }
+    }
+
+    // 滚动到顶部 or 底部
     .scrollToTop {
-      top: unset;
-      bottom: 6px;
-      right: 60px;
+        position: absolute;
+        left: 2.5rem;
+        top: calc(50% - 1.5rem);
+        opacity: 0.6;
     }
     .scrollToBottom {
-      top: unset;
-      bottom: 6px;
-      right: 110px;
+        position: absolute;
+        left: 2.5rem;
+        top: calc(50% + 1.5rem);
+        opacity: 0.6;
     }
-    .openMao {
-      position: fixed;
-      bottom: 6px;
-      right: 160px;
-      opacity: 0.6;
-    }
-  }
 }

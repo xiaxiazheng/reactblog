@@ -231,50 +231,13 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                     onClick={scrollTo.bind(null, "bottom")}
                 />
                 {/* 锚点 */}
-                {window.screen.availWidth > 720 && blogData && (
+                {blogData && (
                     <BlogContMao
                         blogcont={blogData.blogcont}
                         isHasFiles={
                             blogData.fileList && blogData.fileList.length !== 0
                         }
                     />
-                )}
-                {window.screen.availWidth <= 720 && (
-                    <>
-                        <Drawer
-                            title={"锚点"}
-                            placement="bottom"
-                            closable={true}
-                            onClose={() => {
-                                setVisible(!visible);
-                            }}
-                            className={styles.drawer}
-                            height={"auto"}
-                            visible={visible}
-                        >
-                            {blogData && (
-                                <BlogContMao
-                                    blogcont={blogData.blogcont}
-                                    closeDrawer={() => setVisible(false)}
-                                    isHasFiles={
-                                        blogData.fileList &&
-                                        blogData.fileList.length !== 0
-                                    }
-                                />
-                            )}
-                        </Drawer>
-                        <Button
-                            className={styles.openMao}
-                            title="打开锚点列表"
-                            type="primary"
-                            shape="circle"
-                            icon={<EnvironmentOutlined />}
-                            size="large"
-                            onClick={() => {
-                                setVisible(true);
-                            }}
-                        />
-                    </>
                 )}
             </div>
         </>

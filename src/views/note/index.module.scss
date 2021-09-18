@@ -1,0 +1,53 @@
+.note {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    span {
+        vertical-align: middle;
+    }
+    :global(.ant-input) {
+        color: var(--color);
+        background-color: var(--bg_color);
+    }
+    :global(.ant-radio-wrapper) {
+        color: var(--color);
+    }
+    .input {
+        margin-bottom: 10px;
+    }
+    .radio {
+        margin-bottom: 10px;
+    }
+    .note_list {
+        height: calc(100vh - 200px);
+        margin-bottom: 20px;
+        .note_item {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .category {
+                display: inline-block;
+                margin-right: 10px;
+                padding: 0 5px;
+                color: #40a9ff;
+                border: 1px solid #40a9ff;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+        }
+    }
+
+    .pagination {
+        text-align: right;
+        &:global(.ant-pagination) {
+            color: var(--color);
+        }
+    }
+}

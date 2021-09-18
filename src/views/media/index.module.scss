@@ -1,140 +1,66 @@
 .video {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  color: var(--color);
-  font-size: 14px;
-  box-sizing: border-box;
-  .tabs {
-    position: absolute;
-    top: 15px;
-    left: 2.5%;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--color_active);
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: var(--color);
+    font-size: 14px;
     box-sizing: border-box;
-    border-radius: 4px;
-    overflow: hidden;
-    > span {
-      display: inline-block;
-      width: 100px;
-      padding: 5px 0;
-      cursor: pointer;
-      &.active {
-        color: white;
-        background-color: var(--color_active);
-      }
-    }
-  }
-  .musicBox {
-    width: 77%;
-    margin: 15px auto 5px;
-  }
-  .videoList {
-    width: 77%;
-    height: calc(100% - 200px);
-    margin: 15px auto 5px;
-    text-align: left;
-    > span {
-      display: inline-block;
-      margin: 0 10px 10px 0;
-      padding: 5px 20px;
-      border: 1px solid var(--border_color);
-      box-sizing: border-box;
-      border-radius: 4px;
-      cursor: pointer;
-      &.active {
-        color: white;
-        background-color: var(--color_active);
-        border-color: var(--color_active);
-      }
-    }
-  }
-  .videoBox {
-    width: 80%;
-    height: 80%;
-    margin: 0 auto;
-    > audio {
-      width: 100%;
-    }
-    > video {
-      max-width: 100%;
-      max-height: 100%;
-    }
-  }
-}
-
-@media (max-width: 720px) {
-  .video {
-    .tabs,
-    .videoList {
-      display: none;
+    .tabs {
+        position: absolute;
+        top: 15px;
+        left: 2.5%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color_active);
+        box-sizing: border-box;
+        border-radius: 4px;
+        overflow: hidden;
+        > span {
+            display: inline-block;
+            width: 100px;
+            padding: 5px 0;
+            cursor: pointer;
+            &.active {
+                color: white;
+                background-color: var(--color_active);
+            }
+        }
     }
     .musicBox {
-      width: 100%;
-      margin-top: 50%;
+        width: 77%;
+        margin: 15px auto 5px;
     }
-  }
-  .videoBox {
-    width: 90%;
-    height: 90%;
-    padding-top: 40%;
-  }
-  .mediaType {
-    position: fixed;
-    bottom: 6px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    background-color: rgba(12, 239, 176, 0.55);
-  }
-  .songList {
-    position: fixed;
-    bottom: 6px;
-    right: 60px;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    background-color: rgba(12, 239, 176, 0.55);
-  }
-  .drawer {
-    :global {
-      .ant-drawer-wrapper-body {
-        background-color: #083c51;
-      }
-      .ant-drawer-header {
-        background-color: #083c51;
-        > div {
-          color: white;
+    .videoList {
+        width: 77%;
+        height: calc(100% - 200px);
+        margin: 15px auto 5px;
+        text-align: left;
+        > span {
+            display: inline-block;
+            margin: 0 10px 10px 0;
+            padding: 5px 20px;
+            border: 1px solid var(--border_color);
+            box-sizing: border-box;
+            border-radius: 4px;
+            cursor: pointer;
+            &.active {
+                color: white;
+                background-color: var(--color_active);
+                border-color: var(--color_active);
+            }
         }
-      }
-      .ant-drawer-body {
-        background-color: #083c51;
-        height: calc(100% - 56px);
-        padding: 12px 12px;
-        overflow-y: auto;
-      }
     }
-  }
-  .drawerVideoList {
-    > span {
-      display: inline-block;
-      width: 100%;
-      color: white;
-      font-size: 14px;
-      padding: 5px 12px;
-      background-color: #083c51;
-      &:nth-child(2n) {
-        background-color: #083c51;
-      }
-      &.active {
-        color: #48e3f6;
-        background-color: #0f4156;
-      }
+    .videoBox {
+        width: 80%;
+        height: 80%;
+        margin: 0 auto;
+        > audio {
+            width: 100%;
+        }
+        > video {
+            max-width: 100%;
+            max-height: 100%;
+        }
     }
-  }
 }

@@ -116,37 +116,3 @@
         }
     }
 }
-
-@media (max-width: 720px) {
-    .music {
-        .musicBox {
-            height: 40px;
-        }
-        .songName {
-            font-size: 20px;
-            margin: 15px 0;
-            // 歌曲名称超出之后的动画
-            > span {
-                display: inline-block;
-                min-width: calc(100vw - 22px);
-                animation: scroll 4s infinite alternate-reverse ease-in-out;
-            }
-            @keyframes scroll {
-                0%,
-                15% {
-                    transform: translateX(calc(-100% + 100vw - 22px));
-                }
-                85%,
-                100% {
-                    transform: translateX(0px);
-                }
-            }
-        }
-        .iconBox {
-            .playIcon {
-                margin-top: 15px;
-                font-size: 40px;
-            }
-        }
-    }
-}
