@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { getNoteList, getNoteCategory } from "@/client/NoteHelper";
-import { Input, Radio, Pagination, Empty } from "antd";
+import { Input, Radio, Pagination, Empty, Button, message, Popconfirm } from "antd";
+import { NoteType, CategoryType } from "./types";
+import EditNoteModal from "./edit-note-modal";
+import { deleteNote } from "@/client/NoteHelper";
 
 const { Search } = Input;
 
-const Note = () => {
-    const [list, setList] = useState<any[]>();
+const Note: React.FC = () => {
+    const [list, setList] = useState<NoteType[]>();
     const [total, setTotal] = useState<number>(0);
 
     const [keyword, setKeyword] = useState<string>("");
@@ -27,7 +30,16 @@ const Note = () => {
         }
     };
 
-    const [category, setCategory] = useState<any[]>();
+    const onDelete = async () => {
+        const params = {
+            note_id: activeNote?.note_id
+        }
+        await deleteNote(params);
+        message.success('删除 note 成功');
+        refreshData();
+    };
+
+    const [category, setCategory] = useState<CategoryType[]>();
     const getCategory = async () => {
         const res = await getNoteCategory();
         if (res) {
@@ -35,14 +47,23 @@ const Note = () => {
         }
     };
 
-    useEffect(() => {
+    const refreshData = () => {
+        setIsShowModal(false);
+        setActiveNote(undefined);
         getData();
         getCategory();
+    };
+
+    useEffect(() => {
+        refreshData();
     }, []);
 
     useEffect(() => {
         getData();
     }, [pageNo, category]);
+
+    const [activeNote, setActiveNote] = useState<NoteType>();
+    const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
     return (
         <div className={styles.note}>
@@ -73,7 +94,15 @@ const Note = () => {
             <div className={`${styles.note_list} ScrollBar`}>
                 {list?.map((item) => {
                     return (
-                        <div key={item.note_id} className={styles.note_item}>
+                        <div
+                            key={item.note_id}
+                            className={`${styles.note_item} ${
+                                item.note_id === activeNote?.note_id
+                                    ? styles.active
+                                    : ""
+                            }`}
+                            onClick={() => setActiveNote(item)}
+                        >
                             <span className={styles.category}>
                                 {item.category}
                             </span>
@@ -81,7 +110,9 @@ const Note = () => {
                         </div>
                     );
                 })}
-                {(!list || list?.length === 0) && <Empty style={{ paddingTop: 100 }} />}
+                {(!list || list?.length === 0) && (
+                    <Empty style={{ paddingTop: 100 }} />
+                )}
             </div>
             <Pagination
                 className={styles.pagination}
@@ -90,6 +121,53 @@ const Note = () => {
                 total={total}
                 onChange={(page) => setPageNo(page)}
                 showTotal={(total) => `共${total}条`}
+            />
+
+            <Button
+                className={styles.add_note}
+                type="primary"
+                onClick={() => {
+                    setActiveNote(undefined);
+                    setIsShowModal(true);
+                }}
+            >
+                新增
+            </Button>
+            {activeNote && (
+                <>
+                <Button
+                    className={styles.edit_note}
+                    type="primary"
+                    danger
+                    onClick={() => {
+                        setIsShowModal(true);
+                    }}
+                >
+                    编辑
+                </Button>
+                <Popconfirm
+                    title="确定删除吗？"
+                    onConfirm={onDelete}
+                    okText="Yes"
+                    cancelText="No"
+                    placement="left"
+                >
+                    <Button
+                        className={styles.delete_note}
+                        danger
+                    >
+                        删除
+                    </Button>
+                </Popconfirm>
+                </>
+            )}
+
+            <EditNoteModal
+                visible={isShowModal}
+                category={category}
+                activeNote={activeNote}
+                onCancel={() => setIsShowModal(false)}
+                refreshData={refreshData}
             />
         </div>
     );
