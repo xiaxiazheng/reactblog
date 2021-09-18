@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { getNoteList, getNoteCategory } from "@/client/NoteHelper";
-import { Input, Radio, Pagination, Empty, Button, message, Popconfirm } from "antd";
+import {
+    Input,
+    Radio,
+    Pagination,
+    Empty,
+    Button,
+    message,
+    Popconfirm,
+} from "antd";
 import { NoteType, CategoryType } from "./types";
 import EditNoteModal from "./edit-note-modal";
 import { deleteNote } from "@/client/NoteHelper";
@@ -18,11 +26,16 @@ const Note: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<string>("所有");
 
     const getData = async () => {
-        const params = {
+        const params: any = {
             keyword,
             pageNo,
             pageSize,
         };
+
+        if (activeCategory !== "所有") {
+            params["category"] = activeCategory;
+        }
+
         const res = await getNoteList(params);
         if (res) {
             setList(res.data.list);
@@ -32,10 +45,10 @@ const Note: React.FC = () => {
 
     const onDelete = async () => {
         const params = {
-            note_id: activeNote?.note_id
-        }
+            note_id: activeNote?.note_id,
+        };
         await deleteNote(params);
-        message.success('删除 note 成功');
+        message.success("删除 note 成功");
         refreshData();
     };
 
@@ -60,7 +73,11 @@ const Note: React.FC = () => {
 
     useEffect(() => {
         getData();
-    }, [pageNo, category]);
+    }, [pageNo]);
+
+    useEffect(() => {
+        pageNo === 1 ? getData() : setPageNo(1);
+    }, [activeCategory]);
 
     const [activeNote, setActiveNote] = useState<NoteType>();
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
@@ -135,30 +152,27 @@ const Note: React.FC = () => {
             </Button>
             {activeNote && (
                 <>
-                <Button
-                    className={styles.edit_note}
-                    type="primary"
-                    danger
-                    onClick={() => {
-                        setIsShowModal(true);
-                    }}
-                >
-                    编辑
-                </Button>
-                <Popconfirm
-                    title="确定删除吗？"
-                    onConfirm={onDelete}
-                    okText="Yes"
-                    cancelText="No"
-                    placement="left"
-                >
                     <Button
-                        className={styles.delete_note}
+                        className={styles.edit_note}
+                        type="primary"
                         danger
+                        onClick={() => {
+                            setIsShowModal(true);
+                        }}
                     >
-                        删除
+                        编辑
                     </Button>
-                </Popconfirm>
+                    <Popconfirm
+                        title="确定删除吗？"
+                        onConfirm={onDelete}
+                        okText="Yes"
+                        cancelText="No"
+                        placement="left"
+                    >
+                        <Button className={styles.delete_note} danger>
+                            删除
+                        </Button>
+                    </Popconfirm>
                 </>
             )}
 
