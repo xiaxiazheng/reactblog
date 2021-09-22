@@ -59,6 +59,8 @@
         ]
     },
     "devDependencies": {
+        "@commitlint/cli": "^13.1.0",
+        "@commitlint/config-conventional": "^13.1.0",
         "@types/echarts": "^4.9.10",
         "@types/lodash": "^4.14.172",
         "address": "^1.1.2",
@@ -82,12 +84,6 @@
         "shelljs": "^0.8.4",
         "uglifyjs-webpack-plugin": "^2.2.0",
         "unzipper": "^0.10.11",
-        "validate-commit-msg": "^2.14.0",
         "webpack-bundle-analyzer": "^4.4.2"
-    },
-    "husky": {
-        "hooks": {
-            "commit-msg": "validate-commit-msg"
-        }
     }
 }
