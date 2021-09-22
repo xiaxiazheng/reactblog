@@ -13,6 +13,7 @@ import {
 import { NoteType, CategoryType } from "./types";
 import EditNoteModal from "./edit-note-modal";
 import { deleteNote } from "@/client/NoteHelper";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const { Search } = Input;
 
@@ -24,6 +25,8 @@ const Note: React.FC = () => {
     const [pageNo, setPageNo] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(15);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
+
+    useDocumentTitle('便签');
 
     const getData = async () => {
         const params: any = {
