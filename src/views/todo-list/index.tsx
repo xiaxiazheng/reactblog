@@ -47,12 +47,12 @@ const TodoList: React.FC = () => {
     useEffect(() => {
         getTodo("done");
     }, [pageNo]);
-    const getTodo = async (type: StatusType) => {
+    const getTodo = async (type: StatusType, category?: string) => {
         type === "todo" && setTodoLoading(true);
         type === "done" && setDoneLoading(true);
         type === "pool" && setPoolLoading(true);
 
-        const req =
+        const req: any =
             type === "done"
                 ? {
                       status: TodoStatus[type],
@@ -62,6 +62,11 @@ const TodoList: React.FC = () => {
                 : {
                       status: TodoStatus[type],
                   };
+
+        if (category) {
+            req['category'] = category;
+        }
+        
         const res = await getTodoList(req);
         if (res) {
             if (type === "todo") {

@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import { Input, Pagination } from "antd";
+import React, { useState, useEffect } from "react";
+import { Input, Pagination, Select } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
 import { getWeek } from "../utils";
 import { debounce } from "lodash";
+import { getTodoCategory } from "@/client/TodoListHelper";
 
 interface Props {
     loading: boolean;
@@ -35,17 +36,55 @@ const DoneList: React.FC<Props> = (props) => {
         keyword,
         setKeyword,
         total,
-        handleCopy
+        handleCopy,
     } = props;
 
     const today = moment().format("YYYY-MM-DD");
-    const getDoneList = debounce(() => getTodo("done"), 200);
+    const getDoneList = debounce(() => getTodo("done", activeCategory), 200);
+
+    const [category, setCategory] = useState<any[]>([]);
+    const [activeCategory, setActiveCategory] = useState<string>('');
+    const getCategory = async () => {
+        const res = await getTodoCategory();
+        setCategory(res.data);
+    };
+    useEffect(() => {
+        getCategory();
+    }, []);
+
+    useEffect(() => {
+        getDoneList();
+    }, [activeCategory]);
 
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>{title}({total})</span>
+                <span>
+                    {title}({total})
+                </span>
+                <span>
+                    分类：
+                    <Select
+                        value={activeCategory}
+                        onChange={(val) =>
+                            setActiveCategory(val)
+                        }
+                        style={{ width: 80 }}
+                    >
+                        <Select.Option key="所有" value="">
+                            所有
+                        </Select.Option>
+                        {category.map((item) => (
+                            <Select.Option
+                                key={item.category}
+                                value={item.category}
+                            >
+                                {item.category}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </span>
             </div>
             <Input
                 className={styles.search}
