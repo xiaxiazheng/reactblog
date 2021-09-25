@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-03-07 17:05:23
- * @LastEditTime: 2021-03-17 22:10:41
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \reactblog\src\views\test-page\index.tsx
- */
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import H5 from './h5';
@@ -13,20 +5,22 @@ import KNN from "./knn";
 import VirtualScroll from "./virtual-scroll";
 import KeepAlive from "./keep-alive";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import MousePosition from "./mouse-position";
 
 const TestPage: React.FC = () => {
-    const list = ["H5", "knn", "keep-alive", "virtual-scroll"];
+    const map: any = {
+        H5: H5,
+        knn: KNN,
+        "virtual-scroll": VirtualScroll,
+        "keep-alive": KeepAlive,
+        "mouse-position": MousePosition
+    };
+    const list = Object.keys(map);
     const [active, setActive] = useState<string>("H5");
 
     useDocumentTitle("测试页");
 
     const Component = () => {
-        const map: any = {
-            H5: H5,
-            knn: KNN,
-            "virtual-scroll": VirtualScroll,
-            "keep-alive": KeepAlive,
-        };
         const Comp = map[active];
         return <Comp />;
     };
