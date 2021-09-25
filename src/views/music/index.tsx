@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "antd";
+import { Empty, Input } from "antd";
 import MusicPlayer from "@/components/music-player";
 import styles from "./index.module.scss";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
@@ -46,8 +46,8 @@ const Music = () => {
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                {musicList &&
-                    musicList.map((item) => (
+                {keyword && musicList?.length === 0 && <Empty style={{ marginTop: 30 }} />}
+                {musicList?.map((item) => (
                         <div
                             key={item.key}
                             onClick={() => setActiveSong(item)}
