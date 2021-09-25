@@ -49,15 +49,21 @@ const SearchEngine = () => {
         }
     };
 
+    useEffect(() => {
+        handleSearch();
+    }, [pageSize]);
+
     return (
         <div className={`${styles.searchEngine} ScrollBar`}>
             <div className={styles.header}>
                 <Input
                     className={styles.keyword}
                     value={keyword}
-                    onChange={(e) => setKeyword(e.target.value.replaceAll(' ', '%'))}
+                    onChange={(e) =>
+                        setKeyword(e.target.value.replaceAll(" ", "%"))
+                    }
                     size="large"
-                    placeholder="输入搜索"
+                    placeholder="输入关键字并回车搜索"
                     onPressEnter={() => handleSearch()}
                 />
                 <Radio.Group
@@ -79,11 +85,22 @@ const SearchEngine = () => {
                         <div key={item.blog_id} className={styles.listItem}>
                             <div className={`${styles.itemTitle}`}>
                                 <span>{item.title}</span>
-                                <span><ShareAltOutlined onClick={() => {
-                                    window.open(`${location.origin}/admin/blog/${btoa(
-                                        decodeURIComponent(item.blog_id)
-                                    )}`, "_blank");
-                                }} /></span>
+                                <span>
+                                    <ShareAltOutlined
+                                        onClick={() => {
+                                            window.open(
+                                                `${
+                                                    location.origin
+                                                }/admin/blog/${btoa(
+                                                    decodeURIComponent(
+                                                        item.blog_id
+                                                    )
+                                                )}`,
+                                                "_blank"
+                                            );
+                                        }}
+                                    />
+                                </span>
                             </div>
                             <div
                                 className={`${styles.itemCont} ScrollBar`}
@@ -95,15 +112,20 @@ const SearchEngine = () => {
                     );
                 })}
             </div>
-            <Pagination
-                className={styles.pagination}
-                pageSize={pageSize}
-                current={pageNo}
-                total={total}
-                onChange={(page) => {
-                    setPageNo(page);
-                }}
-            />
+            {total !== 0 && (
+                <Pagination
+                    className={styles.pagination}
+                    pageSize={pageSize}
+                    current={pageNo}
+                    total={total}
+                    onChange={(page, pageSize) => {
+                        setPageNo(page);
+                        setPageSize(pageSize || 10);
+                    }}
+                    pageSizeOptions={["10", "15", "20"]}
+                    showTotal={() => `共 ${total} 条 `}
+                />
+            )}
         </div>
     );
 };
