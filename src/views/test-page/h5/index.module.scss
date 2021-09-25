@@ -1,0 +1,26 @@
+.h5 {
+    display: flex;
+    font-size: 16px;
+    text-align: left;
+    > div {
+        flex: 1;
+        min-height: 80vh;
+        border: 1px solid #ccc;
+    }
+}
+
+:global {
+    .zoomEle-point {
+        /*小圆点的样式*/
+        position: absolute;
+        left: -4px;
+        top: -4px;
+        z-index: 9;
+        display: none;
+        width: 8px;
+        height: 8px;
+        border-radius: 99px;
+        background-color: #fc6074;
+        overflow: hidden;
+    }
+}
