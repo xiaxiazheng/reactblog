@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-// import { IsLoginContext } from "@/context/IsLoginContext";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
 import { message } from "antd";
@@ -12,7 +11,6 @@ import {
     RedoOutlined,
     UnorderedListOutlined,
 } from "@ant-design/icons";
-import { timesofSongAddOne } from "@/client/TimesofSong";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 export interface FileType {
@@ -24,9 +22,6 @@ export interface FileType {
 interface PropsType {
     activeSong?: FileType;
 }
-
-// 放组件内会被不断初始化，要放这做全局变量
-let timer: any = -1;
 
 const Music: React.FC<PropsType> = (props) => {
     const { activeSong } = props;
@@ -78,9 +73,6 @@ const Music: React.FC<PropsType> = (props) => {
 
     // 播放 song
     const changeSong = (song: FileType) => {
-        // 清除上一个的定时器
-        clearTimeout(timer);
-
         const dom: any = musicBox;
         if (dom.current) {
             dom.current.childNodes[0].pause();
@@ -91,18 +83,6 @@ const Music: React.FC<PropsType> = (props) => {
             const audio: any = document.createElement("audio");
             audio.controls = true;
             audio.autoplay = true;
-
-            audio.onloadeddata = () => {
-                // 加载了 45s 就当做听了一次这首歌
-                timer = setTimeout(async () => {
-                    if (active) {
-                        let params = {
-                            song_name: song.key,
-                        };
-                        await timesofSongAddOne(params);
-                    }
-                }, 45000);
-            };
 
             // 更新播放按钮的状态
             audio.onplay = () => setIsPlaying(true);
