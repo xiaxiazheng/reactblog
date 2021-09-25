@@ -1,35 +1,49 @@
 .note {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px 0;
+    height: 100%;
     font-size: 16px;
     text-align: left;
     span {
         vertical-align: middle;
     }
-    :global(.ant-input) {
-        color: var(--color);
+    .header {
+        position: sticky;
+        top: 0;
+        max-width: 900px;
+        margin: 0 auto;
+        padding-top: 20px;
         background-color: var(--bg_color);
+        .input {
+            margin-bottom: 10px;
+        }
+        .radio {
+            margin-bottom: 10px;
+        } 
+        :global(.ant-input) {
+            color: var(--color);
+            background-color: var(--bg_color);
+        }
+        :global(.ant-radio-wrapper) {
+            color: var(--color);
+        }       
     }
-    :global(.ant-radio-wrapper) {
-        color: var(--color);
-    }
-    .input {
-        margin-bottom: 10px;
-    }
-    .radio {
-        margin-bottom: 10px;
-    }
+
     .note_list {
-        height: calc(100vh - 200px);
-        margin-bottom: 20px;
+        max-width: 900px;
+        margin: 0 auto;
         .note_item {
             margin-bottom: 10px;
             padding: 5px 10px;
             border: 2px solid #ccc;
             border-radius: 4px;
+            white-space: pre-line;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 8;
+            -webkit-box-orient: vertical;
             &.active {
                 border-color: #40a9ff;
+                -webkit-line-clamp: unset;
             }
             &:last-child {
                 margin-bottom: 0;
@@ -48,6 +62,12 @@
     }
 
     .pagination {
+        position: sticky;
+        bottom: 0;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 0;
+        background-color: var(--bg_color);
         text-align: right;
         &:global(.ant-pagination) {
             color: var(--color);

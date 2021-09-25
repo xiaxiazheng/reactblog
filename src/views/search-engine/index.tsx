@@ -3,10 +3,13 @@ import styles from "./index.module.scss";
 import { Input, Pagination, Radio, Empty } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
 import { searchBlogList } from "@/client/BlogHelper";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const categoryList = ["blog"];
 
 const SearchEngine = () => {
+    useDocumentTitle("搜索引擎");
+
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10);

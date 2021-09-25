@@ -26,7 +26,7 @@ const Note: React.FC = () => {
     const [pageSize, setPageSize] = useState<number>(15);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
 
-    useDocumentTitle('便签');
+    useDocumentTitle("便签");
 
     const getData = async () => {
         const params: any = {
@@ -86,32 +86,35 @@ const Note: React.FC = () => {
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
     return (
-        <div className={styles.note}>
-            <Search
-                className={styles.input}
-                value={keyword}
-                enterButton
-                onChange={(e) => setKeyword(e.target.value)}
-                onSearch={() => (pageNo === 1 ? getData() : setPageNo(1))}
-                onPressEnter={() => (pageNo === 1 ? getData() : setPageNo(1))}
-            />
-            <Radio.Group
-                className={styles.radio}
-                value={activeCategory}
-                onChange={(e) => setActiveCategory(e.target.value)}
-            >
-                <Radio key="所有" value="所有">
-                    所有
-                </Radio>
-                {category?.map((item) => {
-                    return (
-                        <Radio key={item.category} value={item.category}>
-                            {item.category}
-                        </Radio>
-                    );
-                })}
-            </Radio.Group>
-            <div className={`${styles.note_list} ScrollBar`}>
+        <div className={`${styles.note} ScrollBar`}>
+            <div className={styles.header}>
+                <Search
+                    className={styles.input}
+                    value={keyword}
+                    enterButton
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onSearch={() => (pageNo === 1 ? getData() : setPageNo(1))}
+                    onPressEnter={() => (pageNo === 1 ? getData() : setPageNo(1))}
+                />
+                <Radio.Group
+                    className={styles.radio}
+                    value={activeCategory}
+                    onChange={(e) => setActiveCategory(e.target.value)}
+                >
+                    <Radio key="所有" value="所有">
+                        所有
+                    </Radio>
+                    {category?.map((item) => {
+                        return (
+                            <Radio key={item.category} value={item.category}>
+                                {item.category}
+                            </Radio>
+                        );
+                    })}
+                </Radio.Group>                
+            </div>
+
+            <div className={`${styles.note_list}`}>
                 {list?.map((item) => {
                     return (
                         <div
@@ -121,7 +124,13 @@ const Note: React.FC = () => {
                                     ? styles.active
                                     : ""
                             }`}
-                            onClick={() => setActiveNote(item)}
+                            onClick={() =>
+                                setActiveNote(
+                                    activeNote?.note_id !== item.note_id
+                                        ? item
+                                        : undefined
+                                )
+                            }
                         >
                             <span className={styles.category}>
                                 {item.category}
@@ -134,6 +143,7 @@ const Note: React.FC = () => {
                     <Empty style={{ paddingTop: 100 }} />
                 )}
             </div>
+            
             <Pagination
                 className={styles.pagination}
                 current={pageNo}
