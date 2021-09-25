@@ -30,7 +30,6 @@ let timer: any = -1;
 
 const Music: React.FC<PropsType> = (props) => {
     const { activeSong } = props;
-    // const { isLogin } = useContext(IsLoginContext);
 
     useEffect(() => {
         getList();
@@ -100,10 +99,7 @@ const Music: React.FC<PropsType> = (props) => {
                         let params = {
                             song_name: song.key,
                         };
-                        const res = await timesofSongAddOne(params);
-                        // if (res) {
-                        //   message.success(`${res.message}；当前次数：${res.data}`);
-                        // }
+                        await timesofSongAddOne(params);
                     }
                 }, 45000);
             };
@@ -295,11 +291,6 @@ const Music: React.FC<PropsType> = (props) => {
                             }
                         >
                             {item.key}
-                            {/* 这个是已播放次数 */}
-                            <span className={styles.times}>
-                                {" "}
-                                [ {item.times} ]{" "}
-                            </span>
                         </span>
                     ))}
             </div>
