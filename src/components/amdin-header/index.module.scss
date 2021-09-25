@@ -38,30 +38,6 @@
         }
     }
 
-    .routerItem {
-        border: 1px solid transparent;
-        box-sizing: border-box;
-        border-radius: 4px;
-        margin: 0 5px;
-        padding: 0 5px;
-        cursor: pointer;
-        &.alive {
-            border-color: #ccc;
-        }
-        &.active {
-            background-color: #1890ff;
-            a {
-                color: var(--color_active);
-            }
-        }
-        a {
-            color: var(--color);
-            &:hover {
-                color: var(--color_active);
-            }
-        }
-    }
-
     .headerRight {
         flex: 1;
         display: flex;
@@ -103,6 +79,33 @@
             &:hover {
                 color: var(--color_active);
             }
+        }
+    }
+}
+
+.routerItem {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 0 5px;
+    padding: 0 5px;
+    cursor: pointer;
+    &.alive {
+        border-color: #ccc;
+    }
+    &:hover {
+        background-color: #1890ff55;
+    }
+    &.active {
+        background-color: #1890ff;
+        a {
+            color: var(--color_active);
+        }
+    }
+    a {
+        color: var(--color);
+        &:hover {
+            color: var(--color_active);
         }
     }
 }

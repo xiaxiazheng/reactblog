@@ -9,17 +9,39 @@ import { fallback } from "./index";
 
 const Tree = lazy(() => import(/* webpackChunkName: "Tree" */ "../views/tree"));
 const Blog = lazy(() => import(/* webpackChunkName: "Blog" */ "../views/blog"));
-const BlogCont = lazy(() => import(/* webpackChunkName: "BlogCont" */ "../views/blog/blog-cont"));
+const BlogCont = lazy(
+    () => import(/* webpackChunkName: "BlogCont" */ "../views/blog/blog-cont")
+);
 const Note = lazy(() => import(/* webpackChunkName: "Note" */ "../views/note"));
-const Admin = lazy(() => import(/* webpackChunkName: "Admin" */ "../views/admin"));
-const Cloud = lazy(() => import(/* webpackChunkName: "Cloud" */ "../views/cloud"));
-const Media = lazy(() => import(/* webpackChunkName: "Media" */ "../views/media"));
-const TestPage = lazy(() => import(/* webpackChunkName: "TestPage" */ "../views/test-page"));
-const MaoPu = lazy(() => import(/* webpackChunkName: "MaoPu" */ "../views/mao-pu"));
-const MindMap = lazy(() => import(/* webpackChunkName: "MindMap" */ "../views/mind-map"));
-const TodoList = lazy(() => import(/* webpackChunkName: "Todo" */ "../views/todo-list"));
+const Admin = lazy(
+    () => import(/* webpackChunkName: "Admin" */ "../views/admin")
+);
+const Cloud = lazy(
+    () => import(/* webpackChunkName: "Cloud" */ "../views/cloud")
+);
+const Media = lazy(
+    () => import(/* webpackChunkName: "Media" */ "../views/media")
+);
+const TestPage = lazy(
+    () => import(/* webpackChunkName: "TestPage" */ "../views/test-page")
+);
+const MaoPu = lazy(
+    () => import(/* webpackChunkName: "MaoPu" */ "../views/mao-pu")
+);
+const MindMap = lazy(
+    () => import(/* webpackChunkName: "MindMap" */ "../views/mind-map")
+);
+const TodoList = lazy(
+    () => import(/* webpackChunkName: "Todo" */ "../views/todo-list")
+);
 const Log = lazy(() => import(/* webpackChunkName: "Log" */ "../views/log"));
-const Music = lazy(() => import(/* webpackChunkName: "Music" */ "../views/music"));
+const Music = lazy(
+    () => import(/* webpackChunkName: "Music" */ "../views/music")
+);
+const SearchEngine = lazy(
+    () =>
+        import(/* webpackChunkName: "SearchEngine" */ "../views/search-engine")
+);
 
 interface PropsType extends RouteComponentProps {
     component?: any;
@@ -28,24 +50,56 @@ interface PropsType extends RouteComponentProps {
 }
 
 export const routes = [
-    { route: "/admin/todo-list", name: "todoList", component: TodoList },
+    {
+        route: "/admin/todo-list",
+        name: "todoList",
+        component: TodoList,
+        isShow: true,
+    },
     {
         route: "/admin/tree/:first_id/:second_id",
         name: "Tree",
         component: Tree,
+        isShow: false,
     },
-    { route: "/admin/tree", name: "Tree", component: Tree },
-    { route: "/admin/blog/:blog_id", name: "Blog", component: BlogCont },
-    { route: "/admin/blog", name: "Blog", component: Blog },
-    { route: "/admin/note", name: "Note", component: Note },
-    { route: "/admin/mindmap", name: "MindMap", component: MindMap },
-    { route: "/admin/cloud/:parent_id", name: "Cloud", component: Cloud },
-    { route: "/admin/cloud", name: "Cloud", component: Cloud },
-    { route: "/admin/media", name: "Media", component: Media },
-    { route: "/admin/test-page", name: "TestPage", component: TestPage },
-    { route: "/admin/maopu", name: "猫谱", component: MaoPu },
-    { route: "/admin/music", name: "Music", component: Music },
-    // { route: "/admin/log", name: 'log', component: Log },
+    { route: "/admin/tree", name: "Tree", component: Tree, isShow: true },
+    {
+        route: "/admin/blog/:blog_id",
+        name: "Blog",
+        component: BlogCont,
+        isShow: false,
+    },
+    { route: "/admin/blog", name: "Blog", component: Blog, isShow: true },
+    { route: "/admin/note", name: "Note", component: Note, isShow: true },
+    {
+        route: "/admin/search-engine",
+        name: "SearchEngine",
+        component: SearchEngine,
+        isShow: true,
+    },
+    { route: "/admin/music", name: "Music", component: Music, isShow: true },
+    {
+        route: "/admin/mindmap",
+        name: "MindMap",
+        component: MindMap,
+        isShow: false,
+    },
+    {
+        route: "/admin/cloud/:parent_id",
+        name: "Cloud",
+        component: Cloud,
+        isShow: false,
+    },
+    { route: "/admin/cloud", name: "Cloud", component: Cloud, isShow: false },
+    { route: "/admin/media", name: "Media", component: Media, isShow: false },
+    {
+        route: "/admin/test-page",
+        name: "TestPage",
+        component: TestPage,
+        isShow: false,
+    },
+    { route: "/admin/maopu", name: "猫谱", component: MaoPu, isShow: false },
+    // { route: "/admin/log", name: 'log', component: Log, isShow: false },
 ];
 
 const AdminRouterView: React.FC<PropsType> = (props) => {

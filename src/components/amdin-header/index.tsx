@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-import { Menu, Switch, Drawer, Divider } from "antd";
-import { HomeOutlined, ExportOutlined } from "@ant-design/icons";
+import { Popover, Switch } from "antd";
+import { ExportOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
-import { UserContext } from "@/context/UserContext";
 import MiniMusicPlayer from "./mini-music-player";
 import { getAlreadyDate } from "./utils";
 
@@ -19,7 +17,6 @@ interface PropsType extends RouteComponentProps {
 const Header: React.FC<PropsType> = (props) => {
     const { location, history, routes, current, setCurrent } = props;
     const { theme, setTheme } = useContext(ThemeContext);
-    const { username, setUsername } = useContext(UserContext);
 
     const [already, setAlready] = useState<string>();
     const [alreadyDays, setAlreadyDays] = useState<string | number>();
@@ -43,11 +40,6 @@ const Header: React.FC<PropsType> = (props) => {
         dom.setAttribute("class", `App ${theme}Theme`);
     }, [theme]);
 
-    const titleMap: any = {
-        zyb: "XIAXIAZheng",
-        hyp: "阿苹的小站",
-    };
-
     const jumpToLogin = () => {
         history.replace({
             pathname: "/login",
@@ -57,8 +49,27 @@ const Header: React.FC<PropsType> = (props) => {
         });
     };
 
-    const [showDrawer, setShowDrawer] = useState<boolean>(true);
     const [showPlayer, setShowPlayer] = useState<boolean>(false);
+
+    const routerItem = (item: any) => (
+        <span
+            className={`${styles.routerItem} ${
+                current === item.route ? styles.active : ""
+            }`}
+            key={item.name}
+        >
+            <span
+                onClick={() => {
+                    window.open(
+                        `${window.location.origin}${item.route}`,
+                        "_blank"
+                    );
+                }}
+            >
+                {item.name}
+            </span>
+        </span>
+    );
 
     const HeaderContent = () => {
         return (
@@ -68,29 +79,22 @@ const Header: React.FC<PropsType> = (props) => {
                     onClick={() => setCurrent("admin")}
                 >
                     <span className={styles.name}>
-                        <Link to={"/admin"}>{titleMap[username]}</Link>
+                        <Link to={"/admin"}>XIAXIAZheng</Link>
                     </span>
                     {/* 导航 */}
-                    {routes.map((item) => (
-                        <span
-                            className={`${styles.routerItem} ${
-                                current === item.route ? styles.active : ""
-                            }`}
-                            key={item.name}
-                        >
-                            {/* <Link to={`${item.route}`}>{item.name}</Link> */}
-                            <span
-                                onClick={() => {
-                                    window.open(
-                                        `${window.location.origin}${item.route}`,
-                                        "_blank"
-                                    );
-                                }}
-                            >
-                                {item.name}
-                            </span>
-                        </span>
-                    ))}
+                    {routes
+                        .filter((item) => item.isShow)
+                        .map((item) => routerItem(item))}
+                    <Popover
+                        placement="bottom"
+                        content={routes
+                            .filter((item) => !item.isShow)
+                            .map((item) => (
+                                <div key={item.name}>{routerItem(item)}</div>
+                            ))}
+                    >
+                        <span style={{ cursor: 'pointer', fontSize: 20, marginLeft: 10 }}>......</span>
+                    </Popover>
                 </div>
                 <div className={styles.headerRight}>
                     {

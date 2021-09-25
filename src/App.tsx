@@ -19,7 +19,7 @@ const App: React.FC = () => {
             <IsLoginProvider>
                 <ThemeProvider>
                     <UserProvider>
-                        <Router></Router>
+                        <Router />
                     </UserProvider>
                 </ThemeProvider>
             </IsLoginProvider>
