@@ -26,8 +26,8 @@ export interface todoItem {
     category: string;
 }
 
-type StatusType = "todo" | "done" | "pool";
-enum TodoStatus {
+export type StatusType = "todo" | "done" | "pool";
+export enum TodoStatus {
     todo = 0,
     done = 1,
     pool = 2,
@@ -38,52 +38,34 @@ const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
 
     const [todoLoading, setTodoLoading] = useState<boolean>(false);
-    const [doneLoading, setDoneLoading] = useState<boolean>(false);
     const [poolLoading, setPoolLoading] = useState<boolean>(false);
 
-    const [keyword, setKeyword] = useState<string>("");
-    const [pageNo, setPageNo] = useState<number>(1);
-    const [total, setTotal] = useState<number>(0);
-    useEffect(() => {
-        getTodo("done");
-    }, [pageNo]);
-    const getTodo = async (type: StatusType, category?: string) => {
-        type === "todo" && setTodoLoading(true);
-        type === "done" && setDoneLoading(true);
-        type === "pool" && setPoolLoading(true);
+    const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
 
-        const req: any =
-            type === "done"
-                ? {
-                      status: TodoStatus[type],
-                      keyword,
-                      pageNo,
-                  }
-                : {
-                      status: TodoStatus[type],
-                  };
-
-        if (category) {
-            req['category'] = category;
-        }
-        
-        const res = await getTodoList(req);
-        if (res) {
-            if (type === "todo") {
-                setTodoMap(formatArrayToTimeMap(res.data));
-                setTodoLoading(false);
-            }
-            if (type === "done") {
-                setDoneMap(formatArrayToTimeMap(res.data.list));
-                setTotal(res.data.total);
-                setDoneLoading(false);
-            }
-            if (type === "pool") {
-                setPoolList(res.data);
-                setPoolLoading(false);
-            }
+    const getTodo = async (type: StatusType) => {
+        if (type === 'done') {
+            setIsRefreshDone(true);
         } else {
-            message.error("获取 todolist 失败");
+            type === "todo" && setTodoLoading(true);
+            type === "pool" && setPoolLoading(true);
+
+            const req: any = {
+                status: TodoStatus[type],
+            };
+            
+            const res = await getTodoList(req);
+            if (res) {
+                if (type === "todo") {
+                    setTodoMap(formatArrayToTimeMap(res.data));
+                    setTodoLoading(false);
+                }
+                if (type === "pool") {
+                    setPoolList(res.data);
+                    setPoolLoading(false);
+                }
+            } else {
+                message.error("获取 todolist 失败");
+            }            
         }
     };
 
@@ -95,7 +77,6 @@ const TodoList: React.FC = () => {
 
     // 两种列表
     const [todoMap, setTodoMap] = useState({});
-    const [doneMap, setDoneMap] = useState({});
     const [poolList, setPoolList] = useState([]);
     // 编辑相关
     const [operType, setOperType] = useState<"add" | "edit" | "copy">();
@@ -229,18 +210,11 @@ const TodoList: React.FC = () => {
             />
             {/* 已完成 */}
             <DoneList
-                loading={doneLoading}
-                getTodo={getTodo}
                 title="已完成"
-                mapList={doneMap}
-                handleAdd={handleAdd}
                 handleEdit={handleEdit}
                 handleCopy={handleCopy}
-                pageNo={pageNo}
-                setPageNo={setPageNo}
-                keyword={keyword}
-                setKeyword={setKeyword}
-                total={total}
+                isRefreshDone={isRefreshDone}
+                setIsRefreshDone={setIsRefreshDone}
             />
             {/* 新增/编辑 todo */}
             <DragModal

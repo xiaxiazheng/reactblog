@@ -1,49 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Input, Pagination, Select } from "antd";
+import { Input, Pagination, Select, message } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { getWeek } from "../utils";
+import { getWeek, formatArrayToTimeMap } from "../utils";
 import { debounce } from "lodash";
-import { getTodoCategory } from "@/client/TodoListHelper";
+import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
+import { StatusType, TodoStatus } from "../index";
 
 interface Props {
-    loading: boolean;
     title: "待办" | "已完成" | "待办池" | string;
-    mapList: any;
-    getTodo: Function;
-    handleAdd: Function;
     handleEdit: Function;
-    pageNo: number;
-    setPageNo: Function;
-    keyword: string;
-    setKeyword: Function;
-    total: number;
     handleCopy: Function;
+    isRefreshDone: boolean;
+    setIsRefreshDone: Function;
 }
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const {
-        loading,
-        title,
-        mapList,
-        getTodo,
-        handleEdit,
-        pageNo,
-        setPageNo,
-        keyword,
-        setKeyword,
-        total,
-        handleCopy,
-    } = props;
+    const { title, handleEdit, handleCopy, isRefreshDone, setIsRefreshDone } = props;
+
+    const [doneMap, setDoneMap] = useState<any>({});
 
     const today = moment().format("YYYY-MM-DD");
-    const getDoneList = debounce(() => getTodo("done", activeCategory), 200);
+    const getDoneList = debounce(() => getDoneTodo(), 200);
 
     const [category, setCategory] = useState<any[]>([]);
-    const [activeCategory, setActiveCategory] = useState<string>('');
+    const [activeCategory, setActiveCategory] = useState<string>("");
     const getCategory = async () => {
         const res = await getTodoCategory();
         setCategory(res.data);
@@ -56,6 +40,48 @@ const DoneList: React.FC<Props> = (props) => {
         getDoneList();
     }, [activeCategory]);
 
+    const [loading, setLoading] = useState<boolean>(false);
+    const [keyword, setKeyword] = useState<string>("");
+    const [pageNo, setPageNo] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0);
+    const [activeColor, setActiveColor] = useState<string>("");
+    useEffect(() => {
+        getDoneTodo();
+    }, [pageNo]);
+
+    const getDoneTodo = async () => {
+        setLoading(true);
+
+        const req: any = {
+            status: TodoStatus["done"],
+            keyword,
+            pageNo,
+        };
+
+        if (activeCategory) {
+            req["category"] = activeCategory;
+        }
+        if (activeColor) {
+            req["color"] = activeColor;
+        }
+
+        const res = await getTodoList(req);
+        if (res) {
+            setDoneMap(formatArrayToTimeMap(res.data.list));
+            setTotal(res.data.total);
+            setLoading(false);
+        } else {
+            message.error("获取 todolist 失败");
+        }
+    };
+
+    useEffect(() => {
+        if (isRefreshDone) {
+            getDoneTodo();
+            setIsRefreshDone(false);
+        }
+    }, [isRefreshDone]);
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
@@ -67,9 +93,7 @@ const DoneList: React.FC<Props> = (props) => {
                     分类：
                     <Select
                         value={activeCategory}
-                        onChange={(val) =>
-                            setActiveCategory(val)
-                        }
+                        onChange={(val) => setActiveCategory(val)}
                         style={{ width: 80 }}
                     >
                         <Select.Option key="所有" value="">
@@ -93,7 +117,7 @@ const DoneList: React.FC<Props> = (props) => {
                 onPressEnter={() => getDoneList()}
             />
             <div className={`${styles.listItemWrap} ScrollBar`}>
-                {Object.keys(mapList).map((time) => {
+                {Object.keys(doneMap).map((time) => {
                     return (
                         <div className={styles.oneDay} key={time}>
                             <div
@@ -109,9 +133,9 @@ const DoneList: React.FC<Props> = (props) => {
                             </div>
                             {
                                 <ListItem
-                                    list={mapList[time]}
+                                    list={doneMap[time]}
                                     title="已完成"
-                                    getTodo={getTodo}
+                                    getTodo={() => getDoneTodo()}
                                     handleEdit={handleEdit}
                                     handleCopy={handleCopy}
                                 />
