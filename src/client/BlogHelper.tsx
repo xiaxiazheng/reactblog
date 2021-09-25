@@ -45,3 +45,8 @@ export async function deleteBlogCont(params: any): Promise<boolean> {
     const data = await postHelper(`/blog/deleteBlogcont`, params);
     return data && data.resultsCode === "success" ? true : false;
 }
+
+export async function searchBlogList(params: any): Promise<any> {
+    const data = await postHelper(`/blog/searchBlogList`, params);
+    return data && data.resultsCode === "success" ? data.data : false;
+}
