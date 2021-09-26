@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { getWeek, formatArrayToTimeMap } from "../utils";
+import { getWeek, formatArrayToTimeMap, colorNameMap, colorList, colorMap } from "../utils";
 import { debounce } from "lodash";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { StatusType, TodoStatus } from "../index";
@@ -26,8 +26,10 @@ const DoneList: React.FC<Props> = (props) => {
     const today = moment().format("YYYY-MM-DD");
     const getDoneList = debounce(() => getDoneTodo(), 200);
 
-    const [category, setCategory] = useState<any[]>([]);
+    // 根据颜色和类别筛选
+    const [activeColor, setActiveColor] = useState<string>("");
     const [activeCategory, setActiveCategory] = useState<string>("");
+    const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
         const res = await getTodoCategory();
         setCategory(res.data);
@@ -38,13 +40,12 @@ const DoneList: React.FC<Props> = (props) => {
 
     useEffect(() => {
         getDoneList();
-    }, [activeCategory]);
+    }, [activeCategory, activeColor]);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
-    const [activeColor, setActiveColor] = useState<string>("");
     useEffect(() => {
         getDoneTodo();
     }, [pageNo]);
@@ -77,7 +78,7 @@ const DoneList: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (isRefreshDone) {
-            getDoneTodo();
+            getDoneList();
             setIsRefreshDone(false);
         }
     }, [isRefreshDone]);
@@ -90,24 +91,47 @@ const DoneList: React.FC<Props> = (props) => {
                     {title}({total})
                 </span>
                 <span>
-                    分类：
-                    <Select
-                        value={activeCategory}
-                        onChange={(val) => setActiveCategory(val)}
-                        style={{ width: 80 }}
-                    >
-                        <Select.Option key="所有" value="">
-                            所有
-                        </Select.Option>
-                        {category.map((item) => (
-                            <Select.Option
-                                key={item.category}
-                                value={item.category}
-                            >
-                                {item.category}
+                    <span>
+                        轻重：
+                        <Select
+                            value={activeColor}
+                            onChange={(val) => setActiveColor(val)}
+                            style={{ width: 80, marginRight: 10 }}
+                        >
+                            <Select.Option key="所有" value="">
+                                所有
                             </Select.Option>
-                        ))}
-                    </Select>
+                            {colorList.map((item) => (
+                                <Select.Option
+                                    key={item}
+                                    value={item}
+                                    style={{ color: colorMap[item] }}
+                                >
+                                    {colorNameMap[item]}
+                                </Select.Option>
+                            ))}
+                        </Select>                        
+                    </span>
+                    <span>
+                        分类：
+                        <Select
+                            value={activeCategory}
+                            onChange={(val) => setActiveCategory(val)}
+                            style={{ width: 80 }}
+                        >
+                            <Select.Option key="所有" value="">
+                                所有
+                            </Select.Option>
+                            {category.map((item) => (
+                                <Select.Option
+                                    key={item.category}
+                                    value={item.category}
+                                >
+                                    {item.category}
+                                </Select.Option>
+                            ))}
+                        </Select>                        
+                    </span>
                 </span>
             </div>
             <Input

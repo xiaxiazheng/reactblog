@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap } from "../utils";
+import { colorMap, colorNameMap, descMap, colorList } from "../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
 
@@ -44,22 +44,6 @@ const TodoForm: React.FC<Props> = (props) => {
                 count: 0,
             },
         ]);
-    };
-
-    const colorNameMap: any = {
-        [-1]: "green",
-        0: "red",
-        1: "orange",
-        2: "blue",
-        3: "grey",
-    };
-
-    const descMap: any = {
-        [-1]: "意识，方向，指导思想",
-        0: "重要且紧急",
-        1: "不重要但紧急",
-        2: "重要但不紧急",
-        3: "不重要且不紧急",
     };
 
     const MyDatePicker = (props: any) => {
@@ -109,7 +93,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
-                    {["0", "1", "2", "3", "-1"].map((item) => (
+                    {colorList.map((item) => (
                         <Radio key={item} value={item} style={{ color: colorMap[item] }}>
                             <Tooltip title={descMap[item]}>
                                 {colorNameMap[item]}

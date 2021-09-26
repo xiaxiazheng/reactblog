@@ -16,9 +16,27 @@ export const getWeek = (time: string) => {
 };
 
 export const colorMap: any = {
-    [-1]: "#20d420",
     0: "#f5222d",
     1: "#fa8c16",
     2: "#40a9ff",
     3: "#827e7e",
+    [-1]: "#20d420",
+};
+
+export const colorNameMap: any = {
+    0: "red",
+    1: "orange",
+    2: "blue",
+    3: "grey",
+    [-1]: "green",
+};
+
+export const colorList = Object.keys(colorNameMap);
+
+export const descMap: any = {
+    0: "重要且紧急",
+    1: "不重要但紧急",
+    2: "重要但不紧急",
+    3: "不重要且不紧急",
+    [-1]: "意识，方向，指导思想",
 };
