@@ -5,6 +5,8 @@ fieldset, button, input, textarea,
 th, td {
   margin: 0;
   padding: 0;
+  color: var(--color) !important;
+  background-color: var(--bg_color);
 }
 
 html {

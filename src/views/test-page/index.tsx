@@ -1,41 +1,101 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState, lazy } from "react";
 import styles from "./index.module.scss";
-import H5 from './h5';
-import KNN from "./knn";
-import VirtualScroll from "./virtual-scroll";
-import KeepAlive from "./keep-alive";
+import { Route, useHistory, withRouter } from "react-router-dom";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import MousePosition from "./mouse-position";
+import { IsLoginContext } from "@/context/IsLoginContext";
+import { Button } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
 
-const TestPage: React.FC = () => {
-    const map: any = {
-        H5: H5,
-        knn: KNN,
-        "virtual-scroll": VirtualScroll,
-        "keep-alive": KeepAlive,
-        "mouse-position": MousePosition
-    };
-    const list = Object.keys(map);
-    const [active, setActive] = useState<string>("H5");
+const H5 = lazy(() => import("./h5"));
+const KNN = lazy(() => import("./knn"));
+const VirtualScroll = lazy(() => import("./virtual-scroll"));
+const KeepAlive = lazy(() => import("./keep-alive"));
+const MousePosition = lazy(() => import("./mouse-position"));
 
-    useDocumentTitle("测试页");
+const compList = [
+    { path: "H5", name: "H5", component: H5 },
+    { path: "knn", name: "knn", component: KNN },
+    {
+        path: "virtual-scroll",
+        name: "virtual-scroll",
+        component: VirtualScroll,
+    },
+    // { path: "keep-alive", name: "keep-alive", component: KeepAlive },
+    {
+        path: "mouse-position",
+        name: "mouse-position",
+        component: MousePosition,
+    },
+];
 
-    const Component = () => {
-        const Comp = map[active];
-        return <Comp />;
-    };
+const Home = () => {
+    const { isLogin } = useContext(IsLoginContext);
+    const history = useHistory();
 
     return (
-        <div className={`${styles.testPage} ScrollBar`}>
-            <div>测试页</div>
-            <div className={styles.router}>
-                {list.map((item) => (
-                    <span key={item} className={item === active ? styles.active : ''} onClick={() => setActive(item)}>{item}</span>
-                ))}
-            </div>
-            {active && <Component />}
+        <div className={styles.home}>
+            {compList.map((item) => {
+                const path = `${isLogin ? "/admin" : ""}/test-page/${
+                    item.path
+                }`;
+                return (
+                    <div key={item.name} onClick={() => history.push(path)}>
+                        {item.name}
+                    </div>
+                );
+            })}
         </div>
     );
 };
 
-export default TestPage;
+const TestPage: React.FC = () => {
+    const { isLogin } = useContext(IsLoginContext);
+    const history = useHistory();
+
+    useDocumentTitle("测试页");
+
+    return (
+        <div className={`${styles.testPage} ScrollBar`}>
+            <Route
+                path={`${isLogin ? "/admin" : ""}/test-page`}
+                component={Home}
+                exact
+            />
+            {compList.map((item) => {
+                const path = `${isLogin ? "/admin" : ""}/test-page/${
+                    item.path
+                }`;
+                return (
+                    <Route
+                        key={item.name}
+                        path={path}
+                        component={(props: any) => {
+                            const Comp = item.component;
+                            return (
+                                <>
+                                    <Button
+                                        className={styles.backButton}
+                                        type="primary"
+                                        onClick={() =>
+                                            history.push(
+                                                `${
+                                                    isLogin ? "/admin" : ""
+                                                }/test-page`
+                                            )
+                                        }
+                                    >
+                                        <LeftOutlined type="left" />
+                                        返回
+                                    </Button>
+                                    <Comp {...props} />
+                                </>
+                            );
+                        }}
+                    />
+                );
+            })}
+        </div>
+    );
+};
+
+export default withRouter(TestPage);

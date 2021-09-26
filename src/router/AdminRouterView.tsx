@@ -97,6 +97,7 @@ export const routes = [
         name: "TestPage",
         component: TestPage,
         isShow: false,
+        exact: false
     },
     { route: "/admin/maopu", name: "猫谱", component: MaoPu, isShow: false },
     // { route: "/admin/log", name: 'log', component: Log, isShow: false },
@@ -138,7 +139,7 @@ const AdminRouterView: React.FC<PropsType> = (props) => {
                                 return (
                                     <AuthRoute
                                         key={index}
-                                        exact
+                                        exact={typeof item.exact !== 'undefined' ? item.exact : true}
                                         path={item.route}
                                         component={item.component}
                                     />

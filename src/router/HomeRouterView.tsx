@@ -14,42 +14,50 @@ const BlogCont = lazy(() => import("../views/blog/blog-cont"));
 const TestPage = lazy(() => import("../views/test-page"));
 
 interface PropsType {
-  component?: any;
-  path?: string;
-  exact?: boolean;
+    component?: any;
+    path?: string;
+    exact?: boolean;
 }
 
 const HomeRouterView: React.FC<PropsType> = ({
-  component: Component,
-  ...rest
+    component: Component,
+    ...rest
 }) => {
-  return (
-    <>
-      <div className={styles.RouterHead}>
-        <Header></Header>
-      </div>
-      <Suspense fallback={fallback()}>
-        <div className={styles.RouterView}>
-          <Route exact path="/" component={Home} />
-          <TreeProvider>
-            <Switch>
-              <Route path="/tree/:first_id/:second_id" exact component={Tree} />
-              <Route path="/tree" component={Tree} />
-            </Switch>
-          </TreeProvider>
-          <BlogProvider>
-            <Switch>
-              <Route path="/blog/:blog_id" exact component={BlogCont} />
-              <Route path="/blog" component={Blog} />
-            </Switch>
-          </BlogProvider>
-          {/* <Route path="/cloud" component={Cloud} /> */}
-          {/* <Route path="/media" component={Media} /> */}
-          <Route path="/test-page" component={TestPage} />
-        </div>
-      </Suspense>
-    </>
-  );
+    return (
+        <>
+            <div className={styles.RouterHead}>
+                <Header></Header>
+            </div>
+            <Suspense fallback={fallback()}>
+                <div className={styles.RouterView}>
+                    <Route exact path="/" component={Home} />
+                    <TreeProvider>
+                        <Switch>
+                            <Route
+                                path="/tree/:first_id/:second_id"
+                                exact
+                                component={Tree}
+                            />
+                            <Route path="/tree" component={Tree} />
+                        </Switch>
+                    </TreeProvider>
+                    <BlogProvider>
+                        <Switch>
+                            <Route
+                                path="/blog/:blog_id"
+                                exact
+                                component={BlogCont}
+                            />
+                            <Route path="/blog" component={Blog} />
+                        </Switch>
+                    </BlogProvider>
+                    {/* <Route path="/cloud" component={Cloud} /> */}
+                    {/* <Route path="/media" component={Media} /> */}
+                    <Route path="/test-page" component={TestPage} />
+                </div>
+            </Suspense>
+        </>
+    );
 };
 
 export default HomeRouterView;

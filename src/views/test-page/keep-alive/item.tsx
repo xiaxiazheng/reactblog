@@ -8,7 +8,7 @@ interface IItem {
 const Item: React.FC<IItem> = (props) => {
     const { flag } = props;
 
-    const [data, setData] = useState<number>();
+    const [data, setData] = useState<number>(1);
 
     useEffect(() => {
         console.log(`初始化：${data}`);

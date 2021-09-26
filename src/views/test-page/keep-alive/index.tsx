@@ -23,7 +23,9 @@ const KeepAlive: React.FC = () => {
             <div className={styles.router}>
                 点击切换路由：
                 {list.map((item) => (
-                    <span key={item} onClick={() => setActive(item)}>{item}</span>
+                    <span key={item} onClick={() => setActive(item)}>
+                        {item}
+                    </span>
                 ))}
             </div>
             <div>
@@ -40,15 +42,11 @@ const KeepAlive: React.FC = () => {
                             </div>
                         );
                     } else {
-                        return (
-                            <>
-                                {item === active && (
-                                    <div>
-                                        <Item key={item} flag={item} />
-                                    </div>
-                                )}
-                            </>
-                        );
+                        return item === active ? (
+                            <div>
+                                <Item key={item} flag={item} />
+                            </div>
+                        ) : <div></div>;
                     }
                 })}
             </div>

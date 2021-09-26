@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import echarts from "echarts";
+import * as echarts from "echarts";
 
 const Knn: React.FC = () => {
     const ring = useRef(null);
