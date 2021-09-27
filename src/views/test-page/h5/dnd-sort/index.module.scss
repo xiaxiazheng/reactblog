@@ -4,3 +4,25 @@
         box-sizing: border-box;
     }
 }
+
+.dnd_sort {
+    display: flex;
+    height: 100%;
+    >div {
+        flex: 1;
+        height: 100%;
+        padding: 30px;
+        &:first-child {
+            border-right: 1px solid #ccc;
+        }
+    }
+    .preview {
+        min-height: 500px;
+        margin: 50px auto 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+    .source {
+        margin: 50px auto 0;
+    }
+}

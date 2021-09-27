@@ -83,7 +83,6 @@ const ZoomWrapper: React.FC<Props> = (props) => {
                 position: "relative",
                 display: "inline-block",
                 border: isActive ? "1px solid black" : "none",
-                boxSizing: 'border-box'
             }}
             onDoubleClick={() => setIsActive((prev) => !prev)}
         >

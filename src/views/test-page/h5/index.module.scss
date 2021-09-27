@@ -6,6 +6,10 @@
         flex: 1;
         min-height: 80vh;
         border: 1px solid #ccc;
+        box-sizing: border-box;
+        &:first-child {
+            flex: 2;
+        }
     }
 }
 

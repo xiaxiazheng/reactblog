@@ -11,6 +11,7 @@ const KNN = lazy(() => import("./knn"));
 const VirtualScroll = lazy(() => import("./virtual-scroll"));
 const KeepAlive = lazy(() => import("./keep-alive"));
 const MousePosition = lazy(() => import("./mouse-position"));
+const DragZoom = lazy(() => import("./drag-zoom"));
 
 const compList = [
     { path: "H5", name: "H5", component: H5 },
@@ -25,6 +26,11 @@ const compList = [
         path: "mouse-position",
         name: "mouse-position",
         component: MousePosition,
+    },
+    {
+        path: "drag-zoom",
+        name: "drag-zoom",
+        component: DragZoom,
     },
 ];
 

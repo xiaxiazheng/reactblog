@@ -6,9 +6,9 @@ interface Props {
 }
 
 const InputComp: React.FC<Props> = (props) => {
-    const { style } = props;
+    const { style, ...rest } = props;
 
-    return <Input style={style} />
+    return <Input style={style} {...rest} />
 };
 
 export default InputComp;
