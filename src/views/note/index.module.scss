@@ -86,10 +86,17 @@
         top: 10.5rem;
         opacity: 0.6;
     }
-    .delete_note {
+    .img_note {
         position: absolute;
         right: 2.5rem;
         top: 13.5rem;
         opacity: 0.6;
+    }
+    .delete_note {
+        position: absolute;
+        right: 2.5rem;
+        top: 16.5rem;
+        opacity: 0.6;
+        color: #ff4d4f !important;
     }
 }

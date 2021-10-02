@@ -9,11 +9,14 @@ import {
     Button,
     message,
     Popconfirm,
+    Image,
 } from "antd";
 import { NoteType, CategoryType } from "./types";
 import EditNoteModal from "./edit-note-modal";
+import ImgNoteModal from "./img-note-modal";
 import { deleteNote } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import { staticUrl } from "@/env_config";
 
 const { Search } = Input;
 
@@ -83,7 +86,10 @@ const Note: React.FC = () => {
     }, [activeCategory]);
 
     const [activeNote, setActiveNote] = useState<NoteType>();
+    // 新建 / 编辑
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
+    // 处理图片
+    const [isShowImgModal, setIsShowImgModal] = useState<boolean>(false);
 
     return (
         <div className={`${styles.note} ScrollBar`}>
@@ -94,7 +100,9 @@ const Note: React.FC = () => {
                     enterButton
                     onChange={(e) => setKeyword(e.target.value)}
                     onSearch={() => (pageNo === 1 ? getData() : setPageNo(1))}
-                    onPressEnter={() => (pageNo === 1 ? getData() : setPageNo(1))}
+                    onPressEnter={() =>
+                        pageNo === 1 ? getData() : setPageNo(1)
+                    }
                 />
                 <Radio.Group
                     className={styles.radio}
@@ -111,7 +119,7 @@ const Note: React.FC = () => {
                             </Radio>
                         );
                     })}
-                </Radio.Group>                
+                </Radio.Group>
             </div>
 
             <div className={`${styles.note_list}`}>
@@ -136,6 +144,27 @@ const Note: React.FC = () => {
                                 {item.category}
                             </span>
                             <span>{item.note}</span>
+                            <div>
+                                {item.imgList.map((img) => {
+                                    return (
+                                        <div
+                                            key={img.img_id}
+                                            style={{
+                                                margin: "10px 10px 0 0",
+                                            }}
+                                        >
+                                            <Image
+                                                src={`${staticUrl}/img/note/${img.filename}`}
+                                                onClick={(e) =>
+                                                    e.stopPropagation()
+                                                }
+                                                width={150}
+                                                height={150}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     );
                 })}
@@ -143,7 +172,7 @@ const Note: React.FC = () => {
                     <Empty style={{ paddingTop: 100 }} />
                 )}
             </div>
-            
+
             <Pagination
                 className={styles.pagination}
                 current={pageNo}
@@ -175,6 +204,15 @@ const Note: React.FC = () => {
                     >
                         编辑
                     </Button>
+                    <Button
+                        className={styles.img_note}
+                        type="primary"
+                        onClick={() => {
+                            setIsShowImgModal(true);
+                        }}
+                    >
+                        图片
+                    </Button>
                     <Popconfirm
                         title="确定删除吗？"
                         onConfirm={onDelete}
@@ -189,12 +227,21 @@ const Note: React.FC = () => {
                 </>
             )}
 
+            {/* 新建 / 编辑 */}
             <EditNoteModal
                 visible={isShowModal}
                 category={category}
                 activeNote={activeNote}
                 onCancel={() => setIsShowModal(false)}
                 refreshData={refreshData}
+            />
+
+            {/* 处理图片 */}
+            <ImgNoteModal
+                visible={isShowImgModal}
+                activeNote={activeNote}
+                onCancel={() => setIsShowImgModal(false)}
+                refreshData={() => getData()}
             />
         </div>
     );

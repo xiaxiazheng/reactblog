@@ -92,7 +92,6 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                         </p>
                     </a>
                 </div>
-
                 {/* <div>
                     <a
                         target="_blank"

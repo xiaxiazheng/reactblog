@@ -53,5 +53,6 @@
 
     :global(li) {
         color: var(--color);
+        background-color: unset;
     }
 }
