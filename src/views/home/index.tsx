@@ -5,6 +5,7 @@ import { staticUrl } from "@/env_config";
 import classnames from "classnames";
 import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import beian from "@/assets/beian.png";
 
 interface IHome extends RouteComponentProps {}
 
@@ -63,7 +64,36 @@ const Home: React.FC<RouteComponentProps> = (props) => {
             style={{ backgroundImage: `url(${backgroundUrl})` }}
         >
             <footer className={styles.footerBeian}>
-                <div>
+                <div
+                    style={{ width: 300, margin: "0 auto", padding: "20px 0" }}
+                >
+                    <a
+                        target="_blank"
+                        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602005623"
+                        style={{
+                            display: "inline-block",
+                            textDecoration: "none",
+                            height: "20px",
+                            lineHeight: "20px",
+                        }}
+                        rel="noreferrer"
+                    >
+                        <img src={beian} style={{ float: "left" }} />
+                        <p
+                            style={{
+                                float: "left",
+                                height: "20px",
+                                lineHeight: "20px",
+                                margin: "0px 0px 0px 5px",
+                                color: "#939393",
+                            }}
+                        >
+                            粤公网安备 44010602005623号
+                        </p>
+                    </a>
+                </div>
+
+                {/* <div>
                     <a
                         target="_blank"
                         href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602005623"
@@ -75,7 +105,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                             lineHeight: "20px",
                         }}
                     >
-                        <img src={require("@/assets/beian.png")} alt="备案" />
+                        <img src={beian} alt="备案" />
                         <span>粤公网安备 44010602005623号</span>
                     </a>
                     <a
@@ -91,7 +121,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                     >
                         <span>粤ICP备18097682号</span>
                     </a>
-                </div>
+                </div> */}
             </footer>
         </div>
     );
