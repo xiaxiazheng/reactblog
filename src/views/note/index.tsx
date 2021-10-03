@@ -150,6 +150,7 @@ const Note: React.FC = () => {
                                         <div
                                             key={img.img_id}
                                             style={{
+                                                display: "inline-block",
                                                 margin: "10px 10px 0 0",
                                             }}
                                         >

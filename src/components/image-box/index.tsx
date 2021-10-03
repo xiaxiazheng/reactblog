@@ -151,7 +151,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             }}
             onMouseLeave={(e) => {
                 e.stopPropagation();
-                // setIsHover(false);
+                setIsHover(false);
             }}
         >
             {/* 没有图片的情况，展示添加 */}
