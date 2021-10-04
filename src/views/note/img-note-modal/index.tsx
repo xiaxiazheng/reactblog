@@ -60,7 +60,7 @@ const ImgNoteModal: React.FC<Props> = (props) => {
                         imageMinUrl={
                             jtem.has_min === "1"
                                 ? `${staticUrl}/min-img/${jtem.filename}`
-                                : ""
+                                : `${staticUrl}/img/note/${jtem.filename}`
                         }
                         initImgList={getNote}
                         width="120px"
