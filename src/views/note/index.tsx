@@ -45,17 +45,26 @@ const Note: React.FC = () => {
 
         const res = await getNoteList(params);
         if (res) {
-            setList(res.data.list?.map((item: NoteType) => {
-                return {
-                    ...item,
-                    note: keyword && keyword !== '' ? handleKeyword(item.note, keyword) : handleUrl(item.note) 
-                }
-            }));
+            setList(
+                res.data.list?.map((item: NoteType) => {
+                    return {
+                        ...item,
+                        note:
+                            keyword && keyword !== ""
+                                ? handleKeyword(item.note, keyword)
+                                : handleUrl(item.note),
+                    };
+                })
+            );
             setTotal(res.data.total);
         }
     };
 
     const onDelete = async () => {
+        if (activeNote?.imgList.length !== 0) {
+            message.warning("图片不为空，不能删除");
+            return false;
+        }
         const params = {
             note_id: activeNote?.note_id,
         };
@@ -149,7 +158,7 @@ const Note: React.FC = () => {
                             <span className={styles.category}>
                                 {item.category}
                             </span>
-                            <span dangerouslySetInnerHTML={{ __html: item.note }} />
+                            <span>{item.note}</span>
                             <div>
                                 {item.imgList.map((img) => {
                                     return (
