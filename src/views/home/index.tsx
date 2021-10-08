@@ -65,7 +65,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
         >
             <footer className={styles.footerBeian}>
                 <div
-                    style={{ width: 300, margin: "0 auto", padding: "20px 0" }}
+                    style={{ padding: "20px 0" }}
                 >
                     <a
                         target="_blank"
@@ -75,6 +75,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                             textDecoration: "none",
                             height: "20px",
                             lineHeight: "20px",
+                            verticalAlign: 'middle'
                         }}
                         rel="noreferrer"
                     >
@@ -85,11 +86,25 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                                 height: "20px",
                                 lineHeight: "20px",
                                 margin: "0px 0px 0px 5px",
-                                color: "#939393",
+                                color: "#939393"
                             }}
                         >
                             粤公网安备 44010602005623号
                         </p>
+                    </a>
+                    <a
+                        href="https://beian.miit.gov.cn/"
+                        rel="noreferrer"
+                        target="_blank"
+                        style={{
+                            display: "inline-block",
+                            textDecoration: "none",
+                            height: "20px",
+                            lineHeight: "20px",
+                            verticalAlign: 'middle'
+                        }}
+                    >
+                        <span>粤ICP备18097682号</span>
                     </a>
                 </div>
                 {/* <div>
