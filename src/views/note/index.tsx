@@ -17,6 +17,7 @@ import ImgNoteModal from "./img-note-modal";
 import { deleteNote } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { staticUrl } from "@/env_config";
+import { handleKeyword, handleUrl } from "./utils";
 
 const { Search } = Input;
 
@@ -44,7 +45,12 @@ const Note: React.FC = () => {
 
         const res = await getNoteList(params);
         if (res) {
-            setList(res.data.list);
+            setList(res.data.list?.map((item: NoteType) => {
+                return {
+                    ...item,
+                    note: keyword && keyword !== '' ? handleKeyword(item.note, keyword) : handleUrl(item.note) 
+                }
+            }));
             setTotal(res.data.total);
         }
     };
@@ -143,7 +149,7 @@ const Note: React.FC = () => {
                             <span className={styles.category}>
                                 {item.category}
                             </span>
-                            <span>{item.note}</span>
+                            <span dangerouslySetInnerHTML={{ __html: item.note }} />
                             <div>
                                 {item.imgList.map((img) => {
                                     return (
