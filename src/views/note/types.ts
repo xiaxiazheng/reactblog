@@ -8,7 +8,9 @@ export type NoteType = {
     mTime: string;
     username: string;
     category: string;
-    imgList: ImgType[]
+    imgList: ImgType[];
+
+    noteNode?: any;  // 这个是添加了关键字高亮和解析了 url 的 react 节点
 }
 
 const obj2 = {

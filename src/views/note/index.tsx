@@ -49,7 +49,7 @@ const Note: React.FC = () => {
                 res.data.list?.map((item: NoteType) => {
                     return {
                         ...item,
-                        note:
+                        noteNode:
                             keyword && keyword !== ""
                                 ? handleKeyword(item.note, keyword)
                                 : handleUrl(item.note),
@@ -158,7 +158,7 @@ const Note: React.FC = () => {
                             <span className={styles.category}>
                                 {item.category}
                             </span>
-                            <span>{item.note}</span>
+                            <span>{item.noteNode}</span>
                             <div>
                                 {item.imgList.map((img) => {
                                     return (
