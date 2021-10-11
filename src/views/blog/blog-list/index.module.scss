@@ -62,11 +62,12 @@
 }
 
 .blogList {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(163px, 24%));
+    gap: 0.6rem;
     height: calc(100% - 140px);
-    padding: 0 22px 10px;
+    padding: 0 32px 10px;
     text-align: left;
     .emptyList {
         text-align: center;
@@ -74,13 +75,7 @@
     }
     .blogListLi {
         display: inline-block;
-        flex: 1 1 calc(20% - 1.2rem);
         vertical-align: middle;
-        max-width: 300px;
-        min-width: 250px;
-        max-height: 23%;
-        min-height: 163px;
-        margin: 0.6rem 0.6rem;
         padding: 0.5rem 1rem;
         border-radius: 3px;
         box-sizing: border-box;
