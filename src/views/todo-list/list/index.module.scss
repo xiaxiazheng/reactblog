@@ -32,6 +32,8 @@
         margin-bottom: 20px;
 
         .time {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 8px;
             border-bottom: 1px solid var(--border_color);
 

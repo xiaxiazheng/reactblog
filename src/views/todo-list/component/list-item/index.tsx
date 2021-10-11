@@ -10,11 +10,12 @@ import {
 } from "@ant-design/icons";
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import { colorMap } from "../../utils";
+import { StatusType } from "../../";
 
 interface Props {
     list: any[];
     title: "待办" | "待办池" | "已完成";
-    getTodo: Function;
+    getTodo: (type: StatusType) => void;
     handleEdit: Function;
     handleCopy: Function;
 }
