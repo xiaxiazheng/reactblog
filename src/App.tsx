@@ -1,5 +1,6 @@
 import React from "react";
 import "@/App.scss";
+import "./antd.scss";
 import "@/assets/scss/Global.scss";
 import Router from "./router";
 import { IsLoginProvider } from "./context/IsLoginContext";
@@ -15,7 +16,7 @@ if (isDev) {
 
 const App: React.FC = () => {
     return (
-        <div className="App darkTheme">
+        <div className={`App darkTheme`}>
             <IsLoginProvider>
                 <ThemeProvider>
                     <UserProvider>

@@ -19,11 +19,6 @@
             color: var(--color);
             background-color: var(--bg_color) !important;
         }
-        :global {
-            .ant-radio-wrapper {
-                color: var(--color);
-            }
-        }
     }
 
     .resultList {

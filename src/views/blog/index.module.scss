@@ -56,10 +56,6 @@
         border-left: 1px solid var(--border_color);
     }
     :global {
-        .ant-tabs-tab-prev-icon,
-        .ant-tabs-tab-next-icon {
-            color: var(--color);
-        }
         .ant-tabs-top-content.ant-tabs-content-animated {
             height: calc(100% - 60px);
         }

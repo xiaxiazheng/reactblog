@@ -1,21 +1,17 @@
 .imgLength {
-  position: fixed;
-  left: 2%;
-  top: 140px;
-  display: inline-block;
-  width: 100px;
-  border-radius: 4px;
-  text-align: center;
+    position: fixed;
+    left: 2%;
+    top: 140px;
+    display: inline-block;
+    width: 100px;
+    border-radius: 4px;
+    text-align: center;
 }
 
 .ImgManage {
-  margin: 20px;
+    margin: 20px;
 }
 
 .tabs {
-  :global {
-    .ant-tabs-tab {
-      color: var(--color);
-    }
-  }
+
 }

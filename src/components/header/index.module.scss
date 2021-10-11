@@ -17,12 +17,6 @@
         border-bottom: none;
     }
 
-    :global(.ant-input-affix-wrapper .ant-input-prefix),
-    :global(.ant-input-affix-wrapper .ant-input-suffix),
-    :global(.ant-input-affix-wrapper) {
-        color: var(--color);
-    }
-
     .headerLeft {
         padding-left: 1rem;
         > a {

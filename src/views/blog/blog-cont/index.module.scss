@@ -18,9 +18,6 @@
         > span {
             color: var(--color);
         }
-        &:global(.ant-switch-checked) {
-            background-color: transparent;
-        }
         &:global(.ant-switch::after) {
             border: 1px solid var(--border_color);
         }

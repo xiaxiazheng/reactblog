@@ -82,12 +82,6 @@ $TreeMenuWidth: 21rem;
             &:global(.ant-switch::after) {
                 border: 1px solid var(--border_color);
             }
-            &:global(.ant-switch-checked) {
-                background-color: transparent;
-            }
-            :global(.ant-switch-inner) {
-                color: var(--color);
-            }
         }
     }
 }

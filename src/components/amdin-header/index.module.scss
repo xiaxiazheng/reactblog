@@ -17,12 +17,6 @@
         border-bottom: none;
     }
 
-    :global(.ant-input-affix-wrapper .ant-input-prefix),
-    :global(.ant-input-affix-wrapper .ant-input-suffix),
-    :global(.ant-input-affix-wrapper) {
-        color: var(--color);
-    }
-
     .headerLeft {
         display: flex;
         align-items: center;
@@ -52,12 +46,6 @@
         .switch {
             margin: 0 10px;
             border: 1px solid var(--border_color);
-            &:global(.ant-switch-checked) {
-                background-color: transparent;
-            }
-            &:global(.ant-switch::after) {
-                border: 1px solid var(--border_color);
-            }
         }
         .headerRouteList {
             display: inline-block;

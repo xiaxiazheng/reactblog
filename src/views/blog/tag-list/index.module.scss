@@ -14,14 +14,7 @@
     }
     :global {
         .ant-input-affix-wrapper {
-            background: var(--bg_color);
-            color: var(--color);
             border-color: transparent;
-        }
-        .ant-input-suffix {
-            .anticon.ant-input-clear-icon {
-                color: var(--color);
-            }
         }
     }
     :global(.ant-input) {
@@ -29,19 +22,10 @@
         font-size: 15px;
         border: none;
         box-shadow: none;
-        background: var(--bg_color);
-        color: var(--color);
-    }
-
-    :global(.ant-input-prefix) {
-        color: var(--color);
     }
 
     :global(.ant-input-suffix) {
         right: 6px;
-        > i {
-            color: var(--color);
-        }
     }
 }
 

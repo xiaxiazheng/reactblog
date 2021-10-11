@@ -3,11 +3,4 @@
     height: 100%;
     font-size: 16px;
     text-align: left;
-    :global {
-        .ant-btn {
-            color: var(--color);
-            // border-color: var(--border_color);
-            background-color: var(--bg_color);
-        }
-    }
 }

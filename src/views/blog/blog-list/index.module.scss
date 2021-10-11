@@ -5,59 +5,18 @@
     .orderbyBox {
         margin-right: 0.5rem;
         color: var(--color);
-        :global {
-            .ant-select-selection,
-            .ant-select-selector {
-                background-color: var(--bg_color);
-                color: var(--color);
-            }
-            .ant-select-arrow {
-                color: var(--color);
-            }
-        }
     }
     .checkBox {
         margin-left: 0.8rem;
         line-height: 32px;
         color: var(--color);
-        :global {
-            .ant-checkbox-inner {
-                background-color: transparent;
-            }
-            .ant-checkbox-checked .ant-checkbox-inner {
-                background-color: var(--color_active);
-            }
-        }
-    }
-    :global {
-        .ant-input-affix-wrapper {
-            background: var(--bg_color);
-            color: var(--color);
-        }
     }
     .searchBox {
         width: 13rem;
         margin-left: 0.5rem;
-        :global {
-            .ant-input-prefix {
-                color: var(--color);
-            }
-            .ant-input-suffix .ant-input-clear-icon {
-                color: var(--color);
-            }
-            .ant-input {
-                background: var(--bg_color);
-                color: var(--color);
-            }
-        }
     }
     .searchType {
         margin-left: 0.5rem;
-        :global {
-            .ant-radio-wrapper {
-                color: var(--color);
-            }
-        }
     }
 }
 
@@ -98,53 +57,10 @@
     margin-right: 30px;
     text-align: right;
     > li {
-        background: var(--bg_color);
-        > a {
-            color: var(--color);
-            background: var(--bg_color);
-        }
         :global {
-            .ant-select {
-                color: var(--color);
-                .ant-select-selection,
-                .ant-select-selector {
-                    background-color: var(--bg_color);
-                    > span {
-                        color: var(--color);
-                    }
-                }
-            }
-            .ant-select-dropdown {
-                color: var(--color);
-                background: var(--bg_color);
-                .ant-select-dropdown-menu-item {
-                    color: var(--color);
-                    &:hover {
-                        background: var(--bg_color_hover);
-                    }
-                }
-                .ant-select-dropdown-menu-item-selected {
-                    background: var(--bg_color_hover);
-                }
-            }
-        }
-    }
-    :global {
-        .ant-pagination-jump-prev
-            .ant-pagination-item-container
-            .ant-pagination-item-ellipsis,
-        .ant-pagination-jump-next
-            .ant-pagination-item-container
-            .ant-pagination-item-ellipsis,
-        .ant-pagination-total-text {
-            color: var(--color);
-        }
-        .ant-pagination-prev .ant-pagination-item-link,
-        .ant-pagination-next .ant-pagination-item-link {
-            background-color: var(--bg_color);
-        }
-        .ant-pagination-options-size-changer.ant-select {
-            margin-right: 0;
+            .ant-pagination-options-size-changer.ant-select {
+                margin-right: 0;
+            }            
         }
     }
 }

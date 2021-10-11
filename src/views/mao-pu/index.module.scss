@@ -1,172 +1,162 @@
 .MaoPu {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  padding-left: 150px;
-  background-color: var(--bg_color);
-  font-size: 16px;
-  .maopuWrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
     height: 100%;
-    padding: 20px 0;
-  }
-  .addButton {
-    position: absolute;
-    left: 2rem;
-    top: 1rem;
-    z-index: 2;
-  }
-  .switchShowType {
-    position: absolute;
-    top: 4rem;
-    left: 2rem;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--color_active);
-    box-sizing: border-box;
-    border-radius: 4px;
-    overflow: hidden;
-    > span {
-      display: inline-block;
-      width: 100px;
-      padding: 5px 0;
-      cursor: pointer;
-      &.active {
-        color: white;
-        background-color: var(--color_active);
-      }
-    }
-  }
-  .showMaoStatus {
-    position: absolute;
-    top: 11rem;
-    left: 2rem;
-  }
-  .hold {
-    border-color: #61dafb;
-    background-color: #61dafb;
-  }
-  .gone {
-    border-color: #cccccc;
-    background-color: #cccccc;
-  }
-  .dead {
-    border-color: #ff4d4f;
-    background-color: #ff4d4f;
-  }
-
-  .colorCloud {
-    position: absolute;
-    top: 13rem;
-    left: 2.2rem;
+    padding-left: 150px;
+    background-color: var(--bg_color);
     font-size: 16px;
-    text-align: left;
-    > div {
-      .status {
-        display: inline-block;
-        width: 1rem;
-        height: 1rem;
-      }
-      &:nth-child(1) .status {
+    .maopuWrapper {
+        height: 100%;
+        padding: 20px 0;
+    }
+    .addButton {
+        position: absolute;
+        left: 2rem;
+        top: 1rem;
+        z-index: 2;
+    }
+    .switchShowType {
+        position: absolute;
+        top: 4rem;
+        left: 2rem;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color_active);
+        box-sizing: border-box;
+        border-radius: 4px;
+        overflow: hidden;
+        > span {
+            display: inline-block;
+            width: 100px;
+            padding: 5px 0;
+            cursor: pointer;
+            &.active {
+                color: white;
+                background-color: var(--color_active);
+            }
+        }
+    }
+    .showMaoStatus {
+        position: absolute;
+        top: 11rem;
+        left: 2rem;
+    }
+    .hold {
+        border-color: #61dafb;
         background-color: #61dafb;
-      }
-      &:nth-child(2) .status {
-        background-color: yellow;
-      }
-      &:nth-child(3) .status {
-        background-color: #61dafb47;
-      }
-      &:nth-child(4) .status {
-        background-color: pink;
-      }
-      &:nth-child(5) .status {
-        background-color: #61dafb;
-      }
-      &:nth-child(6) .status {
+    }
+    .gone {
+        border-color: #cccccc;
         background-color: #cccccc;
-      }
-      &:nth-child(7) .status {
+    }
+    .dead {
+        border-color: #ff4d4f;
         background-color: #ff4d4f;
-      }
     }
-  }
 
-  // 所有猫咪展示
-  .maoList {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 0 auto;
-    text-align: left;
-    > div {
-      margin: 10px;
-      padding: 5px 15px;
+    .colorCloud {
+        position: absolute;
+        top: 13rem;
+        left: 2.2rem;
+        font-size: 16px;
+        text-align: left;
+        > div {
+            .status {
+                display: inline-block;
+                width: 1rem;
+                height: 1rem;
+            }
+            &:nth-child(1) .status {
+                background-color: #61dafb;
+            }
+            &:nth-child(2) .status {
+                background-color: yellow;
+            }
+            &:nth-child(3) .status {
+                background-color: #61dafb47;
+            }
+            &:nth-child(4) .status {
+                background-color: pink;
+            }
+            &:nth-child(5) .status {
+                background-color: #61dafb;
+            }
+            &:nth-child(6) .status {
+                background-color: #cccccc;
+            }
+            &:nth-child(7) .status {
+                background-color: #ff4d4f;
+            }
+        }
     }
-  }
-  // 层级猫咪展示
-  .levelMao {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    min-width: 1300px;
-    overflow-x: auto;
-    .box {
-      margin: 8px 10px;
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-    }
-  }
-  // 树状猫咪展示
-  .maoTree {
-    display: flex;
-    justify-content: space-around;
-    text-align: left;
-    :global {
-      li .ant-tree-node-content-wrapper {
-        color: var(--color);
-      }
-      .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
-        color: var(--color);
-        background: transparent;
-      }
-    }
-  }
 
-
-  // 猫在各个状态下的样式
-  .hover {
-    color: black;
-    border-color: #61dafb;
-    background-color: #61dafb;
-  }
-  .hoverBroSis {
-    color: white;
-    border-color: #61dafb47;
-    background-color: #61dafb47;
-  }
-  .hoverChildren {
-    color: black;
-    border-color: yellow;
-    background-color: yellow;
-  }
-  .hoverParent {
-    color: black;
-    border-color: pink;
-    background-color: pink;
-  }
-  .parent {
-    margin: 7px 5px;
-    padding: 5px 5px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    > span {
-      display: inline-block;
-      max-width: 140px;
+    // 所有猫咪展示
+    .maoList {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0 auto;
+        text-align: left;
+        > div {
+            margin: 10px;
+            padding: 5px 15px;
+        }
     }
-  }
-  .children {
-    // margin: 8px 10px;
-    // padding: 8px 10px;
-    border: 1px solid #ccc;
-  }
+    // 层级猫咪展示
+    .levelMao {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        min-width: 1300px;
+        overflow-x: auto;
+        .box {
+            margin: 8px 10px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+        }
+    }
+    // 树状猫咪展示
+    .maoTree {
+        display: flex;
+        justify-content: space-around;
+        text-align: left;
+    }
+
+    // 猫在各个状态下的样式
+    .hover {
+        color: black;
+        border-color: #61dafb;
+        background-color: #61dafb;
+    }
+    .hoverBroSis {
+        color: white;
+        border-color: #61dafb47;
+        background-color: #61dafb47;
+    }
+    .hoverChildren {
+        color: black;
+        border-color: yellow;
+        background-color: yellow;
+    }
+    .hoverParent {
+        color: black;
+        border-color: pink;
+        background-color: pink;
+    }
+    .parent {
+        margin: 7px 5px;
+        padding: 5px 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        > span {
+            display: inline-block;
+            max-width: 140px;
+        }
+    }
+    .children {
+        // margin: 8px 10px;
+        // padding: 8px 10px;
+        border: 1px solid #ccc;
+    }
 }
