@@ -64,7 +64,7 @@
 .blogList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(163px, 24%));
+    grid-template-rows: repeat(auto-fill, minmax(170px, 1fr));
     gap: 0.6rem;
     height: calc(100% - 140px);
     padding: 0 32px 10px;
