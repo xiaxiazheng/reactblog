@@ -56,11 +56,19 @@ const EditNoteModal: React.FC<Props> = (props) => {
         };
         if (activeNote) {
             params["note_id"] = activeNote.note_id;
-            await editNote(params);
-            message.success("编辑 note 成功");
+            const res = await editNote(params);
+            if (res) {
+                message.success("编辑 note 成功");
+            } else {
+                return false
+            }
         } else {
-            await addNote(params);
-            message.success("创建 note 成功");
+            const res = await addNote(params);
+            if (res) {
+                message.success("创建 note 成功");
+            } else {
+                return false;
+            }
         }
         refreshData();
     };
