@@ -13,6 +13,7 @@ const KeepAlive = lazy(() => import("./keep-alive"));
 const MousePosition = lazy(() => import("./mouse-position"));
 const DragZoom = lazy(() => import("./drag-zoom"));
 const Transform = lazy(() => import("./transform"));
+const ParseImage = lazy(() => import("./parse-image"));
 
 const compList = [
     { path: "H5", name: "H5", component: H5 },
@@ -37,6 +38,11 @@ const compList = [
         path: "transform",
         name: "file、blob、Base64 以及 url 相互转换",
         component: Transform,
+    },
+    {
+        path: "parse-image",
+        name: "从剪贴板获取图片并展示",
+        component: ParseImage,
     },
 ];
 
