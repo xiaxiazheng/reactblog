@@ -82,8 +82,6 @@ const Note: React.FC = () => {
     };
 
     const refreshData = () => {
-        setIsShowModal(false);
-        setActiveNote(undefined);
         getData();
         getCategory();
     };
@@ -248,7 +246,11 @@ const Note: React.FC = () => {
                 visible={isShowModal}
                 category={category}
                 activeNote={activeNote}
-                onCancel={() => setIsShowModal(false)}
+                setActiveNote={setActiveNote}
+                closeModal={() => {
+                    setIsShowModal(false);
+                    setActiveNote(undefined);
+                }}
                 refreshData={refreshData}
             />
 

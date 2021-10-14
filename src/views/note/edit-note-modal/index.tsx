@@ -10,8 +10,9 @@ const { TextArea } = Input;
 interface Props {
     visible: boolean;
     activeNote?: NoteType;
+    setActiveNote: Function;
     category?: CategoryType[];
-    onCancel: Function;
+    closeModal: Function;
     refreshData: Function;
 }
 
@@ -21,13 +22,14 @@ const EditNoteModal: React.FC<Props> = (props) => {
     const {
         visible,
         activeNote,
+        setActiveNote,
         category: categoryList,
         refreshData,
-        onCancel,
+        closeModal,
     } = props;
 
     const [category, setCategory] = useState<CategoryType[]>([]);
-    const [name, setName] = useState<string>('');
+    const [name, setName] = useState<string>("");
     useEffect(() => {
         categoryList && setCategory(categoryList);
 
@@ -60,17 +62,21 @@ const EditNoteModal: React.FC<Props> = (props) => {
             if (res) {
                 message.success("编辑 note 成功");
             } else {
-                return false
+                return false;
             }
         } else {
             const res = await addNote(params);
             if (res) {
                 message.success("创建 note 成功");
+                setActiveNote(res.data.newNote);
+                console.log(res.data.newNote);
+                
             } else {
                 return false;
             }
         }
         refreshData();
+        return true;
     };
 
     useEffect(() => {
@@ -86,30 +92,35 @@ const EditNoteModal: React.FC<Props> = (props) => {
         }
     }, [activeNote, visible]);
 
-        /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
-        const [isKeyDown, setIsKeyDown] = useState(false);
-        useEffect(() => {
-            if (isKeyDown) {
-                onOk();
-                setIsKeyDown(false);
-            }
-        }, [isKeyDown]);
-    
-        // 键盘事件
-        const onKeyDown = (e: any) => {
-            // 加上了 mac 的 command 按键的 metaKey 的兼容
-            if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
-                e.preventDefault();
-                setIsKeyDown(true);
-            }
-        };
+    /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
+    const [isKeyDown, setIsKeyDown] = useState(false);
+    useEffect(() => {
+        if (isKeyDown) {
+            onOk();
+            setIsKeyDown(false);
+        }
+    }, [isKeyDown]);
+
+    // 键盘事件
+    const onKeyDown = (e: any) => {
+        // 加上了 mac 的 command 按键的 metaKey 的兼容
+        if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            setIsKeyDown(true);
+        }
+    };
 
     return (
         <Modal
             visible={visible}
             title={activeNote ? "编辑 note" : "新增 note"}
-            onOk={() => onOk()}
-            onCancel={() => onCancel()}
+            // 只有点击 ok 按钮，且接口没有问题才关闭弹窗
+            onOk={async () => {
+                if (await onOk()) {
+                    closeModal();
+                }
+            }}
+            onCancel={() => closeModal()}
         >
             <Form form={form}>
                 <Form.Item
