@@ -49,7 +49,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
     };
 
     const onOk = async () => {
-        await form.submit();
+        await form.validateFields();
 
         const formData = form.getFieldsValue();
 
