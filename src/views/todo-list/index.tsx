@@ -43,7 +43,7 @@ const TodoList: React.FC = () => {
     const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
 
     const getTodo = async (type: StatusType) => {
-        if (type === 'done') {
+        if (type === "done") {
             setIsRefreshDone(true);
         } else {
             type === "todo" && setTodoLoading(true);
@@ -52,7 +52,7 @@ const TodoList: React.FC = () => {
             const req: any = {
                 status: TodoStatus[type],
             };
-            
+
             const res = await getTodoList(req);
             if (res) {
                 if (type === "todo") {
@@ -65,7 +65,7 @@ const TodoList: React.FC = () => {
                 }
             } else {
                 message.error("获取 todolist 失败");
-            }            
+            }
         }
     };
 
@@ -226,7 +226,7 @@ const TodoList: React.FC = () => {
                         : "复制"
                 } todo`}
                 visible={showEdit}
-                onOk={operType === 'edit' ? editTodo : addTodo}
+                onOk={operType === "edit" ? editTodo : addTodo}
                 onCancel={() => {
                     setEditedTodo(undefined);
                     setShowEdit(false);

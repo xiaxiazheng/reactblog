@@ -9,17 +9,17 @@ interface DragModalType extends ModalProps {
 const DragModal = (props: DragModalType) => {
     const { title, visible, onOk, onCancel } = props;
 
-    const [left, setLeft] = useState<number | string>('');
-    const [top, setTop] = useState<number | string>('');
-    const [transform, setTransform] = useState<string>('');
+    const [left, setLeft] = useState<number | string>("");
+    const [top, setTop] = useState<number | string>("");
+    const [transform, setTransform] = useState<string>("");
 
     useEffect(() => {
         requestAnimationFrame(() => {
-            setTransform('translate(-50%, -50%)');
-            setLeft('50%')
-            setTop('50%')
-        })
-    }, [])
+            setTransform("translate(-50%, -50%)");
+            setLeft("50%");
+            setTop("50%");
+        });
+    }, []);
 
     // 监听键盘事件，实现 Ctrl+s 保存
     useEffect(() => {
@@ -41,7 +41,7 @@ const DragModal = (props: DragModalType) => {
     const [isKeyDown, setIsKeyDown] = useState(false);
     useEffect(() => {
         if (isKeyDown) {
-            onOk && onOk({} as any);
+            visible && onOk && onOk({} as any);
             setIsKeyDown(false);
         }
     }, [isKeyDown, onOk]);
@@ -56,12 +56,12 @@ const DragModal = (props: DragModalType) => {
                 <div
                     draggable
                     onDragStart={(e) => {
-                        setTransform('');
+                        setTransform("");
                         setOffsetX(e.nativeEvent.offsetX + 24); // 这个偏移，是 title 跟 Modal 外部的框本身的偏移
                         setOffsetY(e.nativeEvent.offsetY + 16); // 这个是根据 Modal 到 title 的 padding 得出来的
                     }}
                     onDrag={(e) => {
-                        setTransform('');
+                        setTransform("");
                         setLeft(e.nativeEvent.x - offsetX);
                         setTop(e.nativeEvent.y - offsetY);
                     }}
