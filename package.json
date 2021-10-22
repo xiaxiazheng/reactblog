@@ -3,7 +3,6 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "commit": "git-cz",
         "start": "react-app-rewired start",
         "startLocal": "cross-env REACT_APP_IS_LocalHost=yes react-app-rewired start",
         "startLocalStatic": "cross-env REACT_APP_IS_LOCALSTATIC=yes react-app-rewired start",

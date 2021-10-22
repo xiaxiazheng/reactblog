@@ -96,7 +96,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
     const [isKeyDown, setIsKeyDown] = useState(false);
     useEffect(() => {
         if (isKeyDown) {
-            onOk();
+            visible && onOk();
             setIsKeyDown(false);
         }
     }, [isKeyDown]);
