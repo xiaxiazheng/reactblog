@@ -15,3 +15,5 @@ git commit -m "feat: 更新前端代码"
 git push
 
 exec /bin/bash
+
+zsh
