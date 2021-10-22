@@ -152,6 +152,10 @@ const Note: React.FC = () => {
                                         : undefined
                                 )
                             }
+                            onDoubleClick={() => {
+                                setActiveNote(item);
+                                setIsShowModal(true);
+                            }}
                         >
                             <span className={styles.category}>
                                 {item.category}
