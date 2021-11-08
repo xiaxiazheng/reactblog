@@ -72,6 +72,16 @@ const TodoForm: React.FC<Props> = (props) => {
                 >
                     Yesterday
                 </span>
+                <span
+                    className={styles.today}
+                    onClick={() => {
+                        form.setFieldsValue({
+                            time: moment().add(1, 'day'),
+                        });
+                    }}
+                >
+                    Tomorrow
+                </span>
             </>
         );
     };
