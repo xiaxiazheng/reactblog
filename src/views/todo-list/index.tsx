@@ -123,66 +123,66 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const addTodo = debounce(() => {
-        form.validateFields()
-            .then(async () => {
-                const formData = form.getFieldsValue();
-                const req = {
-                    name: formData.name,
-                    time: moment(formData.time).format("YYYY-MM-DD"),
-                    status: formData.status,
-                    description: formData.description || "",
-                    color: formData.color,
-                    category: formData.category,
-                };
-                const res = await addTodoItem(req);
-                if (res) {
-                    message.success(res.message);
-                    setShowEdit(false);
-                    // 新增的话只用更新新增到的那列
-                    getTodo(TodoStatusList[Number(formData.status)]);
-                    form.resetFields();
-                } else {
-                    message.error("新增 todo 失败");
-                }
-            })
-            .catch((err) => {
-                message.warning("请检查表单输入");
-            });
-    }, 200);
+    const addTodo = async () => {
+        try {
+            await form.validateFields();
+            const formData = form.getFieldsValue();
+            const req = {
+                name: formData.name,
+                time: moment(formData.time).format("YYYY-MM-DD"),
+                status: formData.status,
+                description: formData.description || "",
+                color: formData.color,
+                category: formData.category,
+            };
+            const res = await addTodoItem(req);
+            if (res) {
+                message.success(res.message);
+                // 新增的话只用更新新增到的那列
+                getTodo(TodoStatusList[Number(formData.status)]);
+                setEditedTodo(res.data.newTodoItem);
+                setOperType("edit");
+                return true;
+            } else {
+                message.error("新增 todo 失败");
+            }
+        } catch (err) {
+            message.warning("请检查表单输入");
+        }
+        return false;
+    };
 
-    const editTodo = debounce(() => {
-        form.validateFields()
-            .then(async () => {
-                const formData = form.getFieldsValue();
-                const req = {
-                    todo_id: editedTodo?.todo_id,
-                    name: formData.name,
-                    time: moment(formData.time).format("YYYY-MM-DD"),
-                    status: formData.status,
-                    description: formData.description || "",
-                    color: formData.color,
-                    category: formData.category,
-                };
-                const res = await editTodoItem(req);
-                if (res) {
-                    message.success(res.message);
-                    setShowEdit(false);
-                    // 变更到的状态那列绝对要更新
-                    getTodo(TodoStatusList[Number(formData.status)]);
-                    // 原本那列如果跟要变更到的那列不同那也要更新
-                    if (editedTodo?.status !== formData.status) {
-                        getTodo(TodoStatusList[Number(editedTodo?.status)]);
-                    }
-                    form.resetFields();
-                } else {
-                    message.error("编辑 todo 失败");
+    const editTodo = async () => {
+        try {
+            await form.validateFields();
+            const formData = form.getFieldsValue();
+            const req = {
+                todo_id: editedTodo?.todo_id,
+                name: formData.name,
+                time: moment(formData.time).format("YYYY-MM-DD"),
+                status: formData.status,
+                description: formData.description || "",
+                color: formData.color,
+                category: formData.category,
+            };
+            const res = await editTodoItem(req);
+            if (res) {
+                message.success(res.message);
+                // 变更到的状态那列绝对要更新
+                getTodo(TodoStatusList[Number(formData.status)]);
+                // 原本那列如果跟要变更到的那列不同那也要更新
+                if (editedTodo?.status !== formData.status) {
+                    getTodo(TodoStatusList[Number(editedTodo?.status)]);
                 }
-            })
-            .catch((err) => {
-                message.warning("请检查表单输入");
-            });
-    }, 200);
+                return true;
+            } else {
+                message.error("编辑 todo 失败");
+            }
+        } catch (err) {
+            message.warning("请检查表单输入");
+        }
+        return false;
+    };
 
     const [form] = Form.useForm();
 

@@ -3,6 +3,7 @@ import { Modal, ModalProps } from "antd";
 
 interface DragModalType extends ModalProps {
     children?: any;
+    // onOk，要返回 true 才会执行关闭弹窗的 onCancel 操作
 }
 
 // 可拖动的模态框
@@ -80,7 +81,11 @@ const DragModal = (props: DragModalType) => {
                 </div>
             }
             visible={visible}
-            onOk={onOk}
+            onOk={async (e) => {
+                if (onOk && (await onOk(e))) {
+                    onCancel && onCancel(e);
+                }
+            }}
             onCancel={onCancel}
             style={{ position: "absolute", transform, left, top }}
             transitionName=""
