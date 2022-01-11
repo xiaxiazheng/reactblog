@@ -3,7 +3,7 @@ let host: string = "https://www.xiaxiazheng.cn";
 let url: string = `${host}`;
 export const cdnUrl = 'http://cdn.xiaxiazheng.cn';
 // 静态资源服务器
-let staticurl = `${host}:2333`
+let staticurl = `${host}/static-server`
 
 // 接本地后台 300 接口
 if (process.env.REACT_APP_IS_LocalHost && process.env.REACT_APP_IS_LocalHost === "yes") {
