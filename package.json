@@ -13,7 +13,8 @@
         "eject": "react-app-rewired eject",
         "deploy": "sh deploy.sh",
         "deployLocal": "sh deployLocal.sh",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "checkByted": "node ./checkByted.js"
     },
     "dependencies": {
         "@ant-design/icons": "^4.6.4",
