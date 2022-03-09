@@ -10,6 +10,7 @@ import {
     message,
     Popconfirm,
     Image,
+    Spin,
 } from "antd";
 import { NoteType, CategoryType } from "./types";
 import EditNoteModal from "./edit-note-modal";
@@ -31,9 +32,13 @@ const Note: React.FC = () => {
     const [pageSize, setPageSize] = useState<number>(15);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     useDocumentTitle("便签");
 
     const getData = debounce(async () => {
+        setLoading(true);
+
         const params: any = {
             keyword,
             pageNo,
@@ -59,6 +64,7 @@ const Note: React.FC = () => {
             );
             setTotal(res.data.total);
         }
+        setLoading(false);
     }, 300);
 
     const onDelete = async () => {
@@ -97,7 +103,7 @@ const Note: React.FC = () => {
 
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);
-    }, [activeCategory]);
+    }, [activeCategory, pageSize]);
 
     const [activeNote, setActiveNote] = useState<NoteType>();
     // 新建 / 编辑
@@ -106,167 +112,175 @@ const Note: React.FC = () => {
     const [isShowImgModal, setIsShowImgModal] = useState<boolean>(false);
 
     return (
-        <div className={`${styles.note} ScrollBar`}>
-            <div className={styles.header}>
-                <Search
-                    className={styles.input}
-                    value={keyword}
-                    enterButton
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onSearch={() => (pageNo === 1 ? getData() : setPageNo(1))}
-                    onPressEnter={() =>
-                        pageNo === 1 ? getData() : setPageNo(1)
-                    }
-                />
-                <Radio.Group
-                    className={styles.radio}
-                    value={activeCategory}
-                    onChange={(e) => setActiveCategory(e.target.value)}
-                >
-                    <Radio key="所有" value="所有">
-                        所有
-                    </Radio>
-                    {category?.map((item) => {
+        <Spin spinning={loading}>
+            <div className={`${styles.note} ScrollBar`}>
+                <div className={styles.header}>
+                    <Search
+                        className={styles.input}
+                        value={keyword}
+                        enterButton
+                        onChange={(e) => setKeyword(e.target.value)}
+                        onSearch={() =>
+                            pageNo === 1 ? getData() : setPageNo(1)
+                        }
+                        onPressEnter={() =>
+                            pageNo === 1 ? getData() : setPageNo(1)
+                        }
+                    />
+                    <Radio.Group
+                        className={styles.radio}
+                        value={activeCategory}
+                        onChange={(e) => setActiveCategory(e.target.value)}
+                    >
+                        <Radio key="所有" value="所有">
+                            所有
+                        </Radio>
+                        {category?.map((item) => {
+                            return (
+                                <Radio
+                                    key={item.category}
+                                    value={item.category}
+                                >
+                                    {item.category}
+                                </Radio>
+                            );
+                        })}
+                    </Radio.Group>
+                </div>
+
+                <div className={`${styles.note_list}`}>
+                    {list?.map((item) => {
                         return (
-                            <Radio key={item.category} value={item.category}>
-                                {item.category}
-                            </Radio>
+                            <div
+                                key={item.note_id}
+                                className={`${styles.note_item} ${
+                                    item.note_id === activeNote?.note_id
+                                        ? styles.active
+                                        : ""
+                                }`}
+                                onClick={() =>
+                                    setActiveNote(
+                                        activeNote?.note_id !== item.note_id
+                                            ? item
+                                            : undefined
+                                    )
+                                }
+                                onDoubleClick={() => {
+                                    setActiveNote(item);
+                                    setIsShowModal(true);
+                                }}
+                            >
+                                <span className={styles.category}>
+                                    {item.category}
+                                </span>
+                                <span>{item.noteNode}</span>
+                                <div>
+                                    {item.imgList.map((img) => {
+                                        return (
+                                            <div
+                                                key={img.img_id}
+                                                style={{
+                                                    display: "inline-block",
+                                                    margin: "10px 10px 0 0",
+                                                }}
+                                            >
+                                                <Image
+                                                    src={`${staticUrl}/img/note/${img.filename}`}
+                                                    onClick={(e) =>
+                                                        e.stopPropagation()
+                                                    }
+                                                    width={150}
+                                                    height={150}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         );
                     })}
-                </Radio.Group>
-            </div>
+                    {(!list || list?.length === 0) && (
+                        <Empty style={{ paddingTop: 100 }} />
+                    )}
+                </div>
 
-            <div className={`${styles.note_list}`}>
-                {list?.map((item) => {
-                    return (
-                        <div
-                            key={item.note_id}
-                            className={`${styles.note_item} ${
-                                item.note_id === activeNote?.note_id
-                                    ? styles.active
-                                    : ""
-                            }`}
-                            onClick={() =>
-                                setActiveNote(
-                                    activeNote?.note_id !== item.note_id
-                                        ? item
-                                        : undefined
-                                )
-                            }
-                            onDoubleClick={() => {
-                                setActiveNote(item);
+                <Pagination
+                    className={styles.pagination}
+                    current={pageNo}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={(page) => setPageNo(page)}
+                    onShowSizeChange={(cur, size) => setPageSize(size)}
+                    showTotal={(total) => `共${total}条`}
+                />
+
+                <Button
+                    className={styles.add_note}
+                    type="primary"
+                    onClick={() => {
+                        setActiveNote(undefined);
+                        setIsShowModal(true);
+                    }}
+                >
+                    新增
+                </Button>
+                {activeNote && (
+                    <>
+                        <Button
+                            className={styles.edit_note}
+                            type="primary"
+                            danger
+                            onClick={() => {
                                 setIsShowModal(true);
                             }}
                         >
-                            <span className={styles.category}>
-                                {item.category}
-                            </span>
-                            <span>{item.noteNode}</span>
-                            <div>
-                                {item.imgList.map((img) => {
-                                    return (
-                                        <div
-                                            key={img.img_id}
-                                            style={{
-                                                display: "inline-block",
-                                                margin: "10px 10px 0 0",
-                                            }}
-                                        >
-                                            <Image
-                                                src={`${staticUrl}/img/note/${img.filename}`}
-                                                onClick={(e) =>
-                                                    e.stopPropagation()
-                                                }
-                                                width={150}
-                                                height={150}
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    );
-                })}
-                {(!list || list?.length === 0) && (
-                    <Empty style={{ paddingTop: 100 }} />
-                )}
-            </div>
-
-            <Pagination
-                className={styles.pagination}
-                current={pageNo}
-                pageSize={pageSize}
-                total={total}
-                onChange={(page) => setPageNo(page)}
-                showTotal={(total) => `共${total}条`}
-            />
-
-            <Button
-                className={styles.add_note}
-                type="primary"
-                onClick={() => {
-                    setActiveNote(undefined);
-                    setIsShowModal(true);
-                }}
-            >
-                新增
-            </Button>
-            {activeNote && (
-                <>
-                    <Button
-                        className={styles.edit_note}
-                        type="primary"
-                        danger
-                        onClick={() => {
-                            setIsShowModal(true);
-                        }}
-                    >
-                        编辑
-                    </Button>
-                    <Button
-                        className={styles.img_note}
-                        type="primary"
-                        onClick={() => {
-                            setIsShowImgModal(true);
-                        }}
-                    >
-                        图片
-                    </Button>
-                    <Popconfirm
-                        title="确定删除吗？"
-                        onConfirm={onDelete}
-                        okText="Yes"
-                        cancelText="No"
-                        placement="left"
-                    >
-                        <Button className={styles.delete_note} danger>
-                            删除
+                            编辑
                         </Button>
-                    </Popconfirm>
-                </>
-            )}
+                        <Button
+                            className={styles.img_note}
+                            type="primary"
+                            onClick={() => {
+                                setIsShowImgModal(true);
+                            }}
+                        >
+                            图片
+                        </Button>
+                        <Popconfirm
+                            title="确定删除吗？"
+                            onConfirm={onDelete}
+                            okText="Yes"
+                            cancelText="No"
+                            placement="left"
+                        >
+                            <Button className={styles.delete_note} danger>
+                                删除
+                            </Button>
+                        </Popconfirm>
+                    </>
+                )}
 
-            {/* 新建 / 编辑 */}
-            <EditNoteModal
-                visible={isShowModal}
-                category={category}
-                activeNote={activeNote}
-                setActiveNote={setActiveNote}
-                closeModal={() => {
-                    setIsShowModal(false);
-                    setActiveNote(undefined);
-                }}
-                refreshData={refreshData}
-            />
+                {/* 新建 / 编辑 */}
+                <EditNoteModal
+                    visible={isShowModal}
+                    category={category}
+                    activeNote={activeNote}
+                    setActiveNote={setActiveNote}
+                    closeModal={() => {
+                        setIsShowModal(false);
+                        setActiveNote(undefined);
+                    }}
+                    refreshData={refreshData}
+                />
 
-            {/* 处理图片 */}
-            <ImgNoteModal
-                visible={isShowImgModal}
-                activeNote={activeNote}
-                onCancel={() => setIsShowImgModal(false)}
-                refreshData={() => getData()}
-            />
-        </div>
+                {/* 处理图片 */}
+                <ImgNoteModal
+                    visible={isShowImgModal}
+                    activeNote={activeNote}
+                    onCancel={() => setIsShowImgModal(false)}
+                    refreshData={() => getData()}
+                />
+            </div>
+        </Spin>
     );
 };
 

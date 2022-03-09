@@ -12,6 +12,12 @@ export async function getTodoCategory(): Promise<any> {
   return data && data.resultsCode === "success" ? data : false;
 }
 
+/** 获取单个 todo */
+export async function getTodoById(todo_id: string): Promise<any> {
+  const data = await getHelper(`/todo/getTodoById?todo_id=${todo_id}`);
+  return data && data.resultsCode === "success" ? data : false;
+}
+
 /** 完成 todo */
 export async function doneTodoItem(params: any): Promise<any> {
   const data = await postHelper(`/todo/doneTodoItem`, params);

@@ -7,13 +7,16 @@ import {
     EditOutlined,
     DeleteOutlined,
     QuestionCircleOutlined,
+    FileImageOutlined,
 } from "@ant-design/icons";
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import { colorMap } from "../../utils";
-import { StatusType } from "../../";
+import { StatusType, TodoItemType } from "../../types";
+import ImageBox from "@/components/image-box";
+import { staticUrl } from "@/env_config";
 
 interface Props {
-    list: any[];
+    list: TodoItemType[];
     title: "待办" | "待办池" | "已完成";
     getTodo: (type: StatusType) => void;
     handleEdit: Function;
@@ -91,46 +94,60 @@ const ListItem: React.FC<Props> = (props) => {
         );
     };
 
-    const Name = (item: any) => {
-        return (
-            <>
-                {item.description && (
-                    <Tooltip
-                        title={
+    const Name = (item: TodoItemType) => {
+        return item.description || item.imgList.length !== 0 ? (
+            <Tooltip
+                title={
+                    <>
+                        {item.description && (
                             <div className={styles.desc}>
                                 {handleDesc(item.description)}
                             </div>
-                        }
-                        color="#1890ff"
-                    >
-                        <span className={`${styles.name} ${styles.hasDesc}`}>
-                            <span
-                                className={styles.category}
-                                style={{ background: colorMap[item.color] }}
-                            >
-                                {item.category}
-                            </span>
-                            <span>{item.name}</span>
-                            {item.description && (
-                                <QuestionCircleOutlined
-                                    className={styles.icon}
+                        )}
+                        {item.imgList.length !== 0 &&
+                            item.imgList.map((item) => (
+                                <ImageBox
+                                    key={item.img_id}
+                                    type="todo"
+                                    imageUrl={`${staticUrl}/img/todo/${item.filename}`}
+                                    imageMinUrl={item.has_min === "1"
+                                    ? `${staticUrl}/min-img/${item.filename}`
+                                    : `${staticUrl}/img/todo/${item.filename}`}
+                                    initImgList={getTodo}
+                                    width="120px"
+                                    imageData={item}
                                 />
-                            )}
-                        </span>
-                    </Tooltip>
-                )}
-                {!item.description && (
-                    <span className={styles.name}>
-                        <span
-                            className={styles.category}
-                            style={{ background: colorMap[item.color] }}
-                        >
-                            {item.category}
-                        </span>
-                        <span>{item.name}</span>
+                            ))}
+                    </>
+                }
+                color="#1890ff"
+            >
+                <span className={`${styles.name} ${styles.hasDesc}`}>
+                    <span
+                        className={styles.category}
+                        style={{ background: colorMap[item.color] }}
+                    >
+                        {item.category}
                     </span>
-                )}
-            </>
+                    <span>{item.name}</span>
+                    {item.description && (
+                        <QuestionCircleOutlined className={styles.icon} />
+                    )}
+                    {item.imgList.length !== 0 && (
+                        <FileImageOutlined className={styles.icon} />
+                    )}
+                </span>
+            </Tooltip>
+        ) : (
+            <span className={styles.name}>
+                <span
+                    className={styles.category}
+                    style={{ background: colorMap[item.color] }}
+                >
+                    {item.category}
+                </span>
+                <span>{item.name}</span>
+            </span>
         );
     };
 

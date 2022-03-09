@@ -4,10 +4,16 @@ import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { getWeek, formatArrayToTimeMap, colorNameMap, colorList, colorMap } from "../utils";
+import {
+    getWeek,
+    formatArrayToTimeMap,
+    colorNameMap,
+    colorList,
+    colorMap,
+} from "../utils";
 import { debounce } from "lodash";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
-import { StatusType, TodoStatus } from "../index";
+import { TodoStatus } from "../types";
 
 interface Props {
     title: "待办" | "已完成" | "待办池" | string;
@@ -19,7 +25,8 @@ interface Props {
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const { title, handleEdit, handleCopy, isRefreshDone, setIsRefreshDone } = props;
+    const { title, handleEdit, handleCopy, isRefreshDone, setIsRefreshDone } =
+        props;
 
     const [doneMap, setDoneMap] = useState<any>({});
 
@@ -50,7 +57,7 @@ const DoneList: React.FC<Props> = (props) => {
         getDoneTodo();
     }, [pageNo]);
 
-    const getDoneTodo = async () => {
+    const getDoneTodo = debounce(async () => {
         setLoading(true);
 
         const req: any = {
@@ -74,7 +81,7 @@ const DoneList: React.FC<Props> = (props) => {
         } else {
             message.error("获取 todolist 失败");
         }
-    };
+    }, 300);
 
     useEffect(() => {
         if (isRefreshDone) {
@@ -110,7 +117,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     {colorNameMap[item]}
                                 </Select.Option>
                             ))}
-                        </Select>                        
+                        </Select>
                     </span>
                     <span>
                         分类：
@@ -130,7 +137,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     {item.category}
                                 </Select.Option>
                             ))}
-                        </Select>                        
+                        </Select>
                     </span>
                 </span>
             </div>

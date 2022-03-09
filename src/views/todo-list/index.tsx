@@ -13,25 +13,10 @@ import {
     editTodoItem,
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { debounce } from "lodash";
 import DragModal from "./component/drag-modal";
+import TodoImage from "./todo-image";
+import { TodoItemType, StatusType, TodoStatus } from "./types";
 
-export interface todoItem {
-    todo_id?: string;
-    time: string;
-    description: string;
-    name: string;
-    status: number | string;
-    color: string;
-    category: string;
-}
-
-export type StatusType = "todo" | "done" | "pool";
-export enum TodoStatus {
-    todo = 0,
-    done = 1,
-    pool = 2,
-}
 const TodoStatusList: StatusType[] = ["todo", "done", "pool"];
 
 const TodoList: React.FC = () => {
@@ -81,7 +66,7 @@ const TodoList: React.FC = () => {
     // 编辑相关
     const [operType, setOperType] = useState<"add" | "edit" | "copy">();
     const [showEdit, setShowEdit] = useState<boolean>(false);
-    const [editedTodo, setEditedTodo] = useState<todoItem>();
+    const [editedTodo, setEditedTodo] = useState<TodoItemType>();
 
     const handleAdd = (title: "待办" | "待办池") => {
         setEditedTodo(undefined);
@@ -95,7 +80,7 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const handleCopy = (item: todoItem) => {
+    const handleCopy = (item: TodoItemType) => {
         setEditedTodo(item);
         setOperType("copy");
         form.setFieldsValue({
@@ -109,7 +94,7 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const handleEdit = (item: todoItem) => {
+    const handleEdit = (item: TodoItemType) => {
         setEditedTodo(item);
         setOperType("edit");
         form.setFieldsValue({
@@ -238,6 +223,16 @@ const TodoList: React.FC = () => {
                     // 复制走的是新建的路子
                     onOk={operType === "edit" ? editTodo : addTodo}
                 />
+                {operType === "edit" && editedTodo && (
+                    <TodoImage
+                        refreshData={() => {
+                            getTodo("todo");
+                            getTodo("done");
+                            getTodo("pool");
+                        }}
+                        activeTodo={editedTodo}
+                    />
+                )}
             </DragModal>
         </div>
     );

@@ -259,10 +259,12 @@ const ImageBox: React.FC<PropsType> = (props) => {
                             title={
                                 <>
                                     <div className={styles.name}>
-                                        图片名称：{(imageData as ImgType).imgname}
+                                        图片名称：
+                                        {(imageData as ImgType).imgname}
                                     </div>
                                     <div className={styles.size}>
-                                        图片大小：{handleSize(
+                                        图片大小：
+                                        {handleSize(
                                             Number(
                                                 (imageData as ImgType).size || 0
                                             )
@@ -278,7 +280,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
                             <InfoCircleOutlined
                                 className={styles.iconBoxIcon}
                                 title="图片详细信息"
-                                onClick={deleteImage}
+                                // onClick={deleteImage}
                             />
                         </Tooltip>
                         {iconRender || <></>}

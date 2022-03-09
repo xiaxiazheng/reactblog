@@ -7,7 +7,7 @@ import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
 import { getWeek } from "../utils";
-import { StatusType } from '../';
+import { StatusType } from '../types';
 
 interface Props {
     loading: boolean;

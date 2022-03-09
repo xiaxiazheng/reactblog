@@ -4,7 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { StatusType } from "../";
+import { StatusType } from "../types";
 
 interface Props {
     loading: boolean;

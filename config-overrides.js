@@ -51,7 +51,7 @@ module.exports = {
                 "react-dom": "ReactDOM",
                 "highlight.js": "hljs",
                 quill: "Quill",
-                echarts: "echarts",
+                // echarts: "echarts",
                 "markdown-it": "markdownit",
                 "_": "lodash",
             }),
