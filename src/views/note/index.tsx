@@ -18,6 +18,7 @@ import { deleteNote } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { staticUrl } from "@/env_config";
 import { handleKeyword, handleUrl } from "./utils";
+import { debounce } from "lodash";
 
 const { Search } = Input;
 
@@ -32,7 +33,7 @@ const Note: React.FC = () => {
 
     useDocumentTitle("便签");
 
-    const getData = async () => {
+    const getData = debounce(async () => {
         const params: any = {
             keyword,
             pageNo,
@@ -58,7 +59,7 @@ const Note: React.FC = () => {
             );
             setTotal(res.data.total);
         }
-    };
+    }, 300);
 
     const onDelete = async () => {
         if (activeNote?.imgList.length !== 0) {
