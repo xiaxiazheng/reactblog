@@ -109,11 +109,20 @@ const ListItem: React.FC<Props> = (props) => {
                                 <ImageBox
                                     key={item.img_id}
                                     type="todo"
+                                    imageId={item.img_id}
+                                    imageName={item.imgname}
+                                    imageFileName={item.filename}
                                     imageUrl={`${staticUrl}/img/todo/${item.filename}`}
-                                    imageMinUrl={item.has_min === "1"
-                                    ? `${staticUrl}/min-img/${item.filename}`
-                                    : `${staticUrl}/img/todo/${item.filename}`}
-                                    initImgList={getTodo}
+                                    imageMinUrl={
+                                        item.has_min === "1"
+                                            ? `${staticUrl}/min-img/${item.filename}`
+                                            : `${staticUrl}/img/todo/${item.filename}`
+                                    }
+                                    initImgList={() => {
+                                        title === "待办" && getTodo("todo");
+                                        title === "已完成" && getTodo("done");
+                                        title === "待办池" && getTodo("pool");
+                                    }}
                                     width="120px"
                                     imageData={item}
                                 />

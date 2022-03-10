@@ -16,7 +16,6 @@ import styles from "./index.module.scss";
 import moment from "moment";
 
 const { TextArea } = Input;
-const { Option } = Select;
 
 interface Props {
     form: FormInstance;
