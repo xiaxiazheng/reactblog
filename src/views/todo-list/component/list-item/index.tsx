@@ -94,7 +94,28 @@ const ListItem: React.FC<Props> = (props) => {
         );
     };
 
-    const Name = (item: TodoItemType) => {
+    const NameWrapper = (item: TodoItemType) => {
+        const Name = () => (
+            <span
+                className={`${styles.name} ${styles.hasDesc}`}
+                onClick={handleEdit.bind(null, item)}
+            >
+                <span
+                    className={styles.category}
+                    style={{ background: colorMap[item.color] }}
+                >
+                    {item.category}
+                </span>
+                <span>{item.name}</span>
+                {item.description && (
+                    <QuestionCircleOutlined className={styles.icon} />
+                )}
+                {item.imgList.length !== 0 && (
+                    <FileImageOutlined className={styles.icon} />
+                )}
+            </span>
+        );
+
         return item.description || item.imgList.length !== 0 ? (
             <Tooltip
                 title={
@@ -131,32 +152,12 @@ const ListItem: React.FC<Props> = (props) => {
                 }
                 color="#1890ff"
             >
-                <span className={`${styles.name} ${styles.hasDesc}`}>
-                    <span
-                        className={styles.category}
-                        style={{ background: colorMap[item.color] }}
-                    >
-                        {item.category}
-                    </span>
-                    <span>{item.name}</span>
-                    {item.description && (
-                        <QuestionCircleOutlined className={styles.icon} />
-                    )}
-                    {item.imgList.length !== 0 && (
-                        <FileImageOutlined className={styles.icon} />
-                    )}
-                </span>
+                <div>
+                    <Name />
+                </div>
             </Tooltip>
         ) : (
-            <span className={styles.name}>
-                <span
-                    className={styles.category}
-                    style={{ background: colorMap[item.color] }}
-                >
-                    {item.category}
-                </span>
-                <span>{item.name}</span>
-            </span>
+            <Name />
         );
     };
 
@@ -182,21 +183,21 @@ const ListItem: React.FC<Props> = (props) => {
                                 </Popconfirm>
                             )}
                             {title !== "已完成" ? (
-                                Name(item)
+                                NameWrapper(item)
                             ) : (
                                 <s className={styles.throughout}>
-                                    {Name(item)}
+                                    {NameWrapper(item)}
                                 </s>
                             )}
                         </span>
                         <span>
-                            <Tooltip title={"编辑"}>
+                            {/* <Tooltip title={"编辑"}>
                                 <EditOutlined
                                     className={styles.icon}
                                     title="编辑"
                                     onClick={handleEdit.bind(null, item)}
                                 />
-                            </Tooltip>
+                            </Tooltip> */}
                             <Tooltip title={"复制"}>
                                 <CopyOutlined
                                     className={styles.icon}
