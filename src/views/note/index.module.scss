@@ -35,6 +35,7 @@
             display: -webkit-box;
             -webkit-line-clamp: 8;
             -webkit-box-orient: vertical;
+            white-space: pre-wrap;
             &.active {
                 border-color: #40a9ff;
                 -webkit-line-clamp: unset;

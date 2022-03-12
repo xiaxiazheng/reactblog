@@ -52,7 +52,7 @@ interface PropsType extends RouteComponentProps {
 export const routes = [
     {
         route: "/admin/todo-list",
-        name: "todoList",
+        name: "TodoList",
         component: TodoList,
         isShow: true,
     },
