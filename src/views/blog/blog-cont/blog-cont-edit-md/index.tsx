@@ -7,7 +7,7 @@ import { Input, Button, message } from "antd";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import MarkdownShow from "../markdown-show";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import FileBox from "@/components/file-image-handle/file-box";
+import FileListBox from "@/components/file-image-handle/file-list-box";
 import { staticUrl } from "@/env_config";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
@@ -165,21 +165,12 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                         />
 
                         {/* 附件列表 */}
-                        {blogData?.fileList?.map((item) => {
-                            return (
-                                <FileBox
-                                    key={item.file_id}
-                                    type="blog"
-                                    fileId={item.file_id}
-                                    originalName={item.originalname}
-                                    fileName={item.filename}
-                                    fileUrl={`${staticUrl}/file/blog/${item.filename}`}
-                                    initFileList={getFileList}
-                                    width="140px"
-                                    fileData={item}
-                                />
-                            );
-                        })}
+                        <FileListBox
+                            fileList={blogData?.fileList || []}
+                            type="blog"
+                            width="140px"
+                            refresh={getFileList}
+                        />
                     </div>
                 </>
             )}

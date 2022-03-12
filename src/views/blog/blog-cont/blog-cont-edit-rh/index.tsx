@@ -9,7 +9,7 @@ import { OneBlogType } from "../../BlogType";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import "./index.scss";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import FileBox from "@/components/file-image-handle/file-box";
+import FileListBox from "@/components/file-image-handle/file-list-box";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { staticUrl } from "@/env_config";
 import BlogContMao from "../blog-cont-mao";
@@ -269,23 +269,13 @@ class BlogContEdit extends React.Component<PropsType> {
                             width="140px"
                             imageList={this.props.blogData?.imgList || []}
                         />
-
                         {/* 附件列表 */}
-                        {this.props.blogData?.fileList?.map((item) => {
-                            return (
-                                <FileBox
-                                    key={item.file_id}
-                                    type="blog"
-                                    fileId={item.file_id}
-                                    originalName={item.originalname}
-                                    fileName={item.filename}
-                                    fileUrl={item.fileUrl}
-                                    initFileList={this.props.getFileList}
-                                    width="140px"
-                                    fileData={item}
-                                />
-                            );
-                        })}
+                        <FileListBox
+                            type={"blog"}
+                            fileList={this.props.blogData?.fileList || []}
+                            refresh={this.props.getFileList}
+                            width="140px"
+                        />
                     </div>
                 </div>
                 {/* 回到顶部 */}

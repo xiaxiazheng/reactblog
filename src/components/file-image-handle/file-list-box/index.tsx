@@ -9,8 +9,50 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { IFileType, deleteFile } from "@/client/FileHelper";
-import { handleSize, copyUrl } from '../utils';
+import { FileType, deleteFile, FType } from "@/client/FileHelper";
+import { handleSize, copyUrl } from "../utils";
+
+interface IType {
+    type: string;
+    fileList: FileType[];
+    refresh: Function;
+    width?: string;
+    isOnlyShow?: boolean;
+    iconRender?: (item: FType) => any;
+}
+
+const FileListBox: React.FC<IType> = (props) => {
+    const { type, fileList, refresh, width, isOnlyShow, iconRender } = props;
+
+    const list: FType[] = fileList.map((item) => {
+        return {
+            ...item,
+            fileUrl: `${staticUrl}/file/blog/${item.filename}`,
+        };
+    });
+
+    return (
+        <>
+            {list?.map((item) => {
+                return (
+                    <FileBox
+                        key={item.file_id}
+                        type={type}
+                        fileId={item.file_id}
+                        originalName={item.originalname}
+                        fileName={item.filename}
+                        fileUrl={item.fileUrl}
+                        initFileList={refresh}
+                        width={width}
+                        fileData={item}
+                        isOnlyShow={isOnlyShow}
+                        iconRender={() => iconRender && iconRender(item)}
+                    />
+                );
+            })}
+        </>
+    );
+};
 
 interface PropsType {
     type: string; // 图片在该系统中的类型的类型
@@ -21,7 +63,7 @@ interface PropsType {
     initFileList: Function; // 用于上传成功或删除后的图片列表初始化
     width?: string; // 可以传递宽高给组件
     isOnlyShow?: boolean; // 是否只查看，若是只查看则不给删除
-    fileData: IFileType | {}; // 从接口拿的文件原始信息
+    fileData: FileType | {}; // 从接口拿的文件原始信息
     iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
 }
 
@@ -102,10 +144,10 @@ const FileBox: React.FC<PropsType> = (props) => {
             >
                 <div className={styles.filename}>{originalName}</div>
                 <div className={styles.size}>
-                    {handleSize(Number((fileData as IFileType).size || 0))}
+                    {handleSize(Number((fileData as FileType).size || 0))}
                 </div>
                 <div className={styles.time}>
-                    {(fileData as IFileType).cTime}
+                    {(fileData as FileType).cTime}
                 </div>
             </div>
             {/* hover 显示操作 */}
@@ -133,18 +175,16 @@ const FileBox: React.FC<PropsType> = (props) => {
                             <>
                                 <div className={styles.name}>
                                     文件名称：
-                                    {(fileData as IFileType).filename}
+                                    {(fileData as FileType).filename}
                                 </div>
                                 <div className={styles.size}>
                                     文件大小：
                                     {handleSize(
-                                        Number(
-                                            (fileData as IFileType).size || 0
-                                        )
+                                        Number((fileData as FileType).size || 0)
                                     )}
                                 </div>
                                 <div className={styles.time}>
-                                    更新时间：{(fileData as IFileType).cTime}
+                                    更新时间：{(fileData as FileType).cTime}
                                 </div>
                             </>
                         }
@@ -162,4 +202,4 @@ const FileBox: React.FC<PropsType> = (props) => {
     );
 };
 
-export default FileBox;
+export default FileListBox;

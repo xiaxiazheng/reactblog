@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { isDev, baseUrl, staticUrl } from '@/env_config';
 
-export interface IFileType {
+export interface FileType {
   cTime: string
   file_id: string
   filename: string
@@ -15,18 +15,18 @@ export interface IFileType {
   size: string
 }
 
-export interface FileType extends IFileType {
+export interface FType extends FileType {
   fileUrl: string
 }
 
 /** 操作文件 */
 // 获取某个类型的文件名称列表
-export async function getFileList (type: string, username: string): Promise<IFileType[]> {
+export async function getFileList (type: string, username: string): Promise<FileType[]> {
   const data = await getHelper(`/file/getFileList?type=${type}&username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : [];
 }
 
-export async function getFileListByOtherId (otherId: string, username: string): Promise<IFileType[]> {
+export async function getFileListByOtherId (otherId: string, username: string): Promise<FileType[]> {
   const data = await getHelper(`/file/getFileListByOtherId?otherId=${otherId}&username=${username}`);
   return data && data.resultsCode === 'success' ? data.data : [];
 }

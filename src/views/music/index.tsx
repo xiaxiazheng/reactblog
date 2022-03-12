@@ -4,20 +4,20 @@ import MusicPlayer from "@/components/music-player";
 import styles from "./index.module.scss";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { getMediaList } from "@/client/VideoHelper";
-import { FileType } from "@/components/music-player";
+import { FType } from "@/components/music-player";
 
 const Music = () => {
     useDocumentTitle("音乐播放器");
 
     const [keyword, setKeyword] = useState<string>("");
 
-    const [musicList, setMusicList] = useState<FileType[]>([]);
-    const [originList, setOriginList] = useState<FileType[]>([]);
-    const [activeSong, setActiveSong] = useState<FileType>();
+    const [musicList, setMusicList] = useState<FType[]>([]);
+    const [originList, setOriginList] = useState<FType[]>([]);
+    const [activeSong, setActiveSong] = useState<FType>();
     const getList = async () => {
         const res2: any = await getMediaList();
         if (res2) {
-            const music = res2.filter((item: FileType) =>
+            const music = res2.filter((item: FType) =>
                 item.mimeType.includes("audio")
             );
             setMusicList(music);

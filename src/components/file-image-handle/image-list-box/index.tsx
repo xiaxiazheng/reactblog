@@ -16,7 +16,7 @@ import { handleSize, copyUrl } from "../utils";
 interface IType {
     type: string;
     imageList: ImageType[];
-    iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
+    iconRender?: (item: ImgType) => any; // 用于渲染在操作台上进行操作的 antd 的 icon
     refresh: Function;
     width?: string;
 }
@@ -50,7 +50,7 @@ const ImageListBox: React.FC<IType> = (props) => {
                         imageMinUrl={item.imageMinUrl}
                         initImgList={refresh}
                         imageData={item}
-                        iconRender={() => iconRender(item)}
+                        iconRender={() => iconRender && iconRender(item)}
                         width={width}
                     />
                 );

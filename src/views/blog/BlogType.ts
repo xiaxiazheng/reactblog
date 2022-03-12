@@ -1,5 +1,5 @@
 import { ImageType } from "@/client/ImgHelper";
-import { FileType } from "@/client/FileHelper";
+import { FType } from "@/client/FileHelper";
 
 // 日志列表用到的日志数据
 export interface BlogListType {
@@ -22,7 +22,7 @@ export interface BlogListType {
 export interface Inter extends BlogListType {
     blogcont: string;
     imgList: ImageType[];
-    fileList: FileType[];
+    fileList: FType[];
 }
 
 export type OneBlogType = Partial<Inter>;

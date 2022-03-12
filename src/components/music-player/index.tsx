@@ -13,14 +13,14 @@ import {
 } from "@ant-design/icons";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
-export interface FileType {
+export interface FType {
     key: string;
     mimeType: string;
     times: string;
 }
 
 interface PropsType {
-    activeSong?: FileType;
+    activeSong?: FType;
 }
 
 const Music: React.FC<PropsType> = (props) => {
@@ -40,12 +40,12 @@ const Music: React.FC<PropsType> = (props) => {
 
     // 是否单曲循环
     const [isOneCircle, setIsOneCircle] = useState<boolean>(false);
-    const [musicList, setMusicList] = useState<FileType[]>([]);
-    const [randomList, setRandomList] = useState<FileType[]>([]);
+    const [musicList, setMusicList] = useState<FType[]>([]);
+    const [randomList, setRandomList] = useState<FType[]>([]);
     const getList = async () => {
         const res2: any = await getMediaList();
         if (res2) {
-            const music = res2.filter((item: FileType) =>
+            const music = res2.filter((item: FType) =>
                 item.mimeType.includes("audio")
             );
             setMusicList(music);
@@ -56,7 +56,7 @@ const Music: React.FC<PropsType> = (props) => {
     };
 
     const musicBox = useRef(null);
-    const [active, setActive] = useState<FileType>(); // 当前播放歌曲
+    const [active, setActive] = useState<FType>(); // 当前播放歌曲
     const [isShowList, setIsShowList] = useState<boolean | null>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
@@ -72,7 +72,7 @@ const Music: React.FC<PropsType> = (props) => {
     useDocumentTitle(active?.key || "暂无播放");
 
     // 播放 song
-    const changeSong = (song: FileType) => {
+    const changeSong = (song: FType) => {
         const dom: any = musicBox;
         if (dom.current) {
             dom.current.childNodes[0].pause();
@@ -141,7 +141,7 @@ const Music: React.FC<PropsType> = (props) => {
     }, [isOneCircle]);
 
     // 处理选择歌曲
-    const handleChoice = (item: FileType) => {
+    const handleChoice = (item: FType) => {
         setActive(item);
         setIsShowList(null);
         message.success(`当前播放：${item.key}`, 1);

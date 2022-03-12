@@ -5,10 +5,9 @@ import { getBlogCont } from "@/client/BlogHelper";
 import Loading from "@/components/loading";
 import classnames from "classnames";
 import { IsLoginContext } from "@/context/IsLoginContext";
-import { Button, message, Drawer, Empty } from "antd";
+import { Button, message, Empty } from "antd";
 import {
     CreditCardOutlined,
-    EnvironmentOutlined,
     FilePdfOutlined,
     ShareAltOutlined,
     VerticalAlignBottomOutlined,
@@ -17,11 +16,10 @@ import {
 import { addVisits } from "@/client/BlogHelper";
 import BlogContMao from "../blog-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import FileBox from "@/components/file-image-handle/file-box";
-
 import MarkdownShow from "../markdown-show";
 import RichtextShow from "../richtext-show";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import FileListBox from "@/components/file-image-handle/file-list-box";
 
 interface PropsType extends RouteComponentProps {
     blog_id: string;
@@ -156,22 +154,13 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                             <div className={styles.fileList}>
                                 <h4>附件：</h4>
                                 <div>
-                                    {blogData.fileList.map((item) => {
-                                        return (
-                                            <FileBox
-                                                key={item.file_id}
-                                                type="blog"
-                                                fileId={item.file_id}
-                                                originalName={item.originalname}
-                                                fileName={item.filename}
-                                                fileUrl={item.fileUrl}
-                                                initFileList={() => {}}
-                                                width="140px"
-                                                isOnlyShow={true}
-                                                fileData={item}
-                                            />
-                                        );
-                                    })}
+                                    <FileListBox
+                                        type="blog"
+                                        width="140px"
+                                        fileList={blogData.fileList}
+                                        refresh={() => {}}
+                                        isOnlyShow={true}
+                                    />
                                 </div>
                             </div>
                         )}

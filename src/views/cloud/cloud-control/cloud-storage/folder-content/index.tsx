@@ -17,6 +17,7 @@ import {
 } from "@/client/ImgHelper";
 import {
     FileType,
+    FType,
     getFileListByOtherId,
     switchFileOtherId,
 } from "@/client/FileHelper";
@@ -29,9 +30,10 @@ import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
 import { FolderType, FolderMapType, IFolderTreeType } from "../";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import FileBox from "@/components/file-image-handle/file-box";
+import FileBox from "@/components/file-image-handle/file-list-box";
 import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
+import FileListBox from "@/components/file-image-handle/file-list-box";
 
 interface CloudStorageProps extends RouteComponentProps {
     parentId: string;
@@ -74,7 +76,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
     // 图片列表
     const [imgList, setImgList] = useState<ImageType[]>([]);
     // 文件列表
-    const [fileList, setFileList] = useState<FileType[]>([]);
+    const [fileList, setFileList] = useState<FType[]>([]);
 
     // 获取图片列表
     const getImgList = async (parent_id: string) => {
@@ -97,7 +99,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
         setLoading(true);
         const res = await getFileListByOtherId(parent_id, username);
         if (res) {
-            const list: FileType[] = [];
+            const list: FType[] = [];
             let resList = [...res];
             // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 cloud 的
             if (parent_id === "") {
@@ -405,27 +407,18 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                 />
 
                 {/* 文件列表 */}
-                {fileList.map((item: FileType) => {
-                    return (
-                        <FileBox
-                            key={item.file_id}
-                            type={"cloud"}
-                            fileId={item.file_id}
-                            originalName={item.originalname}
-                            fileName={item.filename}
-                            fileUrl={item.fileUrl}
-                            initFileList={getFileList.bind(null, parentId)}
-                            fileData={item}
-                            width={Width}
-                            iconRender={
-                                <RocketOutlined
-                                    title="切换文件夹"
-                                    onClick={showModal.bind(null, item, "file")}
-                                />
-                            }
+                <FileListBox
+                    fileList={fileList}
+                    width={Width}
+                    refresh={getFileList.bind(null, parentId)}
+                    type={"cloud"}
+                    iconRender={(item: FType) => (
+                        <RocketOutlined
+                            title="切换文件夹"
+                            onClick={showModal.bind(null, item, "file")}
                         />
-                    );
-                })}
+                    )}
+                />
             </div>
             <Modal
                 title={`请选择要将 “${active ? active.name : ""}” 更换到的目录`}

@@ -9,7 +9,7 @@ import {
     UnorderedListOutlined,
     YoutubeOutlined,
 } from "@ant-design/icons";
-import MusicPlayer, { FileType } from "@/components/music-player";
+import MusicPlayer, { FType } from "@/components/music-player";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const Video: React.FC = () => {
@@ -23,19 +23,19 @@ const Video: React.FC = () => {
 
     const [activeTab, setActiveTab] = useState("音乐");
 
-    const [list, setList] = useState<FileType[]>([]); // 当前播放列表
-    const [videoList, setVideoList] = useState<FileType[]>([]);
-    const [musicList, setMusicList] = useState<FileType[]>([]);
+    const [list, setList] = useState<FType[]>([]); // 当前播放列表
+    const [videoList, setVideoList] = useState<FType[]>([]);
+    const [musicList, setMusicList] = useState<FType[]>([]);
     const getList = async () => {
-        const res: FileType[] | false = await getMediaList();
+        const res: FType[] | false = await getMediaList();
         if (res) {
-            const music = res.filter((item: FileType) =>
+            const music = res.filter((item: FType) =>
                 item.mimeType.includes("audio")
             );
             setMusicList(music);
             setList(music);
 
-            const video = res.filter((item: FileType) =>
+            const video = res.filter((item: FType) =>
                 item.mimeType.includes("video")
             );
             setVideoList(video);
@@ -43,7 +43,7 @@ const Video: React.FC = () => {
     };
 
     const videoBox = useRef(null);
-    const [active, setActive] = useState<FileType>();
+    const [active, setActive] = useState<FType>();
 
     useEffect(() => {
         if (active && activeTab === "视频") {
