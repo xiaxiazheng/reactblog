@@ -1,4 +1,4 @@
-import { ImgType } from "@/client/ImgHelper";
+import { ImageType } from "@/client/ImgHelper";
 import { FileType } from "@/client/FileHelper";
 
 // 日志列表用到的日志数据
@@ -21,7 +21,7 @@ export interface BlogListType {
 // 单篇日志用到的日志数据，比列表多一个具体内容和图片
 export interface Inter extends BlogListType {
     blogcont: string;
-    imgList: ImgType[];
+    imgList: ImageType[];
     fileList: FileType[];
 }
 

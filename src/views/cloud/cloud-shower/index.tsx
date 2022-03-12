@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { IImageType, ImgType, getImgList } from "@/client/ImgHelper";
+import { ImageType, ImgType, getImgList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import PreviewImage from "@/components/preview-image";
 import MaskloadImage from "@/components/mask-load-image";
@@ -22,7 +22,7 @@ const CloudShower: React.FC = () => {
     const getCloudImgList = async () => {
         let imgList: any = [];
         setLoading(true);
-        const res: IImageType[] = await getImgList("cloud", username);
+        const res: ImageType[] = await getImgList("cloud", username);
         for (let item of res) {
             // 拼好 img 的 url
             imgList.push({

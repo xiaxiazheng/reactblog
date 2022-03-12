@@ -1,48 +1,37 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import ImageBox from "@/components/image-box";
-import { ImgType } from '@/client/ImgHelper'
+import ImageListBox from "@/components/file-image-handle/image-list-box";
+import { ImageType } from "@/client/ImgHelper";
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 interface IProps {
-  type: string
-  imgList: ImgType[]
-  other_id: string
-  initImgList: Function
+    type: string;
+    imageList: ImageType[];
+    other_id: string;
+    initImgList: Function;
 }
 
 // 图片管理
 const ImgManage: React.FC<IProps> = (props) => {
-  const { type, imgList, other_id, initImgList } = props
+    const { type, imageList, other_id, initImgList } = props;
 
-  return (
-    <div className={styles.ImgManage}>
-      <ImageBox
-        otherId={other_id}
-        type={type}
-        imageUrl=""
-        imageMinUrl=""
-        initImgList={initImgList}
-        width="150px"
-        imageData={{}}
-      />
-      {imgList.map((item: ImgType) => {
-        return (
-          <ImageBox
-            key={item.img_id}
-            type={type}
-            imageId={item.img_id}
-            imageName={item.imgname}
-            imageFileName={item.filename}
-            imageUrl={item.imageUrl}
-            imageMinUrl={item.imageMinUrl}
-            initImgList={initImgList}
-            width="150px"
-            imageData={item}
-          />
-        );
-      })}
-    </div>
-  );
+    return (
+        <div className={styles.ImgManage}>
+            <FileImageUpload
+                type={type}
+                other_id={other_id}
+                width="150px"
+                refresh={initImgList}
+            />
+            {/* 图片列表 */}
+            <ImageListBox
+                type={type}
+                refresh={initImgList}
+                width="150px"
+                imageList={imageList}
+            />
+        </div>
+    );
 };
 
 export default ImgManage;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { IImageType, ImgType, getImgList } from "@/client/ImgHelper";
-import { staticUrl } from "@/env_config";
-import ImageBox from "@/components/image-box";
+import { ImageType, getImgList } from "@/client/ImgHelper";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
 import styles from "./index.module.scss";
 import { UserContext } from "@/context/UserContext";
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 const Admin: React.FC = () => {
-    const [AdminImgList, setAdminImgList] = useState<ImgType[]>([]);
+    const [AdminImgList, setAdminImgList] = useState<ImageType[]>([]);
     const { username } = useContext(UserContext);
 
     useEffect(() => {
@@ -14,48 +14,18 @@ const Admin: React.FC = () => {
     }, []);
 
     const getImageList = async () => {
-        let imgList: any = [];
-        const res: IImageType[] = await getImgList("main", username);
-        for (let item of res) {
-            // 拼好 img 的 url
-            imgList.push({
-                ...item,
-                imageUrl: `${staticUrl}/img/main/${item.filename}`, // 图片地址
-                imageMinUrl:
-                    item.has_min === "1"
-                        ? `${staticUrl}/min-img/${item.filename}`
-                        : "", // 缩略图地址
-            });
-        }
-        // console.log('imgList', imgList);
-
-        setAdminImgList(imgList);
+        const res: ImageType[] = await getImgList("main", username);
+        setAdminImgList(res);
     };
 
     return (
         <div className={styles.Admin}>
-            <ImageBox
+            <FileImageUpload type="main" refresh={getImageList} />
+            <ImageListBox
                 type="main"
-                imageUrl=""
-                imageMinUrl=""
-                initImgList={getImageList}
-                imageData={{}}
+                imageList={AdminImgList}
+                refresh={getImageList}
             />
-            {AdminImgList.map((item: ImgType) => {
-                return (
-                    <ImageBox
-                        key={item.img_id}
-                        type="main"
-                        imageId={item.img_id}
-                        imageName={item.imgname}
-                        imageFileName={item.filename}
-                        imageUrl={item.imageUrl}
-                        imageMinUrl={item.imageMinUrl}
-                        initImgList={getImageList}
-                        imageData={item}
-                    />
-                );
-            })}
         </div>
     );
 };

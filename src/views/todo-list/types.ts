@@ -1,5 +1,5 @@
 
-import { ImgType } from "@/client/ImgHelper";
+import { ImageType } from "@/client/ImgHelper";
 
 export interface TodoItemType {
     todo_id?: string;
@@ -10,7 +10,7 @@ export interface TodoItemType {
     color: string;
     category: string;
 
-    imgList: ImgType[];
+    imgList: ImageType[];
 }
 
 export type StatusType = "todo" | "done" | "pool";

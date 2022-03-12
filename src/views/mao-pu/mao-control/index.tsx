@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import ImgManage from "./mao-img-manage";
-import { IImageType, ImgType, getImgListByOtherId } from "@/client/ImgHelper";
+import { ImageType, getImgListByOtherId } from "@/client/ImgHelper";
 import { UserContext } from "@/context/UserContext";
-import { staticUrl } from "@/env_config";
 import { Input, Button, message, Select } from "antd";
 import { LeftOutlined, SaveOutlined } from "@ant-design/icons";
 import { updateMaoPu } from "@/client/MaoPuHelper";
@@ -122,49 +121,26 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
         remarks,
     ]);
 
-    const [headList, setHeadList] = useState<ImgType[]>([]);
-    const [imgList, setImgList] = useState<ImgType[]>([]);
+    const [headList, setHeadList] = useState<ImageType[]>([]);
+    const [imgList, setImgList] = useState<ImageType[]>([]);
 
     // 获取猫咪头像照片
     const getHeadImgList = async () => {
-        let imgList: any = [];
-        const res: IImageType[] = await getImgListByOtherId(
+        const res: ImageType[] = await getImgListByOtherId(
             mao.head_img_id,
             username
         );
-        for (let item of res) {
-            // 拼好 img 的 url
-            imgList.push({
-                ...item,
-                imageUrl: `${staticUrl}/img/mao/${item.filename}`, // 图片地址
-                imageMinUrl:
-                    item.has_min === "1"
-                        ? `${staticUrl}/min-img/${item.filename}`
-                        : "", // 缩略图地址
-            });
-        }
-        setHeadList(imgList);
+        setHeadList(res);
     };
 
     // 获取猫咪所有照片
     const getOtherImgList = async () => {
         let imgList: any = [];
-        const res: IImageType[] = await getImgListByOtherId(
+        const res: ImageType[] = await getImgListByOtherId(
             mao.mao_id,
             username
         );
-        for (let item of res) {
-            // 拼好 img 的 url
-            imgList.push({
-                ...item,
-                imageUrl: `${staticUrl}/img/mao/${item.filename}`, // 图片地址
-                imageMinUrl:
-                    item.has_min === "1"
-                        ? `${staticUrl}/min-img/${item.filename}`
-                        : "", // 缩略图地址
-            });
-        }
-        setImgList(imgList);
+        setImgList(res);
     };
 
     // 保存当前猫猫的数据
@@ -361,7 +337,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
                 <ImgManage
                     type={"mao"}
                     other_id={mao.head_img_id}
-                    imgList={headList}
+                    imageList={headList}
                     initImgList={getHeadImgList}
                 />
                 {/* 其他图片管理 */}
@@ -369,7 +345,7 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
                 <ImgManage
                     type={"mao"}
                     other_id={mao.mao_id}
-                    imgList={imgList}
+                    imageList={imgList}
                     initImgList={getOtherImgList}
                 />
             </div>

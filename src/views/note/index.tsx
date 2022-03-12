@@ -112,8 +112,8 @@ const Note: React.FC = () => {
     const [isShowImgModal, setIsShowImgModal] = useState<boolean>(false);
 
     return (
-        <Spin spinning={loading}>
-            <div className={`${styles.note} ScrollBar`}>
+        <div className={`${styles.note} ScrollBar`}>
+            <Spin spinning={loading}>
                 <div className={styles.header}>
                     <Search
                         className={styles.input}
@@ -279,8 +279,8 @@ const Note: React.FC = () => {
                     onCancel={() => setIsShowImgModal(false)}
                     refreshData={() => getData()}
                 />
-            </div>
-        </Spin>
+            </Spin>
+        </div>
     );
 };
 

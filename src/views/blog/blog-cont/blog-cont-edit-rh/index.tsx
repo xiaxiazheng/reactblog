@@ -8,8 +8,9 @@ import {
 import { OneBlogType } from "../../BlogType";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import "./index.scss";
-import ImageBox from "@/components/image-box";
-import FileBox from "@/components/file-box";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
+import FileBox from "@/components/file-image-handle/file-box";
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { staticUrl } from "@/env_config";
 import BlogContMao from "../blog-cont-mao";
 // 代码高亮
@@ -251,45 +252,24 @@ class BlogContEdit extends React.Component<PropsType> {
                     {/* 图片列表和附件列表 */}
                     <div className="blogcont-imgbox">
                         {/* 上传图片 */}
-                        <ImageBox
-                            otherId={this.props.blogData.blog_id}
+                        <FileImageUpload
                             type="blog"
-                            imageUrl=""
-                            imageMinUrl=""
-                            initImgList={this.props.getImageList}
+                            other_id={this.props.blogData.blog_id}
+                            refresh={() => {
+                                this.props.getImageList();
+                                this.props.getFileList();
+                            }}
                             width="140px"
-                            imageData={{}}
                         />
-                        {/* 上传附件 */}
-                        <FileBox
-                            otherId={this.props.blogData.blog_id}
-                            type="blog"
-                            fileUrl=""
-                            initFileList={this.props.getFileList}
-                            width="140px"
-                            fileData={{}}
-                        />
+
                         {/* 图片列表 */}
-                        {this.props.blogData?.imgList?.map((item) => {
-                            return (
-                                <ImageBox
-                                    key={item.img_id}
-                                    type="blog"
-                                    imageId={item.img_id}
-                                    imageName={item.imgname}
-                                    imageFileName={item.filename}
-                                    imageUrl={`${staticUrl}/img/blog/${item.filename}`}
-                                    imageMinUrl={
-                                        item.has_min === "1"
-                                            ? `${staticUrl}/min-img/${item.filename}`
-                                            : ""
-                                    }
-                                    initImgList={this.props.getImageList}
-                                    width="140px"
-                                    imageData={item}
-                                />
-                            );
-                        })}
+                        <ImageListBox
+                            type="blog"
+                            refresh={this.props.getImageList}
+                            width="140px"
+                            imageList={this.props.blogData?.imgList || []}
+                        />
+
                         {/* 附件列表 */}
                         {this.props.blogData?.fileList?.map((item) => {
                             return (

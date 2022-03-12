@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Progress, message, Upload, Modal, Tooltip } from "antd";
+import React, { useState, useEffect } from "react";
+import { message, Modal, Tooltip } from "antd";
 import {
     CopyOutlined,
     EyeOutlined,
@@ -9,13 +9,57 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { IImageType, ImgType, deleteImg } from "@/client/ImgHelper";
-import Loading from "@/components/loading";
+import { ImageType, ImgType, deleteImg } from "@/client/ImgHelper";
 import PreviewImage from "@/components/preview-image";
-import { UserContext } from "@/context/UserContext";
+import { handleSize, copyUrl } from "../utils";
+
+interface IType {
+    type: string;
+    imageList: ImageType[];
+    iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
+    refresh: Function;
+    width?: string;
+}
+
+const ImageListBox: React.FC<IType> = (props) => {
+    const { type, imageList, iconRender, refresh, width } = props;
+
+    // 拼好 img 的 url
+    const list: ImgType[] = imageList.map((item) => {
+        return {
+            ...item,
+            imageUrl: `${staticUrl}/img/${type}/${item.filename}`, // 图片地址
+            imageMinUrl:
+                item.has_min === "1"
+                    ? `${staticUrl}/min-img/${item.filename}`
+                    : "", // 缩略图地址
+        };
+    });
+
+    return (
+        <>
+            {list.map((item) => {
+                return (
+                    <ImageBox
+                        key={item.img_id}
+                        type={type}
+                        imageId={item.img_id}
+                        imageName={item.imgname}
+                        imageFileName={item.filename}
+                        imageUrl={item.imageUrl}
+                        imageMinUrl={item.imageMinUrl}
+                        initImgList={refresh}
+                        imageData={item}
+                        iconRender={() => iconRender(item)}
+                        width={width}
+                    />
+                );
+            })}
+        </>
+    );
+};
 
 interface PropsType {
-    otherId?: string; // 跟这个图片要插入的地方有关联的记录 id
     type: string; // 图片在该系统中的类型的类型
     imageId?: string; // 若有图片则有 id
     imageName?: string;
@@ -29,15 +73,12 @@ interface PropsType {
 }
 
 const ImageBox: React.FC<PropsType> = (props) => {
-    const { username } = useContext(UserContext);
-
     const {
         type,
         imageId,
         imageName = "一张图片",
         imageFileName,
         imageUrl,
-        otherId = "",
         imageMinUrl,
         initImgList,
         width = "170px",
@@ -64,27 +105,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
         imgRef.current !== null && observer.observe(imgRef.current);
     }, [imgRef]);
 
-    // const [loading, setLoading] = useState(true);
     const [isHover, setIsHover] = useState(false);
-    const [name, setName] = useState<string>();
-    const [percent, setPercent] = useState<number>();
-    const [size, setSize] = useState<number>();
-
-    const handleChange = (info: any) => {
-        // 上传中
-        if (info.file.status === "uploading") {
-            setPercent(info.file.percent);
-        }
-        // 上传成功触发
-        if (info.file.status === "done") {
-            message.success("上传图片成功");
-            setName(undefined);
-            initImgList();
-        }
-        if (info.file.status === "error") {
-            message.error("上传图片失败");
-        }
-    };
 
     const [isPreview, setIsPreview] = useState(false);
     const deleteImage = async () => {
@@ -115,33 +136,6 @@ const ImageBox: React.FC<PropsType> = (props) => {
         });
     };
 
-    // 复制图片的 url
-    const copyImgUrl = () => {
-        const input = document.createElement("input");
-        document.body.appendChild(input);
-        input.setAttribute("value", imageUrl);
-        input.select();
-        document.execCommand("copy");
-        message.success("复制图片路径成功", 1);
-        document.body.removeChild(input);
-    };
-
-    const beforeUpload = (info: any) => {
-        setName(info.name);
-        setPercent(0);
-        setSize(info.size);
-
-        return true; // 为 false 就不会上传
-    };
-
-    const handleSize = (size: number) => {
-        if (size < 1024 * 1024) {
-            return `${(size / 1024).toFixed(1)}KB`;
-        } else {
-            return `${(size / 1024 / 1024).toFixed(2)}MB`;
-        }
-    };
-
     return (
         <div
             className={styles.imageBox}
@@ -154,78 +148,31 @@ const ImageBox: React.FC<PropsType> = (props) => {
                 setIsHover(false);
             }}
         >
-            {/* 没有图片的情况，展示添加 */}
-            {imageUrl === "" && (
-                <Upload
-                    className={styles.upload}
-                    name={type}
-                    showUploadList={false}
-                    action={`${staticUrl}/api/${type}_upload`}
-                    data={{
-                        other_id: otherId || "",
-                        username,
+            {/* 展示缩略图或图片名称 */}
+            {imageMinUrl && imageMinUrl !== "" ? (
+                <img
+                    ref={imgRef}
+                    className={styles.shower}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        setIsHover(true);
                     }}
-                    beforeUpload={beforeUpload}
-                    listType="picture-card"
-                    onChange={handleChange}
+                    data-src={imageMinUrl}
+                    alt={imageName}
+                />
+            ) : (
+                <div
+                    className={styles.shower}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        setIsHover(true);
+                    }}
                 >
-                    {name ? (
-                        <div className={styles.progress}>
-                            <div className={styles.name}>{name}</div>
-                            <div>{handleSize(size || 0)}</div>
-                            <div>进度：{(percent || 0).toFixed(1)}%</div>
-                            <Progress
-                                strokeColor={{
-                                    from: "#108ee9",
-                                    to: "#87d068",
-                                }}
-                                percent={percent}
-                                status="active"
-                            />
-                        </div>
-                    ) : (
-                        <>
-                            <PlusOutlined className={styles.addIcon} />
-                            点击上传图片
-                        </>
-                    )}
-                </Upload>
+                    {imageName}
+                </div>
             )}
-            {/* 加载中。。。 */}
-            {/* {imageUrl !== '' && loading &&
-        <div className={styles.imageLoading}>
-          <Loading />
-        </div>
-      } */}
-            {/* 有图片的情况，展示缩略图或图片名称 */}
-            {imageUrl !== "" && (
-                <>
-                    {imageMinUrl && imageMinUrl !== "" ? (
-                        <img
-                            ref={imgRef}
-                            className={styles.shower}
-                            onMouseEnter={(e) => {
-                                e.stopPropagation();
-                                setIsHover(true);
-                            }}
-                            data-src={imageMinUrl}
-                            alt={imageName}
-                        />
-                    ) : (
-                        <div
-                            className={styles.shower}
-                            onMouseEnter={(e) => {
-                                e.stopPropagation();
-                                setIsHover(true);
-                            }}
-                        >
-                            {imageName}
-                        </div>
-                    )}
-                </>
-            )}
-            {/* 有图片的情况，显示操作 */}
-            {imageUrl !== "" && isHover && (
+            {/* hover 显示操作 */}
+            {isHover && (
                 <div
                     className={styles.Icons}
                     title={`${(imageData as ImgType).imgname}\n${handleSize(
@@ -237,7 +184,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
                             <CopyOutlined
                                 className={styles.iconBoxIcon}
                                 title="复制图片链接"
-                                onClick={copyImgUrl}
+                                onClick={copyUrl.bind(null, imageUrl)}
                             />
                         </Tooltip>
 
@@ -280,7 +227,6 @@ const ImageBox: React.FC<PropsType> = (props) => {
                             <InfoCircleOutlined
                                 className={styles.iconBoxIcon}
                                 title="图片详细信息"
-                                // onClick={deleteImage}
                             />
                         </Tooltip>
                         {iconRender || <></>}
@@ -298,4 +244,4 @@ const ImageBox: React.FC<PropsType> = (props) => {
     );
 };
 
-export default ImageBox;
+export default ImageListBox;

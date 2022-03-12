@@ -17,7 +17,7 @@ import {
 import { addVisits } from "@/client/BlogHelper";
 import BlogContMao from "../blog-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import FileBox from "@/components/file-box";
+import FileBox from "@/components/file-image-handle/file-box";
 
 import MarkdownShow from "../markdown-show";
 import RichtextShow from "../richtext-show";
@@ -119,8 +119,6 @@ const BlogContShow: React.FC<PropsType> = (props) => {
         message.success("复制访客路径成功", 1);
         document.body.removeChild(input);
     };
-
-    const [visible, setVisible] = useState<boolean>(false);
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { IImageType, getImgList } from "@/client/ImgHelper";
+import { ImageType, getImgList } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import classnames from "classnames";
 import { UserContext } from "@/context/UserContext";
@@ -35,7 +35,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
     useEffect(() => {
         let imgList: any = [];
         const getData = async () => {
-            const res: IImageType[] = await getImgList("main", username);
+            const res: ImageType[] = await getImgList("main", username);
             for (let item of res) {
                 // 拼好 img 的 url
                 imgList.push({

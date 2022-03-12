@@ -4,7 +4,6 @@ import { message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
     CopyOutlined,
-    EditOutlined,
     DeleteOutlined,
     QuestionCircleOutlined,
     FileImageOutlined,
@@ -12,8 +11,7 @@ import {
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import { colorMap } from "../../utils";
 import { StatusType, TodoItemType } from "../../types";
-import ImageBox from "@/components/image-box";
-import { staticUrl } from "@/env_config";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
 
 interface Props {
     list: TodoItemType[];
@@ -125,29 +123,18 @@ const ListItem: React.FC<Props> = (props) => {
                                 {handleDesc(item.description)}
                             </div>
                         )}
-                        {item.imgList.length !== 0 &&
-                            item.imgList.map((item) => (
-                                <ImageBox
-                                    key={item.img_id}
-                                    type="todo"
-                                    imageId={item.img_id}
-                                    imageName={item.imgname}
-                                    imageFileName={item.filename}
-                                    imageUrl={`${staticUrl}/img/todo/${item.filename}`}
-                                    imageMinUrl={
-                                        item.has_min === "1"
-                                            ? `${staticUrl}/min-img/${item.filename}`
-                                            : `${staticUrl}/img/todo/${item.filename}`
-                                    }
-                                    initImgList={() => {
-                                        title === "待办" && getTodo("todo");
-                                        title === "已完成" && getTodo("done");
-                                        title === "待办池" && getTodo("pool");
-                                    }}
-                                    width="120px"
-                                    imageData={item}
-                                />
-                            ))}
+                        {item.imgList.length !== 0 && (
+                            <ImageListBox
+                                type="todo"
+                                refresh={() => {
+                                    title === "待办" && getTodo("todo");
+                                    title === "已完成" && getTodo("done");
+                                    title === "待办池" && getTodo("pool");
+                                }}
+                                width="120px"
+                                imageList={item.imgList}
+                            />
+                        )}
                     </>
                 }
                 color="#1890ff"
@@ -191,13 +178,6 @@ const ListItem: React.FC<Props> = (props) => {
                             )}
                         </span>
                         <span>
-                            {/* <Tooltip title={"编辑"}>
-                                <EditOutlined
-                                    className={styles.icon}
-                                    title="编辑"
-                                    onClick={handleEdit.bind(null, item)}
-                                />
-                            </Tooltip> */}
                             <Tooltip title={"复制"}>
                                 <CopyOutlined
                                     className={styles.icon}

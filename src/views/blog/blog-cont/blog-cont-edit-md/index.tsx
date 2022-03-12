@@ -6,9 +6,10 @@ import { SaveOutlined } from "@ant-design/icons";
 import { Input, Button, message } from "antd";
 import { modifyBlogCont } from "@/client/BlogHelper";
 import MarkdownShow from "../markdown-show";
-import ImageBox from "@/components/image-box";
-import FileBox from "@/components/file-box";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
+import FileBox from "@/components/file-image-handle/file-box";
 import { staticUrl } from "@/env_config";
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 interface PropsType {
     blogData: OneBlogType;
@@ -146,45 +147,23 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                     {/* 图片列表 */}
                     <div className={`${styles.imgBox} ScrollBar`}>
                         {/* 上传图片 */}
-                        <ImageBox
-                            otherId={blogData.blog_id}
+                        <FileImageUpload
                             type="blog"
-                            imageUrl=""
-                            imageMinUrl=""
-                            initImgList={getImageList}
+                            other_id={blogData.blog_id}
                             width="140px"
-                            imageData={{}}
-                        />
-                        {/* 上传附件 */}
-                        <FileBox
-                            otherId={blogData.blog_id}
-                            type="blog"
-                            fileUrl=""
-                            initFileList={getFileList}
-                            width="140px"
-                            fileData={{}}
+                            refresh={() => {
+                                getImageList();
+                                getFileList();
+                            }}
                         />
                         {/* 图片列表 */}
-                        {blogData?.imgList?.map((item) => {
-                            return (
-                                <ImageBox
-                                    key={item.img_id}
-                                    type="blog"
-                                    imageId={item.img_id}
-                                    imageName={item.imgname}
-                                    imageFileName={item.filename}
-                                    imageUrl={`${staticUrl}/img/blog/${item.filename}`}
-                                    imageMinUrl={
-                                        item.has_min === "1"
-                                            ? `${staticUrl}/min-img/${item.filename}`
-                                            : ""
-                                    }
-                                    initImgList={getImageList}
-                                    width="140px"
-                                    imageData={item}
-                                />
-                            );
-                        })}
+                        <ImageListBox
+                            type="blog"
+                            refresh={getImageList}
+                            width="140px"
+                            imageList={blogData?.imgList || []}
+                        />
+
                         {/* 附件列表 */}
                         {blogData?.fileList?.map((item) => {
                             return (

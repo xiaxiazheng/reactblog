@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./index.module.scss";
-// import { withRouter, match } from 'react-router';
-// import { History, Location } from 'history';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import {
@@ -11,7 +9,6 @@ import {
     changeContSort,
     addNodeCont,
 } from "@/client/TreeContHelper";
-import { staticUrl } from "@/env_config";
 import { Input, Button, message, Modal } from "antd";
 import {
     ArrowDownOutlined,
@@ -22,9 +19,10 @@ import {
     VerticalAlignBottomOutlined,
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
-import ImageBox from "@/components/image-box";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
-import { ImgType } from "@/client/ImgHelper";
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
+import { ImageType } from "@/client/ImgHelper";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;
@@ -36,14 +34,14 @@ interface TreeContType {
     cont: string;
     cont_id: string; // 树内容每个节点的单独 id
     cTime: string;
-    imgList: ImgType[];
+    imgList: ImageType[];
     mTime: string;
     sort: number;
     title: string;
 }
 
 const TreeContEdit: React.FC<PropsType> = (props) => {
-    const { match, first_id, second_id } = props;
+    const { second_id } = props;
 
     const scrollWrapper = useRef<any>(null);
 
@@ -307,36 +305,19 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
                             </div>
                             <div className={styles.contitemImg}>
                                 {/* 上传图片 */}
-                                <ImageBox
-                                    otherId={item.cont_id}
+                                <FileImageUpload
+                                    other_id={item.cont_id}
                                     type="treecont"
-                                    imageUrl=""
-                                    imageMinUrl=""
-                                    initImgList={getTreeCont}
+                                    refresh={getTreeCont}
                                     width="120px"
-                                    imageData={{}}
                                 />
                                 {/* 图片列表 */}
-                                {item.imgList.map((jtem: ImgType) => {
-                                    return (
-                                        <ImageBox
-                                            key={jtem.img_id}
-                                            type="treecont"
-                                            imageId={jtem.img_id}
-                                            imageName={jtem.imgname}
-                                            imageFileName={jtem.filename}
-                                            imageUrl={`${staticUrl}/img/treecont/${jtem.filename}`}
-                                            imageMinUrl={
-                                                jtem.has_min === "1"
-                                                    ? `${staticUrl}/min-img/${jtem.filename}`
-                                                    : ""
-                                            }
-                                            initImgList={getTreeCont}
-                                            width="120px"
-                                            imageData={jtem}
-                                        />
-                                    );
-                                })}
+                                <ImageListBox
+                                    imageList={item.imgList}
+                                    type="treecont"
+                                    refresh={getTreeCont}
+                                    width="120px"
+                                />
                             </div>
                         </div>
                     );

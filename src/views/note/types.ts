@@ -1,5 +1,5 @@
 
-import { ImgType } from "@/client/ImgHelper";
+import { ImageType } from "@/client/ImgHelper";
 
 export type NoteType = {
     note_id: string;
@@ -8,7 +8,7 @@ export type NoteType = {
     mTime: string;
     username: string;
     category: string;
-    imgList: ImgType[];
+    imgList: ImageType[];
 
     noteNode?: any;  // 这个是添加了关键字高亮和解析了 url 的 react 节点
 }

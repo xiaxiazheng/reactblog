@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import ImageBox from "@/components/image-box";
-import { ImgType } from "@/client/ImgHelper";
-import { staticUrl } from "@/env_config";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
 import { getTodoById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../types";
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -29,36 +28,19 @@ const TodoImage: React.FC<IProps> = (props) => {
 
     return (
         <>
-            <ImageBox
-                otherId={activeTodo?.todo_id}
+            <FileImageUpload
+                other_id={activeTodo?.todo_id}
                 type="todo"
-                imageUrl=""
-                imageMinUrl=""
-                initImgList={getTodo}
+                refresh={getTodo}
                 width="120px"
-                imageData={{}}
             />
             {/* 图片列表 */}
-            {todo?.imgList?.map((jtem: ImgType) => {
-                return (
-                    <ImageBox
-                        key={jtem.img_id}
-                        type="todo"
-                        imageId={jtem.img_id}
-                        imageName={jtem.imgname}
-                        imageFileName={jtem.filename}
-                        imageUrl={`${staticUrl}/img/todo/${jtem.filename}`}
-                        imageMinUrl={
-                            jtem.has_min === "1"
-                                ? `${staticUrl}/min-img/${jtem.filename}`
-                                : `${staticUrl}/img/todo/${jtem.filename}`
-                        }
-                        initImgList={getTodo}
-                        width="120px"
-                        imageData={jtem}
-                    />
-                );
-            })}
+            <ImageListBox
+                type="todo"
+                width="120px"
+                refresh={getTodo}
+                imageList={todo?.imgList || []}
+            />
         </>
     );
 };

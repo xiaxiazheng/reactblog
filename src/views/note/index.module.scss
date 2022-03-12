@@ -12,12 +12,13 @@
         margin: 0 auto;
         padding-top: 20px;
         background-color: var(--bg_color);
+        z-index: 2;
         .input {
             margin-bottom: 10px;
         }
         .radio {
             margin-bottom: 10px;
-        } 
+        }
     }
 
     .note_list {

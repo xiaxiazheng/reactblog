@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import {
-    IImageType,
-    ImgType,
-    getImgList,
-    getImgTypeList,
-} from "@/client/ImgHelper";
-import { staticUrl } from "@/env_config";
-import ImageBox from "@/components/image-box";
+import { ImageType, getImgList, getImgTypeList } from "@/client/ImgHelper";
+import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
 import { UserContext } from "@/context/UserContext";
 import { Tabs } from "antd";
@@ -22,7 +16,7 @@ const ImgManage: React.FC = () => {
     const [activeType, setActiveType] = useState<string>("");
 
     // 图片数组
-    const [cloudList, setCloudList] = useState<ImgType[]>([]);
+    const [cloudList, setCloudList] = useState<ImageType[]>([]);
     const { username } = useContext(UserContext);
 
     const [loading, setLoading] = useState(true);
@@ -48,21 +42,9 @@ const ImgManage: React.FC = () => {
 
     // 获取单个图片类型下的所有图片
     const getImageListByType = async (type: string) => {
-        let imgList: any = [];
         setLoading(true);
-        const res: IImageType[] = await getImgList(type, username);
-        for (let item of res) {
-            // 拼好 img 的 url
-            imgList.push({
-                ...item,
-                imageUrl: `${staticUrl}/img/${item.type}/${item.filename}`,
-                imageMinUrl:
-                    item.has_min === "1"
-                        ? `${staticUrl}/min-img/${item.filename}`
-                        : "",
-            });
-        }
-        setCloudList(imgList);
+        const res: ImageType[] = await getImgList(type, username);
+        setCloudList(res);
         setLoading(false);
     };
 
@@ -81,37 +63,14 @@ const ImgManage: React.FC = () => {
                         <TabPane tab={<span>{item}</span>} key={item}>
                             {loading && <Loading />}
                             <div className={styles.ImgManage}>
-                                {/* 图片管理中不允许添加图片，因为加了也没有关联，没用 */}
-                                {/* {activeType === "main" && (
-                  <ImageBox
-                    type={activeType}
-                    imageUrl=""
-                    imageMinUrl=""
-                    initImgList={getImageListByType.bind(null, activeType)}
-                  />
-                )} */}
-                                {cloudList.map((item: ImgType) => {
-                                    return (
-                                        <ImageBox
-                                            key={item.img_id}
-                                            type={item.type}
-                                            imageId={item.img_id}
-                                            imageName={`${item.imgname}${
-                                                activeType === "所有"
-                                                    ? " - " + item.type
-                                                    : ""
-                                            }`}
-                                            imageFileName={item.filename}
-                                            imageUrl={item.imageUrl}
-                                            imageMinUrl={item.imageMinUrl}
-                                            initImgList={getImageListByType.bind(
-                                                null,
-                                                activeType
-                                            )}
-                                            imageData={item}
-                                        />
-                                    );
-                                })}
+                                <ImageListBox
+                                    type={item}
+                                    imageList={cloudList}
+                                    refresh={getImageListByType.bind(
+                                        null,
+                                        activeType
+                                    )}
+                                />
                             </div>
                         </TabPane>
                     );

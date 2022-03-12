@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
-import { ImgType } from "@/client/ImgHelper";
+import { ImageType } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
@@ -32,7 +32,7 @@ interface TreeContType {
     cont: string;
     cont_id: string;
     cTime: string;
-    imgList: ImgType[];
+    imgList: ImageType[];
     mTime: string;
     sort: number;
     title: string;

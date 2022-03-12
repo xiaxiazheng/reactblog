@@ -5,7 +5,7 @@ import axios from "axios";
 import { isDev, baseUrl, staticUrl } from "@/env_config";
 
 // 从接口拿到的数据类型
-export interface IImageType {
+export interface ImageType {
   cTime: string;
   filename: string;
   has_min: "0" | "1"; // 是否有缩略图
@@ -18,7 +18,7 @@ export interface IImageType {
 }
 
 // 项目中使用的稍微拓展过的类型
-export interface ImgType extends IImageType {
+export interface ImgType extends ImageType {
   imageMinUrl: string;
   imageUrl: string;
 }
@@ -28,7 +28,7 @@ export interface ImgType extends IImageType {
 export async function getImgList(
   type: string,
   username: string
-): Promise<IImageType[]> {
+): Promise<ImageType[]> {
   const data = await getHelper(`/image/getImgList?type=${type}&username=${username}`);
   return data && data.resultsCode === "success" ? data.data : [];
 }
@@ -36,7 +36,7 @@ export async function getImgList(
 export async function getImgListByOtherId(
   otherId: string,
   username: string
-): Promise<IImageType[]> {
+): Promise<ImageType[]> {
   const data = await getHelper(
     `/image/getImgListByOtherId?otherId=${otherId}&username=${username}`
   );

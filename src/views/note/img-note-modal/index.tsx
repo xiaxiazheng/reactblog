@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
-import { CategoryType, NoteType } from "../types";
-import ImageBox from '@/components/image-box';
-import { ImgType } from "@/client/ImgHelper";
-import { staticUrl } from "@/env_config";
+import { NoteType } from "../types";
+import ImageListBox from '@/components/file-image-handle/image-list-box';
 import { getNoteById } from '@/client/NoteHelper';
+import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 interface Props {
     visible: boolean;
@@ -38,36 +37,20 @@ const ImgNoteModal: React.FC<Props> = (props) => {
             footer={<></>}
             getContainer={false}
         >
-            <ImageBox
-                otherId={activeNote?.note_id}
+            {/* 上传组件 */}
+            <FileImageUpload
+                other_id={activeNote?.note_id}
                 type="note"
-                imageUrl=""
-                imageMinUrl=""
-                initImgList={getNote}
+                refresh={getNote}
                 width="120px"
-                imageData={{}}
             />
             {/* 图片列表 */}
-            {note?.imgList?.map((jtem: ImgType) => {
-                return (
-                    <ImageBox
-                        key={jtem.img_id}
-                        type="note"
-                        imageId={jtem.img_id}
-                        imageName={jtem.imgname}
-                        imageFileName={jtem.filename}
-                        imageUrl={`${staticUrl}/img/note/${jtem.filename}`}
-                        imageMinUrl={
-                            jtem.has_min === "1"
-                                ? `${staticUrl}/min-img/${jtem.filename}`
-                                : `${staticUrl}/img/note/${jtem.filename}`
-                        }
-                        initImgList={getNote}
-                        width="120px"
-                        imageData={jtem}
-                    />
-                );
-            })}
+            <ImageListBox
+                type="note"
+                imageList={note?.imgList || []}
+                refresh={getNote}
+                width="120px"
+            />
         </Modal>
     );
 };
