@@ -15,6 +15,8 @@ import { debounce } from "lodash";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { TodoStatus } from "../types";
 
+const { Search } = Input;
+
 interface Props {
     title: "待办" | "已完成" | "待办池" | string;
     handleEdit: Function;
@@ -56,6 +58,12 @@ const DoneList: React.FC<Props> = (props) => {
     useEffect(() => {
         getDoneTodo();
     }, [pageNo]);
+
+    useEffect(() => {
+        if (keyword === '') {
+            getDoneList();
+        }
+    }, [keyword]);
 
     const getDoneTodo = debounce(async () => {
         setLoading(true);
@@ -129,7 +137,7 @@ const DoneList: React.FC<Props> = (props) => {
                             <Select.Option key="所有" value="">
                                 所有
                             </Select.Option>
-                            {category.map((item) => (
+                            {category?.map((item) => (
                                 <Select.Option
                                     key={item.category}
                                     value={item.category}
@@ -141,11 +149,14 @@ const DoneList: React.FC<Props> = (props) => {
                     </span>
                 </span>
             </div>
-            <Input
+            <Search
                 className={styles.search}
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onPressEnter={() => getDoneList()}
+                onSearch={() => getDoneList()}
+                // onPressEnter={() => getDoneList()}
+                enterButton
+                allowClear={true}
             />
             <div className={`${styles.listItemWrap} ScrollBar`}>
                 {Object.keys(doneMap).map((time) => {

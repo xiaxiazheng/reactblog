@@ -14,6 +14,7 @@ import {
     getImgListByOtherId,
     switchImgOtherId,
     ImageType,
+    ImgType,
 } from "@/client/ImgHelper";
 import {
     FileType,
@@ -83,13 +84,12 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
         setLoading(true);
         const res = await getImgListByOtherId(parent_id, username);
         if (res) {
-            const list: ImageType[] = [];
             let resList = [...res];
             // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 cloud 的
             if (parent_id === "") {
                 resList = resList.filter((item) => item.type === "cloud");
             }
-            setImgList(list);
+            setImgList(resList);
         }
         setLoading(false);
     };
@@ -386,6 +386,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                 {/* 上传组件 */}
                 <FileImageUpload
                     type="cloud"
+                    width={Width}
                     refresh={() => {
                         getImgList(parentId);
                         getFileList(parentId);
@@ -398,14 +399,13 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                     imageList={imgList}
                     width={Width}
                     refresh={getImgList.bind(null, parentId)}
-                    iconRender={(item: ImageType) => (
+                    iconRender={(item: ImgType) => (
                         <RocketOutlined
                             title="切换文件夹"
                             onClick={showModal.bind(null, item, "image")}
                         />
                     )}
                 />
-
                 {/* 文件列表 */}
                 <FileListBox
                     fileList={fileList}
