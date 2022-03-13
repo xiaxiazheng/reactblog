@@ -3,7 +3,8 @@ import styles from "./index.module.scss";
 import { Modal, Form, Input, Select, Divider, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { CategoryType, NoteType } from "../types";
-import { addNote, editNote } from "@/client/NoteHelper";
+import { addNote, editNote, getNoteById } from "@/client/NoteHelper";
+import ImgFileNoteModal from "../img-file-note-modal";
 
 const { TextArea } = Input;
 
@@ -27,6 +28,20 @@ const EditNoteModal: React.FC<Props> = (props) => {
         refreshData,
         closeModal,
     } = props;
+
+    useEffect(() => {
+        activeNote && setNote(activeNote);
+    }, [activeNote]);
+
+    const [note, setNote] = useState<NoteType>();
+    const getNote = async () => {
+        if (activeNote?.note_id) {
+            const res = await getNoteById(activeNote.note_id);
+            setNote(res.data);
+            // 这边数据改变之后要刷新外部的数据，避免下次进来数据有问题
+            refreshData();
+        }
+    };
 
     const [category, setCategory] = useState<CategoryType[]>([]);
     const [name, setName] = useState<string>("");
@@ -70,7 +85,6 @@ const EditNoteModal: React.FC<Props> = (props) => {
                 message.success("创建 note 成功");
                 setActiveNote(res.data.newNote);
                 console.log(res.data.newNote);
-                
             } else {
                 return false;
             }
@@ -191,6 +205,13 @@ const EditNoteModal: React.FC<Props> = (props) => {
                         ))}
                     </Select>
                 </Form.Item>
+                <div style={{ width: "100%", overflowX: "auto" }}>
+                    <ImgFileNoteModal
+                        activeNote={activeNote}
+                        width="120px"
+                        refreshData={refreshData}
+                    />
+                </div>
             </Form>
         </Modal>
     );

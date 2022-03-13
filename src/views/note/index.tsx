@@ -9,17 +9,15 @@ import {
     Button,
     message,
     Popconfirm,
-    Image,
     Spin,
 } from "antd";
 import { NoteType, CategoryType } from "./types";
 import EditNoteModal from "./edit-note-modal";
-import ImgNoteModal from "./img-note-modal";
 import { deleteNote } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { staticUrl } from "@/env_config";
 import { handleKeyword, handleUrl } from "./utils";
 import { debounce } from "lodash";
+import ImgFileNoteModal from './img-file-note-modal';
 
 const { Search } = Input;
 
@@ -108,8 +106,6 @@ const Note: React.FC = () => {
     const [activeNote, setActiveNote] = useState<NoteType>();
     // 新建 / 编辑
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
-    // 处理图片
-    const [isShowImgModal, setIsShowImgModal] = useState<boolean>(false);
 
     return (
         <div className={`${styles.note} ScrollBar`}>
@@ -174,28 +170,11 @@ const Note: React.FC = () => {
                                     {item.category}
                                 </span>
                                 <span>{item.noteNode}</span>
-                                <div>
-                                    {item.imgList.map((img) => {
-                                        return (
-                                            <div
-                                                key={img.img_id}
-                                                style={{
-                                                    display: "inline-block",
-                                                    margin: "10px 10px 0 0",
-                                                }}
-                                            >
-                                                <Image
-                                                    src={`${staticUrl}/img/note/${img.filename}`}
-                                                    onClick={(e) =>
-                                                        e.stopPropagation()
-                                                    }
-                                                    width={150}
-                                                    height={150}
-                                                />
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                <ImgFileNoteModal
+                                    isOnlyShow={true}
+                                    activeNote={item}
+                                    width="150px"
+                                />
                             </div>
                         );
                     })}
@@ -236,15 +215,6 @@ const Note: React.FC = () => {
                         >
                             编辑
                         </Button>
-                        <Button
-                            className={styles.img_note}
-                            type="primary"
-                            onClick={() => {
-                                setIsShowImgModal(true);
-                            }}
-                        >
-                            图片
-                        </Button>
                         <Popconfirm
                             title="确定删除吗？"
                             onConfirm={onDelete}
@@ -270,14 +240,6 @@ const Note: React.FC = () => {
                         setActiveNote(undefined);
                     }}
                     refreshData={refreshData}
-                />
-
-                {/* 处理图片 */}
-                <ImgNoteModal
-                    visible={isShowImgModal}
-                    activeNote={activeNote}
-                    onCancel={() => setIsShowImgModal(false)}
-                    refreshData={() => getData()}
                 />
             </Spin>
         </div>

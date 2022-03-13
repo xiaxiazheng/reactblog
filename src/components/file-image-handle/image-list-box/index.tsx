@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { message, Modal, Tooltip } from "antd";
+import { message, Modal, Space, Tooltip } from "antd";
 import {
     CopyOutlined,
     EyeOutlined,
     DeleteOutlined,
-    PlusOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
@@ -19,10 +18,11 @@ interface IType {
     iconRender?: (item: ImgType) => any; // 用于渲染在操作台上进行操作的 antd 的 icon
     refresh: Function;
     width?: string;
+    isOnlyShow?: boolean;
 }
 
 const ImageListBox: React.FC<IType> = (props) => {
-    const { type, imageList, iconRender, refresh, width } = props;
+    const { type, imageList, iconRender, refresh, width, isOnlyShow } = props;
 
     // 拼好 img 的 url
     const list: ImgType[] = imageList.map((item) => {
@@ -37,7 +37,7 @@ const ImageListBox: React.FC<IType> = (props) => {
     });
 
     return (
-        <>
+        <Space size={10}>
             {list.map((item) => {
                 return (
                     <ImageBox
@@ -52,10 +52,11 @@ const ImageListBox: React.FC<IType> = (props) => {
                         imageData={item}
                         iconRender={() => iconRender && iconRender(item)}
                         width={width}
+                        isOnlyShow={isOnlyShow}
                     />
                 );
             })}
-        </>
+        </Space>
     );
 };
 
@@ -70,6 +71,7 @@ interface PropsType {
     width?: string; // 可以传递宽高给组件
     imageData: ImgType | {}; // 从接口拿的图片原始信息
     iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
+    isOnlyShow?: boolean;
 }
 
 const ImageBox: React.FC<PropsType> = (props) => {
@@ -84,6 +86,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
         width = "170px",
         imageData,
         iconRender,
+        isOnlyShow = false,
     } = props;
 
     const { confirm } = Modal;
@@ -195,13 +198,15 @@ const ImageBox: React.FC<PropsType> = (props) => {
                                 onClick={() => setIsPreview(true)}
                             />
                         </Tooltip>
-                        <Tooltip title="删除图片">
-                            <DeleteOutlined
-                                className={styles.iconBoxIcon}
-                                title="删除图片"
-                                onClick={deleteImage}
-                            />
-                        </Tooltip>
+                        {!isOnlyShow && (
+                            <Tooltip title="删除图片">
+                                <DeleteOutlined
+                                    className={styles.iconBoxIcon}
+                                    title="删除图片"
+                                    onClick={deleteImage}
+                                />
+                            </Tooltip>
+                        )}
                         <Tooltip
                             title={
                                 <>

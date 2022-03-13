@@ -67,25 +67,25 @@
     }
 
     .add_note {
-        position: absolute;
+        position: fixed;
         right: 2.5rem;
         top: 7.5rem;
         opacity: 0.6;
     }
     .edit_note {
-        position: absolute;
+        position: fixed;
         right: 2.5rem;
         top: 10.5rem;
         opacity: 0.6;
     }
     .img_note {
-        position: absolute;
+        position: fixed;
         right: 2.5rem;
         top: 13.5rem;
         opacity: 0.6;
     }
     .delete_note {
-        position: absolute;
+        position: fixed;
         right: 2.5rem;
         top: 16.5rem;
         opacity: 0.6;

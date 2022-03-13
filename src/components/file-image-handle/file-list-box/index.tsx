@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Progress, message, Upload, Modal, Tooltip } from "antd";
+import { Progress, message, Upload, Modal, Tooltip, Space } from "antd";
 import {
     CopyOutlined,
     DownloadOutlined,
@@ -32,7 +32,7 @@ const FileListBox: React.FC<IType> = (props) => {
     });
 
     return (
-        <>
+        <Space size={10}>
             {list?.map((item) => {
                 return (
                     <FileBox
@@ -50,7 +50,7 @@ const FileListBox: React.FC<IType> = (props) => {
                     />
                 );
             })}
-        </>
+        </Space>
     );
 };
 
