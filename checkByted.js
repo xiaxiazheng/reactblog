@@ -1,21 +1,22 @@
 console.log("check byted！！！");
 
-const fs = require('fs');
+const fs = require("fs");
 
 function checkByted(filename) {
     if (fs.existsSync(`./${filename}`)) {
         const data = fs.readFileSync(`./${filename}`, "utf8");
-        if (data.indexOf('byted') !== -1) {
+        if (data.indexOf("byted") !== -1) {
             console.log(`${filename} 包含了 byted ！！！，快删掉`);
-            throw new Error('校验失败')
-        }        
+            throw new Error("校验失败");
+        }
+        console.log(filename + " 校验通过");
     } else {
-        console.log(filename + ' 不存在');
+        console.log(filename + " 不存在");
     }
 }
 
-checkByted('package.json')
-checkByted('package-lock.json');
-checkByted('yarn.lock');
+checkByted("package.json");
+checkByted("package-lock.json");
+checkByted("yarn.lock");
 
-console.log('通过 byted 校验');
+console.log("通过 byted 校验");

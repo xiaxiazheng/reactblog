@@ -154,7 +154,6 @@ const DoneList: React.FC<Props> = (props) => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 onSearch={() => getDoneList()}
-                // onPressEnter={() => getDoneList()}
                 enterButton
                 allowClear={true}
             />
