@@ -17,7 +17,7 @@ import { deleteNote } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { handleKeyword, handleUrl } from "./utils";
 import { debounce } from "lodash";
-import ImgFileNoteModal from './img-file-note-modal';
+import ImgFileNoteList from './img-file-note-list';
 
 const { Search } = Input;
 
@@ -170,7 +170,7 @@ const Note: React.FC = () => {
                                     {item.category}
                                 </span>
                                 <span>{item.noteNode}</span>
-                                <ImgFileNoteModal
+                                <ImgFileNoteList
                                     isOnlyShow={true}
                                     activeNote={item}
                                     width="150px"

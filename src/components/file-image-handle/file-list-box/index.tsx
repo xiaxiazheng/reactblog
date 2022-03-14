@@ -32,7 +32,7 @@ const FileListBox: React.FC<IType> = (props) => {
     });
 
     return (
-        <Space size={10}>
+        <>
             {list?.map((item) => {
                 return (
                     <FileBox
@@ -50,7 +50,7 @@ const FileListBox: React.FC<IType> = (props) => {
                     />
                 );
             })}
-        </Space>
+        </>
     );
 };
 

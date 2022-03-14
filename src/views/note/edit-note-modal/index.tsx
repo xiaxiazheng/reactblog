@@ -4,7 +4,7 @@ import { Modal, Form, Input, Select, Divider, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { CategoryType, NoteType } from "../types";
 import { addNote, editNote, getNoteById } from "@/client/NoteHelper";
-import ImgFileNoteModal from "../img-file-note-modal";
+import ImgFileNoteList from "../img-file-note-list";
 
 const { TextArea } = Input;
 
@@ -28,20 +28,6 @@ const EditNoteModal: React.FC<Props> = (props) => {
         refreshData,
         closeModal,
     } = props;
-
-    useEffect(() => {
-        activeNote && setNote(activeNote);
-    }, [activeNote]);
-
-    const [note, setNote] = useState<NoteType>();
-    const getNote = async () => {
-        if (activeNote?.note_id) {
-            const res = await getNoteById(activeNote.note_id);
-            setNote(res.data);
-            // 这边数据改变之后要刷新外部的数据，避免下次进来数据有问题
-            refreshData();
-        }
-    };
 
     const [category, setCategory] = useState<CategoryType[]>([]);
     const [name, setName] = useState<string>("");
@@ -135,6 +121,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
                 }
             }}
             onCancel={() => closeModal()}
+            className={styles.note_modal}
         >
             <Form form={form}>
                 <Form.Item
@@ -205,13 +192,15 @@ const EditNoteModal: React.FC<Props> = (props) => {
                         ))}
                     </Select>
                 </Form.Item>
-                <div style={{ width: "100%", overflowX: "auto" }}>
-                    <ImgFileNoteModal
-                        activeNote={activeNote}
-                        width="120px"
-                        refreshData={refreshData}
-                    />
-                </div>
+                {activeNote && (
+                    <div style={{ width: "100%", overflowX: "auto" }}>
+                        <ImgFileNoteList
+                            activeNote={activeNote}
+                            width="120px"
+                            refreshData={refreshData}
+                        />
+                    </div>
+                )}
             </Form>
         </Modal>
     );

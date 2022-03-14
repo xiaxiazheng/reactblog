@@ -37,7 +37,7 @@ const ImageListBox: React.FC<IType> = (props) => {
     });
 
     return (
-        <Space size={10}>
+        <>
             {list.map((item) => {
                 return (
                     <ImageBox
@@ -56,7 +56,7 @@ const ImageListBox: React.FC<IType> = (props) => {
                     />
                 );
             })}
-        </Space>
+        </>
     );
 };
 

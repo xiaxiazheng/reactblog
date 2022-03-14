@@ -1,0 +1,8 @@
+.note_modal {
+    z-index: 3;
+    :global {
+        .ant-modal-content {
+            width: 600px;
+        }
+    }
+}

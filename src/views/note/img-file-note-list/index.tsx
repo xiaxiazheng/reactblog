@@ -17,7 +17,11 @@ const ImgNoteModal: React.FC<Props> = (props) => {
     const { activeNote, refreshData, isOnlyShow = false, width } = props;
 
     useEffect(() => {
-        activeNote && setNote(activeNote);
+        if (activeNote) {
+            setNote(activeNote);
+        } else {
+            setNote(undefined);
+        }
     }, [activeNote]);
 
     const [note, setNote] = useState<NoteType>();
@@ -33,33 +37,31 @@ const ImgNoteModal: React.FC<Props> = (props) => {
     return (
         <>
             <div style={{ margin: "10px 0" }}>
-                <Space size={10}>
-                    {/* 上传组件 */}
-                    {!isOnlyShow && (
-                        <FileImageUpload
-                            other_id={activeNote?.note_id}
-                            type="note"
-                            refresh={getNote}
-                            width={width}
-                        />
-                    )}
-                    {/* 图片列表 */}
-                    <ImageListBox
-                        imageList={note?.imgList || []}
-                        width={width}
+                {/* 上传组件 */}
+                {!isOnlyShow && (
+                    <FileImageUpload
+                        other_id={activeNote?.note_id}
+                        type="note"
                         refresh={getNote}
-                        type={"note"}
-                        isOnlyShow={isOnlyShow}
-                    />
-                    {/* 文件列表 */}
-                    <FileListBox
-                        fileList={note?.fileList || []}
                         width={width}
-                        refresh={getNote}
-                        type={"note"}
-                        isOnlyShow={isOnlyShow}
                     />
-                </Space>
+                )}
+                {/* 图片列表 */}
+                <ImageListBox
+                    imageList={note?.imgList || []}
+                    width={width}
+                    refresh={getNote}
+                    type={"note"}
+                    isOnlyShow={isOnlyShow}
+                />
+                {/* 文件列表 */}
+                <FileListBox
+                    fileList={note?.fileList || []}
+                    width={width}
+                    refresh={getNote}
+                    type={"note"}
+                    isOnlyShow={isOnlyShow}
+                />
             </div>
         </>
     );
