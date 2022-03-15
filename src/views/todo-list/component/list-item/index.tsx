@@ -93,9 +93,11 @@ const ListItem: React.FC<Props> = (props) => {
     };
 
     const NameWrapper = (item: TodoItemType) => {
-        const Name = () => (
-            <span
-                className={`${styles.name} ${styles.hasDesc}`}
+        const Name = (props: any) => (
+            // 这里有 props 是因为 tooltips 要往嵌套的组件中塞点东西
+            <div
+                {...props}
+                className={styles.name}
                 onClick={handleEdit.bind(null, item)}
             >
                 <span
@@ -111,7 +113,7 @@ const ListItem: React.FC<Props> = (props) => {
                 {item.imgList.length !== 0 && (
                     <FileImageOutlined className={styles.icon} />
                 )}
-            </span>
+            </div>
         );
 
         return item.description || item.imgList.length !== 0 ? (
@@ -139,9 +141,7 @@ const ListItem: React.FC<Props> = (props) => {
                 }
                 color="#1890ff"
             >
-                <div>
-                    <Name />
-                </div>
+                <Name />
             </Tooltip>
         ) : (
             <Name />
