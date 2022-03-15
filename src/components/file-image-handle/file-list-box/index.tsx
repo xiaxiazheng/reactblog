@@ -27,7 +27,7 @@ const FileListBox: React.FC<IType> = (props) => {
     const list: FType[] = fileList.map((item) => {
         return {
             ...item,
-            fileUrl: `${staticUrl}/file/blog/${item.filename}`,
+            fileUrl: `${staticUrl}/file/${type}/${item.filename}`,
         };
     });
 
