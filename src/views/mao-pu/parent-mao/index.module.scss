@@ -1,0 +1,66 @@
+.ParentMao {
+    margin-top: 20px;
+    .maoBox {
+        .self {
+            position: relative;
+            padding: 10px 0;
+        }
+        .parent {
+            position: relative;
+            display: flex;
+            &::before {
+                position: absolute;
+                top: -10px;
+                left: 50%;
+                height: 10px;
+                width: 1px;
+                background-color: #ccc;
+                content: "";
+            }
+            .father {
+                position: relative;
+                flex: 1;
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    right: 0;
+                    height: 1px;
+                    background-color: #ccc;
+                    content: "";
+                }
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    height: 10px;
+                    width: 1px;
+                    background-color: #ccc;
+                    content: "";
+                }
+            }
+            .mother {
+                position: relative;
+                flex: 1;
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 50%;
+                    height: 1px;
+                    background-color: #ccc;
+                    content: "";
+                }
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    height: 10px;
+                    width: 1px;
+                    background-color: #ccc;
+                    content: "";
+                }
+            }
+        }
+    }
+}

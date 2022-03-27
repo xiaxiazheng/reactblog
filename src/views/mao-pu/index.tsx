@@ -1,12 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import MaoControl, { Mao } from "./mao-control";
+import MaoDetail from "./mao-detail";
 import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { Button, message, Switch, Tree } from "antd";
+import { Button, message, Switch, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import CompareMao from "./compare-mao";
+import { IMao } from "./types";
+import ParentMao from "./parent-mao";
 
-type ShowMaoType = "所有猫猫" | "分层猫猫" | "树状猫猫";
+type ShowMaoType = "所有猫猫" | "分层猫猫" | "对比猫猫";
+const TypeList: ShowMaoType[] = ["所有猫猫", "分层猫猫", "对比猫猫"];
+const statusList = [
+    "当前猫咪",
+    "父母",
+    "兄弟姐妹",
+    "孩子",
+    "持有",
+    "已送走",
+    "死亡",
+];
 
 const statusColor: any = {
     // 持有
@@ -17,12 +30,6 @@ const statusColor: any = {
     dead: styles.dead,
 };
 
-interface IMao extends Mao {
-    key: string;
-    title: string;
-    children: IMao[];
-}
-
 const MaoPu: React.FC = () => {
     useEffect(() => {
         getMaoList();
@@ -31,8 +38,7 @@ const MaoPu: React.FC = () => {
     useDocumentTitle("猫谱");
 
     const [maoList, setMaoList] = useState<IMao[]>([]);
-    const [levelList, setLevelList] = useState<any[]>([]);
-    const [activeMao, setActiveMao] = useState<any>();
+    const [activeMao, setActiveMao] = useState<IMao>();
 
     const [hoverMao, setHoverMao] = useState<IMao | null>(null);
 
@@ -42,6 +48,7 @@ const MaoPu: React.FC = () => {
         list.forEach((item) => {
             map[item.mao_id] = item;
         });
+        // 给孩子带上父母，给父母带上孩子
         list.forEach((item) => {
             if (item.father_id) {
                 if (map[item.father_id].children) {
@@ -49,6 +56,7 @@ const MaoPu: React.FC = () => {
                 } else {
                     map[item.father_id].children = [map[item.mao_id]];
                 }
+                item.fatherObject = map[item.father_id];
             }
             if (item.mother_id) {
                 if (map[item.mother_id].children) {
@@ -56,6 +64,7 @@ const MaoPu: React.FC = () => {
                 } else {
                     map[item.mother_id].children = [map[item.mao_id]];
                 }
+                item.motherObject = map[item.mother_id];
             }
         });
 
@@ -74,8 +83,7 @@ const MaoPu: React.FC = () => {
                 item.key = item.mao_id;
                 item.title = item.name;
             });
-            setMaoList(list);
-            setLevelList(handleParent(list));
+            setMaoList(handleParent(list));
         }
     };
 
@@ -90,7 +98,7 @@ const MaoPu: React.FC = () => {
         }
     };
 
-    const [showType, setShowType] = useState<ShowMaoType>("分层猫猫");
+    const [showType, setShowType] = useState<ShowMaoType>("所有猫猫");
 
     // 展示猫的层级
     const renderLevelMao = (list: IMao[]) => {
@@ -112,6 +120,8 @@ const MaoPu: React.FC = () => {
             );
         });
     };
+
+    const [keyword, setKeyword] = useState<string>();
 
     // 渲染单个猫咪的状态
     const renderSingleMao = (item: IMao) => {
@@ -151,40 +161,10 @@ const MaoPu: React.FC = () => {
                         (!hoverMao || hoverMao.mao_id !== item.mao_id) &&
                         setHoverMao(item);
                 }}
-                // 发现不移除hover也挺好的哈哈哈
-                // onMouseLeave={(e) => {
-                //   e.stopPropagation();
-                //   !isShowStatus &&
-                //     hoverMao &&
-                //     hoverMao.mao_id === item.mao_id &&
-                //     setHoverMao(null);
-                // }}
                 onClick={() => setActiveMao(item)}
             >
                 <span>{item.name}</span>
             </div>
-        );
-    };
-
-    // 渲染树状的猫猫
-    const renderTreeMao = (list: IMao[]) => {
-        if (typeof list === "undefined") return null;
-
-        const onSelect = (val: any) => {
-            if (val && val[0]) {
-                setActiveMao(
-                    maoList.filter((item) => item.mao_id === val[0])[0]
-                );
-            }
-        };
-
-        return (
-            <Tree
-                defaultExpandAll
-                showLine
-                onSelect={onSelect}
-                treeData={list}
-            />
         );
     };
 
@@ -211,13 +191,7 @@ const MaoPu: React.FC = () => {
                     </Button>
                     {/* 切换猫谱显示方式 */}
                     <div className={styles.switchShowType}>
-                        {(
-                            [
-                                "分层猫猫",
-                                "树状猫猫",
-                                "所有猫猫",
-                            ] as ShowMaoType[]
-                        ).map((item) => {
+                        {TypeList.map((item) => {
                             return (
                                 <span
                                     key={item}
@@ -246,7 +220,7 @@ const MaoPu: React.FC = () => {
                         <div className={`${styles.levelMao}`}>
                             {/* 双亲未知且没有孩子的单独渲染一列 */}
                             <div className={styles.singleMao}>
-                                {levelList
+                                {maoList
                                     .filter(
                                         (item) =>
                                             item.father_id === "" &&
@@ -259,7 +233,7 @@ const MaoPu: React.FC = () => {
                             </div>
                             {/* 双亲未知但有孩子的渲染成层级结构 */}
                             {renderLevelMao(
-                                levelList.filter(
+                                maoList.filter(
                                     (item) =>
                                         item.father_id === "" &&
                                         item.mother_id === "" &&
@@ -270,15 +244,7 @@ const MaoPu: React.FC = () => {
                     )}
                     {/* 当前页面使用的颜色含义 */}
                     <div className={styles.colorCloud}>
-                        {[
-                            "当前猫咪",
-                            "父母",
-                            "兄弟姐妹",
-                            "孩子",
-                            "持有",
-                            "已送走",
-                            "死亡",
-                        ].map((item) => (
+                        {statusList.map((item) => (
                             <div key={item}>
                                 <span className={styles.status} /> {item}
                             </div>
@@ -286,31 +252,39 @@ const MaoPu: React.FC = () => {
                     </div>
                     {/* 所有猫咪展示 */}
                     {showType === "所有猫猫" && (
-                        <div className={styles.maoList}>
-                            {levelList.map((item) => {
-                                return renderSingleMao(item);
-                            })}
-                        </div>
+                        <>
+                            <Input
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                style={{ width: 300 }}
+                                allowClear
+                            />
+                            <div className={styles.maoList}>
+                                {(keyword
+                                    ? maoList.filter(
+                                          (item) =>
+                                              item.name.indexOf(keyword) !== -1
+                                      )
+                                    : maoList
+                                )?.map((item) => {
+                                    return renderSingleMao(item);
+                                })}
+                            </div>
+                            {hoverMao && <ParentMao mao={hoverMao} />}
+                        </>
                     )}
-                    {/* 树状猫猫展示 */}
-                    {showType === "树状猫猫" && (
-                        <div className={styles.maoTree}>
-                            {/* 双亲未知但有孩子的渲染成树状结构 */}
-                            {levelList
-                                .filter(
-                                    (item) =>
-                                        item.father_id === "" &&
-                                        item.mother_id === "" &&
-                                        item.children
-                                )
-                                .map((item) => renderTreeMao([item]))}
-                        </div>
+                    {/* 对比猫猫展示 */}
+                    {showType === "对比猫猫" && (
+                        <CompareMao
+                            maoList={maoList}
+                            setActiveMao={setActiveMao}
+                        />
                     )}
                 </div>
             )}
             {/* 单个猫猫信息的具体操作 */}
             {activeMao && (
-                <MaoControl
+                <MaoDetail
                     maoList={maoList}
                     mao={activeMao}
                     back={() => setActiveMao(undefined)}

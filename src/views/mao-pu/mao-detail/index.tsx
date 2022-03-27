@@ -6,6 +6,7 @@ import { UserContext } from "@/context/UserContext";
 import { Input, Button, message, Select } from "antd";
 import { LeftOutlined, SaveOutlined } from "@ant-design/icons";
 import { updateMaoPu } from "@/client/MaoPuHelper";
+import { IMao } from "../types";
 
 const { Option } = Select;
 
@@ -15,32 +16,14 @@ const statusList = [
     { label: "死亡", value: "dead" },
 ];
 
-export interface Mao {
-    appearance: string;
-    birthday: string;
-    description: string;
-    father: string;
-    feature: string;
-    head_img_id: string;
-    mao_id: string;
-    mother: string;
-    name: string;
-    mother_id: string;
-    father_id: string;
-    status: string;
-    remarks: string;
-    children?: Mao[];
-}
-
-interface IMaoControlProps {
-    mao: Mao;
+interface IMaoDetailProps {
+    mao: IMao;
     back: Function;
     initFn: Function;
-    maoList: Mao[];
+    maoList: IMao[];
 }
 
-// 图片墙
-const MaoControl: React.FC<IMaoControlProps> = (props) => {
+const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
     const { mao, back, initFn, maoList } = props;
     const { username } = useContext(UserContext);
 
@@ -165,12 +148,12 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
             setIsChange(false);
             initFn();
         } else {
-            message.error("更新成功");
+            message.error("更新失败");
         }
     };
 
     return (
-        <div className={`${styles.maoControl} ScrollBar`}>
+        <div className={`${styles.MaoDetail} ScrollBar`}>
             {/* 返回按钮 */}
             <Button
                 className={styles.backButton}
@@ -353,4 +336,4 @@ const MaoControl: React.FC<IMaoControlProps> = (props) => {
     );
 };
 
-export default MaoControl;
+export default MaoDetail;
