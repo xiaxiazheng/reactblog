@@ -217,6 +217,7 @@ const TodoList: React.FC = () => {
                     setShowEdit(false);
                     form.resetFields();
                 }}
+                width={650}
             >
                 <TodoForm
                     form={form}

@@ -65,7 +65,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     className={styles.today}
                     onClick={() => {
                         form.setFieldsValue({
-                            time: moment().subtract(1, 'day'),
+                            time: moment().subtract(1, "day"),
                         });
                     }}
                 >
@@ -75,7 +75,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     className={styles.today}
                     onClick={() => {
                         form.setFieldsValue({
-                            time: moment().add(1, 'day'),
+                            time: moment().add(1, "day"),
                         });
                     }}
                 >
@@ -97,13 +97,18 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item name="description" label="详细描述">
                 <TextArea
                     placeholder="补充以及具体描述"
-                    autoSize={{ minRows: 4, maxRows: 6 }}
+                    autoSize={{ minRows: 8, maxRows: 10 }}
+                    style={{ wordBreak: "break-all" }}
                 />
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
                     {colorList.map((item) => (
-                        <Radio key={item} value={item} style={{ color: colorMap[item] }}>
+                        <Radio
+                            key={item}
+                            value={item}
+                            style={{ color: colorMap[item] }}
+                        >
                             <Tooltip title={descMap[item]}>
                                 {colorNameMap[item]}
                             </Tooltip>

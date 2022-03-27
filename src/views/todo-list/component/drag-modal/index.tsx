@@ -8,7 +8,7 @@ interface DragModalType extends ModalProps {
 
 // 可拖动的模态框
 const DragModal = (props: DragModalType) => {
-    const { title, visible, onOk, onCancel } = props;
+    const { title, visible, onOk, onCancel, ...rest } = props;
 
     const [left, setLeft] = useState<number | string>("");
     const [top, setTop] = useState<number | string>("");
@@ -90,6 +90,7 @@ const DragModal = (props: DragModalType) => {
             style={{ position: "absolute", transform, left, top }}
             transitionName=""
             destroyOnClose
+            {...rest}
         >
             {props.children}
         </Modal>
