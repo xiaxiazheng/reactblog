@@ -12,6 +12,8 @@ git add .
 
 git commit -m "feat: 更新前端代码"
 
+echo "正在上传至 github"
+
 git push
 
 exec /bin/bash
