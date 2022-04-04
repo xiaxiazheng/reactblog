@@ -86,12 +86,13 @@ const TodoForm: React.FC<Props> = (props) => {
     };
 
     return (
-        <Form form={form} labelCol={{ span: 3 }}>
+        <Form form={form} labelCol={{ span: 3 }} wrapperCol={{ span: 20 }}>
             <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                 <Input
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
                     onPressEnter={onOk}
                     autoFocus={true}
+                    allowClear
                 />
             </Form.Item>
             <Form.Item name="description" label="详细描述">
@@ -99,10 +100,11 @@ const TodoForm: React.FC<Props> = (props) => {
                     placeholder="补充以及具体描述"
                     autoSize={{ minRows: 8, maxRows: 10 }}
                     style={{ wordBreak: "break-all" }}
+                    allowClear
                 />
             </Form.Item>
             <Form.Item name="other_id" label="父级">
-                <Input disabled={true} />
+                <Input allowClear />
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
