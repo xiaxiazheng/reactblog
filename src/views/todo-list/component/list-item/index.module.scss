@@ -56,19 +56,29 @@
     &::before {
         content: "";
         position: absolute;
-        top: -25px;
+        top: 50%;
         left: -4px;
-        height: 39px;
-        width: 1px;
+        height: 1px;
+        width: 11px;
         background-color: white;
     }
     &::after {
         content: "";
         position: absolute;
-        top: 13px;
+        bottom: -12px;
         left: -4px;
-        height: 1px;
-        width: 11px;
+        height: calc(100% + 24px);
+        width: 1px;
         background-color: white;
+    }
+    &:first-child {
+        &::after {
+            height: calc(100% + 36px);
+        }
+    }
+    &:last-child {
+        &::after {
+            bottom: 50%;
+        }
     }
 }
