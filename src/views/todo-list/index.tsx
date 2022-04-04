@@ -6,7 +6,7 @@ import List from "./list";
 import DoneList from "./done-list";
 import PoolList from "./pool-list";
 import moment from "moment";
-import TodoForm from "./todo-form";
+import TodoForm from "./component/todo-form";
 import {
     getTodoList,
     addTodoItem,
@@ -14,10 +14,18 @@ import {
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import DragModal from "./component/drag-modal";
-import TodoImage from "./todo-image";
+import TodoImage from "./component/todo-image";
 import { TodoItemType, StatusType, TodoStatus } from "./types";
 
 const TodoStatusList: StatusType[] = ["todo", "done", "pool"];
+
+type OperType = "add" | "edit" | "copy" | "add_progress";
+const titleMap = {
+    add: "新增",
+    edit: "编辑",
+    copy: "复制",
+    add_progress: "新增进度",
+};
 
 const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
@@ -64,7 +72,7 @@ const TodoList: React.FC = () => {
     const [todoMap, setTodoMap] = useState({});
     const [poolList, setPoolList] = useState([]);
     // 编辑相关
-    const [operType, setOperType] = useState<"add" | "edit" | "copy">();
+    const [operType, setOperType] = useState<OperType>();
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const [editedTodo, setEditedTodo] = useState<TodoItemType>();
 
@@ -80,6 +88,21 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
+    const handleAddProgress = (item: TodoItemType) => {
+        setEditedTodo(item);
+        setOperType("add_progress");
+        form.setFieldsValue({
+            name: item.name,
+            description: item.description,
+            time: moment(item.time),
+            status: Number(item.status),
+            color: item.color,
+            category: item.category,
+            other_id: item.todo_id,
+        });
+        setShowEdit(true);
+    };
+
     const handleCopy = (item: TodoItemType) => {
         setEditedTodo(item);
         setOperType("copy");
@@ -90,6 +113,7 @@ const TodoList: React.FC = () => {
             status: Number(item.status),
             color: item.color,
             category: item.category,
+            other_id: item.other_id,
         });
         setShowEdit(true);
     };
@@ -104,6 +128,7 @@ const TodoList: React.FC = () => {
             status: Number(item.status),
             color: item.color,
             category: item.category,
+            other_id: item.other_id,
         });
         setShowEdit(true);
     };
@@ -119,12 +144,12 @@ const TodoList: React.FC = () => {
                 description: formData.description || "",
                 color: formData.color,
                 category: formData.category,
+                other_id: formData.other_id || "",
             };
             const res = await addTodoItem(req);
             if (res) {
                 message.success(res.message);
-                // 新增的话只用更新新增到的那列
-                getTodo(TodoStatusList[Number(formData.status)]);
+                refreshData();
                 setEditedTodo(res.data.newTodoItem);
                 setOperType("edit");
                 return true;
@@ -149,16 +174,12 @@ const TodoList: React.FC = () => {
                 description: formData.description || "",
                 color: formData.color,
                 category: formData.category,
+                other_id: formData.other_id || "",
             };
             const res = await editTodoItem(req);
             if (res) {
                 message.success(res.message);
-                // 变更到的状态那列绝对要更新
-                getTodo(TodoStatusList[Number(formData.status)]);
-                // 原本那列如果跟要变更到的那列不同那也要更新
-                if (editedTodo?.status !== formData.status) {
-                    getTodo(TodoStatusList[Number(editedTodo?.status)]);
-                }
+                refreshData();
                 return true;
             } else {
                 message.error("编辑 todo 失败");
@@ -171,6 +192,12 @@ const TodoList: React.FC = () => {
 
     const [form] = Form.useForm();
 
+    const refreshData = () => {
+        getTodo("todo");
+        getTodo("done");
+        getTodo("pool");
+    };
+
     return (
         <div className={styles.todoList}>
             {/* 待办池 */}
@@ -182,6 +209,8 @@ const TodoList: React.FC = () => {
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
                 handleCopy={handleCopy}
+                handleAddProgress={handleAddProgress}
+                refreshData={refreshData}
             />
             {/* 待办 */}
             <List
@@ -192,6 +221,8 @@ const TodoList: React.FC = () => {
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
                 handleCopy={handleCopy}
+                handleAddProgress={handleAddProgress}
+                refreshData={refreshData}
             />
             {/* 已完成 */}
             <DoneList
@@ -200,16 +231,11 @@ const TodoList: React.FC = () => {
                 handleCopy={handleCopy}
                 isRefreshDone={isRefreshDone}
                 setIsRefreshDone={setIsRefreshDone}
+                refreshData={refreshData}
             />
             {/* 新增/编辑 todo */}
             <DragModal
-                title={`${
-                    operType === "add"
-                        ? "新增"
-                        : operType === "edit"
-                        ? "编辑"
-                        : "复制"
-                } todo`}
+                title={`${titleMap[operType || "add"]} todo`}
                 visible={showEdit}
                 onOk={operType === "edit" ? editTodo : addTodo}
                 onCancel={() => {
@@ -226,11 +252,7 @@ const TodoList: React.FC = () => {
                 />
                 {operType === "edit" && editedTodo && (
                     <TodoImage
-                        refreshData={() => {
-                            getTodo("todo");
-                            getTodo("done");
-                            getTodo("pool");
-                        }}
+                        refreshData={refreshData}
                         activeTodo={editedTodo}
                     />
                 )}

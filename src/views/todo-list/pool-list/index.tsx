@@ -14,6 +14,8 @@ interface Props {
     handleAdd: Function;
     handleEdit: Function;
     handleCopy: Function;
+    handleAddProgress: Function;
+    refreshData: Function;
 }
 
 // 待办池
@@ -26,6 +28,8 @@ const PoolList: React.FC<Props> = (props) => {
         handleAdd,
         handleEdit,
         handleCopy,
+        handleAddProgress,
+        refreshData,
     } = props;
 
     return (
@@ -46,6 +50,8 @@ const PoolList: React.FC<Props> = (props) => {
                         getTodo={getTodo}
                         handleEdit={handleEdit}
                         handleCopy={handleCopy}
+                        handleAddProgress={handleAddProgress}
+                        refreshData={refreshData}
                     />
                 </div>
             </div>

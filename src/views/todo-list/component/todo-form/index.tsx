@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap, colorNameMap, descMap, colorList } from "../utils";
+import { colorMap, colorNameMap, descMap, colorList } from "../../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
 
@@ -86,7 +86,7 @@ const TodoForm: React.FC<Props> = (props) => {
     };
 
     return (
-        <Form form={form}>
+        <Form form={form} labelCol={{ span: 3 }}>
             <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                 <Input
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
@@ -100,6 +100,9 @@ const TodoForm: React.FC<Props> = (props) => {
                     autoSize={{ minRows: 8, maxRows: 10 }}
                     style={{ wordBreak: "break-all" }}
                 />
+            </Form.Item>
+            <Form.Item name="other_id" label="父级">
+                <Input disabled={true} />
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>

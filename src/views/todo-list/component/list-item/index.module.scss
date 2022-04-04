@@ -42,8 +42,33 @@
 .doneIcon,
 .icon {
     margin: 0 7px;
+    z-index: 3;
+    background: var(--bg_color);
 }
 .doneIcon {
     font-size: 20px;
     margin-right: 14px;
+}
+
+.childList {
+    position: relative;
+    margin-left: 20px;
+    &::before {
+        content: "";
+        position: absolute;
+        top: -25px;
+        left: -4px;
+        height: 39px;
+        width: 1px;
+        background-color: white;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        top: 13px;
+        left: -4px;
+        height: 1px;
+        width: 11px;
+        background-color: white;
+    }
 }

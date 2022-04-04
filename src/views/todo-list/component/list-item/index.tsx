@@ -7,22 +7,33 @@ import {
     DeleteOutlined,
     QuestionCircleOutlined,
     FileImageOutlined,
+    ApartmentOutlined,
 } from "@ant-design/icons";
 import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
 import { colorMap } from "../../utils";
-import { StatusType, TodoItemType } from "../../types";
+import { StatusType, TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 
 interface Props {
     list: TodoItemType[];
     title: "待办" | "待办池" | "已完成";
     getTodo: (type: StatusType) => void;
+    handleAddProgress: Function;
     handleEdit: Function;
     handleCopy: Function;
+    refreshData: Function;
 }
 
 const ListItem: React.FC<Props> = (props) => {
-    const { list, title, getTodo, handleEdit, handleCopy } = props;
+    const {
+        list,
+        title,
+        getTodo,
+        handleEdit,
+        handleCopy,
+        handleAddProgress,
+        refreshData,
+    } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {
@@ -47,9 +58,7 @@ const ListItem: React.FC<Props> = (props) => {
         const res = await deleteTodoItem(req);
         if (res) {
             message.success(res.message);
-            title === "待办" && getTodo("todo");
-            title === "已完成" && getTodo("done");
-            title === "待办池" && getTodo("pool");
+            refreshData();
         } else {
             message.error("删除 todo 失败");
         }
@@ -92,7 +101,9 @@ const ListItem: React.FC<Props> = (props) => {
         );
     };
 
-    const NameWrapper = (item: TodoItemType) => {
+    const NameWrapper = (item: TodoItemType, isChild: boolean) => {
+        const isDone = item.status == TodoStatus.done;
+
         const Name = (props: any) => (
             // 这里有 props 是因为 tooltips 要往嵌套的组件中塞点东西
             <div
@@ -106,7 +117,17 @@ const ListItem: React.FC<Props> = (props) => {
                 >
                     {item.category}
                 </span>
-                <span>{item.name}</span>
+                {isDone ? (
+                    <s className={styles.throughout}>
+                        {item.name}
+                        {isChild && `（${item.time}）`}
+                    </s>
+                ) : (
+                    <span>
+                        {item.name}
+                        {isChild && `（${item.time}）`}
+                    </span>
+                )}
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />
                 )}
@@ -128,11 +149,7 @@ const ListItem: React.FC<Props> = (props) => {
                         {item.imgList.length !== 0 && (
                             <ImageListBox
                                 type="todo"
-                                refresh={() => {
-                                    title === "待办" && getTodo("todo");
-                                    title === "已完成" && getTodo("done");
-                                    title === "待办池" && getTodo("pool");
-                                }}
+                                refresh={refreshData}
                                 width="120px"
                                 imageList={item.imgList}
                             />
@@ -148,63 +165,114 @@ const ListItem: React.FC<Props> = (props) => {
         );
     };
 
-    return (
-        <>
-            {list.map((item: any) => {
-                return (
-                    <div className={styles.item} key={item.todo_id}>
-                        <span>
-                            {title === "待办" && (
-                                <Popconfirm
-                                    title="确认已完成吗？"
-                                    onConfirm={() => doneTodo(item.todo_id)}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <Tooltip title={"点击完成"} color="#20d420">
-                                        <CheckCircleOutlined
-                                            title="完成"
-                                            className={styles.doneIcon}
+    const renderItemList = (list: TodoItemType[], isChild: boolean) => {
+        if (!list) {
+            return null;
+        }
+        return (
+            <div>
+                {list.map((item: TodoItemType) => {
+                    const isHasChild =
+                        item?.child_todo_list &&
+                        item?.child_todo_list.length !== 0;
+                    const isAllChildDone = isHasChild
+                        ? item?.child_todo_list?.every(
+                              (item) => item.status == TodoStatus.done
+                          )
+                        : true;
+                    return (
+                        <div
+                            key={item.todo_id}
+                            className={isChild ? styles.childList : ""}
+                        >
+                            <div className={styles.item}>
+                                <span>
+                                    {title === "待办" && (
+                                        <Popconfirm
+                                            title="确认已完成吗？"
+                                            onConfirm={() => {
+                                                if (isAllChildDone) {
+                                                    doneTodo(
+                                                        item.todo_id || ""
+                                                    );
+                                                } else {
+                                                    message.warning(
+                                                        "还有子任务待完成"
+                                                    );
+                                                }
+                                            }}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <Tooltip
+                                                title={"点击完成"}
+                                                color="#20d420"
+                                            >
+                                                <CheckCircleOutlined
+                                                    title="完成"
+                                                    className={styles.doneIcon}
+                                                />
+                                            </Tooltip>
+                                        </Popconfirm>
+                                    )}
+                                    {NameWrapper(item, isChild)}
+                                </span>
+                                <span>
+                                    <Tooltip title={"新增进度"}>
+                                        <ApartmentOutlined
+                                            className={styles.icon}
+                                            title="新增进度"
+                                            onClick={handleAddProgress.bind(
+                                                null,
+                                                item
+                                            )}
                                         />
                                     </Tooltip>
-                                </Popconfirm>
-                            )}
-                            {title !== "已完成" ? (
-                                NameWrapper(item)
-                            ) : (
-                                <s className={styles.throughout}>
-                                    {NameWrapper(item)}
-                                </s>
-                            )}
-                        </span>
-                        <span>
-                            <Tooltip title={"复制"}>
-                                <CopyOutlined
-                                    className={styles.icon}
-                                    title="复制"
-                                    onClick={handleCopy.bind(null, item)}
-                                />
-                            </Tooltip>
-                            <Popconfirm
-                                title="确认要删除吗？"
-                                onConfirm={() => deleteTodo(item.todo_id)}
-                                // onCancel={cancel}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Tooltip title={"删除"}>
-                                    <DeleteOutlined
-                                        title="删除"
-                                        className={styles.icon}
-                                    />
-                                </Tooltip>
-                            </Popconfirm>
-                        </span>
-                    </div>
-                );
-            })}
-        </>
-    );
+                                    <Tooltip title={"复制"}>
+                                        <CopyOutlined
+                                            className={styles.icon}
+                                            title="复制"
+                                            onClick={handleCopy.bind(
+                                                null,
+                                                item
+                                            )}
+                                        />
+                                    </Tooltip>
+                                    <Popconfirm
+                                        title="确认要删除吗？"
+                                        onConfirm={() => {
+                                            if (isHasChild) {
+                                                message.warning(
+                                                    "还有子节点，不能删除"
+                                                );
+                                            } else {
+                                                deleteTodo(item.todo_id || "");
+                                            }
+                                        }}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Tooltip title={"删除"}>
+                                            <DeleteOutlined
+                                                title="删除"
+                                                className={styles.icon}
+                                            />
+                                        </Tooltip>
+                                    </Popconfirm>
+                                </span>
+                            </div>
+                            {item.child_todo_list &&
+                                item.child_todo_list.length !== 0 &&
+                                title !== "已完成" &&
+                                renderItemList(item.child_todo_list, true)}
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+
+    return <div>{renderItemList(list, false)}</div>;
 };
 
 export default ListItem;

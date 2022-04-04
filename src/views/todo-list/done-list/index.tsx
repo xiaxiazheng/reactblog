@@ -23,12 +23,19 @@ interface Props {
     handleCopy: Function;
     isRefreshDone: boolean;
     setIsRefreshDone: Function;
+    refreshData: Function;
 }
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const { title, handleEdit, handleCopy, isRefreshDone, setIsRefreshDone } =
-        props;
+    const {
+        title,
+        handleEdit,
+        handleCopy,
+        isRefreshDone,
+        setIsRefreshDone,
+        refreshData,
+    } = props;
 
     const [doneMap, setDoneMap] = useState<any>({});
 
@@ -60,7 +67,7 @@ const DoneList: React.FC<Props> = (props) => {
     }, [pageNo]);
 
     useEffect(() => {
-        if (keyword === '') {
+        if (keyword === "") {
             getDoneList();
         }
     }, [keyword]);
@@ -172,15 +179,15 @@ const DoneList: React.FC<Props> = (props) => {
                             >
                                 {time}&nbsp; ({getWeek(time)})
                             </div>
-                            {
-                                <ListItem
-                                    list={doneMap[time]}
-                                    title="已完成"
-                                    getTodo={() => getDoneTodo()}
-                                    handleEdit={handleEdit}
-                                    handleCopy={handleCopy}
-                                />
-                            }
+                            <ListItem
+                                list={doneMap[time]}
+                                title="已完成"
+                                getTodo={() => getDoneTodo()}
+                                handleEdit={handleEdit}
+                                handleCopy={handleCopy}
+                                handleAddProgress={() => {}}
+                                refreshData={refreshData}
+                            />
                         </div>
                     );
                 })}

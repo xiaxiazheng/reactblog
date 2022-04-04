@@ -1,4 +1,3 @@
-
 import { ImageType } from "@/client/ImgHelper";
 
 export interface TodoItemType {
@@ -9,8 +8,11 @@ export interface TodoItemType {
     status: number | string;
     color: string;
     category: string;
+    other_id?: string;
 
     imgList: ImageType[];
+    other_todo: TodoItemType;
+    child_todo_list: TodoItemType[];
 }
 
 export type StatusType = "todo" | "done" | "pool";

@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Button, message, Popconfirm, Tooltip } from "antd";
-import { PlusOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
+import { Button, message, Popconfirm, Space, Tooltip } from "antd";
+import {
+    RedoOutlined,
+    PlusOutlined,
+    VerticalAlignTopOutlined,
+} from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
 import { getWeek } from "../utils";
-import { StatusType } from '../types';
+import { StatusType } from "../types";
 
 interface Props {
     loading: boolean;
@@ -17,6 +21,8 @@ interface Props {
     handleAdd: Function;
     handleEdit: Function;
     handleCopy: Function;
+    handleAddProgress: Function;
+    refreshData: Function;
 }
 
 // 待办
@@ -29,6 +35,8 @@ const List: React.FC<Props> = (props) => {
         handleAdd,
         handleEdit,
         handleCopy,
+        handleAddProgress,
+        refreshData,
     } = props;
 
     const today = moment().format("YYYY-MM-DD");
@@ -49,7 +57,7 @@ const List: React.FC<Props> = (props) => {
         const res = await Promise.all(promiseList);
         if (res) {
             message.success(`Todo 日期调整成功`);
-            getTodo('todo');
+            getTodo("todo");
         }
     };
 
@@ -60,10 +68,15 @@ const List: React.FC<Props> = (props) => {
                 <span className={styles.active}>
                     {title}({total})
                 </span>
-                <Button onClick={() => handleAdd(title)}>
-                    <PlusOutlined />
-                    todo
-                </Button>
+                <Space size={16}>
+                    <Button onClick={() => refreshData()} type="primary">
+                        <RedoOutlined />
+                    </Button>
+                    <Button onClick={() => handleAdd(title)}>
+                        <PlusOutlined />
+                        todo
+                    </Button>
+                </Space>
             </div>
             <div className={`${styles.listItemWrap} ScrollBar`}>
                 {Object.keys(mapList).map((time) => {
@@ -99,15 +112,15 @@ const List: React.FC<Props> = (props) => {
                                     </Popconfirm>
                                 )}
                             </div>
-                            {
-                                <ListItem
-                                    list={mapList[time]}
-                                    title="待办"
-                                    getTodo={getTodo}
-                                    handleEdit={handleEdit}
-                                    handleCopy={handleCopy}
-                                />
-                            }
+                            <ListItem
+                                list={mapList[time]}
+                                title="待办"
+                                getTodo={getTodo}
+                                handleEdit={handleEdit}
+                                handleCopy={handleCopy}
+                                handleAddProgress={handleAddProgress}
+                                refreshData={refreshData}
+                            />
                         </div>
                     );
                 })}

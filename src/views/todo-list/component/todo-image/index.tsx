@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import { getTodoById } from "@/client/TodoListHelper";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "../../types";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 interface IProps {
