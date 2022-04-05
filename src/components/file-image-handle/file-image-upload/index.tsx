@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
-import { Progress, message, Upload } from "antd";
+import React, { useState, useContext, useEffect } from "react";
+import { Progress, message, Upload, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
 import styles from "./index.module.scss";
 import { handleSize } from "../utils";
+import dayjs from "dayjs";
 
 interface IProps {
     type: string; // 图片在该系统中的类型的类型
@@ -43,6 +44,83 @@ const FileUpload: React.FC<IProps> = (props) => {
         }
         if (info.file.status === "error") {
             message.error("上传图片失败");
+        }
+    };
+
+    const [isKeyDown, setIsKeyDown] = useState<boolean>(false);
+    useEffect(() => {
+        if (isKeyDown) {
+            handleCopy();
+            setIsKeyDown(false);
+        }
+    }, [isKeyDown]);
+
+    const handleCopy = async () => {
+        const clipboardItems = await navigator.clipboard.read();
+        let find = false;
+        console.log("clipboardItem", clipboardItems);
+        for (const clipboardItem of clipboardItems) {
+            for (const fileType of clipboardItem.types) {
+                if (!find && fileType.indexOf("image") !== -1) {
+                    console.log("clipboardItem", clipboardItem);
+                    find = true;
+                    const blob = await clipboardItem.getType(fileType);
+                    const file = new File(
+                        [blob],
+                        dayjs().format("YYYY-MM-DD hh:mm:ss") +
+                            "." +
+                            fileType.split("/").pop(),
+                        {
+                            type: blob.type,
+                        }
+                    );
+                    handleUpload(file);
+                }
+            }
+        }
+        if (!find) {
+            message.warning("请先截图，再粘贴");
+        }
+    };
+
+    const [isUploading, setIsUploading] = useState<boolean>(false);
+    const handleUpload = (file: File) => {
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append("other_id", other_id);
+        formData.append("username", username);
+        formData.append(type, file);
+
+        fetch(`${staticUrl}/api/${type}_upload`, {
+            method: "POST",
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                message.success(res.message);
+                refresh();
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+            .finally(() => {
+                setIsUploading(false);
+            });
+    };
+
+    useEffect(() => {
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            document.removeEventListener("keydown", onKeyDown);
+        };
+    }, []);
+
+    // 键盘事件
+    const onKeyDown = (e: any) => {
+        // 加上了 mac 的 command 按键的 metaKey 的兼容
+        if (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            setIsKeyDown(true);
         }
     };
 
@@ -86,10 +164,21 @@ const FileUpload: React.FC<IProps> = (props) => {
                         />
                     </div>
                 ) : (
-                    <>
+                    <div className={styles.beforeUpload}>
                         <PlusOutlined className={styles.addIcon} />
                         点击上传图片/文件
-                    </>
+                        <Button
+                            className={styles.parseButton}
+                            onClick={(e) => {
+                                handleCopy();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }}
+                            loading={isUploading}
+                        >
+                            粘贴图片
+                        </Button>
+                    </div>
                 )}
             </Upload>
         </div>
