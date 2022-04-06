@@ -11,21 +11,12 @@ import {
     getTodoList,
     addTodoItem,
     editTodoItem,
+    deleteTodoItem,
 } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import DragModal from "./component/drag-modal";
+import EditTodoModal from "./component/edit-todo-modal";
 import TodoImage from "./component/todo-image";
-import { TodoItemType, StatusType, TodoStatus } from "./types";
-
-const TodoStatusList: StatusType[] = ["todo", "done", "pool"];
-
-type OperType = "add" | "edit" | "copy" | "add_progress";
-const titleMap = {
-    add: "新增",
-    edit: "编辑",
-    copy: "复制",
-    add_progress: "新增进度",
-};
+import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
 
 const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
@@ -72,13 +63,13 @@ const TodoList: React.FC = () => {
     const [todoMap, setTodoMap] = useState({});
     const [poolList, setPoolList] = useState([]);
     // 编辑相关
-    const [operType, setOperType] = useState<OperType>();
+    const [operatorType, setOperatorType] = useState<OperatorType>();
     const [showEdit, setShowEdit] = useState<boolean>(false);
-    const [editedTodo, setEditedTodo] = useState<TodoItemType>();
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
     const handleAdd = (title: "待办" | "待办池") => {
-        setEditedTodo(undefined);
-        setOperType("add");
+        setActiveTodo(undefined);
+        setOperatorType("add");
         form.setFieldsValue({
             time: moment(),
             status: title === "待办" ? TodoStatus.todo : TodoStatus.pool,
@@ -89,8 +80,8 @@ const TodoList: React.FC = () => {
     };
 
     const handleAddProgress = (item: TodoItemType) => {
-        setEditedTodo(item);
-        setOperType("add_progress");
+        setActiveTodo(item);
+        setOperatorType("add_progress");
         form.setFieldsValue({
             name: item.name,
             description: item.description,
@@ -103,24 +94,9 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const handleCopy = (item: TodoItemType) => {
-        setEditedTodo(item);
-        setOperType("copy");
-        form.setFieldsValue({
-            name: item.name,
-            description: item.description,
-            time: moment(item.time),
-            status: Number(item.status),
-            color: item.color,
-            category: item.category,
-            other_id: item.other_id,
-        });
-        setShowEdit(true);
-    };
-
     const handleEdit = (item: TodoItemType) => {
-        setEditedTodo(item);
-        setOperType("edit");
+        setActiveTodo(item);
+        setOperatorType("edit");
         form.setFieldsValue({
             name: item.name,
             description: item.description,
@@ -131,63 +107,6 @@ const TodoList: React.FC = () => {
             other_id: item.other_id,
         });
         setShowEdit(true);
-    };
-
-    const addTodo = async () => {
-        try {
-            await form.validateFields();
-            const formData = form.getFieldsValue();
-            const req = {
-                name: formData.name,
-                time: moment(formData.time).format("YYYY-MM-DD"),
-                status: formData.status,
-                description: formData.description || "",
-                color: formData.color,
-                category: formData.category,
-                other_id: formData.other_id || "",
-            };
-            const res = await addTodoItem(req);
-            if (res) {
-                message.success(res.message);
-                refreshData();
-                setEditedTodo(res.data.newTodoItem);
-                setOperType("edit");
-                return true;
-            } else {
-                message.error("新增 todo 失败");
-            }
-        } catch (err) {
-            message.warning("请检查表单输入");
-        }
-        return false;
-    };
-
-    const editTodo = async () => {
-        try {
-            await form.validateFields();
-            const formData = form.getFieldsValue();
-            const req = {
-                todo_id: editedTodo?.todo_id,
-                name: formData.name,
-                time: moment(formData.time).format("YYYY-MM-DD"),
-                status: formData.status,
-                description: formData.description || "",
-                color: formData.color,
-                category: formData.category,
-                other_id: formData.other_id || "",
-            };
-            const res = await editTodoItem(req);
-            if (res) {
-                message.success(res.message);
-                refreshData();
-                return true;
-            } else {
-                message.error("编辑 todo 失败");
-            }
-        } catch (err) {
-            message.warning("请检查表单输入");
-        }
-        return false;
     };
 
     const [form] = Form.useForm();
@@ -208,7 +127,6 @@ const TodoList: React.FC = () => {
                 mapList={poolList}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
-                handleCopy={handleCopy}
                 handleAddProgress={handleAddProgress}
                 refreshData={refreshData}
             />
@@ -220,7 +138,6 @@ const TodoList: React.FC = () => {
                 mapList={todoMap}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
-                handleCopy={handleCopy}
                 handleAddProgress={handleAddProgress}
                 refreshData={refreshData}
             />
@@ -228,35 +145,25 @@ const TodoList: React.FC = () => {
             <DoneList
                 title="已完成"
                 handleEdit={handleEdit}
-                handleCopy={handleCopy}
                 isRefreshDone={isRefreshDone}
                 setIsRefreshDone={setIsRefreshDone}
                 refreshData={refreshData}
             />
             {/* 新增/编辑 todo */}
-            <DragModal
-                title={`${titleMap[operType || "add"]} todo`}
+            <EditTodoModal
+                type={operatorType || "add"}
+                setType={setOperatorType}
                 visible={showEdit}
-                onOk={operType === "edit" ? editTodo : addTodo}
-                onCancel={() => {
-                    setEditedTodo(undefined);
+                onClose={() => {
+                    setActiveTodo(undefined);
                     setShowEdit(false);
                     form.resetFields();
                 }}
-                width={650}
-            >
-                <TodoForm
-                    form={form}
-                    // 复制走的是新建的路子
-                    onOk={operType === "edit" ? editTodo : addTodo}
-                />
-                {operType === "edit" && editedTodo && (
-                    <TodoImage
-                        refreshData={refreshData}
-                        activeTodo={editedTodo}
-                    />
-                )}
-            </DragModal>
+                activeTodo={activeTodo}
+                setActiveTodo={setActiveTodo}
+                form={form}
+                refreshData={refreshData}
+            />
         </div>
     );
 };

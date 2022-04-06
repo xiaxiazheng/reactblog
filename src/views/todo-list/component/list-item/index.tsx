@@ -20,7 +20,6 @@ interface Props {
     getTodo: (type: StatusType) => void;
     handleAddProgress: Function;
     handleEdit: Function;
-    handleCopy: Function;
     refreshData: Function;
 }
 
@@ -30,7 +29,6 @@ const ListItem: React.FC<Props> = (props) => {
         title,
         getTodo,
         handleEdit,
-        handleCopy,
         handleAddProgress,
         refreshData,
     } = props;
@@ -47,20 +45,6 @@ const ListItem: React.FC<Props> = (props) => {
             getTodo("todo");
         } else {
             message.error("完成 todo 失败");
-        }
-    };
-
-    // 删除 todo
-    const deleteTodo = async (todo_id: string) => {
-        const req = {
-            todo_id,
-        };
-        const res = await deleteTodoItem(req);
-        if (res) {
-            message.success(res.message);
-            refreshData();
-        } else {
-            message.error("删除 todo 失败");
         }
     };
 
@@ -228,37 +212,6 @@ const ListItem: React.FC<Props> = (props) => {
                                             )}
                                         />
                                     </Tooltip>
-                                    <Tooltip title={"复制"}>
-                                        <CopyOutlined
-                                            className={styles.icon}
-                                            title="复制"
-                                            onClick={handleCopy.bind(
-                                                null,
-                                                item
-                                            )}
-                                        />
-                                    </Tooltip>
-                                    <Popconfirm
-                                        title="确认要删除吗？"
-                                        onConfirm={() => {
-                                            if (isHasChild) {
-                                                message.warning(
-                                                    "还有子节点，不能删除"
-                                                );
-                                            } else {
-                                                deleteTodo(item.todo_id || "");
-                                            }
-                                        }}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
-                                        <Tooltip title={"删除"}>
-                                            <DeleteOutlined
-                                                title="删除"
-                                                className={styles.icon}
-                                            />
-                                        </Tooltip>
-                                    </Popconfirm>
                                 </span>
                             </div>
                             {item.child_todo_list &&

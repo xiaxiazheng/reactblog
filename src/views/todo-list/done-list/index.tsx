@@ -20,7 +20,6 @@ const { Search } = Input;
 interface Props {
     title: "待办" | "已完成" | "待办池" | string;
     handleEdit: Function;
-    handleCopy: Function;
     isRefreshDone: boolean;
     setIsRefreshDone: Function;
     refreshData: Function;
@@ -31,7 +30,6 @@ const DoneList: React.FC<Props> = (props) => {
     const {
         title,
         handleEdit,
-        handleCopy,
         isRefreshDone,
         setIsRefreshDone,
         refreshData,
@@ -184,7 +182,6 @@ const DoneList: React.FC<Props> = (props) => {
                                 title="已完成"
                                 getTodo={() => getDoneTodo()}
                                 handleEdit={handleEdit}
-                                handleCopy={handleCopy}
                                 handleAddProgress={() => {}}
                                 refreshData={refreshData}
                             />

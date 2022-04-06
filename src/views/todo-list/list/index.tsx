@@ -20,7 +20,6 @@ interface Props {
     getTodo: (type: StatusType) => void;
     handleAdd: Function;
     handleEdit: Function;
-    handleCopy: Function;
     handleAddProgress: Function;
     refreshData: Function;
 }
@@ -34,7 +33,6 @@ const List: React.FC<Props> = (props) => {
         getTodo,
         handleAdd,
         handleEdit,
-        handleCopy,
         handleAddProgress,
         refreshData,
     } = props;
@@ -117,7 +115,6 @@ const List: React.FC<Props> = (props) => {
                                 title="待办"
                                 getTodo={getTodo}
                                 handleEdit={handleEdit}
-                                handleCopy={handleCopy}
                                 handleAddProgress={handleAddProgress}
                                 refreshData={refreshData}
                             />

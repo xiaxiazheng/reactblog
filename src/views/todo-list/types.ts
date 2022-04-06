@@ -21,3 +21,5 @@ export enum TodoStatus {
     done = 1,
     pool = 2,
 }
+
+export type OperatorType = "add" | "edit" | "add_progress";
