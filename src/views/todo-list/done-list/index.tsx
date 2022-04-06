@@ -182,7 +182,6 @@ const DoneList: React.FC<Props> = (props) => {
                                 title="已完成"
                                 getTodo={() => getDoneTodo()}
                                 handleEdit={handleEdit}
-                                handleAddProgress={() => {}}
                                 refreshData={refreshData}
                             />
                         </div>

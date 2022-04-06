@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { message, Popconfirm, Tooltip } from "antd";
+import { message, Modal, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
     CopyOutlined,
@@ -8,8 +8,13 @@ import {
     QuestionCircleOutlined,
     FileImageOutlined,
     ApartmentOutlined,
+    GoldOutlined,
 } from "@ant-design/icons";
-import { doneTodoItem, deleteTodoItem } from "@/client/TodoListHelper";
+import {
+    doneTodoItem,
+    deleteTodoItem,
+    getTodoById,
+} from "@/client/TodoListHelper";
 import { colorMap } from "../../utils";
 import { StatusType, TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
@@ -18,20 +23,12 @@ interface Props {
     list: TodoItemType[];
     title: "待办" | "待办池" | "已完成";
     getTodo: (type: StatusType) => void;
-    handleAddProgress: Function;
     handleEdit: Function;
     refreshData: Function;
 }
 
 const ListItem: React.FC<Props> = (props) => {
-    const {
-        list,
-        title,
-        getTodo,
-        handleEdit,
-        handleAddProgress,
-        refreshData,
-    } = props;
+    const { list, title, getTodo, handleEdit, refreshData } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {
@@ -149,7 +146,20 @@ const ListItem: React.FC<Props> = (props) => {
         );
     };
 
-    const renderItemList = (list: TodoItemType[], isChild: boolean) => {
+    const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
+
+    const getParentTodo = async (other_id: string) => {
+        const res = await getTodoById(other_id);
+        setActiveTodo(res.data);
+        setShowDrawer(true);
+    };
+
+    const renderItemList = (
+        list: TodoItemType[],
+        isChild: boolean,
+        isShowAllLevel: boolean
+    ) => {
         if (!list) {
             return null;
         }
@@ -171,7 +181,37 @@ const ListItem: React.FC<Props> = (props) => {
                         >
                             <div className={styles.item}>
                                 <span>
-                                    {title === "待办" && (
+                                    <span>
+                                        {item?.other_id && !isShowAllLevel && (
+                                            <Tooltip title={"查看父级所有进度"}>
+                                                <GoldOutlined
+                                                    className={styles.doneIcon}
+                                                    title="查看父级所有进度"
+                                                    onClick={() =>
+                                                        getParentTodo(
+                                                            item?.other_id || ""
+                                                        )
+                                                    }
+                                                />
+                                            </Tooltip>
+                                        )}
+                                    </span>
+                                    <span>
+                                        {isHasChild && !isShowAllLevel && (
+                                            <Tooltip title={"查看进度"}>
+                                                <ApartmentOutlined
+                                                    className={styles.doneIcon}
+                                                    style={{ color: "#40a9ff" }}
+                                                    title="查看进度"
+                                                    onClick={() => {
+                                                        setActiveTodo(item);
+                                                        setShowDrawer(true);
+                                                    }}
+                                                />
+                                            </Tooltip>
+                                        )}
+                                    </span>
+                                    {title === "待办" && !isHasChild && (
                                         <Popconfirm
                                             title="确认已完成吗？"
                                             onConfirm={() => {
@@ -201,23 +241,13 @@ const ListItem: React.FC<Props> = (props) => {
                                     )}
                                     {NameWrapper(item, isChild)}
                                 </span>
-                                <span>
-                                    <Tooltip title={"新增进度"}>
-                                        <ApartmentOutlined
-                                            className={styles.icon}
-                                            title="新增进度"
-                                            onClick={handleAddProgress.bind(
-                                                null,
-                                                item
-                                            )}
-                                        />
-                                    </Tooltip>
-                                </span>
                             </div>
-                            {item.child_todo_list &&
-                                item.child_todo_list.length !== 0 &&
-                                title !== "已完成" &&
-                                renderItemList(item.child_todo_list, true)}
+                            {isShowAllLevel &&
+                                renderItemList(
+                                    item.child_todo_list,
+                                    true,
+                                    isShowAllLevel
+                                )}
                         </div>
                     );
                 })}
@@ -225,7 +255,20 @@ const ListItem: React.FC<Props> = (props) => {
         );
     };
 
-    return <div>{renderItemList(list, false)}</div>;
+    return (
+        <div>
+            <div>{renderItemList(list, false, false)}</div>
+            <Modal
+                title={"所有层级"}
+                visible={showDrawer}
+                onCancel={() => setShowDrawer(false)}
+            >
+                <div className={styles.modal}>
+                    {activeTodo && renderItemList([activeTodo], false, true)}
+                </div>
+            </Modal>
+        </div>
+    );
 };
 
 export default ListItem;

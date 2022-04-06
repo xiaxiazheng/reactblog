@@ -127,7 +127,6 @@ const TodoList: React.FC = () => {
                 mapList={poolList}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
-                handleAddProgress={handleAddProgress}
                 refreshData={refreshData}
             />
             {/* 待办 */}
@@ -138,7 +137,6 @@ const TodoList: React.FC = () => {
                 mapList={todoMap}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
-                handleAddProgress={handleAddProgress}
                 refreshData={refreshData}
             />
             {/* 已完成 */}

@@ -4,16 +4,15 @@ import { PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import ListItem from "../component/list-item";
-import { StatusType } from "../types";
+import { StatusType, TodoItemType } from "../types";
 
 interface Props {
     loading: boolean;
     title: "待办" | "已完成" | "待办池" | string;
-    mapList: any;
+    mapList: TodoItemType[];
     getTodo: (type: StatusType) => void;
     handleAdd: Function;
     handleEdit: Function;
-    handleAddProgress: Function;
     refreshData: Function;
 }
 
@@ -26,7 +25,6 @@ const PoolList: React.FC<Props> = (props) => {
         getTodo,
         handleAdd,
         handleEdit,
-        handleAddProgress,
         refreshData,
     } = props;
 
@@ -47,7 +45,6 @@ const PoolList: React.FC<Props> = (props) => {
                         title="待办池"
                         getTodo={getTodo}
                         handleEdit={handleEdit}
-                        handleAddProgress={handleAddProgress}
                         refreshData={refreshData}
                     />
                 </div>
