@@ -47,13 +47,13 @@ const FileUpload: React.FC<IProps> = (props) => {
         }
     };
 
-    const [isKeyDown, setIsKeyDown] = useState<boolean>(false);
-    useEffect(() => {
-        if (isKeyDown) {
-            handleCopy();
-            setIsKeyDown(false);
-        }
-    }, [isKeyDown]);
+    // const [isKeyDown, setIsKeyDown] = useState<boolean>(false);
+    // useEffect(() => {
+    //     if (isKeyDown) {
+    //         handleCopy();
+    //         setIsKeyDown(false);
+    //     }
+    // }, [isKeyDown]);
 
     const handleCopy = async () => {
         const clipboardItems = await navigator.clipboard.read();
@@ -108,21 +108,21 @@ const FileUpload: React.FC<IProps> = (props) => {
             });
     };
 
-    useEffect(() => {
-        document.addEventListener("keydown", onKeyDown);
-        return () => {
-            document.removeEventListener("keydown", onKeyDown);
-        };
-    }, []);
+    // useEffect(() => {
+    //     document.addEventListener("keydown", onKeyDown);
+    //     return () => {
+    //         document.removeEventListener("keydown", onKeyDown);
+    //     };
+    // }, []);
 
     // 键盘事件
-    const onKeyDown = (e: any) => {
-        // 加上了 mac 的 command 按键的 metaKey 的兼容
-        if (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) {
-            e.preventDefault();
-            setIsKeyDown(true);
-        }
-    };
+    // const onKeyDown = (e: any) => {
+    //     // 加上了 mac 的 command 按键的 metaKey 的兼容
+    //     if (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) {
+    //         e.preventDefault();
+    //         setIsKeyDown(true);
+    //     }
+    // };
 
     return (
         <div
