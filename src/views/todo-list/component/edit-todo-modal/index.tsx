@@ -175,15 +175,22 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             <>
                                 <Popconfirm
                                     title="确定删除吗"
-                                    onConfirm={() =>
-                                        deleteTodo(activeTodo?.todo_id || "")
-                                    }
+                                    disabled={activeTodo?.imgList?.length !== 0}
+                                    onConfirm={() => {
+                                        deleteTodo(activeTodo?.todo_id || "");
+                                    }}
                                     okText="YES"
                                     cancelText="NO"
                                 >
-                                    <Button danger>删除</Button>
+                                    <Button
+                                        danger
+                                        disabled={
+                                            activeTodo?.imgList?.length !== 0
+                                        }
+                                    >
+                                        删除
+                                    </Button>
                                 </Popconfirm>
-
                                 <Button
                                     type="primary"
                                     ghost
@@ -191,7 +198,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 >
                                     复制
                                 </Button>
-
                                 <Button
                                     type="primary"
                                     ghost
