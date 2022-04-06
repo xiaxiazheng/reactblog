@@ -28,6 +28,7 @@ interface EditTodoModalType {
     onClose: Function;
     form: FormInstance<any>;
     refreshData: Function;
+    handleAddProgress: (todo: TodoItemType) => void;
 }
 
 const titleMap = {
@@ -47,6 +48,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         refreshData,
         activeTodo,
         setActiveTodo,
+        handleAddProgress,
     } = props;
 
     // 监听键盘事件，实现 Ctrl+s 保存
@@ -188,6 +190,17 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     onClick={() => addTodo()}
                                 >
                                     复制
+                                </Button>
+
+                                <Button
+                                    type="primary"
+                                    ghost
+                                    onClick={() =>
+                                        activeTodo &&
+                                        handleAddProgress(activeTodo)
+                                    }
+                                >
+                                    添加进度
                                 </Button>
                             </>
                         ) : (

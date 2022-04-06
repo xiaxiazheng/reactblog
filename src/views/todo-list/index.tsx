@@ -161,6 +161,7 @@ const TodoList: React.FC = () => {
                 setActiveTodo={setActiveTodo}
                 form={form}
                 refreshData={refreshData}
+                handleAddProgress={handleAddProgress}
             />
         </div>
     );
