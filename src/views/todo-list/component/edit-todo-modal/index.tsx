@@ -28,7 +28,6 @@ interface EditTodoModalType {
     onClose: Function;
     form: FormInstance<any>;
     refreshData: Function;
-    handleAddProgress: (todo: TodoItemType) => void;
 }
 
 const titleMap = {
@@ -48,7 +47,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         refreshData,
         activeTodo,
         setActiveTodo,
-        handleAddProgress,
     } = props;
 
     // 监听键盘事件，实现 Ctrl+s 保存
@@ -71,7 +69,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [isKeyDown, setIsKeyDown] = useState(false);
     useEffect(() => {
         if (isKeyDown) {
-            visible && handleOk();
+            visible && handleOk(false);
             setIsKeyDown(false);
         }
     }, [isKeyDown]);
@@ -150,12 +148,31 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
-    const handleOk = () => {
+    // 处理添加进度
+    const handleAddProgress = (item: TodoItemType) => {
+        setActiveTodo(item);
+        setType("add_progress");
+        form.setFieldsValue({
+            name: item.name,
+            description: item.description,
+            time: dayjs(item.time),
+            status: Number(item.status),
+            color: item.color,
+            category: item.category,
+            other_id: item.todo_id,
+        });
+    };
+
+    const handleOk = async (isButton: boolean) => {
         if (visible) {
             if (type === "edit") {
-                editTodo();
+                await editTodo();
             } else {
-                addTodo();
+                await addTodo();
+            }
+
+            if (isButton) {
+                onClose();
             }
         }
     };
@@ -175,7 +192,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             <>
                                 <Popconfirm
                                     title="确定删除吗"
-                                    disabled={activeTodo?.imgList?.length !== 0}
+                                    disabled={
+                                        activeTodo?.imgList &&
+                                        activeTodo?.imgList?.length !== 0
+                                    }
                                     onConfirm={() => {
                                         deleteTodo(activeTodo?.todo_id || "");
                                     }}
@@ -185,7 +205,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     <Button
                                         danger
                                         disabled={
-                                            activeTodo?.imgList?.length !== 0
+                                            activeTodo?.imgList &&
+                                            activeTodo.imgList.length !== 0
                                         }
                                     >
                                         删除
@@ -215,7 +236,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     </Space>
                     <Space>
                         <Button onClick={() => onClose()}>Cancel</Button>
-                        <Button type="primary" onClick={() => handleOk()}>
+                        <Button type="primary" onClick={() => handleOk(true)}>
                             OK
                         </Button>
                     </Space>

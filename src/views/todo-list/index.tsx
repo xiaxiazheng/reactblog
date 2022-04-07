@@ -79,21 +79,6 @@ const TodoList: React.FC = () => {
         setShowEdit(true);
     };
 
-    const handleAddProgress = (item: TodoItemType) => {
-        setActiveTodo(item);
-        setOperatorType("add_progress");
-        form.setFieldsValue({
-            name: item.name,
-            description: item.description,
-            time: moment(item.time),
-            status: Number(item.status),
-            color: item.color,
-            category: item.category,
-            other_id: item.todo_id,
-        });
-        setShowEdit(true);
-    };
-
     const handleEdit = (item: TodoItemType) => {
         setActiveTodo(item);
         setOperatorType("edit");
@@ -161,7 +146,6 @@ const TodoList: React.FC = () => {
                 setActiveTodo={setActiveTodo}
                 form={form}
                 refreshData={refreshData}
-                handleAddProgress={handleAddProgress}
             />
         </div>
     );
