@@ -14,12 +14,11 @@ import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 interface PropsType {
     blogData: OneBlogType;
     getBlogContData: Function; // 重新获取整个日志信息
-    getImageList: Function; // 只重新获取日志图片列表
-    getFileList: Function; // 只重新获取日志附件列表
+    getImageFileList: Function; // 只重新获取日志图片和文件列表
 }
 
 const LogContEditByMD: React.FC<PropsType> = (props) => {
-    const { blogData, getBlogContData, getImageList, getFileList } = props;
+    const { blogData, getBlogContData, getImageFileList } = props;
 
     const { TextArea } = Input;
 
@@ -152,14 +151,13 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                             other_id={blogData.blog_id}
                             width="140px"
                             refresh={() => {
-                                getImageList();
-                                getFileList();
+                                getImageFileList();
                             }}
                         />
                         {/* 图片列表 */}
                         <ImageListBox
                             type="blog"
-                            refresh={getImageList}
+                            refresh={getImageFileList}
                             width="140px"
                             imageList={blogData?.imgList || []}
                         />
@@ -169,7 +167,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                             fileList={blogData?.fileList || []}
                             type="blog"
                             width="140px"
-                            refresh={getFileList}
+                            refresh={getImageFileList}
                         />
                     </div>
                 </>

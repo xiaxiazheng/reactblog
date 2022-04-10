@@ -41,8 +41,7 @@ Quill.register("modules/counter", function (quill: any, options: any) {
 interface PropsType {
     blogData: OneBlogType;
     getBlogContData: Function; // 重新获取整个日志信息
-    getImageList: Function; // 只重新获取日志图片列表
-    getFileList: Function; // 只重新获取日志附件列表
+    getImageFileList: Function; // 只重新获取日志图片和文件列表
 }
 
 class BlogContEdit extends React.Component<PropsType> {
@@ -256,8 +255,7 @@ class BlogContEdit extends React.Component<PropsType> {
                             type="blog"
                             other_id={this.props.blogData.blog_id}
                             refresh={() => {
-                                this.props.getImageList();
-                                this.props.getFileList();
+                                this.props.getImageFileList();
                             }}
                             width="140px"
                         />
@@ -265,7 +263,7 @@ class BlogContEdit extends React.Component<PropsType> {
                         {/* 图片列表 */}
                         <ImageListBox
                             type="blog"
-                            refresh={this.props.getImageList}
+                            refresh={this.props.getImageFileList}
                             width="140px"
                             imageList={this.props.blogData?.imgList || []}
                         />
@@ -273,7 +271,7 @@ class BlogContEdit extends React.Component<PropsType> {
                         <FileListBox
                             type={"blog"}
                             fileList={this.props.blogData?.fileList || []}
-                            refresh={this.props.getFileList}
+                            refresh={this.props.getImageFileList}
                             width="140px"
                         />
                     </div>

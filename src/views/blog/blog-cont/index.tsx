@@ -34,25 +34,15 @@ const BlogCont: React.FC<PropsType> = (props) => {
 
     useDocumentTitle(blogData?.title || "blog");
 
-    // 获取当前日志图片数组数据
-    const getImageList = async () => {
+    // 获取当前日志图片和文件数组数据
+    const getImageFileList = async () => {
         let id = decodeURIComponent(atob(match.params.blog_id));
         const res: OneBlogType = await getBlogCont(id);
         const imgList = res.imgList;
         setBlogData({
             ...(blogData as OneBlogType),
-            imgList,
-        });
-    };
-
-    // 获取当前日志附件数组数据
-    const getFileList = async () => {
-        let id = decodeURIComponent(atob(match.params.blog_id));
-        const res: OneBlogType = await getBlogCont(id);
-        const fileList = res.fileList;
-        setBlogData({
-            ...(blogData as OneBlogType),
-            fileList,
+            imgList: res.imgList,
+            fileList: res.fileList,
         });
     };
 
@@ -97,15 +87,13 @@ const BlogCont: React.FC<PropsType> = (props) => {
                     <BlogContEditByMD
                         blogData={blogData}
                         getBlogContData={getData}
-                        getImageList={getImageList}
-                        getFileList={getFileList}
+                        getImageFileList={getImageFileList}
                     />
                 ) : (
                     <BlogContEditByRH
                         blogData={blogData}
                         getBlogContData={getData}
-                        getImageList={getImageList}
-                        getFileList={getFileList}
+                        getImageFileList={getImageFileList}
                     />
                 ))}
         </div>

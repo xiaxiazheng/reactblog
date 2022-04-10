@@ -40,6 +40,8 @@ const FileUpload: React.FC<IProps> = (props) => {
         if (info.file.status === "done") {
             message.success("上传图片成功");
             setName(undefined);
+            console.log(1111);
+
             refresh();
         }
         if (info.file.status === "error") {
@@ -47,18 +49,9 @@ const FileUpload: React.FC<IProps> = (props) => {
         }
     };
 
-    // const [isKeyDown, setIsKeyDown] = useState<boolean>(false);
-    // useEffect(() => {
-    //     if (isKeyDown) {
-    //         handleCopy();
-    //         setIsKeyDown(false);
-    //     }
-    // }, [isKeyDown]);
-
     const handleCopy = async () => {
         const clipboardItems = await navigator.clipboard.read();
         let find = false;
-        console.log("clipboardItem", clipboardItems);
         for (const clipboardItem of clipboardItems) {
             for (const fileType of clipboardItem.types) {
                 if (!find && fileType.indexOf("image") !== -1) {
