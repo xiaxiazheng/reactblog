@@ -26,11 +26,6 @@ export async function getBlogCont(id: string): Promise<any> {
     return data && data.resultsCode === "success" ? data.data : false;
 }
 
-export async function addVisits(params: any): Promise<any> {
-    const data = await postHelper(`/blog/addVisits`, params);
-    return data && data.resultsCode === "success" ? data : false;
-}
-
 export async function addBlogCont(params: any): Promise<boolean> {
     const data = await postHelper(`/blog/addBlogcont`, params);
     return data && data.resultsCode === "success" ? data.data : false;

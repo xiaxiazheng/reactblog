@@ -13,7 +13,6 @@ import {
     VerticalAlignBottomOutlined,
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
-import { addVisits } from "@/client/BlogHelper";
 import BlogContMao from "../blog-cont-mao";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import MarkdownShow from "../markdown-show";
@@ -56,25 +55,6 @@ const BlogContShow: React.FC<PropsType> = (props) => {
         };
         getData();
     }, [blog_id]);
-
-    // 统计访问量
-    useEffect(() => {
-        let visit: any;
-        if (blogData) {
-            visit = setTimeout(async () => {
-                const res1 = await addVisits({
-                    blog_id: decodeURIComponent(atob(blog_id)),
-                    visits: Number(visits),
-                });
-                // isLogin && message.success(res1.message, 1);
-                setVisits(res1.data.visits);
-            }, 20000);
-        }
-
-        return () => {
-            clearTimeout(visit);
-        };
-    }, [blogData]);
 
     const className = classnames({
         [styles.blogcontShow]: true,
