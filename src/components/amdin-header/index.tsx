@@ -5,7 +5,6 @@ import { Popover, Switch } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { ThemeContext } from "@/context/ThemeContext";
-import MiniMusicPlayer from "./mini-music-player";
 import { getAlreadyDate } from "./utils";
 
 interface PropsType extends RouteComponentProps {
@@ -49,8 +48,6 @@ const Header: React.FC<PropsType> = (props) => {
         });
     };
 
-    const [showPlayer, setShowPlayer] = useState<boolean>(false);
-
     const routerItem = (item: any) => (
         <span
             className={`${styles.routerItem} ${
@@ -71,97 +68,81 @@ const Header: React.FC<PropsType> = (props) => {
         </span>
     );
 
-    const HeaderContent = () => {
-        return (
-            <header className={styles.Header}>
-                <div
-                    className={styles.headerLeft}
-                    onClick={() => setCurrent("admin")}
-                >
-                    <span className={styles.name}>
-                        <Link to={"/admin"}>XIAXIAZheng</Link>
-                    </span>
-                    {/* 导航 */}
-                    {routes
-                        .filter((item) => item.isShow)
-                        .map((item) => routerItem(item))}
-                    <Popover
-                        placement="bottom"
-                        content={routes
-                            .filter((item) => !item.isShow)
-                            .map((item) => (
-                                <div key={item.name}>{routerItem(item)}</div>
-                            ))}
-                    >
-                        <span style={{ cursor: 'pointer', fontSize: 20, marginLeft: 10 }}>......</span>
-                    </Popover>
-                </div>
-                <div className={styles.headerRight}>
-                    {
-                        <span className={styles.already}>
-                            已经 {already} 啦({alreadyDays}天)
-                        </span>
-                    }
-                    {/* 音乐播放器开关 */}
-                    <Switch
-                        className={styles.switch}
-                        checkedChildren="music"
-                        unCheckedChildren="music"
-                        checked={showPlayer}
-                        onClick={() => setShowPlayer(!showPlayer)}
-                    />
-                    {/* 主题切换开关 */}
-                    <Switch
-                        className={styles.switch}
-                        checkedChildren="light"
-                        unCheckedChildren="dark"
-                        checked={theme === "light"}
-                        onClick={switchTheme}
-                    />
-                    <span
-                        className={styles.routerItem}
-                        onClick={() =>
-                            window.open(
-                                "https://github.com/xiaxiazheng/reactblog",
-                                "_blank"
-                            )
-                        }
-                    >
-                        百度统计
-                    </span>
-                    <span
-                        className={styles.routerItem}
-                        onClick={() =>
-                            window.open(
-                                "https://tongji.baidu.com/web/10000199972/overview/index?siteId=15040289",
-                                "_blank"
-                            )
-                        }
-                    >
-                        github
-                    </span>
-                    <ExportOutlined
-                        title="退出登录"
-                        className={styles.exportIcon}
-                        onClick={jumpToLogin}
-                    />
-                </div>
-            </header>
-        );
-    };
-
     return (
-        <>
+        <header className={styles.Header}>
             <div
-                style={{
-                    opacity: showPlayer ? 1 : 0,
-                    pointerEvents: showPlayer ? "unset" : "none",
-                }}
+                className={styles.headerLeft}
+                onClick={() => setCurrent("admin")}
             >
-                <MiniMusicPlayer />
+                <span className={styles.name}>
+                    <Link to={"/admin"}>XIAXIAZheng</Link>
+                </span>
+                {/* 导航 */}
+                {routes
+                    .filter((item) => item.isShow)
+                    .map((item) => routerItem(item))}
+                <Popover
+                    placement="bottom"
+                    content={routes
+                        .filter((item) => !item.isShow)
+                        .map((item) => (
+                            <div key={item.name}>{routerItem(item)}</div>
+                        ))}
+                >
+                    <span
+                        style={{
+                            cursor: "pointer",
+                            fontSize: 20,
+                            marginLeft: 10,
+                        }}
+                    >
+                        ......
+                    </span>
+                </Popover>
             </div>
-            <HeaderContent />
-        </>
+            <div className={styles.headerRight}>
+                {
+                    <span className={styles.already}>
+                        已经 {already} 啦({alreadyDays}天)
+                    </span>
+                }
+                {/* 主题切换开关 */}
+                <Switch
+                    className={styles.switch}
+                    checkedChildren="light"
+                    unCheckedChildren="dark"
+                    checked={theme === "light"}
+                    onClick={switchTheme}
+                />
+                <span
+                    className={styles.routerItem}
+                    onClick={() =>
+                        window.open(
+                            "https://github.com/xiaxiazheng/reactblog",
+                            "_blank"
+                        )
+                    }
+                >
+                    百度统计
+                </span>
+                <span
+                    className={styles.routerItem}
+                    onClick={() =>
+                        window.open(
+                            "https://tongji.baidu.com/web/10000199972/overview/index?siteId=15040289",
+                            "_blank"
+                        )
+                    }
+                >
+                    github
+                </span>
+                <ExportOutlined
+                    title="退出登录"
+                    className={styles.exportIcon}
+                    onClick={jumpToLogin}
+                />
+            </div>
+        </header>
     );
 };
 
