@@ -40,8 +40,6 @@ const FileUpload: React.FC<IProps> = (props) => {
         if (info.file.status === "done") {
             message.success("上传图片成功");
             setName(undefined);
-            console.log(1111);
-
             refresh();
         }
         if (info.file.status === "error") {
@@ -60,7 +58,7 @@ const FileUpload: React.FC<IProps> = (props) => {
                     const blob = await clipboardItem.getType(fileType);
                     const file = new File(
                         [blob],
-                        dayjs().format("YYYY-MM-DD hh:mm:ss") +
+                        dayjs().format("YYYY-MM-DD HH:mm:ss") +
                             "." +
                             fileType.split("/").pop(),
                         {
