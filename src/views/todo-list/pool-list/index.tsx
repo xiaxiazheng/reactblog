@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import ListItem from "../component/list-item";
+import OneDayList from "../component/one-day-list";
 import { StatusType, TodoItemType } from "../types";
 
 interface Props {
@@ -38,9 +38,9 @@ const PoolList: React.FC<Props> = (props) => {
                     todo
                 </Button>
             </div>
-            <div className={`${styles.listItemWrap} ScrollBar`}>
+            <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
-                    <ListItem
+                    <OneDayList
                         list={mapList}
                         title="待办池"
                         getTodo={getTodo}

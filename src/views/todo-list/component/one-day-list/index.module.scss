@@ -2,12 +2,24 @@
     .ant-tooltip {
         z-index: 2;
     }
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+        display: flex;
+        align-items: center;
+        color: var(--color);
+        padding: 0;
+        font-size: 16px;
+    }
+    .ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+        color: var(--color);
+        padding: 0 0 0 24px;
+        font-size: 16px;
+    }
 }
 
 .item {
-    display: flex;
+    display: inline-flex;
     justify-content: space-around;
-    margin: 12px 0;
+    margin: 6px 0;
 
     > span:nth-child(1) {
         flex: 1;

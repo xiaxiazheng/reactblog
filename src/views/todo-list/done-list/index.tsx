@@ -3,7 +3,7 @@ import { Input, Pagination, Select, message } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
-import ListItem from "../component/list-item";
+import OneDayList from "../component/one-day-list";
 import {
     getWeek,
     formatArrayToTimeMap,
@@ -162,7 +162,7 @@ const DoneList: React.FC<Props> = (props) => {
                 enterButton
                 allowClear={true}
             />
-            <div className={`${styles.listItemWrap} ScrollBar`}>
+            <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(doneMap).map((time) => {
                     return (
                         <div className={styles.oneDay} key={time}>
@@ -177,7 +177,7 @@ const DoneList: React.FC<Props> = (props) => {
                             >
                                 {time}&nbsp; ({getWeek(time)})
                             </div>
-                            <ListItem
+                            <OneDayList
                                 list={doneMap[time]}
                                 title="已完成"
                                 getTodo={() => getDoneTodo()}

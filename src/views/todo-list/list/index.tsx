@@ -9,7 +9,7 @@ import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
 import Loading from "@/components/loading";
-import ListItem from "../component/list-item";
+import OneDayList from "../component/one-day-list";
 import { getWeek } from "../utils";
 import { StatusType } from "../types";
 
@@ -74,7 +74,7 @@ const List: React.FC<Props> = (props) => {
                     </Button>
                 </Space>
             </div>
-            <div className={`${styles.listItemWrap} ScrollBar`}>
+            <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(mapList).map((time) => {
                     return (
                         <div className={styles.oneDay} key={time}>
@@ -108,7 +108,7 @@ const List: React.FC<Props> = (props) => {
                                     </Popconfirm>
                                 )}
                             </div>
-                            <ListItem
+                            <OneDayList
                                 list={mapList[time]}
                                 title="待办"
                                 getTodo={getTodo}
