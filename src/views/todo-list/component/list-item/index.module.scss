@@ -1,3 +1,9 @@
+:global {
+    .ant-tooltip {
+        z-index: 2;
+    }
+}
+
 .item {
     display: flex;
     justify-content: space-around;
