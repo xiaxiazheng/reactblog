@@ -31,7 +31,10 @@ const Music = () => {
 
     useEffect(() => {
         setMusicList(
-            originList.filter((item) => item.key.indexOf(keyword) !== -1)
+            originList.filter(
+                (item) =>
+                    item.key.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+            )
         );
     }, [keyword]);
 
@@ -46,20 +49,22 @@ const Music = () => {
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                {keyword && musicList?.length === 0 && <Empty style={{ marginTop: 30 }} />}
+                {keyword && musicList?.length === 0 && (
+                    <Empty style={{ marginTop: 30 }} />
+                )}
                 {musicList?.map((item) => (
-                        <div
-                            key={item.key}
-                            onClick={() => setActiveSong(item)}
-                            className={`${
-                                activeSong && activeSong.key === item.key
-                                    ? styles.active
-                                    : ""
-                            } ${styles.songItem}`}
-                        >
-                            {item.key}
-                        </div>
-                    ))}
+                    <div
+                        key={item.key}
+                        onClick={() => setActiveSong(item)}
+                        className={`${
+                            activeSong && activeSong.key === item.key
+                                ? styles.active
+                                : ""
+                        } ${styles.songItem}`}
+                    >
+                        {item.key}
+                    </div>
+                ))}
             </div>
         </div>
     );
