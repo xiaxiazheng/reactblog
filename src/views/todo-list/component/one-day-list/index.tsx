@@ -106,7 +106,7 @@ const ListItem: React.FC<Props> = (props) => {
                                     </Tooltip>
                                 )}
                             </span>
-                            {title === "待办" && !isHasChild && (
+                            {item.status == TodoStatus.todo && !isHasChild && (
                                 <Popconfirm
                                     title="确认已完成吗？"
                                     onConfirm={() => {
@@ -135,12 +135,6 @@ const ListItem: React.FC<Props> = (props) => {
                             />
                         </span>
                     </div>
-                    {isShowAllLevel &&
-                        renderItemList(
-                            item.child_todo_list,
-                            true,
-                            isShowAllLevel
-                        )}
                 </div>
             );
         };
@@ -154,38 +148,38 @@ const ListItem: React.FC<Props> = (props) => {
                             item?.child_todo_list &&
                             item?.child_todo_list.length !== 0;
 
-                        const Component: React.FC = (props) => {
-                            const childListNow =
-                                (isHasChild &&
-                                    item.child_todo_list.filter(
-                                        (child) => map[child.todo_id || ""]
-                                    )) ||
-                                [];
-
-                            return childListNow.length > 0 ? (
-                                <Collapse ghost defaultActiveKey={[item.todo_id || '']}>
-                                    <Collapse.Panel
-                                        header={renderItem(item)}
-                                        key={item.todo_id || ""}
-                                    >
-                                        {childListNow.map((child) => {
-                                            return (
-                                                <div key={child.todo_id}>
-                                                    {renderItem(child)}
-                                                </div>
-                                            );
-                                        })}
-                                    </Collapse.Panel>
-                                </Collapse>
-                            ) : (
-                                <>{props.children}</>
-                            );
-                        };
+                        const childListNow = isShowAllLevel
+                            ? item.child_todo_list
+                            : (isHasChild &&
+                                  item.child_todo_list.filter(
+                                      (child) => map[child.todo_id || ""]
+                                  )) ||
+                              [];
 
                         return (
-                            <Component key={item.todo_id}>
-                                {renderItem(item)}
-                            </Component>
+                            <div key={item.todo_id}>
+                                {childListNow.length > 0 ? (
+                                    <Collapse
+                                        ghost
+                                        defaultActiveKey={[item.todo_id || ""]}
+                                    >
+                                        <Collapse.Panel
+                                            header={renderItem(item)}
+                                            key={item.todo_id || ""}
+                                        >
+                                            {childListNow.map((child) => {
+                                                return (
+                                                    <div key={child.todo_id}>
+                                                        {renderItem(child)}
+                                                    </div>
+                                                );
+                                            })}
+                                        </Collapse.Panel>
+                                    </Collapse>
+                                ) : (
+                                    <>{renderItem(item)}</>
+                                )}
+                            </div>
                         );
                     })}
             </div>
@@ -199,6 +193,7 @@ const ListItem: React.FC<Props> = (props) => {
                 title={"所有层级"}
                 visible={showDrawer}
                 onCancel={() => setShowDrawer(false)}
+                footer={null}
             >
                 <div className={styles.modal}>
                     {activeTodo && renderItemList([activeTodo], false, true)}
