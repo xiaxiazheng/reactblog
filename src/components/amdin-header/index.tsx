@@ -118,7 +118,7 @@ const Header: React.FC<PropsType> = (props) => {
                     className={styles.routerItem}
                     onClick={() =>
                         window.open(
-                            "https://github.com/xiaxiazheng/reactblog",
+                            "https://tongji.baidu.com/web/10000199972/overview/index?siteId=15040289",
                             "_blank"
                         )
                     }
@@ -129,7 +129,7 @@ const Header: React.FC<PropsType> = (props) => {
                     className={styles.routerItem}
                     onClick={() =>
                         window.open(
-                            "https://tongji.baidu.com/web/10000199972/overview/index?siteId=15040289",
+                            "https://github.com/xiaxiazheng/reactblog",
                             "_blank"
                         )
                     }
