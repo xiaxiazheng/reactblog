@@ -1,16 +1,8 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import {
-    Button,
-    FormInstance,
-    Modal,
-    ModalProps,
-    message,
-    Space,
-    Popconfirm,
-} from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, FormInstance, Modal, message, Space, Popconfirm } from "antd";
 import styles from "./index.module.scss";
 import { TodoItemType, OperatorType } from "../../types";
-import dayjs from "dayjs";
+import moment from "moment";
 import TodoForm from "../todo-form";
 import TodoImage from "../todo-image";
 import {
@@ -81,7 +73,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const formData = form.getFieldsValue();
             const req = {
                 name: formData.name,
-                time: dayjs(formData.time).format("YYYY-MM-DD"),
+                time: moment(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
                 description: formData.description || "",
                 color: formData.color,
@@ -112,7 +104,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const req = {
                 todo_id: activeTodo?.todo_id,
                 name: formData.name,
-                time: dayjs(formData.time).format("YYYY-MM-DD"),
+                time: moment(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
                 description: formData.description || "",
                 color: formData.color,
@@ -148,6 +140,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
+    // 处理复制
+    const handleCopy = (item: TodoItemType) => {
+        setActiveTodo(item);
+        setType("copy");
+        form.setFieldsValue({
+            name: item.name,
+            description: item.description,
+            time: moment(item.time),
+            status: Number(item.status),
+            color: item.color,
+            category: item.category,
+        });
+    };
+
     // 处理添加进度
     const handleAddProgress = (item: TodoItemType) => {
         setActiveTodo(item);
@@ -155,7 +161,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         form.setFieldsValue({
             name: item.name,
             description: item.description,
-            time: dayjs(item.time),
+            time: moment(item.time),
             status: Number(item.status),
             color: item.color,
             category: item.category,
@@ -215,7 +221,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 <Button
                                     type="primary"
                                     ghost
-                                    onClick={() => addTodo()}
+                                    onClick={() =>
+                                        activeTodo && handleCopy(activeTodo)
+                                    }
                                 >
                                     复制
                                 </Button>
@@ -245,7 +253,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         >
             <TodoForm
                 form={form}
-                // 复制走的是新建的路子
+                // 除了编辑，其他走的都是新建的路子
                 onOk={type === "edit" ? editTodo : addTodo}
             />
             {type === "edit" && activeTodo && (
