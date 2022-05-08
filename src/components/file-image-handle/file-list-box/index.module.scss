@@ -43,15 +43,20 @@
         height: 100%;
         .filename {
             font-weight: bold;
-            padding: 0px 10px;
+            padding: 0px 10px 5px;
             text-align: center;
             line-height: 1.4;
-            font-size: 18px;
+            font-size: 16px;
+            word-break: break-all;
         }
         .size {
             width: 100%;
             text-align: center;
+            font-size: 14px;
             // font-size: 16px;
+        }
+        .time {
+            font-size: 12px;
         }
     }
     .shower {
