@@ -1,0 +1,28 @@
+.imageManage {
+    width: 87%;
+    margin: 0 3% 0 10%;
+    font-size: 16px;
+}
+
+.imgLength {
+    position: fixed;
+    left: 2%;
+    top: 140px;
+    display: inline-block;
+    width: 100px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.ImgManage {
+    margin: 20px;
+}
+
+.tabs {
+    :global {
+        .ant-tabs-content {
+            overflow-y: auto;
+            height: calc(100vh - 110px);
+        }
+    }
+}

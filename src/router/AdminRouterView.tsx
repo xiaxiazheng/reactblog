@@ -6,6 +6,7 @@ import { AuthRoute } from "./AuthRoute";
 import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";
 import { fallback } from "./index";
+import ImageManage from "@/views/image-manage";
 
 const Tree = lazy(() => import(/* webpackChunkName: "Tree" */ "../views/tree"));
 const Blog = lazy(() => import(/* webpackChunkName: "Blog" */ "../views/blog"));
@@ -52,17 +53,11 @@ interface PropsType extends RouteComponentProps {
 export const routes = [
     {
         route: "/admin/todo-list",
-        name: "TodoList",
+        name: "Todo",
         component: TodoList,
         isShow: true,
     },
-    {
-        route: "/admin/tree/:first_id/:second_id",
-        name: "Tree",
-        component: Tree,
-        isShow: false,
-    },
-    { route: "/admin/tree", name: "Tree", component: Tree, isShow: true },
+
     {
         route: "/admin/blog/:blog_id",
         name: "Blog",
@@ -70,35 +65,58 @@ export const routes = [
         isShow: false,
     },
     { route: "/admin/blog", name: "Blog", component: Blog, isShow: true },
+
     { route: "/admin/note", name: "Note", component: Note, isShow: true },
-    {
-        route: "/admin/search-engine",
-        name: "SearchEngine",
-        component: SearchEngine,
-        isShow: true,
-    },
+
     { route: "/admin/music", name: "Music", component: Music, isShow: true },
-    {
-        route: "/admin/mindmap",
-        name: "MindMap",
-        component: MindMap,
-        isShow: false,
-    },
+
     {
         route: "/admin/cloud/:parent_id",
         name: "Cloud",
         component: Cloud,
         isShow: false,
     },
-    { route: "/admin/cloud", name: "Cloud", component: Cloud, isShow: false },
+    { route: "/admin/cloud", name: "Cloud", component: Cloud, isShow: true },
+
+    {
+        route: "/admin/image-manage",
+        name: "ImageManage",
+        component: ImageManage,
+        isShow: true,
+    },
+
+    {
+        route: "/admin/tree/:first_id/:second_id",
+        name: "Tree",
+        component: Tree,
+        isShow: false,
+    },
+    { route: "/admin/tree", name: "Tree", component: Tree, isShow: false },
+
+    {
+        route: "/admin/search-engine",
+        name: "SearchEngine",
+        component: SearchEngine,
+        isShow: false,
+    },
+
+    {
+        route: "/admin/mindmap",
+        name: "MindMap",
+        component: MindMap,
+        isShow: false,
+    },
+
     { route: "/admin/media", name: "Media", component: Media, isShow: false },
+
     {
         route: "/admin/test-page",
         name: "TestPage",
         component: TestPage,
         isShow: false,
-        exact: false
+        exact: false,
     },
+
     { route: "/admin/maopu", name: "猫谱", component: MaoPu, isShow: false },
     // { route: "/admin/log", name: 'log', component: Log, isShow: false },
 ];
@@ -139,7 +157,11 @@ const AdminRouterView: React.FC<PropsType> = (props) => {
                                 return (
                                     <AuthRoute
                                         key={index}
-                                        exact={typeof item.exact !== 'undefined' ? item.exact : true}
+                                        exact={
+                                            typeof item.exact !== "undefined"
+                                                ? item.exact
+                                                : true
+                                        }
                                         path={item.route}
                                         component={item.component}
                                     />

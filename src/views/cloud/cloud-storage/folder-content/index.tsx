@@ -29,12 +29,13 @@ import {
 } from "@/client/FolderHelper";
 import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
-import { FolderType, FolderMapType, IFolderTreeType } from "../";
+import { FolderType, FolderMapType, IFolderTreeType } from "..";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileBox from "@/components/file-image-handle/file-list-box";
 import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import FileListBox from "@/components/file-image-handle/file-list-box";
+import FolderList from "../folder-list";
 
 interface CloudStorageProps extends RouteComponentProps {
     parentId: string;
@@ -50,15 +51,12 @@ const Width = "160px";
 const FolderContent: React.FC<CloudStorageProps> = (props) => {
     const {
         parentId,
-        history,
         folderTree,
         folderMap,
         folderList,
         getFolderList,
         getAllFolderList,
     } = props;
-
-    const { confirm } = Modal;
 
     const [loading, setLoading] = useState(true);
     const { username } = useContext(UserContext);
@@ -72,8 +70,6 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
         getFileList(parentId);
     }, [parentId]);
 
-    // 文件夹列表
-    const [hoverFolder, setHoverFolder] = useState<FolderType>();
     // 图片列表
     const [imgList, setImgList] = useState<ImageType[]>([]);
     // 文件列表
@@ -115,11 +111,6 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
             setFileList(list);
         }
         setLoading(false);
-    };
-
-    // 双击打开文件夹
-    const clickFolder = (id: string) => {
-        history.push(`/admin/cloud/${id}`);
     };
 
     // 打开弹窗
@@ -234,58 +225,6 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
         }
     };
 
-    // 编辑文件夹名称
-    const editFolderName = async (oldName: string, folder_id: string) => {
-        const name = prompt(`请输入新增的文件夹的名称`, oldName);
-        if (name && name !== "") {
-            const params = {
-                name,
-                folder_id,
-            };
-            const res = await updateFolderName(params);
-            if (res) {
-                message.success("新增文件夹成功");
-                getFolderList(parentId);
-            } else {
-                message.error("新增文件夹失败");
-            }
-        }
-    };
-
-    // 删除文件夹
-    const deleteAFolder = async (name: string, folder_id: string) => {
-        if (typeof folderMap[folder_id].children !== "undefined") {
-            message.warn(
-                "该文件夹内还有文件夹，暂不支持递归删除（其实里面有文件的话也不推荐删除）"
-            );
-            return;
-        }
-        confirm({
-            title: `你将删除"${name}"`,
-            content: "Are you sure？",
-            centered: true,
-            okText: "Yes",
-            okType: "danger",
-            cancelText: "No",
-            onOk: async () => {
-                const params = {
-                    folder_id,
-                };
-                const res = await deleteFolder(params);
-                if (res) {
-                    message.success("删除文件夹成功");
-                    getFolderList(parentId);
-                } else {
-                    message.error("删除文件夹失败");
-                }
-                getAllFolderList();
-            },
-            onCancel() {
-                message.info("已取消删除文件夹", 1);
-            },
-        });
-    };
-
     const handleCancel = () => {
         message.warn("已取消更换文件夹", 0.5);
 
@@ -319,70 +258,15 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
             <div className={styles.cloudStorage}>
                 {loading && <Loading />}
                 {/* 文件夹列表 */}
-                {folderList.map((item) => {
-                    return (
-                        <div
-                            key={item.folder_id}
-                            className={styles.folderBox}
-                            style={{
-                                width: `${Width}`,
-                                height: `${Width}`,
-                            }}
-                            onDoubleClick={clickFolder.bind(
-                                null,
-                                item.folder_id
-                            )}
-                            onMouseEnter={() => {
-                                setHoverFolder(item);
-                            }}
-                            onMouseLeave={() => {
-                                setHoverFolder(undefined);
-                            }}
-                        >
-                            {hoverFolder &&
-                            hoverFolder.folder_id === item.folder_id ? (
-                                <FolderOpenOutlined
-                                    className={styles.folderIcon}
-                                />
-                            ) : (
-                                <FolderOutlined className={styles.folderIcon} />
-                            )}
-                            <div>{item.name}</div>
-                            {hoverFolder &&
-                                hoverFolder.folder_id === item.folder_id && (
-                                    <div>
-                                        <EditOutlined
-                                            className={styles.icon}
-                                            title="编辑文件夹名称"
-                                            onClick={editFolderName.bind(
-                                                null,
-                                                item.name,
-                                                item.folder_id
-                                            )}
-                                        />
-                                        <DeleteOutlined
-                                            className={styles.icon}
-                                            title="删除文件夹"
-                                            onClick={deleteAFolder.bind(
-                                                null,
-                                                item.name,
-                                                item.folder_id
-                                            )}
-                                        />
-                                        <RocketOutlined
-                                            className={styles.icon}
-                                            title="切换文件夹"
-                                            onClick={showModal.bind(
-                                                null,
-                                                item,
-                                                "folder"
-                                            )}
-                                        />
-                                    </div>
-                                )}
-                        </div>
-                    );
-                })}
+                <FolderList
+                    folderList={folderList}
+                    Width={Width}
+                    getFolderList={getFolderList}
+                    parentId={parentId}
+                    folderMap={folderMap}
+                    getAllFolderList={getAllFolderList}
+                    showModal={showModal}
+                />
                 {/* 上传组件 */}
                 <FileImageUpload
                     type="cloud"

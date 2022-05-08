@@ -1,25 +1,21 @@
-import React, { useContext } from 'react';
-import styles from './index.module.scss';
-import { IsLoginContext } from '@/context/IsLoginContext';
-import CloudShower from './cloud-shower';
-import CloudControl from './cloud-control';
-import useDocumentTitle from '@/hooks/useDocumentTitle';
+import React, { useContext } from "react";
+import styles from "./index.module.scss";
+import { IsLoginContext } from "@/context/IsLoginContext";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
+import CloudStorage from "./cloud-storage";
 
 const Cloud: React.FC = () => {
-  const { isLogin } = useContext(IsLoginContext);
+    // const { isLogin } = useContext(IsLoginContext);
 
-  useDocumentTitle('cloud')
+    useDocumentTitle("cloud");
 
-  return (
-    <div className={styles.cloud}>
-      {!isLogin &&
-        <CloudShower />
-      }
-      {isLogin &&
-        <CloudControl />
-      }
-    </div>
-  );
-}
+    return (
+        <div className={styles.cloud}>
+            <div className={styles.cloudContent}>
+                <CloudStorage />
+            </div>
+        </div>
+    );
+};
 
 export default Cloud;

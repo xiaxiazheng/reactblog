@@ -5,9 +5,10 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
 import { UserContext } from "@/context/UserContext";
 import { Tabs } from "antd";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 // 图片管理
-const ImgManage: React.FC = () => {
+const ImageManage: React.FC = () => {
     const { TabPane } = Tabs;
 
     // 图片类型数组
@@ -20,6 +21,8 @@ const ImgManage: React.FC = () => {
     const { username } = useContext(UserContext);
 
     const [loading, setLoading] = useState(true);
+
+    useDocumentTitle("图片管理");
 
     useEffect(() => {
         getImageTypeList();
@@ -49,7 +52,7 @@ const ImgManage: React.FC = () => {
     };
 
     return (
-        <>
+        <div className={`${styles.imageManage}`}>
             <div className={styles.imgLength}>
                 {!loading && <>共 {cloudList.length} 张</>}
             </div>
@@ -76,8 +79,8 @@ const ImgManage: React.FC = () => {
                     );
                 })}
             </Tabs>
-        </>
+        </div>
     );
 };
 
-export default ImgManage;
+export default ImageManage;

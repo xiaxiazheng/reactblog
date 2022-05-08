@@ -151,7 +151,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
                 新增文件夹
             </div>
             {/* 文件夹树 */}
-            <div className={styles.cloudTree}>
+            {/* <div className={styles.cloudTree}>
                 <Tree
                     showIcon
                     defaultExpandAll
@@ -160,7 +160,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
                     treeData={folderTree}
                     selectedKeys={[parentId]}
                 />
-            </div>
+            </div> */}
             {/* 具体的文件夹内容 */}
             <FolderContent
                 parentId={parentId}
