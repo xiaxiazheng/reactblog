@@ -9,13 +9,8 @@ import {
     FolderOutlined,
     RocketOutlined,
 } from "@ant-design/icons";
-import { DownOutlined } from "@ant-design/icons";
-import {
-    updateFolderName,
-    deleteFolder,
-    switchFolderParent,
-} from "@/client/FolderHelper";
-import { FolderType, FolderMapType, IFolderTreeType } from "..";
+import { updateFolderName, deleteFolder } from "@/client/FolderHelper";
+import { FolderType } from "..";
 
 interface IProps extends RouteComponentProps {
     folderList: any[];
@@ -62,7 +57,7 @@ const FolderList: React.FC<IProps> = (props) => {
         }
     };
 
-    // 双击打开文件夹
+    // 单击打开文件夹
     const clickFolder = (id: string) => {
         history.push(`/admin/cloud/${id}`);
     };

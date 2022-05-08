@@ -129,13 +129,14 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
     const getFolderList = async (parent_id: string) => {
         const res = await getFolder(parent_id, username);
         if (res) {
-            setFolderList(res);
+            setFolderList(
+                res.sort(
+                    (a, b) =>
+                        new Date(b.cTime).getTime() -
+                        new Date(a.cTime).getTime()
+                )
+            );
         }
-    };
-
-    // 点击文件夹
-    const onSelect = (selectedKeys: any, info: any) => {
-        history.push(`/admin/cloud/${selectedKeys[0] || "root"}`);
     };
 
     return (

@@ -2,13 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import styles from "./index.module.scss";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { message, Modal, Tree } from "antd";
-import {
-    DeleteOutlined,
-    EditOutlined,
-    FolderOpenOutlined,
-    FolderOutlined,
-    RocketOutlined,
-} from "@ant-design/icons";
+import { RocketOutlined } from "@ant-design/icons";
 import { DownOutlined } from "@ant-design/icons";
 import {
     getImgListByOtherId,
@@ -17,21 +11,15 @@ import {
     ImgType,
 } from "@/client/ImgHelper";
 import {
-    FileType,
     FType,
     getFileListByOtherId,
     switchFileOtherId,
 } from "@/client/FileHelper";
-import {
-    updateFolderName,
-    deleteFolder,
-    switchFolderParent,
-} from "@/client/FolderHelper";
+import { switchFolderParent } from "@/client/FolderHelper";
 import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
 import { FolderType, FolderMapType, IFolderTreeType } from "..";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import FileBox from "@/components/file-image-handle/file-list-box";
 import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import FileListBox from "@/components/file-image-handle/file-list-box";
