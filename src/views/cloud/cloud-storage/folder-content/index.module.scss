@@ -1,4 +1,7 @@
 .cloudStorage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 160px);
+  column-gap: 10px;
   margin: 20px;
   text-align: left;
   .folderBox {
