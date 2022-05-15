@@ -40,7 +40,8 @@ const Header: React.FC<PropsType> = (props) => {
     }, [theme]);
 
     const jumpToLogin = () => {
-        history.replace({
+        localStorage.setItem("token", "");
+        history.push({
             pathname: "/login",
             state: {
                 from: location.pathname,

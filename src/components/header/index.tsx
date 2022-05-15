@@ -64,15 +64,6 @@ const Header: React.FC<PropsType> = (props) => {
         hyp: "阿苹的小站",
     };
 
-    const jumpToLogin = () => {
-        history.replace({
-            pathname: "/login",
-            state: {
-                from: location.pathname,
-            },
-        });
-    };
-
     const [visible, setVisible] = useState<boolean>(true);
 
     const HeaderContent = () => (
@@ -111,13 +102,6 @@ const Header: React.FC<PropsType> = (props) => {
                         <Link to={"/test-page"}>TestPage</Link>
                     </Menu.Item>
                 </Menu>
-                {isLogin && (
-                    <ExportOutlined
-                        title="退出登录"
-                        className={styles.exportIcon}
-                        onClick={jumpToLogin}
-                    />
-                )}
             </span>
         </header>
     );
