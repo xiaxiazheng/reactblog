@@ -45,7 +45,7 @@ function apiErrorLog(res: any) {
     const status: any = res.status;
 
     // 登录 401 校验
-    if (res.status === 401) {
+    if (res.status === 401 || res.statusCode === 401) {
         notification.warning({
             message: "api报错, 登录已过期，请重新登录！",
             description: (

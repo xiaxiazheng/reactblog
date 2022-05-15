@@ -19,7 +19,7 @@ export async function getFolder(
 // 获取所有文件夹（树状）
 export async function getAllFolder(username: string): Promise<any> {
   const data = await getHelper(`/folder/getAllFolder?username=${username}`);
-  return data && data.resultsCode === "success" ? data.data : [];
+  return data && data.resultsCode === "success" ? data.data : false;
 }
 
 // 新增文件夹
