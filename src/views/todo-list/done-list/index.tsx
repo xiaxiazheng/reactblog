@@ -27,13 +27,8 @@ interface Props {
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const {
-        title,
-        handleEdit,
-        isRefreshDone,
-        setIsRefreshDone,
-        refreshData,
-    } = props;
+    const { title, handleEdit, isRefreshDone, setIsRefreshDone, refreshData } =
+        props;
 
     const [doneMap, setDoneMap] = useState<any>({});
 
@@ -64,9 +59,17 @@ const DoneList: React.FC<Props> = (props) => {
         getDoneTodo();
     }, [pageNo]);
 
+    const handleSearch = () => {
+        if (pageNo === 1) {
+            getDoneList();
+        } else {
+            setPageNo(1);
+        }
+    };
+
     useEffect(() => {
         if (keyword === "") {
-            getDoneList();
+            handleSearch();
         }
     }, [keyword]);
 
@@ -98,7 +101,7 @@ const DoneList: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (isRefreshDone) {
-            getDoneList();
+            handleSearch();
             setIsRefreshDone(false);
         }
     }, [isRefreshDone]);
@@ -158,7 +161,7 @@ const DoneList: React.FC<Props> = (props) => {
                 className={styles.search}
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onSearch={() => getDoneList()}
+                onSearch={() => handleSearch()}
                 enterButton
                 allowClear={true}
             />
