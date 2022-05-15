@@ -6,46 +6,90 @@ import {
     AxiosResponse,
     AxiosError,
 } from "axios";
-import { notification, message, Button } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { isDev, baseUrl } from "@/env_config";
+import { isVisitor } from "./utils";
+import { Button, notification } from "antd";
+import { postRefresh } from "./UserHelper";
 import httpCodeMessage from "./lib/http-code-msg";
 
-// 是否是游客
-const isVisitor = window.location.href.indexOf("admin") === -1;
-
-const instance = axios.create({
+export const instance = axios.create({
     baseURL: `${baseUrl}/api`,
     timeout: isDev ? 5 * 1000 : 10 * 1000,
 });
 
-// Alter defaults after instance has been created
-// instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-
-// axios.defaults.retry = 3
-// axios.defaults.retryDelay = 1000
-
-// check 返回数据的状态是否正常，不正常就右侧 notification 报错
-const checkStatus = (res: AxiosError["response"]) => {
-    if (!res && !isVisitor) {
-        notification.error({
-            description: "您的网络发生异常，无法连接服务器",
-            message: "网络异常",
-        });
-        return res;
+// 请求拦截器
+instance.interceptors.request.use(
+    (config: AxiosRequestConfig) => {
+        return config;
+    },
+    (error: AxiosError) => {
+        return Promise.reject(error);
     }
+);
 
-    // 错误提示
-    apiErrorLog(res);
+// 响应拦截器
+instance.interceptors.response.use(
+    (response: AxiosResponse) => {
+        return response;
+    },
+    (error: AxiosError) => {
+        if (!error.response) {
+            if (!isVisitor) {
+                notification.error({
+                    description: "您的网络发生异常，无法连接服务器",
+                    message: "网络异常",
+                });
+            }
+            return Promise.reject(error);
+        }
 
-    return res;
-};
+        // 这里如果不是返回 Promise.reject()，那会被当成正常的返回值的
+        if (
+            error.response.status === 401 ||
+            error.response.data.statusCode === 401
+        ) {
+            return handleResponse401(error.response);
+        }
 
-function apiErrorLog(res: any) {
-    const status: any = res.status;
+        const res: any = error.response;
+        if (!isVisitor) {
+            const errortext =
+                httpCodeMessage[res?.statusCode] || res.statusText;
+            const errorDesc = `${res.status}: ${errortext}`;
+            const duration = isDev ? 4 : 2;
+            notification.error({
+                message: `请求错误 ${res.status}:  \n${res.config.url}\n`,
+                description: `${errorDesc} \n 您可以点击刷新按钮进行重试\n ${JSON.stringify(
+                    res.data
+                )}`,
+                duration,
+            });
+        }
 
-    // 登录 401 校验
-    if (res.status === 401 || res.statusCode === 401) {
+        return Promise.reject(error);
+    }
+);
+
+// 处理 401 的情况，用 refresh_token 重发一次
+const handleResponse401 = async (res: any) => {
+    try {
+        // 判断如果是用 access_token 请求的，就调用更新 access_token 的接口
+        if (
+            res.config.headers.Authorization ===
+            `Bearer ${localStorage.getItem("token")}`
+        ) {
+            const newRes = await postRefresh();
+            const access_token = newRes?.data?.access_token;
+            
+            // 如果能获取到新的 access_token，则重发请求，并把 token 更新
+            if (access_token) {
+                localStorage.setItem("token", access_token);
+                res.config.headers.Authorization = `Bearer ${access_token}`; // 使用新的 token
+                return await axios.request(res.config); // 传入 config，重发原来的请求
+            }
+        }
+    } catch (e) {
+        // 否则就抛错，提示跳转到更新页面
         notification.warning({
             message: "api报错, 登录已过期，请重新登录！",
             description: (
@@ -61,78 +105,11 @@ function apiErrorLog(res: any) {
                 </>
             ),
         });
-        return;
+        return Promise.reject(e);
     }
 
-    if (!isVisitor) {
-        const errortext = httpCodeMessage[status] || res.statusText;
-        const errorDesc = `${res.status}: ${errortext}`;
-        const duration = isDev ? 4 : 2;
-        notification.error({
-            message: `请求错误 ${res.status}:  \n${res.config.url}\n`,
-            description: `${errorDesc} \n 您可以点击刷新按钮进行重试\n ${JSON.stringify(
-                res.data
-            )}`,
-            duration,
-        });
-    }
-}
-
-// 定义全局变量clearRequest，在route.js中要用到
-const clearRequest = {
-    source: {
-        token: null,
-        cancel: null,
-    },
+    return Promise.reject("登录过期");
 };
-
-// 聚合多个交叉的请求成一个提示，但是防不住一个请求结束了另一个请求才开始，这时依然会有两条
-let count = 0;
-let key: any = undefined;
-const createMessage = () => {
-    if (count === 0) {
-        key = Math.random();
-        message.info({
-            key,
-            icon: <LoadingOutlined />,
-            content: "请求发送中，请稍后",
-            duration: 0,
-        });
-    }
-    count++;
-};
-const destroyMessage = () => {
-    if (count === 1) {
-        message.destroy(key);
-    }
-    count--;
-};
-
-// 请求拦截器
-instance.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-        // config.cancelToken = clearRequest.source.token;
-        createMessage();
-        return config;
-    },
-    (error: AxiosError) => {
-        destroyMessage();
-        return Promise.reject(error);
-    }
-);
-
-// 响应拦截器
-instance.interceptors.response.use(
-    (response: AxiosResponse) => {
-        destroyMessage();
-        return response;
-    },
-    (error: AxiosError) => {
-        checkStatus(error.response);
-        destroyMessage();
-        return Promise.reject(error);
-    }
-);
 
 export interface ResType {
     data: DataType;
@@ -157,7 +134,7 @@ export const getHelper = async (url: string) => {
             },
             cancelToken: source.token,
         });
-    } catch (e) {
+    } catch (e: any) {
         console.log("get请求失败", e);
         return;
     }
@@ -170,7 +147,7 @@ export const getHelper = async (url: string) => {
 };
 
 // 封装 Post
-export const postHelper = async (url: string, params?: any) => {
+export const postHelper = async (url: string, params: any = {}) => {
     let res: any;
     try {
         res = await instance.post(url, params, {
@@ -179,7 +156,7 @@ export const postHelper = async (url: string, params?: any) => {
             },
             cancelToken: source.token,
         });
-    } catch (e) {
+    } catch (e: any) {
         console.log("post请求失败", e);
         return;
     }
