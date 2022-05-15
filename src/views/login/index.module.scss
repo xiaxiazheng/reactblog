@@ -23,7 +23,8 @@
             }
             .userInput,
             .pwdInput {
-                margin-top: 2rem;
+                margin-top: 1.5rem;
+                background: white !important;
             }
             .pwdEye {
                 cursor: pointer;
@@ -31,9 +32,12 @@
                     color: #1890ff !important;
                 }
             }
+            .trust {
+                margin-top: 1rem;
+            }
             .loginButton {
                 width: 100%;
-                margin-top: 2.5rem;
+                margin-top: 1.5rem;
                 font-size: 0.9rem;
             }
         }

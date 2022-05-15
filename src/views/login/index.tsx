@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Input, Button, message } from "antd";
+import { Input, Button, message, Radio } from "antd";
 import {
     EyeInvisibleOutlined,
     EyeOutlined,
@@ -13,6 +13,8 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { UserContext } from "@/context/UserContext";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
+const RadioGroup = Radio.Group;
+
 interface PropsType extends RouteComponentProps {}
 
 const Login: React.FC<PropsType> = (props) => {
@@ -22,6 +24,8 @@ const Login: React.FC<PropsType> = (props) => {
     const [isShowPwd, setIsShowPwd] = useState(false);
     const { setIsLogin } = useContext(IsLoginContext);
     const { setUsername } = useContext(UserContext);
+
+    const [isTrust, setIsTrust] = useState<boolean>(true);
 
     useDocumentTitle("login");
 
@@ -52,8 +56,13 @@ const Login: React.FC<PropsType> = (props) => {
         if (res?.access_token) {
             setIsLogin(true); // 将 context 的 isLogin 设置为 true
             localStorage.setItem("token", res.access_token);
-            localStorage.setItem("username", user);
-            localStorage.setItem("password", window.btoa(password));
+            if (isTrust) {
+                localStorage.setItem("username", user);
+                localStorage.setItem("password", window.btoa(password));
+            } else {
+                localStorage.setItem("username", "");
+                localStorage.setItem("password", "");
+            }
             setUsername(user);
             message.success("登录成功");
             const search = location.search;
@@ -133,6 +142,14 @@ const Login: React.FC<PropsType> = (props) => {
                             )
                         }
                     />
+                    <RadioGroup
+                        className={styles.trust}
+                        value={isTrust}
+                        onChange={(e) => setIsTrust(e.target.value)}
+                    >
+                        <Radio value={true}>信任该设备</Radio>
+                        <Radio value={false}>不信任该设备</Radio>
+                    </RadioGroup>
                     <Button
                         className={styles.loginButton}
                         type="primary"
