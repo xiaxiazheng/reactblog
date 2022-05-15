@@ -65,6 +65,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
 
     // 获取图片列表
     const getImgList = async (parent_id: string) => {
+        setImgList([]);
         setLoading(true);
         const res = await getImgListByOtherId(parent_id, username);
         if (res) {
@@ -80,6 +81,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
 
     // 获取文件列表
     const getFileList = async (parent_id: string) => {
+        setFileList([]);
         setLoading(true);
         const res = await getFileListByOtherId(parent_id, username);
         if (res) {

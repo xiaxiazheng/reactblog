@@ -127,6 +127,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
 
     // 获取文件夹
     const getFolderList = async (parent_id: string) => {
+        setFolderList([]);
         const res = await getFolder(parent_id, username);
         if (res) {
             setFolderList(
