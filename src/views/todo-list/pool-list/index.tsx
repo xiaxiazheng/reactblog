@@ -8,10 +8,9 @@ import { StatusType, TodoItemType } from "../types";
 
 interface Props {
     loading: boolean;
-    title: "待办" | "已完成" | "待办池" | string;
+    title: string;
     mapList: TodoItemType[];
     getTodo: (type: StatusType) => void;
-    handleAdd: Function;
     handleEdit: Function;
     refreshData: Function;
 }
@@ -23,7 +22,6 @@ const PoolList: React.FC<Props> = (props) => {
         title,
         mapList,
         getTodo,
-        handleAdd,
         handleEdit,
         refreshData,
     } = props;
@@ -32,17 +30,12 @@ const PoolList: React.FC<Props> = (props) => {
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>待办池({mapList.length})</span>
-                <Button onClick={() => handleAdd(title)}>
-                    <PlusOutlined />
-                    todo
-                </Button>
+                <span>{title}({mapList.length})</span>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
                     <OneDayList
                         list={mapList}
-                        title="待办池"
                         getTodo={getTodo}
                         handleEdit={handleEdit}
                         refreshData={refreshData}

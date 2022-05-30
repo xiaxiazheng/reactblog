@@ -7,11 +7,10 @@ import {
     FormInstance,
     Radio,
     Divider,
-    Tooltip,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap, colorNameMap, descMap, colorList } from "../../utils";
+import { colorMap, colorNameMap, colorList } from "../../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
 
@@ -114,9 +113,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             value={item}
                             style={{ color: colorMap[item] }}
                         >
-                            <Tooltip title={descMap[item]}>
-                                {colorNameMap[item]}
-                            </Tooltip>
+                            {colorNameMap[item]}
                         </Radio>
                     ))}
                 </Radio.Group>

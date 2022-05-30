@@ -15,12 +15,13 @@ import { StatusType } from "../types";
 
 interface Props {
     loading: boolean;
-    title: "待办" | "已完成" | "待办池" | string;
+    title: string;
     mapList: any;
     getTodo: (type: StatusType) => void;
-    handleAdd: Function;
+    handleAdd?: Function;
     handleEdit: Function;
     refreshData: Function;
+    showRefresh?: boolean;
 }
 
 // 待办
@@ -33,6 +34,7 @@ const List: React.FC<Props> = (props) => {
         handleAdd,
         handleEdit,
         refreshData,
+        showRefresh = false
     } = props;
 
     const today = moment().format("YYYY-MM-DD");
@@ -65,13 +67,19 @@ const List: React.FC<Props> = (props) => {
                     {title}({total})
                 </span>
                 <Space size={16}>
-                    <Button onClick={() => refreshData()} type="primary">
+                    {showRefresh && <Button
+                        onClick={() => refreshData()}
+                        type="primary"
+                        size="small"
+                    >
                         <RedoOutlined />
-                    </Button>
-                    <Button onClick={() => handleAdd(title)}>
-                        <PlusOutlined />
-                        todo
-                    </Button>
+                    </Button>}
+                    {handleAdd && (
+                        <Button onClick={() => handleAdd()} size="small">
+                            <PlusOutlined />
+                            todo
+                        </Button>
+                    )}
                 </Space>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
@@ -110,7 +118,6 @@ const List: React.FC<Props> = (props) => {
                             </div>
                             <OneDayList
                                 list={mapList[time]}
-                                title="待办"
                                 getTodo={getTodo}
                                 handleEdit={handleEdit}
                                 refreshData={refreshData}

@@ -21,6 +21,7 @@ export const colorMap: any = {
     2: "#40a9ff",
     3: "#827e7e",
     [-1]: "#20d420",
+    [-2]: "#9c27b0",
 };
 
 export const colorNameMap: any = {
@@ -28,15 +29,8 @@ export const colorNameMap: any = {
     1: "orange",
     2: "blue",
     3: "grey",
-    [-1]: "green",
+    [-1]: "长期方向",
+    [-2]: "短期目标",
 };
 
 export const colorList = Object.keys(colorNameMap);
-
-export const descMap: any = {
-    0: "重要且紧急",
-    1: "不重要但紧急",
-    2: "重要但不紧急",
-    3: "不重要且不紧急",
-    [-1]: "意识，方向，指导思想",
-};

@@ -12,14 +12,13 @@ import NameWrapper from "./name-wrapper";
 
 interface Props {
     list: TodoItemType[];
-    title: "待办" | "待办池" | "已完成";
     getTodo: (type: StatusType) => void;
     handleEdit: Function;
     refreshData: Function;
 }
 
 const ListItem: React.FC<Props> = (props) => {
-    const { list, title, getTodo, handleEdit, refreshData } = props;
+    const { list, getTodo, handleEdit, refreshData } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {

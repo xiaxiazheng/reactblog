@@ -18,7 +18,7 @@ import { TodoStatus } from "../types";
 const { Search } = Input;
 
 interface Props {
-    title: "待办" | "已完成" | "待办池" | string;
+    title: string;
     handleEdit: Function;
     isRefreshDone: boolean;
     setIsRefreshDone: Function;
@@ -182,7 +182,6 @@ const DoneList: React.FC<Props> = (props) => {
                             </div>
                             <OneDayList
                                 list={doneMap[time]}
-                                title="已完成"
                                 getTodo={() => getDoneTodo()}
                                 handleEdit={handleEdit}
                                 refreshData={refreshData}
