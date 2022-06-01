@@ -187,7 +187,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
                                 key={item.category}
                                 value={item.category}
                             >
-                                {item.category}
+                                {item.category}({item.count})
                             </Select.Option>
                         ))}
                     </Select>
