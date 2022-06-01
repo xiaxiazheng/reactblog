@@ -1,6 +1,7 @@
 .list {
     position: relative;
     flex: 1;
+    min-height: 100%;
 
     &:nth-child(2) {
         flex: 1.2;
