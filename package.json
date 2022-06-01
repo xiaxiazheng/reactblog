@@ -14,7 +14,8 @@
         "deploy": "sh deploy.sh",
         "deployLocal": "sh deployLocal.sh",
         "prepare": "husky install",
-        "checkByted": "node ./checkByted.js"
+        "checkByted": "node ./checkByted.js",
+        "push": "sh deploy.sh"
     },
     "dependencies": {
         "@ant-design/icons": "^4.6.4",
