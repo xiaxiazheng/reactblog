@@ -126,9 +126,9 @@ const TodoForm: React.FC<Props> = (props) => {
                 <Select
                     showSearch
                     filterOption={(input, option) =>
-                        option?.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
+                        option?.value
+                            ?.toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0 || false
                     }
                     dropdownRender={(menu) => (
                         <div>
@@ -166,7 +166,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             key={item.category}
                             value={item.category}
                         >
-                            {item.category}({item.count})
+                            {item.category} ({item.count})
                         </Select.Option>
                     ))}
                 </Select>
