@@ -133,72 +133,76 @@ const List: React.FC<Props> = (props) => {
                                     <span>
                                         {time}&nbsp; ({getWeek(time)})
                                     </span>
-                                    {time < today && (
-                                        <Space size={6}>
+
+                                    <Space size={6}>
+                                        {time < today && (
+                                            <>
+                                                <Popconfirm
+                                                    title={`是否将 ${time} 的 Todo 日期调整成今天`}
+                                                    onConfirm={() =>
+                                                        changeExpireToToday(
+                                                            mapList[time]
+                                                        )
+                                                    }
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    <Tooltip title={"调整日期"}>
+                                                        <VerticalAlignTopOutlined
+                                                            title="调整日期"
+                                                            className={
+                                                                styles.icon
+                                                            }
+                                                        />
+                                                    </Tooltip>
+                                                </Popconfirm>
+                                                {showRefresh && (
+                                                    <Popconfirm
+                                                        title={`是否将 ${time} 的 Todo 放进待办池`}
+                                                        onConfirm={() =>
+                                                            changeTodoToPool(
+                                                                mapList[time]
+                                                            )
+                                                        }
+                                                        okText="Yes"
+                                                        cancelText="No"
+                                                    >
+                                                        <Tooltip
+                                                            title={
+                                                                "调整到待办池"
+                                                            }
+                                                        >
+                                                            <ArrowLeftOutlined
+                                                                title="调整到待办池"
+                                                                className={
+                                                                    styles.icon
+                                                                }
+                                                            />
+                                                        </Tooltip>
+                                                    </Popconfirm>
+                                                )}
+                                            </>
+                                        )}
+                                        {!showRefresh && (
                                             <Popconfirm
-                                                title={`是否将 ${time} 的 Todo 日期调整成今天`}
+                                                title={`是否将 ${time} 的待办池放进 todo`}
                                                 onConfirm={() =>
-                                                    changeExpireToToday(
+                                                    changePoolToTodo(
                                                         mapList[time]
                                                     )
                                                 }
                                                 okText="Yes"
                                                 cancelText="No"
                                             >
-                                                <Tooltip title={"调整日期"}>
-                                                    <VerticalAlignTopOutlined
-                                                        title="调整日期"
+                                                <Tooltip title={"调整到 todo"}>
+                                                    <ArrowRightOutlined
+                                                        title="调整到 todo"
                                                         className={styles.icon}
                                                     />
                                                 </Tooltip>
                                             </Popconfirm>
-                                            {showRefresh ? (
-                                                <Popconfirm
-                                                    title={`是否将 ${time} 的 Todo 放进待办池`}
-                                                    onConfirm={() =>
-                                                        changeTodoToPool(
-                                                            mapList[time]
-                                                        )
-                                                    }
-                                                    okText="Yes"
-                                                    cancelText="No"
-                                                >
-                                                    <Tooltip
-                                                        title={"调整到待办池"}
-                                                    >
-                                                        <ArrowLeftOutlined
-                                                            title="调整到待办池"
-                                                            className={
-                                                                styles.icon
-                                                            }
-                                                        />
-                                                    </Tooltip>
-                                                </Popconfirm>
-                                            ) : (
-                                                <Popconfirm
-                                                    title={`是否将 ${time} 的待办池放进 todo`}
-                                                    onConfirm={() =>
-                                                        changePoolToTodo(
-                                                            mapList[time]
-                                                        )
-                                                    }
-                                                    okText="Yes"
-                                                    cancelText="No"
-                                                >
-                                                    <Tooltip
-                                                        title={"调整到 todo"}
-                                                    >
-                                                        <ArrowRightOutlined
-                                                            title="调整到 todo"
-                                                            className={
-                                                                styles.icon
-                                                            }
-                                                        />
-                                                    </Tooltip>
-                                                </Popconfirm>
-                                            )}
-                                        </Space>
-                                    )}
+                                        )}
+                                    </Space>
                                 </div>
                                 <OneDayList
                                     list={mapList[time]}
