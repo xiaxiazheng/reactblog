@@ -7,7 +7,7 @@ import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import beian from "@/assets/beian.png";
 import { Input, Spin } from "antd";
-import { exec } from "@/client/SshHelper";
+import { exec } from "@/client/CmdHelper";
 
 interface ICMD extends RouteComponentProps {}
 

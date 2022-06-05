@@ -86,6 +86,8 @@ export const routes = [
         isShow: true,
     },
 
+    { route: "/admin/cmd", name: "CMD", component: cmd, isShow: true },
+
     {
         route: "/admin/tree/:first_id/:second_id",
         name: "Tree",
@@ -120,8 +122,6 @@ export const routes = [
 
     { route: "/admin/maopu", name: "猫谱", component: MaoPu, isShow: false },
     // { route: "/admin/log", name: 'log', component: Log, isShow: false },
-
-    { route: "/admin/cmd", name: "CMD", component: cmd, isShow: false },
 ];
 
 const AdminRouterView: React.FC<PropsType> = (props) => {
