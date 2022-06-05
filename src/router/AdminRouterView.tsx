@@ -7,6 +7,7 @@ import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";
 import { fallback } from "./index";
 import ImageManage from "@/views/image-manage";
+import cmd from "@/views/cmd";
 
 const Tree = lazy(() => import(/* webpackChunkName: "Tree" */ "../views/tree"));
 const Blog = lazy(() => import(/* webpackChunkName: "Blog" */ "../views/blog"));
@@ -119,6 +120,8 @@ export const routes = [
 
     { route: "/admin/maopu", name: "猫谱", component: MaoPu, isShow: false },
     // { route: "/admin/log", name: 'log', component: Log, isShow: false },
+
+    { route: "/admin/cmd", name: "CMD", component: cmd, isShow: false },
 ];
 
 const AdminRouterView: React.FC<PropsType> = (props) => {
