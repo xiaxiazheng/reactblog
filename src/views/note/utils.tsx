@@ -1,4 +1,14 @@
 import React from "react";
+import { NoteType } from "./types";
+
+// 这个是添加了关键字高亮和解析了 url 的 react 节点
+export const handleNote = (item: NoteType | undefined, keyword: string) => {
+    return !item
+        ? ""
+        : keyword && keyword !== ""
+        ? handleKeyword(item.note, keyword)
+        : handleUrl(item.note);
+};
 
 // 处理 note，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
 export const handleUrl = (str: string) => {

@@ -11,8 +11,6 @@ export type NoteType = {
     category: string;
     imgList: ImageType[];
     fileList: FileType[];
-
-    noteNode?: any;  // 这个是添加了关键字高亮和解析了 url 的 react 节点
 }
 
 const obj2 = {

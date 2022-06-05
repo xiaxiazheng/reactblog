@@ -61,6 +61,10 @@ const EditNoteModal: React.FC<Props> = (props) => {
             params["note_id"] = activeNote.note_id;
             const res = await editNote(params);
             if (res) {
+                setActiveNote({
+                    ...activeNote,
+                    ...params,
+                });
                 message.success("编辑 note 成功");
             } else {
                 return false;
@@ -70,7 +74,6 @@ const EditNoteModal: React.FC<Props> = (props) => {
             if (res) {
                 message.success("创建 note 成功");
                 setActiveNote(res.data.newNote);
-                console.log(res.data.newNote);
             } else {
                 return false;
             }
@@ -145,8 +148,8 @@ const EditNoteModal: React.FC<Props> = (props) => {
                     <Select
                         showSearch
                         filterOption={(input, option) =>
-                            option?.children
-                                .toLowerCase()
+                            option?.value
+                                ?.toLowerCase()
                                 .indexOf(input.toLowerCase()) >= 0
                         }
                         dropdownRender={(menu) => (
@@ -187,7 +190,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
                                 key={item.category}
                                 value={item.category}
                             >
-                                {item.category}({item.count})
+                                {item.category} ({item.count})
                             </Select.Option>
                         ))}
                     </Select>

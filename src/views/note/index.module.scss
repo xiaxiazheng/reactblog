@@ -21,41 +21,6 @@
         }
     }
 
-    .note_list {
-        max-width: 900px;
-        margin: 0 auto;
-        .note_item {
-            margin-bottom: 10px;
-            padding: 5px 10px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            white-space: pre-line;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 8;
-            -webkit-box-orient: vertical;
-            white-space: pre-wrap;
-            &.active {
-                border-color: #40a9ff;
-                -webkit-line-clamp: unset;
-            }
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            .category {
-                display: inline-block;
-                margin-right: 10px;
-                padding: 0 5px;
-                color: #40a9ff;
-                border: 1px solid #40a9ff;
-                border-radius: 4px;
-                font-size: 12px;
-            }
-        }
-    }
-
     .pagination {
         position: sticky;
         bottom: 0;
@@ -84,5 +49,54 @@
         top: 13.5rem;
         opacity: 0.6;
         color: #ff4d4f !important;
+    }
+}
+
+.note_list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 900px;
+    margin: 0 auto;
+    > div {
+        cursor: pointer;
+        &:hover {
+            border-color: #40a9ff;
+        }
+    }
+}
+
+.note_item {
+    padding: 5px 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    white-space: pre-line;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    white-space: pre-wrap;
+    font-size: 16px;
+    &.active {
+        border-color: #40a9ff;
+        -webkit-line-clamp: unset;
+        max-height: calc(100vh - 300px);
+        overflow-y: auto;
+        border: unset;
+        padding: unset;
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .category {
+        display: inline-block;
+        margin-right: 10px;
+        padding: 0 5px;
+        color: #40a9ff;
+        border: 1px solid #40a9ff;
+        border-radius: 4px;
+        font-size: 12px;
     }
 }

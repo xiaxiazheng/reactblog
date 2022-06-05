@@ -10,14 +10,15 @@ import {
     message,
     Popconfirm,
     Spin,
+    Modal,
 } from "antd";
 import { NoteType, CategoryType } from "./types";
 import EditNoteModal from "./edit-note-modal";
 import { deleteNote } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { handleKeyword, handleUrl } from "./utils";
+import { handleNote } from "./utils";
 import { debounce } from "lodash";
-import ImgFileNoteList from './img-file-note-list';
+import ImgFileNoteList from "./img-file-note-list";
 
 const { Search } = Input;
 
@@ -49,18 +50,8 @@ const Note: React.FC = () => {
 
         const res = await getNoteList(params);
         if (res) {
-            setList(
-                res.data.list?.map((item: NoteType) => {
-                    return {
-                        ...item,
-                        noteNode:
-                            keyword && keyword !== ""
-                                ? handleKeyword(item.note, keyword)
-                                : handleUrl(item.note),
-                    };
-                })
-            );
-            setTotal(res.data.total);
+            setList(res?.data?.list || []);
+            setTotal(res?.data?.total || 0);
         }
         setLoading(false);
     }, 300);
@@ -129,7 +120,12 @@ const Note: React.FC = () => {
                         onChange={(e) => setActiveCategory(e.target.value)}
                     >
                         <Radio key="所有" value="所有">
-                            所有
+                            所有 (
+                            {category?.reduce(
+                                (prev, cur) => prev + Number(cur.count),
+                                0
+                            )}
+                            )
                         </Radio>
                         {category?.map((item) => {
                             return (
@@ -137,7 +133,7 @@ const Note: React.FC = () => {
                                     key={item.category}
                                     value={item.category}
                                 >
-                                    {item.category}
+                                    {item.category} ({item.count})
                                 </Radio>
                             );
                         })}
@@ -150,9 +146,10 @@ const Note: React.FC = () => {
                             <div
                                 key={item.note_id}
                                 className={`${styles.note_item} ${
-                                    item.note_id === activeNote?.note_id
-                                        ? styles.active
-                                        : ""
+                                    // item.note_id === activeNote?.note_id
+                                    //     ? styles.active
+                                    //     :
+                                    ""
                                 }`}
                                 onClick={() =>
                                     setActiveNote(
@@ -169,17 +166,23 @@ const Note: React.FC = () => {
                                 <span className={styles.category}>
                                     {item.category}
                                 </span>
-                                <span>{item.noteNode}</span>
+                                <span>{handleNote(item, keyword)}</span>
                                 <ImgFileNoteList
                                     isOnlyShow={true}
                                     activeNote={item}
-                                    width="150px"
+                                    width="120px"
                                 />
                             </div>
                         );
                     })}
                     {(!list || list?.length === 0) && (
-                        <Empty style={{ paddingTop: 100 }} />
+                        <Empty
+                            style={{
+                                paddingTop: 100,
+                                gridColumnStart: 1,
+                                gridColumnEnd: 4,
+                            }}
+                        />
                     )}
                 </div>
 
@@ -203,31 +206,50 @@ const Note: React.FC = () => {
                 >
                     新增
                 </Button>
-                {activeNote && (
-                    <>
-                        <Button
-                            className={styles.edit_note}
-                            type="primary"
-                            danger
-                            onClick={() => {
-                                setIsShowModal(true);
-                            }}
-                        >
-                            编辑
-                        </Button>
-                        <Popconfirm
-                            title="确定删除吗？"
-                            onConfirm={onDelete}
-                            okText="Yes"
-                            cancelText="No"
-                            placement="left"
-                        >
-                            <Button className={styles.delete_note} danger>
-                                删除
+
+                <Modal
+                    title="便签详情"
+                    visible={!!activeNote}
+                    onCancel={() => setActiveNote(undefined)}
+                    footer={
+                        <>
+                            <Button
+                                className={styles.edit_note}
+                                type="primary"
+                                onClick={() => {
+                                    setIsShowModal(true);
+                                }}
+                            >
+                                编辑
                             </Button>
-                        </Popconfirm>
-                    </>
-                )}
+                            <Popconfirm
+                                title="确定删除吗？"
+                                onConfirm={onDelete}
+                                okText="Yes"
+                                cancelText="No"
+                                placement="left"
+                            >
+                                <Button className={styles.delete_note} danger>
+                                    删除
+                                </Button>
+                            </Popconfirm>
+                        </>
+                    }
+                >
+                    <div
+                        className={`${styles.note_item} ${styles.active} ScrollBar`}
+                    >
+                        <span className={styles.category}>
+                            {activeNote?.category}
+                        </span>
+                        <span>{handleNote(activeNote, keyword)}</span>
+                        <ImgFileNoteList
+                            isOnlyShow={true}
+                            activeNote={activeNote}
+                            width="140px"
+                        />
+                    </div>
+                </Modal>
 
                 {/* 新建 / 编辑 */}
                 <EditNoteModal
@@ -237,7 +259,6 @@ const Note: React.FC = () => {
                     setActiveNote={setActiveNote}
                     closeModal={() => {
                         setIsShowModal(false);
-                        setActiveNote(undefined);
                     }}
                     refreshData={refreshData}
                 />
