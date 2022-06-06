@@ -1,19 +1,39 @@
 .cmd {
-  width: calc(100vw - 200px);
-  min-width: 800px;
-  margin: 0 auto;
-  padding: 40px 0;
-  font-size: 16px;
-  text-align: left;
-  .input {
-    margin-bottom: 5px;
-  }
-  .result {
-    margin-top: 5px;
-    padding: 20px;
-    border: 1px solid var(--border_color);
-    border-radius: 4px;
-    white-space: pre-wrap;
-    overflow-x: auto;
-  }
+    width: calc(100vw - 200px);
+    min-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0;
+    font-size: 16px;
+    text-align: left;
+    .input {
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+    .result {
+        margin-top: 5px;
+        padding: 20px;
+        border: 1px solid var(--border_color);
+        border-radius: 4px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+    }
+    .script {
+        margin-top: 5px;
+        padding: 10px;
+        border: 1px solid var(--border_color);
+        border-radius: 4px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+        .scriptItem {
+            padding: 5px 10px;
+            border-bottom: 1px solid #ccc;
+            &:last-child {
+              border-bottom: unset;
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
 }
