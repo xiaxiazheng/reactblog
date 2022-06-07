@@ -81,35 +81,39 @@ const CMD: React.FC<RouteComponentProps> = (props) => {
 
     return (
         <div className={styles.cmd}>
-            <TextArea
-                className={styles.input}
-                value={cmd}
-                onChange={(e) => setCmd(e.target.value)}
-                rows={8}
-            />
-            <Space size={10}>
-                <Button type="primary" onClick={() => submit()}>
-                    执行
-                </Button>
-                <Button onClick={() => saveScript()}>保存</Button>
-            </Space>
-            <div style={{ marginTop: 20 }}>结果：</div>
-            <Spin spinning={loading}>
-                <div className={styles.result}>{result}</div>
-            </Spin>
-            <div style={{ marginTop: 20 }}>预设脚本：</div>
-            <div className={styles.script}>
-                {list?.map((item: any) => {
-                    return (
-                        <div
-                            className={styles.scriptItem}
-                            key={item.note_id}
-                            onClick={() => setCmd(item.note)}
-                        >
-                            {item.note}
-                        </div>
-                    );
-                })}
+            <div>
+                <TextArea
+                    className={styles.input}
+                    value={cmd}
+                    onChange={(e) => setCmd(e.target.value)}
+                    rows={8}
+                />
+                <Space size={10}>
+                    <Button type="primary" onClick={() => submit()}>
+                        执行
+                    </Button>
+                    <Button onClick={() => saveScript()}>保存</Button>
+                </Space>
+                <div style={{ marginTop: 20 }}>结果：</div>
+                <Spin spinning={loading}>
+                    <div className={styles.result}>{result}</div>
+                </Spin>
+            </div>
+            <div>
+                <div>预设脚本：</div>
+                <div className={styles.script}>
+                    {list?.map((item: any) => {
+                        return (
+                            <div
+                                className={styles.scriptItem}
+                                key={item.note_id}
+                                onClick={() => setCmd(item.note)}
+                            >
+                                {item.note}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
