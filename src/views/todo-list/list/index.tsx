@@ -58,6 +58,7 @@ const List: React.FC<Props> = (props) => {
         if (res) {
             message.success(`Todo 日期调整成功`);
             getTodo("todo");
+            getTodo("pool");
         }
     };
 
