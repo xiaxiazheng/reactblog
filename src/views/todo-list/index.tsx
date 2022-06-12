@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./index.module.scss";
-import { Modal, Form, message } from "antd";
+import { Modal, Form, message, Tooltip } from "antd";
 import { colorMap, formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
@@ -17,6 +17,7 @@ import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import TodoImage from "./component/todo-image";
 import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
@@ -126,7 +127,19 @@ const TodoList: React.FC = () => {
                     <List
                         loading={todoLoading}
                         getTodo={getTodo}
-                        title="今日待办"
+                        title={
+                            <>
+                                今日待办
+                                <Tooltip
+                                    title="带星标的是当下正在做的任务"
+                                    placement="bottom"
+                                >
+                                    <QuestionCircleOutlined
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                </Tooltip>{" "}
+                            </>
+                        }
                         mapList={formatArrayToTimeMap(todoList)}
                         handleAdd={handleAdd}
                         handleEdit={handleEdit}

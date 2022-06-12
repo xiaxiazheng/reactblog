@@ -17,7 +17,7 @@ import { StatusType, TodoStatus } from "../types";
 
 interface Props {
     loading: boolean;
-    title: string;
+    title: string | React.ReactNode;
     mapList: any;
     getTodo: (type: StatusType) => void;
     handleAdd?: Function;
