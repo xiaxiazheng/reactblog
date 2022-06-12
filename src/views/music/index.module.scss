@@ -33,7 +33,8 @@
         padding: 5px;
         cursor: pointer;
         &.active {
-            background-color: var(--bg_color);
+            color: white;
+            background-color: var(--color_active);
         }
         &:hover {
             background-color: var(--bg_color_hover);

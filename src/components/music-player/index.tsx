@@ -21,10 +21,11 @@ export interface FType {
 
 interface PropsType {
     activeSong?: FType;
+    setActiveSong?: (file: FType) => void;
 }
 
 const Music: React.FC<PropsType> = (props) => {
-    const { activeSong } = props;
+    const { activeSong, setActiveSong } = props;
 
     useEffect(() => {
         getList();
@@ -32,7 +33,7 @@ const Music: React.FC<PropsType> = (props) => {
 
     // 如果有传值进来，就播放传值的歌
     useEffect(() => {
-        if (activeSong) {
+        if (activeSong && activeSong.key !== active?.key) {
             setActive(activeSong);
             setIsPlaying(false);
         }
@@ -59,6 +60,12 @@ const Music: React.FC<PropsType> = (props) => {
     const [active, setActive] = useState<FType>(); // 当前播放歌曲
     const [isShowList, setIsShowList] = useState<boolean | null>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (setActiveSong && active && active?.key !== activeSong?.key) {
+            setActiveSong(active);
+        }
+    }, [active]);
 
     // 根据 active 的不同切换播放的歌曲
     useEffect(() => {
@@ -136,8 +143,6 @@ const Music: React.FC<PropsType> = (props) => {
             const audio = dom.current.childNodes[0];
             audio.onended = handleFinish;
         }
-        
-
     }, [isOneCircle]);
 
     // 处理选择歌曲

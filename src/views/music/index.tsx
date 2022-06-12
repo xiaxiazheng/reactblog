@@ -41,7 +41,10 @@ const Music = () => {
     return (
         <div className={styles.music}>
             <div className={styles.playerBox}>
-                <MusicPlayer activeSong={activeSong} />
+                <MusicPlayer
+                    activeSong={activeSong}
+                    setActiveSong={setActiveSong}
+                />
             </div>
             <div className={`${styles.musicList} ScrollBar`}>
                 <Input
@@ -56,11 +59,11 @@ const Music = () => {
                     <div
                         key={item.key}
                         onClick={() => setActiveSong(item)}
-                        className={`${
+                        className={`${styles.songItem} ${
                             activeSong && activeSong.key === item.key
                                 ? styles.active
                                 : ""
-                        } ${styles.songItem}`}
+                        }`}
                     >
                         {item.key}
                     </div>
