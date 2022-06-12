@@ -153,22 +153,28 @@ const FileBox: React.FC<PropsType> = (props) => {
             {/* hover 显示操作 */}
             {isHover && (
                 <div className={styles.Icons}>
-                    <CopyOutlined
-                        className={styles.iconBoxIcon}
-                        title="复制文件链接"
-                        onClick={copyUrl.bind(null, fileUrl)}
-                    />
-                    <DownloadOutlined
-                        className={styles.iconBoxIcon}
-                        title="下载文件"
-                        onClick={downloadFile}
-                    />
-                    {!isOnlyShow && (
-                        <DeleteOutlined
+                    <Tooltip title="复制文件链接">
+                        <CopyOutlined
                             className={styles.iconBoxIcon}
-                            title="删除文件"
-                            onClick={deleteThisFile}
+                            title="复制文件链接"
+                            onClick={copyUrl.bind(null, fileUrl)}
                         />
+                    </Tooltip>
+                    <Tooltip title="下载文件">
+                        <DownloadOutlined
+                            className={styles.iconBoxIcon}
+                            title="下载文件"
+                            onClick={downloadFile}
+                        />
+                    </Tooltip>
+                    {!isOnlyShow && (
+                        <Tooltip title="删除文件">
+                            <DeleteOutlined
+                                className={styles.iconBoxIcon}
+                                title="删除文件"
+                                onClick={deleteThisFile}
+                            />
+                        </Tooltip>
                     )}
                     <Tooltip
                         title={
