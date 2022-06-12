@@ -3,6 +3,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import { getTodoById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
+import FileListBox from "@/components/file-image-handle/file-list-box";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -41,6 +42,13 @@ const TodoImage: React.FC<IProps> = (props) => {
                 refresh={getTodo}
                 imageList={todo?.imgList || []}
             />
+            {/* 文件列表，暂时还没有 */}
+            {/* <FileListBox
+                type="todo"
+                width="120px"
+                refresh={getTodo}
+                fileList={todo?.fileList || []}
+            /> */}
         </>
     );
 };

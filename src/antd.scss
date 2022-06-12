@@ -1,3 +1,8 @@
+.ant-modal-mask,
+.ant-modal-wrap {
+    z-index: 2 !important;
+}
+
 .darkTheme {
     .ant-select {
         color: var(--color) !important;
@@ -176,8 +181,8 @@
     }
     .ant-radio-wrapper {
         color: var(--color) !important;
-    }    
-    
+    }
+
     .ant-upload.ant-upload-select-picture-card {
         background-color: var(--bg_color) !important;
         > span {

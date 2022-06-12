@@ -167,6 +167,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         <Modal
             title={type ? titleMap[type] : ""}
             visible={visible}
+            className={styles.modal}
             onCancel={() => onClose()}
             transitionName=""
             destroyOnClose
@@ -231,16 +232,16 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 </div>
             }
         >
-            {type === "edit" && (
-                <div style={{ padding: '0 0 20px 6px' }}>
-                    创建时间：{activeTodo?.cTime}
-                </div>
-            )}
             <TodoForm
                 form={form}
                 // 除了编辑，其他走的都是新建的路子
                 onOk={type === "edit" ? editTodo : addTodo}
             />
+            {type === "edit" && (
+                <div style={{ padding: "0 0 20px 6px" }}>
+                    创建时间：{activeTodo?.cTime}
+                </div>
+            )}
             {type === "edit" && activeTodo && (
                 <TodoImage refreshData={refreshData} activeTodo={activeTodo} />
             )}
