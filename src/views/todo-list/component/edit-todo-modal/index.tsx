@@ -231,6 +231,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 </div>
             }
         >
+            {type === "edit" && (
+                <div style={{ padding: '0 0 20px 6px' }}>
+                    创建时间：{activeTodo?.cTime}
+                </div>
+            )}
             <TodoForm
                 form={form}
                 // 除了编辑，其他走的都是新建的路子
