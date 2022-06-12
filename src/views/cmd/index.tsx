@@ -15,10 +15,10 @@ const { TextArea } = Input;
 
 interface ICMD extends RouteComponentProps {}
 
-const CMD: React.FC<RouteComponentProps> = (props) => {
+const CMD: React.FC<ICMD> = (props) => {
     const { history } = props;
 
-    const [cmd, setCmd] = useState<string>("\npwd");
+    const [cmd, setCmd] = useState<string>("echo 执行脚本\n\npwd\necho 执行结束");
     const [result, setResult] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
 
