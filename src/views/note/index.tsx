@@ -66,6 +66,7 @@ const Note: React.FC = () => {
         };
         await deleteNote(params);
         message.success("删除 note 成功");
+        setActiveNote(undefined);
         refreshData();
     };
 
