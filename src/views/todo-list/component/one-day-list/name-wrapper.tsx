@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
-import { QuestionCircleOutlined, FileImageOutlined } from "@ant-design/icons";
+import {
+    QuestionCircleOutlined,
+    FileImageOutlined,
+    StarFilled,
+} from "@ant-design/icons";
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
@@ -87,6 +91,9 @@ const NameWrapper: React.FC<NameProps> = (props) => {
     return (
         <ToolTipsWrapper>
             <div className={styles.name} onClick={handleEdit.bind(null, item)}>
+                {item.doing === "1" && (
+                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />
+                )}
                 <span
                     className={styles.category}
                     style={{ background: colorMap[item.color] }}
