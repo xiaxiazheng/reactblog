@@ -105,6 +105,21 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item name="other_id" label="父级">
                 <Input allowClear />
             </Form.Item>
+            <Form.Item
+                name="doing"
+                label="现在处理"
+                rules={[{ required: true }]}
+                initialValue={"0"}
+            >
+                <Radio.Group>
+                    <Radio key={"1"} value={"1"}>
+                        是
+                    </Radio>
+                    <Radio key={"0"} value={"0"}>
+                        否
+                    </Radio>
+                </Radio.Group>
+            </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group>
                     {colorList.map((item) => (

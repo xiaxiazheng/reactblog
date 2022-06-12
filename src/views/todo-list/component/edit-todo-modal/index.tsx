@@ -59,6 +59,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 color: formData.color,
                 category: formData.category,
                 other_id: formData.other_id || "",
+                doing: formData.doing || "0"
             };
             const res = await addTodoItem(req);
             if (res) {
@@ -90,6 +91,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 color: formData.color,
                 category: formData.category,
                 other_id: formData.other_id || "",
+                doing: formData.doing || "0"
             };
             const res = await editTodoItem(req);
             if (res) {

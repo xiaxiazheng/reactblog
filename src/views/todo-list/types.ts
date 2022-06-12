@@ -10,6 +10,7 @@ export interface TodoItemType {
     category: string;
     other_id?: string;
     cTime: string;
+    doing: "0" | "1";
 
     imgList: ImageType[];
     other_todo: TodoItemType;
@@ -23,4 +24,4 @@ export enum TodoStatus {
     pool = 2,
 }
 
-export type OperatorType = "add" | "edit" | "add_progress" | 'copy';
+export type OperatorType = "add" | "edit" | "add_progress" | "copy";
