@@ -9,6 +9,7 @@ import {
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
+import FileListBox from "@/components/file-image-handle/file-list-box";
 
 interface NameProps {
     item: TodoItemType;
@@ -60,7 +61,7 @@ const NameWrapper: React.FC<NameProps> = (props) => {
     };
 
     const ToolTipsWrapper: React.FC = (props) => {
-        return item.description || item.imgList.length !== 0 ? (
+        return item.description || item.imgList.length !== 0 || item.fileList.length !== 0 ? (
             <Tooltip
                 title={
                     <>
@@ -75,6 +76,14 @@ const NameWrapper: React.FC<NameProps> = (props) => {
                                 refresh={refreshData}
                                 width="120px"
                                 imageList={item.imgList}
+                            />
+                        )}
+                        {item.fileList.length !== 0 && (
+                            <FileListBox
+                                type="todo"
+                                refresh={refreshData}
+                                width="120px"
+                                fileList={item.fileList}
                             />
                         )}
                     </>
@@ -114,7 +123,7 @@ const NameWrapper: React.FC<NameProps> = (props) => {
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />
                 )}
-                {item.imgList.length !== 0 && (
+                {(item.imgList.length !== 0 || item.fileList.length !== 0) && (
                     <FileImageOutlined className={styles.icon} />
                 )}
             </div>

@@ -1,4 +1,5 @@
 import { ImageType } from "@/client/ImgHelper";
+import { FileType } from "@/client/FileHelper";
 
 export interface TodoItemType {
     todo_id?: string;
@@ -13,6 +14,7 @@ export interface TodoItemType {
     doing: "0" | "1";
 
     imgList: ImageType[];
+    fileList: FileType[];
     other_todo: TodoItemType;
     child_todo_list: TodoItemType[];
 }

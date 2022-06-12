@@ -43,12 +43,12 @@ const TodoImage: React.FC<IProps> = (props) => {
                 imageList={todo?.imgList || []}
             />
             {/* 文件列表，暂时还没有 */}
-            {/* <FileListBox
+            <FileListBox
                 type="todo"
                 width="120px"
                 refresh={getTodo}
                 fileList={todo?.fileList || []}
-            /> */}
+            />
         </>
     );
 };
