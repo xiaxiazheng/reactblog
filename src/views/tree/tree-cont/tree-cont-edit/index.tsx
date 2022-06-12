@@ -23,6 +23,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { ImageType } from "@/client/ImgHelper";
+import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;
@@ -55,21 +56,9 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
         second_id && getTreeCont();
     }, [second_id]);
 
-    // 监听键盘事件，实现 Ctrl+s 保存
-    useEffect(() => {
-        const onKeyDown = (e: any) => {
-            // 加上了 mac 的 command 按键的 metaKey 的兼容
-            if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
-                e.preventDefault();
-                saveTreeCont();
-            }
-        };
-
-        document.addEventListener("keydown", onKeyDown);
-        return () => {
-            document.removeEventListener("keydown", onKeyDown);
-        };
-    }, [contList]);
+    useCtrlSHooks(() => {
+        saveTreeCont();
+    });
 
     const [title, setTitle] = useState("");
 

@@ -5,6 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { CategoryType, NoteType } from "../types";
 import { addNote, editNote, getNoteById } from "@/client/NoteHelper";
 import ImgFileNoteList from "../img-file-note-list";
+import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 
 const { TextArea } = Input;
 
@@ -33,11 +34,6 @@ const EditNoteModal: React.FC<Props> = (props) => {
     const [name, setName] = useState<string>("");
     useEffect(() => {
         categoryList && setCategory(categoryList);
-
-        document.addEventListener("keydown", onKeyDown);
-        return () => {
-            document.removeEventListener("keydown", onKeyDown);
-        };
     }, [categoryList]);
     const addItem = () => {
         setCategory([
@@ -95,23 +91,9 @@ const EditNoteModal: React.FC<Props> = (props) => {
         }
     }, [activeNote, visible]);
 
-    /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
-    const [isKeyDown, setIsKeyDown] = useState(false);
-    useEffect(() => {
-        if (isKeyDown) {
-            visible && onOk();
-            setIsKeyDown(false);
-        }
-    }, [isKeyDown]);
-
-    // 键盘事件
-    const onKeyDown = (e: any) => {
-        // 加上了 mac 的 command 按键的 metaKey 的兼容
-        if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
-            e.preventDefault();
-            setIsKeyDown(true);
-        }
-    };
+    useCtrlSHooks(() => {
+        visible && onOk();
+    })
 
     return (
         <Modal

@@ -7,6 +7,7 @@ import { Input, Button, message, Select } from "antd";
 import { LeftOutlined, SaveOutlined } from "@ant-design/icons";
 import { updateMaoPu } from "@/client/MaoPuHelper";
 import { IMao } from "../types";
+import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 
 const { Option } = Select;
 
@@ -46,30 +47,11 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
     useEffect(() => {
         getHeadImgList();
         getOtherImgList();
-
-        document.addEventListener("keydown", onKeyDown);
-        return () => {
-            document.removeEventListener("keydown", onKeyDown);
-        };
     }, []);
 
-    /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
-    const [isKeyDown, setIsKeyDown] = useState(false);
-    useEffect(() => {
-        if (isKeyDown) {
-            saveMaoPu();
-            setIsKeyDown(false);
-        }
-    }, [isKeyDown]);
-
-    // 键盘事件
-    const onKeyDown = (e: any) => {
-        // 加上了 mac 的 command 按键的 metaKey 的兼容
-        if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
-            e.preventDefault();
-            setIsKeyDown(true);
-        }
-    };
+    useCtrlSHooks(() => {
+        saveMaoPu();
+    })
 
     // 监听是否有修改
     useEffect(() => {

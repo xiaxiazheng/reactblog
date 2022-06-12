@@ -10,6 +10,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { staticUrl } from "@/env_config";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
+import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 
 interface PropsType {
     blogData: OneBlogType;
@@ -34,29 +35,11 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
         setTitle(blogData.title);
         setAuthor(blogData.author);
         setMarkString(blogData.blogcont || "");
-        document.addEventListener("keydown", onKeyDown);
-        return () => {
-            document.removeEventListener("keydown", onKeyDown);
-        };
     }, []);
 
-    /** 判断是否用 ctrl + s 保存修改，直接在 onKeyDown 运行 saveEditLog() 的话只会用初始值去发请求（addEventListener）绑的太死 */
-    const [isKeyDown, setIsKeyDown] = useState(false);
-    useEffect(() => {
-        if (isKeyDown) {
-            saveEditLog();
-            setIsKeyDown(false);
-        }
-    }, [isKeyDown]);
-
-    // 键盘事件
-    const onKeyDown = (e: any) => {
-        // 加上了 mac 的 command 按键的 metaKey 的兼容
-        if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
-            e.preventDefault();
-            setIsKeyDown(true);
-        }
-    };
+    useCtrlSHooks(() => {
+        saveEditLog();
+    });
 
     const className = classnames({
         [styles.blogcontEditByMD]: true,

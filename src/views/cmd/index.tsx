@@ -1,14 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { ImageType, getImgList } from "@/client/ImgHelper";
-import { staticUrl } from "@/env_config";
-import classnames from "classnames";
-import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import beian from "@/assets/beian.png";
 import { Button, Input, message, Space, Spin } from "antd";
 import { exec } from "@/client/CmdHelper";
-import { useCtrlSHooks } from "./useCtrlSHook";
+import { useCtrlSHooks } from "../../hooks/useCtrlSHook";
 import { addNote, getNoteList } from "@/client/NoteHelper";
 
 const { TextArea } = Input;
