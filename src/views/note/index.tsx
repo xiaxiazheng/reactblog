@@ -212,6 +212,7 @@ const Note: React.FC = () => {
                     title="便签详情"
                     visible={!!activeNote}
                     onCancel={() => setActiveNote(undefined)}
+                    width={"auto"}
                     footer={
                         <>
                             <Button

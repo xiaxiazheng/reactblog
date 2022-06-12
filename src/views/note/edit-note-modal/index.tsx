@@ -93,7 +93,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
 
     useCtrlSHooks(() => {
         visible && onOk();
-    })
+    });
 
     return (
         <Modal
@@ -105,6 +105,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
                     closeModal();
                 }
             }}
+            width={650}
             onCancel={() => closeModal()}
             className={styles.note_modal}
         >

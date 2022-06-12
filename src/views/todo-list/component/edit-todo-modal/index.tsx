@@ -169,7 +169,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         <Modal
             title={type ? titleMap[type] : ""}
             visible={visible}
-            className={styles.modal}
             onCancel={() => onClose()}
             transitionName=""
             destroyOnClose
