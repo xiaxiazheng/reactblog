@@ -1,6 +1,21 @@
 .ant-modal-mask,
+.ant-modal-wrap,
+.ant-tooltip {
+    z-index: 10 !important;
+}
+
 .ant-modal-wrap {
-    z-index: 2 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ant-modal {
+    width: auto !important;
+    min-width: 520px;
+    max-width: 80vw;
+    top: 0 !important;
+    padding: 0 !important;
 }
 
 .darkTheme {
