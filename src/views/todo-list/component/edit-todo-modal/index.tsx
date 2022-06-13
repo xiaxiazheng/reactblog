@@ -193,10 +193,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     <Button
                                         danger
                                         disabled={
-                                            activeTodo?.imgList &&
-                                            activeTodo.imgList.length !== 0 &&
-                                            activeTodo?.fileList &&
-                                            activeTodo.fileList.length !== 0
+                                            (activeTodo?.imgList &&
+                                                activeTodo.imgList.length !==
+                                                    0) ||
+                                            (activeTodo?.fileList &&
+                                                activeTodo.fileList.length !==
+                                                    0)
                                         }
                                     >
                                         删除
