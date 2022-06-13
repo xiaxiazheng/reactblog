@@ -181,8 +181,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 <Popconfirm
                                     title="确定删除吗"
                                     disabled={
-                                        activeTodo?.imgList &&
-                                        activeTodo?.imgList?.length !== 0
+                                        (activeTodo?.imgList &&
+                                            activeTodo.imgList.length !== 0) ||
+                                        (activeTodo?.fileList &&
+                                            activeTodo.fileList.length !== 0)
                                     }
                                     onConfirm={() => {
                                         deleteTodo(activeTodo?.todo_id || "");
