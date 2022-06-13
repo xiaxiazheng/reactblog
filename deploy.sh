@@ -16,6 +16,6 @@ echo "正在上传至 github"
 
 git push
 
-exec /bin/bash
+cd ../reactblog
 
 zsh
