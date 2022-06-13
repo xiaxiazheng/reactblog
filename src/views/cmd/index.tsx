@@ -5,6 +5,7 @@ import { Button, Input, message, Space, Spin } from "antd";
 import { exec } from "@/client/CmdHelper";
 import { useCtrlSHooks } from "../../hooks/useCtrlSHook";
 import { addNote, getNoteList } from "@/client/NoteHelper";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const { TextArea } = Input;
 
@@ -13,7 +14,11 @@ interface ICMD extends RouteComponentProps {}
 const CMD: React.FC<ICMD> = (props) => {
     const { history } = props;
 
-    const [cmd, setCmd] = useState<string>("echo 执行脚本\n\npwd\necho 执行结束");
+    useDocumentTitle("CMD");
+
+    const [cmd, setCmd] = useState<string>(
+        "echo 执行脚本\n\npwd\necho 执行结束"
+    );
     const [result, setResult] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
 
