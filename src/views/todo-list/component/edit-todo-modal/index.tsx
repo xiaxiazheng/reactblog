@@ -133,6 +133,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             status: Number(item.status),
             color: item.color,
             category: item.category,
+            doing: "0",
         });
     };
 
@@ -148,6 +149,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             color: item.color,
             category: item.category,
             other_id: item.todo_id,
+            doing: "0",
         });
     };
 
