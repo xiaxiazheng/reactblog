@@ -147,14 +147,14 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                     </>
                 )}
                 {/* 导出到 pdf 按钮 */}
-                <Button
+                {/* <Button
                     className={styles.exportPdf}
                     // type={'danger'}
                     onClick={exportPdf}
                 >
                     <FilePdfOutlined />
                     导出
-                </Button>
+                </Button> */}
                 {/* 打开访客界面 */}
                 {isLogin && (
                     <Button

@@ -6,6 +6,31 @@
     letter-spacing: 2px;
     color: var(--color);
 
+    :global {
+        .quill {
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+        .ql-editor {
+            line-height: inherit;
+        }
+        .ql-container.ql-container {
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin-top: 22px;
+                margin-bottom: 22px;
+            }
+        }
+        .ql-editor p,
+        .ql-bubble .ql-editor blockquote {
+            margin: 22px 0;
+        }
+    }
+
     .empty {
         font-size: 30px;
         color: var(--color);
@@ -44,32 +69,32 @@
 
     // 导出 pdf
     .exportPdf {
-        position: fixed;
+        position: absolute;
         left: 2rem;
         top: 6.5rem;
     }
 
     .openVisitor {
-        position: fixed;
+        position: absolute;
         left: 2rem;
         top: 9rem;
     }
 
     .copyVisitor {
-        position: fixed;
+        position: absolute;
         left: 2rem;
         top: 11.5rem;
     }
 
     // 滚动到顶部 or 底部
     .scrollToTop {
-        position: fixed;
+        position: absolute;
         left: 2.5rem;
         top: calc(50% - 1.5rem);
         opacity: 0.6;
     }
     .scrollToBottom {
-        position: fixed;
+        position: absolute;
         left: 2.5rem;
         top: calc(50% + 1.5rem);
         opacity: 0.6;
