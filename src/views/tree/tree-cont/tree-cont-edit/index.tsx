@@ -24,6 +24,7 @@ import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { ImageType } from "@/client/ImgHelper";
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import useScrollToHook from "@/hooks/useScrollToHooks";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;
@@ -232,14 +233,7 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
         );
     };
 
-    const scrollTo = (type: "top" | "bottom") => {
-        scrollWrapper.current.scroll({
-            left: 0,
-            top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
-            behavior: "smooth",
-        });
-        // scrollWrapper.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
-    };
+    const { scrollToTop, scrollToBottom } = useScrollToHook(scrollWrapper);
 
     return (
         <div className={styles.treecontedit}>
@@ -350,7 +344,7 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
                 shape="circle"
                 icon={<VerticalAlignTopOutlined />}
                 size="large"
-                onClick={scrollTo.bind(null, "top")}
+                onClick={() => scrollToTop()}
             />
             {/* 回到底部 */}
             <Button
@@ -360,7 +354,7 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
                 shape="circle"
                 icon={<VerticalAlignBottomOutlined />}
                 size="large"
-                onClick={scrollTo.bind(null, "bottom")}
+                onClick={() => scrollToBottom()}
             />
         </div>
     );

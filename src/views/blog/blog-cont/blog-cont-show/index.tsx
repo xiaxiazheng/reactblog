@@ -19,6 +19,7 @@ import MarkdownShow from "../markdown-show";
 import RichtextShow from "../richtext-show";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import FileListBox from "@/components/file-image-handle/file-list-box";
+import useScrollToHook from "@/hooks/useScrollToHooks";
 
 interface PropsType extends RouteComponentProps {
     blog_id: string;
@@ -35,6 +36,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
     const { isLogin } = useContext(IsLoginContext);
 
     const blogcontShowWrapper = useRef<any>(null);
+    const {} = useScrollToHook(blogcontShowWrapper);
 
     const [blogData, setBlogData] = useState<OneBlogType>();
     const [visits, setVisits] = useState<Number>();
@@ -62,14 +64,8 @@ const BlogContShow: React.FC<PropsType> = (props) => {
     });
 
     // 回到顶部或底部
-    const scrollTo = (type: "top" | "bottom") => {
-        blogcontShowWrapper.current.scroll({
-            left: 0,
-            top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
-            behavior: "smooth",
-        });
-        // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
-    };
+    const { scrollToTop, scrollToBottom } =
+        useScrollToHook(blogcontShowWrapper);
 
     // 导出到 pdf
     const exportPdf = () => {
@@ -185,7 +181,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                     shape="circle"
                     icon={<VerticalAlignTopOutlined />}
                     size="large"
-                    onClick={scrollTo.bind(null, "top")}
+                    onClick={() => scrollToTop()}
                 />
                 {/* 回到底部 */}
                 <Button
@@ -195,7 +191,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                     shape="circle"
                     icon={<VerticalAlignBottomOutlined />}
                     size="large"
-                    onClick={scrollTo.bind(null, "bottom")}
+                    onClick={() => scrollToBottom()}
                 />
                 {/* 锚点 */}
                 {blogData && (

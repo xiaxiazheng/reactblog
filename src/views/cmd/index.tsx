@@ -6,6 +6,7 @@ import { exec } from "@/client/CmdHelper";
 import { useCtrlSHooks } from "../../hooks/useCtrlSHook";
 import { addNote, getNoteList } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import useScrollToHook from "@/hooks/useScrollToHooks";
 
 const { TextArea } = Input;
 
@@ -16,9 +17,7 @@ const CMD: React.FC<ICMD> = (props) => {
 
     useDocumentTitle("CMD");
 
-    const [cmd, setCmd] = useState<string>(
-        "echo 执行脚本\n\npwd\necho 执行结束"
-    );
+    const [cmd, setCmd] = useState<string>("pwd");
     const [result, setResult] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -28,7 +27,7 @@ const CMD: React.FC<ICMD> = (props) => {
 
         const str = cmd
             .split("\n")
-            .filter((item) => !!item)
+            .filter((item) => !(!item || /^#/.test(item)))
             .join("&&");
 
         pushResult(`-> ${str}`);
@@ -65,7 +64,6 @@ const CMD: React.FC<ICMD> = (props) => {
     };
     useEffect(() => {
         getScript();
-        submit();
     }, []);
 
     const saveScript = async () => {
@@ -84,9 +82,14 @@ const CMD: React.FC<ICMD> = (props) => {
 
     const pushResult = (str: string) => {
         setResult((prev) => `${prev}\n${str}`);
+        // 滚动到底部
+        scrollToBottom();
     };
 
     const ref = useRef<any>(null);
+
+    const resultRef = useRef<any>(null);
+    const { scrollToBottom } = useScrollToHook(resultRef);
 
     // 链接 websocket
     const connectWS = () => {
@@ -131,7 +134,9 @@ const CMD: React.FC<ICMD> = (props) => {
                 </Space>
                 <div style={{ marginTop: 20 }}>结果：</div>
                 <Spin spinning={loading}>
-                    <div className={styles.result}>{result}</div>
+                    <div className={styles.result} ref={resultRef}>
+                        {result}
+                    </div>
                 </Spin>
             </div>
             <div>

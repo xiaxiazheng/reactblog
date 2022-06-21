@@ -21,6 +21,7 @@ import {
     VerticalAlignBottomOutlined,
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
+import useScrollToHook from "@/hooks/useScrollToHooks";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;
@@ -147,14 +148,15 @@ const TreeContShow: React.FC<PropsType> = (props) => {
         );
     }, [refMap]);
 
-    const scrollTo = (type: "top" | "bottom") => {
-        contShowRef.current.scroll({
-            left: 0,
-            top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
-            behavior: "smooth",
-        });
-        // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
-    };
+    const { scrollToTop, scrollToBottom } = useScrollToHook(contShowRef);
+    // const scrollTo = (type: "top" | "bottom") => {
+    //     contShowRef.current.scroll({
+    //         left: 0,
+    //         top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
+    //         behavior: "smooth",
+    //     });
+    //     // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
+    // };
 
     const Mao = () => (
         <>
@@ -282,7 +284,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                     shape="circle"
                     icon={<VerticalAlignTopOutlined />}
                     size="large"
-                    onClick={scrollTo.bind(null, "top")}
+                    onClick={() => scrollToTop()}
                 />
                 {/* 回到底部 */}
                 <Button
@@ -292,7 +294,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                     shape="circle"
                     icon={<VerticalAlignBottomOutlined />}
                     size="large"
-                    onClick={scrollTo.bind(null, "bottom")}
+                    onClick={() => scrollToBottom()}
                 />
             </div>
         </>
