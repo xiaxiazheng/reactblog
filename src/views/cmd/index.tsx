@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Input, message, Space, Spin } from "antd";
@@ -23,7 +23,6 @@ const CMD: React.FC<ICMD> = (props) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit = async () => {
-        setResult("");
         if (!cmd) return;
         setLoading(true);
 
@@ -32,11 +31,15 @@ const CMD: React.FC<ICMD> = (props) => {
             .filter((item) => !!item)
             .join("&&");
 
+        pushResult(`-> ${str}`);
+
         try {
-            const res = await exec(str);
-            if (res) {
-                setResult(res);
-            }
+            ref?.current?.send(
+                JSON.stringify({
+                    event: "cmd",
+                    data: str,
+                })
+            );
         } finally {
             setLoading(false);
         }
@@ -78,6 +81,38 @@ const CMD: React.FC<ICMD> = (props) => {
             message.error("保存脚本失败");
         }
     };
+
+    const pushResult = (str: string) => {
+        setResult((prev) => `${prev}\n${str}`);
+    };
+
+    const ref = useRef<any>(null);
+
+    // 链接 websocket
+    const connectWS = () => {
+        const websocket = new WebSocket("ws://www.xiaxiazheng.cn:3002/");
+        ref.current = websocket;
+        websocket.onopen = function () {
+            pushResult(`websocket open`);
+        };
+        websocket.onclose = function () {
+            pushResult(`websocket close`);
+        };
+        websocket.onmessage = function (e) {
+            pushResult(
+                `${
+                    JSON.parse(e.data)
+                        ?.data?.replaceAll(`\\n"`, "")
+                        .replaceAll(`"`, "")
+                        .replaceAll("\\n", "\n") || ""
+                }`
+            );
+        };
+    };
+
+    useEffect(() => {
+        connectWS();
+    }, []);
 
     return (
         <div className={styles.cmd}>
