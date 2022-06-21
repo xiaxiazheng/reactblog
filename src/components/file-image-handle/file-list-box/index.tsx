@@ -133,6 +133,7 @@ const FileBox: React.FC<PropsType> = (props) => {
                 e.stopPropagation();
                 setIsHover(false);
             }}
+            onClick={(e) => e.stopPropagation()}
         >
             {/* 有文件路径的情况，展示文件名称 */}
             <div

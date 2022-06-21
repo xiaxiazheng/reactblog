@@ -150,6 +150,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
                 e.stopPropagation();
                 setIsHover(false);
             }}
+            onClick={(e) => e.stopPropagation()}
         >
             {/* 展示缩略图或图片名称 */}
             {imageMinUrl && imageMinUrl !== "" ? (
@@ -187,7 +188,10 @@ const ImageBox: React.FC<PropsType> = (props) => {
                             <CopyOutlined
                                 className={styles.iconBoxIcon}
                                 title="复制图片链接"
-                                onClick={copyUrl.bind(null, imageUrl)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    copyUrl(imageUrl);
+                                }}
                             />
                         </Tooltip>
 
@@ -195,7 +199,10 @@ const ImageBox: React.FC<PropsType> = (props) => {
                             <EyeOutlined
                                 className={styles.iconBoxIcon}
                                 title="预览图片"
-                                onClick={() => setIsPreview(true)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsPreview(true);
+                                }}
                             />
                         </Tooltip>
                         {!isOnlyShow && (
@@ -203,7 +210,10 @@ const ImageBox: React.FC<PropsType> = (props) => {
                                 <DeleteOutlined
                                     className={styles.iconBoxIcon}
                                     title="删除图片"
-                                    onClick={deleteImage}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteImage();
+                                    }}
                                 />
                             </Tooltip>
                         )}

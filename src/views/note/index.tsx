@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { getNoteList, getNoteCategory } from "@/client/NoteHelper";
-import {
-    Input,
-    Radio,
-    Pagination,
-    Empty,
-    Button,
-    message,
-    Popconfirm,
-    Spin,
-    Modal,
-} from "antd";
+import { Input, Radio, Pagination, Empty, Button, Spin } from "antd";
 import { NoteType, CategoryType } from "./types";
-import EditNoteModal from "./edit-note-modal";
-import { deleteNote } from "@/client/NoteHelper";
+import NoteEditModal from "./note-edit-modal";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { handleNote } from "./utils";
 import { debounce } from "lodash";
 import ImgFileNoteList from "./img-file-note-list";
+import NoteDetailModal from "./note-detail-modal";
 
 const { Search } = Input;
 
@@ -56,20 +46,6 @@ const Note: React.FC = () => {
         setLoading(false);
     }, 300);
 
-    const onDelete = async () => {
-        if (activeNote?.imgList.length !== 0) {
-            message.warning("图片不为空，不能删除");
-            return false;
-        }
-        const params = {
-            note_id: activeNote?.note_id,
-        };
-        await deleteNote(params);
-        message.success("删除 note 成功");
-        setActiveNote(undefined);
-        refreshData();
-    };
-
     const [category, setCategory] = useState<CategoryType[]>();
     const getCategory = async () => {
         const res = await getNoteCategory();
@@ -84,10 +60,6 @@ const Note: React.FC = () => {
     };
 
     useEffect(() => {
-        refreshData();
-    }, []);
-
-    useEffect(() => {
         getData();
     }, [pageNo]);
 
@@ -95,9 +67,15 @@ const Note: React.FC = () => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory, pageSize]);
 
+    useEffect(() => {
+        refreshData();
+    }, []);
+
     const [activeNote, setActiveNote] = useState<NoteType>();
     // 新建 / 编辑
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
+    // 详情
+    const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
 
     return (
         <div className={`${styles.note} ScrollBar`}>
@@ -146,22 +124,10 @@ const Note: React.FC = () => {
                         return (
                             <div
                                 key={item.note_id}
-                                className={`${styles.note_item} ${
-                                    // item.note_id === activeNote?.note_id
-                                    //     ? styles.active
-                                    //     :
-                                    ""
-                                }`}
-                                onClick={() =>
-                                    setActiveNote(
-                                        activeNote?.note_id !== item.note_id
-                                            ? item
-                                            : undefined
-                                    )
-                                }
-                                onDoubleClick={() => {
+                                className={styles.note_item}
+                                onClick={() => {
                                     setActiveNote(item);
-                                    setIsShowModal(true);
+                                    setIsShowDetail(true);
                                 }}
                             >
                                 <span className={styles.category}>
@@ -208,58 +174,33 @@ const Note: React.FC = () => {
                     新增
                 </Button>
 
-                <Modal
-                    title="便签详情"
-                    visible={!!activeNote}
-                    onCancel={() => setActiveNote(undefined)}
-                    width={"auto"}
-                    footer={
-                        <>
-                            <Button
-                                className={styles.edit_note}
-                                type="primary"
-                                onClick={() => {
-                                    setIsShowModal(true);
-                                }}
-                            >
-                                编辑
-                            </Button>
-                            <Popconfirm
-                                title="确定删除吗？"
-                                onConfirm={onDelete}
-                                okText="Yes"
-                                cancelText="No"
-                                placement="left"
-                            >
-                                <Button className={styles.delete_note} danger>
-                                    删除
-                                </Button>
-                            </Popconfirm>
-                        </>
-                    }
-                >
-                    <div
-                        className={`${styles.note_item} ${styles.active} ScrollBar`}
-                    >
-                        <span className={styles.category}>
-                            {activeNote?.category}
-                        </span>
-                        <span>{handleNote(activeNote, keyword)}</span>
-                        <ImgFileNoteList
-                            isOnlyShow={true}
-                            activeNote={activeNote}
-                            width="140px"
-                        />
-                    </div>
-                </Modal>
+                {/* 详情 */}
+                <NoteDetailModal
+                    visible={isShowDetail}
+                    activeNote={activeNote}
+                    onCancel={() => {
+                        setActiveNote(undefined);
+                        setIsShowDetail(false);
+                    }}
+                    handleDelete={() => {
+                        setActiveNote(undefined);
+                        setIsShowDetail(false);
+                        refreshData();
+                    }}
+                    handleEdit={() => {
+                        setIsShowDetail(false);
+                        setIsShowModal(true);
+                    }}
+                />
 
                 {/* 新建 / 编辑 */}
-                <EditNoteModal
+                <NoteEditModal
                     visible={isShowModal}
                     category={category}
                     activeNote={activeNote}
                     setActiveNote={setActiveNote}
                     closeModal={() => {
+                        setActiveNote(undefined);
                         setIsShowModal(false);
                     }}
                     refreshData={refreshData}

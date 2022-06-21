@@ -95,6 +95,14 @@ const EditNoteModal: React.FC<Props> = (props) => {
         visible && onOk();
     });
 
+    const handleRefresh = async () => {
+        if (activeNote?.note_id) {
+            refreshData();
+            const res = await getNoteById(activeNote.note_id);
+            setActiveNote(res.data);
+        }
+    };
+
     return (
         <Modal
             visible={visible}
@@ -183,7 +191,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
                         <ImgFileNoteList
                             activeNote={activeNote}
                             width="120px"
-                            refreshData={refreshData}
+                            refreshData={() => handleRefresh()}
                         />
                     </div>
                 )}

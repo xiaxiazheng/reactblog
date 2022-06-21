@@ -16,6 +16,8 @@ interface Props {
 const ImgNoteModal: React.FC<Props> = (props) => {
     const { activeNote, refreshData, isOnlyShow = false, width } = props;
 
+    console.log('activeNote', activeNote);
+
     useEffect(() => {
         if (activeNote) {
             setNote(activeNote);
