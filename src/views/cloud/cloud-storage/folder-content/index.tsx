@@ -52,10 +52,14 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
     useEffect(() => {
         // 获取文件夹列表
         getFolderList(parentId);
-        // 获取图片列表
-        getImgList(parentId);
-        // 获取文件列表
-        getFileList(parentId);
+        console.log("parentId", parentId);
+
+        if (parentId) {
+            // 获取图片列表
+            getImgList(parentId);
+            // 获取文件列表
+            getFileList(parentId);
+        }
     }, [parentId]);
 
     // 图片列表
@@ -258,15 +262,17 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                     showModal={showModal}
                 />
                 {/* 上传组件 */}
-                <FileImageUpload
-                    type="cloud"
-                    width={Width}
-                    refresh={() => {
-                        getImgList(parentId);
-                        getFileList(parentId);
-                    }}
-                    other_id={parentId}
-                />
+                {parentId !== "root" && (
+                    <FileImageUpload
+                        type="cloud"
+                        width={Width}
+                        refresh={() => {
+                            getImgList(parentId);
+                            getFileList(parentId);
+                        }}
+                        other_id={parentId}
+                    />
+                )}
                 {/* 图片列表 */}
                 <ImageListBox
                     type={"cloud"}
