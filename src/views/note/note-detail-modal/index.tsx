@@ -46,7 +46,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
             visible={visible}
             onCancel={() => onCancel()}
             width={"auto"}
-            style={{ maxWidth: "60vw" }}
+            className={styles.modal}
             footer={
                 <>
                     <Button
