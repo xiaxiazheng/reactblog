@@ -69,7 +69,7 @@ interface PropsType {
     imageUrl: string; // 完整的 url 的路径，若为 '' 则该组件需提供上传，不为 '' 则提供大图或删除图片
     initImgList: Function; // 用于上传成功或删除后的图片列表初始化
     width?: string; // 可以传递宽高给组件
-    imageData: ImgType | {}; // 从接口拿的图片原始信息
+    imageData: ImgType | undefined; // 从接口拿的图片原始信息
     iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
     isOnlyShow?: boolean;
 }
@@ -251,7 +251,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             {/* 图片预览 */}
             <PreviewImage
                 isPreview={isPreview}
-                imageName={imageName}
+                image={imageData}
                 imageUrl={imageUrl}
                 closePreview={() => setIsPreview(false)}
             />

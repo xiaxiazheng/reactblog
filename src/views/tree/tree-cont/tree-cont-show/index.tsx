@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
-import { ImageType } from "@/client/ImgHelper";
+import { ImageType, ImgType } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
@@ -46,14 +46,12 @@ const TreeContShow: React.FC<PropsType> = (props) => {
     const contShowRef = useRef<any>(null); // 用来滚动
     const contRef = useRef<any>(null); // 用来添加代码高亮
 
-    const [previewImg, setPreviewImg] = useState("");
-    const [previewImgName, setPreviewImgName] = useState("");
+    const [previewImgUrl, setPreviewImgUrl] = useState("");
+    const [previewImg, setPreviewImg] = useState<ImageType>();
 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // console.log('second_id', second_id);
-
         second_id && getTreeCont();
     }, [second_id]);
 
@@ -149,14 +147,6 @@ const TreeContShow: React.FC<PropsType> = (props) => {
     }, [refMap]);
 
     const { scrollToTop, scrollToBottom } = useScrollToHook(contShowRef);
-    // const scrollTo = (type: "top" | "bottom") => {
-    //     contShowRef.current.scroll({
-    //         left: 0,
-    //         top: type === "top" ? 0 : Number.MAX_SAFE_INTEGER,
-    //         behavior: "smooth",
-    //     });
-    //     // contShowRef.current.scrollTop = type === 'top' ? 0 : Number.MAX_SAFE_INTEGER
-    // };
 
     const Mao = () => (
         <>
@@ -239,12 +229,10 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                                                     alt={imgItem.imgname}
                                                     title={imgItem.imgname}
                                                     onClick={() => {
-                                                        setPreviewImg(
+                                                        setPreviewImgUrl(
                                                             `${staticUrl}/img/treecont/${imgItem.filename}`
                                                         );
-                                                        setPreviewImgName(
-                                                            imgItem.imgname
-                                                        );
+                                                        setPreviewImg(imgItem);
                                                     }}
                                                 />
                                                 <span
@@ -267,12 +255,12 @@ const TreeContShow: React.FC<PropsType> = (props) => {
 
                 {/* 图片预览 */}
                 <PreviewImage
-                    isPreview={previewImg !== ""}
-                    imageName={previewImgName}
-                    imageUrl={previewImg}
+                    isPreview={previewImgUrl !== ""}
+                    image={previewImg}
+                    imageUrl={previewImgUrl}
                     closePreview={() => {
-                        setPreviewImg("");
-                        setPreviewImgName("");
+                        setPreviewImgUrl("");
+                        setPreviewImg(undefined);
                     }}
                 />
 
