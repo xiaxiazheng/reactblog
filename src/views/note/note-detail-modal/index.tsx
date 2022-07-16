@@ -46,6 +46,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
             visible={visible}
             onCancel={() => onCancel()}
             width={"auto"}
+            style={{ maxWidth: "60vw" }}
             footer={
                 <>
                     <Button
@@ -71,7 +72,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
                 </>
             }
         >
-            <div className={`${styles.note_item} ${styles.active} ScrollBar`}>
+            <div className={`${styles.note_item} ScrollBar`}>
                 <span className={styles.category}>{activeNote?.category}</span>
                 <span>{handleNote(activeNote, "")}</span>
                 <ImgFileNoteList
