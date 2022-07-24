@@ -21,6 +21,7 @@ interface NameProps {
 const NameWrapper: React.FC<NameProps> = (props) => {
     const { item, isChild, refreshData, handleEdit } = props;
 
+    const isDoing = item.status === TodoStatus.todo;
     const isDone = item.status == TodoStatus.done;
 
     // 处理详细描述，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
@@ -61,7 +62,9 @@ const NameWrapper: React.FC<NameProps> = (props) => {
     };
 
     const ToolTipsWrapper: React.FC = (props) => {
-        return item.description || item.imgList.length !== 0 || item.fileList.length !== 0 ? (
+        return item.description ||
+            item.imgList.length !== 0 ||
+            item.fileList.length !== 0 ? (
             <Tooltip
                 title={
                     <>
@@ -100,7 +103,7 @@ const NameWrapper: React.FC<NameProps> = (props) => {
     return (
         <ToolTipsWrapper>
             <div className={styles.name} onClick={handleEdit.bind(null, item)}>
-                {item.doing === "1" && (
+                {isDoing && item.doing === "1" && (
                     <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />
                 )}
                 <span
