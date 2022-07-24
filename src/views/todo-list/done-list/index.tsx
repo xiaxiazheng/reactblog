@@ -54,10 +54,11 @@ const DoneList: React.FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(15);
     const [total, setTotal] = useState<number>(0);
     useEffect(() => {
         getDoneTodo();
-    }, [pageNo]);
+    }, [pageNo, pageSize]);
 
     const handleSearch = () => {
         if (pageNo === 1) {
@@ -80,6 +81,7 @@ const DoneList: React.FC<Props> = (props) => {
             status: TodoStatus["done"],
             keyword,
             pageNo,
+            pageSize,
         };
 
         if (activeCategory) {
@@ -194,8 +196,11 @@ const DoneList: React.FC<Props> = (props) => {
                 className={styles.pagination}
                 current={pageNo}
                 total={total}
-                onChange={(page) => setPageNo(page)}
-                pageSize={15}
+                onChange={(page, pageSize) => {
+                    setPageNo(page);
+                    pageSize && setPageSize(pageSize);
+                }}
+                pageSize={pageSize}
             />
         </div>
     );
