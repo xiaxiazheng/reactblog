@@ -5,14 +5,12 @@ import TagList from "./tag-list";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "./BlogContext";
 import { addBlogCont } from "@/client/BlogHelper";
-import { Button, message, Drawer } from "antd";
-import {
-    FileMarkdownOutlined,
-    FileTextOutlined,
-    UnorderedListOutlined,
-} from "@ant-design/icons";
+import { Button, message, Space } from "antd";
+import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import SearchEngine from "./search-engine";
+import Filter from "./filter";
 
 interface PropsType extends RouteComponentProps {}
 
@@ -47,39 +45,54 @@ const Blog: React.FC<PropsType> = (props) => {
         }
     };
 
-    const [visible, setVisible] = useState<boolean>(false);
+    // 是否打开高级搜索
+    const [showSearchEngine, setShowSearchEngine] = useState<boolean>(false);
 
     return (
         <div className={styles.blog}>
             <div className={`${styles.blogLeft} ScrollBar`}>
-                {/* 日志列表 */}
-                <BlogList>
-                    {isLogin && (
-                        // 新建日志
-                        <div className={styles.addBlog}>
-                            <Button
-                                className={styles.addBlogButton}
-                                title="新建富文本 blog"
-                                type="primary"
-                                size="small"
-                                icon={<FileTextOutlined />}
-                                onClick={addNewBlog.bind(null, "richtext")}
-                            >
-                                富文本
-                            </Button>
-                            <Button
-                                className={styles.addBlogButton}
-                                title="新建 MarkDown blog"
-                                type="primary"
-                                size="small"
-                                icon={<FileMarkdownOutlined />}
-                                onClick={addNewBlog.bind(null, "markdown")}
-                            >
-                                MD
-                            </Button>
-                        </div>
-                    )}
-                </BlogList>
+                {!showSearchEngine && (
+                    // 日志列表
+                    <BlogList>
+                        {isLogin && (
+                            // 新建日志
+                            <Space className={styles.addBlog} size={5}>
+                                <Button
+                                    className={styles.addBlogButton}
+                                    title="新建富文本 blog"
+                                    type="primary"
+                                    size="small"
+                                    icon={<FileTextOutlined />}
+                                    onClick={addNewBlog.bind(null, "richtext")}
+                                >
+                                    富文本
+                                </Button>
+                                <Button
+                                    className={styles.addBlogButton}
+                                    title="新建 MarkDown blog"
+                                    type="primary"
+                                    size="small"
+                                    icon={<FileMarkdownOutlined />}
+                                    onClick={addNewBlog.bind(null, "markdown")}
+                                >
+                                    MD
+                                </Button>
+                                {/* 高级筛选 */}
+                                <Filter />
+                                {/* 高级搜索 */}
+                                <Button
+                                    onClick={() => setShowSearchEngine(true)}
+                                >
+                                    高级搜索
+                                </Button>
+                            </Space>
+                        )}
+                    </BlogList>
+                )}
+                {showSearchEngine && (
+                    // 高级搜索
+                    <SearchEngine back={() => setShowSearchEngine(false)} />
+                )}
             </div>
             <div className={styles.blogRight}>
                 <TagList />

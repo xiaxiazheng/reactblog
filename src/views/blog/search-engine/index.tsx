@@ -1,38 +1,35 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Input, Pagination, Radio, Empty } from "antd";
+import { Input, Pagination, Radio, Empty, Button, Space } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
 import { searchBlogList } from "@/client/BlogHelper";
-import useDocumentTitle from "@/hooks/useDocumentTitle";
 
-const categoryList = ["blog"];
+interface IProps {
+    back: Function;
+}
 
-const SearchEngine = () => {
-    useDocumentTitle("搜索引擎");
+const SearchEngine: React.FC<IProps> = (props) => {
+    const { back } = props;
 
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10);
     const [total, setTotal] = useState<number>(0);
 
-    const [category, setCategory] = useState<string>("blog");
-
     const [list, setList] = useState<any[]>();
 
     const getData = async () => {
         if (keyword && keyword !== "") {
-            if (category === "blog") {
-                const params = {
-                    pageNo,
-                    pageSize,
-                    keyword,
-                };
-                const res = await searchBlogList(params);
-                if (res) {
-                    console.log(list);
-                    setList(res.list);
-                    setTotal(res.total);
-                }
+            const params = {
+                pageNo,
+                pageSize,
+                keyword,
+            };
+            const res = await searchBlogList(params);
+            if (res) {
+                console.log(list);
+                setList(res.list);
+                setTotal(res.total);
             }
         }
     };
@@ -55,7 +52,10 @@ const SearchEngine = () => {
 
     return (
         <div className={`${styles.searchEngine} ScrollBar`}>
-            <div className={styles.header}>
+            <Space className={styles.header} size={20}>
+                <Button onClick={() => back()} size="large">
+                    返回列表
+                </Button>
                 <Input
                     className={styles.keyword}
                     value={keyword}
@@ -66,17 +66,7 @@ const SearchEngine = () => {
                     placeholder="输入关键字并回车搜索"
                     onPressEnter={() => handleSearch()}
                 />
-                <Radio.Group
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                >
-                    {categoryList.map((item) => (
-                        <Radio key={item} value={item}>
-                            {item}
-                        </Radio>
-                    ))}
-                </Radio.Group>
-            </div>
+            </Space>
 
             <div className={`${styles.resultList}`}>
                 {keyword && list?.length === 0 && <Empty />}

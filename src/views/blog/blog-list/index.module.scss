@@ -1,19 +1,10 @@
 .operateBox {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 1.3rem 2rem 0.5rem;
-    .orderbyBox {
-        margin-right: 0.5rem;
-        color: var(--color);
-    }
-    .checkBox {
-        margin-left: 0.8rem;
-        line-height: 32px;
-        color: var(--color);
-    }
     .searchBox {
         width: 13rem;
-        margin-left: 0.5rem;
     }
     .searchType {
         margin-left: 0.5rem;
@@ -60,7 +51,7 @@
         :global {
             .ant-pagination-options-size-changer.ant-select {
                 margin-right: 0;
-            }            
+            }
         }
     }
 }

@@ -7,11 +7,9 @@
     color: var(--color);
     .addBlog {
         text-align: left;
-        // border-bottom: 1px solid var(--border_color);
-        // padding: 10px 10px 5px;
+        margin-right: 0.5rem;
         .addBlogButton {
             height: 32px;
-            margin-right: 5px;
         }
     }
     .blogLeft {
