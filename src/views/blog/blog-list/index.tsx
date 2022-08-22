@@ -45,13 +45,6 @@ const BlogList: React.FC<PropsType> = (props) => {
         total: 0, // 日志总数
     });
 
-    const [searchType, setSearchType] = useState<"分词查找" | "精准查找">(
-        "精准查找"
-    );
-    const handleSearchType = (e: any) => {
-        setSearchType(e.target.value);
-    };
-
     // 切换 activeTagId 的时候，pageNo 要重置为 1
     useEffect(() => {
         if (isTagChange) {
@@ -69,7 +62,7 @@ const BlogList: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         getBlogList();
-    }, [tabsState, username, searchType]);
+    }, [tabsState, username]);
 
     // 初始化日志列表
     const getBlogList = async () => {
@@ -79,11 +72,7 @@ const BlogList: React.FC<PropsType> = (props) => {
             pageNo,
             pageSize,
             orderBy,
-            keyword: keyword
-                ? searchType === "精准查找"
-                    ? keyword
-                    : keyword.split("").join("%")
-                : "",
+            keyword: keyword || "",
             activeTagId: activeTagId || "",
         };
         if (showNotTag) {
@@ -139,7 +128,7 @@ const BlogList: React.FC<PropsType> = (props) => {
         setMyKeyword(keyword);
     }, [keyword]);
     const handleKeyword = (e: any) => {
-        setMyKeyword(e.target.value);
+        setMyKeyword(e.target.value?.replaceAll(" ", "%") || "");
     };
 
     // myKeyword 删除到空就发请求
@@ -198,19 +187,10 @@ const BlogList: React.FC<PropsType> = (props) => {
                         value={myKeyword || ""}
                         onChange={handleKeyword}
                         onKeyDownCapture={handleSearch}
-                        placeholder="回车搜，可用 % 分词查"
+                        placeholder="回车搜，可用空格添加%分词查"
                         prefix={<SearchOutlined />}
                         allowClear
                     ></Input>
-                    {/* 查找方式 */}
-                    <Radio.Group
-                        onChange={handleSearchType}
-                        value={searchType}
-                        className={styles.searchType}
-                    >
-                        <Radio value={"精准查找"}>精准查</Radio>
-                        <Radio value={"分词查找"}>分词查</Radio>
-                    </Radio.Group>
                 </div>
                 <Button
                     title="刷新"
