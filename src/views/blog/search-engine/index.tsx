@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Input, Pagination, Radio, Empty, Button, Space } from "antd";
+import { Input, Pagination, Radio, Empty, Button, Space, Spin } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
 import { searchBlogList } from "@/client/BlogHelper";
 
@@ -18,8 +18,11 @@ const SearchEngine: React.FC<IProps> = (props) => {
 
     const [list, setList] = useState<any[]>();
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const getData = async () => {
         if (keyword && keyword !== "") {
+            setLoading(true);
             const params = {
                 pageNo,
                 pageSize,
@@ -31,6 +34,7 @@ const SearchEngine: React.FC<IProps> = (props) => {
                 setList(res.list);
                 setTotal(res.total);
             }
+            setLoading(false);
         }
     };
 
@@ -68,54 +72,56 @@ const SearchEngine: React.FC<IProps> = (props) => {
                 />
             </Space>
 
-            <div className={`${styles.resultList}`}>
-                {keyword && list?.length === 0 && <Empty />}
-                {list?.map((item) => {
-                    return (
-                        <div key={item.blog_id} className={styles.listItem}>
-                            <div className={`${styles.itemTitle}`}>
-                                <span>{item.title}</span>
-                                <span>
-                                    <ShareAltOutlined
-                                        onClick={() => {
-                                            window.open(
-                                                `${
-                                                    location.origin
-                                                }/admin/blog/${btoa(
-                                                    decodeURIComponent(
-                                                        item.blog_id
-                                                    )
-                                                )}`,
-                                                "_blank"
-                                            );
-                                        }}
-                                    />
-                                </span>
+            <Spin spinning={loading}>
+                <div className={`${styles.resultList}`}>
+                    {keyword && list?.length === 0 && <Empty />}
+                    {list?.map((item) => {
+                        return (
+                            <div key={item.blog_id} className={styles.listItem}>
+                                <div className={`${styles.itemTitle}`}>
+                                    <span>{item.title}</span>
+                                    <span>
+                                        <ShareAltOutlined
+                                            onClick={() => {
+                                                window.open(
+                                                    `${
+                                                        location.origin
+                                                    }/admin/blog/${btoa(
+                                                        decodeURIComponent(
+                                                            item.blog_id
+                                                        )
+                                                    )}`,
+                                                    "_blank"
+                                                );
+                                            }}
+                                        />
+                                    </span>
+                                </div>
+                                <div
+                                    className={`${styles.itemCont} ScrollBar`}
+                                    dangerouslySetInnerHTML={{
+                                        __html: item.blogcont,
+                                    }}
+                                />
                             </div>
-                            <div
-                                className={`${styles.itemCont} ScrollBar`}
-                                dangerouslySetInnerHTML={{
-                                    __html: item.blogcont,
-                                }}
-                            />
-                        </div>
-                    );
-                })}
-            </div>
-            {total !== 0 && (
-                <Pagination
-                    className={styles.pagination}
-                    pageSize={pageSize}
-                    current={pageNo}
-                    total={total}
-                    onChange={(page, pageSize) => {
-                        setPageNo(page);
-                        setPageSize(pageSize || 10);
-                    }}
-                    pageSizeOptions={["10", "15", "20"]}
-                    showTotal={() => `共 ${total} 条 `}
-                />
-            )}
+                        );
+                    })}
+                </div>
+                {total !== 0 && (
+                    <Pagination
+                        className={styles.pagination}
+                        pageSize={pageSize}
+                        current={pageNo}
+                        total={total}
+                        onChange={(page, pageSize) => {
+                            setPageNo(page);
+                            setPageSize(pageSize || 10);
+                        }}
+                        pageSizeOptions={["10", "15", "20"]}
+                        showTotal={() => `共 ${total} 条 `}
+                    />
+                )}
+            </Spin>
         </div>
     );
 };
