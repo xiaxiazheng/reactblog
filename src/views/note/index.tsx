@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { getNoteList, getNoteCategory } from "@/client/NoteHelper";
-import { Input, Radio, Pagination, Empty, Button, Spin } from "antd";
+import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
 import { NoteType, CategoryType } from "./types";
 import NoteEditModal from "./note-edit-modal";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
@@ -80,88 +80,94 @@ const Note: React.FC = () => {
     return (
         <div className={`${styles.note} ScrollBar`}>
             <Spin spinning={loading}>
-                <div className={styles.header}>
-                    <Search
-                        className={styles.input}
-                        value={keyword}
-                        enterButton
-                        onChange={(e) => setKeyword(e.target.value)}
-                        onSearch={() =>
-                            pageNo === 1 ? getData() : setPageNo(1)
-                        }
-                        onPressEnter={() =>
-                            pageNo === 1 ? getData() : setPageNo(1)
-                        }
-                    />
-                    <Radio.Group
-                        className={styles.radio}
-                        value={activeCategory}
-                        onChange={(e) => setActiveCategory(e.target.value)}
-                    >
-                        <Radio key="所有" value="所有">
-                            所有 (
-                            {category?.reduce(
-                                (prev, cur) => prev + Number(cur.count),
-                                0
-                            )}
-                            )
-                        </Radio>
-                        {category?.map((item) => {
-                            return (
-                                <Radio
-                                    key={item.category}
-                                    value={item.category}
-                                >
-                                    {item.category} ({item.count})
+                <div className={styles.wrap}>
+                    <div className={styles.left}>
+                        <Radio.Group
+                            className={styles.radioList}
+                            value={activeCategory}
+                            optionType="button"
+                            onChange={(e) => setActiveCategory(e.target.value)}
+                        >
+                            <Space direction="vertical">
+                                <Radio key="所有" value="所有">
+                                    所有 (
+                                    {category?.reduce(
+                                        (prev, cur) => prev + Number(cur.count),
+                                        0
+                                    )}
+                                    )
                                 </Radio>
-                            );
-                        })}
-                    </Radio.Group>
-                </div>
-
-                <div className={`${styles.note_list}`}>
-                    {list?.map((item) => {
-                        return (
-                            <div
-                                key={item.note_id}
-                                className={styles.note_item}
-                                onClick={() => {
-                                    setActiveNote(item);
-                                    setIsShowDetail(true);
-                                }}
-                            >
-                                <span className={styles.category}>
-                                    {item.category}
-                                </span>
-                                <span>{handleNote(item, keyword)}</span>
-                                <ImgFileNoteList
-                                    isOnlyShow={true}
-                                    activeNote={item}
-                                    width="120px"
-                                />
-                            </div>
-                        );
-                    })}
-                    {(!list || list?.length === 0) && (
-                        <Empty
-                            style={{
-                                paddingTop: 100,
-                                gridColumnStart: 1,
-                                gridColumnEnd: 4,
-                            }}
+                                {category?.map((item) => {
+                                    return (
+                                        <Radio
+                                            key={item.category}
+                                            value={item.category}
+                                        >
+                                            {item.category} ({item.count})
+                                        </Radio>
+                                    );
+                                })}
+                            </Space>
+                        </Radio.Group>
+                    </div>
+                    <div className={styles.right}>
+                        <Search
+                            className={styles.input}
+                            value={keyword}
+                            enterButton
+                            onChange={(e) => setKeyword(e.target.value)}
+                            onSearch={() =>
+                                pageNo === 1 ? getData() : setPageNo(1)
+                            }
+                            onPressEnter={() =>
+                                pageNo === 1 ? getData() : setPageNo(1)
+                            }
                         />
-                    )}
-                </div>
+                        <div className={styles.note_list}>
+                            {list?.map((item) => {
+                                return (
+                                    <div
+                                        key={item.note_id}
+                                        className={styles.note_item}
+                                        onClick={() => {
+                                            setActiveNote(item);
+                                            setIsShowDetail(true);
+                                        }}
+                                    >
+                                        <span className={styles.category}>
+                                            {item.category}
+                                        </span>
+                                        <span>{handleNote(item, keyword)}</span>
+                                        <ImgFileNoteList
+                                            isOnlyShow={true}
+                                            activeNote={item}
+                                            width="120px"
+                                        />
+                                    </div>
+                                );
+                            })}
+                            {(!list || list?.length === 0) && (
+                                <Empty
+                                    style={{
+                                        paddingTop: 100,
+                                        gridColumnStart: 1,
+                                        gridColumnEnd: 4,
+                                    }}
+                                />
+                            )}
+                        </div>
 
-                <Pagination
-                    className={styles.pagination}
-                    current={pageNo}
-                    pageSize={pageSize}
-                    total={total}
-                    onChange={(page) => setPageNo(page)}
-                    onShowSizeChange={(cur, size) => setPageSize(size)}
-                    showTotal={(total) => `共${total}条`}
-                />
+                        <Pagination
+                            className={styles.pagination}
+                            current={pageNo}
+                            pageSize={pageSize}
+                            total={total}
+                            onChange={(page) => setPageNo(page)}
+                            onShowSizeChange={(cur, size) => setPageSize(size)}
+                            showTotal={(total) => `共${total}条`}
+                        />
+                    </div>
+                </div>
 
                 <Button
                     className={styles.add_note}
