@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, FormInstance, Modal, message, Space, Popconfirm } from "antd";
+import {
+    Button,
+    FormInstance,
+    Modal,
+    message,
+    Space,
+    Popconfirm,
+    Tooltip,
+} from "antd";
 import styles from "./index.module.scss";
 import { TodoItemType, OperatorType } from "../../types";
 import moment from "moment";
@@ -11,6 +19,7 @@ import {
     editTodoItem,
 } from "@/client/TodoListHelper";
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 interface EditTodoModalType {
     type: OperatorType;
@@ -167,9 +176,32 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
+    const getTitle = (type: OperatorType) => {
+        if (type === "edit") {
+            return (
+                <>
+                    {titleMap[type]}{" "}
+                    <Tooltip
+                        placement="bottom"
+                        title={
+                            <>
+                                <div>创建时间：{activeTodo?.cTime}</div>
+                                {/* <div>编辑时间：{activeTodo?.mTime}</div> */}
+                            </>
+                        }
+                    >
+                        <QuestionCircleOutlined style={{ cursor: "pointer" }} />
+                    </Tooltip>
+                </>
+            );
+        } else {
+            return titleMap[type];
+        }
+    };
+
     return (
         <Modal
-            title={type ? titleMap[type] : ""}
+            title={type ? getTitle(type) : ""}
             visible={visible}
             onCancel={() => onClose()}
             transitionName=""
@@ -246,11 +278,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 // 除了编辑，其他走的都是新建的路子
                 onOk={type === "edit" ? editTodo : addTodo}
             />
-            {type === "edit" && (
-                <div style={{ padding: "0 0 20px 6px" }}>
-                    创建时间：{activeTodo?.cTime}
-                </div>
-            )}
             {type === "edit" && activeTodo && (
                 <TodoImage refreshData={refreshData} activeTodo={activeTodo} />
             )}
