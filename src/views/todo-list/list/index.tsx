@@ -197,9 +197,13 @@ const List: React.FC<Props> = (props) => {
                                     </Space>
                                 </div>
                                 <OneDayList
-                                    list={mapList[time].sort((_a, b) =>
-                                        Number(b.doing) ? 1 : -1
-                                    )} // doing === '1' 的放前面
+                                    list={mapList[time]
+                                        .filter((item) => item.doing === "1")
+                                        .concat(
+                                            mapList[time].filter(
+                                                (item) => item.doing !== "1"
+                                            )
+                                        )} // doing === '1' 的放前面
                                     getTodo={getTodo}
                                     handleEdit={handleEdit}
                                     refreshData={refreshData}
