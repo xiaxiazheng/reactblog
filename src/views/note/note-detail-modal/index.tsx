@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./index.module.scss";
-import { getNoteList, getNoteCategory, deleteNote } from "@/client/NoteHelper";
-import {
-    Input,
-    Radio,
-    Pagination,
-    Empty,
-    Button,
-    message,
-    Popconfirm,
-    Spin,
-    Modal,
-    Tooltip,
-} from "antd";
+import { deleteNote } from "@/client/NoteHelper";
+import { Button, message, Popconfirm, Modal, Tooltip } from "antd";
 import { handleNote } from "../utils";
 import ImgFileNoteList from "../img-file-note-list";
 import { NoteType } from "../types";
@@ -42,6 +31,16 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
         handleDelete();
     };
 
+    const handleCopy = (content: string) => {
+        const input = document.createElement("textarea");
+        document.body.appendChild(input);
+        input.value = content;
+        input.select();
+        document.execCommand("copy");
+        message.success("已复制到粘贴板");
+        document.body.removeChild(input);
+    };
+
     return (
         <Modal
             title={
@@ -66,6 +65,14 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
             className={styles.modal}
             footer={
                 <>
+                    <Button
+                        className={styles.copy_note}
+                        onClick={() => {
+                            handleCopy(activeNote?.note || "");
+                        }}
+                    >
+                        复制
+                    </Button>
                     <Button
                         className={styles.edit_note}
                         type="primary"
