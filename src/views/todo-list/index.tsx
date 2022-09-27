@@ -1,21 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Modal, Form, message, Tooltip } from "antd";
-import { colorMap, formatArrayToTimeMap } from "./utils";
+import { Form, message, Tooltip } from "antd";
+import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
 import PoolList from "./pool-list";
 import moment from "moment";
-import TodoForm from "./component/todo-form";
-import {
-    getTodoList,
-    addTodoItem,
-    editTodoItem,
-    deleteTodoItem,
-} from "@/client/TodoListHelper";
+import { getTodoList } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
-import TodoImage from "./component/todo-image";
 import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
@@ -91,7 +84,7 @@ const TodoList: React.FC = () => {
             color: item.color,
             category: item.category,
             other_id: item.other_id,
-            doing: item.doing
+            doing: item.doing,
         });
         setShowEdit(true);
     };

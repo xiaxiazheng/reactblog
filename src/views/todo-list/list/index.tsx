@@ -13,12 +13,14 @@ import moment from "moment";
 import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
 import { getWeek } from "../utils";
-import { StatusType, TodoStatus } from "../types";
+import { StatusType, TodoItemType, TodoStatus } from "../types";
 
 interface Props {
     loading: boolean;
     title: string | React.ReactNode;
-    mapList: any;
+    mapList: {
+        [k in string]: TodoItemType[];
+    };
     getTodo: (type: StatusType) => void;
     handleAdd?: Function;
     handleEdit: Function;
@@ -195,7 +197,9 @@ const List: React.FC<Props> = (props) => {
                                     </Space>
                                 </div>
                                 <OneDayList
-                                    list={mapList[time]}
+                                    list={mapList[time].sort((_a, b) =>
+                                        Number(b.doing) ? 1 : -1
+                                    )} // doing === '1' 的放前面
                                     getTodo={getTodo}
                                     handleEdit={handleEdit}
                                     refreshData={refreshData}
