@@ -11,10 +11,12 @@ import {
     Popconfirm,
     Spin,
     Modal,
+    Tooltip,
 } from "antd";
 import { handleNote } from "../utils";
 import ImgFileNoteList from "../img-file-note-list";
 import { NoteType } from "../types";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 interface IProps {
     visible: boolean;
@@ -42,7 +44,22 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
 
     return (
         <Modal
-            title="便签详情"
+            title={
+                <>
+                    便签详情{" "}
+                    <Tooltip
+                        placement="bottom"
+                        title={
+                            <>
+                                <div>创建时间：{activeNote?.cTime}</div>
+                                <div>编辑时间：{activeNote?.mTime}</div>
+                            </>
+                        }
+                    >
+                        <QuestionCircleOutlined style={{ cursor: "pointer" }} />
+                    </Tooltip>
+                </>
+            }
             visible={visible}
             onCancel={() => onCancel()}
             width={"auto"}
