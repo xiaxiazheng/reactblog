@@ -19,7 +19,10 @@ import {
     editTodoItem,
 } from "@/client/TodoListHelper";
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import {
+    ExclamationCircleOutlined,
+    QuestionCircleOutlined,
+} from "@ant-design/icons";
 
 interface EditTodoModalType {
     type: OperatorType;
@@ -44,7 +47,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         type,
         setType,
         visible,
-        onClose,
+        onClose: handleClose,
         form,
         refreshData,
         activeTodo,
@@ -54,6 +57,21 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     useCtrlSHooks(() => {
         visible && handleOk(false);
     });
+
+    const onClose = () => {
+        if (isEdit) {
+            Modal.confirm({
+                title: "你还有修改没保存，确定取消？",
+                icon: <ExclamationCircleOutlined />,
+                onOk() {
+                    handleClose();
+                    setIsEdit(false);
+                },
+            });
+        } else {
+            handleClose();
+        }
+    };
 
     // 新增 todo
     const addTodo = async () => {
@@ -170,9 +188,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 await addTodo();
             }
 
+            // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
             if (isButton) {
-                onClose();
+                handleClose();
             }
+            setIsEdit(false);
         }
     };
 
@@ -198,6 +218,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             return titleMap[type];
         }
     };
+
+    const [isEdit, setIsEdit] = useState<boolean>(false);
 
     return (
         <Modal
@@ -246,6 +268,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     onClick={() =>
                                         activeTodo && handleCopy(activeTodo)
                                     }
+                                    danger
                                 >
                                     复制
                                 </Button>
@@ -266,7 +289,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     </Space>
                     <Space>
                         <Button onClick={() => onClose()}>Cancel</Button>
-                        <Button type="primary" onClick={() => handleOk(true)}>
+                        <Button
+                            type="primary"
+                            danger={isEdit}
+                            onClick={() => handleOk(true)}
+                        >
                             OK
                         </Button>
                     </Space>
@@ -277,6 +304,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 form={form}
                 // 除了编辑，其他走的都是新建的路子
                 onOk={type === "edit" ? editTodo : addTodo}
+                isFieldsChange={() => setIsEdit(true)}
             />
             {type === "edit" && activeTodo && (
                 <TodoImage refreshData={refreshData} activeTodo={activeTodo} />
