@@ -9,7 +9,7 @@ import {
     changeContSort,
     addNodeCont,
 } from "@/client/TreeContHelper";
-import { Input, Button, message, Modal } from "antd";
+import { Input, Button, message, Modal, Tooltip } from "antd";
 import {
     ArrowDownOutlined,
     ArrowUpOutlined,
@@ -255,6 +255,7 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
                                     className={styles.contitemInput}
                                     placeholder="请输入小标题"
                                     value={item.title}
+                                    allowClear
                                     onChange={(e) =>
                                         handleChange(
                                             item.cont_id,
@@ -268,6 +269,7 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
                                     placeholder="请输入内容"
                                     autoSize={{ minRows: 6, maxRows: 21 }}
                                     value={item.cont}
+                                    allowClear
                                     onChange={(e) =>
                                         handleChange(
                                             item.cont_id,
@@ -307,35 +309,41 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
                 })}
             </div>
             {/* 新增按钮 */}
-            <Button
-                className={styles.treecontAddbuttonFront}
-                title="最上方新增一个节点"
-                type="primary"
-                shape="circle"
-                icon={<FileAddOutlined />}
-                size="large"
-                onClick={addTreeCont.bind(null, "front")}
-            />
-            <Button
-                className={styles.treecontAddbuttonBehind}
-                title="最下方新增一个节点"
-                type="primary"
-                shape="circle"
-                icon={<FileAddOutlined />}
-                size="large"
-                onClick={addTreeCont.bind(null, "behind")}
-            />
+            <Tooltip title="最上方新增一个节点" placement="left">
+                <Button
+                    className={styles.treecontAddbuttonFront}
+                    title="最上方新增一个节点"
+                    type="primary"
+                    shape="circle"
+                    icon={<FileAddOutlined />}
+                    size="large"
+                    onClick={addTreeCont.bind(null, "front")}
+                />
+            </Tooltip>
+            <Tooltip title="最下方新增一个节点" placement="left">
+                <Button
+                    className={styles.treecontAddbuttonBehind}
+                    title="最下方新增一个节点"
+                    type="primary"
+                    shape="circle"
+                    icon={<FileAddOutlined />}
+                    size="large"
+                    onClick={addTreeCont.bind(null, "behind")}
+                />
+            </Tooltip>
             {/* 保存按钮 */}
-            <Button
-                className={styles.treecontSavebutton}
-                title="保存"
-                type={"primary"}
-                danger={isChange}
-                shape="circle"
-                icon={<SaveOutlined />}
-                size="large"
-                onClick={saveTreeCont}
-            />
+            <Tooltip title="保存" placement="left">
+                <Button
+                    className={styles.treecontSavebutton}
+                    title="保存"
+                    type={"primary"}
+                    danger={isChange}
+                    shape="circle"
+                    icon={<SaveOutlined />}
+                    size="large"
+                    onClick={saveTreeCont}
+                />
+            </Tooltip>
             {/* 回到顶部 */}
             <Button
                 className={styles.scrollToTop}

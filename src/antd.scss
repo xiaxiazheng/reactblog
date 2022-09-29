@@ -128,6 +128,11 @@
             color: var(--color) !important;
         }
     }
+    .ant-input-affix-wrapper-textarea-with-clear-btn .ant-input-clear-icon {
+        color: var(--color) !important;
+        top: 16px;
+        right: 12px;
+    }
 
     .ant-tree {
         color: var(--color) !important;
