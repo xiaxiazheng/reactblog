@@ -19,10 +19,12 @@ interface IType {
     refresh: Function;
     width?: string;
     isOnlyShow?: boolean;
+    style?: any;
 }
 
 const ImageListBox: React.FC<IType> = (props) => {
-    const { type, imageList, iconRender, refresh, width, isOnlyShow } = props;
+    const { type, imageList, iconRender, refresh, width, isOnlyShow, style } =
+        props;
 
     // 拼好 img 的 url
     const list: ImgType[] = imageList.map((item) => {
@@ -53,6 +55,7 @@ const ImageListBox: React.FC<IType> = (props) => {
                         iconRender={() => iconRender && iconRender(item)}
                         width={width}
                         isOnlyShow={isOnlyShow}
+                        style={style}
                     />
                 );
             })}
@@ -72,6 +75,7 @@ interface PropsType {
     imageData: ImgType | undefined; // 从接口拿的图片原始信息
     iconRender?: any; // 用于渲染在操作台上进行操作的 antd 的 icon
     isOnlyShow?: boolean;
+    style?: any; // 可供覆盖的样式
 }
 
 const ImageBox: React.FC<PropsType> = (props) => {
@@ -87,6 +91,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
         imageData,
         iconRender,
         isOnlyShow = false,
+        style,
     } = props;
 
     const { confirm } = Modal;
@@ -145,6 +150,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             style={{
                 width: `${width}`,
                 height: `${width}`,
+                ...style
             }}
             onMouseLeave={(e) => {
                 e.stopPropagation();

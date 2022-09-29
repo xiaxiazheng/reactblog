@@ -8,9 +8,15 @@ import { PlusOutlined } from "@ant-design/icons";
 import CompareMao from "./compare-mao";
 import { IMao } from "./types";
 import ParentMao from "./parent-mao";
+import ImgManage from "./mao-detail/mao-img-manage";
 
-type ShowMaoType = "所有猫猫" | "分层猫猫" | "对比猫猫";
-const TypeList: ShowMaoType[] = ["所有猫猫", "分层猫猫", "对比猫猫"];
+type ShowMaoType = "所有猫猫" | "分层猫猫" | "对比猫猫" | "关联猫猫";
+const TypeList: ShowMaoType[] = [
+    "所有猫猫",
+    "关联猫猫",
+    "分层猫猫",
+    "对比猫猫",
+];
 const statusList = [
     "当前猫咪",
     "父母",
@@ -74,14 +80,12 @@ const MaoPu: React.FC = () => {
     const getMaoList = async () => {
         const res = await getMaoPuList();
         if (res) {
-            const list: any = res.sort(
-                (a: any, b: any) =>
-                    new Date(a.birthday).getTime() -
-                    new Date(b.birthday).getTime()
-            );
-            list.map((item: IMao) => {
-                item.key = item.mao_id;
-                item.title = item.name;
+            const list = res.map((item: IMao) => {
+                return {
+                    ...item,
+                    key: item.mao_id,
+                    title: item.name,
+                };
             });
             setMaoList(handleParent(list));
         }
@@ -250,8 +254,8 @@ const MaoPu: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                    {/* 所有猫咪展示 */}
-                    {showType === "所有猫猫" && (
+                    {/* 猫咪关联展示 */}
+                    {showType === "关联猫猫" && (
                         <>
                             <Input
                                 value={keyword}
@@ -269,6 +273,58 @@ const MaoPu: React.FC = () => {
                                 )?.map((item) => {
                                     return renderSingleMao(item);
                                 })}
+                            </div>
+                            {hoverMao && <ParentMao mao={hoverMao} />}
+                        </>
+                    )}
+                    {/* 所有猫咪展示 */}
+                    {showType === "所有猫猫" && (
+                        <>
+                            <Input
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                style={{ width: 300 }}
+                                allowClear
+                            />
+                            <div className={styles.maoList}>
+                                {(keyword
+                                    ? maoList.filter(
+                                          (item) =>
+                                              item.name.indexOf(keyword) !== -1
+                                      )
+                                    : maoList
+                                )?.map((item) => (
+                                    <span
+                                        key={item.mao_id}
+                                        className={styles.allMao}
+                                        onMouseEnter={(e) => {
+                                            e.stopPropagation();
+                                            !isShowStatus &&
+                                                (!hoverMao ||
+                                                    hoverMao.mao_id !==
+                                                        item.mao_id) &&
+                                                setHoverMao(item);
+                                        }}
+                                        onClick={() => setActiveMao(item)}
+                                    >
+                                        {item.headImgList.length !== 0 && (
+                                            <ImgManage
+                                                type={"mao"}
+                                                other_id={item.head_img_id}
+                                                imageList={item.headImgList}
+                                                initImgList={() => {}}
+                                                isShowUpload={false}
+                                                width={"100px"}
+                                                margin={"5px"}
+                                                style={{
+                                                    margin: 0,
+                                                    padding: 0,
+                                                }}
+                                            />
+                                        )}
+                                        <div>{item.name}</div>
+                                    </span>
+                                ))}
                             </div>
                             {hoverMao && <ParentMao mao={hoverMao} />}
                         </>

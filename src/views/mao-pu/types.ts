@@ -1,3 +1,5 @@
+import { ImageType } from "@/client/ImgHelper";
+
 export interface Mao {
     appearance: string;
     birthday: string;
@@ -13,6 +15,8 @@ export interface Mao {
     status: string;
     remarks: string;
     children?: Mao[];
+    headImgList: ImageType[];
+    imgList: ImageType[];
 }
 
 export interface IMao extends Mao {

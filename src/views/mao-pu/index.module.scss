@@ -39,7 +39,7 @@
     }
     .showMaoStatus {
         position: absolute;
-        top: 11rem;
+        top: 14rem;
         left: 2rem;
     }
     .hold {
@@ -57,7 +57,7 @@
 
     .colorCloud {
         position: absolute;
-        top: 13rem;
+        top: 16rem;
         left: 2.2rem;
         font-size: 16px;
         text-align: left;
@@ -147,6 +147,17 @@
             display: inline-block;
             max-width: 140px;
         }
+    }
+    .allMao {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 180px;
+        height: 180px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
     }
     .children {
         // margin: 8px 10px;

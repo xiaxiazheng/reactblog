@@ -10,6 +10,9 @@ interface IProps {
     other_id: string;
     initImgList: Function;
     isShowUpload?: boolean;
+    width?: string;
+    style?: any;
+    margin?: string;
 }
 
 // 图片管理
@@ -20,15 +23,18 @@ const ImgManage: React.FC<IProps> = (props) => {
         other_id,
         initImgList,
         isShowUpload = true,
+        width = "150px",
+        style,
+        margin,
     } = props;
 
     return (
-        <div className={styles.ImgManage}>
+        <div className={styles.ImgManage} style={{ margin }}>
             {isShowUpload && (
                 <FileImageUpload
                     type={type}
                     other_id={other_id}
-                    width="150px"
+                    width={width}
                     refresh={initImgList}
                 />
             )}
@@ -36,8 +42,9 @@ const ImgManage: React.FC<IProps> = (props) => {
             <ImageListBox
                 type={type}
                 refresh={initImgList}
-                width="150px"
+                width={width}
                 imageList={imageList}
+                style={style}
             />
         </div>
     );

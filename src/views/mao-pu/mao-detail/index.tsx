@@ -34,7 +34,7 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
 
     const [name, setName] = useState<string>(mao.name);
     const [birthday, setBirthday] = useState<string>(mao.birthday);
-    const [status, setstatus] = useState<string>(mao.status);
+    const [status, setStatus] = useState<string>(mao.status);
     const [father, setFather] = useState<string>(mao.father);
     const [fatherId, setFatherId] = useState<string>(mao.father_id);
     const [mother, setMother] = useState<string>(mao.mother);
@@ -43,11 +43,6 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
     const [feature, setFeature] = useState<string>(mao.feature);
     const [description, setDescription] = useState<string>(mao.description);
     const [remarks, setRemarks] = useState<string>(mao.remarks);
-
-    useEffect(() => {
-        getHeadImgList();
-        getOtherImgList();
-    }, []);
 
     useCtrlSHooks(() => {
         saveMaoPu();
@@ -86,8 +81,8 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
         remarks,
     ]);
 
-    const [headList, setHeadList] = useState<ImageType[]>([]);
-    const [imgList, setImgList] = useState<ImageType[]>([]);
+    const [headList, setHeadList] = useState<ImageType[]>(mao.headImgList);
+    const [imgList, setImgList] = useState<ImageType[]>(mao.imgList);
 
     // 获取猫咪头像照片
     const getHeadImgList = async () => {
@@ -100,7 +95,6 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
 
     // 获取猫咪所有照片
     const getOtherImgList = async () => {
-        let imgList: any = [];
         const res: ImageType[] = await getImgListByOtherId(
             mao.mao_id,
             username
@@ -251,7 +245,7 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
                     <span>状态：</span>
                     <Select
                         value={status}
-                        onChange={(val: string) => setstatus(val)}
+                        onChange={(val: string) => setStatus(val)}
                         style={{ flex: 1 }}
                     >
                         {statusList.map((item) => {
