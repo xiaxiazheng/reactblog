@@ -29,8 +29,8 @@ export const colorNameMap: any = {
     1: "orange",
     2: "blue",
     3: "grey",
-    [-1]: "长期方向",
-    [-2]: "短期目标",
+    [-1]: "长期任务",
+    // [-2]: "短期目标",
 };
 
 export const colorList = Object.keys(colorNameMap);

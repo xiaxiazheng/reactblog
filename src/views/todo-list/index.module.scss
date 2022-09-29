@@ -9,12 +9,12 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(24, 1fr);
     .box1 {
         grid-column-start: 1;
         grid-column-end: 2;
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 11;
         border-bottom: 1px solid #ccc;
         border-right: 1px solid #ccc;
     }
@@ -23,7 +23,7 @@
         grid-column-start: 2;
         grid-column-end: 3;
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 16;
         border-bottom: 1px solid #ccc;
     }
 
@@ -31,22 +31,22 @@
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 1;
-        grid-row-end: 4;
+        grid-row-end: 25;
         border-left: 1px solid #ccc;
     }
 
     .box4 {
         grid-column-start: 1;
         grid-column-end: 2;
-        grid-row-start: 3;
-        grid-row-end: 4;
+        grid-row-start: 11;
+        grid-row-end: 25;
         border-right: 1px solid #ccc;
     }
 
     .box5 {
         grid-column-start: 2;
         grid-column-end: 3;
-        grid-row-start: 3;
-        grid-row-end: 4;
+        grid-row-start: 16;
+        grid-row-end: 25;
     }
 }

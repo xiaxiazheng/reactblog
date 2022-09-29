@@ -25,7 +25,7 @@ interface Props {
     handleAdd?: Function;
     handleEdit: Function;
     refreshData: Function;
-    showRefresh?: boolean;
+    showRefresh?: boolean; // 是否展示刷新按钮
 }
 
 // 待办
@@ -105,6 +105,7 @@ const List: React.FC<Props> = (props) => {
                 </span>
                 <Space size={16}>
                     {showRefresh && (
+                        // 刷新按钮
                         <Button onClick={() => refreshData()} type="primary">
                             <RedoOutlined />
                         </Button>
@@ -157,43 +158,21 @@ const List: React.FC<Props> = (props) => {
                                                 </Tooltip>
                                             </Popconfirm>
                                         )}
-                                        {showRefresh ? (
-                                            <Popconfirm
-                                                title={`是否将 ${time} 的 Todo 放进待办池`}
-                                                onConfirm={() =>
-                                                    changeTodoToPool(
-                                                        mapList[time]
-                                                    )
-                                                }
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <Tooltip title={"调整到待办池"}>
-                                                    <ArrowLeftOutlined
-                                                        title="调整到待办池"
-                                                        className={styles.icon}
-                                                    />
-                                                </Tooltip>
-                                            </Popconfirm>
-                                        ) : (
-                                            <Popconfirm
-                                                title={`是否将 ${time} 的待办池放进 todo`}
-                                                onConfirm={() =>
-                                                    changePoolToTodo(
-                                                        mapList[time]
-                                                    )
-                                                }
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <Tooltip title={"调整到 todo"}>
-                                                    <ArrowRightOutlined
-                                                        title="调整到 todo"
-                                                        className={styles.icon}
-                                                    />
-                                                </Tooltip>
-                                            </Popconfirm>
-                                        )}
+                                        <Popconfirm
+                                            title={`是否将 ${time} 的 Todo 放进待办池`}
+                                            onConfirm={() =>
+                                                changeTodoToPool(mapList[time])
+                                            }
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <Tooltip title={"调整到待办池"}>
+                                                <ArrowLeftOutlined
+                                                    title="调整到待办池"
+                                                    className={styles.icon}
+                                                />
+                                            </Tooltip>
+                                        </Popconfirm>
                                     </Space>
                                 </div>
                                 <OneDayList

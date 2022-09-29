@@ -54,8 +54,8 @@ const TodoList: React.FC = () => {
     }, []);
 
     // 两种列表
-    const [todoList, setTodoList] = useState([]);
-    const [poolList, setPoolList] = useState([]);
+    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
+    const [poolList, setPoolList] = useState<TodoItemType[]>([]);
     // 编辑相关
     const [operatorType, setOperatorType] = useState<OperatorType>();
     const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -97,20 +97,19 @@ const TodoList: React.FC = () => {
         getTodo("pool");
     };
 
+    const today = moment().format("YYYY-MM-DD");
+
     return (
         <div className={styles.todoList}>
             <div className={styles.Layout}>
-                {/* 待办池 */}
+                {/* 之后待办 */}
                 <div className={`${styles.box1} ScrollBar`}>
                     <List
                         loading={poolLoading}
                         getTodo={getTodo}
-                        title="待办池"
+                        title="之后待办"
                         mapList={formatArrayToTimeMap(
-                            poolList.filter(
-                                (item: any) =>
-                                    item.color !== "-1" && item.color !== "-2"
-                            )
+                            todoList.filter((item) => item.time > today)
                         )}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
@@ -134,7 +133,8 @@ const TodoList: React.FC = () => {
                                 </Tooltip>{" "}
                             </>
                         }
-                        mapList={formatArrayToTimeMap(todoList)}
+                        mapList={formatArrayToTimeMap(
+                            todoList.filter((item) => item.time <= today))}
                         handleAdd={handleAdd}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
@@ -151,28 +151,24 @@ const TodoList: React.FC = () => {
                         refreshData={refreshData}
                     />
                 </div>
-                {/* 短期目标 */}
+                {/* 待办池 */}
                 <div className={`${styles.box4} ScrollBar`}>
                     <PoolList
                         loading={poolLoading}
                         getTodo={getTodo}
-                        title="短期目标"
-                        mapList={poolList.filter(
-                            (item: any) => item.color === "-2"
-                        )}
+                        title="待办池"
+                        mapList={poolList.filter((item) => item.color !== "-1")}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
                     />
                 </div>
-                {/* 长期方向 */}
+                {/* 长期任务 */}
                 <div className={`${styles.box5} ScrollBar`}>
                     <PoolList
                         loading={poolLoading}
                         getTodo={getTodo}
-                        title="长期方向"
-                        mapList={poolList.filter(
-                            (item: any) => item.color === "-1"
-                        )}
+                        title="长期任务"
+                        mapList={poolList.filter((item) => item.color === "-1")}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
                     />
