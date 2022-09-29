@@ -56,14 +56,12 @@ const Login: React.FC<PropsType> = (props) => {
         if (res?.access_token) {
             setIsLogin(true); // 将 context 的 isLogin 设置为 true
             localStorage.setItem("token", res.access_token);
-            localStorage.setItem("refresh_token", res.refresh_token);
             if (isTrust) {
-                localStorage.setItem("username", user);
-                localStorage.setItem("password", window.btoa(password));
+                localStorage.setItem("refresh_token", res.refresh_token);
             } else {
-                localStorage.setItem("username", "");
-                localStorage.setItem("password", "");
+                localStorage.setItem("refresh_token", "");
             }
+            localStorage.setItem("username", user);
             setUsername(user);
             message.success("登录成功");
             const search = location.search;

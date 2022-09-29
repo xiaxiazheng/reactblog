@@ -53,22 +53,25 @@ instance.interceptors.response.use(
 
         const res: any = error.response;
         if (!isVisitor) {
-            const errortext =
-                httpCodeMessage[res?.statusCode] || res.statusText;
-            const errorDesc = `${res.status}: ${errortext}`;
-            const duration = isDev ? 4 : 2;
-            notification.error({
-                message: `请求错误 ${res.status}:  \n${res.config.url}\n`,
-                description: `${errorDesc} \n 您可以点击刷新按钮进行重试\n ${JSON.stringify(
-                    res.data
-                )}`,
-                duration,
-            });
+            noticeError(res);
         }
 
         return Promise.reject(error);
     }
 );
+
+const noticeError = (res: any) => {
+    const errortext = httpCodeMessage[res?.statusCode] || res.statusText;
+    const errorDesc = `${res.status}: ${errortext}`;
+    const duration = isDev ? 4 : 2;
+    notification.error({
+        message: `请求错误 ${res.status}:  \n${res.config.url}\n`,
+        description: `${errorDesc} \n 您可以点击刷新按钮进行重试\n ${JSON.stringify(
+            res.data
+        )}`,
+        duration,
+    });
+};
 
 // 处理 401 的情况，用 refresh_token 重发一次
 const handleResponse401 = async (res: any) => {
@@ -79,13 +82,18 @@ const handleResponse401 = async (res: any) => {
             `Bearer ${localStorage.getItem("token")}`
         ) {
             const newRes = await postRefresh();
-            const access_token = newRes?.data?.access_token;
-            
-            // 如果能获取到新的 access_token，则重发请求，并把 token 更新
-            if (access_token) {
-                localStorage.setItem("token", access_token);
-                res.config.headers.Authorization = `Bearer ${access_token}`; // 使用新的 token
-                return await axios.request(res.config); // 传入 config，重发原来的请求
+            if (newRes) {
+                const access_token = newRes?.data?.access_token;
+
+                // 如果能获取到新的 access_token，则重发请求，并把 token 更新
+                if (access_token) {
+                    localStorage.setItem("token", access_token);
+                    res.config.headers.Authorization = `Bearer ${access_token}`; // 使用新的 token
+                    return await axios.request(res.config); // 传入 config，重发原来的请求
+                }
+            } else {
+                // 说明刷新 refresh_token 失败，也走报错路径
+                throw Error();
             }
         }
     } catch (e) {
