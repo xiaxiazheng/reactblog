@@ -9,20 +9,29 @@ interface IProps {
     imageList: ImageType[];
     other_id: string;
     initImgList: Function;
+    isShowUpload?: boolean;
 }
 
 // 图片管理
 const ImgManage: React.FC<IProps> = (props) => {
-    const { type, imageList, other_id, initImgList } = props;
+    const {
+        type,
+        imageList,
+        other_id,
+        initImgList,
+        isShowUpload = true,
+    } = props;
 
     return (
         <div className={styles.ImgManage}>
-            <FileImageUpload
-                type={type}
-                other_id={other_id}
-                width="150px"
-                refresh={initImgList}
-            />
+            {isShowUpload && (
+                <FileImageUpload
+                    type={type}
+                    other_id={other_id}
+                    width="150px"
+                    refresh={initImgList}
+                />
+            )}
             {/* 图片列表 */}
             <ImageListBox
                 type={type}

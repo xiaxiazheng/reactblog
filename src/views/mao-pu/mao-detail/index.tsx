@@ -51,7 +51,7 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
 
     useCtrlSHooks(() => {
         saveMaoPu();
-    })
+    });
 
     // 监听是否有修改
     useEffect(() => {
@@ -304,6 +304,7 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
                     other_id={mao.head_img_id}
                     imageList={headList}
                     initImgList={getHeadImgList}
+                    isShowUpload={headList.length === 0}
                 />
                 {/* 其他图片管理 */}
                 <div>其他图片</div>
