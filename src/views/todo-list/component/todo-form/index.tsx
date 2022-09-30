@@ -103,7 +103,7 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item name="description" label="详细描述">
                 <TextArea
                     placeholder="补充以及具体描述"
-                    onPressEnter={onOk}
+                    // onPressEnter={onOk} 这里不可以绑定，不然每次敲换行都会保存
                     autoSize={{ minRows: 8, maxRows: 10 }}
                     style={{ wordBreak: "break-all" }}
                     allowClear
