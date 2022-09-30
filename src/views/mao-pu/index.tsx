@@ -326,7 +326,6 @@ const MaoPu: React.FC = () => {
                                     </span>
                                 ))}
                             </div>
-                            {hoverMao && <ParentMao mao={hoverMao} />}
                         </>
                     )}
                     {/* 对比猫猫展示 */}
@@ -343,7 +342,10 @@ const MaoPu: React.FC = () => {
                 <MaoDetail
                     maoList={maoList}
                     mao={activeMao}
-                    back={() => setActiveMao(undefined)}
+                    back={() => {
+                        setActiveMao(undefined);
+                        getMaoList();
+                    }}
                     initFn={() => getMaoList()}
                 />
             )}
