@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-import { Popover, Switch } from "antd";
+import { Popover, Switch, Tooltip } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -138,11 +138,16 @@ const Header: React.FC<PropsType> = (props) => {
                 >
                     github
                 </span>
-                <ExportOutlined
-                    title="退出登录"
-                    className={styles.exportIcon}
-                    onClick={jumpToLogin}
-                />
+                <Tooltip
+                    placement="bottomLeft"
+                    title="退出登录，并删除本地登录凭证"
+                >
+                    <ExportOutlined
+                        title="退出登录"
+                        className={styles.exportIcon}
+                        onClick={jumpToLogin}
+                    />
+                </Tooltip>
             </div>
         </header>
     );

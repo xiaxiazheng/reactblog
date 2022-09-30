@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Input, Button, message, Radio } from "antd";
+import { Input, Button, message, Radio, Modal } from "antd";
 import {
     EyeInvisibleOutlined,
     EyeOutlined,
@@ -25,7 +25,10 @@ const Login: React.FC<PropsType> = (props) => {
     const { setIsLogin } = useContext(IsLoginContext);
     const { setUsername } = useContext(UserContext);
 
-    const [isTrust, setIsTrust] = useState<boolean>(true);
+    const isNewMachine =
+        !localStorage.getItem("refresh_token") ||
+        localStorage.getItem("refresh_token") === "";
+    const [isTrust, setIsTrust] = useState<boolean>(!isNewMachine);
 
     useDocumentTitle("login");
 
@@ -144,7 +147,16 @@ const Login: React.FC<PropsType> = (props) => {
                     <RadioGroup
                         className={styles.trust}
                         value={isTrust}
-                        onChange={(e) => setIsTrust(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value && isNewMachine) {
+                                Modal.confirm({
+                                    title: "你在一台新设备或之前不受信任的设备上登录，或者之前手动退出过登录，确认信任该设备吗？",
+                                    onOk: () => setIsTrust(e.target.value),
+                                });
+                            } else {
+                                setIsTrust(e.target.value);
+                            }
+                        }}
                     >
                         <Radio value={true}>信任该设备</Radio>
                         <Radio value={false}>不信任该设备</Radio>
