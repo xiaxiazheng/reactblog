@@ -25,6 +25,10 @@
             .pwdInput {
                 margin-top: 1.5rem;
                 background: white !important;
+                :global(.ant-input) {
+                    color: black !important;
+                    background-color: unset !important;
+                }
             }
             .pwdEye {
                 cursor: pointer;
