@@ -10,8 +10,9 @@ export interface TodoItemType {
     color: string;
     category: string;
     other_id?: string;
-    cTime: string;
+    cTime?: string;
     doing: "0" | "1";
+    mTime?: string;
 
     imgList: ImageType[];
     fileList: FileType[];

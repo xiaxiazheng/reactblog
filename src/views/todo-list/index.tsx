@@ -134,7 +134,8 @@ const TodoList: React.FC = () => {
                             </>
                         }
                         mapList={formatArrayToTimeMap(
-                            todoList.filter((item) => item.time <= today))}
+                            todoList.filter((item) => item.time <= today)
+                        )}
                         handleAdd={handleAdd}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
@@ -160,6 +161,7 @@ const TodoList: React.FC = () => {
                         mapList={poolList.filter((item) => item.color !== "-1")}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
+                        showSortType={true}
                     />
                 </div>
                 {/* 长期任务 */}
