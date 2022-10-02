@@ -206,7 +206,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         title={
                             <>
                                 <div>创建时间：{activeTodo?.cTime}</div>
-                                {/* <div>编辑时间：{activeTodo?.mTime}</div> */}
+                                <div>编辑时间：{activeTodo?.mTime}</div>
                             </>
                         }
                     >
