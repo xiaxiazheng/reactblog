@@ -65,11 +65,13 @@ export const routes = [
 
     { route: "/admin/note", name: "Note", component: Note, isShow: true },
 
+    { route: "/admin/tree", name: "Tree", component: Tree, isShow: true },
+
     {
         route: "/admin/tree/:first_id/:second_id",
         name: "Tree",
         component: Tree,
-        isShow: true,
+        isShow: false,
     },
 
     { route: "/admin/music", name: "Music", component: Music, isShow: true },
@@ -82,16 +84,14 @@ export const routes = [
     },
     { route: "/admin/cloud", name: "Cloud", component: Cloud, isShow: true },
 
+    { route: "/admin/cmd", name: "CMD", component: cmd, isShow: true },
+
     {
         route: "/admin/image-manage",
         name: "ImageManage",
         component: ImageManage,
-        isShow: true,
+        isShow: false,
     },
-
-    { route: "/admin/cmd", name: "CMD", component: cmd, isShow: true },
-
-    { route: "/admin/tree", name: "Tree", component: Tree, isShow: false },
 
     {
         route: "/admin/mindmap",
