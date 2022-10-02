@@ -38,7 +38,7 @@
         &:hover {
             color: #40a9ff;
         }
-        span {
+        span, s {
             vertical-align: middle;
         }
         .category {
@@ -48,6 +48,7 @@
             font-size: 12px;
             color: white;
             border-radius: 2px;
+            vertical-align: 1px;
         }
     }
 }
