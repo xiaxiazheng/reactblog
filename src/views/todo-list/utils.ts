@@ -25,10 +25,10 @@ export const colorMap: any = {
 };
 
 export const colorNameMap: any = {
-    0: "red",
-    1: "orange",
-    2: "blue",
-    3: "grey",
+    0: "重要紧急",
+    1: "紧急",
+    2: "重要",
+    3: "其他",
     [-1]: "长期任务",
     // [-2]: "短期目标",
 };
