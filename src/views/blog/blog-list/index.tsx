@@ -238,7 +238,7 @@ const BlogList: React.FC<PropsType> = (props) => {
                     onChange={handlePageNo}
                     onShowSizeChange={handlePageSize}
                     showSizeChanger
-                    pageSizeOptions={["5", "10", "15", "20"]}
+                    pageSizeOptions={['15', '20', '30', '40', '50']}
                 />
             )}
         </>

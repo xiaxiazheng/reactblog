@@ -14,6 +14,7 @@ import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
 import { getWeek } from "../utils";
 import { StatusType, TodoItemType, TodoStatus } from "../types";
+import SortBtn from "../component/sort-btn";
 
 interface Props {
     loading: boolean;
@@ -26,6 +27,7 @@ interface Props {
     handleEdit: Function;
     refreshData: Function;
     showRefresh?: boolean; // 是否展示刷新按钮
+    showDoneIcon?: boolean; // 是否展示快捷完成 icon
 }
 
 // 待办
@@ -39,6 +41,7 @@ const List: React.FC<Props> = (props) => {
         handleEdit,
         refreshData,
         showRefresh = false,
+        showDoneIcon = false,
     } = props;
 
     const today = moment().format("YYYY-MM-DD");
@@ -96,6 +99,25 @@ const List: React.FC<Props> = (props) => {
         }
     };
 
+    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+
+    // 获取展示的 list
+    const getShowList = (list: TodoItemType[]) => {
+        const l = !isSortTime
+            ? list
+            : [...list].sort(
+                  // sort 会改变原数组
+                  (a, b) =>
+                      (b?.mTime ? new Date(b.mTime).getTime() : 0) -
+                      (a?.mTime ? new Date(a.mTime).getTime() : 0)
+              );
+
+        // doing === '1' 的放前面，所以依然是正在处理的事情优先级最高
+        return l
+            .filter((item) => item.doing === "1")
+            .concat(l.filter((item) => item.doing !== "1"));
+    };
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
@@ -104,6 +126,10 @@ const List: React.FC<Props> = (props) => {
                     {title}({total})
                 </span>
                 <Space size={16}>
+                    <SortBtn
+                        isSortTime={isSortTime}
+                        setIsSortTime={setIsSortTime}
+                    />
                     {showRefresh && (
                         // 刷新按钮
                         <Button onClick={() => refreshData()} type="primary">
@@ -136,8 +162,10 @@ const List: React.FC<Props> = (props) => {
                                 >
                                     <span>
                                         {time}&nbsp; ({getWeek(time)})
+                                        {mapList[time]?.length > 6
+                                            ? ` ${mapList[time]?.length}`
+                                            : null}
                                     </span>
-
                                     <Space size={6}>
                                         {time < today && (
                                             <Popconfirm
@@ -176,16 +204,11 @@ const List: React.FC<Props> = (props) => {
                                     </Space>
                                 </div>
                                 <OneDayList
-                                    list={mapList[time]
-                                        .filter((item) => item.doing === "1")
-                                        .concat(
-                                            mapList[time].filter(
-                                                (item) => item.doing !== "1"
-                                            )
-                                        )} // doing === '1' 的放前面
+                                    list={getShowList(mapList[time])}
                                     getTodo={getTodo}
                                     handleEdit={handleEdit}
                                     refreshData={refreshData}
+                                    showDoneIcon={showDoneIcon}
                                 />
                             </div>
                         );

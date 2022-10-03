@@ -15,10 +15,17 @@ interface Props {
     getTodo: (type: StatusType) => void;
     handleEdit: Function;
     refreshData: Function;
+    showDoneIcon?: boolean;
 }
 
 const ListItem: React.FC<Props> = (props) => {
-    const { list, getTodo, handleEdit, refreshData } = props;
+    const {
+        list,
+        getTodo,
+        handleEdit,
+        refreshData,
+        showDoneIcon = false,
+    } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {
@@ -73,65 +80,69 @@ const ListItem: React.FC<Props> = (props) => {
                 >
                     <div className={styles.item}>
                         <span>
-                            <span>
-                                {item?.other_id && !isShowAllLevel && (
-                                    <Tooltip title={"查看父级所有进度"}>
-                                        <GoldOutlined
-                                            className={styles.doneIcon}
-                                            title="查看父级所有进度"
-                                            onClick={() =>
-                                                getParentTodo(
-                                                    item?.other_id || ""
-                                                )
+                            {showDoneIcon &&
+                                item.status == TodoStatus.todo &&
+                                !isHasChild && (
+                                    <Popconfirm
+                                        title="确认已完成吗？"
+                                        onConfirm={() => {
+                                            if (isAllChildDone) {
+                                                doneTodo(item.todo_id || "");
+                                            } else {
+                                                message.warning(
+                                                    "还有子任务待完成"
+                                                );
                                             }
-                                        />
-                                    </Tooltip>
+                                        }}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Tooltip
+                                            title={"点击完成"}
+                                            color="#20d420"
+                                        >
+                                            <CheckCircleOutlined
+                                                title="完成"
+                                                className={styles.doneIcon}
+                                            />
+                                        </Tooltip>
+                                    </Popconfirm>
                                 )}
-                            </span>
-                            <span>
-                                {isHasChild && !isShowAllLevel && (
-                                    <Tooltip title={"查看进度"}>
-                                        <ApartmentOutlined
-                                            className={styles.doneIcon}
-                                            style={{
-                                                color: "#40a9ff",
-                                            }}
-                                            title="查看进度"
-                                            onClick={() => {
-                                                setActiveTodo(item);
-                                                setShowDrawer(true);
-                                            }}
-                                        />
-                                    </Tooltip>
-                                )}
-                            </span>
-                            {item.status == TodoStatus.todo && !isHasChild && (
-                                <Popconfirm
-                                    title="确认已完成吗？"
-                                    onConfirm={() => {
-                                        if (isAllChildDone) {
-                                            doneTodo(item.todo_id || "");
-                                        } else {
-                                            message.warning("还有子任务待完成");
-                                        }
-                                    }}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <Tooltip title={"点击完成"} color="#20d420">
-                                        <CheckCircleOutlined
-                                            title="完成"
-                                            className={styles.doneIcon}
-                                        />
-                                    </Tooltip>
-                                </Popconfirm>
-                            )}
                             <NameWrapper
                                 item={item}
                                 isChild={isChild}
                                 handleEdit={handleEdit}
                                 refreshData={refreshData}
                             />
+                            {item?.other_id && !isShowAllLevel && (
+                                <Tooltip title={"查看父级所有进度"}>
+                                    <GoldOutlined
+                                        className={styles.progressIcon}
+                                        style={{
+                                            color: "#40a9ff",
+                                        }}
+                                        title="查看父级所有进度"
+                                        onClick={() =>
+                                            getParentTodo(item?.other_id || "")
+                                        }
+                                    />
+                                </Tooltip>
+                            )}
+                            {isHasChild && !isShowAllLevel && (
+                                <Tooltip title={"查看进度"}>
+                                    <ApartmentOutlined
+                                        className={styles.progressIcon}
+                                        style={{
+                                            color: "#40a9ff",
+                                        }}
+                                        title="查看进度"
+                                        onClick={() => {
+                                            setActiveTodo(item);
+                                            setShowDrawer(true);
+                                        }}
+                                    />
+                                </Tooltip>
+                            )}
                         </span>
                     </div>
                 </div>

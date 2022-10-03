@@ -122,7 +122,7 @@ const TodoList: React.FC = () => {
                         getTodo={getTodo}
                         title={
                             <>
-                                今日待办
+                                今日待办{" "}
                                 <Tooltip
                                     title="带星标的是当下正在做的任务"
                                     placement="bottom"
@@ -140,6 +140,7 @@ const TodoList: React.FC = () => {
                         handleEdit={handleEdit}
                         refreshData={refreshData}
                         showRefresh={true}
+                        showDoneIcon={true}
                     />
                 </div>
                 {/* 已完成 */}
@@ -161,7 +162,6 @@ const TodoList: React.FC = () => {
                         mapList={poolList.filter((item) => item.color !== "-1")}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
-                        showSortType={true}
                     />
                 </div>
                 {/* 长期任务 */}

@@ -24,7 +24,7 @@
     > span:nth-child(1) {
         flex: 1;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
     }
 
     .throughout {
@@ -64,9 +64,17 @@
     background: var(--bg_color);
 }
 .doneIcon {
-    font-size: 18px;
     margin-right: 10px;
+    padding-top: 5px;
     z-index: 2;
+    font-size: 18px;
+    background: var(--bg_color);
+}
+.progressIcon {
+    margin-left: 5px;
+    padding-top: 5px;
+    z-index: 2;
+    font-size: 18px;
     background: var(--bg_color);
 }
 

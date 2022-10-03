@@ -14,6 +14,7 @@ import {
 import { debounce } from "lodash";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { TodoStatus } from "../types";
+import SortBtn from "../component/sort-btn";
 
 const { Search } = Input;
 
@@ -108,6 +109,8 @@ const DoneList: React.FC<Props> = (props) => {
         }
     }, [isRefreshDone]);
 
+    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
@@ -116,47 +119,47 @@ const DoneList: React.FC<Props> = (props) => {
                     {title}({total})
                 </span>
                 <span>
-                    <span>
-                        轻重：
-                        <Select
-                            value={activeColor}
-                            onChange={(val) => setActiveColor(val)}
-                            style={{ width: 80, marginRight: 10 }}
-                        >
-                            <Select.Option key="所有" value="">
-                                所有
-                            </Select.Option>
-                            {colorList.map((item) => (
-                                <Select.Option
-                                    key={item}
-                                    value={item}
-                                    style={{ color: colorMap[item] }}
-                                >
-                                    {colorNameMap[item]}
-                                </Select.Option>
-                            ))}
-                        </Select>
+                    <span style={{ marginRight: 10 }}>
+                        <SortBtn
+                            isSortTime={isSortTime}
+                            setIsSortTime={setIsSortTime}
+                        />
                     </span>
-                    <span>
-                        分类：
-                        <Select
-                            value={activeCategory}
-                            onChange={(val) => setActiveCategory(val)}
-                            style={{ width: 80 }}
-                        >
-                            <Select.Option key="所有" value="">
-                                所有
+                    <Select
+                        value={activeColor}
+                        onChange={(val) => setActiveColor(val)}
+                        style={{ width: 80, marginRight: 10 }}
+                    >
+                        <Select.Option key="轻重" value="">
+                            轻重
+                        </Select.Option>
+                        {colorList.map((item) => (
+                            <Select.Option
+                                key={item}
+                                value={item}
+                                style={{ color: colorMap[item] }}
+                            >
+                                {colorNameMap[item]}
                             </Select.Option>
-                            {category?.map((item) => (
-                                <Select.Option
-                                    key={item.category}
-                                    value={item.category}
-                                >
-                                    {item.category}
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </span>
+                        ))}
+                    </Select>
+                    <Select
+                        value={activeCategory}
+                        onChange={(val) => setActiveCategory(val)}
+                        style={{ width: 80 }}
+                    >
+                        <Select.Option key="类别" value="">
+                            类别
+                        </Select.Option>
+                        {category?.map((item) => (
+                            <Select.Option
+                                key={item.category}
+                                value={item.category}
+                            >
+                                {item.category}
+                            </Select.Option>
+                        ))}
+                    </Select>
                 </span>
             </div>
             <Search
@@ -181,9 +184,29 @@ const DoneList: React.FC<Props> = (props) => {
                                 }`}
                             >
                                 {time}&nbsp; ({getWeek(time)})
+                                {doneMap[time]?.length > 6
+                                    ? ` ${doneMap[time]?.length}`
+                                    : null}
                             </div>
                             <OneDayList
-                                list={doneMap[time]}
+                                list={
+                                    !isSortTime
+                                        ? doneMap[time]
+                                        : [...doneMap[time]].sort(
+                                              // sort 会改变原数组
+                                              (a, b) =>
+                                                  (b?.mTime
+                                                      ? new Date(
+                                                            b.mTime
+                                                        ).getTime()
+                                                      : 0) -
+                                                  (a?.mTime
+                                                      ? new Date(
+                                                            a.mTime
+                                                        ).getTime()
+                                                      : 0)
+                                          )
+                                }
                                 getTodo={() => getDoneTodo()}
                                 handleEdit={handleEdit}
                                 refreshData={refreshData}
@@ -201,6 +224,7 @@ const DoneList: React.FC<Props> = (props) => {
                     pageSize && setPageSize(pageSize);
                 }}
                 pageSize={pageSize}
+                pageSizeOptions={["15", "20", "30", "40", "50"]}
             />
         </div>
     );

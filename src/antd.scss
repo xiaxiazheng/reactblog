@@ -16,6 +16,11 @@
     padding: 0 !important;
 }
 
+.ant-modal-body {
+    max-height: calc(100vh - 150px) !important;
+    overflow-y: auto;
+}
+
 .ant-tooltip.ant-tooltip {
     max-width: 350px;
     .ant-tooltip-inner {
