@@ -93,7 +93,7 @@ const CMD: React.FC<ICMD> = (props) => {
 
     // 链接 websocket
     const connectWS = () => {
-        const websocket = new WebSocket("ws://www.xiaxiazheng.cn:3002/");
+        const websocket = new WebSocket("wss://www.xiaxiazheng.cn/websocket");
         ref.current = websocket;
         websocket.onopen = function () {
             pushResult(`websocket open`);
