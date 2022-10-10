@@ -80,34 +80,27 @@ const ListItem: React.FC<Props> = (props) => {
                 >
                     <div className={styles.item}>
                         <span>
-                            {showDoneIcon &&
-                                item.status == TodoStatus.todo &&
-                                !isHasChild && (
-                                    <Popconfirm
-                                        title="确认已完成吗？"
-                                        onConfirm={() => {
-                                            if (isAllChildDone) {
-                                                doneTodo(item.todo_id || "");
-                                            } else {
-                                                message.warning(
-                                                    "还有子任务待完成"
-                                                );
-                                            }
-                                        }}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
-                                        <Tooltip
-                                            title={"点击完成"}
-                                            color="#20d420"
-                                        >
-                                            <CheckCircleOutlined
-                                                title="完成"
-                                                className={styles.doneIcon}
-                                            />
-                                        </Tooltip>
-                                    </Popconfirm>
-                                )}
+                            {showDoneIcon && item.status == TodoStatus.todo && (
+                                <Popconfirm
+                                    title="确认已完成吗？"
+                                    onConfirm={() => {
+                                        if (isAllChildDone) {
+                                            doneTodo(item.todo_id || "");
+                                        } else {
+                                            message.warning("还有子任务待完成");
+                                        }
+                                    }}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <Tooltip title={"点击完成"} color="#20d420">
+                                        <CheckCircleOutlined
+                                            title="完成"
+                                            className={styles.doneIcon}
+                                        />
+                                    </Tooltip>
+                                </Popconfirm>
+                            )}
                             <NameWrapper
                                 item={item}
                                 isChild={isChild}
