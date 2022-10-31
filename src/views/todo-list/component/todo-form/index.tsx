@@ -118,25 +118,25 @@ const TodoForm: React.FC<Props> = (props) => {
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
-                <Radio.Group>
-                    <Radio key={"1"} value={"1"}>
+                <Radio.Group optionType="button" buttonStyle="solid">
+                    <Radio.Button key={"1"} value={"1"}>
                         是
-                    </Radio>
-                    <Radio key={"0"} value={"0"}>
+                    </Radio.Button>
+                    <Radio.Button key={"0"} value={"0"}>
                         否
-                    </Radio>
+                    </Radio.Button>
                 </Radio.Group>
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
-                <Radio.Group>
+                <Radio.Group optionType="button">
                     {colorList.map((item) => (
-                        <Radio
+                        <Radio.Button
                             key={item}
                             value={item}
                             style={{ color: colorMap[item] }}
                         >
                             {colorNameMap[item]}
-                        </Radio>
+                        </Radio.Button>
                     ))}
                 </Radio.Group>
             </Form.Item>
@@ -197,10 +197,10 @@ const TodoForm: React.FC<Props> = (props) => {
                 <MyDatePicker />
             </Form.Item>
             <Form.Item name="status" label="状态" rules={[{ required: true }]}>
-                <Radio.Group>
-                    <Radio value={0}>待办</Radio>
-                    <Radio value={1}>已完成</Radio>
-                    <Radio value={2}>待办池</Radio>
+                <Radio.Group optionType="button" buttonStyle="solid">
+                    <Radio.Button value={0}>待办</Radio.Button>
+                    <Radio.Button value={1}>已完成</Radio.Button>
+                    <Radio.Button value={2}>待办池</Radio.Button>
                 </Radio.Group>
             </Form.Item>
         </Form>
