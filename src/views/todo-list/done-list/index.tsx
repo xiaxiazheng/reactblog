@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Pagination, Select, message } from "antd";
+import { Input, Pagination, Select, message, Button } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
@@ -15,6 +15,7 @@ import { debounce } from "lodash";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { TodoStatus } from "../types";
 import SortBtn from "../component/sort-btn";
+import { ClearOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -125,6 +126,22 @@ const DoneList: React.FC<Props> = (props) => {
                             setIsSortTime={setIsSortTime}
                         />
                     </span>
+                    {(activeColor !== "" ||
+                        activeCategory !== "" ||
+                        keyword !== "") && (
+                        <span style={{ marginRight: 10 }}>
+                            <Button
+                                icon={<ClearOutlined />}
+                                type="primary"
+                                danger
+                                onClick={() => {
+                                    setActiveCategory("");
+                                    setActiveColor("");
+                                    setKeyword("");
+                                }}
+                            />
+                        </span>
+                    )}
                     <Select
                         value={activeColor}
                         onChange={(val) => setActiveColor(val)}
@@ -169,6 +186,7 @@ const DoneList: React.FC<Props> = (props) => {
                 onSearch={() => handleSearch()}
                 enterButton
                 allowClear={true}
+                placeholder="可用 % 分词实现一定模糊搜索"
             />
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(doneMap).map((time) => {
