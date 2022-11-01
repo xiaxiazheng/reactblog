@@ -18,7 +18,7 @@ const CMD: React.FC<ICMD> = (props) => {
     useDocumentTitle("CMD");
 
     const [cmd, setCmd] = useState<string>("pwd");
-    const [result, setResult] = useState<string>();
+    const [result, setResult] = useState<string>('-------');
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit = async () => {
@@ -91,15 +91,19 @@ const CMD: React.FC<ICMD> = (props) => {
     const resultRef = useRef<any>(null);
     const { scrollToBottom } = useScrollToHook(resultRef);
 
+    const [isConnect, setIsConnect] = useState<boolean>(false);
+
     // 链接 websocket
     const connectWS = () => {
         const websocket = new WebSocket("wss://www.xiaxiazheng.cn/websocket");
         ref.current = websocket;
         websocket.onopen = function () {
             pushResult(`websocket open`);
+            setIsConnect(true);
         };
         websocket.onclose = function () {
             pushResult(`websocket close`);
+            setIsConnect(false);
         };
         websocket.onmessage = function (e) {
             pushResult(
@@ -126,12 +130,15 @@ const CMD: React.FC<ICMD> = (props) => {
                     onChange={(e) => setCmd(e.target.value)}
                     rows={8}
                 />
-                <Space size={10}>
-                    <Button type="primary" onClick={() => submit()}>
-                        执行
-                    </Button>
-                    <Button onClick={() => saveScript()}>保存</Button>
-                </Space>
+                <div className={styles.btn}>
+                    <Space size={10}>
+                        <Button type="primary" onClick={() => submit()}>
+                            执行
+                        </Button>
+                        <Button onClick={() => saveScript()}>保存</Button>
+                    </Space>
+                    <Button danger={!isConnect} onClick={() => connectWS()}>重新连接</Button>
+                </div>
                 <div style={{ marginTop: 20 }}>结果：</div>
                 <Spin spinning={loading}>
                     <div className={styles.result} ref={resultRef}>
