@@ -8,10 +8,12 @@ import FileListBox from "@/components/file-image-handle/file-list-box";
 interface IProps {
     activeTodo: TodoItemType;
     refreshData: Function;
+    isOnlyShow?: boolean;
+    width?: string;
 }
 
-const TodoImage: React.FC<IProps> = (props) => {
-    const { activeTodo, refreshData } = props;
+const TodoImageFile: React.FC<IProps> = (props) => {
+    const { activeTodo, refreshData, isOnlyShow = false, width = '120px' } = props;
 
     useEffect(() => {
         activeTodo && setTodo(activeTodo);
@@ -29,23 +31,25 @@ const TodoImage: React.FC<IProps> = (props) => {
 
     return (
         <>
-            <FileImageUpload
-                other_id={activeTodo?.todo_id}
-                type="todo"
-                refresh={getTodo}
-                width="120px"
-            />
+            {!isOnlyShow && (
+                <FileImageUpload
+                    other_id={activeTodo?.todo_id}
+                    type="todo"
+                    refresh={getTodo}
+                    width={width}
+                />
+            )}
             {/* 图片列表 */}
             <ImageListBox
                 type="todo"
-                width="120px"
+                width={width}
                 refresh={getTodo}
                 imageList={todo?.imgList || []}
             />
             {/* 文件列表，暂时还没有 */}
             <FileListBox
                 type="todo"
-                width="120px"
+                width={width}
                 refresh={getTodo}
                 fileList={todo?.fileList || []}
             />
@@ -53,4 +57,4 @@ const TodoImage: React.FC<IProps> = (props) => {
     );
 };
 
-export default TodoImage;
+export default TodoImageFile;

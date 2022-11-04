@@ -13,6 +13,7 @@ import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorMap, colorNameMap, colorList } from "../../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
+import { CategoryType } from "../../types";
 
 const { TextArea } = Input;
 
@@ -25,7 +26,7 @@ interface Props {
 const TodoForm: React.FC<Props> = (props) => {
     const { form, onOk, isFieldsChange } = props;
 
-    const [category, setCategory] = useState<any[]>([]);
+    const [category, setCategory] = useState<CategoryType[]>([]);
     const getCategory = async () => {
         const res = await getTodoCategory();
         setCategory(res.data);
@@ -42,7 +43,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 category: name,
                 count: 0,
             },
-        ]);
+        ] as CategoryType[]);
     };
 
     const MyDatePicker = (props: any) => {

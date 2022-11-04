@@ -9,10 +9,10 @@ import {
     Tooltip,
 } from "antd";
 import styles from "./index.module.scss";
-import { TodoItemType, OperatorType } from "../../types";
+import { TodoItemType, OperatorType, EditTodoItemReq, CreateTodoItemReq } from "../../types";
 import moment from "moment";
 import TodoForm from "../todo-form";
-import TodoImage from "../todo-image";
+import TodoImageFile from "../todo-image-file";
 import {
     addTodoItem,
     deleteTodoItem,
@@ -78,7 +78,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
-            const req = {
+            const req: CreateTodoItemReq = {
                 name: formData.name,
                 time: moment(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
@@ -107,11 +107,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     // 编辑 todo
     const editTodo = async () => {
+        if (!activeTodo?.todo_id) return;
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
-            const req = {
-                todo_id: activeTodo?.todo_id,
+            const req: EditTodoItemReq = {
+                todo_id: activeTodo.todo_id,
                 name: formData.name,
                 time: moment(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
@@ -311,7 +312,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isFieldsChange={() => setIsEdit(true)}
             />
             {type === "edit" && activeTodo && (
-                <TodoImage refreshData={refreshData} activeTodo={activeTodo} />
+                <TodoImageFile refreshData={refreshData} activeTodo={activeTodo} />
             )}
         </Modal>
     );

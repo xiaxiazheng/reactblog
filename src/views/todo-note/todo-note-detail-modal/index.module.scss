@@ -1,0 +1,27 @@
+.note_item {
+    white-space: pre-line;
+    -webkit-box-orient: vertical;
+    white-space: pre-wrap;
+    font-size: 16px;
+
+    .category {
+        display: inline-block;
+        margin-right: 10px;
+        padding: 0 5px;
+        color: #40a9ff;
+        border: 1px solid #40a9ff;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+}
+
+.modal {
+    max-width: 60vw;
+    z-index: 2;
+    :global {
+        .ant-modal-body {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+    }
+}
