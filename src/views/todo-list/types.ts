@@ -13,6 +13,7 @@ export interface TodoItemType {
     cTime?: string;
     doing: "0" | "1";
     mTime?: string;
+    isNote?: "0" | "1";
 
     imgList: ImageType[];
     fileList: FileType[];

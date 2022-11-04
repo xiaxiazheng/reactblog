@@ -87,6 +87,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 category: formData.category,
                 other_id: formData.other_id || "",
                 doing: formData.doing || "0",
+                isNote: formData.isNote || "0",
             };
             const res = await addTodoItem(req);
             if (res) {
@@ -119,6 +120,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 category: formData.category,
                 other_id: formData.other_id || "",
                 doing: formData.doing || "0",
+                isNote: formData.isNote || "0",
             };
             const res = await editTodoItem(req);
             if (res) {
@@ -161,6 +163,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             color: item.color,
             category: item.category,
             doing: "0",
+            isNote: item.isNote,
         });
     };
 
@@ -177,6 +180,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             category: item.category,
             other_id: item.todo_id,
             doing: "0",
+            isNote: item.isNote,
         });
     };
 

@@ -85,6 +85,7 @@ const TodoList: React.FC = () => {
             category: item.category,
             other_id: item.other_id,
             doing: item.doing,
+            isNote: item.isNote
         });
         setShowEdit(true);
     };

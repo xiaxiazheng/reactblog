@@ -118,7 +118,22 @@ const TodoForm: React.FC<Props> = (props) => {
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
-                <Radio.Group optionType="button" buttonStyle="solid">
+                <Radio.Group optionType="button">
+                    <Radio.Button key={"1"} value={"1"}>
+                        是
+                    </Radio.Button>
+                    <Radio.Button key={"0"} value={"0"}>
+                        否
+                    </Radio.Button>
+                </Radio.Group>
+            </Form.Item>
+            <Form.Item
+                name="isNote"
+                label="存为便签"
+                rules={[{ required: true }]}
+                initialValue={"0"}
+            >
+                <Radio.Group optionType="button">
                     <Radio.Button key={"1"} value={"1"}>
                         是
                     </Radio.Button>
