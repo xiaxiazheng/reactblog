@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Form,
     Input,
@@ -14,8 +14,7 @@ import { colorMap, colorNameMap, colorList } from "../../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
 import { CategoryType } from "../../types";
-
-const { TextArea } = Input;
+import InputList from "../input-list";
 
 interface Props {
     form: FormInstance;
@@ -101,14 +100,8 @@ const TodoForm: React.FC<Props> = (props) => {
                     allowClear
                 />
             </Form.Item>
-            <Form.Item name="description" label="详细描述">
-                <TextArea
-                    placeholder="补充以及具体描述"
-                    // onPressEnter={onOk} 这里不可以绑定，不然每次敲换行都会保存
-                    autoSize={{ minRows: 8, maxRows: 10 }}
-                    style={{ wordBreak: "break-all" }}
-                    allowClear
-                />
+            <Form.Item name="description" label="详细描述" initialValue={""}>
+                <InputList />
             </Form.Item>
             <Form.Item name="other_id" label="前置 todo">
                 <Input allowClear />

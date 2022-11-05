@@ -12,6 +12,7 @@ import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { handleDesc } from "./utils";
+import { splitStr } from "../input-list";
 
 interface NameProps {
     item: TodoItemType;
@@ -34,8 +35,17 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 title={
                     <>
                         {item.description && (
-                            <div className={styles.desc}>
-                                {handleDesc(item.description)}
+                            <div className={styles.descList}>
+                                {item.description
+                                    .split(splitStr)
+                                    .map((i, index) => (
+                                        <div
+                                            className={styles.desc}
+                                            key={index}
+                                        >
+                                            {handleDesc(i)}
+                                        </div>
+                                    ))}
                             </div>
                         )}
                         {item.imgList.length !== 0 && (
