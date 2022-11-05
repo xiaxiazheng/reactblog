@@ -40,7 +40,6 @@ const TodoNote: React.FC = () => {
         }
 
         const res = await getTodoList(params);
-        console.log(res);
 
         if (res) {
             setList(res?.data?.list || []);

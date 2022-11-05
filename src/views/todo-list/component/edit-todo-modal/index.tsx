@@ -39,7 +39,7 @@ const titleMap = {
     add: "新增",
     edit: "编辑",
     copy: "复制",
-    add_progress: "新增进度",
+    add_progress: "新增后续 todo",
 };
 
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
@@ -168,8 +168,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         });
     };
 
-    // 处理添加进度
-    const handleAddProgress = (item: TodoItemType) => {
+    // 处理后续 todo
+    const handleNextTask = (item: TodoItemType) => {
         setActiveTodo(item);
         setType("add_progress");
         form.setFieldsValue({
@@ -282,10 +282,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     ghost
                                     onClick={() =>
                                         activeTodo &&
-                                        handleAddProgress(activeTodo)
+                                        handleNextTask(activeTodo)
                                     }
                                 >
-                                    添加进度
+                                    添加后续 todo
                                 </Button>
                             </>
                         ) : (

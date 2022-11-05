@@ -110,7 +110,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     allowClear
                 />
             </Form.Item>
-            <Form.Item name="other_id" label="父级">
+            <Form.Item name="other_id" label="前置 todo">
                 <Input allowClear />
             </Form.Item>
             <Form.Item

@@ -67,11 +67,6 @@ const ListItem: React.FC<Props> = (props) => {
         const renderItem = (item: TodoItemType) => {
             const isHasChild =
                 item?.child_todo_list && item?.child_todo_list.length !== 0;
-            const isAllChildDone = isHasChild
-                ? item?.child_todo_list?.every(
-                      (item) => item.status == TodoStatus.done
-                  )
-                : true;
 
             return (
                 <div
@@ -84,11 +79,7 @@ const ListItem: React.FC<Props> = (props) => {
                                 <Popconfirm
                                     title="确认已完成吗？"
                                     onConfirm={() => {
-                                        if (isAllChildDone) {
-                                            doneTodo(item.todo_id || "");
-                                        } else {
-                                            message.warning("还有子任务待完成");
-                                        }
+                                        doneTodo(item.todo_id || "");
                                     }}
                                     okText="Yes"
                                     cancelText="No"
@@ -108,13 +99,13 @@ const ListItem: React.FC<Props> = (props) => {
                                 refreshData={refreshData}
                             />
                             {item?.other_id && !isShowAllLevel && (
-                                <Tooltip title={"查看父级所有进度"}>
+                                <Tooltip title={"查看前置 todo 的所有后续 todo"}>
                                     <GoldOutlined
                                         className={styles.progressIcon}
                                         style={{
                                             color: "#40a9ff",
                                         }}
-                                        title="查看父级所有进度"
+                                        title="查看前置 todo 所有后续 todo"
                                         onClick={() =>
                                             getParentTodo(item?.other_id || "")
                                         }
@@ -122,13 +113,13 @@ const ListItem: React.FC<Props> = (props) => {
                                 </Tooltip>
                             )}
                             {isHasChild && !isShowAllLevel && (
-                                <Tooltip title={"查看进度"}>
+                                <Tooltip title={"查看后续 todo"}>
                                     <ApartmentOutlined
                                         className={styles.progressIcon}
                                         style={{
                                             color: "#40a9ff",
                                         }}
-                                        title="查看进度"
+                                        title="查看后续 todo"
                                         onClick={() => {
                                             setActiveTodo(item);
                                             setShowDrawer(true);
@@ -193,7 +184,7 @@ const ListItem: React.FC<Props> = (props) => {
         <div>
             <div>{renderItemList(list, false, false)}</div>
             <Modal
-                title={"所有层级"}
+                title={"todo 链路"}
                 visible={showDrawer}
                 onCancel={() => setShowDrawer(false)}
                 footer={null}

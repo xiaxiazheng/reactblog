@@ -51,7 +51,7 @@ const List: React.FC<Props> = (props) => {
         0
     );
 
-    // 把过期任务的日期调整成今天
+    // 把过期 todo 的日期调整成今天
     const changeExpireToToday = async (list: any[]) => {
         const promiseList = list.map((item) => {
             return editTodoItem({
