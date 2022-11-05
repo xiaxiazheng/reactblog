@@ -183,7 +183,9 @@ const Note: React.FC = () => {
                 {/* 详情 */}
                 <NoteDetailModal
                     visible={isShowDetail}
-                    activeNote={activeNote}
+                    activeNote={list?.find(
+                        (item) => item.note_id === activeNote?.note_id
+                    )}
                     refreshData={refreshData}
                     onCancel={() => {
                         setActiveNote(undefined);
@@ -195,7 +197,6 @@ const Note: React.FC = () => {
                         refreshData();
                     }}
                     handleEdit={() => {
-                        setIsShowDetail(false);
                         setIsShowModal(true);
                     }}
                 />
@@ -207,7 +208,6 @@ const Note: React.FC = () => {
                     activeNote={activeNote}
                     setActiveNote={setActiveNote}
                     closeModal={() => {
-                        setActiveNote(undefined);
                         setIsShowModal(false);
                     }}
                     refreshData={refreshData}

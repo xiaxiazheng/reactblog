@@ -79,7 +79,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
                             handleCopy(activeNote?.note || "");
                         }}
                     >
-                        复制
+                        复制内容
                     </Button>
                     <Button
                         className={styles.edit_note}
