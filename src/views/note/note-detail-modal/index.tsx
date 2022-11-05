@@ -13,10 +13,18 @@ interface IProps {
     onCancel: Function;
     handleDelete: Function;
     handleEdit: Function;
+    refreshData: Function;
 }
 
 const NoteDetailModal: React.FC<IProps> = (props) => {
-    const { visible, activeNote, onCancel, handleDelete, handleEdit } = props;
+    const {
+        visible,
+        activeNote,
+        onCancel,
+        handleDelete,
+        handleEdit,
+        refreshData,
+    } = props;
 
     const onDelete = async () => {
         if (activeNote?.imgList.length !== 0) {
@@ -100,9 +108,9 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
                 <span className={styles.category}>{activeNote?.category}</span>
                 <span>{handleNote(activeNote, "")}</span>
                 <ImgFileNoteList
-                    isOnlyShow={true}
                     activeNote={activeNote}
                     width="140px"
+                    refreshData={refreshData}
                 />
             </div>
         </Modal>

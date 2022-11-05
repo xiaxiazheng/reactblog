@@ -184,6 +184,7 @@ const Note: React.FC = () => {
                 <NoteDetailModal
                     visible={isShowDetail}
                     activeNote={activeNote}
+                    refreshData={refreshData}
                     onCancel={() => {
                         setActiveNote(undefined);
                         setIsShowDetail(false);
