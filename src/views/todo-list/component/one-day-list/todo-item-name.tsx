@@ -5,11 +5,13 @@ import {
     QuestionCircleOutlined,
     FileImageOutlined,
     StarFilled,
+    FileTextOutlined,
 } from "@ant-design/icons";
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
+import { handleDesc } from "./utils";
 
 interface NameProps {
     item: TodoItemType;
@@ -17,43 +19,7 @@ interface NameProps {
     handleEdit: Function;
 }
 
-// 处理详细描述，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
-const handleDesc = (str: string) => {
-    const re = /http[s]?:\/\/[^\s]*/g;
-    let match;
-    const urlList: string[] = [];
-    let s = str;
-    while ((match = re.exec(str)) !== null) {
-        const url = match[0];
-        urlList.push(url);
-        s = s.replace(url, "<url_flag>");
-    }
-
-    return urlList.length === 0 ? (
-        str
-    ) : (
-        <span>
-            {s.split("<url_flag>").map((item, index) => {
-                return (
-                    <span key={index}>
-                        {item}
-                        {urlList[index] && (
-                            <a
-                                style={{ color: "black" }}
-                                href={urlList[index]}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {urlList[index]}
-                            </a>
-                        )}
-                    </span>
-                );
-            })}
-        </span>
-    );
-};
-
+// 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, refreshData, handleEdit } = props;
 
@@ -111,14 +77,15 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 >
                     {item.category}
                 </span>
+
+                {item.isNote === "1" && (
+                    <FileTextOutlined style={{ marginRight: 5 }} />
+                )}
+
                 {isDone ? (
-                    <s className={styles.throughout}>
-                        {item.name}
-                    </s>
+                    <s className={styles.throughout}>{item.name}</s>
                 ) : (
-                    <span>
-                        {item.name}
-                    </span>
+                    <span>{item.name}</span>
                 )}
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />

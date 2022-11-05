@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { Collapse, message, Modal, Popconfirm, Tooltip } from "antd";
+import { message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
-    ApartmentOutlined,
-    GoldOutlined,
-    UpOutlined,
     DownCircleOutlined,
     UpCircleOutlined,
 } from "@ant-design/icons";
-import { doneTodoItem, getTodoById } from "@/client/TodoListHelper";
+import { doneTodoItem } from "@/client/TodoListHelper";
 import { StatusType, TodoItemType, TodoStatus } from "../../types";
 import NameWrapper from "./todo-item-name";
 
@@ -24,6 +21,7 @@ interface Props {
     isTrainChild?: boolean;
 }
 
+// 单条 todo 的渲染
 const TodoItem: React.FC<Props> = (props) => {
     const {
         item,
