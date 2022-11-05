@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { doneTodoItem } from "@/client/TodoListHelper";
 import { StatusType, TodoItemType, TodoStatus } from "../../types";
-import NameWrapper from "./todo-item-name";
+import TodoItemName from "./todo-item-name";
 
 interface Props {
     item: TodoItemType;
@@ -73,7 +73,7 @@ const TodoItem: React.FC<Props> = (props) => {
                             </Tooltip>
                         </Popconfirm>
                     )}
-                    <NameWrapper
+                    <TodoItemName
                         item={item}
                         handleEdit={handleEdit}
                         refreshData={refreshData}

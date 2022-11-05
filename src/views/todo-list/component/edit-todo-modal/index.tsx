@@ -9,7 +9,12 @@ import {
     Tooltip,
 } from "antd";
 import styles from "./index.module.scss";
-import { TodoItemType, OperatorType, EditTodoItemReq, CreateTodoItemReq } from "../../types";
+import {
+    TodoItemType,
+    OperatorType,
+    EditTodoItemReq,
+    CreateTodoItemReq,
+} from "../../types";
 import moment from "moment";
 import TodoForm from "../todo-form";
 import TodoImageFile from "../todo-image-file";
@@ -152,20 +157,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
-    // 处理复制
-    const handleCopy = (item: TodoItemType) => {
-        setActiveTodo(item);
-        setType("copy");
+    // 创建副本
+    const createACopy = async (item: TodoItemType) => {
         form.setFieldsValue({
-            name: item.name,
-            description: item.description,
-            time: moment(item.time),
-            status: Number(item.status),
-            color: item.color,
-            category: item.category,
-            doing: "0",
-            isNote: item.isNote,
+            name: `${item.name} - 副本`,
         });
+        await addTodo();
+        setIsEdit(false);
     };
 
     // 处理后续 todo
@@ -242,6 +240,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 <Popconfirm
                                     title="确定删除吗"
                                     disabled={
+                                        isEdit ||
                                         (activeTodo?.imgList &&
                                             activeTodo.imgList.length !== 0) ||
                                         (activeTodo?.fileList &&
@@ -256,6 +255,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     <Button
                                         danger
                                         disabled={
+                                            isEdit ||
                                             (activeTodo?.imgList &&
                                                 activeTodo.imgList.length !==
                                                     0) ||
@@ -271,19 +271,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     type="primary"
                                     ghost
                                     onClick={() =>
-                                        activeTodo && handleCopy(activeTodo)
+                                        activeTodo && createACopy(activeTodo)
                                     }
                                     danger
+                                    disabled={isEdit}
                                 >
-                                    复制
+                                    创建副本
                                 </Button>
                                 <Button
                                     type="primary"
                                     ghost
                                     onClick={() =>
-                                        activeTodo &&
-                                        handleNextTask(activeTodo)
+                                        activeTodo && handleNextTask(activeTodo)
                                     }
+                                    disabled={isEdit}
                                 >
                                     添加后续 todo
                                 </Button>
@@ -312,7 +313,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isFieldsChange={() => setIsEdit(true)}
             />
             {type === "edit" && activeTodo && (
-                <TodoImageFile refreshData={refreshData} activeTodo={activeTodo} />
+                <TodoImageFile
+                    refreshData={refreshData}
+                    activeTodo={activeTodo}
+                />
             )}
         </Modal>
     );
