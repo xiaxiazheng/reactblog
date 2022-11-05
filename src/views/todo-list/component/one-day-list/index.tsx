@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { Collapse, message, Modal, Popconfirm, Tooltip } from "antd";
-import {
-    CheckCircleOutlined,
-    ApartmentOutlined,
-    GoldOutlined,
-} from "@ant-design/icons";
-import { doneTodoItem, getTodoById } from "@/client/TodoListHelper";
-import { StatusType, TodoItemType, TodoStatus } from "../../types";
-import NameWrapper from "./name-wrapper";
+import { Modal } from "antd";
+import { getTodoById } from "@/client/TodoListHelper";
+import { StatusType, TodoItemType } from "../../types";
+import TodoItem from "./todo-item";
 
 interface Props {
     list: TodoItemType[];
@@ -18,7 +13,7 @@ interface Props {
     showDoneIcon?: boolean;
 }
 
-const ListItem: React.FC<Props> = (props) => {
+const OneDayList: React.FC<Props> = (props) => {
     const {
         list,
         getTodo,
@@ -27,162 +22,30 @@ const ListItem: React.FC<Props> = (props) => {
         showDoneIcon = false,
     } = props;
 
-    // 完成 todo（只有待办才能触发这个函数）
-    const doneTodo = async (todo_id: string) => {
-        const req = {
-            todo_id,
-        };
-        const res = await doneTodoItem(req);
-        if (res) {
-            message.success(res.message);
-            getTodo("done");
-            getTodo("todo");
-        } else {
-            message.error("完成 todo 失败");
-        }
-    };
-
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
-    const getParentTodo = async (other_id: string) => {
-        const res = await getTodoById(other_id);
+    const getParentTodo = async (parent_todo_id: string) => {
+        const res = await getTodoById(parent_todo_id);
         setActiveTodo(res.data);
         setShowDrawer(true);
     };
 
-    const renderItemList = (
-        list: TodoItemType[],
-        isChild: boolean,
-        isShowAllLevel: boolean
-    ) => {
-        if (!list) {
-            return null;
-        }
-        const map = list.reduce((prev: any, cur: any) => {
-            prev[cur.todo_id || ""] = true;
-            return prev;
-        }, {});
-
-        const renderItem = (item: TodoItemType) => {
-            const isHasChild =
-                item?.child_todo_list && item?.child_todo_list.length !== 0;
-
-            return (
-                <div
-                    key={item.todo_id}
-                    className={isChild ? styles.childList : ""}
-                >
-                    <div className={styles.item}>
-                        <span>
-                            {showDoneIcon && item.status == TodoStatus.todo && (
-                                <Popconfirm
-                                    title="确认已完成吗？"
-                                    onConfirm={() => {
-                                        doneTodo(item.todo_id || "");
-                                    }}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <Tooltip title={"点击完成"} color="#20d420">
-                                        <CheckCircleOutlined
-                                            title="完成"
-                                            className={styles.doneIcon}
-                                        />
-                                    </Tooltip>
-                                </Popconfirm>
-                            )}
-                            <NameWrapper
-                                item={item}
-                                isChild={isChild}
-                                handleEdit={handleEdit}
-                                refreshData={refreshData}
-                            />
-                            {item?.other_id && !isShowAllLevel && (
-                                <Tooltip title={"查看前置 todo 的所有后续 todo"}>
-                                    <GoldOutlined
-                                        className={styles.progressIcon}
-                                        style={{
-                                            color: "#40a9ff",
-                                        }}
-                                        title="查看前置 todo 所有后续 todo"
-                                        onClick={() =>
-                                            getParentTodo(item?.other_id || "")
-                                        }
-                                    />
-                                </Tooltip>
-                            )}
-                            {isHasChild && !isShowAllLevel && (
-                                <Tooltip title={"查看后续 todo"}>
-                                    <ApartmentOutlined
-                                        className={styles.progressIcon}
-                                        style={{
-                                            color: "#40a9ff",
-                                        }}
-                                        title="查看后续 todo"
-                                        onClick={() => {
-                                            setActiveTodo(item);
-                                            setShowDrawer(true);
-                                        }}
-                                    />
-                                </Tooltip>
-                            )}
-                        </span>
-                    </div>
-                </div>
-            );
-        };
-
-        return (
-            <div>
-                {list
-                    .filter((item) => !map[item.other_id || ""])
-                    .map((item: TodoItemType) => {
-                        const isHasChild =
-                            item?.child_todo_list &&
-                            item?.child_todo_list.length !== 0;
-
-                        const childListNow = isShowAllLevel
-                            ? item.child_todo_list
-                            : (isHasChild &&
-                                  item.child_todo_list.filter(
-                                      (child) => map[child.todo_id || ""]
-                                  )) ||
-                              [];
-
-                        return (
-                            <div key={item.todo_id}>
-                                {childListNow.length > 0 ? (
-                                    <Collapse
-                                        ghost
-                                        defaultActiveKey={[item.todo_id || ""]}
-                                    >
-                                        <Collapse.Panel
-                                            header={renderItem(item)}
-                                            key={item.todo_id || ""}
-                                        >
-                                            {childListNow.map((child) => {
-                                                return (
-                                                    <div key={child.todo_id}>
-                                                        {renderItem(child)}
-                                                    </div>
-                                                );
-                                            })}
-                                        </Collapse.Panel>
-                                    </Collapse>
-                                ) : (
-                                    <>{renderItem(item)}</>
-                                )}
-                            </div>
-                        );
-                    })}
-            </div>
-        );
-    };
-
     return (
         <div>
-            <div>{renderItemList(list, false, false)}</div>
+            <div>
+                {list.map((item) => (
+                    <TodoItem
+                        key={item.todo_id}
+                        item={item}
+                        getTodo={getTodo}
+                        handleEdit={handleEdit}
+                        refreshData={refreshData}
+                        showDoneIcon={showDoneIcon}
+                        getParentTodo={getParentTodo}
+                    />
+                ))}
+            </div>
             <Modal
                 title={"todo 链路"}
                 visible={showDrawer}
@@ -190,11 +53,39 @@ const ListItem: React.FC<Props> = (props) => {
                 footer={null}
             >
                 <div className={styles.modal}>
-                    {activeTodo && renderItemList([activeTodo], false, true)}
+                    {activeTodo && (
+                        <>
+                            <div>当前：</div>
+                            <TodoItem
+                                item={activeTodo}
+                                getTodo={getTodo}
+                                handleEdit={handleEdit}
+                                refreshData={refreshData}
+                                showDoneIcon={showDoneIcon}
+                                getParentTodo={getParentTodo}
+                                isTrainParent={true}
+                            />
+                            <div>后续：</div>
+                            {activeTodo.child_todo_list.map((item) => (
+                                <div key={item.todo_id}>
+                                    <TodoItem
+                                        key={item.todo_id}
+                                        item={item}
+                                        getTodo={getTodo}
+                                        handleEdit={handleEdit}
+                                        refreshData={refreshData}
+                                        showDoneIcon={showDoneIcon}
+                                        getParentTodo={getParentTodo}
+                                        isTrainChild={true}
+                                    />
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </div>
             </Modal>
         </div>
     );
 };
 
-export default ListItem;
+export default OneDayList;

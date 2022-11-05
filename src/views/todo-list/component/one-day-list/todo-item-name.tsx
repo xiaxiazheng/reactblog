@@ -13,7 +13,6 @@ import FileListBox from "@/components/file-image-handle/file-list-box";
 
 interface NameProps {
     item: TodoItemType;
-    isChild: boolean;
     refreshData: Function;
     handleEdit: Function;
 }
@@ -55,8 +54,8 @@ const handleDesc = (str: string) => {
     );
 };
 
-const NameWrapper: React.FC<NameProps> = (props) => {
-    const { item, isChild, refreshData, handleEdit } = props;
+const TodoItemName: React.FC<NameProps> = (props) => {
+    const { item, refreshData, handleEdit } = props;
 
     const isDoing = item.status == TodoStatus.todo;
     const isDone = item.status == TodoStatus.done;
@@ -115,12 +114,10 @@ const NameWrapper: React.FC<NameProps> = (props) => {
                 {isDone ? (
                     <s className={styles.throughout}>
                         {item.name}
-                        {isChild && `（${item.time}）`}
                     </s>
                 ) : (
                     <span>
                         {item.name}
-                        {isChild && `（${item.time}）`}
                     </span>
                 )}
                 {item.description && (
@@ -134,4 +131,4 @@ const NameWrapper: React.FC<NameProps> = (props) => {
     );
 };
 
-export default NameWrapper;
+export default TodoItemName;
