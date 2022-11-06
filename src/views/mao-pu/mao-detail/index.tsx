@@ -301,7 +301,7 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
                     isShowUpload={headList.length === 0}
                 />
                 {/* 其他图片管理 */}
-                <div>其他图片</div>
+                <div>其他图片 ({imgList?.length})</div>
                 <ImgManage
                     type={"mao"}
                     other_id={mao.mao_id}
