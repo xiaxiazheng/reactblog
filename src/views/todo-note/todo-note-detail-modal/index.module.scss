@@ -12,6 +12,7 @@
         border: 1px solid #40a9ff;
         border-radius: 4px;
         font-size: 12px;
+        vertical-align: 1px;
     }
 }
 
@@ -24,4 +25,14 @@
             overflow-y: auto;
         }
     }
+}
+
+.note_header {
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ccc;
+}
+
+.note_content {
+    margin-bottom: 10px;
 }

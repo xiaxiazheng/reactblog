@@ -138,13 +138,13 @@ const TodoNote: React.FC = () => {
                                             setIsShowDetail(true);
                                         }}
                                     >
-                                        <div>
+                                        <div className={styles.note_header}>
                                             <span className={styles.category}>
                                                 {item.category}
                                             </span>
                                             <span>{item.name}</span>
                                         </div>
-                                        <span>{handleNote(item, keyword)}</span>
+                                        <div className={styles.note_content}>{handleNote(item, keyword)}</div>
                                         <TodoImageFile
                                             isOnlyShow={true}
                                             activeTodo={item}

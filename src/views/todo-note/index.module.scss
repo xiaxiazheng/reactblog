@@ -78,13 +78,9 @@
     border: 2px solid #ccc;
     border-radius: 4px;
     white-space: pre-line;
-    overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 8;
-    -webkit-box-orient: vertical;
-    white-space: pre-wrap;
     font-size: 16px;
+    overflow: hidden;
     &.active {
         border-color: #40a9ff;
         -webkit-line-clamp: unset;
@@ -105,5 +101,20 @@
         border: 1px solid #40a9ff;
         border-radius: 4px;
         font-size: 12px;
+    }
+
+    .note_header {
+        margin-bottom: 2px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .note_content {
+        display: -webkit-box;
+        -webkit-line-clamp: 8;
+        -webkit-box-orient: vertical;
+        white-space: pre-wrap;
+        overflow: hidden;
+        margin-bottom: 5px;
     }
 }

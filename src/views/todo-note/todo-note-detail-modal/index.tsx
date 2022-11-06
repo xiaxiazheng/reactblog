@@ -101,16 +101,17 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
             }
         >
             <div className={`${styles.note_item} ScrollBar`}>
-                <div>
+                <div className={styles.note_header}>
                     <span className={styles.category}>
                         {activeTodo?.category}
                     </span>
                     <span>{activeTodo?.name}</span>
                 </div>
-                <div>{handleNote(activeTodo, "")}</div>
+                <div className={styles.note_content}>
+                    {handleNote(activeTodo, "")}
+                </div>
                 {activeTodo && (
                     <TodoImageFile
-                        isOnlyShow={true}
                         activeTodo={activeTodo}
                         width="140px"
                         refreshData={refreshData}
