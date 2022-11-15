@@ -3,8 +3,9 @@ import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
-    DownCircleOutlined,
-    UpCircleOutlined,
+    SwapLeftOutlined,
+    SwapOutlined,
+    SwapRightOutlined,
 } from "@ant-design/icons";
 import { doneTodoItem } from "@/client/TodoListHelper";
 import { StatusType, TodoItemType, TodoStatus } from "../../types";
@@ -16,9 +17,7 @@ interface Props {
     handleEdit: Function;
     refreshData: Function;
     showDoneIcon?: boolean;
-    getParentTodo: (parent_todo_id: string) => void;
-    isTrainParent?: boolean;
-    isTrainChild?: boolean;
+    showTodoChain: (todo_id: string) => void;
 }
 
 // 单条 todo 的渲染
@@ -29,9 +28,7 @@ const TodoItem: React.FC<Props> = (props) => {
         handleEdit,
         refreshData,
         showDoneIcon,
-        getParentTodo,
-        isTrainParent = false,
-        isTrainChild = false,
+        showTodoChain,
     } = props;
 
     // 完成 todo（只有待办才能触发这个函数）
@@ -51,6 +48,46 @@ const TodoItem: React.FC<Props> = (props) => {
 
     const isHasChild =
         item?.child_todo_list && item?.child_todo_list.length !== 0;
+
+    const Icon = () => {
+        const isUp = item?.other_id;
+        const isDown = isHasChild;
+
+        if (!isUp && !isDown) {
+            return null;
+        }
+        let Comp: any;
+
+        if (isUp && isDown) {
+            Comp = SwapOutlined;
+        } else if (isUp) {
+            Comp = SwapLeftOutlined;
+        } else {
+            Comp = SwapRightOutlined;
+        }
+
+        return (
+            <Tooltip
+                title={`查看 todo 链 ${
+                    isDown
+                        ? `(后置任务数 ${item?.child_todo_list.length})`
+                        : ""
+                }`}
+            >
+                <Comp
+                    className={styles.progressIcon}
+                    style={{
+                        color: "#40a9ff",
+                    }}
+                    title="查看 todo 链"
+                    onClick={() => {
+                        console.log(item);
+                        showTodoChain(item.todo_id);
+                    }}
+                />
+            </Tooltip>
+        );
+    };
 
     return (
         <div key={item.todo_id}>
@@ -78,34 +115,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         handleEdit={handleEdit}
                         refreshData={refreshData}
                     />
-                    {item?.other_id && !isTrainChild && (
-                        <Tooltip title={"查看前置 todo 的所有后续 todo"}>
-                            <UpCircleOutlined
-                                className={styles.progressIcon}
-                                style={{
-                                    color: "#40a9ff",
-                                }}
-                                title="查看前置 todo 所有后续 todo"
-                                onClick={() =>
-                                    getParentTodo(item?.other_id || "")
-                                }
-                            />
-                        </Tooltip>
-                    )}
-                    {isHasChild && !isTrainParent && (
-                        <Tooltip title={"查看后续 todo"}>
-                            <DownCircleOutlined
-                                className={styles.progressIcon}
-                                style={{
-                                    color: "#40a9ff",
-                                }}
-                                title="查看后续 todo"
-                                onClick={() => {
-                                    getParentTodo(item.todo_id);
-                                }}
-                            />
-                        </Tooltip>
-                    )}
+                    <Icon />
                 </span>
             </div>
         </div>
