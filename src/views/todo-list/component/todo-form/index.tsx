@@ -15,6 +15,7 @@ import styles from "./index.module.scss";
 import moment from "moment";
 import { CategoryType } from "../../types";
 import InputList from "../input-list";
+import SwitchComp from "./switch";
 
 interface Props {
     form: FormInstance;
@@ -112,14 +113,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
-                <Radio.Group optionType="button">
-                    <Radio.Button key={"1"} value={"1"}>
-                        是
-                    </Radio.Button>
-                    <Radio.Button key={"0"} value={"0"}>
-                        否
-                    </Radio.Button>
-                </Radio.Group>
+                <SwitchComp />
             </Form.Item>
             <Form.Item
                 name="isNote"
@@ -127,14 +121,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
-                <Radio.Group optionType="button">
-                    <Radio.Button key={"1"} value={"1"}>
-                        是
-                    </Radio.Button>
-                    <Radio.Button key={"0"} value={"0"}>
-                        否
-                    </Radio.Button>
-                </Radio.Group>
+                <SwitchComp />
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group optionType="button">

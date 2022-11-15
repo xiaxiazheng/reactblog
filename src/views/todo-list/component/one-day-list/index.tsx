@@ -75,25 +75,44 @@ const OneDayList: React.FC<Props> = (props) => {
                 <Spin spinning={loading} className={styles.modal}>
                     {activeTodo && (
                         <>
-                            <h4>前置：</h4>
-                            {todoChainList
-                                .filter((item) => item.todo_id !== activeTodoId)
-                                .map((item) => (
-                                    <TodoItem
-                                        key={item.todo_id}
-                                        item={item}
-                                        getTodo={getTodo}
-                                        handleEdit={handleEdit}
-                                        refreshData={refreshData}
-                                        showDoneIcon={false}
-                                        showTodoChain={(todo_id: string) => {
-                                            setActiveTodoId(todo_id);
-                                            setShowDrawer(true);
-                                        }}
-                                    />
-                                ))}
-                            <Divider style={{ margin: "12px 0" }} />
-                            <h4>当前：</h4>
+                            {todoChainList.filter(
+                                (item) => item.todo_id !== activeTodoId
+                            )?.length !== 0 && (
+                                <>
+                                    <h4>前置：</h4>
+                                    {todoChainList
+                                        .filter(
+                                            (item) =>
+                                                item.todo_id !== activeTodoId
+                                        )
+                                        .map((item) => (
+                                            <TodoItem
+                                                key={item.todo_id}
+                                                item={item}
+                                                getTodo={getTodo}
+                                                handleEdit={handleEdit}
+                                                refreshData={refreshData}
+                                                showDoneIcon={false}
+                                                showTodoChain={(
+                                                    todo_id: string
+                                                ) => {
+                                                    setActiveTodoId(todo_id);
+                                                    setShowDrawer(true);
+                                                }}
+                                            />
+                                        ))}
+                                    <Divider style={{ margin: "12px 0" }} />
+                                </>
+                            )}
+                            <h4>
+                                <span
+                                    style={{
+                                        color: "#40a9ff",
+                                    }}
+                                >
+                                    当前：
+                                </span>
+                            </h4>
                             <TodoItem
                                 item={activeTodo}
                                 getTodo={getTodo}
@@ -105,24 +124,30 @@ const OneDayList: React.FC<Props> = (props) => {
                                     setShowDrawer(true);
                                 }}
                             />
-                            <Divider style={{ margin: "12px 0" }} />
-                            <h4>后续：</h4>
-                            {activeTodo.child_todo_list.map((item) => (
-                                <div key={item.todo_id}>
-                                    <TodoItem
-                                        key={item.todo_id}
-                                        item={item}
-                                        getTodo={getTodo}
-                                        handleEdit={handleEdit}
-                                        refreshData={refreshData}
-                                        showDoneIcon={false}
-                                        showTodoChain={(todo_id: string) => {
-                                            setActiveTodoId(todo_id);
-                                            setShowDrawer(true);
-                                        }}
-                                    />
-                                </div>
-                            ))}
+                            {activeTodo.child_todo_list?.length !== 0 && (
+                                <>
+                                    <Divider style={{ margin: "12px 0" }} />
+                                    <h4>后续：</h4>
+                                    {activeTodo.child_todo_list.map((item) => (
+                                        <div key={item.todo_id}>
+                                            <TodoItem
+                                                key={item.todo_id}
+                                                item={item}
+                                                getTodo={getTodo}
+                                                handleEdit={handleEdit}
+                                                refreshData={refreshData}
+                                                showDoneIcon={false}
+                                                showTodoChain={(
+                                                    todo_id: string
+                                                ) => {
+                                                    setActiveTodoId(todo_id);
+                                                    setShowDrawer(true);
+                                                }}
+                                            />
+                                        </div>
+                                    ))}
+                                </>
+                            )}
                         </>
                     )}
                 </Spin>
