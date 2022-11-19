@@ -4,6 +4,7 @@ import { Divider, Modal, Spin } from "antd";
 import { getTodoChainById } from "@/client/TodoListHelper";
 import { StatusType, TodoItemType } from "../../types";
 import TodoItem from "./todo-item";
+import { useUpdateFlag } from "../../hooks";
 
 interface Props {
     list: TodoItemType[];
@@ -27,13 +28,17 @@ const OneDayList: React.FC<Props> = (props) => {
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
+    const { flag } = useUpdateFlag();
+
     useEffect(() => {
-        if (activeTodoId) {
-            getTodoChain(activeTodoId);
-        } else {
-            setTodoChainList([]);
+        if (showDrawer) {
+            if (activeTodoId) {
+                getTodoChain(activeTodoId);
+            } else {
+                setTodoChainList([]);
+            }
         }
-    }, [activeTodoId]);
+    }, [activeTodoId, showDrawer, flag]);
 
     const [loading, setLoading] = useState<boolean>(false);
 

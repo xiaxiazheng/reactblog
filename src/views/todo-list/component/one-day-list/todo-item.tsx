@@ -91,7 +91,6 @@ const TodoItem: React.FC<Props> = (props) => {
                     }}
                     title="查看 todo 链"
                     onClick={() => {
-                        console.log(item);
                         showTodoChain(item.todo_id);
                     }}
                 />

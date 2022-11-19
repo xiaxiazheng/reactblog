@@ -11,6 +11,8 @@ import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { useUpdateFlag } from "./hooks";
+import { TodoProvider } from "./TodoContext";
 
 const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
@@ -85,17 +87,20 @@ const TodoList: React.FC = () => {
             category: item.category,
             other_id: item.other_id,
             doing: item.doing,
-            isNote: item.isNote
+            isNote: item.isNote,
         });
         setShowEdit(true);
     };
 
     const [form] = Form.useForm();
 
+    const { updateFlag } = useUpdateFlag();
+
     const refreshData = () => {
         getTodo("todo");
         getTodo("done");
         getTodo("pool");
+        updateFlag();
     };
 
     const today = moment().format("YYYY-MM-DD");
@@ -196,4 +201,10 @@ const TodoList: React.FC = () => {
     );
 };
 
-export default TodoList;
+const TodoListWrapper: React.FC = () => (
+    <TodoProvider>
+        <TodoList />
+    </TodoProvider>
+);
+
+export default TodoListWrapper;

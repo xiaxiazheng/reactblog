@@ -83,22 +83,6 @@ const List: React.FC<Props> = (props) => {
         }
     };
 
-    // 把待办池丢到 todo
-    const changePoolToTodo = async (list: any[]) => {
-        const promiseList = list.map((item) => {
-            return editTodoItem({
-                ...item,
-                status: TodoStatus.todo,
-            });
-        });
-        const res = await Promise.all(promiseList);
-        if (res) {
-            message.success(`Todo 调整到待办池成功`);
-            getTodo("todo");
-            getTodo("pool");
-        }
-    };
-
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
 
     // 获取展示的 list
