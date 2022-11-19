@@ -93,6 +93,7 @@ const OneDayList: React.FC<Props> = (props) => {
                                                 handleEdit={handleEdit}
                                                 refreshData={refreshData}
                                                 showDoneIcon={false}
+                                                isChain={true}
                                                 showTodoChain={(
                                                     todo_id: string
                                                 ) => {
@@ -119,6 +120,7 @@ const OneDayList: React.FC<Props> = (props) => {
                                 handleEdit={handleEdit}
                                 refreshData={refreshData}
                                 showDoneIcon={false}
+                                isChain={true}
                                 showTodoChain={(todo_id: string) => {
                                     setActiveTodoId(todo_id);
                                     setShowDrawer(true);
@@ -137,6 +139,8 @@ const OneDayList: React.FC<Props> = (props) => {
                                                 handleEdit={handleEdit}
                                                 refreshData={refreshData}
                                                 showDoneIcon={false}
+                                                isChain={true}
+                                                isChainNext={true}
                                                 showTodoChain={(
                                                     todo_id: string
                                                 ) => {

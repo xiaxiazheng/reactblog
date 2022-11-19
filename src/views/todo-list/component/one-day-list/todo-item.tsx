@@ -17,6 +17,8 @@ interface Props {
     handleEdit: Function;
     refreshData: Function;
     showDoneIcon?: boolean;
+    isChain?: boolean;
+    isChainNext?: boolean; // 是否是后续任务
     showTodoChain: (todo_id: string) => void;
 }
 
@@ -28,6 +30,8 @@ const TodoItem: React.FC<Props> = (props) => {
         handleEdit,
         refreshData,
         showDoneIcon,
+        isChain = false,
+        isChainNext = false,
         showTodoChain,
     } = props;
 
@@ -50,8 +54,16 @@ const TodoItem: React.FC<Props> = (props) => {
         item?.child_todo_list && item?.child_todo_list.length !== 0;
 
     const Icon = () => {
-        const isUp = item?.other_id;
-        const isDown = isHasChild;
+        // 在 todo 链路的展示中，前置的就不看了（因为已经找全了）
+        const isUp = item?.other_id && !isChain;
+        // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
+        const isDown = (() => {
+            if (!isChain || isChainNext) {
+                return isHasChild;
+            } else {
+                return isHasChild && item?.child_todo_list.length > 1;
+            }
+        })();
 
         if (!isUp && !isDown) {
             return null;
@@ -69,9 +81,7 @@ const TodoItem: React.FC<Props> = (props) => {
         return (
             <Tooltip
                 title={`查看 todo 链 ${
-                    isDown
-                        ? `(后置任务数 ${item?.child_todo_list.length})`
-                        : ""
+                    isDown ? `(后置任务数 ${item?.child_todo_list.length})` : ""
                 }`}
             >
                 <Comp
