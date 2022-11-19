@@ -16,6 +16,7 @@ import moment from "moment";
 import { CategoryType } from "../../types";
 import InputList from "../input-list";
 import SwitchComp from "./switch";
+import SearchTodo from "./searchTodo";
 
 interface Props {
     form: FormInstance;
@@ -104,25 +105,6 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item name="description" label="详细描述" initialValue={""}>
                 <InputList />
             </Form.Item>
-            <Form.Item name="other_id" label="前置 todo">
-                <Input allowClear />
-            </Form.Item>
-            <Form.Item
-                name="doing"
-                label="现在处理"
-                rules={[{ required: true }]}
-                initialValue={"0"}
-            >
-                <SwitchComp />
-            </Form.Item>
-            <Form.Item
-                name="isNote"
-                label="存为便签"
-                rules={[{ required: true }]}
-                initialValue={"0"}
-            >
-                <SwitchComp />
-            </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
                 <Radio.Group optionType="button">
                     {colorList.map((item) => (
@@ -198,6 +180,25 @@ const TodoForm: React.FC<Props> = (props) => {
                     <Radio.Button value={1}>已完成</Radio.Button>
                     <Radio.Button value={2}>待办池</Radio.Button>
                 </Radio.Group>
+            </Form.Item>
+            <Form.Item
+                name="doing"
+                label="现在处理"
+                rules={[{ required: true }]}
+                initialValue={"0"}
+            >
+                <SwitchComp />
+            </Form.Item>
+            <Form.Item
+                name="isNote"
+                label="存为便签"
+                rules={[{ required: true }]}
+                initialValue={"0"}
+            >
+                <SwitchComp />
+            </Form.Item>
+            <Form.Item name="other_id" label="前置 todo">
+                <SearchTodo />
             </Form.Item>
         </Form>
     );
