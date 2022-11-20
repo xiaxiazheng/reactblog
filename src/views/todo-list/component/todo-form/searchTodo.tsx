@@ -19,7 +19,7 @@ const SearchTodo = ({ value, onChange }: any) => {
                 }
             });
         }
-    }, []);
+    }, [value]);
 
     const handleSearch = async (newValue: string) => {
         setLoading(true);
