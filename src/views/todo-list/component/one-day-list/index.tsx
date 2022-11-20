@@ -72,10 +72,11 @@ const OneDayList: React.FC<Props> = (props) => {
                 ))}
             </div>
             <Modal
-                title={"todo 链路"}
+                title={"todo chain"}
                 visible={showDrawer}
                 onCancel={() => setShowDrawer(false)}
                 footer={null}
+                width={650}
             >
                 <Spin spinning={loading} className={styles.modal}>
                     {activeTodo && (

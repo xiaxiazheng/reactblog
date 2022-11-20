@@ -14,12 +14,6 @@ import FileListBox from "@/components/file-image-handle/file-list-box";
 import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
 
-interface NameProps {
-    item: TodoItemType;
-    refreshData: Function;
-    handleEdit: Function;
-}
-
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
         <div className={styles.descList}>
@@ -32,9 +26,16 @@ export const renderDescription = (str: string, keyword: string = "") => {
     );
 };
 
+interface NameProps {
+    item: TodoItemType;
+    refreshData: Function;
+    handleEdit: Function;
+    isChain?: boolean;
+}
+
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
-    const { item, refreshData, handleEdit } = props;
+    const { item, refreshData, handleEdit, isChain = false } = props;
 
     const isDoing = item.status == TodoStatus.todo;
     const isDone = item.status == TodoStatus.done;
@@ -75,6 +76,17 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         );
     };
 
+    const getName = (name: string) => {
+        return (
+            <>
+                {item.name}
+                {isChain && (
+                    <span className={styles.time}>{` (${item.time})`}</span>
+                )}
+            </>
+        );
+    };
+
     return (
         <ToolTipsWrapper>
             <div className={styles.name} onClick={handleEdit.bind(null, item)}>
@@ -93,9 +105,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
 
                 {isDone ? (
-                    <s className={styles.throughout}>{item.name}</s>
+                    <s className={styles.grey}>{getName(item.name)}</s>
                 ) : (
-                    <span>{item.name}</span>
+                    <span>{getName(item.name)}</span>
                 )}
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />

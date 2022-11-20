@@ -9,7 +9,10 @@
         padding: 0;
         font-size: 16px;
     }
-    .ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+    .ant-collapse-ghost
+        > .ant-collapse-item
+        > .ant-collapse-content
+        > .ant-collapse-content-box {
         color: var(--color);
         padding: 0 0 0 24px;
         font-size: 16px;
@@ -27,8 +30,13 @@
         align-items: flex-start;
     }
 
-    .throughout {
+    .grey {
         color: grey;
+    }
+    .time {
+        color: grey;
+        vertical-align: 1px !important;
+        font-size: 12px;
     }
 
     .name {
@@ -38,7 +46,8 @@
         &:hover {
             color: #40a9ff;
         }
-        span, s {
+        span,
+        s {
             vertical-align: middle;
         }
         .category {

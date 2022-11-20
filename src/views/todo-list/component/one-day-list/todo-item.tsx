@@ -156,6 +156,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         item={item}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
+                        isChain={isChain}
                     />
                     <Icon />
                 </span>
