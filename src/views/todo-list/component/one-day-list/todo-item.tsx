@@ -3,20 +3,22 @@ import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import {
     CheckCircleOutlined,
+    PlayCircleOutlined,
     SwapLeftOutlined,
     SwapOutlined,
     SwapRightOutlined,
 } from "@ant-design/icons";
-import { doneTodoItem } from "@/client/TodoListHelper";
+import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
 import { StatusType, TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
+import dayjs from "dayjs";
 
 interface Props {
     item: TodoItemType;
     getTodo: (type: StatusType) => void;
     handleEdit: Function;
     refreshData: Function;
-    showDoneIcon?: boolean;
+    showDoneIcon?: boolean; // 控制已完成按钮
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
     showTodoChain: (todo_id: string) => void;
@@ -47,6 +49,24 @@ const TodoItem: React.FC<Props> = (props) => {
             getTodo("todo");
         } else {
             message.error("完成 todo 失败");
+        }
+    };
+
+    // 现在做这个 todo (只有待办池才能触发这个函数)
+    const doItNow = async (item: TodoItemType) => {
+        const req = {
+            ...item,
+            isNote: item.isNote || "0",
+            status: TodoStatus.todo,
+            time: dayjs().format("YYYY-MM-DD"),
+        };
+        const res = await editTodoItem(req);
+        if (res) {
+            message.success(res.message);
+            getTodo("pool");
+            getTodo("todo");
+        } else {
+            message.error("修改 todo 失败");
         }
     };
 
@@ -118,6 +138,19 @@ const TodoItem: React.FC<Props> = (props) => {
                                 />
                             </Tooltip>
                         </Popconfirm>
+                    )}
+                    {showDoneIcon && item.status == TodoStatus.pool && (
+                        <Tooltip
+                            title={"现在就做！"}
+                            color="#20d420"
+                            placement="topLeft"
+                        >
+                            <PlayCircleOutlined
+                                title="现在就做！"
+                                className={styles.doneIcon}
+                                onClick={() => doItNow(item)}
+                            />
+                        </Tooltip>
                     )}
                     <TodoItemName
                         item={item}

@@ -168,6 +168,7 @@ const TodoList: React.FC = () => {
                         mapList={poolList.filter((item) => item.color !== "-1")}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
+                        showDoneIcon={true}
                     />
                 </div>
                 {/* 长期任务 */}

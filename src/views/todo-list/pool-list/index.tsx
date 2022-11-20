@@ -14,11 +14,12 @@ interface Props {
     getTodo: (type: StatusType) => void;
     handleEdit: Function;
     refreshData: Function;
+    showDoneIcon?: boolean;
 }
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleEdit, refreshData } = props;
+    const { loading, title, mapList, getTodo, handleEdit, refreshData, showDoneIcon = false } = props;
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
 
@@ -54,6 +55,7 @@ const PoolList: React.FC<Props> = (props) => {
                         getTodo={getTodo}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
+                        showDoneIcon={showDoneIcon}
                     />
                 </div>
             </div>
