@@ -14,6 +14,7 @@ import {
     OperatorType,
     EditTodoItemReq,
     CreateTodoItemReq,
+    TodoStatus,
 } from "../../types";
 import moment from "moment";
 import TodoForm from "../todo-form";
@@ -174,7 +175,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             name: item.name,
             description: item.description,
             time: moment(item.time),
-            status: Number(item.status),
+            // status: Number(item.status),
+            status: TodoStatus.todo,
             color: item.color,
             category: item.category,
             other_id: item.todo_id,
