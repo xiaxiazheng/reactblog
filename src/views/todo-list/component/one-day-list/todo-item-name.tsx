@@ -20,6 +20,18 @@ interface NameProps {
     handleEdit: Function;
 }
 
+export const renderDescription = (str: string, keyword: string = "") => {
+    return (
+        <div className={styles.descList}>
+            {str.split(splitStr).map((i, index) => (
+                <div className={styles.desc} key={index}>
+                    {handleDesc(i, keyword)}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, refreshData, handleEdit } = props;
@@ -34,20 +46,8 @@ const TodoItemName: React.FC<NameProps> = (props) => {
             <Tooltip
                 title={
                     <>
-                        {item.description && (
-                            <div className={styles.descList}>
-                                {item.description
-                                    .split(splitStr)
-                                    .map((i, index) => (
-                                        <div
-                                            className={styles.desc}
-                                            key={index}
-                                        >
-                                            {handleDesc(i)}
-                                        </div>
-                                    ))}
-                            </div>
-                        )}
+                        {item.description &&
+                            renderDescription(item.description)}
                         {item.imgList.length !== 0 && (
                             <ImageListBox
                                 type="todo"
@@ -66,7 +66,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         )}
                     </>
                 }
-                color="#1890ff"
+                color="rgba(0,0,0,0.9)"
             >
                 {props.children}
             </Tooltip>

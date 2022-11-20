@@ -12,6 +12,7 @@ import {
 } from "@/views/todo-list/types";
 import { addTodoItem, editTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
+import InputList from "@/views/todo-list/component/input-list";
 
 const { TextArea } = Input;
 
@@ -141,11 +142,12 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
                     />
                 </Form.Item>
                 <Form.Item name="description" label="内容">
-                    <TextArea
+                    {/* <TextArea
                         className={styles.textarea}
                         placeholder="请输入内容"
                         rows={15}
-                    />
+                    /> */}
+                    <InputList />
                 </Form.Item>
                 <Form.Item
                     name="category"

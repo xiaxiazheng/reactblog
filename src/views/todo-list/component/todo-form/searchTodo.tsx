@@ -3,6 +3,7 @@ import { Divider, message, Select, Tooltip } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
 import { debounce } from "lodash";
+import { renderDescription } from "../one-day-list/todo-item-name";
 
 const SearchTodo = ({ value, onChange }: any) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
@@ -74,6 +75,7 @@ const SearchTodo = ({ value, onChange }: any) => {
                         {item.description ? (
                             <Tooltip
                                 placement="left"
+                                color="rgba(0,0,0,0.9)"
                                 title={
                                     <div>
                                         <Name item={item} />
@@ -83,7 +85,7 @@ const SearchTodo = ({ value, onChange }: any) => {
                                                 backgroundColor: "white",
                                             }}
                                         />
-                                        <div>{item.description}</div>
+                                        {renderDescription(item.description)}
                                     </div>
                                 }
                             >

@@ -4,11 +4,11 @@ import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
 import { TodoItemType, CategoryType } from "../todo-list/types";
 import TodoNoteEditModal from "./todo-note-edit-modal";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { handleNote } from "./utils";
 import { debounce } from "lodash";
 import TodoImageFile from "../todo-list/component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
+import { renderDescription } from "../todo-list/component/one-day-list/todo-item-name";
 
 const { Search } = Input;
 
@@ -144,7 +144,12 @@ const TodoNote: React.FC = () => {
                                             </span>
                                             <span>{item.name}</span>
                                         </div>
-                                        <div className={styles.note_content}>{handleNote(item, keyword)}</div>
+                                        <div className={styles.note_content}>
+                                            {renderDescription(
+                                                item.description,
+                                                keyword
+                                            )}
+                                        </div>
                                         <TodoImageFile
                                             isOnlyShow={true}
                                             activeTodo={item}

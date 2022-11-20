@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { Button, message, Popconfirm, Modal, Tooltip } from "antd";
-import { handleNote } from "../utils";
 import TodoImageFile from "../../todo-list/component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@/views/todo-list/types";
 import { deleteTodoItem } from "@/client/TodoListHelper";
+import { renderDescription } from "@/views/todo-list/component/one-day-list/todo-item-name";
 
 interface IProps {
     visible: boolean;
@@ -108,7 +108,7 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
                     <span>{activeTodo?.name}</span>
                 </div>
                 <div className={styles.note_content}>
-                    {handleNote(activeTodo, "")}
+                    {activeTodo && renderDescription(activeTodo.description)}
                 </div>
                 {activeTodo && (
                     <TodoImageFile
