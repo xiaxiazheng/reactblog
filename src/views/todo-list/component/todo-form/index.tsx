@@ -13,7 +13,7 @@ import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorMap, colorNameMap, colorList } from "../../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
-import { CategoryType } from "../../types";
+import { CategoryType, TodoItemType } from "../../types";
 import InputList from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
@@ -22,10 +22,11 @@ interface Props {
     form: FormInstance;
     onOk: any;
     isFieldsChange: () => void;
+    activeTodo?: TodoItemType;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-    const { form, onOk, isFieldsChange } = props;
+    const { form, onOk, isFieldsChange, activeTodo } = props;
 
     const [category, setCategory] = useState<CategoryType[]>([]);
     const getCategory = async () => {
@@ -198,7 +199,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 <SwitchComp />
             </Form.Item>
             <Form.Item name="other_id" label="前置 todo">
-                <SearchTodo />
+                <SearchTodo activeTodo={activeTodo} />
             </Form.Item>
         </Form>
     );

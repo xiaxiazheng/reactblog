@@ -313,6 +313,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 // 除了编辑，其他走的都是新建的路子
                 onOk={type === "edit" ? editTodo : addTodo}
                 isFieldsChange={() => setIsEdit(true)}
+                activeTodo={activeTodo}
             />
             {type === "edit" && activeTodo && (
                 <TodoImageFile

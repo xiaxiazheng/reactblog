@@ -5,7 +5,7 @@ import { TodoItemType } from "../../types";
 import { debounce } from "lodash";
 import { renderDescription } from "../one-day-list/todo-item-name";
 
-const SearchTodo = ({ value, onChange }: any) => {
+const SearchTodo = ({ value, onChange, activeTodo }: any) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -31,7 +31,12 @@ const SearchTodo = ({ value, onChange }: any) => {
 
         const res = await getTodoList(req);
         if (res) {
-            setOptions(res.data.list);
+            // 前置 todo 不能是自己
+            setOptions(
+                res.data.list.filter(
+                    (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id
+                )
+            );
             setLoading(false);
         } else {
             message.error("获取 todolist 失败");
