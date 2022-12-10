@@ -4,7 +4,7 @@ import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
 import { TodoItemType, CategoryType } from "../todo-list/types";
 import TodoNoteEditModal from "./todo-note-edit-modal";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { debounce } from "lodash";
+import { debounce, sortBy } from "lodash";
 import TodoImageFile from "../todo-list/component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
@@ -33,6 +33,7 @@ const TodoNote: React.FC = () => {
             pageNo,
             pageSize,
             isNote: "1",
+            sortBy: [[sortBy, "DESC"]],
         };
 
         if (activeCategory !== "所有") {
@@ -79,39 +80,65 @@ const TodoNote: React.FC = () => {
     // 详情
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
 
+    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("mTime");
+    useEffect(() => {
+        getData();
+    }, [sortBy]);
+
     return (
         <div className={`${styles.note} ScrollBar`}>
             <Spin spinning={loading}>
                 <div className={styles.wrap}>
                     {/* 左侧分类列表 */}
                     <div className={styles.left}>
-                        <Radio.Group
-                            className={styles.radioList}
-                            value={activeCategory}
-                            optionType="button"
-                            onChange={(e) => setActiveCategory(e.target.value)}
-                        >
-                            <Space direction="vertical">
-                                <Radio key="所有" value="所有">
-                                    所有 (
-                                    {category?.reduce(
-                                        (prev, cur) => prev + Number(cur.count),
-                                        0
-                                    )}
-                                    )
-                                </Radio>
-                                {category?.map((item) => {
-                                    return (
-                                        <Radio
-                                            key={item.category}
-                                            value={item.category}
-                                        >
-                                            {item.category} ({item.count})
-                                        </Radio>
-                                    );
-                                })}
-                            </Space>
-                        </Radio.Group>
+                        <Space direction="vertical" size={12}>
+                            <Radio.Group
+                                value={sortBy}
+                                optionType="button"
+                                buttonStyle="solid"
+                                onChange={(e) => setSortBy(e.target.value)}
+                            >
+                                <Radio.Button
+                                    key={"修改时间"}
+                                    value={"mTime"}
+                                    type="primary"
+                                >
+                                    修改
+                                </Radio.Button>
+                                <Radio.Button key={"创建时间"} value={"cTime"}>
+                                    创建
+                                </Radio.Button>
+                            </Radio.Group>
+                            <Radio.Group
+                                className={styles.radioList}
+                                value={activeCategory}
+                                onChange={(e) =>
+                                    setActiveCategory(e.target.value)
+                                }
+                            >
+                                <Space direction="vertical">
+                                    <Radio key="所有" value="所有">
+                                        所有 (
+                                        {category?.reduce(
+                                            (prev, cur) =>
+                                                prev + Number(cur.count),
+                                            0
+                                        )}
+                                        )
+                                    </Radio>
+                                    {category?.map((item) => {
+                                        return (
+                                            <Radio
+                                                key={item.category}
+                                                value={item.category}
+                                            >
+                                                {item.category} ({item.count})
+                                            </Radio>
+                                        );
+                                    })}
+                                </Space>
+                            </Radio.Group>
+                        </Space>
                     </div>
                     {/* 右侧便签列表 */}
                     <div className={styles.right}>
