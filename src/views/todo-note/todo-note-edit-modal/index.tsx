@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Modal, Form, Input, Select, Divider, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import TodoImageFile from "@/views/todo-list/component/todo-image-file";
 import {
@@ -118,6 +118,21 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
 
     const [isEdit, setIsEdit] = useState<boolean>(false);
 
+    const onClose = () => {
+        if (isEdit) {
+            Modal.confirm({
+                title: "你还有修改没保存，确定取消？",
+                icon: <ExclamationCircleOutlined />,
+                onOk() {
+                    closeModal();
+                    setIsEdit(false);
+                },
+            });
+        } else {
+            closeModal();
+        }
+    };
+
     return (
         <Modal
             visible={visible}
@@ -125,11 +140,11 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
             // 只有点击 ok 按钮，且接口没有问题才关闭弹窗
             onOk={async () => {
                 if (await onOk()) {
-                    closeModal();
+                    onClose();
                 }
             }}
             width={650}
-            onCancel={() => closeModal()}
+            onCancel={() => onClose()}
             className={styles.note_modal}
             okButtonProps={{
                 danger: isEdit
