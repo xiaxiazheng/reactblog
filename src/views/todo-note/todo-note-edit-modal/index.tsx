@@ -93,6 +93,7 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
                 return false;
             }
         }
+        setIsEdit(false);
         refreshData();
         return true;
     };
@@ -115,6 +116,8 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
         visible && onOk();
     });
 
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+
     return (
         <Modal
             visible={visible}
@@ -128,8 +131,11 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
             width={650}
             onCancel={() => closeModal()}
             className={styles.note_modal}
+            okButtonProps={{
+                danger: isEdit
+            }}
         >
-            <Form form={form}>
+            <Form form={form} onFieldsChange={() => setIsEdit(true)}>
                 <Form.Item
                     name="name"
                     label="标题"
