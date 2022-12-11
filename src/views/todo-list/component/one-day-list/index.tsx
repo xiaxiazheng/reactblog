@@ -132,7 +132,7 @@ const OneDayList: React.FC<Props> = (props) => {
                                     setShowDrawer(true);
                                 }}
                             />
-                            {activeTodo.child_todo_list?.length !== 0 && (
+                            {activeTodo.child_todo_list_length !== 0 && (
                                 <>
                                     <Divider style={{ margin: "12px 0" }} />
                                     <h4>后续：</h4>

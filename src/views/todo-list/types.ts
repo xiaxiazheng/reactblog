@@ -19,6 +19,7 @@ export interface TodoItemType {
     fileList: FileType[];
     other_todo: TodoItemType;
     child_todo_list: TodoItemType[];
+    child_todo_list_length: number;
 }
 
 export interface CreateTodoItemReq {

@@ -70,8 +70,7 @@ const TodoItem: React.FC<Props> = (props) => {
         }
     };
 
-    const isHasChild =
-        item?.child_todo_list && item?.child_todo_list.length !== 0;
+    const isHasChild = item?.child_todo_list_length !== 0;
 
     const Icon = () => {
         // 在 todo 链路的展示中，前置的就不看了（因为已经找全了）
@@ -81,7 +80,7 @@ const TodoItem: React.FC<Props> = (props) => {
             if (!isChain || isChainNext) {
                 return isHasChild;
             } else {
-                return isHasChild && item?.child_todo_list.length > 1;
+                return isHasChild && item?.child_todo_list_length > 1;
             }
         })();
 
@@ -101,7 +100,7 @@ const TodoItem: React.FC<Props> = (props) => {
         return (
             <Tooltip
                 title={`查看 todo 链 ${
-                    isDown ? `(后置任务数 ${item?.child_todo_list.length})` : ""
+                    isDown ? `(后置任务数 ${item?.child_todo_list_length})` : ""
                 }`}
             >
                 <Comp
