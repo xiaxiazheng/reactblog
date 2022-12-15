@@ -131,7 +131,6 @@ const List: React.FC<Props> = (props) => {
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(mapList)
                     .sort()
-                    .reverse()
                     .map((time) => {
                         return (
                             <div className={styles.oneDay} key={time}>
