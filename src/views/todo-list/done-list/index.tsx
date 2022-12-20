@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Input, Pagination, Select, message, Button } from "antd";
+import {
+    Input,
+    Pagination,
+    Select,
+    message,
+    Button,
+    DatePicker,
+    Tooltip,
+    Space,
+} from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
@@ -18,6 +27,7 @@ import SortBtn from "../component/sort-btn";
 import { ClearOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
+const { RangePicker } = DatePicker;
 
 interface Props {
     title: string;
@@ -53,6 +63,8 @@ const DoneList: React.FC<Props> = (props) => {
         getDoneList();
     }, [activeCategory, activeColor]);
 
+    const [startEndTime, setStartEndTime] = useState<any>();
+
     const [loading, setLoading] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
@@ -60,7 +72,7 @@ const DoneList: React.FC<Props> = (props) => {
     const [total, setTotal] = useState<number>(0);
     useEffect(() => {
         getDoneTodo();
-    }, [pageNo, pageSize]);
+    }, [pageNo, pageSize, startEndTime]);
 
     const handleSearch = () => {
         if (pageNo === 1) {
@@ -84,6 +96,8 @@ const DoneList: React.FC<Props> = (props) => {
             keyword,
             pageNo,
             pageSize,
+            startTime: startEndTime?.[0]?.format("YYYY-MM-DD"),
+            endTime: startEndTime?.[1]?.format("YYYY-MM-DD"),
         };
 
         if (activeCategory) {
@@ -126,9 +140,11 @@ const DoneList: React.FC<Props> = (props) => {
                             setIsSortTime={setIsSortTime}
                         />
                     </span>
+                    {/* 清理筛选项 */}
                     {(activeColor !== "" ||
                         activeCategory !== "" ||
-                        keyword !== "") && (
+                        keyword !== "" ||
+                        !!startEndTime) && (
                         <span style={{ marginRight: 10 }}>
                             <Button
                                 icon={<ClearOutlined />}
@@ -138,45 +154,71 @@ const DoneList: React.FC<Props> = (props) => {
                                     setActiveCategory("");
                                     setActiveColor("");
                                     setKeyword("");
+                                    setStartEndTime(null);
                                 }}
                             />
                         </span>
                     )}
-                    <Select
-                        value={activeColor}
-                        onChange={(val) => setActiveColor(val)}
-                        style={{ width: 80, marginRight: 10 }}
+                    <Tooltip
+                        title={
+                            <Space size={10} direction="vertical">
+                                <RangePicker
+                                    value={startEndTime}
+                                    onChange={(val) => setStartEndTime(val)}
+                                    placeholder={["开始时间", "结束时间"]}
+                                />
+                                <div>
+                                    <span>轻重：</span>
+                                    <Select
+                                        value={activeColor}
+                                        onChange={(val) => setActiveColor(val)}
+                                        allowClear
+                                        style={{ width: 120 }}
+                                    >
+                                        <Select.Option key="所有" value="">
+                                            所有
+                                        </Select.Option>
+                                        {colorList.map((item) => (
+                                            <Select.Option
+                                                key={item}
+                                                value={item}
+                                                style={{
+                                                    color: colorMap[item],
+                                                }}
+                                            >
+                                                {colorNameMap[item]}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                                <div>
+                                    <span>类别：</span>
+                                    <Select
+                                        value={activeCategory}
+                                        onChange={(val) =>
+                                            setActiveCategory(val)
+                                        }
+                                        allowClear
+                                        style={{ width: 120 }}
+                                    >
+                                        <Select.Option key="所有" value="">
+                                            所有
+                                        </Select.Option>
+                                        {category?.map((item) => (
+                                            <Select.Option
+                                                key={item.category}
+                                                value={item.category}
+                                            >
+                                                {item.category}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </Space>
+                        }
                     >
-                        <Select.Option key="轻重" value="">
-                            轻重
-                        </Select.Option>
-                        {colorList.map((item) => (
-                            <Select.Option
-                                key={item}
-                                value={item}
-                                style={{ color: colorMap[item] }}
-                            >
-                                {colorNameMap[item]}
-                            </Select.Option>
-                        ))}
-                    </Select>
-                    <Select
-                        value={activeCategory}
-                        onChange={(val) => setActiveCategory(val)}
-                        style={{ width: 80 }}
-                    >
-                        <Select.Option key="类别" value="">
-                            类别
-                        </Select.Option>
-                        {category?.map((item) => (
-                            <Select.Option
-                                key={item.category}
-                                value={item.category}
-                            >
-                                {item.category}
-                            </Select.Option>
-                        ))}
-                    </Select>
+                        <Button>高级筛选</Button>
+                    </Tooltip>
                 </span>
             </div>
             <Search
