@@ -18,16 +18,26 @@
     }
 
     .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 20px;
-        font-size: 18px;
-        font-weight: 500;
+        .header1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
 
-        > span {
-            &.active {
-                color: var(--color_active);
+            > span {
+                &.active {
+                    color: var(--color_active);
+                }
+            }
+        }
+        .filterWrapper {
+            display: flex;
+            flex-wrap: wrap;
+            > div {
+                margin-top: 10px;
+                margin-right: 10px;
             }
         }
     }

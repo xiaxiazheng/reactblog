@@ -125,101 +125,111 @@ const DoneList: React.FC<Props> = (props) => {
     }, [isRefreshDone]);
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const [showFilter, setShowFilter] = useState<boolean>(false);
+
+    const Filter = () => {
+        return (
+            <div className={styles.filterWrapper}>
+                <div>
+                    <span>轻重：</span>
+                    <Select
+                        value={activeColor}
+                        onChange={(val) => setActiveColor(val)}
+                        allowClear
+                        style={{ width: 120 }}
+                    >
+                        <Select.Option key="所有" value="">
+                            所有
+                        </Select.Option>
+                        {colorList.map((item) => (
+                            <Select.Option
+                                key={item}
+                                value={item}
+                                style={{
+                                    color: colorMap[item],
+                                }}
+                            >
+                                {colorNameMap[item]}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </div>
+                <div>
+                    <span>类别：</span>
+                    <Select
+                        value={activeCategory}
+                        onChange={(val) => setActiveCategory(val)}
+                        allowClear
+                        style={{ width: 120 }}
+                    >
+                        <Select.Option key="所有" value="">
+                            所有
+                        </Select.Option>
+                        {category?.map((item) => (
+                            <Select.Option
+                                key={item.category}
+                                value={item.category}
+                            >
+                                {item.category}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </div>
+                <div>
+                    <span>时间：</span>
+                    <RangePicker
+                        value={startEndTime}
+                        onChange={(val) => setStartEndTime(val)}
+                        placeholder={["开始时间", "结束时间"]}
+                    />
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>
-                    {title}({total})
-                </span>
-                <span>
-                    <span style={{ marginRight: 10 }}>
-                        <SortBtn
-                            isSortTime={isSortTime}
-                            setIsSortTime={setIsSortTime}
-                        />
+                <div className={styles.header1}>
+                    <span>
+                        {title}({total})
                     </span>
-                    {/* 清理筛选项 */}
-                    {(activeColor !== "" ||
-                        activeCategory !== "" ||
-                        keyword !== "" ||
-                        !!startEndTime) && (
+                    <span>
                         <span style={{ marginRight: 10 }}>
-                            <Button
-                                icon={<ClearOutlined />}
-                                type="primary"
-                                danger
-                                onClick={() => {
-                                    setActiveCategory("");
-                                    setActiveColor("");
-                                    setKeyword("");
-                                    setStartEndTime(null);
-                                }}
+                            <SortBtn
+                                isSortTime={isSortTime}
+                                setIsSortTime={setIsSortTime}
                             />
                         </span>
-                    )}
-                    <Tooltip
-                        title={
-                            <Space size={10} direction="vertical">
-                                <RangePicker
-                                    value={startEndTime}
-                                    onChange={(val) => setStartEndTime(val)}
-                                    placeholder={["开始时间", "结束时间"]}
+                        {/* 清理筛选项 */}
+                        {(activeColor !== "" ||
+                            activeCategory !== "" ||
+                            keyword !== "" ||
+                            !!startEndTime) && (
+                            <span style={{ marginRight: 10 }}>
+                                <Button
+                                    icon={<ClearOutlined />}
+                                    type="primary"
+                                    danger
+                                    onClick={() => {
+                                        setActiveCategory("");
+                                        setActiveColor("");
+                                        setKeyword("");
+                                        setStartEndTime(null);
+                                    }}
                                 />
-                                <div>
-                                    <span>轻重：</span>
-                                    <Select
-                                        value={activeColor}
-                                        onChange={(val) => setActiveColor(val)}
-                                        allowClear
-                                        style={{ width: 120 }}
-                                    >
-                                        <Select.Option key="所有" value="">
-                                            所有
-                                        </Select.Option>
-                                        {colorList.map((item) => (
-                                            <Select.Option
-                                                key={item}
-                                                value={item}
-                                                style={{
-                                                    color: colorMap[item],
-                                                }}
-                                            >
-                                                {colorNameMap[item]}
-                                            </Select.Option>
-                                        ))}
-                                    </Select>
-                                </div>
-                                <div>
-                                    <span>类别：</span>
-                                    <Select
-                                        value={activeCategory}
-                                        onChange={(val) =>
-                                            setActiveCategory(val)
-                                        }
-                                        allowClear
-                                        style={{ width: 120 }}
-                                    >
-                                        <Select.Option key="所有" value="">
-                                            所有
-                                        </Select.Option>
-                                        {category?.map((item) => (
-                                            <Select.Option
-                                                key={item.category}
-                                                value={item.category}
-                                            >
-                                                {item.category}
-                                            </Select.Option>
-                                        ))}
-                                    </Select>
-                                </div>
-                            </Space>
-                        }
-                    >
-                        <Button>高级筛选</Button>
-                    </Tooltip>
-                </span>
+                            </span>
+                        )}
+                        <Button
+                            type={showFilter ? "primary" : "default"}
+                            onClick={() => setShowFilter((prev) => !prev)}
+                        >
+                            筛选
+                        </Button>
+                    </span>
+                </div>
+                {showFilter && <Filter />}
             </div>
             <Search
                 className={styles.search}
