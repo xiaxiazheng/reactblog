@@ -49,7 +49,8 @@ export enum TodoStatus {
     pool = 2,
 }
 
-export type OperatorType = "add" | "edit" | "add_progress" | "copy";
+export type OperatorType = "add" | "edit";
+export type OperatorType2 = "add_progress" | "copy";
 
 const obj2 = {
     category: "其他",

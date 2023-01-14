@@ -100,33 +100,40 @@ const TodoList: React.FC = () => {
     const handleAdd = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
-        form.setFieldsValue({
-            time: moment(),
-            status: TodoStatus.todo,
-            color: "3",
-            category: "其他",
-        });
         setShowEdit(true);
     };
 
     const handleEdit = (item: TodoItemType) => {
         setActiveTodo(item);
         setOperatorType("edit");
-        form.setFieldsValue({
-            name: item.name,
-            description: item.description,
-            time: moment(item.time),
-            status: Number(item.status),
-            color: item.color,
-            category: item.category,
-            other_id: item.other_id,
-            doing: item.doing,
-            isNote: item.isNote,
-            isTarget: item.isTarget,
-            isBookMark: item.isBookMark,
-        });
         setShowEdit(true);
     };
+
+    useEffect(() => {
+        if (activeTodo) {
+            const item = activeTodo;
+            form.setFieldsValue({
+                name: item.name,
+                description: item.description,
+                time: moment(item.time),
+                status: Number(item.status),
+                color: item.color,
+                category: item.category,
+                other_id: item.other_id,
+                doing: item.doing,
+                isNote: item.isNote,
+                isTarget: item.isTarget,
+                isBookMark: item.isBookMark,
+            });
+        } else {
+            form.setFieldsValue({
+                time: moment(),
+                status: TodoStatus.todo,
+                color: "3",
+                category: "其他",
+            });
+        }
+    }, [activeTodo]);
 
     const [form] = Form.useForm();
 

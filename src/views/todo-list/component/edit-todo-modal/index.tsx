@@ -7,6 +7,7 @@ import {
     Space,
     Popconfirm,
     Tooltip,
+    Form,
 } from "antd";
 import styles from "./index.module.scss";
 import {
@@ -15,6 +16,7 @@ import {
     EditTodoItemReq,
     CreateTodoItemReq,
     TodoStatus,
+    OperatorType2,
 } from "../../types";
 import moment from "moment";
 import TodoForm from "../todo-form";
@@ -61,7 +63,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     } = props;
 
     useCtrlSHooks(() => {
-        visible && handleOk(false);
+        if (visible2) {
+            handleOk2();
+        } else {
+            visible && handleOk(false);
+        }
     });
 
     const onClose = () => {
@@ -80,12 +86,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     // 新增 todo
-    const addTodo = async () => {
+    const addTodo = async (form: FormInstance<any>) => {
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
-            console.log('formData', formData);
-            
+
             const req: CreateTodoItemReq = {
                 name: formData.name,
                 time: moment(formData.time).format("YYYY-MM-DD"),
@@ -105,14 +110,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 refreshData();
                 setActiveTodo(res.data.newTodoItem);
                 setType("edit");
-                return true;
             } else {
                 message.error("新增 todo 失败");
             }
         } catch (err) {
             message.warning("请检查表单输入");
         }
-        return false;
     };
 
     // 编辑 todo
@@ -121,7 +124,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
-            console.log('formData', formData);
+
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
                 name: formData.name,
@@ -140,14 +143,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (res) {
                 message.success(res.message);
                 refreshData();
-                return true;
+                setActiveTodo({ ...activeTodo, ...req });
             } else {
                 message.error("编辑 todo 失败");
             }
         } catch (err) {
             message.warning("请检查表单输入");
         }
-        return false;
     };
 
     // 删除 todo
@@ -165,39 +167,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
-    // 创建副本
-    const createACopy = async (item: TodoItemType) => {
-        form.setFieldsValue({
-            name: `${item.name} - 副本`,
-        });
-        await addTodo();
-        setIsEdit(false);
-    };
-
-    // 处理后续 todo
-    const handleNextTask = (item: TodoItemType) => {
-        setActiveTodo(item);
-        setType("add_progress");
-        form.setFieldsValue({
-            name: item.name,
-            description: item.description,
-            time: moment(item.time),
-            // status: Number(item.status),
-            status: TodoStatus.todo,
-            color: item.color,
-            category: item.category,
-            other_id: item.todo_id,
-            doing: "0",
-            isNote: item.isNote,
-        });
-    };
-
     const handleOk = async (isButton: boolean) => {
         if (visible) {
             if (type === "edit") {
                 await editTodo();
             } else {
-                await addTodo();
+                await addTodo(form);
             }
 
             // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
@@ -208,7 +183,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
-    const getTitle = (type: OperatorType) => {
+    const getTitle = (type: OperatorType | OperatorType2) => {
         if (type === "edit") {
             return (
                 <>
@@ -233,36 +208,60 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const [isEdit, setIsEdit] = useState<boolean>(false);
 
+    // 创建副本或子 todo
+    const createCopyOrNextTask = async (
+        type: OperatorType2,
+        item: TodoItemType
+    ) => {
+        setType2(type);
+        form2?.setFieldsValue({
+            name: item.name,
+            description: item.description,
+            time: moment(item.time),
+            status: TodoStatus.todo,
+            color: item.color,
+            category: item.category,
+            other_id: type === "copy" ? item.other_id : item.todo_id,
+            doing: "0",
+            isNote: item.isNote,
+        });
+        setVisible2(true);
+        setIsEdit2(true);
+    };
+
+    // 跟第二个 modal 有关的变量
+    const [type2, setType2] = useState<OperatorType2>();
+    const [form2] = Form.useForm();
+    const [visible2, setVisible2] = useState<boolean>(false);
+    const [isEdit2, setIsEdit2] = useState<boolean>(false);
+    const handleClose2 = () => {
+        setVisible2(false);
+    };
+    const handleOk2 = async () => {
+        if (visible2) {
+            await addTodo(form2);
+            setVisible2(false);
+            setIsEdit2(false);
+        }
+    };
+
     return (
-        <Modal
-            title={type ? getTitle(type) : ""}
-            visible={visible}
-            onCancel={() => onClose()}
-            transitionName=""
-            destroyOnClose
-            width={650}
-            footer={
-                <div className={styles.footer}>
-                    <Space>
-                        {type === "edit" ? (
-                            <>
-                                <Popconfirm
-                                    title="确定删除吗"
-                                    disabled={
-                                        isEdit ||
-                                        (activeTodo?.imgList &&
-                                            activeTodo.imgList.length !== 0) ||
-                                        (activeTodo?.fileList &&
-                                            activeTodo.fileList.length !== 0)
-                                    }
-                                    onConfirm={() => {
-                                        deleteTodo(activeTodo?.todo_id || "");
-                                    }}
-                                    okText="YES"
-                                    cancelText="NO"
-                                >
-                                    <Button
-                                        danger
+        <>
+            <Modal
+                className={visible2 ? styles.modal1 : ""}
+                title={type ? getTitle(type) : ""}
+                visible={visible}
+                onCancel={() => onClose()}
+                transitionName=""
+                destroyOnClose
+                width={650}
+                footer={
+                    <div className={styles.footer}>
+                        <Space>
+                            {type === "edit" ? (
+                                <>
+                                    <Popconfirm
+                                        title="确定删除吗"
                                         disabled={
                                             isEdit ||
                                             (activeTodo?.imgList &&
@@ -272,63 +271,127 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                                 activeTodo.fileList.length !==
                                                     0)
                                         }
+                                        onConfirm={() => {
+                                            deleteTodo(
+                                                activeTodo?.todo_id || ""
+                                            );
+                                        }}
+                                        okText="YES"
+                                        cancelText="NO"
                                     >
-                                        删除
+                                        <Button
+                                            danger
+                                            disabled={
+                                                isEdit ||
+                                                (activeTodo?.imgList &&
+                                                    activeTodo.imgList
+                                                        .length !== 0) ||
+                                                (activeTodo?.fileList &&
+                                                    activeTodo.fileList
+                                                        .length !== 0)
+                                            }
+                                        >
+                                            删除
+                                        </Button>
+                                    </Popconfirm>
+                                    <Button
+                                        type="primary"
+                                        ghost
+                                        onClick={() =>
+                                            activeTodo &&
+                                            createCopyOrNextTask(
+                                                "copy",
+                                                activeTodo
+                                            )
+                                        }
+                                        disabled={isEdit}
+                                    >
+                                        创建
+                                        {form.getFieldValue("other_id")
+                                            ? "同级任务"
+                                            : "副本"}
                                     </Button>
-                                </Popconfirm>
-                                <Button
-                                    type="primary"
-                                    ghost
-                                    onClick={() =>
-                                        activeTodo && createACopy(activeTodo)
-                                    }
-                                    danger
-                                    disabled={isEdit}
-                                >
-                                    创建副本
-                                </Button>
-                                <Button
-                                    type="primary"
-                                    ghost
-                                    onClick={() =>
-                                        activeTodo && handleNextTask(activeTodo)
-                                    }
-                                    disabled={isEdit}
-                                >
-                                    添加后续 todo
-                                </Button>
-                            </>
-                        ) : (
-                            ""
-                        )}
-                    </Space>
-                    <Space>
-                        <Button onClick={() => onClose()}>Cancel</Button>
-                        <Button
-                            type="primary"
-                            danger={isEdit}
-                            onClick={() => handleOk(true)}
-                        >
-                            OK
-                        </Button>
-                    </Space>
-                </div>
-            }
-        >
-            <TodoForm
-                form={form}
-                // 除了编辑，其他走的都是新建的路子
-                onOk={type === "edit" ? editTodo : addTodo}
-                isFieldsChange={() => setIsEdit(true)}
-                activeTodo={activeTodo}
-            />
-            {type === "edit" && activeTodo && (
-                <TodoImageFile
-                    refreshData={refreshData}
+                                    <Button
+                                        type="primary"
+                                        ghost
+                                        onClick={() =>
+                                            activeTodo &&
+                                            createCopyOrNextTask(
+                                                "add_progress",
+                                                activeTodo
+                                            )
+                                        }
+                                        disabled={isEdit}
+                                    >
+                                        添加后续 todo
+                                    </Button>
+                                </>
+                            ) : (
+                                ""
+                            )}
+                        </Space>
+                        <Space>
+                            <Button onClick={() => onClose()}>Cancel</Button>
+                            <Button
+                                type="primary"
+                                danger={isEdit}
+                                onClick={() => handleOk(true)}
+                            >
+                                OK
+                            </Button>
+                        </Space>
+                    </div>
+                }
+            >
+                <TodoForm
+                    form={form}
+                    // 除了编辑，其他走的都是新建的路子
+                    onOk={() => handleOk(false)}
+                    isFieldsChange={() => setIsEdit(true)}
                     activeTodo={activeTodo}
                 />
-            )}
-        </Modal>
+                {type === "edit" && activeTodo && (
+                    <TodoImageFile
+                        refreshData={refreshData}
+                        activeTodo={activeTodo}
+                    />
+                )}
+            </Modal>
+
+            <Modal
+                className={styles.modal2}
+                title={type2 ? getTitle(type2) : ""}
+                visible={visible2}
+                onCancel={() => handleClose2()}
+                transitionName=""
+                destroyOnClose
+                width={650}
+                footer={
+                    <div className={styles.footer}>
+                        <Space>
+                            <Button onClick={() => handleClose2()}>
+                                Cancel
+                            </Button>
+                            <Button
+                                type="primary"
+                                danger={isEdit2}
+                                onClick={() => handleOk2()}
+                            >
+                                OK
+                            </Button>
+                        </Space>
+                    </div>
+                }
+            >
+                <TodoForm
+                    form={form2}
+                    // 除了编辑，其他走的都是新建的路子
+                    onOk={() => handleOk2()}
+                    isFieldsChange={() => setIsEdit2(true)}
+                    activeTodo={activeTodo}
+                />
+            </Modal>
+        </>
     );
 };
 
