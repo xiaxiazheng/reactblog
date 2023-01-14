@@ -80,7 +80,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         return (
             <>
                 {item.name}
-                {isChain && (
+                {(isChain || item.isTarget === "1") && (
                     <span className={styles.time}>{` (${item.time})`}</span>
                 )}
             </>
@@ -95,7 +95,11 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
                 <span
                     className={styles.category}
-                    style={{ background: colorMap[item.color] }}
+                    style={{
+                        background: colorMap[item.color],
+                        borderColor:
+                            item.isTarget === "1" ? "#ffeb3b" : "transparent",
+                    }}
                 >
                     {item.category}
                 </span>

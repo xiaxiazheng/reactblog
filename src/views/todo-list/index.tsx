@@ -42,13 +42,12 @@ const TodoList: React.FC = () => {
         } else if (type === "target") {
             setTargetLoading(true);
             const req: any = {
-                isTarget: "1",
-                pageNo: 1,
-                pageSize: 100,
+                status: TodoStatus.todo,
+                isTarget: "1"
             };
             const res = await getTodoList(req);
             if (res) {
-                setTargetList(res.data.list);
+                setTargetList(res.data);
                 setTargetLoading(false);
             } else {
                 message.error("获取 todolist 失败");
@@ -188,7 +187,7 @@ const TodoList: React.FC = () => {
                                 </>
                             }
                             mapList={formatArrayToTimeMap(
-                                todoList.filter((item) => item.time <= today)
+                                todoList.filter((item) => item.time <= today && item.isTarget !== '1')
                             )}
                             handleAdd={handleAdd}
                             handleEdit={handleEdit}
