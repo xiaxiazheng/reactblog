@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Form, message, Tooltip } from "antd";
+import { Drawer, Form, message, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
@@ -10,7 +10,7 @@ import { getTodoList } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "./hooks";
 import { TodoProvider } from "./TodoContext";
 
@@ -20,16 +20,31 @@ const TodoList: React.FC = () => {
     const [todoLoading, setTodoLoading] = useState<boolean>(false);
     const [poolLoading, setPoolLoading] = useState<boolean>(false);
     const [targetLoading, setTargetLoading] = useState<boolean>(false);
+    const [bookMarkLoading, setBookMarkLoading] = useState<boolean>(false);
 
     const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
 
     const getTodo = async (type: StatusType) => {
-        if (type === "target") {
+        if (type === "bookMark") {
             setTargetLoading(true);
             const req: any = {
-                isTarget: '1',
+                isBookMark: "1",
                 pageNo: 1,
-                pageSize: 100
+                pageSize: 100,
+            };
+            const res = await getTodoList(req);
+            if (res) {
+                setBookMarkList(res.data.list);
+                setBookMarkLoading(false);
+            } else {
+                message.error("获取 todolist 失败");
+            }
+        } else if (type === "target") {
+            setTargetLoading(true);
+            const req: any = {
+                isTarget: "1",
+                pageNo: 1,
+                pageSize: 100,
             };
             const res = await getTodoList(req);
             if (res) {
@@ -69,12 +84,14 @@ const TodoList: React.FC = () => {
         getTodo("done");
         getTodo("pool");
         getTodo("target");
+        getTodo("bookMark");
     }, []);
 
-    // 两种列表
+    // 列表
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
     const [poolList, setPoolList] = useState<TodoItemType[]>([]);
     const [targetList, setTargetList] = useState<TodoItemType[]>([]);
+    const [bookMarkList, setBookMarkList] = useState<TodoItemType[]>([]);
     // 编辑相关
     const [operatorType, setOperatorType] = useState<OperatorType>();
     const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -105,6 +122,8 @@ const TodoList: React.FC = () => {
             other_id: item.other_id,
             doing: item.doing,
             isNote: item.isNote,
+            isTarget: item.isTarget,
+            isBookMark: item.isBookMark,
         });
         setShowEdit(true);
     };
@@ -118,89 +137,119 @@ const TodoList: React.FC = () => {
         getTodo("done");
         getTodo("pool");
         getTodo("target");
+        getTodo("bookMark");
         updateFlag();
     };
+
+    const [showDrawer, setShowDrawer] = useState<boolean>(false);
 
     const today = moment().format("YYYY-MM-DD");
 
     return (
         <div className={styles.todoList}>
-            <div className={styles.Layout}>
-                {/* 之后待办 */}
-                <div className={`${styles.box1} ScrollBar`}>
-                    <List
-                        loading={poolLoading}
-                        getTodo={getTodo}
-                        title="之后待办"
-                        mapList={formatArrayToTimeMap(
-                            todoList.filter((item) => item.time > today)
-                        )}
-                        handleEdit={handleEdit}
-                        refreshData={refreshData}
-                    />
-                </div>
-                {/* 待办 */}
-                <div className={`${styles.box2} ScrollBar`}>
-                    <List
-                        loading={todoLoading}
-                        getTodo={getTodo}
-                        title={
-                            <>
-                                今日待办{" "}
-                                <Tooltip
-                                    title="带星标的是当下正在做的任务"
-                                    placement="bottom"
-                                >
-                                    <QuestionCircleOutlined
-                                        style={{ cursor: "pointer" }}
-                                    />
-                                </Tooltip>{" "}
-                            </>
-                        }
-                        mapList={formatArrayToTimeMap(
-                            todoList.filter((item) => item.time <= today)
-                        )}
-                        handleAdd={handleAdd}
-                        handleEdit={handleEdit}
-                        refreshData={refreshData}
-                        showRefresh={true}
-                        showDoneIcon={true}
-                    />
-                </div>
-                {/* 已完成 */}
-                <div className={`${styles.box3} ScrollBar`}>
-                    <DoneList
-                        title="已完成"
-                        handleEdit={handleEdit}
-                        isRefreshDone={isRefreshDone}
-                        setIsRefreshDone={setIsRefreshDone}
-                        refreshData={refreshData}
-                    />
-                </div>
-                {/* 待办池 */}
-                <div className={`${styles.box4} ScrollBar`}>
-                    <PoolList
-                        loading={poolLoading}
-                        getTodo={getTodo}
-                        title="待办池"
-                        mapList={poolList}
-                        handleEdit={handleEdit}
-                        refreshData={refreshData}
-                        showDoneIcon={true}
-                    />
-                </div>
-                {/* 目标 */}
-                <div className={`${styles.box5} ScrollBar`}>
-                    <PoolList
-                        loading={targetLoading}
-                        getTodo={getTodo}
-                        title="目标"
-                        mapList={targetList}
-                        handleEdit={handleEdit}
-                        refreshData={refreshData}
-                    />
+            <div>
+                <div className={styles.Layout}>
+                    {/* 之后待办 */}
+                    <div className={`${styles.box1} ScrollBar`}>
+                        <List
+                            loading={poolLoading}
+                            getTodo={getTodo}
+                            title="之后待办"
+                            mapList={formatArrayToTimeMap(
+                                todoList.filter((item) => item.time > today)
+                            )}
+                            handleEdit={handleEdit}
+                            refreshData={refreshData}
+                        />
+                    </div>
+                    {/* 待办 */}
+                    <div className={`${styles.box2} ScrollBar`}>
+                        <List
+                            loading={todoLoading}
+                            getTodo={getTodo}
+                            title={
+                                <>
+                                    今日待办{" "}
+                                    <Tooltip
+                                        title="带星标的是当下正在做的任务"
+                                        placement="bottom"
+                                    >
+                                        <QuestionCircleOutlined
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                    </Tooltip>{" "}
+                                </>
+                            }
+                            mapList={formatArrayToTimeMap(
+                                todoList.filter((item) => item.time <= today)
+                            )}
+                            handleAdd={handleAdd}
+                            handleEdit={handleEdit}
+                            refreshData={refreshData}
+                            showRefresh={true}
+                            showDoneIcon={true}
+                        />
+                    </div>
+                    {/* 已完成 */}
+                    <div className={`${styles.box3} ScrollBar`}>
+                        <DoneList
+                            title="已完成"
+                            handleEdit={handleEdit}
+                            isRefreshDone={isRefreshDone}
+                            setIsRefreshDone={setIsRefreshDone}
+                            refreshData={refreshData}
+                        />
+                    </div>
+                    {/* 待办池 */}
+                    <div className={`${styles.box4} ScrollBar`}>
+                        <PoolList
+                            loading={poolLoading}
+                            getTodo={getTodo}
+                            title="待办池"
+                            mapList={poolList}
+                            handleEdit={handleEdit}
+                            refreshData={refreshData}
+                            showDoneIcon={true}
+                        />
+                    </div>
+                    {/* 目标 */}
+                    <div className={`${styles.box5} ScrollBar`}>
+                        <PoolList
+                            loading={targetLoading}
+                            getTodo={getTodo}
+                            title="目标"
+                            mapList={targetList}
+                            handleEdit={handleEdit}
+                            refreshData={refreshData}
+                        />
+                    </div>
                 </div>
             </div>
+            <div
+                className={styles.bookMark}
+                onMouseEnter={() => setShowDrawer(true)}
+                onClick={() => {
+                    setShowDrawer(true);
+                }}
+            >
+                <ArrowLeftOutlined />
+            </div>
+            <Drawer
+                closeIcon={null}
+                className={styles.bookMarkDrawer}
+                visible={showDrawer}
+                onClose={() => setShowDrawer(false)}
+                width="400px"
+            >
+                <PoolList
+                    loading={bookMarkLoading}
+                    getTodo={getTodo}
+                    title="书签"
+                    mapList={bookMarkList}
+                    handleEdit={handleEdit}
+                    refreshData={refreshData}
+                />
+            </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal
                 type={operatorType || "add"}

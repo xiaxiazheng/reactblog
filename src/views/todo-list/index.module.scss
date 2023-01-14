@@ -3,10 +3,39 @@
     height: 100%;
     font-size: 16px;
     text-align: left;
+    > div:first-child {
+        flex: 1;
+        height: 100%;
+    }
+}
+
+.bookMark {
+    width: 15px;
+    height: 100%;
+    line-height: 100vh;
+    border-left: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.bookMarkDrawer {
+    z-index: 4;
+    :global {
+        .ant-drawer-body {
+            padding: 10px 0;
+        }
+        .ant-drawer-header, .ant-drawer-title, .ant-drawer-content {
+            background-color: #001529;
+            color: rgba(255, 255, 255, 0.65);
+        }
+        .ant-drawer-close {
+            color: rgba(255, 255, 255, 0.65);
+        }
+    }
 }
 
 .Layout {
     width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(24, 1fr);

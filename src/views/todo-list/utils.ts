@@ -20,8 +20,8 @@ export const colorMap: any = {
     1: "#fa8c16",
     2: "#40a9ff",
     3: "#827e7e",
-    [-1]: "#20d420",
-    [-2]: "#9c27b0",
+    [-1]: "#9c27b0",
+    [-2]: "#20d420",
 };
 
 export const colorNameMap: any = {
