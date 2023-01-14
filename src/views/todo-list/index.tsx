@@ -19,11 +19,26 @@ const TodoList: React.FC = () => {
 
     const [todoLoading, setTodoLoading] = useState<boolean>(false);
     const [poolLoading, setPoolLoading] = useState<boolean>(false);
+    const [targetLoading, setTargetLoading] = useState<boolean>(false);
 
     const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
 
     const getTodo = async (type: StatusType) => {
-        if (type === "done") {
+        if (type === "target") {
+            setTargetLoading(true);
+            const req: any = {
+                isTarget: '1',
+                pageNo: 1,
+                pageSize: 100
+            };
+            const res = await getTodoList(req);
+            if (res) {
+                setTargetList(res.data.list);
+                setTargetLoading(false);
+            } else {
+                message.error("获取 todolist 失败");
+            }
+        } else if (type === "done") {
             setIsRefreshDone(true);
         } else {
             type === "todo" && setTodoLoading(true);
@@ -53,11 +68,13 @@ const TodoList: React.FC = () => {
         getTodo("todo");
         getTodo("done");
         getTodo("pool");
+        getTodo("target");
     }, []);
 
     // 两种列表
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
     const [poolList, setPoolList] = useState<TodoItemType[]>([]);
+    const [targetList, setTargetList] = useState<TodoItemType[]>([]);
     // 编辑相关
     const [operatorType, setOperatorType] = useState<OperatorType>();
     const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -100,6 +117,7 @@ const TodoList: React.FC = () => {
         getTodo("todo");
         getTodo("done");
         getTodo("pool");
+        getTodo("target");
         updateFlag();
     };
 
@@ -165,19 +183,19 @@ const TodoList: React.FC = () => {
                         loading={poolLoading}
                         getTodo={getTodo}
                         title="待办池"
-                        mapList={poolList.filter((item) => item.color !== "-1")}
+                        mapList={poolList}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
                         showDoneIcon={true}
                     />
                 </div>
-                {/* 长期任务 */}
+                {/* 目标 */}
                 <div className={`${styles.box5} ScrollBar`}>
                     <PoolList
-                        loading={poolLoading}
+                        loading={targetLoading}
                         getTodo={getTodo}
-                        title="长期任务"
-                        mapList={poolList.filter((item) => item.color === "-1")}
+                        title="目标"
+                        mapList={targetList}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
                     />

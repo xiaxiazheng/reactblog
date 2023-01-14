@@ -14,6 +14,8 @@ export interface TodoItemType {
     doing: "0" | "1";
     mTime?: string;
     isNote?: "0" | "1";
+    isTarget?: "0" | "1";
+    isBookMark?: "0" | "1";
 
     imgList: ImageType[];
     fileList: FileType[];
@@ -32,13 +34,15 @@ export interface CreateTodoItemReq {
     other_id?: string;
     doing: "0" | "1";
     isNote: "0" | "1";
+    isTarget: "0" | "1";
+    isBookMark: "0" | "1";
 }
 
 export interface EditTodoItemReq extends CreateTodoItemReq {
     todo_id: string;
 }
 
-export type StatusType = "todo" | "done" | "pool";
+export type StatusType = "todo" | "done" | "pool" | "target";
 export enum TodoStatus {
     todo = 0,
     done = 1,

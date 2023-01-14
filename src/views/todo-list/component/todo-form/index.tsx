@@ -191,8 +191,24 @@ const TodoForm: React.FC<Props> = (props) => {
                 <SwitchComp />
             </Form.Item>
             <Form.Item
+                name="isTarget"
+                label="设为目标"
+                rules={[{ required: true }]}
+                initialValue={"0"}
+            >
+                <SwitchComp />
+            </Form.Item>
+            <Form.Item
+                name="isBookMark"
+                label="设为书签"
+                rules={[{ required: true }]}
+                initialValue={"0"}
+            >
+                <SwitchComp />
+            </Form.Item>
+            <Form.Item
                 name="isNote"
-                label="存为便签"
+                label="存档"
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >

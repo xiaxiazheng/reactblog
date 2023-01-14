@@ -84,6 +84,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
+            console.log('formData', formData);
+            
             const req: CreateTodoItemReq = {
                 name: formData.name,
                 time: moment(formData.time).format("YYYY-MM-DD"),
@@ -94,6 +96,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 other_id: formData.other_id || "",
                 doing: formData.doing || "0",
                 isNote: formData.isNote || "0",
+                isTarget: formData.isTarget || "0",
+                isBookMark: formData.isBookMark || "0",
             };
             const res = await addTodoItem(req);
             if (res) {
@@ -117,6 +121,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
+            console.log('formData', formData);
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
                 name: formData.name,
@@ -128,6 +133,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 other_id: formData.other_id || "",
                 doing: formData.doing || "0",
                 isNote: formData.isNote || "0",
+                isTarget: formData.isTarget || "0",
+                isBookMark: formData.isBookMark || "0",
             };
             const res = await editTodoItem(req);
             if (res) {
