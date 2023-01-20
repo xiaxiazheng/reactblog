@@ -57,9 +57,10 @@ const TodoForm: React.FC<Props> = (props) => {
                 <span
                     className={styles.today}
                     onClick={() => {
-                        form.setFieldsValue({
-                            time: moment(),
-                        });
+                        // form.setFieldsValue({
+                        //     time: moment(),
+                        // });
+                        onChange(moment());
                     }}
                 >
                     Today
@@ -67,9 +68,10 @@ const TodoForm: React.FC<Props> = (props) => {
                 <span
                     className={styles.today}
                     onClick={() => {
-                        form.setFieldsValue({
-                            time: moment().subtract(1, "day"),
-                        });
+                        // form.setFieldsValue({
+                        //     time: moment().subtract(1, "day"),
+                        // });
+                        onChange(moment().subtract(1, "day"));
                     }}
                 >
                     Yesterday
@@ -77,9 +79,10 @@ const TodoForm: React.FC<Props> = (props) => {
                 <span
                     className={styles.today}
                     onClick={() => {
-                        form.setFieldsValue({
-                            time: moment().add(1, "day"),
-                        });
+                        // form.setFieldsValue({
+                        //     time: moment().add(1, "day"),
+                        // });
+                        onChange(moment().add(1, "day"));
                     }}
                 >
                     Tomorrow
