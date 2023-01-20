@@ -24,6 +24,23 @@ const PoolList: React.FC<Props> = (props) => {
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
 
+    // 获取展示的 list
+    const getShowList = (list: TodoItemType[]) => {
+        const l = !isSortTime
+            ? list
+            : [...list].sort(
+                    // sort 会改变原数组
+                    (a, b) =>
+                        (b?.mTime ? new Date(b.mTime).getTime() : 0) -
+                        (a?.mTime ? new Date(a.mTime).getTime() : 0)
+                );
+
+        // doing === '1' 的放前面，所以依然是正在处理的事情优先级最高
+        return l
+            .filter((item) => item.doing === "1")
+            .concat(l.filter((item) => item.doing !== "1"));
+    };
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
@@ -42,20 +59,7 @@ const PoolList: React.FC<Props> = (props) => {
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
                     <OneDayList
-                        list={
-                            !isSortTime
-                                ? mapList
-                                : [...mapList].sort(
-                                      // sort 会改变原数组
-                                      (a, b) =>
-                                          (b?.mTime
-                                              ? new Date(b.mTime).getTime()
-                                              : 0) -
-                                          (a?.mTime
-                                              ? new Date(a.mTime).getTime()
-                                              : 0)
-                                  )
-                        }
+                        list={getShowList(mapList)}
                         getTodo={getTodo}
                         handleEdit={handleEdit}
                         refreshData={refreshData}
