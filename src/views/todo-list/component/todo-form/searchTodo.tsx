@@ -21,6 +21,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         }
     }, [value]);
 
+    // 搜索接口
     const handleSearch = async (newValue: string) => {
         setLoading(true);
         const req: any = {
@@ -43,6 +44,23 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         }
     };
 
+    // 默认数据，去拿 target 目标列表
+    const getDefaultList = async () => {
+        setLoading(true);
+        const req: any = {
+            isTarget: "1",
+            pageNo: 1,
+            pageSize: 100,
+        };
+        const res = await getTodoList(req);
+        if (res) {
+            setOptions(res.data.list);
+            setLoading(false);
+        } else {
+            message.error("获取 todolist 失败");
+        }
+    }
+
     const Name = ({ item }: { item: TodoItemType }) => {
         return (
             <div style={{ whiteSpace: "pre-line" }}>
@@ -62,9 +80,9 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             onSearch={debounce(handleSearch, 500)}
             onChange={onChange}
             onDropdownVisibleChange={() => {
-                // 如果展开为空的话，再去获取默认的20条数据
+                // 如果展开为空的话，再去获取默认数据
                 if (options.length === 0) {
-                    handleSearch("");
+                    getDefaultList();
                 }
             }}
             notFoundContent={null}
