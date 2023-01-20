@@ -72,6 +72,7 @@ const OneDayList: React.FC<Props> = (props) => {
                 ))}
             </div>
             <Modal
+                className={styles.todoChain}
                 title={"todo chain"}
                 visible={showDrawer}
                 onCancel={() => setShowDrawer(false)}
