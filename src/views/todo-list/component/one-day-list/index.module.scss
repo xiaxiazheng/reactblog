@@ -37,6 +37,17 @@
         color: grey;
         vertical-align: 1px !important;
         font-size: 12px;
+        &.today {
+            color: #1890ff;
+        }
+
+        &.previously {
+            // color: red;
+        }
+
+        &.future {
+            color: #52d19c;
+        }
     }
 
     .name {

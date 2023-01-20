@@ -15,6 +15,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
+import dayjs from 'dayjs';
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -34,6 +35,8 @@ interface NameProps {
     handleEdit: Function;
     isChain?: boolean;
 }
+
+const today = dayjs().format("YYYY-MM-DD");
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
@@ -83,7 +86,13 @@ const TodoItemName: React.FC<NameProps> = (props) => {
             <>
                 {item.name}
                 {(isChain || item.isTarget === "1") && (
-                    <span className={styles.time}>{` (${item.time})`}</span>
+                    <span className={`${styles.time} ${
+                        item.time === today
+                            ? styles.today
+                            : item.time > today
+                            ? styles.future
+                            : styles.previously
+                    }`}>{` (${item.time})`}</span>
                 )}
             </>
         );
