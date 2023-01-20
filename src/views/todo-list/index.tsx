@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Drawer, Form, message, Tooltip } from "antd";
+import { Button, Drawer, Form, message, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
@@ -24,6 +24,8 @@ const TodoList: React.FC = () => {
 
     const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
 
+    const [isShowDoneTarget, setIsShowDoneTarget] = useState<boolean>(false);
+
     const getTodo = async (type: StatusType) => {
         if (type === "bookMark") {
             setTargetLoading(true);
@@ -42,12 +44,13 @@ const TodoList: React.FC = () => {
         } else if (type === "target") {
             setTargetLoading(true);
             const req: any = {
-                status: TodoStatus.todo,
-                isTarget: "1"
+                isTarget: "1",
+                pageNo: 1,
+                pageSize: 100,
             };
             const res = await getTodoList(req);
             if (res) {
-                setTargetList(res.data);
+                setTargetList(res.data.list);
                 setTargetLoading(false);
             } else {
                 message.error("获取 todolist 失败");
@@ -187,7 +190,11 @@ const TodoList: React.FC = () => {
                                 </>
                             }
                             mapList={formatArrayToTimeMap(
-                                todoList.filter((item) => item.time <= today && item.isTarget !== '1')
+                                todoList.filter(
+                                    (item) =>
+                                        item.time <= today &&
+                                        item.isTarget !== "1"
+                                )
                             )}
                             handleAdd={handleAdd}
                             handleEdit={handleEdit}
@@ -224,7 +231,29 @@ const TodoList: React.FC = () => {
                             loading={targetLoading}
                             getTodo={getTodo}
                             title="目标"
-                            mapList={targetList}
+                            btn={
+                                <>
+                                    <Button
+                                        onClick={() =>
+                                            setIsShowDoneTarget((prev) => !prev)
+                                        }
+                                        type={
+                                            !isShowDoneTarget
+                                                ? "default"
+                                                : "primary"
+                                        }
+                                    >
+                                        {!isShowDoneTarget
+                                            ? "未完成"
+                                            : "已完成"}
+                                    </Button>
+                                </>
+                            }
+                            mapList={targetList.filter((item) =>
+                                isShowDoneTarget
+                                    ? item.status === String(TodoStatus.done)
+                                    : item.status !== String(TodoStatus.done)
+                            )}
                             handleEdit={handleEdit}
                             refreshData={refreshData}
                         />

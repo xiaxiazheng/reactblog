@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Radio, Tooltip } from "antd";
+import { Button, Radio, Space, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
@@ -15,6 +15,7 @@ interface Props {
     handleEdit: Function;
     refreshData: Function;
     showDoneIcon?: boolean;
+    btn?: any;
 }
 
 // 待办池
@@ -30,10 +31,13 @@ const PoolList: React.FC<Props> = (props) => {
                 <span>
                     {title}({mapList.length})
                 </span>
-                <SortBtn
-                    isSortTime={isSortTime}
-                    setIsSortTime={setIsSortTime}
-                />
+                <Space size={16}>
+                    {props.btn}
+                    <SortBtn
+                        isSortTime={isSortTime}
+                        setIsSortTime={setIsSortTime}
+                    />
+                </Space>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
