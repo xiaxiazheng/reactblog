@@ -10,7 +10,13 @@ import { getTodoList } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
-import { ArrowLeftOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import {
+    AimOutlined,
+    ArrowLeftOutlined,
+    BookOutlined,
+    QuestionCircleOutlined,
+    StarFilled,
+} from "@ant-design/icons";
 import { useUpdateFlag } from "./hooks";
 import { TodoProvider } from "./TodoContext";
 
@@ -179,7 +185,41 @@ const TodoList: React.FC = () => {
                                 <>
                                     今日待办{" "}
                                     <Tooltip
-                                        title="带星标的是当下正在做的任务"
+                                        title={
+                                            <>
+                                                <div>
+                                                    <AimOutlined
+                                                        style={{
+                                                            marginRight: 5,
+                                                            color: "#ffeb3b",
+                                                        }}
+                                                    />
+                                                    这个是目标
+                                                </div>
+                                                <div>
+                                                    <BookOutlined
+                                                        style={{
+                                                            marginRight: 5,
+                                                            color: "#ffeb3b",
+                                                        }}
+                                                    />
+                                                    这个是已存档
+                                                </div>
+                                                <div>
+                                                    <StarFilled
+                                                        style={{
+                                                            marginRight: 5,
+                                                            color: "#ffeb3b",
+                                                        }}
+                                                    />
+                                                    这个是书签
+                                                </div>
+                                                <div>
+                                                    整个 title
+                                                    变黄，是指现在处理。
+                                                </div>
+                                            </>
+                                        }
                                         placement="bottom"
                                     >
                                         <QuestionCircleOutlined

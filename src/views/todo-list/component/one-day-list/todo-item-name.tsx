@@ -6,6 +6,8 @@ import {
     FileImageOutlined,
     StarFilled,
     FileTextOutlined,
+    AimOutlined,
+    BookOutlined,
 } from "@ant-design/icons";
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
@@ -37,8 +39,8 @@ interface NameProps {
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, refreshData, handleEdit, isChain = false } = props;
 
-    const isDoing = item.status == TodoStatus.todo;
-    const isDone = item.status == TodoStatus.done;
+    const isDoing = item.status === String(TodoStatus.todo);
+    const isDone = item.status === String(TodoStatus.done);
 
     const ToolTipsWrapper: React.FC = (props) => {
         return item.description ||
@@ -90,28 +92,39 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     return (
         <ToolTipsWrapper>
             <div className={styles.name} onClick={handleEdit.bind(null, item)}>
-                {isDoing && item.doing === "1" && (
-                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />
-                )}
                 <span
                     className={styles.category}
                     style={{
                         background: colorMap[item.color],
-                        borderColor:
-                            item.isTarget === "1" ? "#ffeb3b" : "transparent",
                     }}
                 >
                     {item.category}
                 </span>
-
+                {/* 目标 */}
+                {item.isTarget === "1" && (
+                    <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                )}
+                {/* 存档 */}
                 {item.isNote === "1" && (
-                    <FileTextOutlined style={{ marginRight: 5 }} />
+                    <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                )}
+                {/* 书签 */}
+                {item.isBookMark === "1" && (
+                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />
                 )}
 
                 {isDone ? (
                     <s className={styles.grey}>{getName()}</s>
                 ) : (
-                    <span>{getName()}</span>
+                    <span
+                        style={
+                            isDoing && item.doing === "1"
+                                ? { color: "#ffeb3b" }
+                                : {}
+                        }
+                    >
+                        {getName()}
+                    </span>
                 )}
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />
