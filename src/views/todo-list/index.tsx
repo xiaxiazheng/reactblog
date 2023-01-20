@@ -103,6 +103,12 @@ const TodoList: React.FC = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
+        form.setFieldsValue({
+            time: moment(),
+            status: TodoStatus.todo,
+            color: "3",
+            category: "其他",
+        });
     };
 
     const handleEdit = (item: TodoItemType) => {
@@ -126,13 +132,6 @@ const TodoList: React.FC = () => {
                 isNote: item.isNote,
                 isTarget: item.isTarget,
                 isBookMark: item.isBookMark,
-            });
-        } else {
-            form.setFieldsValue({
-                time: moment(),
-                status: TodoStatus.todo,
-                color: "3",
-                category: "其他",
             });
         }
     }, [activeTodo]);
