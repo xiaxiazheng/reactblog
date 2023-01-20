@@ -100,5 +100,12 @@
         padding: 10px 20px;
         text-align: right;
         color: var(--color);
+        background-color: var(--bg_color);
+        :global {
+            .ant-select-item {
+                color: var(--color);
+                background-color: var(--bg_color);
+            }
+        }
     }
 }

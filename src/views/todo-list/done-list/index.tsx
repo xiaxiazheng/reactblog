@@ -68,7 +68,9 @@ const DoneList: React.FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(15);
+    const [pageSize, setPageSize] = useState<number>(
+        Number(localStorage.getItem("todoDonePageSize")) || 15
+    );
     const [total, setTotal] = useState<number>(0);
     useEffect(() => {
         getDoneTodo();
@@ -291,10 +293,16 @@ const DoneList: React.FC<Props> = (props) => {
                 total={total}
                 onChange={(page, pageSize) => {
                     setPageNo(page);
-                    pageSize && setPageSize(pageSize);
+                    if (pageSize) {
+                        setPageSize(pageSize);
+                        localStorage.setItem(
+                            "todoDonePageSize",
+                            String(pageSize)
+                        );
+                    }
                 }}
                 pageSize={pageSize}
-                pageSizeOptions={["15", "20", "30", "40", "50"]}
+                pageSizeOptions={["15", "20", "25", "50"]}
             />
         </div>
     );
