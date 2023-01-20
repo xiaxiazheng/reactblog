@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Input, Space } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import styles from './index.module.scss';
+import { Button, Input, message, Space } from "antd";
+import { CopyOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import styles from "./index.module.scss";
 
 const { TextArea } = Input;
 
@@ -19,6 +19,16 @@ const InputList = ({ value = "", onChange }: any) => {
         onChange(l.join(splitStr));
     };
 
+    const handleCopy = (str: string) => {
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        input.setAttribute("value", str);
+        input.select();
+        document.execCommand("copy");
+        message.success("复制成功", 1);
+        document.body.removeChild(input);
+    };
+
     return (
         <Space size={4} direction="vertical" style={{ width: "100%" }}>
             <Button
@@ -28,6 +38,11 @@ const InputList = ({ value = "", onChange }: any) => {
             >
                 增加描述
             </Button>
+            <CopyOutlined
+                className={styles.copyIcon}
+                style={{ color: "#1890ff" }}
+                onClick={() => handleCopy(value)}
+            />
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
                     <TextArea
@@ -45,6 +60,11 @@ const InputList = ({ value = "", onChange }: any) => {
                             onClick={() => handleDelete(index)}
                         />
                     )}
+                    <CopyOutlined
+                        className={styles.copyIcon}
+                        style={{ color: "#1890ff" }}
+                        onClick={() => handleCopy(item)}
+                    />
                 </div>
             ))}
         </Space>
