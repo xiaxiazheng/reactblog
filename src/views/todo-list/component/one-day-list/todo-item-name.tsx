@@ -76,7 +76,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         );
     };
 
-    const getName = (name: string) => {
+    const getName = () => {
         return (
             <>
                 {item.name}
@@ -109,9 +109,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
 
                 {isDone ? (
-                    <s className={styles.grey}>{getName(item.name)}</s>
+                    <s className={styles.grey}>{getName()}</s>
                 ) : (
-                    <span>{getName(item.name)}</span>
+                    <span>{getName()}</span>
                 )}
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />

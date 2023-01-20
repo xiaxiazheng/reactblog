@@ -112,7 +112,11 @@ const TodoItem: React.FC<Props> = (props) => {
                     }}
                     title="查看 todo 链"
                     onClick={() => {
-                        showTodoChain(item.todo_id);
+                        showTodoChain(
+                            isHasChild
+                                ? item.todo_id
+                                : item.other_id || item.todo_id
+                        );
                     }}
                 />
             </Tooltip>
