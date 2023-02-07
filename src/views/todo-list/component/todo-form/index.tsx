@@ -8,7 +8,7 @@ import {
     Radio,
     Divider,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { AimOutlined, BookOutlined, PlusOutlined, StarFilled } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorMap, colorNameMap, colorList } from "../../utils";
 import styles from "./index.module.scss";
@@ -93,6 +93,7 @@ const TodoForm: React.FC<Props> = (props) => {
 
     return (
         <Form
+            className={styles.form}
             form={form}
             labelCol={{ span: 3 }}
             wrapperCol={{ span: 20 }}
@@ -187,7 +188,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="doing"
-                label="现在处理"
+                label={<span style={{color: "#ffeb3b" }}>现在处理</span>}
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
@@ -195,7 +196,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="isTarget"
-                label="设为目标"
+                label={<span>目标 <AimOutlined style={{ color: "#ffeb3b" }} /></span>}
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
@@ -203,7 +204,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="isBookMark"
-                label="设为书签"
+                label={<span>书签 <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /></span>}
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
@@ -211,7 +212,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="isNote"
-                label="存档"
+                label={<span>存档 <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} /></span>}
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >

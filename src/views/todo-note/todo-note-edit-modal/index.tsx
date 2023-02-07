@@ -69,7 +69,7 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
             doing: activeTodo?.doing || "0", // 不是现在处理
             isNote: "1", // 这个一定是 1是便签，不然也不会出现在这
             isTarget: activeTodo?.isTarget || "0",
-            isBookMark: activeTodo?.isBookMark || "0",
+            isBookMark: "0",
         };
         if (activeTodo) {
             const p: EditTodoItemReq = {

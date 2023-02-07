@@ -3,3 +3,11 @@
     color: #40a9ff;
     cursor: pointer;
 }
+
+.form {
+    :global {
+        .ant-form-item-label > label {
+            color: rgba(255, 255, 255, 0.65);
+        }
+    }
+}

@@ -267,7 +267,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     return (
         <>
             <Modal
-                className={visible2 ? styles.modal1 : ""}
+                className={`${visible2 ? styles.modal1 : ""} ${styles.modal}`}
                 title={type ? getTitle(type) : ""}
                 visible={visible}
                 onCancel={() => onClose()}
