@@ -9,5 +9,25 @@
         .ant-form-item-label > label {
             color: rgba(255, 255, 255, 0.65);
         }
+
+        .ant-input-affix-wrapper,
+        .ant-input,
+        .anticon.ant-input-clear-icon,
+        .ant-btn,
+        .ant-radio-button-wrapper,
+        .ant-select-selector.ant-select-selector,
+        .ant-picker,
+        .ant-picker-input > input,
+        .ant-picker-suffix,
+        .ant-picker-clear {
+            color: rgba(255, 255, 255, 0.65);
+            background-color: #001529;
+        }
+        .ant-switch {
+            background-color: #4b4646;
+        }
+        .ant-switch-checked {
+            background-color: #1890ff;
+        }
     }
 }
