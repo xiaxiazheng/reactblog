@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Button,
     FormInstance,
@@ -62,11 +62,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setActiveTodo,
     } = props;
 
-    const [needFresh, setNeedFresh] = useState<boolean>(false);
+    const needFresh = useRef<boolean>(false);
     const handleClose = () => {
-        if (needFresh) {
+        if (needFresh.current) {
             refreshData();
-            setNeedFresh(false);
+            needFresh.current = false;
         }
         handleCloseBackUp();
     };
@@ -108,7 +108,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const res = await addTodoItem(req);
             if (res) {
                 message.success(res.message);
-                setNeedFresh(true);
+                needFresh.current = true;
                 setActiveTodo(res.data.newTodoItem);
                 setType("edit");
             } else {
@@ -143,7 +143,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const res = await editTodoItem(req);
             if (res) {
                 message.success(res.message);
-                setNeedFresh(true);
+                needFresh.current = true;
                 setActiveTodo({ ...activeTodo, ...req });
             } else {
                 message.error("编辑 todo 失败");
@@ -161,7 +161,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         const res = await deleteTodoItem(req);
         if (res) {
             message.success(res.message);
-            setNeedFresh(true);
+            needFresh.current = true;
             onClose();
         } else {
             message.error("删除 todo 失败");
@@ -178,7 +178,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleOk = async (isButton: boolean) => {
-        if (visible) {
+        if (visible && isEdit) {
             setLoading(true);
             if (type === "edit") {
                 await editTodo();
@@ -192,6 +192,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 handleClose();
             }
             setIsEdit(false);
+        } else {
+            if (isButton) {
+                handleClose();
+            }
         }
     };
 
@@ -368,7 +372,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 />
                 {type === "edit" && activeTodo && (
                     <TodoImageFile
-                        handleFresh={() => setNeedFresh(true)}
+                        handleFresh={() => {
+                            needFresh.current = true;
+                        }}
                         activeTodo={activeTodo}
                     />
                 )}
