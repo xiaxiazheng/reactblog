@@ -180,7 +180,6 @@ const TodoNote: React.FC = () => {
                                         <TodoImageFile
                                             isOnlyShow={true}
                                             activeTodo={item}
-                                            refreshData={() => {}}
                                             width="120px"
                                         />
                                     </div>

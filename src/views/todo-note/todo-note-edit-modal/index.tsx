@@ -233,7 +233,7 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
                         <TodoImageFile
                             activeTodo={activeTodo}
                             width="120px"
-                            refreshData={() => refreshData()}
+                            handleFresh={refreshData}
                         />
                     </div>
                 )}

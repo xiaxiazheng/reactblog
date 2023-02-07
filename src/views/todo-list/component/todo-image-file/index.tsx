@@ -7,13 +7,13 @@ import FileListBox from "@/components/file-image-handle/file-list-box";
 
 interface IProps {
     activeTodo: TodoItemType;
-    refreshData: Function;
+    handleFresh?: Function;
     isOnlyShow?: boolean;
     width?: string;
 }
 
 const TodoImageFile: React.FC<IProps> = (props) => {
-    const { activeTodo, refreshData, isOnlyShow = false, width = '120px' } = props;
+    const { activeTodo, handleFresh, isOnlyShow = false, width = '120px' } = props;
 
     useEffect(() => {
         activeTodo && setTodo(activeTodo);
@@ -24,8 +24,7 @@ const TodoImageFile: React.FC<IProps> = (props) => {
         if (activeTodo?.todo_id) {
             const res = await getTodoById(activeTodo.todo_id);
             setTodo(res.data);
-            // 这边数据改变之后要刷新外部的数据，避免下次进来数据有问题
-            refreshData();
+            handleFresh?.();
         }
     };
 
