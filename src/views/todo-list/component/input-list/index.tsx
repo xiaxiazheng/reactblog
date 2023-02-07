@@ -20,12 +20,12 @@ const InputList = ({ value = "", onChange }: any) => {
     };
 
     const handleCopy = (str: string) => {
-        const input = document.createElement("input");
+        const input = document.createElement("textarea");
         document.body.appendChild(input);
-        input.setAttribute("value", str);
+        input.value = str;
         input.select();
         document.execCommand("copy");
-        message.success("复制成功", 1);
+        message.success("已复制到粘贴板");
         document.body.removeChild(input);
     };
 
