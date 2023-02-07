@@ -310,7 +310,7 @@ const TodoList: React.FC = () => {
             </div>
             {/* 书签展示的抽屉 */}
             <Drawer
-                closeIcon={null}
+                closable={false}
                 className={styles.bookMarkDrawer}
                 visible={showDrawer}
                 onClose={() => setShowDrawer(false)}
