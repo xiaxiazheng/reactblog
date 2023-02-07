@@ -167,13 +167,16 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
+    const [loading, setLoading] = useState<boolean>(false);
     const handleOk = async (isButton: boolean) => {
         if (visible) {
+            setLoading(true);
             if (type === "edit") {
                 await editTodo();
             } else {
                 await addTodo(form);
             }
+            setLoading(false);
 
             // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
             if (isButton) {
@@ -237,9 +240,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const handleClose2 = () => {
         setVisible2(false);
     };
+    const [loading2, setLoading2] = useState<boolean>(false);
     const handleOk2 = async () => {
         if (visible2) {
+            setLoading2(true);
             await addTodo(form2);
+            setLoading2(false);
             setVisible2(false);
             setIsEdit2(false);
         }
@@ -336,6 +342,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 type="primary"
                                 danger={isEdit}
                                 onClick={() => handleOk(true)}
+                                loading={loading}
                             >
                                 OK
                             </Button>
@@ -376,6 +383,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 type="primary"
                                 danger={isEdit2}
                                 onClick={() => handleOk2()}
+                                loading={loading2}
                             >
                                 OK
                             </Button>
