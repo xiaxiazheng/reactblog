@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Radio, Space, Tooltip } from "antd";
+import { Button, Input, Radio, Space, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
@@ -15,12 +15,13 @@ interface Props {
     handleEdit: Function;
     refreshData: Function;
     showDoneIcon?: boolean;
+    showSearch?: boolean;
     btn?: any;
 }
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleEdit, refreshData, showDoneIcon = false } = props;
+    const { loading, title, mapList, getTodo, handleEdit, refreshData, showSearch = true, showDoneIcon = false } = props;
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
 
@@ -41,6 +42,8 @@ const PoolList: React.FC<Props> = (props) => {
             .concat(l.filter((item) => item.doing !== "1"));
     };
 
+    const [keyword, setKeyword] = useState<string>();
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
@@ -49,6 +52,7 @@ const PoolList: React.FC<Props> = (props) => {
                     {title}({mapList.length})
                 </span>
                 <Space size={16}>
+                    {showSearch && <Input value={keyword} onChange={e => setKeyword(e.target.value)} allowClear />}
                     {props.btn}
                     <SortBtn
                         isSortTime={isSortTime}
@@ -59,7 +63,7 @@ const PoolList: React.FC<Props> = (props) => {
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
                     <OneDayList
-                        list={getShowList(mapList)}
+                        list={getShowList(mapList).filter(item => !keyword || item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1)}
                         getTodo={getTodo}
                         handleEdit={handleEdit}
                         refreshData={refreshData}

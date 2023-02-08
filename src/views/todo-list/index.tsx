@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, Drawer, Form, message, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "./utils";
@@ -19,8 +19,11 @@ import {
 } from "@ant-design/icons";
 import { useUpdateFlag } from "./hooks";
 import { TodoProvider } from "./TodoContext";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const TodoList: React.FC = () => {
+    const { theme } = useContext(ThemeContext);
+
     useDocumentTitle("todo-list");
 
     const [todoLoading, setTodoLoading] = useState<boolean>(false);
@@ -270,6 +273,7 @@ const TodoList: React.FC = () => {
                             loading={targetLoading}
                             getTodo={getTodo}
                             title="目标"
+                            showSearch={false}
                             btn={
                                 <>
                                     <Button
@@ -311,7 +315,9 @@ const TodoList: React.FC = () => {
             {/* 书签展示的抽屉 */}
             <Drawer
                 closable={false}
-                className={styles.bookMarkDrawer}
+                className={`${styles.bookMarkDrawer} ${
+                    theme === "dark" ? "darkTheme" : ""
+                }`}
                 visible={showDrawer}
                 onClose={() => setShowDrawer(false)}
                 width="400px"
