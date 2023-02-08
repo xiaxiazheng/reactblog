@@ -296,7 +296,7 @@ const TodoList: React.FC = () => {
                                 isShowDoneTarget
                                     ? item.status === String(TodoStatus.done)
                                     : item.status !== String(TodoStatus.done)
-                            )}
+                            ).sort((a, b) => Number(a.color) - Number(b.color))}
                             handleEdit={handleEdit}
                             refreshData={refreshData}
                         />
@@ -326,7 +326,7 @@ const TodoList: React.FC = () => {
                     loading={bookMarkLoading}
                     getTodo={getTodo}
                     title="书签"
-                    mapList={bookMarkList}
+                    mapList={bookMarkList.sort((a, b) => Number(a.color) - Number(b.color))}
                     handleEdit={handleEdit}
                     refreshData={refreshData}
                 />
