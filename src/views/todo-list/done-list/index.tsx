@@ -23,7 +23,7 @@ import {
 import { debounce } from "lodash";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { TodoStatus } from "../types";
-import SortBtn from "../component/sort-btn";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import { ClearOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
@@ -31,6 +31,7 @@ const { RangePicker } = DatePicker;
 
 interface Props {
     title: string;
+    sortKey: SortKeyMap;
     handleEdit: Function;
     isRefreshDone: boolean;
     setIsRefreshDone: Function;
@@ -39,7 +40,7 @@ interface Props {
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const { title, handleEdit, isRefreshDone, setIsRefreshDone, refreshData } =
+    const { title, handleEdit, isRefreshDone, setIsRefreshDone, refreshData, sortKey } =
         props;
 
     const [doneMap, setDoneMap] = useState<any>({});
@@ -126,7 +127,7 @@ const DoneList: React.FC<Props> = (props) => {
         }
     }, [isRefreshDone]);
 
-    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const {isSortTime, setIsSortTime} = useIsSortTime(`${sortKey}-sort-time`);
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
     const Filter = () => {

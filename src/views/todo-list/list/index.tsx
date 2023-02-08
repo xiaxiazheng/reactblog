@@ -14,7 +14,7 @@ import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
 import { getWeek } from "../utils";
 import { StatusType, TodoItemType, TodoStatus } from "../types";
-import SortBtn from "../component/sort-btn";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 
 interface Props {
     loading: boolean;
@@ -22,6 +22,7 @@ interface Props {
     mapList: {
         [k in string]: TodoItemType[];
     };
+    sortKey: SortKeyMap;
     getTodo: (type: StatusType) => void;
     handleAdd?: Function;
     handleEdit: Function;
@@ -42,6 +43,7 @@ const List: React.FC<Props> = (props) => {
         refreshData,
         showRefresh = false,
         showDoneIcon = false,
+        sortKey,
     } = props;
 
     const today = moment().format("YYYY-MM-DD");
@@ -83,7 +85,7 @@ const List: React.FC<Props> = (props) => {
         }
     };
 
-    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const {isSortTime, setIsSortTime} = useIsSortTime(`${sortKey}-sort-time`);
 
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {

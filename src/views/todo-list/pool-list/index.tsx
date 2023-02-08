@@ -5,11 +5,12 @@ import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
 import { StatusType, TodoItemType } from "../types";
 import { CalendarOutlined } from "@ant-design/icons";
-import SortBtn from "../component/sort-btn";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 
 interface Props {
     loading: boolean;
     title: string;
+    sortKey: SortKeyMap;
     mapList: TodoItemType[];
     getTodo: (type: StatusType) => void;
     handleEdit: Function;
@@ -21,9 +22,9 @@ interface Props {
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, getTodo, handleEdit, refreshData, showSearch = true, showDoneIcon = false } = props;
+    const { loading, title, mapList, getTodo, handleEdit, refreshData, showSearch = true, showDoneIcon = false, sortKey } = props;
 
-    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const {isSortTime, setIsSortTime} = useIsSortTime(`${sortKey}-sort-time`);
 
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {

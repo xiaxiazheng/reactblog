@@ -20,6 +20,7 @@ import {
 import { useUpdateFlag } from "./hooks";
 import { TodoProvider } from "./TodoContext";
 import { ThemeContext } from "@/context/ThemeContext";
+import { SortKeyMap } from "./component/sort-btn";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -171,6 +172,8 @@ const TodoList: React.FC = () => {
                         <List
                             loading={poolLoading}
                             getTodo={getTodo}
+                            sortKey={SortKeyMap.after}
+                            key="after"
                             title="之后待办"
                             mapList={formatArrayToTimeMap(
                                 todoList.filter((item) => item.time > today)
@@ -184,6 +187,7 @@ const TodoList: React.FC = () => {
                         <List
                             loading={todoLoading}
                             getTodo={getTodo}
+                            sortKey={SortKeyMap.todo}
                             title={
                                 <>
                                     今日待办{" "}
@@ -249,6 +253,8 @@ const TodoList: React.FC = () => {
                     <div className={`${styles.box3} ScrollBar`}>
                         <DoneList
                             title="已完成"
+                            key="done"
+                            sortKey={SortKeyMap.done}
                             handleEdit={handleEdit}
                             isRefreshDone={isRefreshDone}
                             setIsRefreshDone={setIsRefreshDone}
@@ -259,6 +265,7 @@ const TodoList: React.FC = () => {
                     <div className={`${styles.box4} ScrollBar`}>
                         <PoolList
                             loading={poolLoading}
+                            sortKey={SortKeyMap.pool}
                             getTodo={getTodo}
                             title="待办池"
                             mapList={poolList}
@@ -272,6 +279,7 @@ const TodoList: React.FC = () => {
                         <PoolList
                             loading={targetLoading}
                             getTodo={getTodo}
+                            sortKey={SortKeyMap.target}
                             title="目标"
                             showSearch={false}
                             btn={
@@ -326,6 +334,7 @@ const TodoList: React.FC = () => {
                     loading={bookMarkLoading}
                     getTodo={getTodo}
                     title="书签"
+                    sortKey={SortKeyMap.bookmark}
                     mapList={bookMarkList.sort((a, b) => Number(a.color) - Number(b.color))}
                     handleEdit={handleEdit}
                     refreshData={refreshData}
