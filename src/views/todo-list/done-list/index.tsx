@@ -95,7 +95,7 @@ const DoneList: React.FC<Props> = (props) => {
 
         const req: any = {
             status: TodoStatus["done"],
-            keyword,
+            keyword: keyword?.replace(" ", "%"),
             pageNo,
             pageSize,
             startTime: startEndTime?.[0]?.format("YYYY-MM-DD"),
@@ -240,7 +240,7 @@ const DoneList: React.FC<Props> = (props) => {
                 onSearch={() => handleSearch()}
                 enterButton
                 allowClear={true}
-                placeholder="可用 % 分词实现一定模糊搜索"
+                placeholder="可用空格分词实现一定模糊搜索"
             />
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(doneMap).map((time) => {
