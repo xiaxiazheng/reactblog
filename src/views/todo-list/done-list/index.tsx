@@ -46,7 +46,7 @@ const DoneList: React.FC<Props> = (props) => {
     const [doneMap, setDoneMap] = useState<any>({});
 
     const today = moment().format("YYYY-MM-DD");
-    const getDoneList = debounce(() => getDoneTodo(), 200);
+    const getDoneListDebounce = debounce(() => getDoneTodo(), 300);
 
     // 根据颜色和类别筛选
     const [activeColor, setActiveColor] = useState<string>("");
@@ -61,8 +61,15 @@ const DoneList: React.FC<Props> = (props) => {
     }, []);
 
     useEffect(() => {
-        getDoneList();
+        getDoneTodo();
     }, [activeCategory, activeColor]);
+
+    useEffect(() => {
+        if (isRefreshDone) {
+            getDoneTodo();
+            setIsRefreshDone(false);
+        }
+    }, [isRefreshDone]);
 
     const [startEndTime, setStartEndTime] = useState<any>();
 
@@ -79,7 +86,7 @@ const DoneList: React.FC<Props> = (props) => {
 
     const handleSearch = () => {
         if (pageNo === 1) {
-            getDoneList();
+            getDoneListDebounce();
         } else {
             setPageNo(1);
         }
@@ -87,11 +94,11 @@ const DoneList: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (keyword === "") {
-            handleSearch();
+            getDoneListDebounce();
         }
     }, [keyword]);
 
-    const getDoneTodo = debounce(async () => {
+    const getDoneTodo = async () => {
         setLoading(true);
 
         const req: any = {
@@ -118,14 +125,7 @@ const DoneList: React.FC<Props> = (props) => {
         } else {
             message.error("获取 todolist 失败");
         }
-    }, 300);
-
-    useEffect(() => {
-        if (isRefreshDone) {
-            handleSearch();
-            setIsRefreshDone(false);
-        }
-    }, [isRefreshDone]);
+    };
 
     const {isSortTime, setIsSortTime} = useIsSortTime(`${sortKey}-sort-time`);
     const [showFilter, setShowFilter] = useState<boolean>(false);
