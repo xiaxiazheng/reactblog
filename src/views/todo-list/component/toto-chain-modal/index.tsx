@@ -29,7 +29,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
-    const { flag } = useUpdateFlag();
+    const { flag, updateFlag } = useUpdateFlag();
 
     useEffect(() => {
         if (visible) {
@@ -64,6 +64,12 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 item.description.indexOf(keyword) !== -1
         );
     };
+
+    const handleRefresh = () => {
+        refreshData();
+        // 刷新外部，也要刷新 todo chain
+        updateFlag();
+    }
 
     return (
         <Modal
@@ -103,7 +109,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                             item={item}
                                             getTodo={getTodo}
                                             handleEdit={handleEdit}
-                                            refreshData={refreshData}
+                                            refreshData={handleRefresh}
                                             showDoneIcon={false}
                                             isChain={true}
                                             showTodoChain={(
@@ -133,7 +139,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                     item={activeTodo}
                                     getTodo={getTodo}
                                     handleEdit={handleEdit}
-                                    refreshData={refreshData}
+                                    refreshData={handleRefresh}
                                     showDoneIcon={false}
                                     isChain={true}
                                     showTodoChain={(todo_id: string) => {
@@ -157,7 +163,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                                 item={item}
                                                 getTodo={getTodo}
                                                 handleEdit={handleEdit}
-                                                refreshData={refreshData}
+                                                refreshData={handleRefresh}
                                                 showDoneIcon={false}
                                                 isChain={true}
                                                 isChainNext={true}
