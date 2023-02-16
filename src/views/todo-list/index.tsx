@@ -21,6 +21,7 @@ import { useUpdateFlag } from "./hooks";
 import { TodoProvider } from "./TodoContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
+import Loading from "@/components/loading";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -38,7 +39,7 @@ const TodoList: React.FC = () => {
 
     const getTodo = async (type: StatusType) => {
         if (type === "bookMark") {
-            setTargetLoading(true);
+            setBookMarkLoading(true);
             const req: any = {
                 isBookMark: "1",
                 pageNo: 1,
