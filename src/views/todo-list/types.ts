@@ -53,7 +53,7 @@ export type OperatorType = "add" | "edit";
 export type OperatorType2 = "add_progress" | "copy";
 
 const obj2 = {
-    category: "其他",
+    category: "个人",
     count: "12",
 };
 export type CategoryType = typeof obj2;

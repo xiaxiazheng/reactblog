@@ -14,7 +14,7 @@ export type NoteType = {
 }
 
 const obj2 = {
-    category: "其他",
+    category: "个人",
     count: "12",
 };
 export type CategoryType = typeof obj2;

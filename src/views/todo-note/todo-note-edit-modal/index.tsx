@@ -176,7 +176,7 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
                     name="category"
                     label="类别"
                     rules={[{ required: true }]}
-                    initialValue="其他"
+                    initialValue="个人"
                 >
                     <Select
                         showSearch

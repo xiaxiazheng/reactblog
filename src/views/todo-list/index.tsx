@@ -117,7 +117,7 @@ const TodoList: React.FC = () => {
             time: moment(),
             status: TodoStatus.todo,
             color: "3",
-            category: "其他",
+            category: "个人",
         });
     };
 
