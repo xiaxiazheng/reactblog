@@ -72,6 +72,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (needFresh.current.length === 0) {
                 refreshData();
             } else {
+                // 先去重
+                needFresh.current = Array.from(new Set(needFresh.current));
                 needFresh.current.map((item) => {
                     refreshData(item);
                 });
@@ -119,7 +121,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (res) {
                 message.success(res.message);
 
-                needFresh.current = handleRefreshList(formData);
+                needFresh.current.push(...handleRefreshList(formData));
 
                 setActiveTodo(res.data.newTodoItem);
                 setType("edit");
@@ -157,10 +159,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 message.success(res.message);
 
                 // 确定刷新范围并去重
-                needFresh.current = handleRefreshList(formData).concat(
+                needFresh.current.push(...handleRefreshList(formData).concat(
                     handleRefreshList(activeTodo)
-                );
-                needFresh.current = Array.from(new Set(needFresh.current));
+                ));
 
                 setActiveTodo({ ...activeTodo, ...req });
             } else {
@@ -180,8 +181,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const res = await deleteTodoItem(req);
             if (res) {
                 message.success(res.message);
-                needFresh.current = handleRefreshList(activeTodo);
-                
+                needFresh.current.push(...handleRefreshList(activeTodo));
+
                 onClose();
             } else {
                 message.error("删除 todo 失败");
