@@ -17,11 +17,9 @@ import {
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
-import { useUpdateFlag } from "./hooks";
 import { TodoProvider } from "./TodoContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
-import Loading from "@/components/loading";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -149,15 +147,23 @@ const TodoList: React.FC = () => {
 
     const [form] = Form.useForm();
 
-    const { updateFlag } = useUpdateFlag();
 
-    const refreshData = () => {
-        getTodo("todo");
-        getTodo("done");
-        getTodo("pool");
-        getTodo("target");
-        getTodo("bookMark");
-        updateFlag();
+    const refreshData = (
+        type?: "todo" | "done" | "pool" | "target" | "bookMark"
+    ) => {
+        if (!type) {
+            getTodo("todo");
+            getTodo("done");
+            getTodo("pool");
+            getTodo("target");
+            getTodo("bookMark");
+        } else {
+            type === "todo" && getTodo("todo");
+            type === "done" && getTodo("done");
+            type === "pool" && getTodo("pool");
+            type === "target" && getTodo("target");
+            type === "bookMark" && getTodo("bookMark");
+        }
     };
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
@@ -171,7 +177,7 @@ const TodoList: React.FC = () => {
                     {/* 之后待办 */}
                     <div className={`${styles.box1} ScrollBar`}>
                         <List
-                            loading={poolLoading}
+                            loading={todoLoading}
                             getTodo={getTodo}
                             sortKey={SortKeyMap.after}
                             key="after"
@@ -301,11 +307,17 @@ const TodoList: React.FC = () => {
                                     </Button>
                                 </>
                             }
-                            mapList={targetList.filter((item) =>
-                                isShowDoneTarget
-                                    ? item.status === String(TodoStatus.done)
-                                    : item.status !== String(TodoStatus.done)
-                            ).sort((a, b) => Number(a.color) - Number(b.color))}
+                            mapList={targetList
+                                .filter((item) =>
+                                    isShowDoneTarget
+                                        ? item.status ===
+                                          String(TodoStatus.done)
+                                        : item.status !==
+                                          String(TodoStatus.done)
+                                )
+                                .sort(
+                                    (a, b) => Number(a.color) - Number(b.color)
+                                )}
                             handleEdit={handleEdit}
                             refreshData={refreshData}
                         />
@@ -336,7 +348,9 @@ const TodoList: React.FC = () => {
                     getTodo={getTodo}
                     title="书签"
                     sortKey={SortKeyMap.bookmark}
-                    mapList={bookMarkList.sort((a, b) => Number(a.color) - Number(b.color))}
+                    mapList={bookMarkList.sort(
+                        (a, b) => Number(a.color) - Number(b.color)
+                    )}
                     handleEdit={handleEdit}
                     refreshData={refreshData}
                 />

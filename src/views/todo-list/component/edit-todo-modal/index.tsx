@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
     Button,
     FormInstance,
@@ -16,6 +16,7 @@ import {
     EditTodoItemReq,
     CreateTodoItemReq,
     TodoStatus,
+    StatusType,
     OperatorType2,
 } from "../../types";
 import moment from "moment";
@@ -31,6 +32,8 @@ import {
     ExclamationCircleOutlined,
     QuestionCircleOutlined,
 } from "@ant-design/icons";
+import { useUpdateFlag } from "../../hooks";
+import { handleRefreshList } from "../../utils";
 
 interface EditTodoModalType {
     type: OperatorType;
@@ -62,11 +65,18 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setActiveTodo,
     } = props;
 
-    const needFresh = useRef<boolean>(false);
+    const needFresh = useRef<StatusType[]>([]);
+    const { updateFlag } = useUpdateFlag();
     const handleClose = () => {
         if (needFresh.current) {
-            refreshData();
-            needFresh.current = false;
+            if (needFresh.current.length === 0) {
+                refreshData();
+            } else {
+                needFresh.current.map((item) => {
+                    refreshData(item);
+                });
+            }
+            updateFlag();
         }
         handleCloseBackUp();
     };
@@ -108,7 +118,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const res = await addTodoItem(req);
             if (res) {
                 message.success(res.message);
-                needFresh.current = true;
+
+                needFresh.current = handleRefreshList(formData);
+
                 setActiveTodo(res.data.newTodoItem);
                 setType("edit");
             } else {
@@ -143,7 +155,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const res = await editTodoItem(req);
             if (res) {
                 message.success(res.message);
-                needFresh.current = true;
+
+                // 确定刷新范围并去重
+                needFresh.current = handleRefreshList(formData).concat(
+                    handleRefreshList(activeTodo)
+                );
+                needFresh.current = Array.from(new Set(needFresh.current));
+
                 setActiveTodo({ ...activeTodo, ...req });
             } else {
                 message.error("编辑 todo 失败");
@@ -154,17 +172,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     // 删除 todo
-    const deleteTodo = async (todo_id: string) => {
-        const req = {
-            todo_id,
-        };
-        const res = await deleteTodoItem(req);
-        if (res) {
-            message.success(res.message);
-            needFresh.current = true;
-            onClose();
-        } else {
-            message.error("删除 todo 失败");
+    const deleteTodo = async (activeTodo: TodoItemType | undefined) => {
+        if (activeTodo?.todo_id) {
+            const req = {
+                todo_id: activeTodo.todo_id,
+            };
+            const res = await deleteTodoItem(req);
+            if (res) {
+                message.success(res.message);
+                needFresh.current = handleRefreshList(activeTodo);
+                
+                onClose();
+            } else {
+                message.error("删除 todo 失败");
+            }
         }
     };
 
@@ -291,9 +312,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                                     0)
                                         }
                                         onConfirm={() => {
-                                            deleteTodo(
-                                                activeTodo?.todo_id || ""
-                                            );
+                                            deleteTodo(activeTodo);
                                         }}
                                         okText="YES"
                                         cancelText="NO"
@@ -373,7 +392,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 {type === "edit" && activeTodo && (
                     <TodoImageFile
                         handleFresh={() => {
-                            needFresh.current = true;
+                            needFresh.current = [];
                         }}
                         activeTodo={activeTodo}
                     />

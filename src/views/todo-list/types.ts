@@ -48,6 +48,11 @@ export enum TodoStatus {
     done = 1,
     pool = 2,
 }
+export const TodoStatusMap: any = {
+    [TodoStatus.todo]: 'todo',
+    [TodoStatus.done]: 'done',
+    [TodoStatus.pool]: 'pool',
+}
 
 export type OperatorType = "add" | "edit";
 export type OperatorType2 = "add_progress" | "copy";

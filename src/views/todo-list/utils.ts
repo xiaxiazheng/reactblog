@@ -1,4 +1,5 @@
 import moment from "moment";
+import { StatusType, TodoStatusMap } from "./types";
 
 export const formatArrayToTimeMap = (list: any[]) => {
     return list.reduce((prev, cur) => {
@@ -35,3 +36,17 @@ export const colorNameMap: any = {
 };
 
 export const colorList = Object.keys(colorNameMap);
+
+// 确定 todo 的刷新范围
+export const handleRefreshList = (formData: any) => {
+    const list: StatusType[] = [];
+    if (formData.isTarget === "1") {
+        list.push("target");
+    }
+    if (formData.isBookMark === "1") {
+        list.push("bookMark");
+    }
+    list.push(TodoStatusMap[formData.status]);
+
+    return list;
+};
