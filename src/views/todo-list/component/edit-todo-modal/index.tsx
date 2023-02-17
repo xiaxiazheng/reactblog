@@ -77,6 +77,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 needFresh.current.map((item) => {
                     refreshData(item);
                 });
+                // 刷新完要清空
+                needFresh.current = [];
             }
             updateFlag();
         }
