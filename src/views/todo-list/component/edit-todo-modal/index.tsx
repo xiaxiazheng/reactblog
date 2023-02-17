@@ -69,9 +69,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const { updateFlag } = useUpdateFlag();
     const handleClose = () => {
         if (needFresh.current) {
-            if (needFresh.current.length === 0) {
-                refreshData();
-            } else {
+            if (needFresh.current.length !== 0) {
                 // 先去重
                 needFresh.current = Array.from(new Set(needFresh.current));
                 needFresh.current.map((item) => {
