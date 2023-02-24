@@ -1,12 +1,15 @@
 import React from "react";
-import { Switch } from "antd";
+import { Button } from "antd";
 
-const SwitchComp = ({ value, onChange }: any) => {
+const SwitchComp = (props: any) => {
+    const { value, onChange, children } = props;
     return (
-        <Switch
-            checked={value === "1"}
-            onChange={(val) => onChange(val ? "1" : "0")}
-        />
+        <Button
+            type={value === "1" ? "primary" : "default"}
+            onClick={() => onChange(value === "0" ? "1" : "0")}
+        >
+            {children}
+        </Button>
     );
 };
 

@@ -8,6 +8,7 @@ import {
     Radio,
     Divider,
     Tooltip,
+    Space,
 } from "antd";
 import {
     AimOutlined,
@@ -207,56 +208,60 @@ const TodoForm: React.FC<Props> = (props) => {
                     <Radio.Button value={2}>待办池</Radio.Button>
                 </Radio.Group>
             </Form.Item>
-            <Form.Item
-                name="doing"
-                label={<span style={{ color: "#ffeb3b" }}>现在处理</span>}
-                rules={[{ required: true }]}
-                initialValue={"0"}
-            >
-                <SwitchComp />
+            <Form.Item label="特殊状态" style={{ marginBottom: 0}}>
+                <Space>
+                    <Form.Item
+                        name="doing"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span style={{ color: "#ffeb3b" }}>现在处理</span>
+                        </SwitchComp>
+                    </Form.Item>
+                    <Form.Item
+                        name="isTarget"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span>
+                                <AimOutlined style={{ color: "#ffeb3b" }} />{" "}
+                                目标
+                            </span>
+                        </SwitchComp>
+                    </Form.Item>
+                    <Form.Item
+                        name="isBookMark"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span>
+                                <StarFilled
+                                    style={{ marginRight: 5, color: "#ffeb3b" }}
+                                />{" "}
+                                书签
+                            </span>
+                        </SwitchComp>
+                    </Form.Item>
+                    <Form.Item
+                        name="isNote"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span>
+                                <BookOutlined
+                                    style={{ marginRight: 5, color: "#ffeb3b" }}
+                                />{" "}
+                                存档
+                            </span>
+                        </SwitchComp>
+                    </Form.Item>
+                </Space>
             </Form.Item>
-            <Form.Item
-                name="isTarget"
-                label={
-                    <span>
-                        目标 <AimOutlined style={{ color: "#ffeb3b" }} />
-                    </span>
-                }
-                rules={[{ required: true }]}
-                initialValue={"0"}
-            >
-                <SwitchComp />
-            </Form.Item>
-            <Form.Item
-                name="isBookMark"
-                label={
-                    <span>
-                        书签{" "}
-                        <StarFilled
-                            style={{ marginRight: 5, color: "#ffeb3b" }}
-                        />
-                    </span>
-                }
-                rules={[{ required: true }]}
-                initialValue={"0"}
-            >
-                <SwitchComp />
-            </Form.Item>
-            <Form.Item
-                name="isNote"
-                label={
-                    <span>
-                        存档{" "}
-                        <BookOutlined
-                            style={{ marginRight: 5, color: "#ffeb3b" }}
-                        />
-                    </span>
-                }
-                rules={[{ required: true }]}
-                initialValue={"0"}
-            >
-                <SwitchComp />
-            </Form.Item>
+
             <Form.Item name="other_id" label="前置 todo">
                 <SearchTodo activeTodo={activeTodo} />
             </Form.Item>

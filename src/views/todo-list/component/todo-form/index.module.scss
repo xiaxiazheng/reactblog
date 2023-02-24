@@ -26,8 +26,9 @@
         .ant-switch {
             background-color: #4b4646;
         }
-        .ant-switch-checked {
+        .ant-switch-checked, .ant-btn-primary {
             background-color: #1890ff;
+            color: white;
         }
     }
 }
