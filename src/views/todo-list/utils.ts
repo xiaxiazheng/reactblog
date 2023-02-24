@@ -1,4 +1,5 @@
 import moment from "moment";
+import { message } from "antd";
 import { StatusType, TodoStatusMap } from "./types";
 
 export const formatArrayToTimeMap = (list: any[]) => {
@@ -49,4 +50,14 @@ export const handleRefreshList = (formData: any) => {
     list.push(TodoStatusMap[formData.status]);
 
     return list;
+};
+
+export const handleCopy = (str: string) => {
+    const input = document.createElement("textarea");
+    document.body.appendChild(input);
+    input.value = str;
+    input.select();
+    document.execCommand("copy");
+    message.success("已复制到粘贴板");
+    document.body.removeChild(input);
 };

@@ -7,14 +7,22 @@ import {
     FormInstance,
     Radio,
     Divider,
+    Tooltip,
 } from "antd";
-import { AimOutlined, BookOutlined, PlusOutlined, StarFilled } from "@ant-design/icons";
+import {
+    AimOutlined,
+    BookOutlined,
+    PlusOutlined,
+    QuestionCircleFilled,
+    QuestionCircleOutlined,
+    StarFilled,
+} from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap, colorNameMap, colorList } from "../../utils";
+import { colorMap, colorNameMap, colorList, handleCopy } from "../../utils";
 import styles from "./index.module.scss";
 import moment from "moment";
 import { CategoryType, TodoItemType } from "../../types";
-import InputList from "../input-list";
+import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 
@@ -107,7 +115,20 @@ const TodoForm: React.FC<Props> = (props) => {
                     allowClear
                 />
             </Form.Item>
-            <Form.Item name="description" label="详细描述" initialValue={""}>
+            <Form.Item
+                name="description"
+                label={
+                    <Tooltip title={`分割符为 ${splitStr}, 点击复制`}>
+                        <span
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleCopy(splitStr)}
+                        >
+                            详细描述 <QuestionCircleOutlined />
+                        </span>
+                    </Tooltip>
+                }
+                initialValue={""}
+            >
                 <InputList />
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
@@ -188,7 +209,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="doing"
-                label={<span style={{color: "#ffeb3b" }}>现在处理</span>}
+                label={<span style={{ color: "#ffeb3b" }}>现在处理</span>}
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
@@ -196,7 +217,11 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="isTarget"
-                label={<span>目标 <AimOutlined style={{ color: "#ffeb3b" }} /></span>}
+                label={
+                    <span>
+                        目标 <AimOutlined style={{ color: "#ffeb3b" }} />
+                    </span>
+                }
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
@@ -204,7 +229,14 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="isBookMark"
-                label={<span>书签 <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /></span>}
+                label={
+                    <span>
+                        书签{" "}
+                        <StarFilled
+                            style={{ marginRight: 5, color: "#ffeb3b" }}
+                        />
+                    </span>
+                }
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
@@ -212,7 +244,14 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item
                 name="isNote"
-                label={<span>存档 <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} /></span>}
+                label={
+                    <span>
+                        存档{" "}
+                        <BookOutlined
+                            style={{ marginRight: 5, color: "#ffeb3b" }}
+                        />
+                    </span>
+                }
                 rules={[{ required: true }]}
                 initialValue={"0"}
             >
