@@ -5,7 +5,7 @@ import {
     QuestionCircleOutlined,
     FileImageOutlined,
     StarFilled,
-    FileTextOutlined,
+    ClockCircleOutlined,
     AimOutlined,
     BookOutlined,
 } from "@ant-design/icons";
@@ -112,8 +112,12 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     {item.category}
                 </span>
                 {/* 目标 */}
-                {item.isTarget === "1" && (
+                {item.isTarget === "1" && !item.timeRange && (
                     <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                )}
+                {/* 打卡 */}
+                {item.isTarget === "1" && !!item.timeRange && (
+                    <ClockCircleOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
                 )}
                 {/* 存档 */}
                 {item.isNote === "1" && (

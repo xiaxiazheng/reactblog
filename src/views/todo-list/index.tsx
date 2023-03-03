@@ -20,6 +20,7 @@ import {
 import { TodoProvider } from "./TodoContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
+import PunchTheClockModal from "./component/punch-the-clock-modal";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -107,6 +108,8 @@ const TodoList: React.FC = () => {
     const [operatorType, setOperatorType] = useState<OperatorType>();
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
+    // 打卡相关
+    const [showPunchTheClock, setShowPunchTheClock] = useState<boolean>(false);
 
     const handleAdd = () => {
         setActiveTodo(undefined);
@@ -122,8 +125,12 @@ const TodoList: React.FC = () => {
 
     const handleEdit = (item: TodoItemType) => {
         setActiveTodo(item);
-        setOperatorType("edit");
-        setShowEdit(true);
+        if (item.isTarget === '1' && !!item.timeRange) {
+            setShowPunchTheClock(true);
+        } else {
+            setOperatorType("edit");
+            setShowEdit(true);
+        }
     };
 
     useEffect(() => {
@@ -368,6 +375,16 @@ const TodoList: React.FC = () => {
                 activeTodo={activeTodo}
                 setActiveTodo={setActiveTodo}
                 form={form}
+                refreshData={refreshData}
+            />
+            {/* 打卡详情 */}
+            <PunchTheClockModal
+                visible={showPunchTheClock}
+                onClose={() => {
+                    setActiveTodo(undefined);
+                    setShowPunchTheClock(false);
+                }}
+                activeTodo={showPunchTheClock ? targetList.find(item => item.todo_id === activeTodo?.todo_id) : undefined}
                 refreshData={refreshData}
             />
         </div>

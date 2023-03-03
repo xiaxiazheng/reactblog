@@ -16,6 +16,7 @@ export interface TodoItemType {
     isNote?: "0" | "1";
     isTarget?: "0" | "1";
     isBookMark?: "0" | "1";
+    timeRange?: string;
 
     imgList: ImageType[];
     fileList: FileType[];
