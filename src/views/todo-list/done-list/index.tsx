@@ -40,8 +40,14 @@ interface Props {
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const { title, handleEdit, isRefreshDone, setIsRefreshDone, refreshData, sortKey } =
-        props;
+    const {
+        title,
+        handleEdit,
+        isRefreshDone,
+        setIsRefreshDone,
+        refreshData,
+        sortKey,
+    } = props;
 
     const [doneMap, setDoneMap] = useState<any>({});
 
@@ -127,7 +133,7 @@ const DoneList: React.FC<Props> = (props) => {
         }
     };
 
-    const {isSortTime, setIsSortTime} = useIsSortTime(`${sortKey}-sort-time`);
+    const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
     const Filter = () => {
@@ -198,31 +204,25 @@ const DoneList: React.FC<Props> = (props) => {
                     <span>
                         {title}({total})
                     </span>
-                    <span>
-                        <span style={{ marginRight: 10 }}>
-                            <SortBtn
-                                isSortTime={isSortTime}
-                                setIsSortTime={setIsSortTime}
-                            />
-                        </span>
+                    <Space>
                         {/* 清理筛选项 */}
                         {(activeColor !== "" ||
                             activeCategory !== "" ||
                             keyword !== "" ||
-                            !!startEndTime) && (
-                            <span style={{ marginRight: 10 }}>
-                                <Button
-                                    icon={<ClearOutlined />}
-                                    type="primary"
-                                    danger
-                                    onClick={() => {
-                                        setActiveCategory("");
-                                        setActiveColor("");
-                                        setKeyword("");
-                                        setStartEndTime(null);
-                                    }}
-                                />
-                            </span>
+                            !!startEndTime ||
+                            pageNo !== 1) && (
+                            <Button
+                                icon={<ClearOutlined />}
+                                type="primary"
+                                danger
+                                onClick={() => {
+                                    setActiveCategory("");
+                                    setActiveColor("");
+                                    setKeyword("");
+                                    setStartEndTime(null);
+                                    setPageNo(1);
+                                }}
+                            />
                         )}
                         <Button
                             type={showFilter ? "primary" : "default"}
@@ -230,7 +230,11 @@ const DoneList: React.FC<Props> = (props) => {
                         >
                             筛选
                         </Button>
-                    </span>
+                        <SortBtn
+                            isSortTime={isSortTime}
+                            setIsSortTime={setIsSortTime}
+                        />
+                    </Space>
                 </div>
                 {showFilter && <Filter />}
             </div>
