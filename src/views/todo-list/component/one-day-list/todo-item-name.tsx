@@ -15,7 +15,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -47,14 +47,14 @@ const TodoItemName: React.FC<NameProps> = (props) => {
 
     const ToolTipsWrapper: React.FC = (props) => {
         return item.description ||
-            item.imgList.length !== 0 ||
-            item.fileList.length !== 0 ? (
+            (item.imgList && item.imgList.length !== 0) ||
+            (item.fileList && item.fileList.length !== 0) ? (
             <Tooltip
                 title={
                     <>
                         {item.description &&
                             renderDescription(item.description)}
-                        {item.imgList.length !== 0 && (
+                        {item.imgList && item.imgList.length !== 0 && (
                             <ImageListBox
                                 type="todo"
                                 refresh={refreshData}
@@ -62,7 +62,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                                 imageList={item.imgList}
                             />
                         )}
-                        {item.fileList.length !== 0 && (
+                        {item.fileList && item.fileList.length !== 0 && (
                             <FileListBox
                                 type="todo"
                                 refresh={refreshData}
@@ -86,13 +86,15 @@ const TodoItemName: React.FC<NameProps> = (props) => {
             <>
                 {item.name}
                 {(isChain || item.isTarget === "1") && (
-                    <span className={`${styles.time} ${
-                        item.time === today
-                            ? styles.today
-                            : item.time > today
-                            ? styles.future
-                            : styles.previously
-                    }`}>{` (${item.time})`}</span>
+                    <span
+                        className={`${styles.time} ${
+                            item.time === today
+                                ? styles.today
+                                : item.time > today
+                                ? styles.future
+                                : styles.previously
+                        }`}
+                    >{` (${item.time})`}</span>
                 )}
             </>
         );
@@ -115,7 +117,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
                 {/* 存档 */}
                 {item.isNote === "1" && (
-                    <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                    <BookOutlined
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
                 )}
                 {/* 书签 */}
                 {item.isBookMark === "1" && (
@@ -138,7 +142,8 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {item.description && (
                     <QuestionCircleOutlined className={styles.icon} />
                 )}
-                {(item.imgList.length !== 0 || item.fileList.length !== 0) && (
+                {((item.imgList && item.imgList.length !== 0) ||
+                    (item.fileList && item.fileList.length !== 0)) && (
                     <FileImageOutlined className={styles.icon} />
                 )}
             </div>
