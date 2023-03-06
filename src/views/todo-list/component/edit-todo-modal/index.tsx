@@ -8,6 +8,7 @@ import {
     Popconfirm,
     Tooltip,
     Form,
+    Popover,
 } from "antd";
 import styles from "./index.module.scss";
 import {
@@ -159,9 +160,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 message.success(res.message);
 
                 // 确定刷新范围并去重
-                needFresh.current.push(...handleRefreshList(formData).concat(
-                    handleRefreshList(activeTodo)
-                ));
+                needFresh.current.push(
+                    ...handleRefreshList(formData).concat(
+                        handleRefreshList(activeTodo)
+                    )
+                );
 
                 setActiveTodo({ ...activeTodo, ...req });
             } else {
@@ -286,6 +289,51 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
+    const renderDeleteButton = () => {
+        const cantDelete = handleCantDelete();
+
+        return cantDelete ? (
+            <Popover title="在有图片/文件、正在编辑、有子 todo 的情况下不允许删除">
+                <Button danger disabled>
+                    删除
+                </Button>
+            </Popover>
+        ) : (
+            <Popconfirm
+                title="确定删除吗"
+                disabled={cantDelete}
+                onConfirm={() => {
+                    deleteTodo(activeTodo);
+                }}
+                okText="YES"
+                cancelText="NO"
+            >
+                <Button danger>删除</Button>
+            </Popconfirm>
+        );
+    };
+
+    const handleCantDelete = () => {
+        if (isEdit) {
+            return true;
+        }
+        if (activeTodo) {
+            if (activeTodo.imgList && activeTodo.imgList.length !== 0) {
+                return true;
+            }
+            if (activeTodo.fileList && activeTodo.fileList.length !== 0) {
+                return true;
+            }
+            if (
+                activeTodo.child_todo_list_length &&
+                activeTodo.child_todo_list_length !== 0
+            ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
     return (
         <>
             <Modal
@@ -301,38 +349,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         <Space>
                             {type === "edit" ? (
                                 <>
-                                    <Popconfirm
-                                        title="确定删除吗"
-                                        disabled={
-                                            isEdit ||
-                                            (activeTodo?.imgList &&
-                                                activeTodo.imgList.length !==
-                                                    0) ||
-                                            (activeTodo?.fileList &&
-                                                activeTodo.fileList.length !==
-                                                    0)
-                                        }
-                                        onConfirm={() => {
-                                            deleteTodo(activeTodo);
-                                        }}
-                                        okText="YES"
-                                        cancelText="NO"
-                                    >
-                                        <Button
-                                            danger
-                                            disabled={
-                                                isEdit ||
-                                                (activeTodo?.imgList &&
-                                                    activeTodo.imgList
-                                                        .length !== 0) ||
-                                                (activeTodo?.fileList &&
-                                                    activeTodo.fileList
-                                                        .length !== 0)
-                                            }
-                                        >
-                                            删除
-                                        </Button>
-                                    </Popconfirm>
+                                    {renderDeleteButton()}
                                     <Button
                                         type="primary"
                                         ghost
