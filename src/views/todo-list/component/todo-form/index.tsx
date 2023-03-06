@@ -120,7 +120,14 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item
                 name="description"
                 label={
-                    <Tooltip title={`分割符为 ${splitStr}, 点击复制`}>
+                    <Tooltip
+                        title={
+                            <div>
+                                <div>1. 分割符为 {splitStr}, 点击复制</div>
+                                <div>2. 三个回车可新增输入框</div>
+                            </div>
+                        }
+                    >
                         <span
                             style={{ cursor: "pointer" }}
                             onClick={() => handleCopy(splitStr)}

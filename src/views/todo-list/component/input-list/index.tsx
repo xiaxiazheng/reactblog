@@ -11,7 +11,7 @@ const InputList = ({ value = "", onChange }: any) => {
 
     const handleChange = (val: string, index: number) => {
         l[index] = val;
-        onChange(l.join(splitStr));
+        onChange(l.join(splitStr).replaceAll('\n\n\n', splitStr));
     };
 
     const handleDelete = (index: number) => {
