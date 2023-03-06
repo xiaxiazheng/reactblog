@@ -51,14 +51,21 @@ const PunchTheClockModal: React.FC<IProps> = props => {
     };
 
     const renderDetail = (item: TodoItemType | undefined) => {
+        if (!item || !item.timeRange) return null;
+
+        const { startTime, endTime, range, target } = handleTimeRange(item.timeRange);
         return (
             <>
                 <div>
-                    打卡周期：{handleTimeRange(item?.timeRange || '').startTime} ~{" "}
-                    {handleTimeRange(item?.timeRange || '').endTime}
+                    打卡周期：{startTime} ~ {endTime}，共 {range} 天
                 </div>
-                <div>计划天数：{handleTimeRange(item?.timeRange || '').range}</div>
-                <div>已打卡天数：{item?.child_todo_list_length}</div>
+                <div>
+                    达标天数：{target}，
+                    {item.child_todo_list_length < target
+                        ? `还差 ${target - item.child_todo_list_length} 天`
+                        : `已达成目标`}
+                </div>
+                <div>已打卡天数：{item.child_todo_list_length}</div>
                 <div>
                     今日：
                     {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}

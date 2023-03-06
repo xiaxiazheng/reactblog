@@ -7,13 +7,14 @@ import { TodoItemType } from "../../types";
 
 // 计算时间相关
 export const handleTimeRange = (timeRange: string) => {
-    const [startTime, range] = JSON.parse(timeRange);
+    const { startTime, range, target } = JSON.parse(timeRange);
     return {
         startTime,
         endTime: moment(startTime)
             .add(Number(range - 1), "d")
             .format("YYYY-MM-DD"),
         range,
+        target,
     };
 };
 
