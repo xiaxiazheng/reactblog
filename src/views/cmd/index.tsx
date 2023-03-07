@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Input, message, Space, Spin } from "antd";
-import { exec } from "@/client/CmdHelper";
 import { useCtrlSHooks } from "../../hooks/useCtrlSHook";
 import { addNote, getNoteList } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 
+let timer: any;
 const { TextArea } = Input;
 
 interface ICMD extends RouteComponentProps {}
@@ -18,7 +18,7 @@ const CMD: React.FC<ICMD> = (props) => {
     useDocumentTitle("CMD");
 
     const [cmd, setCmd] = useState<string>("pwd");
-    const [result, setResult] = useState<string>('-------');
+    const [result, setResult] = useState<string>("-------");
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit = async () => {
@@ -33,7 +33,7 @@ const CMD: React.FC<ICMD> = (props) => {
         pushResult(`-> ${str}`);
 
         try {
-            ref?.current?.send(
+            sendMsg(
                 JSON.stringify({
                     event: "cmd",
                     data: str,
@@ -45,6 +45,10 @@ const CMD: React.FC<ICMD> = (props) => {
     };
 
     useCtrlSHooks(submit);
+
+    const sendMsg = (str: string) => {
+        ref?.current?.send(str);
+    };
 
     const [list, setList] = useState<any>([]);
     const getScript = async () => {
@@ -62,9 +66,6 @@ const CMD: React.FC<ICMD> = (props) => {
         }
         setLoading(false);
     };
-    useEffect(() => {
-        getScript();
-    }, []);
 
     const saveScript = async () => {
         const params = {
@@ -100,10 +101,12 @@ const CMD: React.FC<ICMD> = (props) => {
         websocket.onopen = function () {
             pushResult(`websocket open`);
             setIsConnect(true);
+            startHeartBeat();
         };
         websocket.onclose = function () {
             pushResult(`websocket close`);
             setIsConnect(false);
+            stopHeartBeat();
         };
         websocket.onmessage = function (e) {
             pushResult(
@@ -118,8 +121,32 @@ const CMD: React.FC<ICMD> = (props) => {
     };
 
     useEffect(() => {
+        getScript();
         connectWS();
+
+        () => {
+            stopHeartBeat();
+        }
     }, []);
+
+    // 心跳保活，30s 发送一次
+    const startHeartBeat = () => {
+        pushResult(`-> heartbeat`);
+        sendMsg(
+            JSON.stringify({
+                event: "hello",
+                data: "heartbeat",
+            })
+        );
+        timer = setTimeout(() => {
+            startHeartBeat();
+        }, 30 * 1000);
+    };
+    const stopHeartBeat = () => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+    };
 
     return (
         <div className={styles.cmd}>
@@ -137,7 +164,9 @@ const CMD: React.FC<ICMD> = (props) => {
                         </Button>
                         <Button onClick={() => saveScript()}>保存</Button>
                     </Space>
-                    <Button danger={!isConnect} onClick={() => connectWS()}>重新连接</Button>
+                    <Button danger={!isConnect} onClick={() => connectWS()}>
+                        重新连接
+                    </Button>
                 </div>
                 <div style={{ marginTop: 20 }}>结果：</div>
                 <Spin spinning={loading}>
