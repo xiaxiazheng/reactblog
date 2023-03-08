@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, Drawer, Form, message, Tooltip } from "antd";
+import { Button, Drawer, Form, message, Space, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
@@ -21,6 +21,7 @@ import { TodoProvider } from "./TodoContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
+import TodoNote from "../todo-note";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -125,7 +126,7 @@ const TodoList: React.FC = () => {
 
     const handleEdit = (item: TodoItemType) => {
         setActiveTodo(item);
-        if (item.isTarget === '1' && !!item.timeRange) {
+        if (item.isTarget === "1" && !!item.timeRange) {
             setShowPunchTheClock(true);
         } else {
             setOperatorType("edit");
@@ -154,7 +155,6 @@ const TodoList: React.FC = () => {
 
     const [form] = Form.useForm();
 
-
     const refreshData = (
         type?: "todo" | "done" | "pool" | "target" | "bookMark"
     ) => {
@@ -173,7 +173,8 @@ const TodoList: React.FC = () => {
         }
     };
 
-    const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const [showBookMarkDrawer, setShowBookMarkDrawer] = useState<boolean>(false);
+    const [showNoteDrawer, setShowNoteDrawer] = useState<boolean>(false);
 
     const today = moment().format("YYYY-MM-DD");
 
@@ -264,16 +265,22 @@ const TodoList: React.FC = () => {
                         />
                     </div>
                     {/* 已完成 */}
-                    <div className={`${styles.box3} ScrollBar`}>
-                        <DoneList
-                            title="已完成"
-                            key="done"
-                            sortKey={SortKeyMap.done}
-                            handleEdit={handleEdit}
-                            isRefreshDone={isRefreshDone}
-                            setIsRefreshDone={setIsRefreshDone}
-                            refreshData={refreshData}
-                        />
+                    <div className={`${styles.box3}`}>
+                        <Space>
+                            <Button type="primary" onClick={() => {setShowBookMarkDrawer(true)}}>书签</Button>
+                            <Button type="primary" onClick={() => {setShowNoteDrawer(true)}}>存档</Button>
+                        </Space>
+                        <div className="ScrollBar">
+                            <DoneList
+                                title="已完成"
+                                key="done"
+                                sortKey={SortKeyMap.done}
+                                handleEdit={handleEdit}
+                                isRefreshDone={isRefreshDone}
+                                setIsRefreshDone={setIsRefreshDone}
+                                refreshData={refreshData}
+                            />
+                        </div>
                     </div>
                     {/* 待办池 */}
                     <div className={`${styles.box4} ScrollBar`}>
@@ -333,9 +340,9 @@ const TodoList: React.FC = () => {
             </div>
             <div
                 className={styles.bookMark}
-                onMouseEnter={() => setShowDrawer(true)}
+                onMouseEnter={() => setShowBookMarkDrawer(true)}
                 onClick={() => {
-                    setShowDrawer(true);
+                    setShowBookMarkDrawer(true);
                 }}
             >
                 <ArrowLeftOutlined />
@@ -346,9 +353,9 @@ const TodoList: React.FC = () => {
                 className={`${styles.bookMarkDrawer} ${
                     theme === "dark" ? "darkTheme" : ""
                 }`}
-                visible={showDrawer}
-                onClose={() => setShowDrawer(false)}
-                width="400px"
+                visible={showBookMarkDrawer}
+                onClose={() => setShowBookMarkDrawer(false)}
+                width="600px"
             >
                 <PoolList
                     loading={bookMarkLoading}
@@ -361,6 +368,18 @@ const TodoList: React.FC = () => {
                     handleEdit={handleEdit}
                     refreshData={refreshData}
                 />
+            </Drawer>
+            {/* todo note 展示的抽屉 */}
+            <Drawer
+                closable={false}
+                className={`${styles.bookMarkDrawer} ${
+                    theme === "dark" ? "darkTheme" : ""
+                }`}
+                visible={showNoteDrawer}
+                onClose={() => setShowNoteDrawer(false)}
+                width="800px"
+            >
+                <TodoNote />
             </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal
@@ -384,7 +403,13 @@ const TodoList: React.FC = () => {
                     setActiveTodo(undefined);
                     setShowPunchTheClock(false);
                 }}
-                activeTodo={showPunchTheClock ? targetList.find(item => item.todo_id === activeTodo?.todo_id) : undefined}
+                activeTodo={
+                    showPunchTheClock
+                        ? targetList.find(
+                              (item) => item.todo_id === activeTodo?.todo_id
+                          )
+                        : undefined
+                }
                 refreshData={refreshData}
             />
         </div>

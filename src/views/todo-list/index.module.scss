@@ -62,6 +62,15 @@
         grid-row-start: 1;
         grid-row-end: 25;
         border-left: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        >div:first-child {
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        >div:last-child {
+            flex: 1;
+        }
     }
 
     .box4 {
