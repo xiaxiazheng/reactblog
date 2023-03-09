@@ -265,6 +265,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             other_id: type === "copy" ? item.other_id : item.todo_id,
             doing: "0",
             isNote: item.isNote,
+            isTarget: item.isTarget,
+            isBookMark: item.isBookMark
         });
         setVisible2(true);
         setIsEdit2(true);

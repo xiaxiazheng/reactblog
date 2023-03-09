@@ -121,6 +121,10 @@ const TodoList: React.FC = () => {
             status: TodoStatus.todo,
             color: "3",
             category: "个人",
+            doing: "0",
+            isNote: "0",
+            isTarget: "0",
+            isBookMark: "0",
         });
     };
 
