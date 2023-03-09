@@ -33,6 +33,11 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
 
     const [value, setValue] = useState<any>(moment());
 
+    if (!active) return null;
+
+    const { startTime, endTime } = handleTimeRange(active.timeRange || '');
+    const endTimeAddOne = moment(endTime).add(1, "day");
+
     return (
         <div className={styles.calendarWrapper}>
             <Calendar
@@ -40,12 +45,12 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                 onChange={(val) => setValue(val)}
                 disabledDate={(currentData) =>
                     active ?
-                    (currentData.isBefore(handleTimeRange(active?.timeRange || '').startTime) ||
-                        currentData.isAfter(handleTimeRange(active?.timeRange || '').endTime)) : false
+                    (currentData.isBefore(startTime) ||
+                        currentData.isAfter(endTimeAddOne)) : false
                 }
                 dateFullCellRender={(date) => {
                     if (active) {
-                        if (date.isAfter(handleTimeRange(active?.timeRange || '').startTime) && date.isBefore(moment())) {
+                        if (date.isAfter(startTime) && date.isBefore(moment())) {
                             const isDone = childDateList.includes(date.format("YYYY-MM-DD"));
                             const isToday = date.format("YYYY-MM-DD") === moment().format("YYYY-MM-DD");
                             return (
@@ -58,7 +63,7 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                                 </div>
                             );
                         }
-                        if (date.isBefore(handleTimeRange(active?.timeRange || '').endTime) && date.isAfter(moment())) {
+                        if (date.isBefore(endTimeAddOne) && date.isAfter(moment())) {
                             return (
                                 <div
                                     className={`${styles.cell} 

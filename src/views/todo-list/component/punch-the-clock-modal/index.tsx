@@ -10,11 +10,16 @@ import { addTodoItem } from "@/client/TodoListHelper";
 dayjs.locale("zh-cn");
 
 // 判断今天是否已打卡
-const handleIsTodayPunchTheClock = (item: TodoItemType | undefined): boolean => {
+export const handleIsTodayPunchTheClock = (item: TodoItemType | undefined): boolean => {
+    if (!item?.timeRange) return false;
+
+    // 先判断今天是否在任务范围内
+    const { startTime, endTime } = handleTimeRange(item.timeRange);
+
+    const isHasToday = dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
+    // 如果在再判断子任务中包不包含今天的打卡时间
     return (
-        item?.child_todo_list
-            .map((item) => item.time)
-            .includes(dayjs().format("YYYY-MM-DD")) || false
+        (isHasToday && item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD"))) || false
     );
 };
 
