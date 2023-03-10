@@ -210,7 +210,8 @@ const DoneList: React.FC<Props> = (props) => {
                             activeCategory !== "" ||
                             keyword !== "" ||
                             !!startEndTime ||
-                            pageNo !== 1) && (
+                            pageNo !== 1 ||
+                            showFilter) && (
                             <Button
                                 icon={<ClearOutlined />}
                                 type="primary"
@@ -221,6 +222,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     setKeyword("");
                                     setStartEndTime(null);
                                     setPageNo(1);
+                                    setShowFilter(false);
                                 }}
                             />
                         )}
