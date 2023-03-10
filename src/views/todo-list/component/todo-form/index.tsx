@@ -26,6 +26,7 @@ import { CategoryType, TodoItemType } from "../../types";
 import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
+import CategoryOptions from "./categoryOptions";
 
 interface Props {
     form: FormInstance;
@@ -45,17 +46,6 @@ const TodoForm: React.FC<Props> = (props) => {
     useEffect(() => {
         getCategory();
     }, []);
-
-    const [name, setName] = useState<string>();
-    const addItem = () => {
-        setCategory([
-            ...category,
-            {
-                category: name,
-                count: 0,
-            },
-        ] as CategoryType[]);
-    };
 
     const MyDatePicker = (props: any) => {
         const { value, onChange } = props;
@@ -158,53 +148,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 label="类别"
                 rules={[{ required: true }]}
             >
-                <Select
-                    showSearch
-                    filterOption={(input, option) =>
-                        option?.value
-                            ?.toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0 || false
-                    }
-                    dropdownRender={(menu) => (
-                        <div>
-                            {menu}
-                            <Divider style={{ margin: "4px 0" }} />
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexWrap: "nowrap",
-                                    padding: 8,
-                                }}
-                            >
-                                <Input
-                                    style={{ flex: "auto" }}
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                                <a
-                                    style={{
-                                        flex: "none",
-                                        padding: "8px",
-                                        display: "block",
-                                        cursor: "pointer",
-                                    }}
-                                    onClick={() => addItem()}
-                                >
-                                    <PlusOutlined /> Add item
-                                </a>
-                            </div>
-                        </div>
-                    )}
-                >
-                    {category.map((item) => (
-                        <Select.Option
-                            key={item.category}
-                            value={item.category}
-                        >
-                            {item.category} ({item.count})
-                        </Select.Option>
-                    ))}
-                </Select>
+                <CategoryOptions category={category} />
             </Form.Item>
             <Form.Item name="time" label="时间" rules={[{ required: true }]}>
                 <MyDatePicker />
