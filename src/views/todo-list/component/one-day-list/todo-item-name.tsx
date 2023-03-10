@@ -42,7 +42,7 @@ const today = dayjs().format("YYYY-MM-DD");
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, refreshData, handleEdit, isChain = false } = props;
 
-    const isDoing = item.status === String(TodoStatus.todo);
+    const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);
 
     const ToolTipsWrapper: React.FC = (props) => {
@@ -117,7 +117,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
                 {/* 打卡 */}
                 {item.isTarget === "1" && !!item.timeRange && (
-                    <ClockCircleOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                    <ClockCircleOutlined
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
                 )}
                 {/* 存档 */}
                 {item.isNote === "1" && (
@@ -131,14 +133,17 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
 
                 {isDone ? (
-                    <s className={styles.grey}>{getName()}</s>
+                    <s
+                        className={`${
+                            item.isBookMark === "1" ? styles.big : styles.grey
+                        }`}
+                    >
+                        {getName()}
+                    </s>
                 ) : (
                     <span
-                        style={
-                            isDoing && item.doing === "1"
-                                ? { color: "#ffeb3b" }
-                                : {}
-                        }
+                        className={`${item.isBookMark === "1" ? styles.big : ""}
+                        ${isTodo && item.doing === "1" ? styles.yellow : ""}`}
                     >
                         {getName()}
                     </span>
