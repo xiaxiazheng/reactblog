@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, message, Popconfirm, Modal, Tooltip } from "antd";
-import TodoImageFile from "../../todo-list/component/todo-image-file";
+import TodoImageFile from "../../component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@/views/todo-list/types";
 import { deleteTodoItem } from "@/client/TodoListHelper";
 import { renderDescription } from "@/views/todo-list/component/one-day-list/todo-item-name";
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface IProps {
     visible: boolean;
@@ -17,6 +18,8 @@ interface IProps {
 
 const TodoNoteDetailModal: React.FC<IProps> = (props) => {
     const { visible, activeTodo, onCancel, handleEdit, refreshData } = props;
+
+    const { theme } = useContext(ThemeContext);
 
     const onDelete = async () => {
         if (activeTodo?.imgList.length !== 0) {
@@ -46,7 +49,10 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
         <Modal
             title={
                 <>
-                    便签详情{" "}
+                    <span className={styles.category}>
+                        {activeTodo?.category}
+                    </span>
+                    <span>{activeTodo?.name}</span>
                     <Tooltip
                         placement="bottom"
                         title={
@@ -63,7 +69,8 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
             visible={visible}
             onCancel={() => onCancel()}
             width={"auto"}
-            className={styles.modal}
+            closable={false}
+            className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
             footer={
                 <>
                     <Button
@@ -101,12 +108,6 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
             }
         >
             <div className={`${styles.note_item} ScrollBar`}>
-                <div className={styles.note_header}>
-                    <span className={styles.category}>
-                        {activeTodo?.category}
-                    </span>
-                    <span>{activeTodo?.name}</span>
-                </div>
                 <div className={styles.note_content}>
                     {activeTodo && renderDescription(activeTodo.description)}
                 </div>

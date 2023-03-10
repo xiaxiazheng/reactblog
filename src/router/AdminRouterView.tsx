@@ -36,9 +36,6 @@ const MindMap = lazy(
 const TodoList = lazy(
     () => import(/* webpackChunkName: "Todo" */ "../views/todo-list")
 );
-const TodoNote = lazy(
-    () => import(/* webpackChunkName: "TodoNote" */ "../views/todo-note")
-);
 const Log = lazy(() => import(/* webpackChunkName: "Log" */ "../views/log"));
 const Music = lazy(
     () => import(/* webpackChunkName: "Music" */ "../views/music")
@@ -57,13 +54,6 @@ export const routes = [
         component: TodoList,
         isShow: true,
     },
-    {
-        route: "/admin/todo-note",
-        name: "TodoNote",
-        component: TodoNote,
-        isShow: true,
-    },
-
     {
         route: "/admin/blog/:blog_id",
         name: "Blog",

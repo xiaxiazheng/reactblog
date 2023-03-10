@@ -17,7 +17,7 @@
     cursor: pointer;
 }
 
-.bookMarkDrawer {
+.bookMarkDrawer, .noteDrawer {
     z-index: 4;
     :global {
         .ant-drawer-body {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Modal, Form, Input, Select, Divider, message } from "antd";
 import { ExclamationCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -13,6 +13,7 @@ import {
 import { addTodoItem, editTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
 import InputList from "@/views/todo-list/component/input-list";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const { TextArea } = Input;
 
@@ -27,6 +28,8 @@ interface Props {
 
 const TodoEditNoteModal: React.FC<Props> = (props) => {
     const [form] = Form.useForm();
+
+    const { theme } = useContext(ThemeContext);
 
     const {
         visible,
@@ -147,29 +150,32 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
             }}
             width={650}
             onCancel={() => onClose()}
-            className={styles.note_modal}
+            className={`${styles.note_modal} ${
+                theme === "dark" ? "darkTheme" : ""
+            }`}
             okButtonProps={{
-                danger: isEdit
+                danger: isEdit,
             }}
         >
-            <Form form={form} onFieldsChange={() => setIsEdit(true)}>
+            <Form
+                form={form}
+                onFieldsChange={() => setIsEdit(true)}
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 20 }}
+            >
                 <Form.Item
                     name="name"
                     label="标题"
                     rules={[{ required: true }]}
                 >
-                    <Input
+                    <TextArea
                         className={styles.textarea}
                         placeholder="请输入内容"
+                        autoSize={{ minRows: 1, maxRows: 2 }}
                         autoFocus={true}
                     />
                 </Form.Item>
-                <Form.Item name="description" label="内容">
-                    {/* <TextArea
-                        className={styles.textarea}
-                        placeholder="请输入内容"
-                        rows={15}
-                    /> */}
+                <Form.Item name="description" label="详细描述">
                     <InputList />
                 </Form.Item>
                 <Form.Item
@@ -228,15 +234,6 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
                         ))}
                     </Select>
                 </Form.Item>
-                {activeTodo && (
-                    <div style={{ width: "100%", overflowX: "auto" }}>
-                        <TodoImageFile
-                            activeTodo={activeTodo}
-                            width="120px"
-                            handleFresh={refreshData}
-                        />
-                    </div>
-                )}
             </Form>
         </Modal>
     );

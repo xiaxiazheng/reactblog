@@ -21,7 +21,7 @@ import { TodoProvider } from "./TodoContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
-import TodoNote from "../todo-note";
+import TodoNote from "./todo-note";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -177,7 +177,8 @@ const TodoList: React.FC = () => {
         }
     };
 
-    const [showBookMarkDrawer, setShowBookMarkDrawer] = useState<boolean>(false);
+    const [showBookMarkDrawer, setShowBookMarkDrawer] =
+        useState<boolean>(false);
     const [showNoteDrawer, setShowNoteDrawer] = useState<boolean>(false);
 
     const today = moment().format("YYYY-MM-DD");
@@ -271,8 +272,22 @@ const TodoList: React.FC = () => {
                     {/* 已完成 */}
                     <div className={`${styles.box3}`}>
                         <Space>
-                            <Button type="primary" onClick={() => {setShowBookMarkDrawer(true)}}>书签</Button>
-                            <Button type="primary" onClick={() => {setShowNoteDrawer(true)}}>存档</Button>
+                            <Button
+                                type="primary"
+                                onClick={() => {
+                                    setShowBookMarkDrawer(true);
+                                }}
+                            >
+                                书签
+                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={() => {
+                                    setShowNoteDrawer(true);
+                                }}
+                            >
+                                存档
+                            </Button>
                         </Space>
                         <div className="ScrollBar">
                             <DoneList
@@ -376,12 +391,12 @@ const TodoList: React.FC = () => {
             {/* todo note 展示的抽屉 */}
             <Drawer
                 closable={false}
-                className={`${styles.bookMarkDrawer} ${
+                className={`${styles.noteDrawer} ${
                     theme === "dark" ? "darkTheme" : ""
                 }`}
                 visible={showNoteDrawer}
                 onClose={() => setShowNoteDrawer(false)}
-                width="800px"
+                width="900px"
             >
                 <TodoNote />
             </Drawer>
