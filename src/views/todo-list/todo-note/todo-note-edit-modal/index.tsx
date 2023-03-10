@@ -126,7 +126,9 @@ const TodoEditNoteModal: React.FC<Props> = (props) => {
     const onClose = () => {
         if (isEdit) {
             Modal.confirm({
-                title: "你还有修改没保存，确定取消？",
+                title: "你还有修改没保存，确定不要了？",
+                okText: "对，就是不要了",
+                cancelText: "不，只是点错了",
                 icon: <ExclamationCircleOutlined />,
                 onOk() {
                     closeModal();
