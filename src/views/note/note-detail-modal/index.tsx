@@ -6,6 +6,9 @@ import { handleNote } from "../utils";
 import ImgFileNoteList from "../img-file-note-list";
 import { NoteType } from "../types";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { CreateTodoItemReq, TodoStatus } from "@/views/todo-list/types";
+import moment from "moment";
+import { addTodoItem } from "@/client/TodoListHelper";
 
 interface IProps {
     visible: boolean;
@@ -25,6 +28,24 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
         handleEdit,
         refreshData,
     } = props;
+
+    const addTodo = async (item: NoteType) => {
+        const req: CreateTodoItemReq = {
+            name: item.note.split("\n")?.[0],
+            time: moment(item.cTime).format("YYYY-MM-DD"),
+            status: TodoStatus.done,
+            description: item.note.split("\n")?.slice(1)?.join("\n") || "",
+            color: "2",
+            category: item.category,
+            other_id: "",
+            doing: "0",
+            isNote: "1",
+            isTarget: "0",
+            isBookMark: "0",
+        };
+        await addTodoItem(req);
+        message.success("迁移成功, 若有图片需手动处理");
+    };
 
     const onDelete = async () => {
         if (activeNote?.imgList.length !== 0) {
@@ -73,6 +94,14 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
             className={styles.modal}
             footer={
                 <>
+                    <Button
+                        danger
+                        onClick={() => {
+                            activeNote && addTodo(activeNote);
+                        }}
+                    >
+                        迁移到 todo-note
+                    </Button>
                     <Button
                         className={styles.copy_note}
                         onClick={() => {
