@@ -3,9 +3,11 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Input, message, Space, Spin } from "antd";
 import { useCtrlSHooks } from "../../hooks/useCtrlSHook";
-import { addNote, getNoteList } from "@/client/NoteHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import useScrollToHook from "@/hooks/useScrollToHooks";
+import { addTodoItem, getTodoList } from "@/client/TodoListHelper";
+import { TodoItemType, CreateTodoItemReq } from "../todo-list/types";
+import dayjs from "dayjs";
 
 let timer: any;
 const { TextArea } = Input;
@@ -50,7 +52,7 @@ const CMD: React.FC<ICMD> = (props) => {
         ref?.current?.send(str);
     };
 
-    const [list, setList] = useState<any>([]);
+    const [list, setList] = useState<TodoItemType[]>([]);
     const getScript = async () => {
         setLoading(true);
 
@@ -60,7 +62,7 @@ const CMD: React.FC<ICMD> = (props) => {
             category: "脚本",
             keyword: "",
         };
-        const res = await getNoteList(params);
+        const res = await getTodoList(params);
         if (res) {
             setList(res?.data?.list || []);
         }
@@ -68,16 +70,27 @@ const CMD: React.FC<ICMD> = (props) => {
     };
 
     const saveScript = async () => {
-        const params = {
-            category: "脚本",
-            note: cmd,
-        };
-        const res = await addNote(params);
-        if (res) {
-            message.success("保存脚本成功");
-            getScript();
-        } else {
-            message.error("保存脚本失败");
+        const name = prompt("输入脚本的名称");
+        if (name && name !== "") {
+            const params: CreateTodoItemReq = {
+                category: "脚本",
+                name,
+                description: cmd,
+                status: 1,
+                color: "2",
+                doing: "0",
+                isNote: "0",
+                isTarget: "0",
+                isBookMark: "0",
+                time: dayjs().format("YYYY-MM-DD"),
+            };
+            const res = await addTodoItem(params);
+            if (res) {
+                message.success("保存脚本成功");
+                getScript();
+            } else {
+                message.error("保存脚本失败");
+            }
         }
     };
 
@@ -126,7 +139,7 @@ const CMD: React.FC<ICMD> = (props) => {
 
         () => {
             stopHeartBeat();
-        }
+        };
     }, []);
 
     // 心跳保活，30s 发送一次
@@ -178,14 +191,17 @@ const CMD: React.FC<ICMD> = (props) => {
             <div>
                 <div>预设脚本：</div>
                 <div className={styles.script}>
-                    {list?.map((item: any) => {
+                    {list?.map((item) => {
                         return (
                             <div
                                 className={styles.scriptItem}
-                                key={item.note_id}
-                                onClick={() => setCmd(item.note)}
+                                key={item.todo_id}
+                                onClick={() => setCmd(item.description)}
                             >
-                                {item.note}
+                                <div style={{ fontWeight: 600 }}>
+                                    {item.name}
+                                </div>
+                                {item.description}
                             </div>
                         );
                     })}
