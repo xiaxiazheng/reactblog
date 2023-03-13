@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
-import { ImageType, ImgType } from "@/client/ImgHelper";
+import { deleteImg, ImageType, ImgType } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
@@ -171,6 +171,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
 
     const [visible, setVisible] = useState<boolean>(false);
 
+    // 迁移到 todo，连着图片一起迁移
     const transferToTodo = () => {
         const contSum = contList?.length || 0;
         const imgSum = contList?.reduce((prev: any, cur: any) => {
@@ -178,10 +179,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
             return prev;
         }, 0);
         console.log("cont 数量, ", contSum);
-        console.log(
-            "图片数量，",
-            imgSum
-        );
+        console.log("图片数量，", imgSum);
         let imgErrorCount = 0;
         let imgDoneCount = 0;
         let contDoneCount = 0;
@@ -212,8 +210,8 @@ const TreeContShow: React.FC<PropsType> = (props) => {
             const res = await addTodoItem(req);
             if (res) {
                 contDoneCount++;
-                console.log("contDoneCount", contDoneCount, '/', contSum);
-                contSum === contDoneCount && console.log('cont 完成');
+                console.log("contDoneCount", contDoneCount, "/", contSum);
+                contSum === contDoneCount && console.log("cont 完成");
                 const other_id = res.data.newTodoItem.todo_id;
                 item.imgList?.forEach((img: any) => {
                     runFive(() =>
@@ -251,8 +249,8 @@ const TreeContShow: React.FC<PropsType> = (props) => {
             const file = await urlToBlob(url, filename);
             file && (await handleUpload(file, other_id));
             imgDoneCount++;
-            console.log("imgDoneCount", imgDoneCount, '/', imgSum);
-            imgDoneCount === imgSum && console.log('img 完成');
+            console.log("imgDoneCount", imgDoneCount, "/", imgSum);
+            imgDoneCount === imgSum && console.log("img 完成");
         };
 
         const urlToBlob = (url: string, filename = "") => {
@@ -305,11 +303,62 @@ const TreeContShow: React.FC<PropsType> = (props) => {
         });
     };
 
+    // 删除当前 cont 下所有图片
+    const deleteImgs = () => {
+        // console.log("contList", contList);
+        let l: any = [];
+        contList.forEach((item) => {
+            l = l.concat(item.imgList);
+        });
+        console.log(l);
+
+        // 确保这个函数只跑最多五个，其他的要等才行
+        let count = 0;
+        let list: any[] = [];
+        const runFive = async (fn: any) => {
+            const promise = new Promise((resolve) => {
+                list.push(resolve);
+            });
+
+            if (count < 5) {
+                count++;
+                list.shift()();
+            }
+
+            await promise;
+            await fn();
+
+            count--;
+            list.length !== 0 && list.shift()();
+        };
+
+        let deleteCount = 0;
+        const deleteImage = async (item: any) => {
+            const params = {
+                type: "treecont",
+                img_id: item.img_id,
+                filename: item.filename,
+            };
+            const res = await deleteImg(params);
+            if (res) {
+                deleteCount++;
+                console.log("delete img", deleteCount);
+            } else {
+                console.log("删除出错");
+            }
+        };
+
+        l.forEach((item: any) => {
+            runFive(() => deleteImage(item));
+        });
+    };
+
     return (
         <>
             <div className={`${styles.treecontshow}`}>
                 {loading && <Loading />}
-                <Button onClick={() => transferToTodo()}>迁移到todo</Button>
+                {/* <Button onClick={() => deleteImgs()}>删除当前所有图片</Button> */}
+                {/* <Button onClick={() => transferToTodo()}>迁移到todo</Button> */}
                 <div
                     className={`${styles.treecontshowWrapper} ScrollBar`}
                     ref={contShowRef}
