@@ -54,7 +54,9 @@ const TodoForm: React.FC<Props> = (props) => {
             <>
                 <DatePicker value={value} onChange={onChange} />
                 <span
-                    className={styles.today}
+                    className={`${styles.today} ${
+                        moment().isSame(value, "D") ? styles.active : ""
+                    }`}
                     onClick={() => {
                         // form.setFieldsValue({
                         //     time: moment(),
@@ -65,7 +67,9 @@ const TodoForm: React.FC<Props> = (props) => {
                     Today
                 </span>
                 <span
-                    className={styles.today}
+                    className={`${styles.today} ${
+                        moment().subtract(1, "day").isSame(value, "D") ? styles.active : ""
+                    }`}
                     onClick={() => {
                         // form.setFieldsValue({
                         //     time: moment().subtract(1, "day"),
@@ -76,7 +80,9 @@ const TodoForm: React.FC<Props> = (props) => {
                     Yesterday
                 </span>
                 <span
-                    className={styles.today}
+                    className={`${styles.today} ${
+                        moment().add(1, "day").isSame(value, "D") ? styles.active : ""
+                    }`}
                     onClick={() => {
                         // form.setFieldsValue({
                         //     time: moment().add(1, "day"),

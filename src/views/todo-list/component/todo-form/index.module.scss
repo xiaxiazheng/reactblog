@@ -1,7 +1,10 @@
 .today {
     margin-left: 10px;
-    color: #40a9ff;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.65);
+    &.active {
+        color: #40a9ff;
+    }
 }
 
 .form {
@@ -26,7 +29,8 @@
         .ant-switch {
             background-color: #4b4646;
         }
-        .ant-switch-checked, .ant-btn-primary {
+        .ant-switch-checked,
+        .ant-btn-primary {
             background-color: #1890ff;
             color: white;
         }
