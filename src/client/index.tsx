@@ -14,7 +14,7 @@ import httpCodeMessage from "./lib/http-code-msg";
 
 export const instance = axios.create({
     baseURL: `${baseUrl}/api`,
-    timeout: isDev ? 15 * 1000 : 20 * 1000,
+    timeout: isDev ? 60 * 1000 : 20 * 1000,
 });
 
 // 请求拦截器

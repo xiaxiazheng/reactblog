@@ -35,8 +35,6 @@ const Tree: React.FC<PropsType> = (props) => {
         setIsMain(JSON.stringify(match.params) === "{}");
     }, [match.params]);
 
-    const [visible, setVisible] = useState<boolean>(false);
-
     return (
         <div className={styles.Tree}>
             {/* 左边的树 */}
