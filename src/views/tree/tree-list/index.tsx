@@ -19,6 +19,7 @@ import classnames from "classnames";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import { getNodeCont } from "@/client/TreeContHelper";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;
@@ -60,6 +61,8 @@ const TreeMenu: React.FC<PropsType> = (props) => {
             res = await getShowTreeList(username);
         }
         if (res) {
+            // countDiaryData(res);
+
             setOriginTreeList(res);
             setTreeList(res);
             setLoading(false);
@@ -67,6 +70,44 @@ const TreeMenu: React.FC<PropsType> = (props) => {
             return res[0] ? res[0].id : false;
         }
         return false;
+    };
+
+    // 用来获取 diary 这个分类下的数据
+    const countDiaryData = (res: any) => {
+        const idList = res
+            .find((item: any) => item.label === "Diary")
+            .children.map((item: any) => item.id);
+
+        // 确保这个函数只跑最多五个，其他的要等才行
+        let count = 0;
+        let list: any[] = [];
+        const runFive = async (fn: any) => {
+            const promise = new Promise((resolve) => {
+                list.push(resolve);
+            });
+
+            if (count < 5) {
+                count++;
+                list.shift()();
+            }
+
+            await promise;
+            await fn();
+
+            count--;
+            list.length !== 0 && list.shift()();
+        };
+
+        let dataList: any = [];
+        const getTreeCont = async (id: string) => {
+            const res = await getNodeCont(id);
+            dataList = dataList.concat(res);
+            console.log(dataList);
+        };
+
+        idList.forEach((id: string) => {
+            runFive(() => getTreeCont(id));
+        });
     };
 
     // 根据当前路由匹配默认展开的树
