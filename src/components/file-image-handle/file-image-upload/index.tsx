@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Progress, message, Upload, Button } from "antd";
+import { Progress, message, Upload, Button, Alert } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
@@ -71,6 +71,35 @@ const FileUpload: React.FC<IProps> = (props) => {
         }
         if (!find) {
             message.warning("请先截图，再粘贴");
+        }
+    };
+
+    const urlToBlob = (url: string) => {
+        return fetch(url)
+            .then((res) => res.blob())
+            .then((blob) => {
+                if (!blob.type.includes('images')) {
+                    message.error('请输入图片的 url，当前 url 抓不到图片');
+                    return false;
+                }
+                const file = new File(
+                    [blob],
+                    dayjs().format("YYYY-MM-DD HH:mm:ss") +
+                        "." +
+                        blob.type.split("/").pop(),
+                    {
+                        type: blob.type,
+                    }
+                );
+                return file;
+            });
+    };
+
+    const handleCopyLink = async () => {
+        const name = prompt(`请输入将上传的图片的 url`);
+        if (name !== null && name !== "") {
+            const file = await urlToBlob(name);
+            file && handleUpload(file);
         }
     };
 
@@ -152,6 +181,16 @@ const FileUpload: React.FC<IProps> = (props) => {
                             loading={isUploading}
                         >
                             粘贴图片
+                        </Button>
+                        <Button
+                            onClick={(e) => {
+                                handleCopyLink();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }}
+                            loading={isUploading}
+                        >
+                            粘贴链接
                         </Button>
                     </div>
                 )}
