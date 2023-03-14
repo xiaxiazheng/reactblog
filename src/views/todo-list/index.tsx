@@ -505,7 +505,12 @@ const TodoList: React.FC = () => {
                 onClose={() => setShowNoteDrawer(false)}
                 width="900px"
             >
-                <TodoNote isRefreshNote={isRefreshNote} setIsRefreshNote={setIsRefreshNote} />
+                <TodoNote
+                    isRefreshNote={isRefreshNote}
+                    setIsRefreshNote={setIsRefreshNote}
+                    handleAdd={handleAdd}
+                    handleEdit={handleEdit}
+                />
             </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal

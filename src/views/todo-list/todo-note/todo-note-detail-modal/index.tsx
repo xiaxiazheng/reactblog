@@ -21,19 +21,19 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
 
     const { theme } = useContext(ThemeContext);
 
-    const onDelete = async () => {
-        if (activeTodo?.imgList.length !== 0) {
-            message.warning("图片不为空，不能删除");
-            return false;
-        }
-        const params = {
-            todo_id: activeTodo?.todo_id,
-        };
-        await deleteTodoItem(params);
-        message.success("删除 note 成功");
-        refreshData();
-        onCancel();
-    };
+    // const onDelete = async () => {
+    //     if (activeTodo?.imgList.length !== 0) {
+    //         message.warning("图片不为空，不能删除");
+    //         return false;
+    //     }
+    //     const params = {
+    //         todo_id: activeTodo?.todo_id,
+    //     };
+    //     await deleteTodoItem(params);
+    //     message.success("删除 note 成功");
+    //     refreshData();
+    //     onCancel();
+    // };
 
     const handleCopy = (content: string) => {
         const input = document.createElement("textarea");
@@ -93,17 +93,6 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
                     >
                         编辑
                     </Button>
-                    <Popconfirm
-                        title="确定删除吗？"
-                        onConfirm={onDelete}
-                        okText="Yes"
-                        cancelText="No"
-                        placement="left"
-                    >
-                        <Button className={styles.delete_note} danger>
-                            删除
-                        </Button>
-                    </Popconfirm>
                 </>
             }
         >

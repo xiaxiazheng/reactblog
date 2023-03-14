@@ -2,22 +2,23 @@ import React, { useEffect, useState, useContext } from "react";
 import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
 import { TodoItemType, CategoryType } from "../types";
-import TodoNoteEditModal from "./todo-note-edit-modal";
-import { debounce, sortBy } from "lodash";
 import TodoImageFile from "../component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/one-day-list/todo-item-name";
+import { debounce } from "../utils";
 
 const { Search } = Input;
 
 interface IProps {
     isRefreshNote: boolean;
     setIsRefreshNote: Function;
+    handleAdd: Function;
+    handleEdit: Function;
 }
 
 const TodoNote: React.FC<IProps> = (props) => {
-    const { isRefreshNote, setIsRefreshNote } = props;
+    const { isRefreshNote, setIsRefreshNote, handleAdd, handleEdit } = props;
 
     const [list, setList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState<number>(0);
@@ -114,8 +115,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                                 className={styles.add_note}
                                 type="primary"
                                 onClick={() => {
-                                    setActiveTodo(undefined);
-                                    setIsShowModal(true);
+                                    handleAdd();
                                 }}
                             >
                                 新增
@@ -226,20 +226,8 @@ const TodoNote: React.FC<IProps> = (props) => {
                     }}
                     refreshData={refreshData}
                     handleEdit={() => {
-                        setIsShowModal(true);
+                        handleEdit(activeTodo);
                     }}
-                />
-
-                {/* 新建 / 编辑 */}
-                <TodoNoteEditModal
-                    visible={isShowModal}
-                    category={category}
-                    activeTodo={activeTodo}
-                    setActiveTodo={setActiveTodo}
-                    closeModal={() => {
-                        setIsShowModal(false);
-                    }}
-                    refreshData={refreshData}
                 />
             </Spin>
         </div>
