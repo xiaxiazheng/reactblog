@@ -23,6 +23,7 @@ import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
+import classNames from "classnames";
 
 interface Props {
     form: FormInstance;
@@ -64,7 +65,9 @@ const TodoForm: React.FC<Props> = (props) => {
                 </span>
                 <span
                     className={`${styles.today} ${
-                        moment().subtract(1, "day").isSame(value, "D") ? styles.active : ""
+                        moment().subtract(1, "day").isSame(value, "D")
+                            ? styles.active
+                            : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
@@ -77,7 +80,9 @@ const TodoForm: React.FC<Props> = (props) => {
                 </span>
                 <span
                     className={`${styles.today} ${
-                        moment().add(1, "day").isSame(value, "D") ? styles.active : ""
+                        moment().add(1, "day").isSame(value, "D")
+                            ? styles.active
+                            : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
@@ -133,12 +138,19 @@ const TodoForm: React.FC<Props> = (props) => {
                 <InputList />
             </Form.Item>
             <Form.Item name="color" label="轻重" rules={[{ required: true }]}>
-                <Radio.Group optionType="button">
+                <Radio.Group optionType="button" buttonStyle="solid">
                     {colorList.map((item) => (
                         <Radio.Button
                             key={item}
                             value={item}
                             style={{ color: colorMap[item] }}
+                            className={`${styles.color} ${
+                                item === "0" ? styles.zero : ""
+                            }${item === "1" ? styles.one : ""}${
+                                item === "2" ? styles.two : ""
+                            }${item === "3" ? styles.three : ""}${
+                                item === "-1" ? styles.minusOne : ""
+                            }`}
                         >
                             {colorNameMap[item]}
                         </Radio.Button>

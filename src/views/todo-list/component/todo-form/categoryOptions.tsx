@@ -17,10 +17,11 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
         <>
             <Radio.Group
                 optionType="button"
+                buttonStyle="solid"
                 value={value}
                 onChange={(val) => onChange(val)}
             >
-                {(showAll ? l : l.slice(0, 10)).map(
+                {(showAll ? l : l.slice(0, 9)).map(
                     (item: CategoryType) => (
                         <Radio.Button key={item.category} value={item.category}>
                             {item.category} ({item.count})
