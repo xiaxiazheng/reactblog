@@ -25,7 +25,7 @@ const TodoNote: React.FC<IProps> = (props) => {
 
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(15);
+    const [pageSize, setPageSize] = useState<number>(10);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
 
     const [loading, setLoading] = useState<boolean>(false);
