@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, Drawer, Form, message, Space, Tooltip } from "antd";
-import { formatArrayToTimeMap } from "./utils";
+import { Button, Drawer, Form, Input, message, Space, Tooltip } from "antd";
+import { debounce, formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
 import PoolList from "./pool-list";
@@ -22,6 +22,74 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
 import TodoNote from "./todo-note";
+
+const GlobalSearch = ({
+    setTodoList,
+    setPoolList,
+    setTargetList,
+    setBookMarkList,
+    todoListOrigin,
+    poolListOrigin,
+    targetListOrigin,
+    bookMarkListOrigin,
+}: any) => {
+    // 搜索相关
+    const [keyword, setKeyword] = useState<string>();
+    useEffect(() => {
+        if (!keyword || keyword === "") {
+            getOriginList();
+        }
+    }, [keyword]);
+
+    const getKeywordList = () => {
+        if (keyword && keyword !== "") {
+            setTodoList(
+                todoListOrigin.filter(
+                    (item: TodoItemType) =>
+                        item.name.indexOf(keyword) !== -1 ||
+                        item.description.indexOf(keyword) !== -1
+                )
+            );
+            setPoolList(
+                poolListOrigin.filter(
+                    (item: TodoItemType) =>
+                        item.name.indexOf(keyword) !== -1 ||
+                        item.description.indexOf(keyword) !== -1
+                )
+            );
+            setTargetList(
+                targetListOrigin.filter(
+                    (item: TodoItemType) =>
+                        item.name.indexOf(keyword) !== -1 ||
+                        item.description.indexOf(keyword) !== -1
+                )
+            );
+            setBookMarkList(
+                bookMarkListOrigin.filter(
+                    (item: TodoItemType) =>
+                        item.name.indexOf(keyword) !== -1 ||
+                        item.description.indexOf(keyword) !== -1
+                )
+            );
+        }
+    };
+
+    const getOriginList = () => {
+        setTodoList(todoListOrigin);
+        setPoolList(poolListOrigin);
+        setTargetList(targetListOrigin);
+        setBookMarkList(bookMarkListOrigin);
+    };
+
+    return (
+        <Input
+            placeholder="全局搜索"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onPressEnter={() => getKeywordList()}
+        />
+    );
+};
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -47,6 +115,7 @@ const TodoList: React.FC = () => {
             };
             const res = await getTodoList(req);
             if (res) {
+                setBookMarkListOrigin(res.data.list);
                 setBookMarkList(res.data.list);
                 setBookMarkLoading(false);
             } else {
@@ -61,6 +130,7 @@ const TodoList: React.FC = () => {
             };
             const res = await getTodoList(req);
             if (res) {
+                setTargetListOrigin(res.data.list);
                 setTargetList(res.data.list);
                 setTargetLoading(false);
             } else {
@@ -79,10 +149,12 @@ const TodoList: React.FC = () => {
             const res = await getTodoList(req);
             if (res) {
                 if (type === "todo") {
+                    setTodoListOrigin(res.data);
                     setTodoList(res.data);
                     setTodoLoading(false);
                 }
                 if (type === "pool") {
+                    setPoolListOrigin(res.data);
                     setPoolList(res.data);
                     setPoolLoading(false);
                 }
@@ -99,6 +171,15 @@ const TodoList: React.FC = () => {
         getTodo("target");
         getTodo("bookMark");
     }, []);
+
+    const [todoListOrigin, setTodoListOrigin] = useState<TodoItemType[]>([]);
+    const [poolListOrigin, setPoolListOrigin] = useState<TodoItemType[]>([]);
+    const [targetListOrigin, setTargetListOrigin] = useState<TodoItemType[]>(
+        []
+    );
+    const [bookMarkListOrigin, setBookMarkListOrigin] = useState<
+        TodoItemType[]
+    >([]);
 
     // 列表
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
@@ -272,6 +353,16 @@ const TodoList: React.FC = () => {
                     {/* 已完成 */}
                     <div className={`${styles.box3}`}>
                         <Space>
+                            <GlobalSearch
+                                setTodoList={setTodoList}
+                                setPoolList={setPoolList}
+                                setTargetList={setTargetList}
+                                setBookMarkList={setBookMarkList}
+                                todoListOrigin={todoListOrigin}
+                                poolListOrigin={poolListOrigin}
+                                targetListOrigin={targetListOrigin}
+                                bookMarkListOrigin={bookMarkListOrigin}
+                            />
                             <Button
                                 type="primary"
                                 onClick={() => {

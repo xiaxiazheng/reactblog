@@ -3,7 +3,6 @@ import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
 import { TodoItemType, CategoryType } from "../types";
 import TodoNoteEditModal from "./todo-note-edit-modal";
-import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { debounce, sortBy } from "lodash";
 import TodoImageFile from "../component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
@@ -22,8 +21,6 @@ const TodoNote: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<string>("所有");
 
     const [loading, setLoading] = useState<boolean>(false);
-
-    useDocumentTitle("Todo 便签");
 
     const getData = debounce(async () => {
         setLoading(true);

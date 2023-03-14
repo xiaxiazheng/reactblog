@@ -23,7 +23,6 @@ import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
-import classNames from "classnames";
 
 interface Props {
     form: FormInstance;

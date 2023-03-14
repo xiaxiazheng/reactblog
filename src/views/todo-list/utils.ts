@@ -38,6 +38,8 @@ export const colorNameMap: any = {
 
 export const colorList = Object.keys(colorNameMap);
 
+export const handleSortColor = () => {};
+
 // 确定 todo 的刷新范围
 export const handleRefreshList = (formData: any) => {
     const list: StatusType[] = [];
@@ -60,4 +62,16 @@ export const handleCopy = (str: string) => {
     document.execCommand("copy");
     message.success("已复制到粘贴板");
     document.body.removeChild(input);
+};
+
+let timer: any = 0;
+export const debounce = (fn: () => void, ms: number) => {
+    return () => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            fn();
+        }, ms);
+    }
 };
