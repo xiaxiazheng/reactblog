@@ -56,11 +56,14 @@
 }
 
 .note_list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    columns: 2;
+    column-gap: 10px;
+    // display: grid;
+    // grid-template-columns: repeat(2, 1fr);
+    // gap: 10px;
     margin: 0 auto;
     > div {
+        margin-bottom: 10px;
         cursor: pointer;
         &:hover {
             border-color: #40a9ff;
