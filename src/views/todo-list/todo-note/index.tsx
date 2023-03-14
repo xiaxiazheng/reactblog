@@ -11,7 +11,14 @@ import { renderDescription } from "../component/one-day-list/todo-item-name";
 
 const { Search } = Input;
 
-const TodoNote: React.FC = () => {
+interface IProps {
+    isRefreshNote: boolean;
+    setIsRefreshNote: Function;
+}
+
+const TodoNote: React.FC<IProps> = (props) => {
+    const { isRefreshNote, setIsRefreshNote } = props;
+
     const [list, setList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState<number>(0);
 
@@ -22,7 +29,7 @@ const TodoNote: React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const getData = debounce(async () => {
+    const getNoteList = async () => {
         setLoading(true);
 
         const params: any = {
@@ -44,7 +51,16 @@ const TodoNote: React.FC = () => {
             setTotal(res?.data?.total || 0);
         }
         setLoading(false);
-    }, 300);
+    };
+
+    const getData = debounce(() => getNoteList(), 300);
+
+    useEffect(() => {
+        if (isRefreshNote) {
+            getNoteList();
+            setIsRefreshNote(false);
+        }
+    }, [isRefreshNote]);
 
     const [category, setCategory] = useState<CategoryType[]>();
     const getCategory = async () => {
@@ -60,15 +76,11 @@ const TodoNote: React.FC = () => {
     };
 
     useEffect(() => {
-        getData();
-    }, [pageNo]);
-
-    useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory, pageSize]);
 
     useEffect(() => {
-        refreshData();
+        getCategory();
     }, []);
 
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
@@ -80,7 +92,7 @@ const TodoNote: React.FC = () => {
     const [sortBy, setSortBy] = useState<"mTime" | "cTime">("mTime");
     useEffect(() => {
         getData();
-    }, [sortBy]);
+    }, [sortBy, pageNo, isRefreshNote]);
 
     return (
         <div className={`${styles.note} ScrollBar`}>
@@ -90,7 +102,7 @@ const TodoNote: React.FC = () => {
                         <span>todo note ({total})</span>
                         <Space>
                             <Button
-                                onChange={() =>
+                                onClick={() =>
                                     setSortBy(
                                         sortBy === "cTime" ? "mTime" : "cTime"
                                     )

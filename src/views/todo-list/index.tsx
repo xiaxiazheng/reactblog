@@ -102,74 +102,87 @@ const TodoList: React.FC = () => {
     const [bookMarkLoading, setBookMarkLoading] = useState<boolean>(false);
 
     const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
+    const [isRefreshNote, setIsRefreshNote] = useState<boolean>(false);
 
     const [isShowDoneTarget, setIsShowDoneTarget] = useState<boolean>(false);
 
     const getTodo = async (type: StatusType) => {
-        if (type === "bookMark") {
-            setBookMarkLoading(true);
-            const req: any = {
-                isBookMark: "1",
-                pageNo: 1,
-                pageSize: 100,
-            };
-            const res = await getTodoList(req);
-            if (res) {
-                setBookMarkListOrigin(res.data.list);
-                setBookMarkList(res.data.list);
-                setBookMarkLoading(false);
-            } else {
-                message.error("获取 todolist 失败");
-            }
-        } else if (type === "target") {
-            setTargetLoading(true);
-            const req: any = {
-                isTarget: "1",
-                pageNo: 1,
-                pageSize: 100,
-            };
-            const res = await getTodoList(req);
-            if (res) {
-                setTargetListOrigin(res.data.list);
-                setTargetList(res.data.list);
-                setTargetLoading(false);
-            } else {
-                message.error("获取 todolist 失败");
-            }
-        } else if (type === "done") {
-            setIsRefreshDone(true);
-        } else {
-            type === "todo" && setTodoLoading(true);
-            type === "pool" && setPoolLoading(true);
-
-            const req: any = {
-                status: TodoStatus[type],
-            };
-
-            const res = await getTodoList(req);
-            if (res) {
-                if (type === "todo") {
-                    setTodoListOrigin(res.data);
-                    setTodoList(res.data);
-                    setTodoLoading(false);
+        switch (type) {
+            case "bookMark": {
+                setBookMarkLoading(true);
+                const req: any = {
+                    isBookMark: "1",
+                    pageNo: 1,
+                    pageSize: 100,
+                };
+                const res = await getTodoList(req);
+                if (res) {
+                    setBookMarkListOrigin(res.data.list);
+                    setBookMarkList(res.data.list);
+                    setBookMarkLoading(false);
+                } else {
+                    message.error("获取 todolist 失败");
                 }
-                if (type === "pool") {
-                    setPoolListOrigin(res.data);
-                    setPoolList(res.data);
-                    setPoolLoading(false);
+                break;
+            }
+            case "target": {
+                setTargetLoading(true);
+                const req: any = {
+                    isTarget: "1",
+                    pageNo: 1,
+                    pageSize: 100,
+                };
+                const res = await getTodoList(req);
+                if (res) {
+                    setTargetListOrigin(res.data.list);
+                    setTargetList(res.data.list);
+                    setTargetLoading(false);
+                } else {
+                    message.error("获取 todolist 失败");
                 }
-            } else {
-                message.error("获取 todolist 失败");
+                break;
+            }
+            case "note": {
+                setIsRefreshNote(true);
+                break;
+            }
+            case "done": {
+                setIsRefreshDone(true);
+                break;
+            }
+            case "todo":
+            case "pool": {
+                type === "todo" && setTodoLoading(true);
+                type === "pool" && setPoolLoading(true);
+
+                const req: any = {
+                    status: TodoStatus[type],
+                };
+
+                const res = await getTodoList(req);
+                if (res) {
+                    if (type === "todo") {
+                        setTodoListOrigin(res.data);
+                        setTodoList(res.data);
+                        setTodoLoading(false);
+                    }
+                    if (type === "pool") {
+                        setPoolListOrigin(res.data);
+                        setPoolList(res.data);
+                        setPoolLoading(false);
+                    }
+                } else {
+                    message.error("获取 todolist 失败");
+                }
+                break;
             }
         }
     };
 
     useEffect(() => {
         getTodo("todo");
-        getTodo("done");
         getTodo("pool");
         getTodo("target");
-        getTodo("bookMark");
     }, []);
 
     const [todoListOrigin, setTodoListOrigin] = useState<TodoItemType[]>([]);
@@ -240,27 +253,30 @@ const TodoList: React.FC = () => {
 
     const [form] = Form.useForm();
 
-    const refreshData = (
-        type?: "todo" | "done" | "pool" | "target" | "bookMark"
-    ) => {
+    const refreshData = (type?: StatusType) => {
         if (!type) {
             getTodo("todo");
             getTodo("done");
             getTodo("pool");
             getTodo("target");
             getTodo("bookMark");
+            getTodo("note");
         } else {
             type === "todo" && getTodo("todo");
             type === "done" && getTodo("done");
             type === "pool" && getTodo("pool");
             type === "target" && getTodo("target");
             type === "bookMark" && getTodo("bookMark");
+            type === "note" && getTodo("note");
         }
     };
 
     const [showBookMarkDrawer, setShowBookMarkDrawer] =
         useState<boolean>(false);
     const [showNoteDrawer, setShowNoteDrawer] = useState<boolean>(false);
+    useEffect(() => {
+        showBookMarkDrawer && getTodo("bookMark");
+    }, [showBookMarkDrawer]);
 
     const today = moment().format("YYYY-MM-DD");
 
@@ -489,7 +505,7 @@ const TodoList: React.FC = () => {
                 onClose={() => setShowNoteDrawer(false)}
                 width="900px"
             >
-                <TodoNote />
+                <TodoNote isRefreshNote={isRefreshNote} setIsRefreshNote={setIsRefreshNote} />
             </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal

@@ -67,10 +67,6 @@ const DoneList: React.FC<Props> = (props) => {
     }, []);
 
     useEffect(() => {
-        getDoneTodo();
-    }, [activeCategory, activeColor]);
-
-    useEffect(() => {
         if (isRefreshDone) {
             getDoneTodo();
             setIsRefreshDone(false);
@@ -80,7 +76,7 @@ const DoneList: React.FC<Props> = (props) => {
     const [startEndTime, setStartEndTime] = useState<any>();
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [keyword, setKeyword] = useState<string>("");
+    const [keyword, setKeyword] = useState<string>();
     const [pageNo, setPageNo] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(
         Number(localStorage.getItem("todoDonePageSize")) || 15
@@ -88,7 +84,7 @@ const DoneList: React.FC<Props> = (props) => {
     const [total, setTotal] = useState<number>(0);
     useEffect(() => {
         getDoneTodo();
-    }, [pageNo, pageSize, startEndTime]);
+    }, [pageNo, pageSize, startEndTime, activeCategory, activeColor]);
 
     const handleSearch = () => {
         if (pageNo === 1) {
