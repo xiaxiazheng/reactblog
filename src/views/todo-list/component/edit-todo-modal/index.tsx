@@ -84,19 +84,14 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         handleCloseBackUp();
     };
 
+    const [isClose, setIsClose] = useState<boolean>(false);
     const onClose = () => {
-        if (isEdit) {
-            Modal.confirm({
-                title: "你还有修改没保存，确定不要了？",
-                okText: "对，就是不要了",
-                cancelText: "不，只是点错了",
-                icon: <ExclamationCircleOutlined />,
-                onOk() {
-                    handleClose();
-                    setIsEdit(false);
-                },
-            });
+        if (isEdit && !isClose) {
+            message.warning("你还有修改没保存，确定不要的话再点一次");
+            setIsClose(true);
         } else {
+            setIsClose(false);
+            setIsEdit(false);
             handleClose();
         }
     };
@@ -268,10 +263,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             doing: "0",
             isNote: item.isNote,
             isTarget: item.isTarget,
-            isBookMark: item.isBookMark
+            isBookMark: item.isBookMark,
         });
         setVisible2(true);
         setIsEdit2(true);
+        setIsClose2(false);
     };
 
     // 跟第二个 modal 有关的变量
@@ -279,8 +275,16 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [form2] = Form.useForm();
     const [visible2, setVisible2] = useState<boolean>(false);
     const [isEdit2, setIsEdit2] = useState<boolean>(false);
+    const [isClose2, setIsClose2] = useState<boolean>(false);
     const handleClose2 = () => {
-        setVisible2(false);
+        if (isEdit2 && !isClose2) {
+            message.warning("你还有修改没保存，确定不要的话再点一次");
+            setIsClose2(true);
+        } else {
+            setIsClose2(false);
+            setIsEdit2(false);
+            setVisible2(false);
+        }
     };
     const [loading2, setLoading2] = useState<boolean>(false);
     const handleOk2 = async () => {
@@ -408,7 +412,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     form={form}
                     // 除了编辑，其他走的都是新建的路子
                     onOk={() => handleOk(false)}
-                    isFieldsChange={() => setIsEdit(true)}
+                    isFieldsChange={() => {
+                        setIsEdit(true);
+                        setIsClose(false);
+                    }}
                     activeTodo={activeTodo}
                 />
                 {type === "edit" && activeTodo && (
@@ -451,7 +458,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     form={form2}
                     // 除了编辑，其他走的都是新建的路子
                     onOk={() => handleOk2()}
-                    isFieldsChange={() => setIsEdit2(true)}
+                    isFieldsChange={() => {
+                        setIsEdit2(true);
+                        setIsClose2(false);
+                    }}
                     activeTodo={activeTodo}
                 />
             </Modal>
