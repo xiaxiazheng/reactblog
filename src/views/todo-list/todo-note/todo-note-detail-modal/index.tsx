@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, message, Popconfirm, Modal, Tooltip } from "antd";
 import TodoImageFile from "../../component/todo-image-file";
@@ -53,6 +53,8 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
                         {activeTodo?.category}
                     </span>
                     <span>{activeTodo?.name}</span>
+                    <span>({activeTodo?.time})</span>
+                    &nbsp;
                     <Tooltip
                         placement="bottom"
                         title={

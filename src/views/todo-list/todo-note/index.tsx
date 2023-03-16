@@ -85,8 +85,6 @@ const TodoNote: React.FC<IProps> = (props) => {
     }, []);
 
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
-    // 新建 / 编辑
-    const [isShowModal, setIsShowModal] = useState<boolean>(false);
     // 详情
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
 
@@ -95,6 +93,8 @@ const TodoNote: React.FC<IProps> = (props) => {
         getData();
     }, [sortBy, pageNo, isRefreshNote]);
 
+    const [showFilter, setShowFilter] = useState<boolean>(false);
+
     return (
         <div className={`${styles.note} ScrollBar`}>
             <Spin spinning={loading}>
@@ -102,6 +102,24 @@ const TodoNote: React.FC<IProps> = (props) => {
                     <div className={styles.header}>
                         <span>todo note ({total})</span>
                         <Space>
+                            <Search
+                                className={styles.input}
+                                value={keyword}
+                                enterButton
+                                onChange={(e) => setKeyword(e.target.value)}
+                                onSearch={() =>
+                                    pageNo === 1 ? getData() : setPageNo(1)
+                                }
+                                onPressEnter={() =>
+                                    pageNo === 1 ? getData() : setPageNo(1)
+                                }
+                            />
+                            <Button
+                                type={showFilter ? "primary" : "default"}
+                                onClick={() => setShowFilter((prev) => !prev)}
+                            >
+                                筛选
+                            </Button>
                             <Button
                                 onClick={() =>
                                     setSortBy(
@@ -120,44 +138,34 @@ const TodoNote: React.FC<IProps> = (props) => {
                             >
                                 新增
                             </Button>
-                            <Search
-                                className={styles.input}
-                                value={keyword}
-                                enterButton
-                                onChange={(e) => setKeyword(e.target.value)}
-                                onSearch={() =>
-                                    pageNo === 1 ? getData() : setPageNo(1)
-                                }
-                                onPressEnter={() =>
-                                    pageNo === 1 ? getData() : setPageNo(1)
-                                }
-                            />
                         </Space>
                     </div>
-                    <Radio.Group
-                        className={styles.radioList}
-                        value={activeCategory}
-                        onChange={(e) => setActiveCategory(e.target.value)}
-                    >
-                        <Radio key="所有" value="所有">
-                            所有 (
-                            {category?.reduce(
-                                (prev, cur) => prev + Number(cur.count),
-                                0
-                            )}
-                            )
-                        </Radio>
-                        {category?.map((item) => {
-                            return (
-                                <Radio
-                                    key={item.category}
-                                    value={item.category}
-                                >
-                                    {item.category}({item.count})
-                                </Radio>
-                            );
-                        })}
-                    </Radio.Group>
+                    {showFilter && (
+                        <Radio.Group
+                            className={styles.radioList}
+                            value={activeCategory}
+                            onChange={(e) => setActiveCategory(e.target.value)}
+                        >
+                            <Radio key="所有" value="所有">
+                                所有 (
+                                {category?.reduce(
+                                    (prev, cur) => prev + Number(cur.count),
+                                    0
+                                )}
+                                )
+                            </Radio>
+                            {category?.map((item) => {
+                                return (
+                                    <Radio
+                                        key={item.category}
+                                        value={item.category}
+                                    >
+                                        {item.category}({item.count})
+                                    </Radio>
+                                );
+                            })}
+                        </Radio.Group>
+                    )}
                     <div className={styles.note_list}>
                         {list?.map((item) => {
                             return (
@@ -183,9 +191,17 @@ const TodoNote: React.FC<IProps> = (props) => {
                                     </div>
                                     <TodoImageFile
                                         isOnlyShow={true}
-                                        activeTodo={item}
+                                        activeTodo={{
+                                            ...item,
+                                            imgList: item.imgList.slice(0, 3),
+                                        }}
                                         width="120px"
                                     />
+                                    {item.imgList.length > 3 && (
+                                        <div style={{ opacity: 0.7 }}>
+                                            还有 {item.imgList.length - 3} 张图
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}
