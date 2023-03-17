@@ -3,7 +3,8 @@ import { Divider, message, Select, Tooltip } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
 import { debounce } from "lodash";
-import { renderDescription } from "../one-day-list/todo-item-name";
+import TodoItemName from "../one-day-list/todo-item-name";
+import styles from "./index.module.scss";
 
 const SearchTodo = ({ value, onChange, activeTodo }: any) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
@@ -59,7 +60,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         } else {
             message.error("获取 todolist 失败");
         }
-    }
+    };
 
     const Name = ({ item }: { item: TodoItemType }) => {
         return (
@@ -87,6 +88,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             }}
             notFoundContent={null}
             allowClear
+            dropdownClassName={styles.selectOptions}
         >
             {options?.map((item) => {
                 return (
@@ -95,31 +97,12 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
                         label={item.name}
                         value={item.todo_id}
                     >
-                        {item.description ? (
-                            <Tooltip
-                                placement="left"
-                                color="rgba(0,0,0,0.9)"
-                                title={
-                                    <div>
-                                        <Name item={item} />
-                                        <Divider
-                                            style={{
-                                                margin: "6px 0",
-                                                backgroundColor: "white",
-                                            }}
-                                        />
-                                        {renderDescription(item.description)}
-                                    </div>
-                                }
-                            >
-                                <Name item={item} />
-                                <span style={{ fontSize: 12, color: "#ccc" }}>
-                                    {item.description}
-                                </span>
-                            </Tooltip>
-                        ) : (
-                            <Name item={item} />
-                        )}
+                        <TodoItemName
+                            item={item}
+                            refreshData={() => {}}
+                            handleEdit={() => {}}
+                            placement="left"
+                        />
                     </Select.Option>
                 );
             })}

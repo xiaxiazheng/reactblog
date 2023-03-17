@@ -16,6 +16,7 @@ import FileListBox from "@/components/file-image-handle/file-list-box";
 import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
+import { TooltipPlacement } from "antd/lib/tooltip";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -34,13 +35,14 @@ interface NameProps {
     refreshData: Function;
     handleEdit: Function;
     isChain?: boolean;
+    placement?: TooltipPlacement;
 }
 
 const today = dayjs().format("YYYY-MM-DD");
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
-    const { item, refreshData, handleEdit, isChain = false } = props;
+    const { item, refreshData, handleEdit, isChain = false, placement } = props;
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);
@@ -73,6 +75,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     </>
                 }
                 color="rgba(0,0,0,0.9)"
+                placement={placement || 'top'}
             >
                 {props.children}
             </Tooltip>
