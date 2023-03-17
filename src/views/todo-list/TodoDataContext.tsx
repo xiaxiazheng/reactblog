@@ -43,6 +43,7 @@ interface ContextType {
     setPageSize: React.Dispatch<React.SetStateAction<number>>;
     handleSearch: (keyword: string) => void;
     handleClear: Function;
+    isFilter: () => boolean;
 }
 
 export const TodoDataContext = createContext({} as ContextType);
@@ -194,7 +195,7 @@ export const TodoDataProvider: React.FC = (props) => {
         Number(localStorage.getItem("todoDonePageSize")) || 15
     );
 
-    const getFilterList = (list: TodoItemType[], keyword: string) => {
+    const getFilterList = (list: TodoItemType[]) => {
         let l = list;
         if (activeColor !== "") {
             l = l.filter((item) => item.color === activeColor);
@@ -212,18 +213,17 @@ export const TodoDataProvider: React.FC = (props) => {
         return l;
     };
 
-    const handleSearch = (str: string) => {
-        setKeyword(str);
-        setTodoList(getFilterList(todoListOrigin, str));
-        setPoolList(getFilterList(poolListOrigin, str));
-        setTargetList(getFilterList(targetListOrigin, str));
+    const handleSearch = () => {
+        setTodoList(getFilterList(todoListOrigin));
+        setPoolList(getFilterList(poolListOrigin));
+        setTargetList(getFilterList(targetListOrigin));
         getTodo("done");
     };
 
     useEffect(() => {
-        setTodoList(getFilterList(todoListOrigin, keyword));
-        setPoolList(getFilterList(poolListOrigin, keyword));
-        setTargetList(getFilterList(targetListOrigin, keyword));
+        setTodoList(getFilterList(todoListOrigin));
+        setPoolList(getFilterList(poolListOrigin));
+        setTargetList(getFilterList(targetListOrigin));
     }, [todoListOrigin, poolListOrigin, targetListOrigin]);
 
     const handleClear = () => {
@@ -234,10 +234,20 @@ export const TodoDataProvider: React.FC = (props) => {
         setPageNo(1);
     };
 
-    // 第一次会跑
+    // 是否是正在筛选状态
+    const isFilter = () => {
+        return (
+            activeColor !== "" ||
+            activeCategory !== "" ||
+            keyword !== "" ||
+            !!startEndTime ||
+            pageNo !== 1
+        );
+    };
+
     useEffect(() => {
-        handleSearch(keyword);
-    }, [activeColor, activeCategory, startEndTime, pageNo, pageSize]);
+        handleSearch();
+    }, [keyword, activeColor, activeCategory, startEndTime, pageNo, pageSize]);
 
     return (
         <TodoDataContext.Provider
@@ -279,6 +289,7 @@ export const TodoDataProvider: React.FC = (props) => {
                 setPageSize,
                 handleSearch,
                 handleClear,
+                isFilter,
             }}
         >
             {props.children}

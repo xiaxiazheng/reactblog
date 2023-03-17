@@ -17,10 +17,10 @@ const GlobalSearch: React.FC = (props) => {
         setActiveCategory,
         startEndTime,
         setStartEndTime,
-        pageNo,
         keyword: contextKeyword,
-        handleSearch: handleSearchBackUp,
+        setKeyword: setContextKeyword,
         handleClear,
+        isFilter,
     } = useContext(TodoDataContext);
 
     const { handleAdd } = useContext(TodoEditContext);
@@ -108,7 +108,7 @@ const GlobalSearch: React.FC = (props) => {
     }, [keyword]);
 
     const handleSearch = (str: string) => {
-        keyword !== contextKeyword && handleSearchBackUp(str);
+        setContextKeyword(str);
     };
 
     return (
@@ -134,12 +134,7 @@ const GlobalSearch: React.FC = (props) => {
                     </Button>
 
                     {/* 清理筛选项 */}
-                    {(activeColor !== "" ||
-                        activeCategory !== "" ||
-                        keyword !== "" ||
-                        !!startEndTime ||
-                        pageNo !== 1 ||
-                        showFilter) && (
+                    {(isFilter() || showFilter) && (
                         <Button
                             icon={<ClearOutlined />}
                             type="primary"
