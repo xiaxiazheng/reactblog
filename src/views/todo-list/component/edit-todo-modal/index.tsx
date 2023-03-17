@@ -37,6 +37,7 @@ import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
 import { TodoEditContext } from "../../TodoEditContext";
 import { TodoDataContext } from "../../TodoDataContext";
+import TodoChainIcon from "../todo-chain-icon";
 
 interface EditTodoModalType {}
 
@@ -389,6 +390,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     >
                                         添加后续 todo
                                     </Button>
+                                    {activeTodo && (
+                                        <TodoChainIcon item={activeTodo} />
+                                    )}
                                 </>
                             ) : (
                                 ""
