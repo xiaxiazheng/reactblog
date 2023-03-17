@@ -9,14 +9,6 @@
         border-right: 1px solid var(--border_color);
     }
 
-    .search {
-        display: inline-block;
-        margin: 0 20px 10px;
-        width: calc(100% - 40px);
-        background: var(--bg_color);
-        color: var(--color);
-    }
-
     .header {
         padding: 20px;
         .header1 {
@@ -30,14 +22,6 @@
                 &.active {
                     color: var(--color_active);
                 }
-            }
-        }
-        .filterWrapper {
-            display: flex;
-            flex-wrap: wrap;
-            > div {
-                margin-top: 10px;
-                margin-right: 10px;
             }
         }
     }

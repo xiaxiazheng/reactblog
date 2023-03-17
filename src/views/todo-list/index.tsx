@@ -75,97 +75,98 @@ const TodoList: React.FC = () => {
                         />
                     </div>
                     {/* 待办 */}
-                    <div className={`${styles.box2}`}>
-                        <div className="ScrollBar">
-                            <List
-                                loading={todoLoading}
-                                getTodo={getTodo}
-                                sortKey={SortKeyMap.todo}
-                                title={
-                                    <>
-                                        今日待办{" "}
-                                        <Tooltip
-                                            title={
-                                                <>
-                                                    <div>
-                                                        <AimOutlined
-                                                            style={{
-                                                                marginRight: 5,
-                                                                color: "#ffeb3b",
-                                                            }}
-                                                        />
-                                                        这个是目标
-                                                    </div>
-                                                    <div>
-                                                        <BookOutlined
-                                                            style={{
-                                                                marginRight: 5,
-                                                                color: "#ffeb3b",
-                                                            }}
-                                                        />
-                                                        这个是已存档
-                                                    </div>
-                                                    <div>
-                                                        <StarFilled
-                                                            style={{
-                                                                marginRight: 5,
-                                                                color: "#ffeb3b",
-                                                            }}
-                                                        />
-                                                        这个是书签
-                                                    </div>
-                                                    <div>
-                                                        整个 title
-                                                        变黄，是指现在处理。
-                                                    </div>
-                                                </>
-                                            }
-                                            placement="bottom"
-                                        >
-                                            <QuestionCircleOutlined
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                        </Tooltip>{" "}
-                                    </>
-                                }
-                                mapList={formatArrayToTimeMap(
-                                    todoList.filter(
-                                        (item) =>
-                                            item.time <= today &&
-                                            item.isTarget !== "1"
-                                    )
-                                )}
-                                showAdd={true}
-                                showDoneIcon={true}
-                            />
-                        </div>
-                        <Space>
-                            <Button
-                                type="primary"
-                                onClick={() => {
-                                    setShowBookMarkDrawer(true);
-                                }}
-                            >
-                                书签
-                            </Button>
-                            <Button
-                                type="primary"
-                                onClick={() => {
-                                    setShowNoteDrawer(true);
-                                }}
-                            >
-                                存档
-                            </Button>
-                            <GlobalSearch />
-                        </Space>
+                    <div className={`${styles.box2} ScrollBar`}>
+                        <List
+                            loading={todoLoading}
+                            getTodo={getTodo}
+                            sortKey={SortKeyMap.todo}
+                            title={
+                                <>
+                                    今日待办{" "}
+                                    <Tooltip
+                                        title={
+                                            <>
+                                                <div>
+                                                    <AimOutlined
+                                                        style={{
+                                                            marginRight: 5,
+                                                            color: "#ffeb3b",
+                                                        }}
+                                                    />
+                                                    这个是目标
+                                                </div>
+                                                <div>
+                                                    <BookOutlined
+                                                        style={{
+                                                            marginRight: 5,
+                                                            color: "#ffeb3b",
+                                                        }}
+                                                    />
+                                                    这个是已存档
+                                                </div>
+                                                <div>
+                                                    <StarFilled
+                                                        style={{
+                                                            marginRight: 5,
+                                                            color: "#ffeb3b",
+                                                        }}
+                                                    />
+                                                    这个是书签
+                                                </div>
+                                                <div>
+                                                    整个 title
+                                                    变黄，是指现在处理。
+                                                </div>
+                                            </>
+                                        }
+                                        placement="bottom"
+                                    >
+                                        <QuestionCircleOutlined
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                    </Tooltip>{" "}
+                                </>
+                            }
+                            mapList={formatArrayToTimeMap(
+                                todoList.filter(
+                                    (item) =>
+                                        item.time <= today &&
+                                        item.isTarget !== "1"
+                                )
+                            )}
+                            showAdd={true}
+                            showDoneIcon={true}
+                        />
                     </div>
                     {/* 已完成 */}
                     <div className={`${styles.box3} ScrollBar`}>
-                        <DoneList
-                            title="已完成"
-                            key="done"
-                            sortKey={SortKeyMap.done}
-                        />
+                        <GlobalSearch>
+                            <Space>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        setShowBookMarkDrawer(true);
+                                    }}
+                                >
+                                    书签
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        setShowNoteDrawer(true);
+                                    }}
+                                >
+                                    存档
+                                </Button>
+                            </Space>
+                        </GlobalSearch>
+                        <div className="ScrollBar">
+                            <DoneList
+                                title="已完成"
+                                key="done"
+                                sortKey={SortKeyMap.done}
+                            />
+                        </div>
                     </div>
                     {/* 待办池 */}
                     <div className={`${styles.box4} ScrollBar`}>

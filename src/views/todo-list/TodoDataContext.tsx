@@ -1,21 +1,23 @@
-import moment from "moment";
 import React, { createContext, useEffect, useState } from "react";
-import { OperatorType, StatusType, TodoItemType, TodoStatus } from "./types";
-import { Form, FormInstance, message } from "antd";
+import { StatusType, TodoItemType, TodoStatus } from "./types";
+import { message } from "antd";
 import { getTodoList } from "@/client/TodoListHelper";
+import useUpdateEffect from "@/hooks/useUpdateEffect";
+import { debounce } from "./utils";
 
 interface ContextType {
     todoLoading: boolean;
+    doneLoading: boolean;
     poolLoading: boolean;
     targetLoading: boolean;
     bookMarkLoading: boolean;
-    isRefreshDone: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
     poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
-    bookMarkListOrigin: TodoItemType[];
     todoList: TodoItemType[];
+    doneList: TodoItemType[];
+    doneTotal: number;
     poolList: TodoItemType[];
     targetList: TodoItemType[];
     bookMarkList: TodoItemType[];
@@ -23,10 +25,24 @@ interface ContextType {
     setPoolList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
     setTargetList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
     setBookMarkList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
-    setIsRefreshDone: React.Dispatch<React.SetStateAction<boolean>>;
     setIsRefreshNote: React.Dispatch<React.SetStateAction<boolean>>;
     refreshData: (type?: StatusType) => void;
-    getTodo: (type: StatusType) => Promise<void>;
+    getTodo: (type: StatusType, params?: any) => Promise<void>;
+
+    activeColor: string;
+    setActiveColor: React.Dispatch<React.SetStateAction<string>>;
+    activeCategory: string;
+    setActiveCategory: React.Dispatch<React.SetStateAction<string>>;
+    startEndTime: any;
+    setStartEndTime: React.Dispatch<React.SetStateAction<any>>;
+    keyword: string;
+    setKeyword: React.Dispatch<React.SetStateAction<string>>;
+    pageNo: number;
+    setPageNo: React.Dispatch<React.SetStateAction<number>>;
+    pageSize: number;
+    setPageSize: React.Dispatch<React.SetStateAction<number>>;
+    handleSearch: (keyword: string) => void;
+    handleClear: Function;
 }
 
 export const TodoDataContext = createContext({} as ContextType);
@@ -34,12 +50,25 @@ export const TodoDataContext = createContext({} as ContextType);
 /** 保存 todo 信息 */
 export const TodoDataProvider: React.FC = (props) => {
     const [todoLoading, setTodoLoading] = useState<boolean>(false);
+    const [doneLoading, setDoneLoading] = useState<boolean>(false);
     const [poolLoading, setPoolLoading] = useState<boolean>(false);
     const [targetLoading, setTargetLoading] = useState<boolean>(false);
     const [bookMarkLoading, setBookMarkLoading] = useState<boolean>(false);
 
-    const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
     const [isRefreshNote, setIsRefreshNote] = useState<boolean>(false);
+
+    const [todoListOrigin, setTodoListOrigin] = useState<TodoItemType[]>([]);
+    const [poolListOrigin, setPoolListOrigin] = useState<TodoItemType[]>([]);
+    const [targetListOrigin, setTargetListOrigin] = useState<TodoItemType[]>(
+        []
+    );
+    // 列表
+    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
+    const [doneList, setDoneList] = useState<TodoItemType[]>([]);
+    const [doneTotal, setDoneTotal] = useState<number>(0);
+    const [poolList, setPoolList] = useState<TodoItemType[]>([]);
+    const [targetList, setTargetList] = useState<TodoItemType[]>([]);
+    const [bookMarkList, setBookMarkList] = useState<TodoItemType[]>([]);
 
     const getTodo = async (type: StatusType) => {
         switch (type) {
@@ -52,7 +81,7 @@ export const TodoDataProvider: React.FC = (props) => {
                 };
                 const res = await getTodoList(req);
                 if (res) {
-                    setBookMarkListOrigin(res.data.list);
+                    setBookMarkList(res.data.list);
                     setBookMarkLoading(false);
                 } else {
                     message.error("获取 todolist 失败");
@@ -80,7 +109,31 @@ export const TodoDataProvider: React.FC = (props) => {
                 break;
             }
             case "done": {
-                setIsRefreshDone(true);
+                setDoneLoading(true);
+                const req: any = {
+                    status: TodoStatus["done"],
+                    keyword: keyword?.replace(" ", "%"),
+                    pageNo,
+                    pageSize,
+                    startTime: startEndTime?.[0]?.format("YYYY-MM-DD"),
+                    endTime: startEndTime?.[1]?.format("YYYY-MM-DD"),
+                };
+
+                if (activeCategory) {
+                    req["category"] = activeCategory;
+                }
+                if (activeColor) {
+                    req["color"] = activeColor;
+                }
+
+                const res = await getTodoList(req);
+                if (res) {
+                    setDoneList(res.data.list);
+                    setDoneTotal(res.data.total);
+                    setDoneLoading(false);
+                } else {
+                    message.error("获取 todolist 失败");
+                }
                 break;
             }
             case "todo":
@@ -110,59 +163,104 @@ export const TodoDataProvider: React.FC = (props) => {
         }
     };
 
-    useEffect(() => {
-        getTodo("todo");
-        getTodo("pool");
-        getTodo("target");
-    }, []);
-
-    const [todoListOrigin, setTodoListOrigin] = useState<TodoItemType[]>([]);
-    const [poolListOrigin, setPoolListOrigin] = useState<TodoItemType[]>([]);
-    const [targetListOrigin, setTargetListOrigin] = useState<TodoItemType[]>(
-        []
-    );
-    const [bookMarkListOrigin, setBookMarkListOrigin] = useState<
-        TodoItemType[]
-    >([]);
-
-    // 列表
-    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
-    const [poolList, setPoolList] = useState<TodoItemType[]>([]);
-    const [targetList, setTargetList] = useState<TodoItemType[]>([]);
-    const [bookMarkList, setBookMarkList] = useState<TodoItemType[]>([]);
-
     const refreshData = (type?: StatusType) => {
         if (!type) {
             getTodo("todo");
             getTodo("done");
             getTodo("pool");
             getTodo("target");
-            getTodo("bookMark");
-            getTodo("note");
         } else {
             type === "todo" && getTodo("todo");
             type === "done" && getTodo("done");
             type === "pool" && getTodo("pool");
             type === "target" && getTodo("target");
-            type === "bookMark" && getTodo("bookMark");
-            type === "note" && getTodo("note");
         }
     };
+
+    useEffect(() => {
+        getTodo("todo");
+        getTodo("pool");
+        getTodo("target");
+    }, []);
+
+    // 筛选相关，根据颜色和类别筛选
+    // 根据颜色和类别筛选
+    const [keyword, setKeyword] = useState<string>("");
+    const [activeColor, setActiveColor] = useState<string>("");
+    const [activeCategory, setActiveCategory] = useState<string>("");
+    const [startEndTime, setStartEndTime] = useState<any>(undefined);
+    const [pageNo, setPageNo] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(
+        Number(localStorage.getItem("todoDonePageSize")) || 15
+    );
+
+    const getFilterList = (list: TodoItemType[], keyword: string) => {
+        let l = list;
+        if (activeColor !== "") {
+            l = l.filter((item) => item.color === activeColor);
+        }
+        if (activeCategory !== "") {
+            l = l.filter((item) => item.category === activeCategory);
+        }
+        if (keyword !== "") {
+            l = l.filter(
+                (item) =>
+                    item.name.includes(keyword) ||
+                    item.description.includes(keyword)
+            );
+        }
+        return l;
+    };
+
+    const debounceGetDone = debounce(() => getTodo("done"), 50);
+
+    const handleSearch = (str: string) => {
+        setKeyword(str);
+        setTodoList(getFilterList(todoListOrigin, str));
+        setPoolList(getFilterList(poolListOrigin, str));
+        setTargetList(getFilterList(targetListOrigin, str));
+        debounceGetDone();
+    };
+
+    useEffect(() => {
+        setTodoList(getFilterList(todoListOrigin, keyword));
+        setPoolList(getFilterList(poolListOrigin, keyword));
+        setTargetList(getFilterList(targetListOrigin, keyword));
+    }, [todoListOrigin, poolListOrigin, targetListOrigin]);
+
+    const handleClear = () => {
+        setActiveCategory("");
+        setActiveColor("");
+        setKeyword("");
+        setStartEndTime(undefined);
+        setPageNo(1);
+    };
+
+    // 第一次会跑
+    useEffect(() => {
+        handleSearch(keyword);
+    }, [activeColor, activeCategory, startEndTime]);
+
+    // 第一次不跑
+    useUpdateEffect(() => {
+        debounceGetDone();
+    }, [pageNo, pageSize]);
 
     return (
         <TodoDataContext.Provider
             value={{
                 todoLoading,
+                doneLoading,
                 poolLoading,
                 targetLoading,
                 bookMarkLoading,
-                isRefreshDone,
                 isRefreshNote,
                 todoListOrigin,
                 poolListOrigin,
                 targetListOrigin,
-                bookMarkListOrigin,
                 todoList,
+                doneList,
+                doneTotal,
                 poolList,
                 targetList,
                 bookMarkList,
@@ -170,10 +268,24 @@ export const TodoDataProvider: React.FC = (props) => {
                 setPoolList,
                 setTargetList,
                 setBookMarkList,
-                setIsRefreshDone,
                 setIsRefreshNote,
                 refreshData,
                 getTodo,
+
+                activeColor,
+                setActiveColor,
+                activeCategory,
+                setActiveCategory,
+                startEndTime,
+                setStartEndTime,
+                keyword,
+                setKeyword,
+                pageNo,
+                setPageNo,
+                pageSize,
+                setPageSize,
+                handleSearch,
+                handleClear,
             }}
         >
             {props.children}
