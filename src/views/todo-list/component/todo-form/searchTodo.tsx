@@ -99,8 +99,6 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
                     >
                         <TodoItemName
                             item={item}
-                            refreshData={() => {}}
-                            handleEdit={() => {}}
                             placement="left"
                         />
                     </Select.Option>

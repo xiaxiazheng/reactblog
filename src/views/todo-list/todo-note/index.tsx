@@ -7,18 +7,16 @@ import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/one-day-list/todo-item-name";
 import { debounce } from "../utils";
+import { TodoEditContext } from "../TodoEditContext";
+import { TodoDataContext } from "../TodoDataContext";
 
 const { Search } = Input;
 
-interface IProps {
-    isRefreshNote: boolean;
-    setIsRefreshNote: Function;
-    handleAdd: Function;
-    handleEdit: Function;
-}
+interface IProps {}
 
 const TodoNote: React.FC<IProps> = (props) => {
-    const { isRefreshNote, setIsRefreshNote, handleAdd, handleEdit } = props;
+    const { handleAdd, handleEdit } = useContext(TodoEditContext);
+    const { isRefreshNote, setIsRefreshNote } = useContext(TodoDataContext);
 
     const [list, setList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState<number>(0);
@@ -242,7 +240,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                     }}
                     refreshData={refreshData}
                     handleEdit={() => {
-                        handleEdit(activeTodo);
+                        activeTodo && handleEdit(activeTodo);
                     }}
                 />
             </Spin>

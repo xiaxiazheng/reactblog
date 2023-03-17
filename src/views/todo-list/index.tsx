@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, Drawer, Form, Input, message, Space, Tooltip } from "antd";
-import { debounce, formatArrayToTimeMap } from "./utils";
+import { Button, Drawer, Input, Space, Tooltip } from "antd";
+import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
 import PoolList from "./pool-list";
 import moment from "moment";
-import { getTodoList } from "@/client/TodoListHelper";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
-import { TodoItemType, StatusType, TodoStatus, OperatorType } from "./types";
+import { TodoItemType, TodoStatus } from "./types";
 import {
     AimOutlined,
     ArrowLeftOutlined,
@@ -17,22 +16,25 @@ import {
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
-import { TodoProvider } from "./TodoContext";
+import { TodoEditProvider } from "./TodoEditContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
 import TodoNote from "./todo-note";
+import { TodoDataContext, TodoDataProvider } from "./TodoDataContext";
 
-const GlobalSearch = ({
-    setTodoList,
-    setPoolList,
-    setTargetList,
-    setBookMarkList,
-    todoListOrigin,
-    poolListOrigin,
-    targetListOrigin,
-    bookMarkListOrigin,
-}: any) => {
+const GlobalSearch = () => {
+    const {
+        setTodoList,
+        setPoolList,
+        setTargetList,
+        setBookMarkList,
+        todoListOrigin,
+        poolListOrigin,
+        targetListOrigin,
+        bookMarkListOrigin,
+    } = useContext(TodoDataContext);
+
     // 搜索相关
     const [keyword, setKeyword] = useState<string>();
     useEffect(() => {
@@ -94,183 +96,26 @@ const GlobalSearch = ({
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
 
+    const {
+        todoLoading,
+        poolLoading,
+        targetLoading,
+        bookMarkLoading,
+        todoList,
+        poolList,
+        targetList,
+        bookMarkList,
+        getTodo,
+    } = useContext(TodoDataContext);
+
     useDocumentTitle("todo-list");
-
-    const [todoLoading, setTodoLoading] = useState<boolean>(false);
-    const [poolLoading, setPoolLoading] = useState<boolean>(false);
-    const [targetLoading, setTargetLoading] = useState<boolean>(false);
-    const [bookMarkLoading, setBookMarkLoading] = useState<boolean>(false);
-
-    const [isRefreshDone, setIsRefreshDone] = useState<boolean>(false);
-    const [isRefreshNote, setIsRefreshNote] = useState<boolean>(false);
 
     const [isShowDoneTarget, setIsShowDoneTarget] = useState<boolean>(false);
 
-    const getTodo = async (type: StatusType) => {
-        switch (type) {
-            case "bookMark": {
-                setBookMarkLoading(true);
-                const req: any = {
-                    isBookMark: "1",
-                    pageNo: 1,
-                    pageSize: 100,
-                };
-                const res = await getTodoList(req);
-                if (res) {
-                    setBookMarkListOrigin(res.data.list);
-                    setBookMarkList(res.data.list);
-                    setBookMarkLoading(false);
-                } else {
-                    message.error("获取 todolist 失败");
-                }
-                break;
-            }
-            case "target": {
-                setTargetLoading(true);
-                const req: any = {
-                    isTarget: "1",
-                    pageNo: 1,
-                    pageSize: 100,
-                };
-                const res = await getTodoList(req);
-                if (res) {
-                    setTargetListOrigin(res.data.list);
-                    setTargetList(res.data.list);
-                    setTargetLoading(false);
-                } else {
-                    message.error("获取 todolist 失败");
-                }
-                break;
-            }
-            case "note": {
-                setIsRefreshNote(true);
-                break;
-            }
-            case "done": {
-                setIsRefreshDone(true);
-                break;
-            }
-            case "todo":
-            case "pool": {
-                type === "todo" && setTodoLoading(true);
-                type === "pool" && setPoolLoading(true);
-
-                const req: any = {
-                    status: TodoStatus[type],
-                };
-
-                const res = await getTodoList(req);
-                if (res) {
-                    if (type === "todo") {
-                        setTodoListOrigin(res.data);
-                        setTodoList(res.data);
-                        setTodoLoading(false);
-                    }
-                    if (type === "pool") {
-                        setPoolListOrigin(res.data);
-                        setPoolList(res.data);
-                        setPoolLoading(false);
-                    }
-                } else {
-                    message.error("获取 todolist 失败");
-                }
-                break;
-            }
-        }
-    };
-
-    useEffect(() => {
-        getTodo("todo");
-        getTodo("pool");
-        getTodo("target");
-    }, []);
-
-    const [todoListOrigin, setTodoListOrigin] = useState<TodoItemType[]>([]);
-    const [poolListOrigin, setPoolListOrigin] = useState<TodoItemType[]>([]);
-    const [targetListOrigin, setTargetListOrigin] = useState<TodoItemType[]>(
-        []
-    );
-    const [bookMarkListOrigin, setBookMarkListOrigin] = useState<
-        TodoItemType[]
-    >([]);
-
-    // 列表
-    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
-    const [poolList, setPoolList] = useState<TodoItemType[]>([]);
-    const [targetList, setTargetList] = useState<TodoItemType[]>([]);
-    const [bookMarkList, setBookMarkList] = useState<TodoItemType[]>([]);
-    // 编辑相关
-    const [operatorType, setOperatorType] = useState<OperatorType>();
-    const [showEdit, setShowEdit] = useState<boolean>(false);
-    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
     // 打卡相关
     const [showPunchTheClock, setShowPunchTheClock] = useState<boolean>(false);
 
-    const handleAdd = () => {
-        setActiveTodo(undefined);
-        setOperatorType("add");
-        setShowEdit(true);
-        form.setFieldsValue({
-            time: moment(),
-            status: TodoStatus.todo,
-            color: "3",
-            category: "个人",
-            doing: "0",
-            isNote: "0",
-            isTarget: "0",
-            isBookMark: "0",
-        });
-    };
-
-    const handleEdit = (item: TodoItemType) => {
-        setActiveTodo(item);
-        if (item.isTarget === "1" && !!item.timeRange) {
-            setShowPunchTheClock(true);
-        } else {
-            setOperatorType("edit");
-            setShowEdit(true);
-        }
-    };
-
-    useEffect(() => {
-        if (activeTodo) {
-            const item = activeTodo;
-            form.setFieldsValue({
-                name: item.name,
-                description: item.description,
-                time: moment(item.time),
-                status: Number(item.status),
-                color: item.color,
-                category: item.category,
-                other_id: item.other_id,
-                doing: item.doing,
-                isNote: item.isNote,
-                isTarget: item.isTarget,
-                isBookMark: item.isBookMark,
-            });
-        }
-    }, [activeTodo]);
-
-    const [form] = Form.useForm();
-
-    const refreshData = (type?: StatusType) => {
-        if (!type) {
-            getTodo("todo");
-            getTodo("done");
-            getTodo("pool");
-            getTodo("target");
-            getTodo("bookMark");
-            getTodo("note");
-        } else {
-            type === "todo" && getTodo("todo");
-            type === "done" && getTodo("done");
-            type === "pool" && getTodo("pool");
-            type === "target" && getTodo("target");
-            type === "bookMark" && getTodo("bookMark");
-            type === "note" && getTodo("note");
-        }
-    };
-
+    // 书签抽屉
     const [showBookMarkDrawer, setShowBookMarkDrawer] =
         useState<boolean>(false);
     const [showNoteDrawer, setShowNoteDrawer] = useState<boolean>(false);
@@ -295,8 +140,7 @@ const TodoList: React.FC = () => {
                             mapList={formatArrayToTimeMap(
                                 todoList.filter((item) => item.time > today)
                             )}
-                            handleEdit={handleEdit}
-                            refreshData={refreshData}
+                            // refreshData={refreshData}
                         />
                     </div>
                     {/* 待办 */}
@@ -359,9 +203,8 @@ const TodoList: React.FC = () => {
                                         item.isTarget !== "1"
                                 )
                             )}
-                            handleAdd={handleAdd}
-                            handleEdit={handleEdit}
-                            refreshData={refreshData}
+                            // refreshData={refreshData}
+                            showAdd={true}
                             showRefresh={true}
                             showDoneIcon={true}
                         />
@@ -369,16 +212,7 @@ const TodoList: React.FC = () => {
                     {/* 已完成 */}
                     <div className={`${styles.box3}`}>
                         <Space>
-                            <GlobalSearch
-                                setTodoList={setTodoList}
-                                setPoolList={setPoolList}
-                                setTargetList={setTargetList}
-                                setBookMarkList={setBookMarkList}
-                                todoListOrigin={todoListOrigin}
-                                poolListOrigin={poolListOrigin}
-                                targetListOrigin={targetListOrigin}
-                                bookMarkListOrigin={bookMarkListOrigin}
-                            />
+                            <GlobalSearch />
                             <Button
                                 type="primary"
                                 onClick={() => {
@@ -401,10 +235,6 @@ const TodoList: React.FC = () => {
                                 title="已完成"
                                 key="done"
                                 sortKey={SortKeyMap.done}
-                                handleEdit={handleEdit}
-                                isRefreshDone={isRefreshDone}
-                                setIsRefreshDone={setIsRefreshDone}
-                                refreshData={refreshData}
                             />
                         </div>
                     </div>
@@ -413,11 +243,8 @@ const TodoList: React.FC = () => {
                         <PoolList
                             loading={poolLoading}
                             sortKey={SortKeyMap.pool}
-                            getTodo={getTodo}
                             title="待办池"
                             mapList={poolList}
-                            handleEdit={handleEdit}
-                            refreshData={refreshData}
                             showDoneIcon={true}
                         />
                     </div>
@@ -425,7 +252,6 @@ const TodoList: React.FC = () => {
                     <div className={`${styles.box5} ScrollBar`}>
                         <PoolList
                             loading={targetLoading}
-                            getTodo={getTodo}
                             sortKey={SortKeyMap.target}
                             title="目标"
                             showSearch={false}
@@ -458,8 +284,6 @@ const TodoList: React.FC = () => {
                                 .sort(
                                     (a, b) => Number(a.color) - Number(b.color)
                                 )}
-                            handleEdit={handleEdit}
-                            refreshData={refreshData}
                         />
                     </div>
                 </div>
@@ -485,14 +309,11 @@ const TodoList: React.FC = () => {
             >
                 <PoolList
                     loading={bookMarkLoading}
-                    getTodo={getTodo}
                     title="书签"
                     sortKey={SortKeyMap.bookmark}
                     mapList={bookMarkList.sort(
                         (a, b) => Number(a.color) - Number(b.color)
                     )}
-                    handleEdit={handleEdit}
-                    refreshData={refreshData}
                 />
             </Drawer>
             {/* todo note 展示的抽屉 */}
@@ -505,30 +326,12 @@ const TodoList: React.FC = () => {
                 onClose={() => setShowNoteDrawer(false)}
                 width="900px"
             >
-                <TodoNote
-                    isRefreshNote={isRefreshNote}
-                    setIsRefreshNote={setIsRefreshNote}
-                    handleAdd={handleAdd}
-                    handleEdit={handleEdit}
-                />
+                <TodoNote />
             </Drawer>
             {/* 新增/编辑 todo */}
-            <EditTodoModal
-                type={operatorType || "add"}
-                setType={setOperatorType}
-                visible={showEdit}
-                onClose={() => {
-                    setActiveTodo(undefined);
-                    setShowEdit(false);
-                    form.resetFields();
-                }}
-                activeTodo={activeTodo}
-                setActiveTodo={setActiveTodo}
-                form={form}
-                refreshData={refreshData}
-            />
+            <EditTodoModal />
             {/* 打卡详情 */}
-            <PunchTheClockModal
+            {/* <PunchTheClockModal
                 visible={showPunchTheClock}
                 onClose={() => {
                     setActiveTodo(undefined);
@@ -542,15 +345,17 @@ const TodoList: React.FC = () => {
                         : undefined
                 }
                 refreshData={refreshData}
-            />
+            /> */}
         </div>
     );
 };
 
 const TodoListWrapper: React.FC = () => (
-    <TodoProvider>
-        <TodoList />
-    </TodoProvider>
+    <TodoDataProvider>
+        <TodoEditProvider>
+            <TodoList />
+        </TodoEditProvider>
+    </TodoDataProvider>
 );
 
 export default TodoListWrapper;

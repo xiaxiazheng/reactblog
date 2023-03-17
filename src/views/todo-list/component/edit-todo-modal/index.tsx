@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
     Button,
     FormInstance,
@@ -35,17 +35,10 @@ import {
 } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
+import { TodoEditContext } from "../../TodoEditContext";
+import { TodoDataContext } from "../../TodoDataContext";
 
-interface EditTodoModalType {
-    type: OperatorType;
-    setType: (type: OperatorType) => void;
-    activeTodo: TodoItemType | undefined;
-    setActiveTodo: (todo: TodoItemType) => void;
-    visible: boolean;
-    onClose: Function;
-    form: FormInstance<any>;
-    refreshData: Function;
-}
+interface EditTodoModalType {}
 
 const titleMap = {
     add: "新增",
@@ -55,16 +48,23 @@ const titleMap = {
 };
 
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
+    const { refreshData } = useContext(TodoDataContext);
+
     const {
-        type,
-        setType,
-        visible,
-        onClose: handleCloseBackUp,
         form,
-        refreshData,
         activeTodo,
         setActiveTodo,
-    } = props;
+        showEdit: visible,
+        setShowEdit,
+        operatorType: type,
+        setOperatorType: setType,
+    } = useContext(TodoEditContext);
+
+    const handleCloseBackUp = () => {
+        setActiveTodo(undefined);
+        setShowEdit(false);
+        form.resetFields();
+    };
 
     const needFresh = useRef<StatusType[]>([]);
     const { updateFlag } = useUpdateFlag();

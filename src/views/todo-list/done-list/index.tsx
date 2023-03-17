@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
     Input,
     Pagination,
@@ -25,6 +25,7 @@ import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { TodoStatus } from "../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import { ClearOutlined } from "@ant-design/icons";
+import { TodoDataContext } from "../TodoDataContext";
 
 const { Search } = Input;
 const { RangePicker } = DatePicker;
@@ -32,22 +33,14 @@ const { RangePicker } = DatePicker;
 interface Props {
     title: string;
     sortKey: SortKeyMap;
-    handleEdit: Function;
-    isRefreshDone: boolean;
-    setIsRefreshDone: Function;
-    refreshData: Function;
 }
 
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
-    const {
-        title,
-        handleEdit,
-        isRefreshDone,
-        setIsRefreshDone,
-        refreshData,
-        sortKey,
-    } = props;
+    const { title, sortKey } = props;
+
+    const { isRefreshDone, setIsRefreshDone, refreshData } =
+        useContext(TodoDataContext);
 
     const [doneMap, setDoneMap] = useState<any>({});
 
@@ -282,9 +275,6 @@ const DoneList: React.FC<Props> = (props) => {
                                                       : 0)
                                           )
                                 }
-                                getTodo={() => getDoneTodo()}
-                                handleEdit={handleEdit}
-                                refreshData={refreshData}
                             />
                         </div>
                     );

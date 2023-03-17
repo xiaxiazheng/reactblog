@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, message, Popconfirm, Space, Tooltip } from "antd";
 import {
     RedoOutlined,
@@ -15,6 +15,8 @@ import OneDayList from "../component/one-day-list";
 import { getWeek } from "../utils";
 import { StatusType, TodoItemType, TodoStatus } from "../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import { TodoEditContext } from "../TodoEditContext";
+import { TodoDataContext } from "../TodoDataContext";
 
 interface Props {
     loading: boolean;
@@ -24,9 +26,7 @@ interface Props {
     };
     sortKey: SortKeyMap;
     getTodo: (type: StatusType) => void;
-    handleAdd?: Function;
-    handleEdit: Function;
-    refreshData: Function;
+    showAdd?: boolean;
     showRefresh?: boolean; // 是否展示刷新按钮
     showDoneIcon?: boolean; // 是否展示快捷完成 icon
 }
@@ -38,13 +38,14 @@ const List: React.FC<Props> = (props) => {
         title,
         mapList,
         getTodo,
-        handleAdd,
-        handleEdit,
-        refreshData,
+        showAdd = false,
         showRefresh = false,
         showDoneIcon = false,
         sortKey,
     } = props;
+
+    const { handleAdd } = useContext(TodoEditContext);
+    const { refreshData } = useContext(TodoDataContext);
 
     const today = moment().format("YYYY-MM-DD");
 
@@ -85,7 +86,7 @@ const List: React.FC<Props> = (props) => {
         }
     };
 
-    const {isSortTime, setIsSortTime} = useIsSortTime(`${sortKey}-sort-time`);
+    const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
 
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {
@@ -122,7 +123,7 @@ const List: React.FC<Props> = (props) => {
                             <RedoOutlined />
                         </Button>
                     )}
-                    {handleAdd && (
+                    {showAdd && (
                         <Button onClick={() => handleAdd()}>
                             <PlusOutlined />
                             todo
@@ -190,9 +191,6 @@ const List: React.FC<Props> = (props) => {
                                 </div>
                                 <OneDayList
                                     list={getShowList(mapList[time])}
-                                    getTodo={getTodo}
-                                    handleEdit={handleEdit}
-                                    refreshData={refreshData}
                                     showDoneIcon={showDoneIcon}
                                 />
                             </div>

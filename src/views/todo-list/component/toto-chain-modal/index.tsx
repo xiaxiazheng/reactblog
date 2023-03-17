@@ -5,27 +5,18 @@ import { StatusType, TodoItemType } from "../../types";
 import TodoItem from "../one-day-list/todo-item";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
+import { TodoDataContext } from "../../TodoDataContext";
 
 interface IProps extends DrawerProps {
     setShowDrawer: Function;
     activeTodoId: string | undefined;
     setActiveTodoId: Function;
-    getTodo: (type: StatusType) => void;
-    handleEdit: Function;
-    refreshData: Function;
 }
 
 const TodoChainModal: React.FC<IProps> = (props) => {
-    const {
-        visible,
-        setShowDrawer,
-        activeTodoId,
-        setActiveTodoId,
-        getTodo,
-        handleEdit,
-        refreshData,
-    } = props;
+    const { visible, setShowDrawer, activeTodoId, setActiveTodoId } = props;
     const { theme } = useContext(ThemeContext);
+    const { refreshData } = useContext(TodoDataContext);
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
@@ -69,7 +60,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         refreshData();
         // 刷新外部，也要刷新 todo chain
         updateFlag();
-    }
+    };
 
     return (
         <Modal
@@ -107,9 +98,6 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                         <TodoItem
                                             key={item.todo_id}
                                             item={item}
-                                            getTodo={getTodo}
-                                            handleEdit={handleEdit}
-                                            refreshData={handleRefresh}
                                             showDoneIcon={false}
                                             isChain={true}
                                             showTodoChain={(
@@ -137,9 +125,6 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                 </h4>
                                 <TodoItem
                                     item={activeTodo}
-                                    getTodo={getTodo}
-                                    handleEdit={handleEdit}
-                                    refreshData={handleRefresh}
                                     showDoneIcon={false}
                                     isChain={true}
                                     showTodoChain={(todo_id: string) => {
@@ -161,9 +146,6 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                             <TodoItem
                                                 key={item.todo_id}
                                                 item={item}
-                                                getTodo={getTodo}
-                                                handleEdit={handleEdit}
-                                                refreshData={handleRefresh}
                                                 showDoneIcon={false}
                                                 isChain={true}
                                                 isChainNext={true}

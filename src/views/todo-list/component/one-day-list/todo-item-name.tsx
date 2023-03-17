@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import {
@@ -17,6 +17,8 @@ import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
+import { TodoEditContext } from "../../TodoEditContext";
+import { TodoDataContext } from "../../TodoDataContext";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -32,8 +34,6 @@ export const renderDescription = (str: string, keyword: string = "") => {
 
 interface NameProps {
     item: TodoItemType;
-    refreshData: Function;
-    handleEdit: Function;
     isChain?: boolean;
     placement?: TooltipPlacement;
 }
@@ -42,7 +42,14 @@ const today = dayjs().format("YYYY-MM-DD");
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
-    const { item, refreshData, handleEdit, isChain = false, placement } = props;
+    const {
+        item,
+        isChain = false,
+        placement,
+    } = props;
+
+    const { handleEdit } = useContext(TodoEditContext);
+    const { refreshData } = useContext(TodoDataContext);
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);
@@ -75,7 +82,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     </>
                 }
                 color="rgba(0,0,0,0.9)"
-                placement={placement || 'top'}
+                placement={placement || "top"}
             >
                 {props.children}
             </Tooltip>

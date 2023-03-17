@@ -5,20 +5,11 @@ import TodoChainModal from "../toto-chain-modal";
 
 interface Props {
     list: TodoItemType[];
-    getTodo: (type: StatusType) => void;
-    handleEdit: Function;
-    refreshData: Function;
     showDoneIcon?: boolean;
 }
 
 const OneDayList: React.FC<Props> = (props) => {
-    const {
-        list,
-        getTodo,
-        handleEdit,
-        refreshData,
-        showDoneIcon = false,
-    } = props;
+    const { list, showDoneIcon = false } = props;
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [activeTodoId, setActiveTodoId] = useState<string>();
@@ -30,9 +21,6 @@ const OneDayList: React.FC<Props> = (props) => {
                     <TodoItem
                         key={item.todo_id}
                         item={item}
-                        getTodo={getTodo}
-                        handleEdit={handleEdit}
-                        refreshData={refreshData}
                         showDoneIcon={showDoneIcon}
                         showTodoChain={(todo_id: string) => {
                             setActiveTodoId(todo_id);
@@ -46,9 +34,6 @@ const OneDayList: React.FC<Props> = (props) => {
                 setShowDrawer={setShowDrawer}
                 activeTodoId={activeTodoId}
                 setActiveTodoId={setActiveTodoId}
-                getTodo={getTodo}
-                handleEdit={handleEdit}
-                refreshData={refreshData}
             />
         </div>
     );
