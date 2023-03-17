@@ -53,7 +53,6 @@ export const TodoDataProvider: React.FC = (props) => {
                 const res = await getTodoList(req);
                 if (res) {
                     setBookMarkListOrigin(res.data.list);
-                    setBookMarkList(res.data.list);
                     setBookMarkLoading(false);
                 } else {
                     message.error("获取 todolist 失败");
@@ -70,7 +69,6 @@ export const TodoDataProvider: React.FC = (props) => {
                 const res = await getTodoList(req);
                 if (res) {
                     setTargetListOrigin(res.data.list);
-                    setTargetList(res.data.list);
                     setTargetLoading(false);
                 } else {
                     message.error("获取 todolist 失败");
@@ -98,12 +96,10 @@ export const TodoDataProvider: React.FC = (props) => {
                 if (res) {
                     if (type === "todo") {
                         setTodoListOrigin(res.data);
-                        setTodoList(res.data);
                         setTodoLoading(false);
                     }
                     if (type === "pool") {
                         setPoolListOrigin(res.data);
-                        setPoolList(res.data);
                         setPoolLoading(false);
                     }
                 } else {

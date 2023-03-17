@@ -76,6 +76,14 @@ const GlobalSearch = () => {
         }
     };
 
+    useEffect(() => {
+        if (!keyword || keyword === "") {
+            getOriginList();
+        } else {
+            getKeywordList();
+        }
+    }, [todoListOrigin, poolListOrigin, targetListOrigin, bookMarkListOrigin]);
+
     const getOriginList = () => {
         setTodoList(todoListOrigin);
         setPoolList(poolListOrigin);
