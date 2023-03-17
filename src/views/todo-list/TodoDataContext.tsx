@@ -204,11 +204,22 @@ export const TodoDataProvider: React.FC = (props) => {
             l = l.filter((item) => item.category === activeCategory);
         }
         if (keyword !== "") {
-            l = l.filter(
-                (item) =>
-                    item.name.includes(keyword) ||
-                    item.description.includes(keyword)
-            );
+            if (keyword.includes(" ")) {
+                const kList = keyword.split(" ");
+                l = l.filter((item) => {
+                    return kList.some(
+                        (key) =>
+                            item.name.includes(key) ||
+                            item.description.includes(key)
+                    );
+                });
+            } else {
+                l = l.filter(
+                    (item) =>
+                        item.name.includes(keyword) ||
+                        item.description.includes(keyword)
+                );
+            }
         }
         return l;
     };
