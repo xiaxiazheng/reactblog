@@ -58,27 +58,29 @@
             color: #52d19c;
         }
     }
+}
 
-    .name {
-        flex: 1;
+.name {
+    flex: 1;
+    display: inline-block;
+    cursor: pointer;
+    color: var(--color);
+    background: var(--bg_color);
+    &:hover {
+        color: #40a9ff;
+    }
+    span,
+    s {
+        vertical-align: middle;
+    }
+    .category {
         display: inline-block;
-        cursor: pointer;
-        &:hover {
-            color: #40a9ff;
-        }
-        span,
-        s {
-            vertical-align: middle;
-        }
-        .category {
-            display: inline-block;
-            margin-right: 5px;
-            padding: 0px 3px;
-            font-size: 12px;
-            color: white;
-            border-radius: 2px;
-            vertical-align: 1px;
-        }
+        margin-right: 5px;
+        padding: 0px 3px;
+        font-size: 12px;
+        color: white;
+        border-radius: 2px;
+        vertical-align: 1px;
     }
 }
 

@@ -32,21 +32,18 @@ export const renderDescription = (str: string, keyword: string = "") => {
     );
 };
 
+const today = dayjs().format("YYYY-MM-DD");
+
 interface NameProps {
     item: TodoItemType;
     isChain?: boolean;
     placement?: TooltipPlacement;
+    onlyShow?: boolean;
 }
-
-const today = dayjs().format("YYYY-MM-DD");
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
-    const {
-        item,
-        isChain = false,
-        placement,
-    } = props;
+    const { item, isChain = false, placement, onlyShow = false } = props;
 
     const { handleEdit } = useContext(TodoEditContext);
     const { refreshData } = useContext(TodoDataContext);
@@ -112,7 +109,10 @@ const TodoItemName: React.FC<NameProps> = (props) => {
 
     return (
         <ToolTipsWrapper>
-            <div className={styles.name} onClick={handleEdit.bind(null, item)}>
+            <div
+                className={styles.name}
+                onClick={() => !onlyShow && handleEdit(item)}
+            >
                 <span
                     className={styles.category}
                     style={{

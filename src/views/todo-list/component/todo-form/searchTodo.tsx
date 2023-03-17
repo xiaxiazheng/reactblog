@@ -88,7 +88,8 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             }}
             notFoundContent={null}
             allowClear
-            dropdownClassName={styles.selectOptions}
+            dropdownClassName={`${styles.selectOptions} darkTheme`}
+            dropdownStyle={{ background: "var(--bg_color)" }}
         >
             {options?.map((item) => {
                 return (
@@ -100,6 +101,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
                         <TodoItemName
                             item={item}
                             placement="left"
+                            onlyShow={true}
                         />
                     </Select.Option>
                 );
