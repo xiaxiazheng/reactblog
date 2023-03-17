@@ -66,10 +66,10 @@ const DoneList: React.FC<Props> = (props) => {
         }
     }, [isRefreshDone]);
 
-    const [startEndTime, setStartEndTime] = useState<any>();
+    const [startEndTime, setStartEndTime] = useState<any>(undefined);
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [keyword, setKeyword] = useState<string>();
+    const [keyword, setKeyword] = useState<string>('');
     const [pageNo, setPageNo] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(
         Number(localStorage.getItem("todoDonePageSize")) || 15
@@ -209,7 +209,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     setActiveCategory("");
                                     setActiveColor("");
                                     setKeyword("");
-                                    setStartEndTime(null);
+                                    setStartEndTime(undefined);
                                     setPageNo(1);
                                     setShowFilter(false);
                                 }}

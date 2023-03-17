@@ -1,94 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
-import {
-    CheckCircleOutlined,
-    PlayCircleOutlined,
-    SwapLeftOutlined,
-    SwapOutlined,
-    SwapRightOutlined,
-} from "@ant-design/icons";
+import { CheckCircleOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
-import { StatusType, TodoItemType, TodoStatus } from "../../types";
+import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import dayjs from "dayjs";
 import { TodoDataContext } from "../../TodoDataContext";
+import TodoChainIcon from "../todo-chain-icon";
 
 interface Props {
     item: TodoItemType;
     showDoneIcon?: boolean; // 控制已完成按钮
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
-    showTodoChain: (todo_id: string) => void;
 }
-
-const TodoChainIcon = (props: {
-    item: TodoItemType;
-    isChain?: boolean;
-    isChainNext?: boolean; // 是否是后续任务
-    showTodoChain: (todo_id: string) => void;
-}) => {
-    const { item, isChain, isChainNext, showTodoChain } = props;
-
-    const isHasChild = item?.child_todo_list_length !== 0;
-
-    // 在 todo 链路的展示中，前置的就不看了（因为已经找全了）
-    const isUp = item?.other_id && !isChain;
-    // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
-    const isDown = (() => {
-        if (!isChain || isChainNext) {
-            return isHasChild;
-        } else {
-            return isHasChild && item?.child_todo_list_length > 1;
-        }
-    })();
-
-    if (!isUp && !isDown) {
-        return null;
-    }
-    let Comp: any;
-
-    if (isUp && isDown) {
-        Comp = SwapOutlined;
-    } else if (isUp) {
-        Comp = SwapLeftOutlined;
-    } else {
-        Comp = SwapRightOutlined;
-    }
-
-    return (
-        <Tooltip
-            title={`查看 todo 链 ${
-                isDown ? `(后置任务数 ${item?.child_todo_list_length})` : ""
-            }`}
-        >
-            <Comp
-                className={styles.progressIcon}
-                style={{
-                    color: "#40a9ff",
-                }}
-                title="查看 todo 链"
-                onClick={() => {
-                    showTodoChain(
-                        isHasChild
-                            ? item.todo_id
-                            : item.other_id || item.todo_id
-                    );
-                }}
-            />
-        </Tooltip>
-    );
-};
 
 // 单条 todo 的渲染
 const TodoItem: React.FC<Props> = (props) => {
-    const {
-        item,
-        showDoneIcon,
-        isChain = false,
-        isChainNext = false,
-        showTodoChain,
-    } = props;
+    const { item, showDoneIcon, isChain = false, isChainNext = false } = props;
 
     const { getTodo } = useContext(TodoDataContext);
 
@@ -161,15 +91,11 @@ const TodoItem: React.FC<Props> = (props) => {
                             />
                         </Tooltip>
                     )}
-                    <TodoItemName
-                        item={item}
-                        isChain={isChain}
-                    />
+                    <TodoItemName item={item} isChain={isChain} />
                     <TodoChainIcon
                         item={item}
                         isChain={isChain}
                         isChainNext={isChainNext}
-                        showTodoChain={showTodoChain}
                     />
                 </span>
             </div>

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, Input, Radio, Space, Tooltip } from "antd";
+import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import OneDayList from "../component/one-day-list";
-import { StatusType, TodoItemType } from "../types";
-import { CalendarOutlined } from "@ant-design/icons";
+import { TodoItemType } from "../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 
 interface Props {
@@ -12,24 +11,13 @@ interface Props {
     title: string;
     sortKey: SortKeyMap;
     mapList: TodoItemType[];
-    // getTodo: (type: StatusType) => void;
-    // handleEdit: Function;
-    // refreshData: Function;
     showDoneIcon?: boolean;
-    showSearch?: boolean;
     btn?: any;
 }
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const {
-        loading,
-        title,
-        mapList,
-        showSearch = true,
-        showDoneIcon = false,
-        sortKey,
-    } = props;
+    const { loading, title, mapList, showDoneIcon = false, sortKey } = props;
 
     const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
 
@@ -50,8 +38,6 @@ const PoolList: React.FC<Props> = (props) => {
             .concat(l.filter((item) => item.doing !== "1"));
     };
 
-    const [keyword, setKeyword] = useState<string>();
-
     return (
         <div className={styles.list}>
             {loading && <Loading />}
@@ -60,13 +46,6 @@ const PoolList: React.FC<Props> = (props) => {
                     {title}({mapList.length})
                 </span>
                 <Space size={16}>
-                    {showSearch && (
-                        <Input
-                            value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
-                            allowClear
-                        />
-                    )}
                     {props.btn}
                     <SortBtn
                         isSortTime={isSortTime}
@@ -77,12 +56,7 @@ const PoolList: React.FC<Props> = (props) => {
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
                     <OneDayList
-                        list={getShowList(mapList).filter(
-                            (item) =>
-                                !keyword ||
-                                item.name.indexOf(keyword) !== -1 ||
-                                item.description.indexOf(keyword) !== -1
-                        )}
+                        list={getShowList(mapList)}
                         showDoneIcon={showDoneIcon}
                     />
                 </div>

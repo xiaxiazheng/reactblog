@@ -6,16 +6,18 @@ import TodoItem from "../one-day-list/todo-item";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
 import { TodoDataContext } from "../../TodoDataContext";
+import { TodoEditContext } from "../../TodoEditContext";
 
-interface IProps extends DrawerProps {
-    setShowDrawer: Function;
-    activeTodoId: string | undefined;
-    setActiveTodoId: Function;
-}
+interface IProps extends DrawerProps {}
 
 const TodoChainModal: React.FC<IProps> = (props) => {
-    const { visible, setShowDrawer, activeTodoId, setActiveTodoId } = props;
     const { theme } = useContext(ThemeContext);
+    const {
+        showChainModal: visible,
+        setShowChainModal,
+        chainId,
+        setChainId,
+    } = useContext(TodoEditContext);
     const { refreshData } = useContext(TodoDataContext);
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
@@ -24,13 +26,13 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (visible) {
-            if (activeTodoId) {
-                getTodoChain(activeTodoId);
+            if (chainId) {
+                getTodoChain(chainId);
             } else {
                 setTodoChainList([]);
             }
         }
-    }, [activeTodoId, visible, flag]);
+    }, [chainId, visible, flag]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -41,9 +43,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         setLoading(false);
     };
 
-    const activeTodo = todoChainList.find(
-        (item) => item.todo_id === activeTodoId
-    );
+    const activeTodo = todoChainList.find((item) => item.todo_id === chainId);
 
     const [keyword, setKeyword] = useState<string>();
 
@@ -75,7 +75,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 </Space>
             }
             visible={visible}
-            onCancel={() => setShowDrawer(false)}
+            onCancel={() => setShowChainModal(false)}
             footer={null}
             width={650}
         >
@@ -85,27 +85,19 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                         {/* 前置 */}
                         {handleFilter(
                             todoChainList.filter(
-                                (item) => item.todo_id !== activeTodoId
+                                (item) => item.todo_id !== chainId
                             )
                         )?.length !== 0 && (
                             <>
                                 <h4>前置：</h4>
                                 {todoChainList
-                                    .filter(
-                                        (item) => item.todo_id !== activeTodoId
-                                    )
+                                    .filter((item) => item.todo_id !== chainId)
                                     .map((item) => (
                                         <TodoItem
                                             key={item.todo_id}
                                             item={item}
                                             showDoneIcon={false}
                                             isChain={true}
-                                            showTodoChain={(
-                                                todo_id: string
-                                            ) => {
-                                                setActiveTodoId(todo_id);
-                                                setShowDrawer(true);
-                                            }}
                                         />
                                     ))}
                                 <Divider style={{ margin: "12px 0" }} />
@@ -127,10 +119,6 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                     item={activeTodo}
                                     showDoneIcon={false}
                                     isChain={true}
-                                    showTodoChain={(todo_id: string) => {
-                                        setActiveTodoId(todo_id);
-                                        setShowDrawer(true);
-                                    }}
                                 />
                             </>
                         )}
@@ -149,12 +137,6 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                                 showDoneIcon={false}
                                                 isChain={true}
                                                 isChainNext={true}
-                                                showTodoChain={(
-                                                    todo_id: string
-                                                ) => {
-                                                    setActiveTodoId(todo_id);
-                                                    setShowDrawer(true);
-                                                }}
                                             />
                                         </div>
                                     )

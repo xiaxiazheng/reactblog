@@ -20,6 +20,10 @@ interface ContextType {
     form: FormInstance<any>;
     showEdit: boolean;
     setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
+    showChainModal: boolean;
+    setShowChainModal: React.Dispatch<React.SetStateAction<boolean>>;
+    chainId: string;
+    setChainId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const TodoEditContext = createContext({} as ContextType);
@@ -79,7 +83,9 @@ export const TodoEditProvider: React.FC = (props) => {
         }
     }, [activeTodo]);
 
-
+    // chain 相关
+    const [showChainModal, setShowChainModal] = useState<boolean>(false);
+    const [chainId, setChainId] = useState<string>('');
 
     return (
         <TodoEditContext.Provider
@@ -95,6 +101,10 @@ export const TodoEditProvider: React.FC = (props) => {
                 setShowEdit,
                 flag,
                 setFlag,
+                showChainModal,
+                setShowChainModal,
+                chainId,
+                setChainId,
             }}
         >
             {props.children}

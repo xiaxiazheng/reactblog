@@ -27,7 +27,6 @@ interface Props {
     sortKey: SortKeyMap;
     getTodo: (type: StatusType) => void;
     showAdd?: boolean;
-    showRefresh?: boolean; // 是否展示刷新按钮
     showDoneIcon?: boolean; // 是否展示快捷完成 icon
 }
 
@@ -39,13 +38,9 @@ const List: React.FC<Props> = (props) => {
         mapList,
         getTodo,
         showAdd = false,
-        showRefresh = false,
         showDoneIcon = false,
         sortKey,
     } = props;
-
-    const { handleAdd } = useContext(TodoEditContext);
-    const { refreshData } = useContext(TodoDataContext);
 
     const today = moment().format("YYYY-MM-DD");
 
@@ -112,24 +107,10 @@ const List: React.FC<Props> = (props) => {
                 <span className={styles.active}>
                     {title}({total})
                 </span>
-                <Space size={16}>
-                    <SortBtn
-                        isSortTime={isSortTime}
-                        setIsSortTime={setIsSortTime}
-                    />
-                    {showRefresh && (
-                        // 刷新按钮
-                        <Button onClick={() => refreshData()} type="primary">
-                            <RedoOutlined />
-                        </Button>
-                    )}
-                    {showAdd && (
-                        <Button onClick={() => handleAdd()}>
-                            <PlusOutlined />
-                            todo
-                        </Button>
-                    )}
-                </Space>
+                <SortBtn
+                    isSortTime={isSortTime}
+                    setIsSortTime={setIsSortTime}
+                />
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(mapList)

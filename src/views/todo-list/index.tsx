@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, Drawer, Input, Space, Tooltip } from "antd";
+import { Button, Drawer, Space, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "./utils";
 import List from "./list";
 import DoneList from "./done-list";
@@ -8,7 +8,7 @@ import PoolList from "./pool-list";
 import moment from "moment";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
-import { TodoItemType, TodoStatus } from "./types";
+import { TodoStatus } from "./types";
 import {
     AimOutlined,
     ArrowLeftOutlined,
@@ -22,84 +22,8 @@ import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
 import TodoNote from "./todo-note";
 import { TodoDataContext, TodoDataProvider } from "./TodoDataContext";
-
-const GlobalSearch = () => {
-    const {
-        setTodoList,
-        setPoolList,
-        setTargetList,
-        setBookMarkList,
-        todoListOrigin,
-        poolListOrigin,
-        targetListOrigin,
-        bookMarkListOrigin,
-    } = useContext(TodoDataContext);
-
-    // 搜索相关
-    const [keyword, setKeyword] = useState<string>();
-    useEffect(() => {
-        if (!keyword || keyword === "") {
-            getOriginList();
-        }
-    }, [keyword]);
-
-    const getKeywordList = () => {
-        if (keyword && keyword !== "") {
-            setTodoList(
-                todoListOrigin.filter(
-                    (item: TodoItemType) =>
-                        item.name.indexOf(keyword) !== -1 ||
-                        item.description.indexOf(keyword) !== -1
-                )
-            );
-            setPoolList(
-                poolListOrigin.filter(
-                    (item: TodoItemType) =>
-                        item.name.indexOf(keyword) !== -1 ||
-                        item.description.indexOf(keyword) !== -1
-                )
-            );
-            setTargetList(
-                targetListOrigin.filter(
-                    (item: TodoItemType) =>
-                        item.name.indexOf(keyword) !== -1 ||
-                        item.description.indexOf(keyword) !== -1
-                )
-            );
-            setBookMarkList(
-                bookMarkListOrigin.filter(
-                    (item: TodoItemType) =>
-                        item.name.indexOf(keyword) !== -1 ||
-                        item.description.indexOf(keyword) !== -1
-                )
-            );
-        }
-    };
-
-    useEffect(() => {
-        if (!keyword || keyword === "") {
-            getOriginList();
-        } else {
-            getKeywordList();
-        }
-    }, [todoListOrigin, poolListOrigin, targetListOrigin, bookMarkListOrigin]);
-
-    const getOriginList = () => {
-        setTodoList(todoListOrigin);
-        setPoolList(poolListOrigin);
-        setTargetList(targetListOrigin);
-        setBookMarkList(bookMarkListOrigin);
-    };
-
-    return (
-        <Input
-            placeholder="全局搜索"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onPressEnter={() => getKeywordList()}
-        />
-    );
-};
+import GlobalSearch from "./component/global-search";
+import TodoChainModal from "./component/toto-chain-modal";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -148,79 +72,74 @@ const TodoList: React.FC = () => {
                             mapList={formatArrayToTimeMap(
                                 todoList.filter((item) => item.time > today)
                             )}
-                            // refreshData={refreshData}
                         />
                     </div>
                     {/* 待办 */}
-                    <div className={`${styles.box2} ScrollBar`}>
-                        <List
-                            loading={todoLoading}
-                            getTodo={getTodo}
-                            sortKey={SortKeyMap.todo}
-                            title={
-                                <>
-                                    今日待办{" "}
-                                    <Tooltip
-                                        title={
-                                            <>
-                                                <div>
-                                                    <AimOutlined
-                                                        style={{
-                                                            marginRight: 5,
-                                                            color: "#ffeb3b",
-                                                        }}
-                                                    />
-                                                    这个是目标
-                                                </div>
-                                                <div>
-                                                    <BookOutlined
-                                                        style={{
-                                                            marginRight: 5,
-                                                            color: "#ffeb3b",
-                                                        }}
-                                                    />
-                                                    这个是已存档
-                                                </div>
-                                                <div>
-                                                    <StarFilled
-                                                        style={{
-                                                            marginRight: 5,
-                                                            color: "#ffeb3b",
-                                                        }}
-                                                    />
-                                                    这个是书签
-                                                </div>
-                                                <div>
-                                                    整个 title
-                                                    变黄，是指现在处理。
-                                                </div>
-                                            </>
-                                        }
-                                        placement="bottom"
-                                    >
-                                        <QuestionCircleOutlined
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                    </Tooltip>{" "}
-                                </>
-                            }
-                            mapList={formatArrayToTimeMap(
-                                todoList.filter(
-                                    (item) =>
-                                        item.time <= today &&
-                                        item.isTarget !== "1"
-                                )
-                            )}
-                            // refreshData={refreshData}
-                            showAdd={true}
-                            showRefresh={true}
-                            showDoneIcon={true}
-                        />
-                    </div>
-                    {/* 已完成 */}
-                    <div className={`${styles.box3}`}>
+                    <div className={`${styles.box2}`}>
+                        <div className="ScrollBar">
+                            <List
+                                loading={todoLoading}
+                                getTodo={getTodo}
+                                sortKey={SortKeyMap.todo}
+                                title={
+                                    <>
+                                        今日待办{" "}
+                                        <Tooltip
+                                            title={
+                                                <>
+                                                    <div>
+                                                        <AimOutlined
+                                                            style={{
+                                                                marginRight: 5,
+                                                                color: "#ffeb3b",
+                                                            }}
+                                                        />
+                                                        这个是目标
+                                                    </div>
+                                                    <div>
+                                                        <BookOutlined
+                                                            style={{
+                                                                marginRight: 5,
+                                                                color: "#ffeb3b",
+                                                            }}
+                                                        />
+                                                        这个是已存档
+                                                    </div>
+                                                    <div>
+                                                        <StarFilled
+                                                            style={{
+                                                                marginRight: 5,
+                                                                color: "#ffeb3b",
+                                                            }}
+                                                        />
+                                                        这个是书签
+                                                    </div>
+                                                    <div>
+                                                        整个 title
+                                                        变黄，是指现在处理。
+                                                    </div>
+                                                </>
+                                            }
+                                            placement="bottom"
+                                        >
+                                            <QuestionCircleOutlined
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                        </Tooltip>{" "}
+                                    </>
+                                }
+                                mapList={formatArrayToTimeMap(
+                                    todoList.filter(
+                                        (item) =>
+                                            item.time <= today &&
+                                            item.isTarget !== "1"
+                                    )
+                                )}
+                                showAdd={true}
+                                showDoneIcon={true}
+                            />
+                        </div>
                         <Space>
-                            <GlobalSearch />
                             <Button
                                 type="primary"
                                 onClick={() => {
@@ -237,14 +156,16 @@ const TodoList: React.FC = () => {
                             >
                                 存档
                             </Button>
+                            <GlobalSearch />
                         </Space>
-                        <div className="ScrollBar">
-                            <DoneList
-                                title="已完成"
-                                key="done"
-                                sortKey={SortKeyMap.done}
-                            />
-                        </div>
+                    </div>
+                    {/* 已完成 */}
+                    <div className={`${styles.box3} ScrollBar`}>
+                        <DoneList
+                            title="已完成"
+                            key="done"
+                            sortKey={SortKeyMap.done}
+                        />
                     </div>
                     {/* 待办池 */}
                     <div className={`${styles.box4} ScrollBar`}>
@@ -262,7 +183,6 @@ const TodoList: React.FC = () => {
                             loading={targetLoading}
                             sortKey={SortKeyMap.target}
                             title="目标"
-                            showSearch={false}
                             btn={
                                 <>
                                     <Button
@@ -338,6 +258,8 @@ const TodoList: React.FC = () => {
             </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal />
+            {/* todo chain modal */}
+            <TodoChainModal />
             {/* 打卡详情 */}
             {/* <PunchTheClockModal
                 visible={showPunchTheClock}
@@ -352,7 +274,7 @@ const TodoList: React.FC = () => {
                           )
                         : undefined
                 }
-                refreshData={refreshData}
+    
             /> */}
         </div>
     );
