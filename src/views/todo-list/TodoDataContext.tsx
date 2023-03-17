@@ -212,14 +212,12 @@ export const TodoDataProvider: React.FC = (props) => {
         return l;
     };
 
-    const debounceGetDone = debounce(() => getTodo("done"), 50);
-
     const handleSearch = (str: string) => {
         setKeyword(str);
         setTodoList(getFilterList(todoListOrigin, str));
         setPoolList(getFilterList(poolListOrigin, str));
         setTargetList(getFilterList(targetListOrigin, str));
-        debounceGetDone();
+        getTodo("done");
     };
 
     useEffect(() => {
@@ -239,12 +237,7 @@ export const TodoDataProvider: React.FC = (props) => {
     // 第一次会跑
     useEffect(() => {
         handleSearch(keyword);
-    }, [activeColor, activeCategory, startEndTime]);
-
-    // 第一次不跑
-    useUpdateEffect(() => {
-        debounceGetDone();
-    }, [pageNo, pageSize]);
+    }, [activeColor, activeCategory, startEndTime, pageNo, pageSize]);
 
     return (
         <TodoDataContext.Provider
