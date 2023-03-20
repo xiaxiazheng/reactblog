@@ -9,6 +9,7 @@ export enum SortKeyMap {
     pool,
     target,
     bookmark,
+    footprint,
 }
 
 export const useIsSortTime = (key?: string) => {

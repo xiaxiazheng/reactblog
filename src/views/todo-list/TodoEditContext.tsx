@@ -2,6 +2,7 @@ import moment from "moment";
 import React, { createContext, useEffect, useState } from "react";
 import { OperatorType, TodoItemType, TodoStatus } from "./types";
 import { Form, FormInstance } from "antd";
+import { setFootPrintList } from "./todo-footprint";
 
 interface ContextType {
     flag: number;
@@ -55,6 +56,9 @@ export const TodoEditProvider: React.FC = (props) => {
     };
 
     const handleEdit = (item: TodoItemType) => {
+        // 保存足迹
+        setFootPrintList(item.todo_id);
+
         setActiveTodo(item);
         // if (item.isTarget === "1" && !!item.timeRange) {
         //     // setShowPunchTheClock(true);
@@ -85,7 +89,7 @@ export const TodoEditProvider: React.FC = (props) => {
 
     // chain 相关
     const [showChainModal, setShowChainModal] = useState<boolean>(false);
-    const [chainId, setChainId] = useState<string>('');
+    const [chainId, setChainId] = useState<string>("");
 
     return (
         <TodoEditContext.Provider

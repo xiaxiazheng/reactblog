@@ -24,6 +24,7 @@ import TodoNote from "./todo-note";
 import { TodoDataContext, TodoDataProvider } from "./TodoDataContext";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
+import TodoFootPrint from "./todo-footprint";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -46,6 +47,10 @@ const TodoList: React.FC = () => {
 
     // 打卡相关
     const [showPunchTheClock, setShowPunchTheClock] = useState<boolean>(false);
+
+    // 足迹相关
+    const [showFootprintDrawer, setShowFootprintDrawer] =
+        useState<boolean>(false);
 
     // 书签抽屉
     const [showBookMarkDrawer, setShowBookMarkDrawer] =
@@ -158,6 +163,14 @@ const TodoList: React.FC = () => {
                                 >
                                     存档
                                 </Button>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        setShowFootprintDrawer(true);
+                                    }}
+                                >
+                                    足迹
+                                </Button>
                             </Space>
                         </GlobalSearch>
                         <div className="ScrollBar">
@@ -219,9 +232,9 @@ const TodoList: React.FC = () => {
             </div>
             <div
                 className={styles.bookMark}
-                onMouseEnter={() => setShowBookMarkDrawer(true)}
+                onMouseEnter={() => setShowFootprintDrawer(true)}
                 onClick={() => {
-                    setShowBookMarkDrawer(true);
+                    setShowFootprintDrawer(true);
                 }}
             >
                 <ArrowLeftOutlined />
@@ -256,6 +269,18 @@ const TodoList: React.FC = () => {
                 width="900px"
             >
                 <TodoNote />
+            </Drawer>
+            {/* todo 足迹展示的抽屉 */}
+            <Drawer
+                closable={false}
+                className={`${styles.bookMarkDrawer} ${
+                    theme === "dark" ? "darkTheme" : ""
+                }`}
+                visible={showFootprintDrawer}
+                onClose={() => setShowFootprintDrawer(false)}
+                width="600px"
+            >
+                <TodoFootPrint visible={showFootprintDrawer} />
             </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal />

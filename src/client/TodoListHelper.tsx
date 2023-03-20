@@ -7,6 +7,11 @@ export async function getTodoList(params: any): Promise<any> {
     return data && data.resultsCode === "success" ? data : false;
 }
 
+export async function getTodoByIdList(params: any): Promise<any> {
+    const data = await postHelper(`/todo/getTodoByIdList`, params);
+    return data && data.resultsCode === "success" ? data : false;
+}
+
 /** 获取类别 */
 export async function getTodoCategory(params?: {
     isNote?: string;
