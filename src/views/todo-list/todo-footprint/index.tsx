@@ -33,8 +33,10 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
     const getData = async () => {
         setLoading(true);
         const todoIdList = getFootPrintList();
-        const res = await getTodoByIdList({ todoIdList });
-        setList(res.data);
+        if (todoIdList.length !== 0) {
+            const res = await getTodoByIdList({ todoIdList });
+            res && setList(res.data);
+        }
         setLoading(false);
     };
 
