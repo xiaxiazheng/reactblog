@@ -11,14 +11,17 @@ interface IProps {
 
 const key = "todo_footprint_id_list";
 
-export const getFootPrintList = () => {
+export const getFootPrintList = (): string[] => {
     const str = localStorage.getItem(key);
     return str ? JSON.parse(str) : [];
 };
 
 export const setFootPrintList = (id: string) => {
     const list = getFootPrintList();
-    localStorage.setItem(key, JSON.stringify([id].concat(list.slice(0, 15))));
+    localStorage.setItem(
+        key,
+        JSON.stringify(Array.from(new Set([id].concat(list.slice(0, 15)))))
+    );
 };
 
 const TodoFootPrint: React.FC<IProps> = (props) => {
@@ -35,7 +38,14 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
         const todoIdList = getFootPrintList();
         if (todoIdList.length !== 0) {
             const res = await getTodoByIdList({ todoIdList });
-            res && setList(res.data);
+            res &&
+                setList(
+                    res.data.sort(
+                        (a: TodoItemType, b: TodoItemType) =>
+                            todoIdList.findIndex((item) => item === a.todo_id) -
+                            todoIdList.findIndex((item) => item === b.todo_id)
+                    )
+                );
         }
         setLoading(false);
     };

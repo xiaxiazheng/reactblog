@@ -56,9 +56,6 @@ export const TodoEditProvider: React.FC = (props) => {
     };
 
     const handleEdit = (item: TodoItemType) => {
-        // 保存足迹
-        setFootPrintList(item.todo_id);
-
         setActiveTodo(item);
         // if (item.isTarget === "1" && !!item.timeRange) {
         //     // setShowPunchTheClock(true);
@@ -84,6 +81,9 @@ export const TodoEditProvider: React.FC = (props) => {
                 isTarget: item.isTarget,
                 isBookMark: item.isBookMark,
             });
+
+            // 保存足迹
+            setFootPrintList(item.todo_id);
         }
     }, [activeTodo]);
 

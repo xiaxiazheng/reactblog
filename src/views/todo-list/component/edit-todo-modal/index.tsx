@@ -80,7 +80,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 // 刷新完要清空
                 needFresh.current = [];
             }
-            updateFlag();
+            updateFlag(); // 刷新 todo chain
         }
         handleCloseBackUp();
     };
