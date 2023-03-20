@@ -36,7 +36,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
     const getTodoChain = async (todo_id: string) => {
         setLoading(true);
         const res = await getTodoChainById(todo_id);
-        setTodoChainList(res.data.reverse());
+        setTodoChainList(res.data);
         setLoading(false);
     };
 
