@@ -5,6 +5,15 @@
         margin-top: 10px;
         margin-right: 10px;
     }
+
+    :global {
+        .ant-radio-button-wrapper {
+            background-color: #001529;
+        }
+        .ant-radio-button-wrapper-checked {
+            color: white !important;
+        }
+    }
 }
 
 .search {
@@ -14,4 +23,48 @@
     width: 100%;
     background: var(--bg_color);
     color: var(--color);
+}
+
+
+.color {
+    &.zero {
+        :global {
+            .ant-radio-button-checked {
+                background-color: #f5222d;
+                border-color: #f5222d;
+            }
+        }
+    }
+    &.one {
+        :global {
+            .ant-radio-button-checked {
+                background-color: #fa8c16;
+                border-color: #fa8c16;
+            }
+        }
+    }
+    &.two {
+        :global {
+            .ant-radio-button-checked {
+                background-color: #40a9ff;
+                border-color: #40a9ff;
+            }
+        }
+    }
+    &.three {
+        :global {
+            .ant-radio-button-checked {
+                background-color: #827e7e;
+                border-color: #827e7e;
+            }
+        }
+    }
+    &.minusOne {
+        :global {
+            .ant-radio-button-checked {
+                background-color: #00d4d8;
+                border-color: #00d4d8;
+            }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, DatePicker, Input, Select, Space } from "antd";
+import { Button, DatePicker, Input, Radio, Select, Space } from "antd";
 import { TodoItemType } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { TodoDataContext } from "../../TodoDataContext";
@@ -30,27 +30,33 @@ const GlobalSearch: React.FC = (props) => {
             <div className={styles.filterWrapper}>
                 <div>
                     <span>轻重：</span>
-                    <Select
+                    <Radio.Group
+                        optionType="button"
+                        buttonStyle="solid"
                         value={activeColor}
-                        onChange={(val) => setActiveColor(val)}
-                        allowClear
-                        style={{ width: 120 }}
                     >
-                        <Select.Option key="所有" value="">
-                            所有
-                        </Select.Option>
                         {colorList.map((item) => (
-                            <Select.Option
+                            <Radio.Button
                                 key={item}
                                 value={item}
-                                style={{
-                                    color: colorMap[item],
-                                }}
+                                onClick={() =>
+                                    setActiveColor(
+                                        activeColor === item ? "" : item
+                                    )
+                                }
+                                style={{ color: colorMap[item] }}
+                                className={`${styles.color} ${
+                                    item === "0" ? styles.zero : ""
+                                }${item === "1" ? styles.one : ""}${
+                                    item === "2" ? styles.two : ""
+                                }${item === "3" ? styles.three : ""}${
+                                    item === "-1" ? styles.minusOne : ""
+                                }`}
                             >
                                 {colorNameMap[item]}
-                            </Select.Option>
+                            </Radio.Button>
                         ))}
-                    </Select>
+                    </Radio.Group>
                 </div>
                 <div>
                     <span>类别：</span>
