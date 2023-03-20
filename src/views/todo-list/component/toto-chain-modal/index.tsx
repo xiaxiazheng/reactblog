@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Divider, DrawerProps, Input, Modal, Space, Spin } from "antd";
 import { getTodoChainById } from "@/client/TodoListHelper";
-import { StatusType, TodoItemType } from "../../types";
+import { TodoItemType } from "../../types";
 import TodoItem from "../one-day-list/todo-item";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
-import { TodoDataContext } from "../../TodoDataContext";
 import { TodoEditContext } from "../../TodoEditContext";
 
 interface IProps extends DrawerProps {}
@@ -16,13 +15,11 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         showChainModal: visible,
         setShowChainModal,
         chainId,
-        setChainId,
     } = useContext(TodoEditContext);
-    const { refreshData } = useContext(TodoDataContext);
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
-    const { flag, updateFlag } = useUpdateFlag();
+    const { flag } = useUpdateFlag();
 
     useEffect(() => {
         if (visible) {
@@ -54,12 +51,6 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 item.name.indexOf(keyword) !== -1 ||
                 item.description.indexOf(keyword) !== -1
         );
-    };
-
-    const handleRefresh = () => {
-        refreshData();
-        // 刷新外部，也要刷新 todo chain
-        updateFlag();
     };
 
     return (
