@@ -66,6 +66,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 </Space>
             }
             visible={visible}
+            destroyOnClose
             onCancel={() => setShowChainModal(false)}
             footer={null}
             width={650}
