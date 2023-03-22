@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { SortKeyMap } from "../component/sort-btn";
 import PoolList from "../pool-list";
 import { TodoItemType } from "../types";
+import dayjs from "dayjs";
 
 interface IProps {
     visible: boolean;
@@ -11,17 +12,25 @@ interface IProps {
 
 const key = "todo_footprint_id_list";
 
-export const getFootPrintList = (): string[] => {
+interface FootprintType {
+    todo_id: string;
+    edit_time: string;
+}
+
+export const getFootPrintList = (): FootprintType[] => {
     const str = localStorage.getItem(key);
     return str ? JSON.parse(str) : [];
 };
 
-export const setFootPrintList = (id: string) => {
+export const setFootPrintList = (todo_id: string) => {
     const list = getFootPrintList();
-    localStorage.setItem(
-        key,
-        JSON.stringify(Array.from(new Set([id].concat(list.slice(0, 15)))))
-    );
+    const l = [
+        {
+            todo_id,
+            edit_time: dayjs().format("YYYY-MM-DD HH-mm-ss"),
+        },
+    ].concat(list.filter((item) => item.todo_id !== todo_id));
+    localStorage.setItem(key, JSON.stringify(l));
 };
 
 const TodoFootPrint: React.FC<IProps> = (props) => {
@@ -35,15 +44,19 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
 
     const getData = async () => {
         setLoading(true);
-        const todoIdList = getFootPrintList();
-        if (todoIdList.length !== 0) {
-            const res = await getTodoByIdList({ todoIdList });
+        const list = getFootPrintList();
+        if (list.length !== 0) {
+            const res = await getTodoByIdList({
+                todoIdList: list.map((item) => item.todo_id),
+            });
             res &&
                 setList(
                     res.data.sort(
                         (a: TodoItemType, b: TodoItemType) =>
-                            todoIdList.findIndex((item) => item === a.todo_id) -
-                            todoIdList.findIndex((item) => item === b.todo_id)
+                            list.findIndex(
+                                (item) => item.todo_id === a.todo_id
+                            ) -
+                            list.findIndex((item) => item.todo_id === b.todo_id)
                     )
                 );
         }
