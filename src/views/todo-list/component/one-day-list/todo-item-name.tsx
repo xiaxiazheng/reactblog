@@ -18,7 +18,6 @@ import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import { TodoEditContext } from "../../TodoEditContext";
-import { TodoDataContext } from "../../TodoDataContext";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -29,6 +28,47 @@ export const renderDescription = (str: string, keyword: string = "") => {
                 </div>
             ))}
         </div>
+    );
+};
+
+const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement">> = (
+    props
+) => {
+    const { item, placement } = props;
+
+    return item.description ||
+        (item.imgList && item.imgList.length !== 0) ||
+        (item.fileList && item.fileList.length !== 0) ? (
+        <Tooltip
+            overlayClassName={styles.tooltip}
+            title={
+                <>
+                    {item.description && renderDescription(item.description)}
+                    {item.imgList && item.imgList.length !== 0 && (
+                        <ImageListBox
+                            type="todo"
+                            refresh={() => {}}
+                            width="120px"
+                            imageList={item.imgList}
+                        />
+                    )}
+                    {item.fileList && item.fileList.length !== 0 && (
+                        <FileListBox
+                            type="todo"
+                            refresh={() => {}}
+                            width="120px"
+                            fileList={item.fileList}
+                        />
+                    )}
+                </>
+            }
+            color="rgba(0,0,0,0.9)"
+            placement={placement || "top"}
+        >
+            {props.children}
+        </Tooltip>
+    ) : (
+        <>{props.children}</>
     );
 };
 
@@ -46,47 +86,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, isShowTime = false, placement, onlyShow = false } = props;
 
     const { handleEdit } = useContext(TodoEditContext);
-    const { refreshData } = useContext(TodoDataContext);
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);
-
-    const ToolTipsWrapper: React.FC = (props) => {
-        return item.description ||
-            (item.imgList && item.imgList.length !== 0) ||
-            (item.fileList && item.fileList.length !== 0) ? (
-            <Tooltip
-                title={
-                    <>
-                        {item.description &&
-                            renderDescription(item.description)}
-                        {item.imgList && item.imgList.length !== 0 && (
-                            <ImageListBox
-                                type="todo"
-                                refresh={refreshData}
-                                width="120px"
-                                imageList={item.imgList}
-                            />
-                        )}
-                        {item.fileList && item.fileList.length !== 0 && (
-                            <FileListBox
-                                type="todo"
-                                refresh={refreshData}
-                                width="120px"
-                                fileList={item.fileList}
-                            />
-                        )}
-                    </>
-                }
-                color="rgba(0,0,0,0.9)"
-                placement={placement || "top"}
-            >
-                {props.children}
-            </Tooltip>
-        ) : (
-            <>{props.children}</>
-        );
-    };
 
     const getName = () => {
         return (
@@ -110,7 +112,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     };
 
     return (
-        <ToolTipsWrapper>
+        <ToolTipsWrapper item={item} placement={placement}>
             <div
                 className={styles.name}
                 onClick={() => !onlyShow && handleEdit(item)}
