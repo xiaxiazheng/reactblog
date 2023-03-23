@@ -24,6 +24,9 @@ interface FootprintType {
     edit_time: string;
 }
 
+const showLength = 15;
+const maxLength = 50;
+
 export const getFootPrintList = (): FootprintType[] => {
     const str = localStorage.getItem(key);
     return str ? JSON.parse(str) : [];
@@ -36,7 +39,9 @@ export const setFootPrintList = (todo_id: string) => {
             todo_id,
             edit_time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         },
-    ].concat(list.filter((item) => item.todo_id !== todo_id));
+    ]
+        .concat(list.filter((item) => item.todo_id !== todo_id))
+        .slice(0, maxLength);
     localStorage.setItem(key, JSON.stringify(l));
 };
 
@@ -60,8 +65,12 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
         setLoading(true);
         const list = getFootPrintList();
         if (list.length !== 0) {
+            const todoIdList = list
+                .slice(0, isShowAll ? maxLength : showLength)
+                .map((item) => item.todo_id);
+
             const res = await getTodoByIdList({
-                todoIdList: list.map((item) => item.todo_id),
+                todoIdList,
             });
             if (res) {
                 const map = transferToMap(list);
@@ -93,11 +102,27 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
         return dayjs(time).isSame(dayjs(), "d") ? time.split(" ")?.[1] : time;
     };
 
+    const [isShowAll, setIsShowAll] = useState<boolean>(false);
+    useEffect(() => {
+        getData();
+    }, [isShowAll]);
+
+    const total = getFootPrintList()?.length;
+
     return (
-        <div>
+        <div className="ScrollBar">
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>足迹 ({list.length})</span>
+                <span>足迹 ({total})</span>
+                {total > showLength && (
+                    <Button
+                        className={styles.showAll}
+                        onClick={() => setIsShowAll((prev) => !prev)}
+                        type={isShowAll ? "primary" : "default"}
+                    >
+                        show All (max: {isShowAll ? maxLength : showLength})
+                    </Button>
+                )}
             </div>
             <Space className={styles.content} direction="vertical" size={10}>
                 {list?.map((item) => {
