@@ -343,6 +343,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         return false;
     };
 
+    console.log('activeTodo', activeTodo)
+
     return (
         <>
             <Modal
