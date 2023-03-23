@@ -54,12 +54,14 @@ const transferToMap = (list: FootprintType[]) => {
 
 const TodoFootPrint: React.FC<IProps> = (props) => {
     const { visible } = props;
-    useEffect(() => {
-        visible && getData();
-    }, [visible]);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [list, setList] = useState<NewTodoItemType[]>([]);
+    const [isShowAll, setIsShowAll] = useState<boolean>(false);
+
+    useEffect(() => {
+        visible && getData();
+    }, [visible, isShowAll]);
 
     const getData = async () => {
         setLoading(true);
@@ -73,6 +75,7 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
                 todoIdList,
             });
             if (res) {
+                // 把 edit_time 放进 todoItem 里，用于下面展示
                 const map = transferToMap(list);
                 const l: NewTodoItemType[] = res.data.map(
                     (item: TodoItemType) => {
@@ -98,14 +101,10 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
         setLoading(false);
     };
 
+    // 如果是今天的，就不展示日期，只展示时间
     const handleTime = (time: string) => {
         return dayjs(time).isSame(dayjs(), "d") ? time.split(" ")?.[1] : time;
     };
-
-    const [isShowAll, setIsShowAll] = useState<boolean>(false);
-    useEffect(() => {
-        getData();
-    }, [isShowAll]);
 
     const total = getFootPrintList()?.length;
 
