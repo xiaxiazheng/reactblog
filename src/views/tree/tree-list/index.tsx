@@ -102,7 +102,7 @@ const TreeMenu: React.FC<PropsType> = (props) => {
         const getTreeCont = async (id: string) => {
             const res = await getNodeCont(id);
             dataList = dataList.concat(res);
-            console.log(dataList);
+            // console.log(dataList);
         };
 
         idList.forEach((id: string) => {
@@ -233,7 +233,7 @@ const TreeMenu: React.FC<PropsType> = (props) => {
     const handleKeyword = (e: any) => {
         setKeyword(e.target.value);
         let keyword = e.target.value.toLowerCase();
-        console.log("originTreeList", originTreeList);
+        // console.log("originTreeList", originTreeList);
 
         // 搜第一层
         let list = originTreeList.map((item: any) => {

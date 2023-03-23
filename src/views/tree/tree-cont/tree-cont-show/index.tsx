@@ -172,186 +172,186 @@ const TreeContShow: React.FC<PropsType> = (props) => {
     const [visible, setVisible] = useState<boolean>(false);
 
     // 迁移到 todo，连着图片一起迁移
-    const transferToTodo = () => {
-        const contSum = contList?.length || 0;
-        const imgSum = contList?.reduce((prev: any, cur: any) => {
-            prev += cur.imgList.length;
-            return prev;
-        }, 0);
-        console.log("cont 数量, ", contSum);
-        console.log("图片数量，", imgSum);
-        let imgErrorCount = 0;
-        let imgDoneCount = 0;
-        let contDoneCount = 0;
+    // const transferToTodo = () => {
+    //     const contSum = contList?.length || 0;
+    //     const imgSum = contList?.reduce((prev: any, cur: any) => {
+    //         prev += cur.imgList.length;
+    //         return prev;
+    //     }, 0);
+    //     console.log("cont 数量, ", contSum);
+    //     console.log("图片数量，", imgSum);
+    //     let imgErrorCount = 0;
+    //     let imgDoneCount = 0;
+    //     let contDoneCount = 0;
 
-        contList.forEach((item) => {
-            item.imgList = item.imgList.map((i) => {
-                return {
-                    ...i,
-                    imgUrl: `${staticUrl}/img/treecont/${i.filename}`,
-                };
-            });
-        });
+    //     contList.forEach((item) => {
+    //         item.imgList = item.imgList.map((i) => {
+    //             return {
+    //                 ...i,
+    //                 imgUrl: `${staticUrl}/img/treecont/${i.filename}`,
+    //             };
+    //         });
+    //     });
 
-        const addTodo = async (item: any) => {
-            const req: CreateTodoItemReq = {
-                name: `${treeContTitle}，${item.title}`,
-                time: moment(item.cTime).format("YYYY-MM-DD"),
-                status: TodoStatus.done,
-                description: item.cont.replaceAll("<br/>", "\n\n") || "",
-                color: "2",
-                category: "diary",
-                other_id: "",
-                doing: "0",
-                isNote: "0",
-                isTarget: "0",
-                isBookMark: "0",
-            };
-            const res = await addTodoItem(req);
-            if (res) {
-                contDoneCount++;
-                console.log("contDoneCount", contDoneCount, "/", contSum);
-                contSum === contDoneCount && console.log("cont 完成");
-                const other_id = res.data.newTodoItem.todo_id;
-                item.imgList?.forEach((img: any) => {
-                    runFive(() =>
-                        handleUploadImage(img.imgUrl, other_id, img.imgname)
-                    );
-                });
-            }
-        };
+    //     const addTodo = async (item: any) => {
+    //         const req: CreateTodoItemReq = {
+    //             name: `${treeContTitle}，${item.title}`,
+    //             time: moment(item.cTime).format("YYYY-MM-DD"),
+    //             status: TodoStatus.done,
+    //             description: item.cont.replaceAll("<br/>", "\n\n") || "",
+    //             color: "2",
+    //             category: "diary",
+    //             other_id: "",
+    //             doing: "0",
+    //             isNote: "0",
+    //             isTarget: "0",
+    //             isBookMark: "0",
+    //         };
+    //         const res = await addTodoItem(req);
+    //         if (res) {
+    //             contDoneCount++;
+    //             console.log("contDoneCount", contDoneCount, "/", contSum);
+    //             contSum === contDoneCount && console.log("cont 完成");
+    //             const other_id = res.data.newTodoItem.todo_id;
+    //             item.imgList?.forEach((img: any) => {
+    //                 runFive(() =>
+    //                     handleUploadImage(img.imgUrl, other_id, img.imgname)
+    //                 );
+    //             });
+    //         }
+    //     };
 
-        // 确保这个函数只跑最多五个，其他的要等才行
-        let count = 0;
-        let list: any[] = [];
-        const runFive = async (fn: any) => {
-            const promise = new Promise((resolve) => {
-                list.push(resolve);
-            });
+    //     // 确保这个函数只跑最多五个，其他的要等才行
+    //     let count = 0;
+    //     let list: any[] = [];
+    //     const runFive = async (fn: any) => {
+    //         const promise = new Promise((resolve) => {
+    //             list.push(resolve);
+    //         });
 
-            if (count < 5) {
-                count++;
-                list.shift()();
-            }
+    //         if (count < 5) {
+    //             count++;
+    //             list.shift()();
+    //         }
 
-            await promise;
-            await fn();
+    //         await promise;
+    //         await fn();
 
-            count--;
-            list.length !== 0 && list.shift()();
-        };
+    //         count--;
+    //         list.length !== 0 && list.shift()();
+    //     };
 
-        const handleUploadImage = async (
-            url: string,
-            other_id: string,
-            filename: string
-        ) => {
-            const file = await urlToBlob(url, filename);
-            file && (await handleUpload(file, other_id));
-            imgDoneCount++;
-            console.log("imgDoneCount", imgDoneCount, "/", imgSum);
-            imgDoneCount === imgSum && console.log("img 完成");
-        };
+    //     const handleUploadImage = async (
+    //         url: string,
+    //         other_id: string,
+    //         filename: string
+    //     ) => {
+    //         const file = await urlToBlob(url, filename);
+    //         file && (await handleUpload(file, other_id));
+    //         imgDoneCount++;
+    //         console.log("imgDoneCount", imgDoneCount, "/", imgSum);
+    //         imgDoneCount === imgSum && console.log("img 完成");
+    //     };
 
-        const urlToBlob = (url: string, filename = "") => {
-            return fetch(url)
-                .then((res) => res.blob())
-                .then((blob) => {
-                    if (!blob.type.includes("image")) {
-                        message.error("请输入图片的 url，当前 url 抓不到图片");
-                        imgErrorCount++;
-                        console.log("imgErrorCount", imgErrorCount);
-                        console.log("url", url);
-                        return false;
-                    }
-                    const file = new File([blob], filename, {
-                        type: blob.type,
-                    });
-                    return file;
-                });
-        };
+    //     const urlToBlob = (url: string, filename = "") => {
+    //         return fetch(url)
+    //             .then((res) => res.blob())
+    //             .then((blob) => {
+    //                 if (!blob.type.includes("image")) {
+    //                     message.error("请输入图片的 url，当前 url 抓不到图片");
+    //                     imgErrorCount++;
+    //                     console.log("imgErrorCount", imgErrorCount);
+    //                     console.log("url", url);
+    //                     return false;
+    //                 }
+    //                 const file = new File([blob], filename, {
+    //                     type: blob.type,
+    //                 });
+    //                 return file;
+    //             });
+    //     };
 
-        const handleUpload = (file: File, other_id = "") => {
-            return new Promise((resolve) => {
-                const username = "zyb";
-                const type = "todo";
+    //     const handleUpload = (file: File, other_id = "") => {
+    //         return new Promise((resolve) => {
+    //             const username = "zyb";
+    //             const type = "todo";
 
-                const formData = new FormData();
-                formData.append("other_id", other_id);
-                formData.append("username", username);
-                formData.append(type, file);
+    //             const formData = new FormData();
+    //             formData.append("other_id", other_id);
+    //             formData.append("username", username);
+    //             formData.append(type, file);
 
-                fetch(`${staticUrl}/api/${type}_upload`, {
-                    method: "POST",
-                    body: formData,
-                })
-                    .then((res) => res.json())
-                    .then((res) => {
-                        message.success(res.message);
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                    })
-                    .finally(() => {
-                        resolve("");
-                    });
-            });
-        };
+    //             fetch(`${staticUrl}/api/${type}_upload`, {
+    //                 method: "POST",
+    //                 body: formData,
+    //             })
+    //                 .then((res) => res.json())
+    //                 .then((res) => {
+    //                     message.success(res.message);
+    //                 })
+    //                 .catch((e) => {
+    //                     console.log(e);
+    //                 })
+    //                 .finally(() => {
+    //                     resolve("");
+    //                 });
+    //         });
+    //     };
 
-        contList.forEach((item) => {
-            runFive(() => addTodo(item));
-        });
-    };
+    //     contList.forEach((item) => {
+    //         runFive(() => addTodo(item));
+    //     });
+    // };
 
-    // 删除当前 cont 下所有图片
-    const deleteImgs = () => {
-        // console.log("contList", contList);
-        let l: any = [];
-        contList.forEach((item) => {
-            l = l.concat(item.imgList);
-        });
-        console.log(l);
+    // // 删除当前 cont 下所有图片
+    // const deleteImgs = () => {
+    //     // console.log("contList", contList);
+    //     let l: any = [];
+    //     contList.forEach((item) => {
+    //         l = l.concat(item.imgList);
+    //     });
+    //     console.log(l);
 
-        // 确保这个函数只跑最多五个，其他的要等才行
-        let count = 0;
-        let list: any[] = [];
-        const runFive = async (fn: any) => {
-            const promise = new Promise((resolve) => {
-                list.push(resolve);
-            });
+    //     // 确保这个函数只跑最多五个，其他的要等才行
+    //     let count = 0;
+    //     let list: any[] = [];
+    //     const runFive = async (fn: any) => {
+    //         const promise = new Promise((resolve) => {
+    //             list.push(resolve);
+    //         });
 
-            if (count < 5) {
-                count++;
-                list.shift()();
-            }
+    //         if (count < 5) {
+    //             count++;
+    //             list.shift()();
+    //         }
 
-            await promise;
-            await fn();
+    //         await promise;
+    //         await fn();
 
-            count--;
-            list.length !== 0 && list.shift()();
-        };
+    //         count--;
+    //         list.length !== 0 && list.shift()();
+    //     };
 
-        let deleteCount = 0;
-        const deleteImage = async (item: any) => {
-            const params = {
-                type: "treecont",
-                img_id: item.img_id,
-                filename: item.filename,
-            };
-            const res = await deleteImg(params);
-            if (res) {
-                deleteCount++;
-                console.log("delete img", deleteCount);
-            } else {
-                console.log("删除出错");
-            }
-        };
+    //     let deleteCount = 0;
+    //     const deleteImage = async (item: any) => {
+    //         const params = {
+    //             type: "treecont",
+    //             img_id: item.img_id,
+    //             filename: item.filename,
+    //         };
+    //         const res = await deleteImg(params);
+    //         if (res) {
+    //             deleteCount++;
+    //             console.log("delete img", deleteCount);
+    //         } else {
+    //             console.log("删除出错");
+    //         }
+    //     };
 
-        l.forEach((item: any) => {
-            runFive(() => deleteImage(item));
-        });
-    };
+    //     l.forEach((item: any) => {
+    //         runFive(() => deleteImage(item));
+    //     });
+    // };
 
     return (
         <>
