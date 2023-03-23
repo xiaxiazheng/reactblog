@@ -107,7 +107,7 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
     const total = getFootPrintList()?.length;
 
     return (
-        <div className="ScrollBar">
+        <div>
             {loading && <Loading />}
             <div className={styles.header}>
                 <span>足迹 ({total})</span>
@@ -121,7 +121,11 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
                     </Button>
                 )}
             </div>
-            <Space className={styles.content} direction="vertical" size={10}>
+            <Space
+                className={`${styles.content} ScrollBar`}
+                direction="vertical"
+                size={10}
+            >
                 {list?.map((item) => {
                     return (
                         <div key={item.todo_id} className={styles.item}>
