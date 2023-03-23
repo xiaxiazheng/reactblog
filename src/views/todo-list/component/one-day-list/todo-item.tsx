@@ -12,13 +12,20 @@ import TodoChainIcon from "../todo-chain-icon";
 interface Props {
     item: TodoItemType;
     showDoneIcon?: boolean; // 控制已完成按钮
+    isShowTime?: boolean; // 是否展示时间
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
 }
 
 // 单条 todo 的渲染
 const TodoItem: React.FC<Props> = (props) => {
-    const { item, showDoneIcon, isChain = false, isChainNext = false } = props;
+    const {
+        item,
+        showDoneIcon,
+        isShowTime = false,
+        isChain = false,
+        isChainNext = false,
+    } = props;
 
     const { getTodo } = useContext(TodoDataContext);
 
@@ -91,7 +98,10 @@ const TodoItem: React.FC<Props> = (props) => {
                             />
                         </Tooltip>
                     )}
-                    <TodoItemName item={item} isChain={isChain} />
+                    <TodoItemName
+                        item={item}
+                        isShowTime={isChain || isShowTime}
+                    />
                     <TodoChainIcon
                         item={item}
                         isChain={isChain}

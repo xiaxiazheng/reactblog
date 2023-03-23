@@ -36,14 +36,14 @@ const today = dayjs().format("YYYY-MM-DD");
 
 interface NameProps {
     item: TodoItemType;
-    isChain?: boolean;
+    isShowTime?: boolean;
     placement?: TooltipPlacement;
     onlyShow?: boolean;
 }
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
-    const { item, isChain = false, placement, onlyShow = false } = props;
+    const { item, isShowTime = false, placement, onlyShow = false } = props;
 
     const { handleEdit } = useContext(TodoEditContext);
     const { refreshData } = useContext(TodoDataContext);
@@ -92,7 +92,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         return (
             <>
                 {item.name}
-                {(isChain || item.isTarget === "1") && (
+                {(isShowTime || item.isTarget === "1") && (
                     <span
                         className={`${styles.time} ${
                             item.time === today

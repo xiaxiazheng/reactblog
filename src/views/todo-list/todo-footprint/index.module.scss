@@ -1,0 +1,23 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 20px;
+    font-size: 18px;
+    font-weight: 600;
+
+    > span {
+        &.active {
+            color: var(--color_active);
+        }
+    }
+}
+
+.time {
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border_color);
+}
+
+.content {
+    padding: 0 20px;
+}
