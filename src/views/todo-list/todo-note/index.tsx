@@ -189,7 +189,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                                     </div>
                                     <TodoImageFile
                                         isOnlyShow={true}
-                                        activeTodo={{
+                                        todo={{
                                             ...item,
                                             imgList: item.imgList.slice(0, 3),
                                         }}

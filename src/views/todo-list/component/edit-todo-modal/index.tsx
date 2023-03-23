@@ -343,7 +343,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         return false;
     };
 
-    console.log('activeTodo', activeTodo)
+    console.log("activeTodo", activeTodo);
 
     return (
         <>
@@ -426,10 +426,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 />
                 {type === "edit" && activeTodo && (
                     <TodoImageFile
-                        handleFresh={() => {
+                        todo={activeTodo}
+                        handleFresh={(item) => {
+                            item && setActiveTodo(item);
                             needFresh.current = [];
                         }}
-                        activeTodo={activeTodo}
                     />
                 )}
             </Modal>

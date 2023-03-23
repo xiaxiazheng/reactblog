@@ -104,9 +104,9 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
                 </div>
                 {activeTodo && (
                     <TodoImageFile
-                        activeTodo={activeTodo}
+                        todo={activeTodo}
                         width="140px"
-                        handleFresh={refreshData}
+                        handleFresh={() => refreshData()}
                     />
                 )}
             </div>

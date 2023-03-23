@@ -1,30 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import { getTodoById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import FileListBox from "@/components/file-image-handle/file-list-box";
+import { TodoEditContext } from "../../TodoEditContext";
 
 interface IProps {
-    activeTodo: TodoItemType;
-    handleFresh?: Function;
+    todo: TodoItemType;
+    handleFresh?: (item?: TodoItemType) => void;
     isOnlyShow?: boolean;
     width?: string;
 }
 
 const TodoImageFile: React.FC<IProps> = (props) => {
-    const { activeTodo, handleFresh, isOnlyShow = false, width = '120px' } = props;
+    const {
+        todo: todoBackup,
+        handleFresh,
+        isOnlyShow = false,
+        width = "120px",
+    } = props;
 
     useEffect(() => {
-        activeTodo && setTodo(activeTodo);
-    }, [activeTodo]);
+        todoBackup && setTodo(todoBackup);
+    }, [todoBackup]);
 
     const [todo, setTodo] = useState<TodoItemType>();
     const getTodo = async () => {
-        if (activeTodo?.todo_id) {
-            const res = await getTodoById(activeTodo.todo_id);
+        if (todoBackup?.todo_id) {
+            const res = await getTodoById(todoBackup.todo_id);
             setTodo(res.data);
-            handleFresh?.();
+            handleFresh?.(res.data);
         }
     };
 
@@ -32,7 +38,7 @@ const TodoImageFile: React.FC<IProps> = (props) => {
         <>
             {!isOnlyShow && (
                 <FileImageUpload
-                    other_id={activeTodo?.todo_id}
+                    other_id={todoBackup?.todo_id}
                     type="todo"
                     refresh={getTodo}
                     width={width}
