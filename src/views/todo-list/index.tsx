@@ -25,6 +25,10 @@ import { TodoDataContext, TodoDataProvider } from "./TodoDataContext";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import TodoFootPrint from "./todo-footprint";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+// import { increment, increment2 } from "./redux/counterSlice";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -62,9 +66,17 @@ const TodoList: React.FC = () => {
 
     const today = moment().format("YYYY-MM-DD");
 
+    // const count = useSelector((state: any) => state.counter.value)
+    // const count2 = useSelector((state: any) => state.counter.value2)
+    // const dispatch = useDispatch();
+
     return (
         <div className={styles.todoList}>
             <div>
+            {/* <span>{count}</span>
+                <Button onClick={() => dispatch(increment())}>+1</Button>
+                <span>{count2}</span>
+                <Button onClick={() => dispatch(increment2())}>+1</Button> */}
                 <div className={styles.Layout}>
                     {/* 之后待办 */}
                     <div className={`${styles.box1} ScrollBar`}>
@@ -309,11 +321,13 @@ const TodoList: React.FC = () => {
 };
 
 const TodoListWrapper: React.FC = () => (
-    <TodoDataProvider>
-        <TodoEditProvider>
-            <TodoList />
-        </TodoEditProvider>
-    </TodoDataProvider>
+    <Provider store={store}>
+        <TodoDataProvider>
+            <TodoEditProvider>
+                <TodoList />
+            </TodoEditProvider>
+        </TodoDataProvider>
+    </Provider>
 );
 
 export default TodoListWrapper;
