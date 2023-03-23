@@ -280,7 +280,9 @@ const TodoList: React.FC = () => {
                 onClose={() => setShowFootprintDrawer(false)}
                 width="600px"
             >
-                <TodoFootPrint visible={showFootprintDrawer} />
+                <div onMouseLeave={() => setShowFootprintDrawer(false)}>
+                    <TodoFootPrint visible={showFootprintDrawer} />
+                </div>
             </Drawer>
             {/* 新增/编辑 todo */}
             <EditTodoModal />
