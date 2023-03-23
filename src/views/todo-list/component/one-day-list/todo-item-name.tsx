@@ -92,7 +92,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         return (
             <>
                 {item.name}
-                {(isShowTime || item.isTarget === "1") && (
+                {(isShowTime ||
+                    item.isTarget === "1" ||
+                    item.isBookMark === "1") && (
                     <span
                         className={`${styles.time} ${
                             item.time === today
