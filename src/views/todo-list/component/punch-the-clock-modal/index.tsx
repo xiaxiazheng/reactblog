@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 // import { AddTodoItem, getTodoTarget } from "../../service";
 import { Button, message, Modal, Space, Spin } from "antd";
@@ -6,32 +6,47 @@ import dayjs from "dayjs";
 import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
 import { CreateTodoItemReq, TodoItemType } from "../../types";
 import { addTodoItem } from "@/client/TodoListHelper";
+import { TodoEditContext } from "../../TodoEditContext";
+import { TodoDataContext } from "../../TodoDataContext";
 
 dayjs.locale("zh-cn");
 
 // 判断今天是否已打卡
-export const handleIsTodayPunchTheClock = (item: TodoItemType | undefined): boolean => {
+export const handleIsTodayPunchTheClock = (
+    item: TodoItemType | undefined
+): boolean => {
     if (!item?.timeRange) return false;
 
     // 先判断今天是否在任务范围内
     const { startTime, endTime } = handleTimeRange(item.timeRange);
 
-    const isHasToday = dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
+    const isHasToday =
+        dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
     // 如果在再判断子任务中包不包含今天的打卡时间
     return (
-        (isHasToday && item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD"))) || false
+        (isHasToday &&
+            item?.child_todo_list
+                .map((item) => item.time)
+                .includes(dayjs().format("YYYY-MM-DD"))) ||
+        false
     );
 };
 
-interface IProps {
-    activeTodo: TodoItemType | undefined;
-    visible: boolean;
-    onClose: Function;
-    refreshData: Function;
-}
+interface IProps {}
 
-const PunchTheClockModal: React.FC<IProps> = props => {
-    const { activeTodo: active, visible, onClose, refreshData } = props;
+const PunchTheClockModal: React.FC<IProps> = (props) => {
+    const onClose = () => {
+        setActiveTodo(undefined);
+        setShowPunchTheClockModal(false);
+    };
+
+    const {
+        activeTodo: active,
+        setActiveTodo,
+        showPunchTheClockModal: visible,
+        setShowPunchTheClockModal,
+    } = useContext(TodoEditContext);
+    const { refreshData } = useContext(TodoDataContext);
 
     const punchTheClock = async (active: TodoItemType | undefined) => {
         if (active) {
@@ -58,7 +73,9 @@ const PunchTheClockModal: React.FC<IProps> = props => {
     const renderDetail = (item: TodoItemType | undefined) => {
         if (!item || !item.timeRange) return null;
 
-        const { startTime, endTime, range, target } = handleTimeRange(item.timeRange);
+        const { startTime, endTime, range, target } = handleTimeRange(
+            item.timeRange
+        );
         return (
             <>
                 <div>
@@ -82,6 +99,7 @@ const PunchTheClockModal: React.FC<IProps> = props => {
     return (
         <Modal
             title={active?.name}
+            // className={"darkTheme"}
             footer={
                 <Space>
                     {/* <Button

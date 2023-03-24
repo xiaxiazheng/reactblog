@@ -301,21 +301,7 @@ const TodoList: React.FC = () => {
             {/* todo chain modal */}
             <TodoChainModal />
             {/* 打卡详情 */}
-            {/* <PunchTheClockModal
-                visible={showPunchTheClock}
-                onClose={() => {
-                    setActiveTodo(undefined);
-                    setShowPunchTheClock(false);
-                }}
-                activeTodo={
-                    showPunchTheClock
-                        ? targetList.find(
-                              (item) => item.todo_id === activeTodo?.todo_id
-                          )
-                        : undefined
-                }
-    
-            /> */}
+            <PunchTheClockModal />
         </div>
     );
 };

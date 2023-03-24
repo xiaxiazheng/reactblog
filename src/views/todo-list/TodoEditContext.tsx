@@ -25,6 +25,9 @@ interface ContextType {
     setShowChainModal: React.Dispatch<React.SetStateAction<boolean>>;
     chainId: string;
     setChainId: React.Dispatch<React.SetStateAction<string>>;
+
+    showPunchTheClockModal: boolean;
+    setShowPunchTheClockModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TodoEditContext = createContext({} as ContextType);
@@ -57,12 +60,8 @@ export const TodoEditProvider: React.FC = (props) => {
 
     const handleEdit = (item: TodoItemType) => {
         setActiveTodo(item);
-        // if (item.isTarget === "1" && !!item.timeRange) {
-        //     // setShowPunchTheClock(true);
-        // } else {
         setOperatorType("edit");
         setShowEdit(true);
-        // }
     };
 
     useEffect(() => {
@@ -91,6 +90,9 @@ export const TodoEditProvider: React.FC = (props) => {
     const [showChainModal, setShowChainModal] = useState<boolean>(false);
     const [chainId, setChainId] = useState<string>("");
 
+    // 打卡相关
+    const [showPunchTheClockModal, setShowPunchTheClockModal] = useState<boolean>(false);
+
     return (
         <TodoEditContext.Provider
             value={{
@@ -109,6 +111,8 @@ export const TodoEditProvider: React.FC = (props) => {
                 setShowChainModal,
                 chainId,
                 setChainId,
+                showPunchTheClockModal,
+                setShowPunchTheClockModal
             }}
         >
             {props.children}

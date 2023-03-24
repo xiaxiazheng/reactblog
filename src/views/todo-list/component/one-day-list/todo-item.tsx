@@ -8,6 +8,7 @@ import TodoItemName from "./todo-item-name";
 import dayjs from "dayjs";
 import { TodoDataContext } from "../../TodoDataContext";
 import TodoChainIcon from "../todo-chain-icon";
+import TodoPunchTheClockIcon from "../todo-punch-the-clock-icon";
 
 interface Props {
     item: TodoItemType;
@@ -107,6 +108,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         isChain={isChain}
                         isChainNext={isChainNext}
                     />
+                    <TodoPunchTheClockIcon item={item} />
                 </span>
             </div>
         </div>
