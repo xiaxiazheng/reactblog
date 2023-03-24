@@ -85,9 +85,12 @@ const BlogContShow: React.FC<PropsType> = (props) => {
 
     // 复制访客 url
     const copyVisitor = () => {
-        const input = document.createElement("input");
+        const input = document.createElement("textarea");
         document.body.appendChild(input);
-        input.setAttribute("value", window.location.href.replace("/admin", ""));
+        input.value = `《${blogData?.title}》：${window.location.href.replace(
+            "/admin",
+            ""
+        )}`;
         input.select();
         document.execCommand("copy");
         message.success("复制访客路径成功", 1);
@@ -126,20 +129,21 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                                 <MarkdownShow blogcont={blogData.blogcont} />
                             )
                         }
-                        {blogData.fileList && blogData.fileList.length !== 0 && (
-                            <div className={styles.fileList}>
-                                <h4>附件：</h4>
-                                <div>
-                                    <FileListBox
-                                        type="blog"
-                                        width="140px"
-                                        fileList={blogData.fileList}
-                                        refresh={() => {}}
-                                        isOnlyShow={true}
-                                    />
+                        {blogData.fileList &&
+                            blogData.fileList.length !== 0 && (
+                                <div className={styles.fileList}>
+                                    <h4>附件：</h4>
+                                    <div>
+                                        <FileListBox
+                                            type="blog"
+                                            width="140px"
+                                            fileList={blogData.fileList}
+                                            refresh={() => {}}
+                                            isOnlyShow={true}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
                     </>
                 )}
                 {/* 导出到 pdf 按钮 */}
