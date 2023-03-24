@@ -120,7 +120,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         title={
                             <div>
                                 <div>1. 分割符为 {splitStr}, 点击复制</div>
-                                <div>2. 四个回车可新增输入框</div>
+                                <div>2. 五个回车可新增输入框</div>
                             </div>
                         }
                     >

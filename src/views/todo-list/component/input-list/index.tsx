@@ -11,7 +11,7 @@ const InputList = ({ value = "", onChange }: any) => {
 
     const handleChange = (val: string, index: number) => {
         l[index] = val;
-        onChange(l.join(splitStr).replaceAll('\n\n\n\n', splitStr));
+        onChange(l.join(splitStr).replaceAll('\n\n\n\n\n', splitStr));
     };
 
     const handleDelete = (index: number) => {
@@ -46,6 +46,7 @@ const InputList = ({ value = "", onChange }: any) => {
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
                     <TextArea
+                        className={styles.textarea}
                         placeholder="补充以及具体描述"
                         autoSize={{ minRows: 2, maxRows: 10 }}
                         style={{ wordBreak: "break-all" }}
