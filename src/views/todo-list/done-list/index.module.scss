@@ -81,6 +81,8 @@
     }
 
     .pagination {
+        position: sticky;
+        bottom: 0;
         padding: 10px 20px;
         text-align: right;
         color: var(--color);

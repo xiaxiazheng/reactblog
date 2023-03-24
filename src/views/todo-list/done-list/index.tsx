@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Pagination } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
@@ -7,6 +7,7 @@ import OneDayList from "../component/one-day-list";
 import { getWeek, formatArrayToTimeMap } from "../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import { TodoDataContext } from "../TodoDataContext";
+import useScrollToHook from "@/hooks/useScrollToHooks";
 
 interface Props {
     title: string;
@@ -31,8 +32,13 @@ const DoneList: React.FC<Props> = (props) => {
 
     const today = moment().format("YYYY-MM-DD");
 
+    const ref = useRef<any>(null);
+    const { scrollToTop } = useScrollToHook(ref);
+
     useEffect(() => {
         setDoneMap(formatArrayToTimeMap(doneList));
+
+        scrollToTop();
     }, [doneList]);
 
     const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
@@ -51,7 +57,7 @@ const DoneList: React.FC<Props> = (props) => {
                     />
                 </div>
             </div>
-            <div className={`${styles.OneDayListWrap} ScrollBar`}>
+            <div className={`${styles.OneDayListWrap} ScrollBar`} ref={ref}>
                 {Object.keys(doneMap).map((time) => {
                     return (
                         <div className={styles.oneDay} key={time}>
