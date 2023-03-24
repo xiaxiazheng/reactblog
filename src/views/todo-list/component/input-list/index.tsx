@@ -11,7 +11,7 @@ const InputList = ({ value = "", onChange }: any) => {
 
     const handleChange = (val: string, index: number) => {
         l[index] = val;
-        onChange(l.join(splitStr).replaceAll('\n\n\n\n\n', splitStr));
+        onChange(l.join(splitStr).replaceAll("\n\n\n\n\n", splitStr));
     };
 
     const handleDelete = (index: number) => {
@@ -42,6 +42,11 @@ const InputList = ({ value = "", onChange }: any) => {
                 className={styles.copyIcon}
                 style={{ color: "#1890ff" }}
                 onClick={() => handleCopy(value)}
+            />
+            <DeleteOutlined
+                className={styles.deleteIcon}
+                style={{ color: "red" }}
+                onClick={() => onChange("")}
             />
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
