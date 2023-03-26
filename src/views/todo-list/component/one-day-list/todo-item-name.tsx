@@ -16,7 +16,7 @@ import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
-import { TodoEditContextStable } from "../../TodoEditContext";
+import { TodoEditContextStable, TodoEditContext } from "../../TodoEditContext";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -80,6 +80,30 @@ interface NameProps {
     onlyShow?: boolean;
 }
 
+const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
+    item,
+    isShowTime,
+}) => {
+    return (
+        <>
+            {item.name}
+            {(isShowTime ||
+                item.isTarget === "1" ||
+                item.isBookMark === "1") && (
+                <span
+                    className={`${styles.time} ${
+                        item.time === today
+                            ? styles.today
+                            : item.time > today
+                            ? styles.future
+                            : styles.previously
+                    }`}
+                >{` (${item.time})`}</span>
+            )}
+        </>
+    );
+};
+
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, isShowTime = false, placement, onlyShow = false } = props;
@@ -88,27 +112,6 @@ const TodoItemName: React.FC<NameProps> = (props) => {
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);
-
-    const getName = () => {
-        return (
-            <>
-                {item.name}
-                {(isShowTime ||
-                    item.isTarget === "1" ||
-                    item.isBookMark === "1") && (
-                    <span
-                        className={`${styles.time} ${
-                            item.time === today
-                                ? styles.today
-                                : item.time > today
-                                ? styles.future
-                                : styles.previously
-                        }`}
-                    >{` (${item.time})`}</span>
-                )}
-            </>
-        );
-    };
 
     return (
         <ToolTipsWrapper item={item} placement={placement}>
@@ -145,14 +148,14 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                             item.isBookMark === "1" ? styles.big : styles.grey
                         }`}
                     >
-                        {getName()}
+                        <Name item={item} isShowTime={isShowTime} />
                     </s>
                 ) : (
                     <span
                         className={`${item.isBookMark === "1" ? styles.big : ""}
                         ${isTodo && item.doing === "1" ? styles.yellow : ""}`}
                     >
-                        {getName()}
+                        <Name item={item} isShowTime={isShowTime} />
                     </span>
                 )}
                 {item.description && (

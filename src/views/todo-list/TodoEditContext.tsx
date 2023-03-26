@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { OperatorType, TodoItemType, TodoStatus } from "./types";
 import { Form, FormInstance } from "antd";
 import { setFootPrintList } from "./todo-footprint";
@@ -95,14 +95,17 @@ export const TodoEditProvider: React.FC = (props) => {
     const [chainId, setChainId] = useState<string>("");
 
     // 打卡相关
-    const [showPunchTheClockModal, setShowPunchTheClockModal] = useState<boolean>(false);
+    const [showPunchTheClockModal, setShowPunchTheClockModal] =
+        useState<boolean>(false);
+
+    const value = useMemo(() => {
+        return { handleAdd, handleEdit };
+    }, []);
 
     return (
         <TodoEditContextStable.Provider
-            value={{
-                handleAdd,
-                handleEdit,
-            }}>
+            value={value}
+        >
             <TodoEditContext.Provider
                 value={{
                     activeTodo,
@@ -119,7 +122,7 @@ export const TodoEditProvider: React.FC = (props) => {
                     chainId,
                     setChainId,
                     showPunchTheClockModal,
-                    setShowPunchTheClockModal
+                    setShowPunchTheClockModal,
                 }}
             >
                 {props.children}
