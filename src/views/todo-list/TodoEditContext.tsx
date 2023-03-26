@@ -12,8 +12,6 @@ interface ContextType {
     setActiveTodo: React.Dispatch<
         React.SetStateAction<TodoItemType | undefined>
     >;
-    handleAdd: () => void;
-    handleEdit: (item: TodoItemType) => void;
     operatorType: OperatorType | undefined;
     setOperatorType: React.Dispatch<
         React.SetStateAction<OperatorType | undefined>
@@ -30,7 +28,13 @@ interface ContextType {
     setShowPunchTheClockModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface ContextTypeStable {
+    handleAdd: () => void;
+    handleEdit: (item: TodoItemType) => void;
+}
+
 export const TodoEditContext = createContext({} as ContextType);
+export const TodoEditContextStable = createContext({} as ContextTypeStable);
 
 /** 保存 todo 信息 */
 export const TodoEditProvider: React.FC = (props) => {
@@ -94,30 +98,35 @@ export const TodoEditProvider: React.FC = (props) => {
     const [showPunchTheClockModal, setShowPunchTheClockModal] = useState<boolean>(false);
 
     return (
-        <TodoEditContext.Provider
+        <TodoEditContextStable.Provider
             value={{
-                activeTodo,
-                setActiveTodo,
                 handleAdd,
                 handleEdit,
-                operatorType,
-                setOperatorType,
-                form,
-                showEdit,
-                setShowEdit,
-                flag,
-                setFlag,
-                showChainModal,
-                setShowChainModal,
-                chainId,
-                setChainId,
-                showPunchTheClockModal,
-                setShowPunchTheClockModal
-            }}
-        >
-            {props.children}
-        </TodoEditContext.Provider>
+            }}>
+            <TodoEditContext.Provider
+                value={{
+                    activeTodo,
+                    setActiveTodo,
+                    operatorType,
+                    setOperatorType,
+                    form,
+                    showEdit,
+                    setShowEdit,
+                    flag,
+                    setFlag,
+                    showChainModal,
+                    setShowChainModal,
+                    chainId,
+                    setChainId,
+                    showPunchTheClockModal,
+                    setShowPunchTheClockModal
+                }}
+            >
+                {props.children}
+            </TodoEditContext.Provider>
+        </TodoEditContextStable.Provider>
     );
 };
 
 export const TodoConsumer = TodoEditContext.Consumer;
+export const TodoConsumerStable = TodoEditContextStable.Consumer;

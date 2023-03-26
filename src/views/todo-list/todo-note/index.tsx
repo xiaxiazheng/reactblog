@@ -7,7 +7,7 @@ import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/one-day-list/todo-item-name";
 import { debounce } from "../utils";
-import { TodoEditContext } from "../TodoEditContext";
+import { TodoEditContextStable } from "../TodoEditContext";
 import { TodoDataContext } from "../TodoDataContext";
 
 const { Search } = Input;
@@ -15,7 +15,7 @@ const { Search } = Input;
 interface IProps {}
 
 const TodoNote: React.FC<IProps> = (props) => {
-    const { handleAdd, handleEdit } = useContext(TodoEditContext);
+    const { handleAdd, handleEdit } = useContext(TodoEditContextStable);
     const { isRefreshNote, setIsRefreshNote } = useContext(TodoDataContext);
 
     const [list, setList] = useState<TodoItemType[]>();

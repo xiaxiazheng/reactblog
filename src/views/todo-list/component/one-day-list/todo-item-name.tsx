@@ -16,7 +16,7 @@ import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
-import { TodoEditContext } from "../../TodoEditContext";
+import { TodoEditContextStable } from "../../TodoEditContext";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -84,7 +84,7 @@ interface NameProps {
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, isShowTime = false, placement, onlyShow = false } = props;
 
-    const { handleEdit } = useContext(TodoEditContext);
+    const { handleEdit } = useContext(TodoEditContextStable);
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);

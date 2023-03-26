@@ -4,7 +4,7 @@ import { Button, DatePicker, Input, Radio, Select, Space } from "antd";
 import { TodoItemType } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { TodoDataContext } from "../../TodoDataContext";
-import { TodoEditContext } from "../../TodoEditContext";
+import { TodoEditContextStable } from "../../TodoEditContext";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
 
@@ -23,7 +23,7 @@ const GlobalSearch: React.FC = (props) => {
         isFilter,
     } = useContext(TodoDataContext);
 
-    const { handleAdd } = useContext(TodoEditContext);
+    const { handleAdd } = useContext(TodoEditContextStable);
 
     const Filter = () => {
         return (
