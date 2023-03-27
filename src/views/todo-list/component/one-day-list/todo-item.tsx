@@ -6,9 +6,10 @@ import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
 import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import dayjs from "dayjs";
-import { TodoDataContext } from "../../TodoDataContext";
 import TodoChainIcon from "../todo-chain-icon";
 import TodoPunchTheClockIcon from "../todo-punch-the-clock-icon";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "../../rematch";
 
 interface Props {
     item: TodoItemType;
@@ -28,7 +29,8 @@ const TodoItem: React.FC<Props> = (props) => {
         isChainNext = false,
     } = props;
 
-    const { getTodo } = useContext(TodoDataContext);
+    const dispatch = useDispatch<Dispatch>();
+    const { getTodo } = dispatch.data;
 
     // 完成 todo（只有待办才能触发这个函数）
     const doneTodo = async (todo_id: string) => {

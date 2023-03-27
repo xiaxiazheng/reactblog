@@ -32,7 +32,6 @@ import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
-import { TodoDataContext } from "../../TodoDataContext";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../todo-footprint";
@@ -48,8 +47,6 @@ const titleMap = {
 };
 
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
-    const { refreshData } = useContext(TodoDataContext);
-
     const activeTodo = useSelector(
         (state: RootState) => state.edit.activeTodo
     ) as TodoItemType;
@@ -62,6 +59,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setOperatorType: setType,
         setActiveTodo,
     } = dispatch.edit;
+    const { refreshData } = dispatch.data;
 
     const handleCloseBackUp = () => {
         setActiveTodo(undefined);
@@ -231,7 +229,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (type === "edit") {
                 await editTodo();
             } else {
-                form && await addTodo(form);
+                form && (await addTodo(form));
             }
             setLoading(false);
 

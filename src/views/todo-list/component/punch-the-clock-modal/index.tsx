@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-// import { AddTodoItem, getTodoTarget } from "../../service";
 import { Button, message, Modal, Space, Spin } from "antd";
 import dayjs from "dayjs";
 import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
 import { CreateTodoItemReq, TodoItemType } from "../../types";
 import { addTodoItem } from "@/client/TodoListHelper";
-import { TodoDataContext } from "../../TodoDataContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
@@ -48,8 +46,8 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
         setShowPunchTheClockModal,
         setActiveTodo,
     } = dispatch.edit;
+    const { refreshData } = dispatch.data;
 
-    const { refreshData } = useContext(TodoDataContext);
 
     const punchTheClock = async (active: TodoItemType | undefined) => {
         if (active) {

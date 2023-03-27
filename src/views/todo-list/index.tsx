@@ -20,12 +20,11 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
 import TodoNote from "./todo-note";
-import { TodoDataContext, TodoDataProvider } from "./TodoDataContext";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import TodoFootPrint from "./todo-footprint";
-import store, { Dispatch } from "./rematch";
-import { Provider, useDispatch } from "react-redux";
+import store, { Dispatch, RootState } from "./rematch";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 
 const TodoList: React.FC = () => {
@@ -33,17 +32,48 @@ const TodoList: React.FC = () => {
 
     const [form] = useForm();
 
-    const {
-        todoLoading,
-        poolLoading,
-        targetLoading,
-        bookMarkLoading,
-        todoList,
-        poolList,
-        targetList,
-        bookMarkList,
-        getTodo,
-    } = useContext(TodoDataContext);
+    const todoLoading = useSelector(
+        (state: RootState) => state.data.todoLoading
+    );
+    const poolLoading = useSelector(
+        (state: RootState) => state.data.poolLoading
+    );
+    const targetLoading = useSelector(
+        (state: RootState) => state.data.targetLoading
+    );
+    const bookMarkLoading = useSelector(
+        (state: RootState) => state.data.bookMarkLoading
+    );
+    const todoList = useSelector((state: RootState) => state.data.todoList);
+    const poolList = useSelector((state: RootState) => state.data.poolList);
+    const targetList = useSelector((state: RootState) => state.data.targetList);
+    const todoListOrigin = useSelector(
+        (state: RootState) => state.data.todoListOrigin
+    );
+    const poolListOrigin = useSelector(
+        (state: RootState) => state.data.poolListOrigin
+    );
+    const targetListOrigin = useSelector(
+        (state: RootState) => state.data.targetListOrigin
+    );
+    const bookMarkList = useSelector(
+        (state: RootState) => state.data.bookMarkList
+    );
+    const dispatch = useDispatch<Dispatch>();
+    const { getTodo, setTodoList, setPoolList, setTargetList, getFilterList } =
+        dispatch.data;
+
+    useEffect(() => {
+        getTodo("todo");
+        getTodo("pool");
+        getTodo("target");
+    }, []);
+
+    useEffect(() => {
+        setTodoList(getFilterList(todoListOrigin));
+        setPoolList(getFilterList(poolListOrigin));
+        setTargetList(getFilterList(targetListOrigin));
+    }, [todoListOrigin, poolListOrigin, targetListOrigin]);
 
     const { setForm } = useDispatch<Dispatch>().edit;
     useEffect(() => {
@@ -304,9 +334,7 @@ const TodoList: React.FC = () => {
 
 const TodoListWrapper: React.FC = () => (
     <Provider store={store}>
-        <TodoDataProvider>
-            <TodoList />
-        </TodoDataProvider>
+        <TodoList />
     </Provider>
 );
 

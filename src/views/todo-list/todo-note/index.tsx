@@ -7,7 +7,6 @@ import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/one-day-list/todo-item-name";
 import { debounce } from "../utils";
-import { TodoDataContext } from "../TodoDataContext";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { Dispatch, RootState } from "../rematch";
@@ -24,19 +23,22 @@ const TodoNote: React.FC<IProps> = (props) => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        form && form.setFieldsValue({
-            time: moment(),
-            status: TodoStatus.todo,
-            color: "3",
-            category: "个人",
-            doing: "0",
-            isNote: "0",
-            isTarget: "0",
-            isBookMark: "0",
-        });
+        form &&
+            form.setFieldsValue({
+                time: moment(),
+                status: TodoStatus.todo,
+                color: "3",
+                category: "个人",
+                doing: "0",
+                isNote: "0",
+                isTarget: "0",
+                isBookMark: "0",
+            });
     };
-
-    const { isRefreshNote, setIsRefreshNote } = useContext(TodoDataContext);
+    const isRefreshNote = useSelector(
+        (state: RootState) => state.data.isRefreshNote
+    );
+    const { setIsRefreshNote } = dispatch.data;
 
     const handleEdit = (item: TodoItemType) => {
         const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;

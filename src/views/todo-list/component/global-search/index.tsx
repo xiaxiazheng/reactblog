@@ -3,46 +3,66 @@ import styles from "./index.module.scss";
 import { Button, DatePicker, Input, Radio, Select, Space } from "antd";
 import { TodoItemType, TodoStatus } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
-import { TodoDataContext } from "../../TodoDataContext";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "../../rematch";
+import { Dispatch, RootState } from "../../rematch";
 
 const GlobalSearch: React.FC = (props) => {
-    const {
-        refreshData,
-        activeColor,
-        setActiveColor,
-        activeCategory,
-        setActiveCategory,
-        startEndTime,
-        setStartEndTime,
-        keyword: contextKeyword,
-        setKeyword: setContextKeyword,
-        handleClear,
-        isFilter,
-    } = useContext(TodoDataContext);
-
-    const form = useSelector((state: any) => state.edit.form);
+    const form = useSelector((state: RootState) => state.edit.form);
+    const activeColor = useSelector(
+        (state: RootState) => state.filter.activeColor
+    );
+    const activeCategory = useSelector(
+        (state: RootState) => state.filter.activeCategory
+    );
+    const startEndTime = useSelector(
+        (state: RootState) => state.filter.startEndTime
+    );
+    const contextKeyword = useSelector(
+        (state: RootState) => state.filter.keyword
+    );
+    const pageNo = useSelector((state: RootState) => state.filter.pageNo);
+    const pageSize = useSelector((state: RootState) => state.filter.pageSize);
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
+    const { refreshData, handleSearch: search } = dispatch.data;
+    const {
+        setActiveColor,
+        setActiveCategory,
+        setStartEndTime,
+        setKeyword: setContextKeyword,
+        handleClear,
+    } = dispatch.filter;
+
     const handleAdd = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        form.setFieldsValue({
-            time: moment(),
-            status: TodoStatus.todo,
-            color: "3",
-            category: "个人",
-            doing: "0",
-            isNote: "0",
-            isTarget: "0",
-            isBookMark: "0",
-        });
-    }
+        form &&
+            form.setFieldsValue({
+                time: moment(),
+                status: TodoStatus.todo,
+                color: "3",
+                category: "个人",
+                doing: "0",
+                isNote: "0",
+                isTarget: "0",
+                isBookMark: "0",
+            });
+    };
+
+    useEffect(() => {
+        search(undefined);
+    }, [
+        contextKeyword,
+        activeColor,
+        activeCategory,
+        startEndTime,
+        pageNo,
+        pageSize,
+    ]);
 
     const Filter = () => {
         return (
@@ -136,6 +156,16 @@ const GlobalSearch: React.FC = (props) => {
         setContextKeyword(str);
     };
 
+    const isFilter = () => {
+        return (
+            activeColor !== "" ||
+            activeCategory !== "" ||
+            keyword !== "" ||
+            !!startEndTime ||
+            pageNo !== 1
+        );
+    };
+
     return (
         <Space
             direction="vertical"
@@ -165,7 +195,7 @@ const GlobalSearch: React.FC = (props) => {
                             type="primary"
                             danger
                             onClick={() => {
-                                handleClear();
+                                handleClear(undefined);
                                 setShowFilter(false);
                             }}
                         />
