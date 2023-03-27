@@ -5,10 +5,10 @@ import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
 import Loading from "@/components/loading";
-import OneDayList from "../component/one-day-list";
-import { getWeek } from "../utils";
-import { StatusType, TodoItemType, TodoStatus } from "../types";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import OneDayList from "../../component/one-day-list";
+import { getWeek } from "../../utils";
+import { StatusType, TodoItemType, TodoStatus } from "../../types";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 
 interface Props {
     loading: boolean;

@@ -12,6 +12,9 @@ interface EditType {
     showChainModal: boolean;
     showPunchTheClockModal: boolean;
     flag: number;
+    showBookMarkDrawer: boolean;
+    showNoteDrawer: boolean;
+    showFootprintDrawer: boolean;
 }
 
 export const edit = createModel<RootModel>()({
@@ -24,6 +27,9 @@ export const edit = createModel<RootModel>()({
         showChainModal: false,
         showPunchTheClockModal: false,
         flag: 0,
+        showBookMarkDrawer: false,
+        showNoteDrawer: false,
+        showFootprintDrawer: false,
     } as EditType,
     reducers: {
         setActiveTodo: (state, payload) => {
@@ -72,6 +78,24 @@ export const edit = createModel<RootModel>()({
             return {
                 ...state,
                 flag: payload,
+            };
+        },
+        setShowBookMarkDrawer: (state, payload) => {
+            return {
+                ...state,
+                showBookMarkDrawer: payload,
+            };
+        },
+        setShowNoteDrawer: (state, payload) => {
+            return {
+                ...state,
+                showNoteDrawer: payload,
+            };
+        },
+        setShowFootprintDrawer: (state, payload) => {
+            return {
+                ...state,
+                showFootprintDrawer: payload,
             };
         },
     },

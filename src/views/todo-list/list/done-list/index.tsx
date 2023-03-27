@@ -3,12 +3,12 @@ import { Pagination } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
-import OneDayList from "../component/one-day-list";
-import { getWeek, formatArrayToTimeMap } from "../utils";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import OneDayList from "../../component/one-day-list";
+import { getWeek, formatArrayToTimeMap } from "../../utils";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "../rematch";
+import { Dispatch, RootState } from "../../rematch";
 
 interface Props {
     title: string;

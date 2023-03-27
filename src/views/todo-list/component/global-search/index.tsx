@@ -26,7 +26,14 @@ const GlobalSearch: React.FC = (props) => {
     const pageNo = useSelector((state: RootState) => state.filter.pageNo);
     const pageSize = useSelector((state: RootState) => state.filter.pageSize);
     const dispatch = useDispatch<Dispatch>();
-    const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
+    const {
+        setShowEdit,
+        setOperatorType,
+        setActiveTodo,
+        setShowBookMarkDrawer,
+        setShowNoteDrawer,
+        setShowFootprintDrawer,
+    } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
     const {
         setActiveColor,
@@ -201,7 +208,32 @@ const GlobalSearch: React.FC = (props) => {
                         />
                     )}
                 </Space>
-                {props.children}
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            setShowBookMarkDrawer(true);
+                        }}
+                    >
+                        书签
+                    </Button>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            setShowNoteDrawer(true);
+                        }}
+                    >
+                        存档
+                    </Button>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            setShowFootprintDrawer(true);
+                        }}
+                    >
+                        足迹
+                    </Button>
+                </Space>
             </div>
 
             <Input.Search
