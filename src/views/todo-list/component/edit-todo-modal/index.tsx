@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
     Button,
     FormInstance,
@@ -29,15 +29,14 @@ import {
     editTodoItem,
 } from "@/client/TodoListHelper";
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
-import {
-    ExclamationCircleOutlined,
-    QuestionCircleOutlined,
-} from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
-import { TodoEditContext } from "../../TodoEditContext";
 import { TodoDataContext } from "../../TodoDataContext";
 import TodoChainIcon from "../todo-chain-icon";
+import { useDispatch, useSelector } from "react-redux";
+import { setFootPrintList } from "../../todo-footprint";
+import { Dispatch, RootState } from "../../rematch";
 
 interface EditTodoModalType {}
 
@@ -51,21 +50,47 @@ const titleMap = {
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const { refreshData } = useContext(TodoDataContext);
 
+    const activeTodo = useSelector(
+        (state: RootState) => state.edit.activeTodo
+    ) as TodoItemType;
+    const form = useSelector((state: RootState) => state.edit.form);
+    const visible = useSelector((state: RootState) => state.edit.showEdit);
+    const type = useSelector((state: RootState) => state.edit.operatorType);
+    const dispatch = useDispatch<Dispatch>();
     const {
-        form,
-        activeTodo,
-        setActiveTodo,
-        showEdit: visible,
         setShowEdit,
-        operatorType: type,
         setOperatorType: setType,
-    } = useContext(TodoEditContext);
+        setActiveTodo,
+    } = dispatch.edit;
 
     const handleCloseBackUp = () => {
         setActiveTodo(undefined);
         setShowEdit(false);
-        form.resetFields();
+        form && form.resetFields();
     };
+
+    useEffect(() => {
+        if (activeTodo) {
+            const item = activeTodo;
+            form &&
+                form.setFieldsValue({
+                    name: item.name,
+                    description: item.description,
+                    time: moment(item.time),
+                    status: Number(item.status),
+                    color: item.color,
+                    category: item.category,
+                    other_id: item.other_id,
+                    doing: item.doing,
+                    isNote: item.isNote,
+                    isTarget: item.isTarget,
+                    isBookMark: item.isBookMark,
+                });
+
+            // 保存足迹
+            setFootPrintList(item.todo_id);
+        }
+    }, [activeTodo]);
 
     const needFresh = useRef<StatusType[]>([]);
     const { updateFlag } = useUpdateFlag();
@@ -136,8 +161,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const editTodo = async () => {
         if (!activeTodo?.todo_id) return;
         try {
-            await form.validateFields();
-            const formData = form.getFieldsValue();
+            form && (await form.validateFields());
+            const formData = form && form.getFieldsValue();
 
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
@@ -206,7 +231,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (type === "edit") {
                 await editTodo();
             } else {
-                await addTodo(form);
+                form && await addTodo(form);
             }
             setLoading(false);
 
@@ -372,7 +397,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                         disabled={isEdit}
                                     >
                                         创建
-                                        {form.getFieldValue("other_id")
+                                        {form && form.getFieldValue("other_id")
                                             ? "同级任务"
                                             : "副本"}
                                     </Button>
@@ -412,16 +437,18 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     </div>
                 }
             >
-                <TodoForm
-                    form={form}
-                    // 除了编辑，其他走的都是新建的路子
-                    onOk={() => handleOk(false)}
-                    isFieldsChange={() => {
-                        setIsEdit(true);
-                        setIsClose(false);
-                    }}
-                    activeTodo={activeTodo}
-                />
+                {form && (
+                    <TodoForm
+                        form={form}
+                        // 除了编辑，其他走的都是新建的路子
+                        onOk={() => handleOk(false)}
+                        isFieldsChange={() => {
+                            setIsEdit(true);
+                            setIsClose(false);
+                        }}
+                        activeTodo={activeTodo}
+                    />
+                )}
                 {type === "edit" && activeTodo && (
                     <TodoImageFile
                         todo={activeTodo}

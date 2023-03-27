@@ -16,7 +16,8 @@ import { handleDesc } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
-import { TodoEditContextStable, TodoEditContext } from "../../TodoEditContext";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "../../rematch";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -108,7 +109,13 @@ const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
 const TodoItemName: React.FC<NameProps> = (props) => {
     const { item, isShowTime = false, placement, onlyShow = false } = props;
 
-    const { handleEdit } = useContext(TodoEditContextStable);
+    const dispatch = useDispatch<Dispatch>();
+    const handleEdit = (item: TodoItemType) => {
+        const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
+        setActiveTodo(item);
+        setShowEdit(true);
+        setOperatorType("edit");
+    }
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);

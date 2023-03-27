@@ -16,7 +16,6 @@ import {
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
-import { TodoEditProvider } from "./TodoEditContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
@@ -25,13 +24,14 @@ import { TodoDataContext, TodoDataProvider } from "./TodoDataContext";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import TodoFootPrint from "./todo-footprint";
-import store from "./redux/store";
-import { Provider } from "react-redux";
-// import { useDispatch, useSelector } from "react-redux";
-// import { increment, increment2 } from "./redux/counterSlice";
+import store, { Dispatch } from "./rematch";
+import { Provider, useDispatch } from "react-redux";
+import { useForm } from "antd/lib/form/Form";
 
 const TodoList: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+
+    const [form] = useForm();
 
     const {
         todoLoading,
@@ -44,6 +44,11 @@ const TodoList: React.FC = () => {
         bookMarkList,
         getTodo,
     } = useContext(TodoDataContext);
+
+    const { setForm } = useDispatch<Dispatch>().edit;
+    useEffect(() => {
+        setForm(form);
+    }, [form]);
 
     useDocumentTitle("todo-list");
 
@@ -66,17 +71,9 @@ const TodoList: React.FC = () => {
 
     const today = moment().format("YYYY-MM-DD");
 
-    // const count = useSelector((state: any) => state.counter.value)
-    // const count2 = useSelector((state: any) => state.counter.value2)
-    // const dispatch = useDispatch();
-
     return (
         <div className={styles.todoList}>
             <div>
-            {/* <span>{count}</span>
-                <Button onClick={() => dispatch(increment())}>+1</Button>
-                <span>{count2}</span>
-                <Button onClick={() => dispatch(increment2())}>+1</Button> */}
                 <div className={styles.Layout}>
                     {/* 之后待办 */}
                     <div className={`${styles.box1} ScrollBar`}>
@@ -151,7 +148,6 @@ const TodoList: React.FC = () => {
                                         item.isTarget !== "1"
                                 )
                             )}
-                            showAdd={true}
                             showDoneIcon={true}
                         />
                     </div>
@@ -309,9 +305,7 @@ const TodoList: React.FC = () => {
 const TodoListWrapper: React.FC = () => (
     <Provider store={store}>
         <TodoDataProvider>
-            <TodoEditProvider>
-                <TodoList />
-            </TodoEditProvider>
+            <TodoList />
         </TodoDataProvider>
     </Provider>
 );

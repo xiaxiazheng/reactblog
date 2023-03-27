@@ -1,22 +1,49 @@
 import React, { useEffect, useState, useContext } from "react";
 import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
-import { TodoItemType, CategoryType } from "../types";
+import { TodoItemType, CategoryType, TodoStatus } from "../types";
 import TodoImageFile from "../component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/one-day-list/todo-item-name";
 import { debounce } from "../utils";
-import { TodoEditContextStable } from "../TodoEditContext";
 import { TodoDataContext } from "../TodoDataContext";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { Dispatch, RootState } from "../rematch";
 
 const { Search } = Input;
 
 interface IProps {}
 
 const TodoNote: React.FC<IProps> = (props) => {
-    const { handleAdd, handleEdit } = useContext(TodoEditContextStable);
+    const form = useSelector((state: RootState) => state.edit.form);
+    const dispatch = useDispatch<Dispatch>();
+    const handleAdd = () => {
+        const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
+        setActiveTodo(undefined);
+        setOperatorType("add");
+        setShowEdit(true);
+        form && form.setFieldsValue({
+            time: moment(),
+            status: TodoStatus.todo,
+            color: "3",
+            category: "个人",
+            doing: "0",
+            isNote: "0",
+            isTarget: "0",
+            isBookMark: "0",
+        });
+    };
+
     const { isRefreshNote, setIsRefreshNote } = useContext(TodoDataContext);
+
+    const handleEdit = (item: TodoItemType) => {
+        const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
+        setActiveTodo(item);
+        setShowEdit(true);
+        setOperatorType("edit");
+    };
 
     const [list, setList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState<number>(0);

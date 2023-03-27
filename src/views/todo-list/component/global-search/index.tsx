@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, DatePicker, Input, Radio, Select, Space } from "antd";
-import { TodoItemType } from "../../types";
+import { TodoItemType, TodoStatus } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { TodoDataContext } from "../../TodoDataContext";
-import { TodoEditContextStable } from "../../TodoEditContext";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "../../rematch";
 
 const GlobalSearch: React.FC = (props) => {
     const {
@@ -23,7 +25,24 @@ const GlobalSearch: React.FC = (props) => {
         isFilter,
     } = useContext(TodoDataContext);
 
-    const { handleAdd } = useContext(TodoEditContextStable);
+    const form = useSelector((state: any) => state.edit.form);
+    const dispatch = useDispatch<Dispatch>();
+    const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
+    const handleAdd = () => {
+        setActiveTodo(undefined);
+        setOperatorType("add");
+        setShowEdit(true);
+        form.setFieldsValue({
+            time: moment(),
+            status: TodoStatus.todo,
+            color: "3",
+            category: "个人",
+            doing: "0",
+            isNote: "0",
+            isTarget: "0",
+            isBookMark: "0",
+        });
+    }
 
     const Filter = () => {
         return (

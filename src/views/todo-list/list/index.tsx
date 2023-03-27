@@ -1,12 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Button, message, Popconfirm, Space, Tooltip } from "antd";
-import {
-    RedoOutlined,
-    PlusOutlined,
-    VerticalAlignTopOutlined,
-    ArrowLeftOutlined,
-    ArrowRightOutlined,
-} from "@ant-design/icons";
+import { message, Popconfirm, Space, Tooltip } from "antd";
+import { VerticalAlignTopOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import moment from "moment";
@@ -15,8 +9,6 @@ import OneDayList from "../component/one-day-list";
 import { getWeek } from "../utils";
 import { StatusType, TodoItemType, TodoStatus } from "../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
-import { TodoEditContext } from "../TodoEditContext";
-import { TodoDataContext } from "../TodoDataContext";
 
 interface Props {
     loading: boolean;
@@ -26,7 +18,6 @@ interface Props {
     };
     sortKey: SortKeyMap;
     getTodo: (type: StatusType) => void;
-    showAdd?: boolean;
     showDoneIcon?: boolean; // 是否展示快捷完成 icon
 }
 
@@ -37,7 +28,6 @@ const List: React.FC<Props> = (props) => {
         title,
         mapList,
         getTodo,
-        showAdd = false,
         showDoneIcon = false,
         sortKey,
     } = props;
