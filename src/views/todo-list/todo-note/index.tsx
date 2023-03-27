@@ -13,6 +13,8 @@ import { Dispatch, RootState } from "../rematch";
 
 const { Search } = Input;
 
+const maxLength = 1;
+
 interface IProps {}
 
 const TodoNote: React.FC<IProps> = (props) => {
@@ -220,13 +222,13 @@ const TodoNote: React.FC<IProps> = (props) => {
                                         isOnlyShow={true}
                                         todo={{
                                             ...item,
-                                            imgList: item.imgList.slice(0, 3),
+                                            imgList: item.imgList.slice(0, maxLength),
                                         }}
                                         width="120px"
                                     />
-                                    {item.imgList.length > 3 && (
+                                    {item.imgList.length > maxLength && (
                                         <div style={{ opacity: 0.7 }}>
-                                            还有 {item.imgList.length - 3} 张图
+                                            还有 {item.imgList.length - maxLength} 张图
                                         </div>
                                     )}
                                 </div>
