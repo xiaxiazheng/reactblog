@@ -13,12 +13,12 @@ interface IProps extends DrawerProps {}
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
 
-    const visible = useSelector((state: RootState) => state.edit.showChainModal);
+    const visible = useSelector(
+        (state: RootState) => state.edit.showChainModal
+    );
     const chainId = useSelector((state: RootState) => state.edit.chainId);
     const dispatch = useDispatch<Dispatch>();
-    const {
-        setShowChainModal
-    } = dispatch.edit;
+    const { setShowChainModal } = dispatch.edit;
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
@@ -87,6 +87,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                 <h4>前置：</h4>
                                 {todoChainList
                                     .filter((item) => item.todo_id !== chainId)
+                                    .reverse()
                                     .map((item) => (
                                         <TodoItem
                                             key={item.todo_id}
@@ -123,8 +124,13 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                             <>
                                 <Divider style={{ margin: "12px 0" }} />
                                 <h4>后续：</h4>
-                                {handleFilter(activeTodo.child_todo_list).map(
-                                    (item) => (
+                                {handleFilter(activeTodo.child_todo_list)
+                                    .sort(
+                                        (a, b) =>
+                                            new Date(a.time).getTime() -
+                                            new Date(b.time).getTime()
+                                    )
+                                    .map((item) => (
                                         <div key={item.todo_id}>
                                             <TodoItem
                                                 key={item.todo_id}
@@ -134,8 +140,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                                 isChainNext={true}
                                             />
                                         </div>
-                                    )
-                                )}
+                                    ))}
                             </>
                         )}
                     </>
