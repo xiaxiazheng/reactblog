@@ -3,15 +3,16 @@ import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../types";
-import { TodoEditContext } from "../../TodoEditContext";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "../../rematch";
 
 const TodoPunchTheClockIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
 
-    const { setActiveTodo, setShowPunchTheClockModal } =
-        useContext(TodoEditContext);
+    const dispatch = useDispatch<Dispatch>();
+    const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
 
-    if (item.isTarget !== '1' || !item.timeRange) {
+    if (item.isTarget !== "1" || !item.timeRange) {
         return null;
     }
 

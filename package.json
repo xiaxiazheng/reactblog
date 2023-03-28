@@ -20,6 +20,7 @@
     "dependencies": {
         "@ant-design/icons": "^4.6.4",
         "@reduxjs/toolkit": "^1.9.3",
+        "@rematch/core": "^2.2.0",
         "@types/jest": "27.0.1",
         "@types/node": "^16.9.1",
         "@types/react": "^17.0.20",

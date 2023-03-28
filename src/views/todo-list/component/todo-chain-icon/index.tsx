@@ -7,7 +7,8 @@ import {
     SwapRightOutlined,
 } from "@ant-design/icons";
 import { TodoItemType } from "../../types";
-import { TodoEditContext } from "../../TodoEditContext";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "../../rematch";
 
 const TodoChainIcon = (props: {
     item: TodoItemType;
@@ -16,7 +17,8 @@ const TodoChainIcon = (props: {
 }) => {
     const { item, isChain = false, isChainNext = false } = props;
 
-    const { setChainId, setShowChainModal } = useContext(TodoEditContext);
+    const dispatch = useDispatch<Dispatch>();
+    const { setChainId, setShowChainModal } = dispatch.edit;
 
     const isHasChild =
         typeof item?.child_todo_list_length !== "undefined" &&

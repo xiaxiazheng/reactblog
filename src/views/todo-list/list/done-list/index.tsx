@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Pagination } from "antd";
 import styles from "./index.module.scss";
 import moment from "moment";
 import Loading from "@/components/loading";
-import OneDayList from "../component/one-day-list";
-import { getWeek, formatArrayToTimeMap } from "../utils";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
-import { TodoDataContext } from "../TodoDataContext";
+import OneDayList from "../../component/one-day-list";
+import { getWeek, formatArrayToTimeMap } from "../../utils";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 import useScrollToHook from "@/hooks/useScrollToHooks";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "../../rematch";
 
 interface Props {
     title: string;
@@ -18,15 +19,15 @@ interface Props {
 const DoneList: React.FC<Props> = (props) => {
     const { title, sortKey } = props;
 
-    const {
-        doneList,
-        doneTotal,
-        doneLoading,
-        pageNo,
-        pageSize,
-        setPageNo,
-        setPageSize,
-    } = useContext(TodoDataContext);
+    const dispatch = useDispatch<Dispatch>();
+    const { setPageNo, setPageSize } = dispatch.filter;
+    const pageNo = useSelector((state: RootState) => state.filter.pageNo);
+    const pageSize = useSelector((state: RootState) => state.filter.pageSize);
+    const doneList = useSelector((state: RootState) => state.data.doneList);
+    const doneTotal = useSelector((state: RootState) => state.data.doneTotal);
+    const doneLoading = useSelector(
+        (state: RootState) => state.data.doneLoading
+    );
 
     const [doneMap, setDoneMap] = useState<any>({});
 

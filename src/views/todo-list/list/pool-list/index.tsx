@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import OneDayList from "../component/one-day-list";
-import { TodoItemType } from "../types";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import OneDayList from "../../component/one-day-list";
+import { TodoItemType } from "../../types";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 
 interface Props {
     loading: boolean;

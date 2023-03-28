@@ -5,17 +5,20 @@ import { TodoItemType } from "../../types";
 import TodoItem from "../one-day-list/todo-item";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
-import { TodoEditContext } from "../../TodoEditContext";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "../../rematch";
 
 interface IProps extends DrawerProps {}
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
+
+    const visible = useSelector((state: RootState) => state.edit.showChainModal);
+    const chainId = useSelector((state: RootState) => state.edit.chainId);
+    const dispatch = useDispatch<Dispatch>();
     const {
-        showChainModal: visible,
-        setShowChainModal,
-        chainId,
-    } = useContext(TodoEditContext);
+        setShowChainModal
+    } = dispatch.edit;
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 

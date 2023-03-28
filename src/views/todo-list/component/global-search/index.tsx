@@ -1,29 +1,75 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, DatePicker, Input, Radio, Select, Space } from "antd";
-import { TodoItemType } from "../../types";
+import { TodoItemType, TodoStatus } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
-import { TodoDataContext } from "../../TodoDataContext";
-import { TodoEditContext } from "../../TodoEditContext";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "../../rematch";
 
 const GlobalSearch: React.FC = (props) => {
+    const form = useSelector((state: RootState) => state.edit.form);
+    const activeColor = useSelector(
+        (state: RootState) => state.filter.activeColor
+    );
+    const activeCategory = useSelector(
+        (state: RootState) => state.filter.activeCategory
+    );
+    const startEndTime = useSelector(
+        (state: RootState) => state.filter.startEndTime
+    );
+    const contextKeyword = useSelector(
+        (state: RootState) => state.filter.keyword
+    );
+    const pageNo = useSelector((state: RootState) => state.filter.pageNo);
+    const pageSize = useSelector((state: RootState) => state.filter.pageSize);
+    const dispatch = useDispatch<Dispatch>();
     const {
-        refreshData,
-        activeColor,
+        setShowEdit,
+        setOperatorType,
+        setActiveTodo,
+        setShowBookMarkDrawer,
+        setShowNoteDrawer,
+        setShowFootprintDrawer,
+    } = dispatch.edit;
+    const { refreshData, handleSearch: search } = dispatch.data;
+    const {
         setActiveColor,
-        activeCategory,
         setActiveCategory,
-        startEndTime,
         setStartEndTime,
-        keyword: contextKeyword,
         setKeyword: setContextKeyword,
         handleClear,
-        isFilter,
-    } = useContext(TodoDataContext);
+    } = dispatch.filter;
 
-    const { handleAdd } = useContext(TodoEditContext);
+    const handleAdd = () => {
+        setActiveTodo(undefined);
+        setOperatorType("add");
+        setShowEdit(true);
+        form &&
+            form.setFieldsValue({
+                time: moment(),
+                status: TodoStatus.todo,
+                color: "3",
+                category: "个人",
+                doing: "0",
+                isNote: "0",
+                isTarget: "0",
+                isBookMark: "0",
+            });
+    };
+
+    useEffect(() => {
+        search(undefined);
+    }, [
+        contextKeyword,
+        activeColor,
+        activeCategory,
+        startEndTime,
+        pageNo,
+        pageSize,
+    ]);
 
     const Filter = () => {
         return (
@@ -117,6 +163,16 @@ const GlobalSearch: React.FC = (props) => {
         setContextKeyword(str);
     };
 
+    const isFilter = () => {
+        return (
+            activeColor !== "" ||
+            activeCategory !== "" ||
+            keyword !== "" ||
+            !!startEndTime ||
+            pageNo !== 1
+        );
+    };
+
     return (
         <Space
             direction="vertical"
@@ -146,13 +202,38 @@ const GlobalSearch: React.FC = (props) => {
                             type="primary"
                             danger
                             onClick={() => {
-                                handleClear();
+                                handleClear(undefined);
                                 setShowFilter(false);
                             }}
                         />
                     )}
                 </Space>
-                {props.children}
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            setShowBookMarkDrawer(true);
+                        }}
+                    >
+                        书签
+                    </Button>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            setShowNoteDrawer(true);
+                        }}
+                    >
+                        存档
+                    </Button>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            setShowFootprintDrawer(true);
+                        }}
+                    >
+                        足迹
+                    </Button>
+                </Space>
             </div>
 
             <Input.Search
