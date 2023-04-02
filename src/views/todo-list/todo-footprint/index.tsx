@@ -107,7 +107,7 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
     const total = getFootPrintList()?.length;
 
     return (
-        <div>
+        <div className={styles.footprint}>
             {loading && <Loading />}
             <div className={styles.header}>
                 <span>足迹 ({total})</span>
