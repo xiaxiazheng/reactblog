@@ -1,4 +1,4 @@
-import { getTodoByIdList } from "@/client/TodoListHelper";
+import { getTodoByIdList, getTodoList } from "@/client/TodoListHelper";
 import { Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { TodoItemType } from "../types";
@@ -55,15 +55,20 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [list, setList] = useState<NewTodoItemType[]>([]);
+    const [total, setTotal] = useState<number>(0);
     const [isShowAll, setIsShowAll] = useState<boolean>(false);
 
+    const [type, setType] = useState<"local" | "remote">("local");
+
     useEffect(() => {
-        visible && getData();
-    }, [visible, isShowAll]);
+        visible && type === "local" && getData();
+        visible && type === "remote" && getFootPrintEdit();
+    }, [visible, isShowAll, type]);
 
     const getData = async () => {
         setLoading(true);
         const list = getFootPrintList();
+        setTotal(list.length);
         if (list.length !== 0) {
             const todoIdList = list
                 .slice(0, isShowAll ? maxLength : showLength)
@@ -104,22 +109,49 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
         return dayjs(time).isSame(dayjs(), "d") ? time.split(" ")?.[1] : time;
     };
 
-    const total = getFootPrintList()?.length;
+    const getFootPrintEdit = async () => {
+        const params = {
+            pageNo: 1,
+            pageSize: 30,
+            sortBy: [["mTime", "DESC"]],
+        };
+        const res = await getTodoList(params);
+        setList(
+            res.data.list.map((item: TodoItemType) => {
+                return {
+                    ...item,
+                    edit_time: item.mTime,
+                };
+            })
+        );
+        setTotal(res.data.total);
+    };
 
     return (
         <div className={styles.footprint}>
             {loading && <Loading />}
             <div className={styles.header}>
                 <span>足迹 ({total})</span>
-                {total > showLength && (
+                <Space>
                     <Button
-                        className={styles.showAll}
-                        onClick={() => setIsShowAll((prev) => !prev)}
-                        type={isShowAll ? "primary" : "default"}
+                        onClick={() =>
+                            setType((prev) =>
+                                prev === "local" ? "remote" : "local"
+                            )
+                        }
                     >
-                        show All (max: {isShowAll ? maxLength : showLength})
+                        {type === "local" ? "本地" : "远端"}
                     </Button>
-                )}
+                    {type === "local" && total > showLength && (
+                        <Button
+                            className={styles.showAll}
+                            onClick={() => setIsShowAll((prev) => !prev)}
+                            type={isShowAll ? "primary" : "default"}
+                        >
+                            show All (max: {isShowAll ? maxLength : showLength})
+                        </Button>
+                    )}
+                </Space>
             </div>
             <Space
                 className={`${styles.content} ScrollBar`}
