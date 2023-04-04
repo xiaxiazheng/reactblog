@@ -17,6 +17,7 @@ import {
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorMap, colorNameMap, colorList, handleCopy } from "../../utils";
 import styles from "./index.module.scss";
+import styles2 from "../input-list/index.module.scss";
 import moment from "moment";
 import { CategoryType, TodoItemType } from "../../types";
 import InputList, { splitStr } from "../input-list";
@@ -106,11 +107,12 @@ const TodoForm: React.FC<Props> = (props) => {
         >
             <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                 <Input.TextArea
+                    className={styles2.textarea}
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
                     onPressEnter={onOk}
                     autoFocus={true}
                     allowClear
-                    autoSize={{ minRows: 1, maxRows: 2 }}
+                    autoSize={{ minRows: 1, maxRows: 3 }}
                 />
             </Form.Item>
             <Form.Item

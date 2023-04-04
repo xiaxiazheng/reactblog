@@ -53,8 +53,7 @@ const InputList = ({ value = "", onChange }: any) => {
                     <TextArea
                         className={styles.textarea}
                         placeholder="补充以及具体描述"
-                        autoSize={{ minRows: 2, maxRows: 10 }}
-                        style={{ wordBreak: "break-all" }}
+                        autoSize={{ minRows: 2, maxRows: 12 }}
                         allowClear
                         value={item}
                         onChange={(e) => handleChange(e.target.value, index)}
