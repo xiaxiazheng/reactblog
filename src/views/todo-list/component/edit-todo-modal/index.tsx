@@ -31,7 +31,12 @@ import {
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
-import { handleRefreshList } from "../../utils";
+import {
+    handleRefreshList,
+    TimeRange,
+    timeRangeParse,
+    timeRangeStringify,
+} from "../../utils";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../todo-footprint";
@@ -70,6 +75,18 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
+            let timeRange: TimeRange & { isPunchTheClock: boolean } = {
+                startTime: dayjs(),
+                target: 7,
+                range: 7,
+                isPunchTheClock: false,
+            };
+            if (item.timeRange) {
+                timeRange = {
+                    ...timeRangeParse(item.timeRange),
+                    isPunchTheClock: true,
+                };
+            }
             form &&
                 form.setFieldsValue({
                     name: item.name,
@@ -83,6 +100,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     isNote: item.isNote,
                     isTarget: item.isTarget,
                     isBookMark: item.isBookMark,
+                    ...timeRange,
                 });
 
             // 保存足迹
@@ -176,6 +194,15 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isTarget: formData.isTarget || "0",
                 isBookMark: formData.isBookMark || "0",
             };
+            if (formData.isPunchTheClock) {
+                const { startTime, range, target } = formData;
+                req.timeRange = timeRangeStringify({
+                    startTime,
+                    range,
+                    target,
+                });
+                req.isTarget = "1";
+            }
             const res = await editTodoItem(req);
             if (res) {
                 message.success(res.message);

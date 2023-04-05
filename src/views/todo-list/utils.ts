@@ -75,3 +75,21 @@ export const debounce = (fn: () => void, ms: number) => {
         }, ms);
     }
 };
+
+export interface TimeRange {
+    startTime: dayjs.Dayjs;
+    range: number;
+    target: number;
+}
+
+export const timeRangeStringify = ({ startTime, range, target }: TimeRange): string => {
+    return JSON.stringify({ startTime: startTime.format('YYYY-MM-DD'), range, target });
+};
+
+export const timeRangeParse = (val: string): TimeRange => {
+    const obj = JSON.parse(val);
+    return {
+        ...obj,
+        startTime: dayjs(obj.startTime)
+    }
+};

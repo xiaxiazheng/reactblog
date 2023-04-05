@@ -27,7 +27,7 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
 
     const childDateList = active?.child_todo_list?.map((item) => item.time) || [];
 
-    const isThisMonth = (date: dayjs.dayjs) => {
+    const isThisMonth = (date: dayjs.Dayjs) => {
         return value?.get("M") === date.get("M");
     };
 
@@ -56,8 +56,8 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                             return (
                                 <div
                                     className={`${styles.cell}
-                                  ${!isThisMonth(date) && styles.notThisMonth} 
-                                  ${isDone ? styles.green : isToday ? styles.blue : styles.red}`}
+                                    ${!isThisMonth(date) && styles.notThisMonth} 
+                                    ${isDone ? styles.green : isToday ? styles.blue : styles.red}`}
                                 >
                                     {date.get("D")}
                                 </div>
