@@ -124,7 +124,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
                     )}
                 </Space>
             }
-            visible={visible}
+            open={visible}
             onCancel={() => onClose()}
         >
             <PunchTheClockCalendar active={active} />

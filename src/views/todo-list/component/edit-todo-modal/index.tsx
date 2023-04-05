@@ -398,7 +398,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             <Modal
                 className={`${visible2 ? styles.modal1 : ""} ${styles.modal}`}
                 title={type ? getTitle(type) : ""}
-                visible={visible}
+                open={visible}
                 onCancel={() => onClose()}
                 transitionName=""
                 destroyOnClose
@@ -488,7 +488,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             <Modal
                 className={styles.modal2}
                 title={type2 ? getTitle(type2) : ""}
-                visible={visible2}
+                open={visible2}
                 onCancel={() => handleClose2()}
                 transitionName=""
                 destroyOnClose

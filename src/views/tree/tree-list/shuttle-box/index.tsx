@@ -77,7 +77,7 @@ export const ShuttleBox = (props: ShuttleBoxType) => {
     <Modal
       className={styles.shuttleBox}
       title={`请选择将'${c_label}'移动到的父节点：`}
-      visible={isShuttle}
+      open={isShuttle}
       onOk={changeFatherNode}
       onCancel={() => closeShuttle()}
     >

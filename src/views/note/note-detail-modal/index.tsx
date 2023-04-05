@@ -88,7 +88,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
                     </Tooltip>
                 </>
             }
-            visible={visible}
+            open={visible}
             onCancel={() => onCancel()}
             width={"auto"}
             className={styles.modal}

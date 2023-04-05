@@ -200,7 +200,7 @@ const LogListItem: React.FC<PropsType> = (props) => {
             <div onClick={(e) => e.stopPropagation()}>
                 <Modal
                     title={`请选择要为 “${blogItemData.title}” 设置的 tag：`}
-                    visible={isShowPopup}
+                    open={isShowPopup}
                     centered
                     onOk={submitMakeTag}
                     onCancel={() => setIsShowPopup(false)}
@@ -211,7 +211,7 @@ const LogListItem: React.FC<PropsType> = (props) => {
                         value={tag}
                         style={{ width: 200 }}
                         filterOption={false}
-                        onSearch={(val) => {
+                        onSearch={(val: any) => {
                             setShowList(
                                 tagList.filter(
                                     (item: any) =>
