@@ -31,23 +31,25 @@ const InputList = ({ value = "", onChange }: any) => {
 
     return (
         <Space size={4} direction="vertical" style={{ width: "100%" }}>
-            <Button
-                style={{ width: "100%" }}
-                icon={<PlusOutlined />}
-                onClick={() => onChange(`${splitStr}${value}`)}
-            >
-                增加描述
-            </Button>
-            <CopyOutlined
-                className={styles.copyIcon}
-                style={{ color: "#1890ff" }}
-                onClick={() => handleCopy(value)}
-            />
-            <DeleteOutlined
-                className={styles.deleteIcon}
-                style={{ color: "red" }}
-                onClick={() => onChange("")}
-            />
+            <div style={{ width: "100%", display: "flex", alignItems: 'center' }}>
+                <Button
+                    style={{ flex: 1 }}
+                    icon={<PlusOutlined />}
+                    onClick={() => onChange(`${splitStr}${value}`)}
+                >
+                    增加描述
+                </Button>
+                <Button
+                    style={{ margin: "0 10px" }}
+                    onClick={() => handleCopy(value)}
+                    icon={<CopyOutlined />}
+                />
+                <Button
+                    danger
+                    onClick={() => onChange("")}
+                    icon={<DeleteOutlined />}
+                />
+            </div>
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
                     <TextArea
@@ -65,11 +67,6 @@ const InputList = ({ value = "", onChange }: any) => {
                             onClick={() => handleDelete(index)}
                         />
                     )}
-                    <CopyOutlined
-                        className={styles.copyIcon}
-                        style={{ color: "#1890ff" }}
-                        onClick={() => handleCopy(item)}
-                    />
                 </div>
             ))}
         </Space>
