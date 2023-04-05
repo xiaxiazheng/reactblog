@@ -24,6 +24,11 @@
             color: rgba(255, 255, 255, 0.65);
             background-color: #001529;
         }
+
+        .ant-btn-default.ant-btn-dangerous:disabled,
+        .ant-btn-primary.ant-btn-background-ghost:disabled {
+            background-color: white;
+        }
         
         .ant-modal-close {
             color: rgba(255, 255, 255, 0.65);

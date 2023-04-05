@@ -41,6 +41,7 @@ import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface EditTodoModalType {}
 
@@ -165,17 +166,21 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
                 setActiveTodo(res.data.newTodoItem);
                 setType("edit");
+
+                return true;
             } else {
                 message.error("新增 todo 失败");
+                return false;
             }
         } catch (err) {
             message.warning("请检查表单输入");
+            return false;
         }
     };
 
     // 编辑 todo
     const editTodo = async () => {
-        if (!activeTodo?.todo_id) return;
+        if (!activeTodo?.todo_id) return false;
         try {
             form && (await form.validateFields());
             const formData = form && form.getFieldsValue();
@@ -215,11 +220,14 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 );
 
                 setActiveTodo({ ...activeTodo, ...req });
+                return true;
             } else {
                 message.error("编辑 todo 失败");
+                return false;
             }
         } catch (err) {
             message.warning("请检查表单输入");
+            return false;
         }
     };
 
@@ -253,18 +261,22 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const handleOk = async (isButton: boolean) => {
         if (visible && isEdit) {
             setLoading(true);
+            let res = false;
             if (type === "edit") {
-                await editTodo();
+                res = await editTodo();
             } else {
-                form && (await addTodo(form));
+                if (form) {
+                    res = await addTodo(form);
+                }
             }
             setLoading(false);
-
-            // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
-            if (isButton) {
-                handleClose();
+            if (res) {
+                // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
+                if (isButton) {
+                    handleClose();
+                }
+                setIsEdit(false);
             }
-            setIsEdit(false);
         } else {
             if (isButton) {
                 handleClose();
@@ -341,10 +353,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const handleOk2 = async () => {
         if (visible2) {
             setLoading2(true);
-            await addTodo(form2);
+            const res = await addTodo(form2);
             setLoading2(false);
-            setVisible2(false);
-            setIsEdit2(false);
+            if (res) {
+                setVisible2(false);
+                setIsEdit2(false);
+            }
         }
     };
 
@@ -393,10 +407,14 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         return false;
     };
 
+    const { theme } = useContext(ThemeContext);
+
     return (
         <>
             <Modal
-                className={`${visible2 ? styles.modal1 : ""} ${styles.modal}`}
+                className={`${visible2 ? styles.modal1 : ""} ${styles.modal} ${
+                    theme === "dark" ? "darkTheme" : ""
+                }`}
                 title={type ? getTitle(type) : ""}
                 open={visible}
                 onCancel={() => onClose()}
