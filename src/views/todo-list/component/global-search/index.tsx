@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
-const GlobalSearch: React.FC = (props) => {
+const GlobalSearch: React.FC = () => {
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
@@ -108,7 +108,7 @@ const GlobalSearch: React.FC = (props) => {
                     <span>类别：</span>
                     <Select
                         value={activeCategory}
-                        onChange={(val) => setActiveCategory(val)}
+                        onChange={(val: any) => setActiveCategory(val)}
                         allowClear
                         style={{ width: 120 }}
                     >
