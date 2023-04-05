@@ -14,7 +14,7 @@ const {
     override,
     addWebpackAlias,
     addWebpackExternals,
-    fixBabelImports,
+    // fixBabelImports,
     addWebpackPlugin,
 } = require("customize-cra");
 const BundleAnalyzerPlugin =
@@ -62,11 +62,11 @@ module.exports = {
                 // eslint-disable-next-line no-useless-computed-key
                 ["@"]: path.resolve(__dirname, "src"),
             }),
-            fixBabelImports("import", {
-                libraryName: "antd",
-                libraryDirectory: "es",
-                style: "css",
-            })
+            // fixBabelImports("import", {
+            //     libraryName: "antd",
+            //     libraryDirectory: "es",
+            //     style: "css",
+            // })
         )(config, env);
 
         if (process.env.OPEN_ANALYSIS) {

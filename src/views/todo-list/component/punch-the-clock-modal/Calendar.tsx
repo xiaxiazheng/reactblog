@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Calendar } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import moment from "moment";
+import dayjs from "dayjs";
 import { TodoItemType } from "../../types";
 
 // 计算时间相关
@@ -10,7 +10,7 @@ export const handleTimeRange = (timeRange: string) => {
     const { startTime, range, target } = JSON.parse(timeRange);
     return {
         startTime,
-        endTime: moment(startTime)
+        endTime: dayjs(startTime)
             .add(Number(range - 1), "d")
             .format("YYYY-MM-DD"),
         range,
@@ -27,16 +27,16 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
 
     const childDateList = active?.child_todo_list?.map((item) => item.time) || [];
 
-    const isThisMonth = (date: moment.Moment) => {
+    const isThisMonth = (date: dayjs.dayjs) => {
         return value?.get("M") === date.get("M");
     };
 
-    const [value, setValue] = useState<any>(moment());
+    const [value, setValue] = useState<any>(dayjs());
 
     if (!active) return null;
 
     const { startTime, endTime } = handleTimeRange(active.timeRange || '');
-    const endTimeAddOne = moment(endTime).add(1, "day");
+    const endTimeAddOne = dayjs(endTime).add(1, "day");
 
     return (
         <div className={styles.calendarWrapper}>
@@ -50,9 +50,9 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                 }
                 dateFullCellRender={(date) => {
                     if (active) {
-                        if (date.isAfter(startTime) && date.isBefore(moment())) {
+                        if (date.isAfter(startTime) && date.isBefore(dayjs())) {
                             const isDone = childDateList.includes(date.format("YYYY-MM-DD"));
-                            const isToday = date.format("YYYY-MM-DD") === moment().format("YYYY-MM-DD");
+                            const isToday = date.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD");
                             return (
                                 <div
                                     className={`${styles.cell}
@@ -63,7 +63,7 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                                 </div>
                             );
                         }
-                        if (date.isBefore(endTimeAddOne) && date.isAfter(moment())) {
+                        if (date.isBefore(endTimeAddOne) && date.isAfter(dayjs())) {
                             return (
                                 <div
                                     className={`${styles.cell} 

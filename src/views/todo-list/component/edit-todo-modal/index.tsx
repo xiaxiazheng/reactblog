@@ -20,7 +20,7 @@ import {
     StatusType,
     OperatorType2,
 } from "../../types";
-import moment from "moment";
+import dayjs from "dayjs";
 import TodoForm from "../todo-form";
 import TodoImageFile from "../todo-image-file";
 import {
@@ -74,7 +74,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 form.setFieldsValue({
                     name: item.name,
                     description: item.description,
-                    time: moment(item.time),
+                    time: dayjs(item.time),
                     status: Number(item.status),
                     color: item.color,
                     category: item.category,
@@ -128,7 +128,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             const req: CreateTodoItemReq = {
                 name: formData.name,
-                time: moment(formData.time).format("YYYY-MM-DD"),
+                time: dayjs(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
                 description: formData.description || "",
                 color: formData.color,
@@ -165,7 +165,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
                 name: formData.name,
-                time: moment(formData.time).format("YYYY-MM-DD"),
+                time: dayjs(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
                 description: formData.description || "",
                 color: formData.color,
@@ -279,7 +279,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         form2?.setFieldsValue({
             name: item.name,
             description: item.description,
-            time: moment(item.time),
+            time: dayjs(item.time),
             status: TodoStatus.todo,
             color: item.color,
             category: item.category,

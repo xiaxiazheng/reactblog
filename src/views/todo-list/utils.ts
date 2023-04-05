@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { message } from "antd";
 import { StatusType, TodoStatusMap } from "./types";
 
@@ -14,7 +14,7 @@ export const formatArrayToTimeMap = (list: any[]) => {
 
 const weekList = ["日", "一", "二", "三", "四", "五", "六"];
 export const getWeek = (time: string) => {
-    return `周${weekList[moment(time).day()]}`;
+    return `周${weekList[dayjs(time).day()]}`;
 };
 
 export const colorMap: any = {

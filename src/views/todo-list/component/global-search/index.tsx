@@ -5,7 +5,7 @@ import { TodoItemType, TodoStatus } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
@@ -49,7 +49,7 @@ const GlobalSearch: React.FC = (props) => {
         setShowEdit(true);
         form &&
             form.setFieldsValue({
-                time: moment(),
+                time: dayjs(),
                 status: TodoStatus.todo,
                 color: "3",
                 category: "个人",

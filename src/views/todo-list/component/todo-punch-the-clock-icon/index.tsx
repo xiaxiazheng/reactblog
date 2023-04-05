@@ -23,7 +23,7 @@ const TodoPunchTheClockIcon = (props: { item: TodoItemType }) => {
                 style={{
                     color: "#40a9ff",
                 }}
-                title="查看 打卡情况 链"
+                title="查看打卡情况"
                 onClick={() => {
                     setActiveTodo(item);
                     setShowPunchTheClockModal(true);

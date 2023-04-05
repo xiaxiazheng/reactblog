@@ -18,7 +18,7 @@ import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorMap, colorNameMap, colorList, handleCopy } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
-import moment from "moment";
+import dayjs from "dayjs";
 import { CategoryType, TodoItemType } from "../../types";
 import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
@@ -52,43 +52,43 @@ const TodoForm: React.FC<Props> = (props) => {
                 <DatePicker value={value} onChange={onChange} />
                 <span
                     className={`${styles.today} ${
-                        moment().isSame(value, "D") ? styles.active : ""
+                        dayjs().isSame(value, "d") ? styles.active : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
-                        //     time: moment(),
+                        //     time: dayjs(),
                         // });
-                        onChange(moment());
+                        onChange(dayjs());
                     }}
                 >
                     Today
                 </span>
                 <span
                     className={`${styles.today} ${
-                        moment().subtract(1, "day").isSame(value, "D")
+                        dayjs().subtract(1, "day").isSame(value, "d")
                             ? styles.active
                             : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
-                        //     time: moment().subtract(1, "day"),
+                        //     time: dayjs().subtract(1, "day"),
                         // });
-                        onChange(moment().subtract(1, "day"));
+                        onChange(dayjs().subtract(1, "day"));
                     }}
                 >
                     Yesterday
                 </span>
                 <span
                     className={`${styles.today} ${
-                        moment().add(1, "day").isSame(value, "D")
+                        dayjs().add(1, "day").isSame(value, "d")
                             ? styles.active
                             : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
-                        //     time: moment().add(1, "day"),
+                        //     time: dayjs().add(1, "day"),
                         // });
-                        onChange(moment().add(1, "day"));
+                        onChange(dayjs().add(1, "day"));
                     }}
                 >
                     Tomorrow
@@ -96,6 +96,8 @@ const TodoForm: React.FC<Props> = (props) => {
             </>
         );
     };
+
+    const isPunchTheClock = Form.useWatch("isPunchTheClock", form);
 
     return (
         <Form
@@ -232,6 +234,64 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form.Item name="other_id" label="前置 todo">
                 <SearchTodo activeTodo={activeTodo} />
             </Form.Item>
+
+            <Form.Item name="isPunchTheClock" initialValue={false}>
+                <Radio.Group>
+                    <Radio value={true}>打卡</Radio>
+                    <Radio value={false}>不打卡</Radio>
+                </Radio.Group>
+            </Form.Item>
+            {isPunchTheClock && (
+                <>
+                    <Form.Item
+                        name="startTime"
+                        label="打卡开始时间"
+                        rules={[{ required: true }]}
+                        initialValue={dayjs().format("YYYY-MM-DD")}
+                    >
+                        <Radio.Group>
+                            <Radio.Button value={dayjs().format("YYYY-MM-DD")}>
+                                Today
+                            </Radio.Button>
+                            <Radio.Button
+                                value={dayjs()
+                                    .add(1, "day")
+                                    .format("YYYY-MM-DD")}
+                            >
+                                Tomorrow
+                            </Radio.Button>
+                            <Radio.Button
+                                value={dayjs()
+                                    .subtract(1, "day")
+                                    .format("YYYY-MM-DD")}
+                            >
+                                Yesterday
+                            </Radio.Button>
+                            {activeTodo && (
+                                <Radio.Button value={activeTodo.time}>
+                                    {activeTodo.time}
+                                </Radio.Button>
+                            )}
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
+                        name="range"
+                        label="持续天数"
+                        rules={[{ required: true }]}
+                        initialValue={7}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="target"
+                        label="达标天数"
+                        rules={[{ required: true }]}
+                        initialValue={7}
+                    >
+                        <Input />
+                    </Form.Item>
+                </>
+            )}
         </Form>
     );
 };

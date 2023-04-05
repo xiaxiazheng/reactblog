@@ -3,7 +3,7 @@ import { message, Popconfirm, Space, Tooltip } from "antd";
 import { VerticalAlignTopOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
-import moment from "moment";
+import dayjs from "dayjs";
 import Loading from "@/components/loading";
 import OneDayList from "../../component/one-day-list";
 import { getWeek } from "../../utils";
@@ -32,7 +32,7 @@ const List: React.FC<Props> = (props) => {
         sortKey,
     } = props;
 
-    const today = moment().format("YYYY-MM-DD");
+    const today = dayjs().format("YYYY-MM-DD");
 
     const total = Object.keys(mapList).reduce(
         (prev, cur) => mapList[cur].length + prev,
