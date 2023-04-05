@@ -76,16 +76,16 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
-            let timeRange: TimeRange & { isPunchTheClock: boolean } = {
+            let timeRange: TimeRange & { isPunchTheClock: '0' | '1' } = {
                 startTime: dayjs(),
                 target: 7,
                 range: 7,
-                isPunchTheClock: false,
+                isPunchTheClock: '0',
             };
             if (item.timeRange) {
                 timeRange = {
                     ...timeRangeParse(item.timeRange),
-                    isPunchTheClock: true,
+                    isPunchTheClock: '1',
                 };
             }
             form &&
@@ -199,7 +199,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isTarget: formData.isTarget || "0",
                 isBookMark: formData.isBookMark || "0",
             };
-            if (formData.isPunchTheClock) {
+            if (formData.isPunchTheClock === '1') {
                 const { startTime, range, target } = formData;
                 req.timeRange = timeRangeStringify({
                     startTime,
@@ -420,7 +420,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 onCancel={() => onClose()}
                 transitionName=""
                 destroyOnClose
-                width={650}
+                width={700}
                 footer={
                     <div className={styles.footer}>
                         <Space>
@@ -510,9 +510,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 onCancel={() => handleClose2()}
                 transitionName=""
                 destroyOnClose
-                width={650}
+                width={700}
                 footer={
-                    <div className={styles.footer}>
+                    <div className={styles.footer2}>
                         <Space>
                             <Button onClick={() => handleClose2()}>
                                 Cancel

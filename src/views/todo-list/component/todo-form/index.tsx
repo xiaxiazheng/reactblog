@@ -11,6 +11,7 @@ import {
 import {
     AimOutlined,
     BookOutlined,
+    ClockCircleOutlined,
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
@@ -97,14 +98,14 @@ const TodoForm: React.FC<Props> = (props) => {
         );
     };
 
-    const isPunchTheClock = Form.useWatch("isPunchTheClock", form);
+    const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === '1';
 
     return (
         <Form
             className={styles.form}
             form={form}
-            labelCol={{ span: 3 }}
-            wrapperCol={{ span: 20 }}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 19 }}
             onFieldsChange={isFieldsChange}
         >
             <Form.Item name="name" label="名称" rules={[{ required: true }]}>
@@ -228,6 +229,20 @@ const TodoForm: React.FC<Props> = (props) => {
                             </span>
                         </SwitchComp>
                     </Form.Item>
+                    <Form.Item
+                        name="isPunchTheClock"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span>
+                                <ClockCircleOutlined
+                                    style={{ marginRight: 5, color: "#ffeb3b" }}
+                                />{" "}
+                                打卡
+                            </span>
+                        </SwitchComp>
+                    </Form.Item>
                 </Space>
             </Form.Item>
 
@@ -235,12 +250,6 @@ const TodoForm: React.FC<Props> = (props) => {
                 <SearchTodo activeTodo={activeTodo} />
             </Form.Item>
 
-            <Form.Item name="isPunchTheClock" label="是否打卡" initialValue={false}>
-                <Radio.Group>
-                    <Radio.Button value={true}>打卡</Radio.Button>
-                    <Radio.Button value={false}>不打卡</Radio.Button>
-                </Radio.Group>
-            </Form.Item>
             {isPunchTheClock && (
                 <>
                     <Form.Item
