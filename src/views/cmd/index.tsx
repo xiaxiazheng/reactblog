@@ -130,6 +130,7 @@ const CMD: React.FC<ICMD> = (props) => {
                         .replaceAll("\\n", "\n") || ""
                 }`
             );
+            restartTimeout();
         };
     };
 
@@ -160,6 +161,12 @@ const CMD: React.FC<ICMD> = (props) => {
             clearTimeout(timer);
         }
     };
+    const restartTimeout = () => {
+        stopHeartBeat();
+        timer = setTimeout(() => {
+            startHeartBeat();
+        }, 30 * 1000);
+    }
 
     return (
         <div className={styles.cmd}>
