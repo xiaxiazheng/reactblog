@@ -112,7 +112,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 <Input.TextArea
                     className={styles2.textarea}
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
-                    onPressEnter={onOk}
+                    // onPressEnter={onOk}
                     autoFocus={true}
                     allowClear
                     autoSize={{ minRows: 1, maxRows: 3 }}
