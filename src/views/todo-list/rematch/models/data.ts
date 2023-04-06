@@ -199,7 +199,7 @@ export const data = createModel<RootModel>()({
                     setDoneLoading(true);
                     const req: any = {
                         status: TodoStatus["done"],
-                        keyword: keyword?.replace(" ", "%"),
+                        keyword: keyword?.replaceAll(" ", "%"),
                         pageNo,
                         pageSize,
                         startTime: startEndTime?.[0]?.format("YYYY-MM-DD"),
