@@ -12,7 +12,7 @@ import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { handleDesc, handleKeyword } from "./utils";
+import { handleDesc, handleKeywordHighlight } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
@@ -92,7 +92,7 @@ const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
 
     return (
         <>
-            {handleKeyword(item.name, keyword)}
+            {handleKeywordHighlight(item.name, keyword)}
             {(isShowTime ||
                 item.isTarget === "1" ||
                 item.isBookMark === "1") && (

@@ -4,12 +4,12 @@ export const handleDesc = (description: string, keyword: string = "") => {
     return !description
         ? ""
         : keyword && keyword !== ""
-        ? handleKeyword(description, keyword)
-        : handleUrl(description);
+        ? handleKeywordHighlight(description, keyword)
+        : handleUrlHighlight(description);
 };
 
-// 处理详细描述，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
-export const handleUrl = (str: string) => {
+// 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
+export const handleUrlHighlight = (str: string) => {
     const re = /http[s]?:\/\/[^\s]*/g;
     let match;
     const urlList: string[] = [];
@@ -47,8 +47,8 @@ export const handleUrl = (str: string) => {
 
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 
-// 先按照关键字拆开成数组，然后拆开的部分用 handleUrl 处理，断口再用 keyword 接起来
-export const handleKeyword = (str: string, keyword: string) => {
+// 根据关键字高亮
+export const handleKeywordHighlight = (str: string, keyword: string) => {
     // 用空格分隔关键字
     const keys = keyword.split(" ");
 
@@ -78,7 +78,9 @@ export const handleKeyword = (str: string, keyword: string) => {
                         key={index}
                         style={{
                             color: "#908080",
-                            background: colorList?.[map[item.toLowerCase()]] || 'yellow',
+                            background:
+                                colorList?.[map[item.toLowerCase()]] ||
+                                "yellow",
                             margin: "0 3px",
                             padding: "0 3px",
                             fontSize: "14px",
@@ -86,11 +88,11 @@ export const handleKeyword = (str: string, keyword: string) => {
                             boxSizing: "border-box",
                         }}
                     >
-                        {handleUrl(item)}
+                        {handleUrlHighlight(item)}
                     </span>
                 );
             } else {
-                return <span key={index}>{item}</span>;
+                return <span key={index}>{handleUrlHighlight(item)}</span>;
             }
         });
     } catch (e) {
