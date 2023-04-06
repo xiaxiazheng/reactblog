@@ -51,8 +51,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         return list.filter(
             (item) =>
                 !keyword ||
-                item.name.indexOf(keyword) !== -1 ||
-                item.description.indexOf(keyword) !== -1
+                item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
+                item.description.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
         );
     };
 

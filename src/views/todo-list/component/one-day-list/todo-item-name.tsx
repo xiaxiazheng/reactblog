@@ -12,12 +12,12 @@ import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { handleDesc } from "./utils";
+import { handleDesc, handleKeyword } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "../../rematch";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "../../rematch";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -36,6 +36,8 @@ const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement">> = (
 ) => {
     const { item, placement } = props;
 
+    const keyword = useSelector((state: RootState) => state.filter.keyword);
+
     return item.description ||
         (item.imgList && item.imgList.length !== 0) ||
         (item.fileList && item.fileList.length !== 0) ? (
@@ -43,7 +45,8 @@ const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement">> = (
             overlayClassName={styles.tooltip}
             title={
                 <>
-                    {item.description && renderDescription(item.description)}
+                    {item.description &&
+                        renderDescription(item.description, keyword)}
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"
@@ -85,9 +88,11 @@ const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
     item,
     isShowTime,
 }) => {
+    const keyword = useSelector((state: RootState) => state.filter.keyword);
+
     return (
         <>
-            {item.name}
+            {handleKeyword(item.name, keyword)}
             {(isShowTime ||
                 item.isTarget === "1" ||
                 item.isBookMark === "1") && (
@@ -115,7 +120,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         setActiveTodo(item);
         setShowEdit(true);
         setOperatorType("edit");
-    }
+    };
 
     const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);

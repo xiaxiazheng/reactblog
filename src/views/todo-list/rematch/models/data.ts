@@ -274,8 +274,9 @@ export const data = createModel<RootModel>()({
             if (keyword !== "") {
                 if (keyword.includes(" ")) {
                     const kList = keyword.split(" ");
+                    // 这里得多个关键字都包含才能返回
                     l = l.filter((item) => {
-                        return kList.some(
+                        return kList.every(
                             (key) =>
                                 item.name.includes(key) ||
                                 item.description.includes(key)
