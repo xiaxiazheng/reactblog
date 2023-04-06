@@ -20,7 +20,7 @@ import {
     StatusType,
     OperatorType2,
 } from "../../types";
-import moment from "moment";
+import dayjs from "dayjs";
 import TodoForm from "../todo-form";
 import TodoImageFile from "../todo-image-file";
 import {
@@ -31,11 +31,17 @@ import {
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
-import { handleRefreshList } from "../../utils";
+import {
+    handleRefreshList,
+    TimeRange,
+    timeRangeParse,
+    timeRangeStringify,
+} from "../../utils";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface EditTodoModalType {}
 
@@ -70,11 +76,23 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
+            let timeRange: TimeRange & { isPunchTheClock: '0' | '1' } = {
+                startTime: dayjs(),
+                target: 7,
+                range: 7,
+                isPunchTheClock: '0',
+            };
+            if (item.timeRange) {
+                timeRange = {
+                    ...timeRangeParse(item.timeRange),
+                    isPunchTheClock: '1',
+                };
+            }
             form &&
                 form.setFieldsValue({
                     name: item.name,
                     description: item.description,
-                    time: moment(item.time),
+                    time: dayjs(item.time),
                     status: Number(item.status),
                     color: item.color,
                     category: item.category,
@@ -83,6 +101,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     isNote: item.isNote,
                     isTarget: item.isTarget,
                     isBookMark: item.isBookMark,
+                    ...timeRange,
                 });
 
             // 保存足迹
@@ -128,7 +147,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             const req: CreateTodoItemReq = {
                 name: formData.name,
-                time: moment(formData.time).format("YYYY-MM-DD"),
+                time: dayjs(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
                 description: formData.description || "",
                 color: formData.color,
@@ -147,17 +166,21 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
                 setActiveTodo(res.data.newTodoItem);
                 setType("edit");
+
+                return true;
             } else {
                 message.error("新增 todo 失败");
+                return false;
             }
         } catch (err) {
             message.warning("请检查表单输入");
+            return false;
         }
     };
 
     // 编辑 todo
     const editTodo = async () => {
-        if (!activeTodo?.todo_id) return;
+        if (!activeTodo?.todo_id) return false;
         try {
             form && (await form.validateFields());
             const formData = form && form.getFieldsValue();
@@ -165,7 +188,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
                 name: formData.name,
-                time: moment(formData.time).format("YYYY-MM-DD"),
+                time: dayjs(formData.time).format("YYYY-MM-DD"),
                 status: formData.status,
                 description: formData.description || "",
                 color: formData.color,
@@ -176,6 +199,15 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isTarget: formData.isTarget || "0",
                 isBookMark: formData.isBookMark || "0",
             };
+            if (formData.isPunchTheClock === '1') {
+                const { startTime, range, target } = formData;
+                req.timeRange = timeRangeStringify({
+                    startTime,
+                    range,
+                    target,
+                });
+                req.isTarget = "1";
+            }
             const res = await editTodoItem(req);
             if (res) {
                 message.success(res.message);
@@ -188,11 +220,14 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 );
 
                 setActiveTodo({ ...activeTodo, ...req });
+                return true;
             } else {
                 message.error("编辑 todo 失败");
+                return false;
             }
         } catch (err) {
             message.warning("请检查表单输入");
+            return false;
         }
     };
 
@@ -226,18 +261,22 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const handleOk = async (isButton: boolean) => {
         if (visible && isEdit) {
             setLoading(true);
+            let res = false;
             if (type === "edit") {
-                await editTodo();
+                res = await editTodo();
             } else {
-                form && (await addTodo(form));
+                if (form) {
+                    res = await addTodo(form);
+                }
             }
             setLoading(false);
-
-            // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
-            if (isButton) {
-                handleClose();
+            if (res) {
+                // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
+                if (isButton) {
+                    handleClose();
+                }
+                setIsEdit(false);
             }
-            setIsEdit(false);
         } else {
             if (isButton) {
                 handleClose();
@@ -279,7 +318,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         form2?.setFieldsValue({
             name: item.name,
             description: item.description,
-            time: moment(item.time),
+            time: dayjs(item.time),
             status: TodoStatus.todo,
             color: item.color,
             category: item.category,
@@ -314,10 +353,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const handleOk2 = async () => {
         if (visible2) {
             setLoading2(true);
-            await addTodo(form2);
+            const res = await addTodo(form2);
             setLoading2(false);
-            setVisible2(false);
-            setIsEdit2(false);
+            if (res) {
+                setVisible2(false);
+                setIsEdit2(false);
+            }
         }
     };
 
@@ -366,16 +407,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         return false;
     };
 
+    const { theme } = useContext(ThemeContext);
+
     return (
         <>
             <Modal
-                className={`${visible2 ? styles.modal1 : ""} ${styles.modal}`}
+                className={`${visible2 ? styles.modal1 : ""} ${styles.modal} ${
+                    theme === "dark" ? "darkTheme" : ""
+                }`}
                 title={type ? getTitle(type) : ""}
-                visible={visible}
+                open={visible}
                 onCancel={() => onClose()}
                 transitionName=""
                 destroyOnClose
-                width={650}
+                width={700}
                 footer={
                     <div className={styles.footer}>
                         <Space>
@@ -461,13 +506,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             <Modal
                 className={styles.modal2}
                 title={type2 ? getTitle(type2) : ""}
-                visible={visible2}
+                open={visible2}
                 onCancel={() => handleClose2()}
                 transitionName=""
                 destroyOnClose
-                width={650}
+                width={700}
                 footer={
-                    <div className={styles.footer}>
+                    <div className={styles.footer2}>
                         <Space>
                             <Button onClick={() => handleClose2()}>
                                 Cancel

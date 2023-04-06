@@ -9,8 +9,16 @@
 
 .form {
     :global {
+        .ant-form-item {
+            margin-bottom: 10px;
+        }
+
         .ant-form-item-label > label {
             color: rgba(255, 255, 255, 0.65);
+        }
+
+        .ant-input {
+            padding-right: 20px;
         }
 
         .ant-input-affix-wrapper,
@@ -28,6 +36,9 @@
         }
         .ant-switch {
             background-color: #4b4646;
+        }
+        .ant-btn:hover {
+            color: #1890ff;
         }
         .ant-switch-checked,
         .ant-btn-primary {

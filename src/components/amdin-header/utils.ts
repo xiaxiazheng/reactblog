@@ -1,11 +1,11 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 // 获取已经在一起多久的日期
 export const getAlreadyDate = () => {
     // 获取相隔的年月日
     const getAlreadyDate = () => {
-        const startDate = moment("2016-04-16");
-        const endDate = moment(new Date());
+        const startDate = dayjs("2016-04-16");
+        const endDate = dayjs(new Date());
         // 計算兩者差異年數
         const years = endDate.diff(startDate, "years");
         // 計算兩者差異月數，這邊要扣掉上面計算的差異年，否則會得到12個月
@@ -17,8 +17,8 @@ export const getAlreadyDate = () => {
     };
     // 获取相隔的日期
     const getAlreadyDays = () => {
-        const startDate = moment("2016-04-16");
-        const endDate = moment(new Date());
+        const startDate = dayjs("2016-04-16");
+        const endDate = dayjs(new Date());
         return endDate.diff(startDate, "days");
     };
 

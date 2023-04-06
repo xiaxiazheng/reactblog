@@ -8,7 +8,7 @@ import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/one-day-list/todo-item-name";
 import { debounce } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+import dayjs from "dayjs";
 import { Dispatch, RootState } from "../rematch";
 
 const { Search } = Input;
@@ -27,7 +27,7 @@ const TodoNote: React.FC<IProps> = (props) => {
         setShowEdit(true);
         form &&
             form.setFieldsValue({
-                time: moment(),
+                time: dayjs(),
                 status: TodoStatus.todo,
                 color: "3",
                 category: "个人",

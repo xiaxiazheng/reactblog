@@ -105,7 +105,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
 
     return (
         <Modal
-            visible={visible}
+            open={visible}
             title={activeNote ? "编辑 note" : "新增 note"}
             // 只有点击 ok 按钮，且接口没有问题才关闭弹窗
             onOk={async () => {

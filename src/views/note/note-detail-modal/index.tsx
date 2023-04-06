@@ -7,7 +7,7 @@ import ImgFileNoteList from "../img-file-note-list";
 import { NoteType } from "../types";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { CreateTodoItemReq, TodoStatus } from "@/views/todo-list/types";
-import moment from "moment";
+import dayjs from "dayjs";
 import { addTodoItem } from "@/client/TodoListHelper";
 
 interface IProps {
@@ -32,7 +32,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
     const addTodo = async (item: NoteType) => {
         const req: CreateTodoItemReq = {
             name: item.note.split("\n")?.[0],
-            time: moment(item.cTime).format("YYYY-MM-DD"),
+            time: dayjs(item.cTime).format("YYYY-MM-DD"),
             status: TodoStatus.done,
             description: item.note.split("\n")?.slice(1)?.join("\n") || "",
             color: "2",
@@ -88,7 +88,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
                     </Tooltip>
                 </>
             }
-            visible={visible}
+            open={visible}
             onCancel={() => onCancel()}
             width={"auto"}
             className={styles.modal}

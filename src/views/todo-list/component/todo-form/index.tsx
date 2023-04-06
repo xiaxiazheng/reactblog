@@ -11,14 +11,15 @@ import {
 import {
     AimOutlined,
     BookOutlined,
+    ClockCircleOutlined,
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap, colorNameMap, colorList, handleCopy } from "../../utils";
+import { colorMap, colorNameMap, colorList, handleCopy, timeRangeParse } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
-import moment from "moment";
+import dayjs from "dayjs";
 import { CategoryType, TodoItemType } from "../../types";
 import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
@@ -52,43 +53,43 @@ const TodoForm: React.FC<Props> = (props) => {
                 <DatePicker value={value} onChange={onChange} />
                 <span
                     className={`${styles.today} ${
-                        moment().isSame(value, "D") ? styles.active : ""
+                        dayjs().isSame(value, "d") ? styles.active : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
-                        //     time: moment(),
+                        //     time: dayjs(),
                         // });
-                        onChange(moment());
+                        onChange(dayjs());
                     }}
                 >
                     Today
                 </span>
                 <span
                     className={`${styles.today} ${
-                        moment().subtract(1, "day").isSame(value, "D")
+                        dayjs().subtract(1, "day").isSame(value, "d")
                             ? styles.active
                             : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
-                        //     time: moment().subtract(1, "day"),
+                        //     time: dayjs().subtract(1, "day"),
                         // });
-                        onChange(moment().subtract(1, "day"));
+                        onChange(dayjs().subtract(1, "day"));
                     }}
                 >
                     Yesterday
                 </span>
                 <span
                     className={`${styles.today} ${
-                        moment().add(1, "day").isSame(value, "D")
+                        dayjs().add(1, "day").isSame(value, "d")
                             ? styles.active
                             : ""
                     }`}
                     onClick={() => {
                         // form.setFieldsValue({
-                        //     time: moment().add(1, "day"),
+                        //     time: dayjs().add(1, "day"),
                         // });
-                        onChange(moment().add(1, "day"));
+                        onChange(dayjs().add(1, "day"));
                     }}
                 >
                     Tomorrow
@@ -97,12 +98,14 @@ const TodoForm: React.FC<Props> = (props) => {
         );
     };
 
+    const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === '1';
+
     return (
         <Form
             className={styles.form}
             form={form}
-            labelCol={{ span: 3 }}
-            wrapperCol={{ span: 20 }}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 19 }}
             onFieldsChange={isFieldsChange}
         >
             <Form.Item name="name" label="名称" rules={[{ required: true }]}>
@@ -226,12 +229,55 @@ const TodoForm: React.FC<Props> = (props) => {
                             </span>
                         </SwitchComp>
                     </Form.Item>
+                    <Form.Item
+                        name="isPunchTheClock"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span>
+                                <ClockCircleOutlined
+                                    style={{ marginRight: 5, color: "#ffeb3b" }}
+                                />{" "}
+                                打卡
+                            </span>
+                        </SwitchComp>
+                    </Form.Item>
                 </Space>
             </Form.Item>
 
             <Form.Item name="other_id" label="前置 todo">
                 <SearchTodo activeTodo={activeTodo} />
             </Form.Item>
+
+            {isPunchTheClock && (
+                <>
+                    <Form.Item
+                        name="startTime"
+                        label="打卡开始时间"
+                        rules={[{ required: true }]}
+                        initialValue={dayjs()}
+                    >
+                        <MyDatePicker />
+                    </Form.Item>
+                    <Form.Item
+                        name="range"
+                        label="持续天数"
+                        rules={[{ required: true }]}
+                        initialValue={7}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="target"
+                        label="达标天数"
+                        rules={[{ required: true }]}
+                        initialValue={7}
+                    >
+                        <Input />
+                    </Form.Item>
+                </>
+            )}
         </Form>
     );
 };

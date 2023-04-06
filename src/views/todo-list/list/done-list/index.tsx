@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Pagination } from "antd";
 import styles from "./index.module.scss";
-import moment from "moment";
+import dayjs from "dayjs";
 import Loading from "@/components/loading";
 import OneDayList from "../../component/one-day-list";
 import { getWeek, formatArrayToTimeMap } from "../../utils";
@@ -31,7 +31,7 @@ const DoneList: React.FC<Props> = (props) => {
 
     const [doneMap, setDoneMap] = useState<any>({});
 
-    const today = moment().format("YYYY-MM-DD");
+    const today = dayjs().format("YYYY-MM-DD");
 
     const ref = useRef<any>(null);
     const { scrollToTop } = useScrollToHook(ref);

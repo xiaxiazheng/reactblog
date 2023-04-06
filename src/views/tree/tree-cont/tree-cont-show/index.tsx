@@ -23,7 +23,7 @@ import {
 } from "@ant-design/icons";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { CreateTodoItemReq, TodoStatus } from "@/views/todo-list/types";
-import moment from "moment";
+import dayjs from "dayjs";
 import { addTodoItem } from "@/client/TodoListHelper";
 
 interface PropsType extends RouteComponentProps {
@@ -196,7 +196,7 @@ const TreeContShow: React.FC<PropsType> = (props) => {
     //     const addTodo = async (item: any) => {
     //         const req: CreateTodoItemReq = {
     //             name: `${treeContTitle}，${item.title}`,
-    //             time: moment(item.cTime).format("YYYY-MM-DD"),
+    //             time: dayjs(item.cTime).format("YYYY-MM-DD"),
     //             status: TodoStatus.done,
     //             description: item.cont.replaceAll("<br/>", "\n\n") || "",
     //             color: "2",

@@ -22,7 +22,7 @@ const PreviewImage: React.FC<PropsType> = (props) => {
             <Modal
                 wrapClassName={styles.previewImgBoxWrapper}
                 className={styles.previewImgBox}
-                visible={isPreview}
+                open={isPreview}
                 footer={null}
                 centered
                 title={

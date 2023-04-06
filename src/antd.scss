@@ -32,7 +32,8 @@
 .darkTheme {
     .ant-modal-header,
     .ant-modal-content,
-    .ant-modal-title {
+    .ant-modal-title,
+    .ant-drawer-wrapper-body {
         color: rgba(255, 255, 255, 0.65);
         background-color: #001529;
     }

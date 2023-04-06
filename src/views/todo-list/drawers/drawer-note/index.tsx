@@ -21,7 +21,7 @@ const DrawerNote = () => {
             className={`${styles.noteDrawer} ${
                 theme === "dark" ? "darkTheme" : ""
             }`}
-            visible={showNoteDrawer}
+            open={showNoteDrawer}
             onClose={() => setShowNoteDrawer(false)}
             width="900px"
         >

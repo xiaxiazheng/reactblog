@@ -33,7 +33,7 @@ const DrawerBookMark = () => {
             className={`${styles.bookMarkDrawer} ${
                 theme === "dark" ? "darkTheme" : ""
             }`}
-            visible={showBookMarkDrawer}
+            open={showBookMarkDrawer}
             onClose={() => setShowBookMarkDrawer(false)}
             width="600px"
         >

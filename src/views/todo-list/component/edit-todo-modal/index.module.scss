@@ -3,6 +3,11 @@
     justify-content: space-between;
 }
 
+.footer2 {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .modal1 {
     margin-right: calc(50% + 10px);
 }
@@ -14,11 +19,20 @@
 .modal,
 .modal2 {
     :global {
+        .ant-input::placeholder {
+            color: rgba(255, 255, 255, 0.65);
+            background-color: #001529;
+        }
         .ant-modal-header,
         .ant-modal-content,
         .ant-modal-title {
             color: rgba(255, 255, 255, 0.65);
             background-color: #001529;
+        }
+
+        .ant-btn-default.ant-btn-dangerous:disabled,
+        .ant-btn-primary.ant-btn-background-ghost:disabled {
+            background-color: white;
         }
         
         .ant-modal-close {

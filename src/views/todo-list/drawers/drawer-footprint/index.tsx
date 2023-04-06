@@ -21,7 +21,7 @@ const DrawerFootprint = () => {
             className={`${styles.footprintDrawer} ${
                 theme === "dark" ? "darkTheme" : ""
             }`}
-            visible={showFootprintDrawer}
+            open={showFootprintDrawer}
             onClose={() => setShowFootprintDrawer(false)}
             width="600px"
         >

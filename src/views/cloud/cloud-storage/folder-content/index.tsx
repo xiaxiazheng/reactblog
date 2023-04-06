@@ -139,11 +139,11 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
     // 切换目录
     const handleOk = async () => {
         if (!newParentId) {
-            message.warn("请选择一个节点", 0.5);
+            message.warning("请选择一个节点", 0.5);
             return;
         }
         if (newParentId === active.parent_id) {
-            message.warn("与原文件夹相同，无需切换", 0.5);
+            message.warning("与原文件夹相同，无需切换", 0.5);
             return;
         }
 
@@ -220,7 +220,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
     };
 
     const handleCancel = () => {
-        message.warn("已取消更换文件夹", 0.5);
+        message.warning("已取消更换文件夹", 0.5);
 
         setIsModalVisible(false);
         setActive(undefined);
@@ -235,7 +235,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
 
     const onSwitchSelect = (selectedKeys: any, info: any) => {
         if (selectedKeys[0] === active.parent_id) {
-            message.warn("与源文件夹一致", 0.5);
+            message.warning("与源文件夹一致", 0.5);
         } else {
             setNewParentId(selectedKeys[0]);
             console.log(selectedKeys[0]);
@@ -302,7 +302,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
             </div>
             <Modal
                 title={`请选择要将 “${active ? active.name : ""}” 更换到的目录`}
-                visible={isModalVisible}
+                open={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >

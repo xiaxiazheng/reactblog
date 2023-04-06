@@ -5,11 +5,11 @@ import { TodoItemType, TodoStatus } from "../../types";
 import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
-const GlobalSearch: React.FC = (props) => {
+const GlobalSearch: React.FC = () => {
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
@@ -49,7 +49,7 @@ const GlobalSearch: React.FC = (props) => {
         setShowEdit(true);
         form &&
             form.setFieldsValue({
-                time: moment(),
+                time: dayjs(),
                 status: TodoStatus.todo,
                 color: "3",
                 category: "个人",
@@ -108,7 +108,7 @@ const GlobalSearch: React.FC = (props) => {
                     <span>类别：</span>
                     <Select
                         value={activeCategory}
-                        onChange={(val) => setActiveCategory(val)}
+                        onChange={(val: any) => setActiveCategory(val)}
                         allowClear
                         style={{ width: 120 }}
                     >

@@ -65,7 +65,7 @@ const FolderList: React.FC<IProps> = (props) => {
     // 删除文件夹
     const deleteAFolder = async (name: string, folder_id: string) => {
         if (typeof folderMap[folder_id].children !== "undefined") {
-            message.warn(
+            message.warning(
                 "该文件夹内还有文件夹，暂不支持递归删除（其实里面有文件的话也不推荐删除）"
             );
             return;
