@@ -17,6 +17,7 @@ interface Props {
     isShowTime?: boolean; // 是否展示时间
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
+    isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
 }
 
 // 单条 todo 的渲染
@@ -27,6 +28,7 @@ const TodoItem: React.FC<Props> = (props) => {
         isShowTime = false,
         isChain = false,
         isChainNext = false,
+        isModalOrDrawer = false,
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -104,6 +106,7 @@ const TodoItem: React.FC<Props> = (props) => {
                     <TodoItemName
                         item={item}
                         isShowTime={isChain || isShowTime}
+                        isModalOrDrawer={isModalOrDrawer}
                     />
                     <TodoChainIcon
                         item={item}

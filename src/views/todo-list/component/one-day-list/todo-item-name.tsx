@@ -82,17 +82,25 @@ interface NameProps {
     isShowTime?: boolean;
     placement?: TooltipPlacement;
     onlyShow?: boolean;
+    isModalOrDrawer?: boolean;
 }
 
-const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
-    item,
-    isShowTime,
-}) => {
+const Name: React.FC<{
+    item: TodoItemType;
+    isShowTime: boolean;
+    isModalOrDrawer: boolean;
+}> = ({ item, isShowTime, isModalOrDrawer }) => {
     const keyword = useSelector((state: RootState) => state.filter.keyword);
+    const localKeyword = useSelector(
+        (state: RootState) => state.filter.localKeyword
+    );
 
     return (
         <>
-            {handleHighlight(item.name, keyword)}
+            {handleHighlight(
+                item.name,
+                isModalOrDrawer ? `${keyword} ${localKeyword}` : keyword
+            )}
             {(isShowTime ||
                 item.isTarget === "1" ||
                 item.isBookMark === "1") && (
@@ -112,7 +120,13 @@ const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {
-    const { item, isShowTime = false, placement, onlyShow = false } = props;
+    const {
+        item,
+        isShowTime = false,
+        placement,
+        onlyShow = false,
+        isModalOrDrawer = false,
+    } = props;
 
     const dispatch = useDispatch<Dispatch>();
     const handleEdit = (item: TodoItemType) => {
@@ -160,14 +174,22 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                             item.isBookMark === "1" ? styles.big : styles.grey
                         }`}
                     >
-                        <Name item={item} isShowTime={isShowTime} />
+                        <Name
+                            item={item}
+                            isShowTime={isShowTime}
+                            isModalOrDrawer={isModalOrDrawer}
+                        />
                     </s>
                 ) : (
                     <span
                         className={`${item.isBookMark === "1" ? styles.big : ""}
                         ${isTodo && item.doing === "1" ? styles.yellow : ""}`}
                     >
-                        <Name item={item} isShowTime={isShowTime} />
+                        <Name
+                            item={item}
+                            isShowTime={isShowTime}
+                            isModalOrDrawer={isModalOrDrawer}
+                        />
                     </span>
                 )}
                 {item.description && (

@@ -13,11 +13,13 @@ interface Props {
     mapList: TodoItemType[];
     showDoneIcon?: boolean;
     btn?: any;
+    isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
+    input?: any;
 }
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, showDoneIcon = false, sortKey } = props;
+    const { loading, title, mapList, showDoneIcon = false, sortKey, isModalOrDrawer = false } = props;
 
     const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
 
@@ -53,11 +55,13 @@ const PoolList: React.FC<Props> = (props) => {
                     />
                 </Space>
             </div>
+            {props.input}
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
                     <OneDayList
                         list={getShowList(mapList)}
                         showDoneIcon={showDoneIcon}
+                        isModalOrDrawer={isModalOrDrawer}
                     />
                 </div>
             </div>

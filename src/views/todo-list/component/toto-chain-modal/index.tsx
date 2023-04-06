@@ -17,8 +17,12 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         (state: RootState) => state.edit.showChainModal
     );
     const chainId = useSelector((state: RootState) => state.edit.chainId);
+    const localKeyword = useSelector(
+        (state: RootState) => state.filter.localKeyword
+    );
     const dispatch = useDispatch<Dispatch>();
     const { setShowChainModal } = dispatch.edit;
+    const { setLocalKeyword } = dispatch.filter;
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
@@ -45,14 +49,15 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     const activeTodo = todoChainList.find((item) => item.todo_id === chainId);
 
-    const [keyword, setKeyword] = useState<string>();
-
     const handleFilter = (list: TodoItemType[]) => {
         return list.filter(
             (item) =>
-                !keyword ||
-                item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-                item.description.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+                !localKeyword ||
+                item.name.toLowerCase().indexOf(localKeyword.toLowerCase()) !==
+                    -1 ||
+                item.description
+                    .toLowerCase()
+                    .indexOf(localKeyword.toLowerCase()) !== -1
         );
     };
 
@@ -63,14 +68,17 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 <Space size={16}>
                     <span>todo chain</span>
                     <Input
-                        value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
+                        value={localKeyword}
+                        onChange={(e) => setLocalKeyword(e.target.value)}
                     />
                 </Space>
             }
             open={visible}
             destroyOnClose
-            onCancel={() => setShowChainModal(false)}
+            onCancel={() => {
+                setShowChainModal(false);
+                setLocalKeyword("");
+            }}
             footer={null}
             width={650}
         >
@@ -94,6 +102,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                             item={item}
                                             showDoneIcon={false}
                                             isChain={true}
+                                            isModalOrDrawer={true}
                                         />
                                     ))}
                                 <Divider style={{ margin: "12px 0" }} />
@@ -115,6 +124,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                     item={activeTodo}
                                     showDoneIcon={false}
                                     isChain={true}
+                                    isModalOrDrawer={true}
                                 />
                             </>
                         )}
@@ -138,6 +148,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                                 showDoneIcon={false}
                                                 isChain={true}
                                                 isChainNext={true}
+                                                isModalOrDrawer={true}
                                             />
                                         </div>
                                     ))}

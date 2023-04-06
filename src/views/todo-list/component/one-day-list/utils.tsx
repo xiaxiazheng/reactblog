@@ -51,7 +51,7 @@ export const handleKeywordHighlight = (str: string, keyword: string = '') => {
     }
 
     // 用空格分隔关键字
-    const keys = keyword.split(" ");
+    const keys = keyword.split(" ").filter(item => !!item);
 
     // demo 代码：
     // var str = "31331231";
