@@ -278,15 +278,23 @@ export const data = createModel<RootModel>()({
                     l = l.filter((item) => {
                         return kList.every(
                             (key) =>
-                                item.name.includes(key) ||
-                                item.description.includes(key)
+                                item.name
+                                    .toLowerCase()
+                                    .includes(key.toLowerCase()) ||
+                                item.description
+                                    .toLowerCase()
+                                    .includes(key.toLowerCase())
                         );
                     });
                 } else {
                     l = l.filter(
                         (item) =>
-                            item.name.includes(keyword) ||
-                            item.description.includes(keyword)
+                            item.name
+                                .toLowerCase()
+                                .includes(keyword.toLowerCase()) ||
+                            item.description
+                                .toLowerCase()
+                                .includes(keyword.toLowerCase())
                     );
                 }
             }
