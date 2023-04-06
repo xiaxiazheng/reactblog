@@ -5,7 +5,7 @@ import { TodoItemType, CategoryType, TodoStatus } from "../types";
 import TodoImageFile from "../component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
-import { renderDescription } from "../component/one-day-list/todo-item-name";
+import { renderDescription } from "../component/todo-item/todo-item-name";
 import { debounce } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";

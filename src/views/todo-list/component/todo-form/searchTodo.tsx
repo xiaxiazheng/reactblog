@@ -3,7 +3,7 @@ import { Divider, message, Select, Tooltip } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
 import { debounce } from "lodash";
-import TodoItemName from "../one-day-list/todo-item-name";
+import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
 
 const SearchTodo = ({ value, onChange, activeTodo }: any) => {

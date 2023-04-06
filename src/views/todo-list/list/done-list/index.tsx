@@ -3,12 +3,13 @@ import { Pagination } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
-import OneDayList from "../../component/one-day-list";
 import { getWeek, formatArrayToTimeMap } from "../../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import { TodoItemType } from "../../types";
+import TodoItem from "../../component/todo-item";
 
 interface Props {
     title: string;
@@ -44,6 +45,16 @@ const DoneList: React.FC<Props> = (props) => {
 
     const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
 
+    const getList = (time: string): TodoItemType[] =>
+        !isSortTime
+            ? doneMap[time]
+            : [...doneMap[time]].sort(
+                  // sort 会改变原数组
+                  (a, b) =>
+                      (b?.mTime ? new Date(b.mTime).getTime() : 0) -
+                      (a?.mTime ? new Date(a.mTime).getTime() : 0)
+              );
+
     return (
         <div className={styles.list}>
             {doneLoading && <Loading />}
@@ -76,26 +87,9 @@ const DoneList: React.FC<Props> = (props) => {
                                     ? ` ${doneMap[time]?.length}`
                                     : null}
                             </div>
-                            <OneDayList
-                                list={
-                                    !isSortTime
-                                        ? doneMap[time]
-                                        : [...doneMap[time]].sort(
-                                              // sort 会改变原数组
-                                              (a, b) =>
-                                                  (b?.mTime
-                                                      ? new Date(
-                                                            b.mTime
-                                                        ).getTime()
-                                                      : 0) -
-                                                  (a?.mTime
-                                                      ? new Date(
-                                                            a.mTime
-                                                        ).getTime()
-                                                      : 0)
-                                          )
-                                }
-                            />
+                            {getList(time).map((item) => (
+                                <TodoItem key={item.todo_id} item={item} />
+                            ))}
                         </div>
                     );
                 })}

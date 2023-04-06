@@ -5,10 +5,10 @@ import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
-import OneDayList from "../../component/one-day-list";
 import { getWeek } from "../../utils";
 import { StatusType, TodoItemType, TodoStatus } from "../../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
+import TodoItem from "../../component/todo-item";
 
 interface Props {
     loading: boolean;
@@ -160,10 +160,13 @@ const List: React.FC<Props> = (props) => {
                                         </Popconfirm>
                                     </Space>
                                 </div>
-                                <OneDayList
-                                    list={getShowList(mapList[time])}
-                                    showDoneIcon={showDoneIcon}
-                                />
+                                {getShowList(mapList[time]).map((item) => (
+                                    <TodoItem
+                                        key={item.todo_id}
+                                        item={item}
+                                        showDoneIcon={showDoneIcon}
+                                    />
+                                ))}
                             </div>
                         );
                     })}

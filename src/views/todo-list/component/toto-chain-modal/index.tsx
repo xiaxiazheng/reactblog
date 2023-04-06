@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Divider, DrawerProps, Input, Modal, Space, Spin } from "antd";
 import { getTodoChainById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
-import TodoItem from "../one-day-list/todo-item";
+import TodoItem from "../todo-item";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";

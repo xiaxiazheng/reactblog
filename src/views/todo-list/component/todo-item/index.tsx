@@ -24,7 +24,7 @@ interface Props {
 const TodoItem: React.FC<Props> = (props) => {
     const {
         item,
-        showDoneIcon,
+        showDoneIcon = false,
         isShowTime = false,
         isChain = false,
         isChainNext = false,

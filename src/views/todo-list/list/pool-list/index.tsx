@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import OneDayList from "../../component/one-day-list";
 import { TodoItemType } from "../../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
+import TodoItem from "../../component/todo-item";
 
 interface Props {
     loading: boolean;
@@ -19,7 +19,14 @@ interface Props {
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
-    const { loading, title, mapList, showDoneIcon = false, sortKey, isModalOrDrawer = false } = props;
+    const {
+        loading,
+        title,
+        mapList,
+        showDoneIcon = false,
+        sortKey,
+        isModalOrDrawer = false,
+    } = props;
 
     const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
 
@@ -58,11 +65,14 @@ const PoolList: React.FC<Props> = (props) => {
             {props.input}
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
-                    <OneDayList
-                        list={getShowList(mapList)}
-                        showDoneIcon={showDoneIcon}
-                        isModalOrDrawer={isModalOrDrawer}
-                    />
+                    {getShowList(mapList).map((item) => (
+                        <TodoItem
+                            key={item.todo_id}
+                            item={item}
+                            showDoneIcon={showDoneIcon}
+                            isModalOrDrawer={isModalOrDrawer}
+                        />
+                    ))}
                 </div>
             </div>
         </div>

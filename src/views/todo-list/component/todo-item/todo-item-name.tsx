@@ -77,14 +77,6 @@ const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement">> = (
 
 const today = dayjs().format("YYYY-MM-DD");
 
-interface NameProps {
-    item: TodoItemType;
-    isShowTime?: boolean;
-    placement?: TooltipPlacement;
-    onlyShow?: boolean;
-    isModalOrDrawer?: boolean;
-}
-
 const Name: React.FC<{
     item: TodoItemType;
     isShowTime: boolean;
@@ -117,6 +109,14 @@ const Name: React.FC<{
         </>
     );
 };
+
+interface NameProps {
+    item: TodoItemType;
+    isShowTime?: boolean;
+    placement?: TooltipPlacement;
+    onlyShow?: boolean;
+    isModalOrDrawer?: boolean;
+}
 
 // 单条 todo 中的 name 的渲染
 const TodoItemName: React.FC<NameProps> = (props) => {

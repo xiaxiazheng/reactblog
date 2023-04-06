@@ -5,7 +5,7 @@ import TodoImageFile from "../../component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@/views/todo-list/types";
 import { deleteTodoItem } from "@/client/TodoListHelper";
-import { renderDescription } from "@/views/todo-list/component/one-day-list/todo-item-name";
+import { renderDescription } from "@/views/todo-list/component/todo-item/todo-item-name";
 import { ThemeContext } from "@/context/ThemeContext";
 
 interface IProps {
