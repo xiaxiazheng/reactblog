@@ -45,7 +45,7 @@ export const handleUrl = (str: string) => {
     );
 };
 
-const colorList = ["yellow", "green", "blue"];
+const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 
 // 先按照关键字拆开成数组，然后拆开的部分用 handleUrl 处理，断口再用 keyword 接起来
 export const handleKeyword = (str: string, keyword: string) => {
@@ -66,19 +66,19 @@ export const handleKeyword = (str: string, keyword: string) => {
             .split(reg)
             .filter((item) => typeof item !== "undefined" && item !== "");
 
-        const map = keys.reduce((prev, cur) => {
-            prev[cur.toLowerCase()] = true;
+        const map = keys.reduce((prev, cur, index) => {
+            prev[cur.toLowerCase()] = index;
             return prev;
         }, {} as any);
 
         return list.map((item, index) => {
-            if (map[item.toLowerCase()]) {
+            if (typeof map[item.toLowerCase()] !== "undefined") {
                 return (
                     <span
                         key={index}
                         style={{
                             color: "#908080",
-                            background: "yellow",
+                            background: colorList?.[map[item.toLowerCase()]] || 'yellow',
                             margin: "0 3px",
                             padding: "0 3px",
                             fontSize: "14px",
