@@ -1,15 +1,12 @@
 import React from "react";
 
-export const handleDesc = (description: string, keyword: string = "") => {
-    return !description
-        ? ""
-        : keyword && keyword !== ""
-        ? handleKeywordHighlight(description, keyword)
-        : handleUrlHighlight(description);
+export const handleHighlight = (string: string, keyword: string = "") => {
+    if (!string) return "";
+    return handleUrlHighlight(string, keyword);
 };
 
 // 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
-export const handleUrlHighlight = (str: string) => {
+export const handleUrlHighlight = (str: string, keyword: string = '') => {
     const re = /http[s]?:\/\/[^\s]*/g;
     let match;
     const urlList: string[] = [];
@@ -21,13 +18,13 @@ export const handleUrlHighlight = (str: string) => {
     }
 
     return urlList.length === 0 ? (
-        str
+        handleKeywordHighlight(str, keyword)
     ) : (
         <span>
             {s.split("<url_flag>").map((item, index) => {
                 return (
                     <span key={index}>
-                        {item}
+                        {handleKeywordHighlight(item, keyword)}
                         {urlList[index] && (
                             <a
                                 style={{ color: "#40a9ff" }}
@@ -35,7 +32,7 @@ export const handleUrlHighlight = (str: string) => {
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                {urlList[index]}
+                                {handleKeywordHighlight(urlList[index], keyword)}
                             </a>
                         )}
                     </span>
@@ -48,7 +45,11 @@ export const handleUrlHighlight = (str: string) => {
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 
 // 根据关键字高亮
-export const handleKeywordHighlight = (str: string, keyword: string) => {
+export const handleKeywordHighlight = (str: string, keyword: string = '') => {
+    if (!keyword || keyword === '') {
+        return str;
+    }
+
     // 用空格分隔关键字
     const keys = keyword.split(" ");
 
@@ -88,11 +89,11 @@ export const handleKeywordHighlight = (str: string, keyword: string) => {
                             boxSizing: "border-box",
                         }}
                     >
-                        {handleUrlHighlight(item)}
+                        {item}
                     </span>
                 );
             } else {
-                return <span key={index}>{handleUrlHighlight(item)}</span>;
+                return <span key={index}>{item}</span>;
             }
         });
     } catch (e) {

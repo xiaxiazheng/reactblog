@@ -12,7 +12,7 @@ import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { handleDesc, handleKeywordHighlight } from "./utils";
+import { handleHighlight } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
@@ -24,7 +24,7 @@ export const renderDescription = (str: string, keyword: string = "") => {
         <div className={styles.descList}>
             {str.split(splitStr).map((i, index) => (
                 <div className={styles.desc} key={index}>
-                    {handleDesc(i, keyword)}
+                    {handleHighlight(i, keyword)}
                 </div>
             ))}
         </div>
@@ -92,7 +92,7 @@ const Name: React.FC<{ item: TodoItemType; isShowTime: boolean }> = ({
 
     return (
         <>
-            {handleKeywordHighlight(item.name, keyword)}
+            {handleHighlight(item.name, keyword)}
             {(isShowTime ||
                 item.isTarget === "1" ||
                 item.isBookMark === "1") && (
