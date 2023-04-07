@@ -115,7 +115,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     // onPressEnter={onOk}
                     autoFocus={true}
                     allowClear
-                    autoSize={{ minRows: 1, maxRows: 3 }}
+                    autoSize={{ minRows: 1, maxRows: 4 }}
                 />
             </Form.Item>
             <Form.Item
