@@ -16,6 +16,10 @@
     padding: 0 !important;
 }
 
+.ant-drawer {
+    z-index: 4;
+}
+
 .ant-modal-body {
     max-height: calc(100vh - 150px) !important;
     overflow-y: auto;
