@@ -43,17 +43,12 @@ const DoneList: React.FC<Props> = (props) => {
         scrollToTop();
     }, [doneList]);
 
-    const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
+    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(
+        `${sortKey}-sort-time`
+    );
 
     const getList = (time: string): TodoItemType[] =>
-        !isSortTime
-            ? doneMap[time]
-            : [...doneMap[time]].sort(
-                  // sort 会改变原数组
-                  (a, b) =>
-                      (b?.mTime ? new Date(b.mTime).getTime() : 0) -
-                      (a?.mTime ? new Date(a.mTime).getTime() : 0)
-              );
+        !isSortTime ? doneMap[time] : handleSort(doneMap[time]);
 
     return (
         <div className={styles.list}>

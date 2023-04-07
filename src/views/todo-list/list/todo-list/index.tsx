@@ -71,18 +71,13 @@ const List: React.FC<Props> = (props) => {
         }
     };
 
-    const { isSortTime, setIsSortTime } = useIsSortTime(`${sortKey}-sort-time`);
+    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(
+        `${sortKey}-sort-time`
+    );
 
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {
-        const l = !isSortTime
-            ? list
-            : [...list].sort(
-                  // sort 会改变原数组
-                  (a, b) =>
-                      (b?.mTime ? new Date(b.mTime).getTime() : 0) -
-                      (a?.mTime ? new Date(a.mTime).getTime() : 0)
-              );
+        const l = !isSortTime ? list : handleSort(list);
 
         // doing === '1' 的放前面，所以依然是正在处理的事情优先级最高
         return l

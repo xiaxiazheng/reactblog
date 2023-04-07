@@ -1,6 +1,7 @@
 import { CalendarOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import React, { useState } from "react";
+import { TodoItemType } from "../../types";
 
 export enum SortKeyMap {
     todo,
@@ -12,6 +13,15 @@ export enum SortKeyMap {
     footprint,
 }
 
+export const handleSortByMTime = (list: TodoItemType[]) => {
+    return [...list].sort(
+        // sort 会改变原数组
+        (a, b) =>
+            (b?.mTime ? new Date(b.mTime).getTime() : 0) -
+            (a?.mTime ? new Date(a.mTime).getTime() : 0)
+    );
+};
+
 export const useIsSortTime = (key?: string) => {
     const [isSortTime, setIsSortTime] = useState<boolean>(
         (key && localStorage.getItem(key) === "true") || false
@@ -22,7 +32,7 @@ export const useIsSortTime = (key?: string) => {
         key && localStorage.setItem(key, String(val));
     };
 
-    return { isSortTime, setIsSortTime: update };
+    return { isSortTime, setIsSortTime: update, handleSort: handleSortByMTime };
 };
 
 interface IProps {
