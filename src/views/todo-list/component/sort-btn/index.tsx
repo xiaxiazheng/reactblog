@@ -13,15 +13,17 @@ export enum SortKeyMap {
 }
 
 export const useIsSortTime = (key?: string) => {
-    const [isSortTime, setIsSortTime] = useState<boolean>((key && Boolean(localStorage.getItem(key))) || false);
+    const [isSortTime, setIsSortTime] = useState<boolean>(
+        (key && localStorage.getItem(key) === "true") || false
+    );
 
     const update = (val: boolean) => {
         setIsSortTime(val);
         key && localStorage.setItem(key, String(val));
-    }
+    };
 
-    return {isSortTime, setIsSortTime: update};
-}
+    return { isSortTime, setIsSortTime: update };
+};
 
 interface IProps {
     isSortTime: boolean;
