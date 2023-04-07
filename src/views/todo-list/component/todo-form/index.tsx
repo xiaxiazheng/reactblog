@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Form,
     Input,
@@ -100,6 +100,11 @@ const TodoForm: React.FC<Props> = (props) => {
 
     const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === '1';
 
+    const input = useRef<any>(null);
+    useEffect(() => {
+        input?.current && input.current?.focus();
+    }, [activeTodo]);
+
     return (
         <Form
             className={styles.form}
@@ -114,6 +119,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
                     // onPressEnter={onOk}
                     autoFocus={true}
+                    ref={input}
                     allowClear
                     autoSize={{ minRows: 1, maxRows: 4 }}
                 />
