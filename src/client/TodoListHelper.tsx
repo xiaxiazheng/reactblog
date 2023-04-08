@@ -18,15 +18,26 @@ export async function getTodoCategory(params?: {
 }): Promise<any> {
     const data = await getHelper(
         `/todo/getTodoCategory${
-            typeof params?.isNote === "undefined" ? "" : `?isNote=${params.isNote}`
+            typeof params?.isNote === "undefined"
+                ? ""
+                : `?isNote=${params.isNote}`
         }`
     );
     return data && data.resultsCode === "success" ? data : false;
 }
 
 /** 获取单个 todo */
-export async function getTodoById(todo_id: string): Promise<any> {
-    const data = await getHelper(`/todo/getTodoById?todo_id=${todo_id}`);
+export async function getTodoById(
+    todo_id: string,
+    isFindAllLevelChild: boolean = false
+): Promise<any> {
+    const data = await getHelper(
+        `/todo/getTodoById?todo_id=${todo_id}${
+            isFindAllLevelChild
+                ? `&isFindAllLevelChild=${isFindAllLevelChild}`
+                : ""
+        }`
+    );
     return data && data.resultsCode === "success" ? data : false;
 }
 

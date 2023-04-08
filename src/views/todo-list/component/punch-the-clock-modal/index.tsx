@@ -4,7 +4,7 @@ import { Button, message, Modal, Space, Spin } from "antd";
 import dayjs from "dayjs";
 import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
 import { CreateTodoItemReq, TodoItemType } from "../../types";
-import { addTodoItem } from "@/client/TodoListHelper";
+import { addTodoItem, getTodoById } from "@/client/TodoListHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
@@ -39,7 +39,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
         setShowPunchTheClockModal(false);
     };
 
-    const active = useSelector((state: RootState) => state.edit.activeTodo) as TodoItemType;
+    const originTodo = useSelector((state: RootState) => state.edit.activeTodo) as TodoItemType;
     const visible = useSelector((state: RootState) => state.edit.showPunchTheClockModal);
     const dispatch = useDispatch<Dispatch>();
     const {
@@ -48,6 +48,18 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     } = dispatch.edit;
     const { refreshData } = dispatch.data;
 
+    const [active, setActive] = useState<TodoItemType>();
+    useEffect(() => {
+        if (originTodo) {
+            getTodo();
+        }
+    }, [originTodo]);
+    const getTodo = async () => {
+        const res = await getTodoById(originTodo.todo_id, true);
+        if (res) {
+            setActive(res.data);
+        }
+    }
 
     const punchTheClock = async (active: TodoItemType | undefined) => {
         if (active) {
