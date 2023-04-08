@@ -139,6 +139,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             onCancel={() => {
                 setShowChainModal(false);
                 setLocalKeyword("");
+                setIsShowAll(false);
             }}
             footer={null}
             width={650}
