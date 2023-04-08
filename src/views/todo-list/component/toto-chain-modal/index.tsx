@@ -58,7 +58,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     const nowTodo = todoChainList.find((item) => item.todo_id === chainId);
 
-    const handleFilter = (list: TodoItemType[]) => {
+    const handleFilter = (list: TodoItemType[]): TodoItemType[] => {
         return list.filter(
             (item) =>
                 !localKeyword ||
@@ -66,7 +66,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     -1 ||
                 item.description
                     .toLowerCase()
-                    .indexOf(localKeyword.toLowerCase()) !== -1
+                    .indexOf(localKeyword.toLowerCase()) !== -1 ||
+                handleFilter(item?.child_todo_list || [])?.length !== 0
         );
     };
 
@@ -149,7 +150,11 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 )?.length !== 0 && (
                     <>
                         <h4>前置：</h4>
-                        {todoChainList
+                        {handleFilter(
+                            todoChainList.filter(
+                                (item) => item.todo_id !== chainId
+                            )
+                        )
                             .filter((item) => item.todo_id !== chainId)
                             .reverse()
                             .map((item) => (

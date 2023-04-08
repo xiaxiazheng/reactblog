@@ -45,7 +45,8 @@ export const handleUrlHighlight = (str: string, keyword: string = '') => {
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 
 // 根据关键字高亮
-export const handleKeywordHighlight = (str: string, keyword: string = '') => {
+export const handleKeywordHighlight = (str: string, originKeyword: string = '') => {
+    const keyword = originKeyword.trim(); // 去掉左右的空格
     if (!keyword || keyword === '') {
         return str;
     }
