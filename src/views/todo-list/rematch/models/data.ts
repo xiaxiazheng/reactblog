@@ -230,16 +230,18 @@ export const data = createModel<RootModel>()({
 
                     const req: any = {
                         status: TodoStatus[type],
+                        pageSize: 200,
                     };
 
                     const res = await getTodoList(req);
                     if (res) {
                         if (type === "todo") {
-                            setTodoListOrigin(res.data);
+                            console.log(res.data.list)
+                            setTodoListOrigin(res.data.list);
                             setTodoLoading(false);
                         }
                         if (type === "pool") {
-                            setPoolListOrigin(res.data);
+                            setPoolListOrigin(res.data.list);
                             setPoolLoading(false);
                         }
                     } else {
