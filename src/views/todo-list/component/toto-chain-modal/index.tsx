@@ -142,7 +142,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 setIsShowAll(false);
             }}
             footer={null}
-            width={650}
+            width={isShowAll ? 1000 : 650}
         >
             <Spin spinning={loading}>
                 {/* 前置 */}
