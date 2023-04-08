@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
+    Button,
     Collapse,
     Divider,
     DrawerProps,
@@ -77,7 +78,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             )
             .map((item) => (
                 <div key={item.todo_id}>
-                    {item.child_todo_list_length !== 0 ? (
+                    {item.child_todo_list_length !== 0 && isShowAll ? (
                         <Collapse ghost defaultActiveKey={[item.todo_id]}>
                             <Collapse.Panel
                                 key={item.todo_id}
@@ -97,7 +98,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                             </Collapse.Panel>
                         </Collapse>
                     ) : (
-                        <div style={{ paddingLeft: 24 }}>
+                        <div style={{ paddingLeft: isShowAll ? 24 : 0 }}>
                             <TodoItem
                                 key={item.todo_id}
                                 item={item}
@@ -112,6 +113,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             ));
     };
 
+    const [isShowAll, setIsShowAll] = useState<boolean>(false);
+
     return (
         <Modal
             className={theme === "dark" ? "darkTheme" : ""}
@@ -122,6 +125,12 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                         value={localKeyword}
                         onChange={(e) => setLocalKeyword(e.target.value)}
                     />
+                    <Button
+                        type={isShowAll ? "primary" : "default"}
+                        onClick={() => setIsShowAll((prev) => !prev)}
+                    >
+                        show All
+                    </Button>
                 </Space>
             }
             open={visible}
