@@ -236,7 +236,6 @@ export const data = createModel<RootModel>()({
                     const res = await getTodoList(req);
                     if (res) {
                         if (type === "todo") {
-                            console.log(res.data.list)
                             setTodoListOrigin(res.data.list);
                             setTodoLoading(false);
                         }
