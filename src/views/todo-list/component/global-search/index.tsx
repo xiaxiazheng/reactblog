@@ -47,17 +47,16 @@ const GlobalSearch: React.FC = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        form &&
-            form.setFieldsValue({
-                time: dayjs(),
-                status: TodoStatus.todo,
-                color: "3",
-                category: "个人",
-                doing: "0",
-                isNote: "0",
-                isTarget: "0",
-                isBookMark: "0",
-            });
+        form?.setFieldsValue({
+            time: dayjs(),
+            status: TodoStatus.todo,
+            color: "3",
+            category: "个人",
+            doing: "0",
+            isNote: "0",
+            isTarget: "0",
+            isBookMark: "0",
+        });
     };
 
     useEffect(() => {

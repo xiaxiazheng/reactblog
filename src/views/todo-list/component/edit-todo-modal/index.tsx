@@ -70,7 +70,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const handleCloseBackUp = () => {
         setActiveTodo(undefined);
         setShowEdit(false);
-        form && form.resetFields();
+        form?.resetFields();
     };
 
     useEffect(() => {
@@ -106,6 +106,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             // 保存足迹
             setFootPrintList(item.todo_id);
+        } else {
+            form?.resetFields();
         }
     }, [activeTodo]);
 

@@ -25,17 +25,16 @@ const TodoNote: React.FC<IProps> = (props) => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        form &&
-            form.setFieldsValue({
-                time: dayjs(),
-                status: TodoStatus.todo,
-                color: "3",
-                category: "个人",
-                doing: "0",
-                isNote: "0",
-                isTarget: "0",
-                isBookMark: "0",
-            });
+        form?.setFieldsValue({
+            time: dayjs(),
+            status: TodoStatus.todo,
+            color: "3",
+            category: "个人",
+            doing: "0",
+            isNote: "0",
+            isTarget: "0",
+            isBookMark: "0",
+        });
     };
     const isRefreshNote = useSelector(
         (state: RootState) => state.data.isRefreshNote
@@ -222,13 +221,18 @@ const TodoNote: React.FC<IProps> = (props) => {
                                         isOnlyShow={true}
                                         todo={{
                                             ...item,
-                                            imgList: item.imgList.slice(0, maxLength),
+                                            imgList: item.imgList.slice(
+                                                0,
+                                                maxLength
+                                            ),
                                         }}
                                         width="120px"
                                     />
                                     {item.imgList.length > maxLength && (
                                         <div style={{ opacity: 0.7 }}>
-                                            还有 {item.imgList.length - maxLength} 张图
+                                            还有{" "}
+                                            {item.imgList.length - maxLength}{" "}
+                                            张图
                                         </div>
                                     )}
                                 </div>
