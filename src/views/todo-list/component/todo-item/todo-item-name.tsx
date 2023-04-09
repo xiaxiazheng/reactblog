@@ -31,12 +31,15 @@ export const renderDescription = (str: string, keyword: string = "") => {
     );
 };
 
-const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement">> = (
+const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement" | "isModalOrDrawer">> = (
     props
 ) => {
-    const { item, placement } = props;
+    const { item, placement, isModalOrDrawer } = props;
 
     const keyword = useSelector((state: RootState) => state.filter.keyword);
+    const localKeyword = useSelector(
+        (state: RootState) => state.filter.localKeyword
+    );
 
     return item.description ||
         (item.imgList && item.imgList.length !== 0) ||
@@ -46,7 +49,8 @@ const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement">> = (
             title={
                 <>
                     {item.description &&
-                        renderDescription(item.description, keyword)}
+                        renderDescription(item.description, 
+                            isModalOrDrawer ? `${keyword} ${localKeyword}` : keyword)}
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"
@@ -140,7 +144,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     const isDone = item.status === String(TodoStatus.done);
 
     return (
-        <ToolTipsWrapper item={item} placement={placement}>
+        <ToolTipsWrapper item={item} placement={placement} isModalOrDrawer={isModalOrDrawer}>
             <div
                 className={styles.name}
                 onClick={() => !onlyShow && handleEdit(item)}
