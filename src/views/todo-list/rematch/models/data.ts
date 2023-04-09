@@ -20,6 +20,7 @@ interface DataType {
     poolList: TodoItemType[];
     targetList: TodoItemType[];
     bookMarkList: TodoItemType[];
+    punchTheClockList: TodoItemType[];
 }
 
 export const data = createModel<RootModel>()({
@@ -39,6 +40,7 @@ export const data = createModel<RootModel>()({
         poolList: [],
         targetList: [],
         bookMarkList: [],
+        punchTheClockList: [],
     } as DataType,
     reducers: {
         setTodoLoading: (state, payload) => {
@@ -131,6 +133,12 @@ export const data = createModel<RootModel>()({
                 bookMarkList: payload,
             };
         },
+        setPunchTheClockList: (state, payload) => {
+            return {
+                ...state,
+                punchTheClockList: payload,
+            };
+        },
     },
     effects: (dispatch) => ({
         async getTodo(type: StatusType, state) {
@@ -191,6 +199,23 @@ export const data = createModel<RootModel>()({
                     }
                     break;
                 }
+                // 暂时跟着目标走，没必要再多发一个请求
+                // case "punchTheClock": {
+                //     setTargetLoading(true);
+                //     const req: any = {
+                //         isPunchTheClock: "1",
+                //         pageNo: 1,
+                //         pageSize: 100,
+                //     };
+                //     const res = await getTodoList(req);
+                //     if (res) {
+                //         setTargetListOrigin(res.data.list);
+                //         setTargetLoading(false);
+                //     } else {
+                //         message.error("获取 todolist 失败");
+                //     }
+                //     break;
+                // }
                 case "note": {
                     setIsRefreshNote(true);
                     break;

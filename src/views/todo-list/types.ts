@@ -44,7 +44,7 @@ export interface EditTodoItemReq extends CreateTodoItemReq {
     todo_id: string;
 }
 
-export type StatusType = "todo" | "done" | "pool" | "target" | "bookMark" | "note";
+export type StatusType = "todo" | "done" | "pool" | "target" | "bookMark" | "note" | "punchTheClock";
 export enum TodoStatus {
     todo = 0,
     done = 1,

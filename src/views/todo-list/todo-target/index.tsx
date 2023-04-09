@@ -24,13 +24,14 @@ const TodoTarget = () => {
 
     useEffect(() => {
         getTodo("target");
+        // getTodo("punchTheClock");
     }, []);
 
     return (
         <PoolList
             loading={targetLoading}
             sortKey={SortKeyMap.target}
-            title="目标"
+            title="目标 & 打卡"
             btn={
                 <>
                     <Button
