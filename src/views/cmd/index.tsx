@@ -190,7 +190,7 @@ const CMD: React.FC<ICMD> = (props) => {
                 </div>
                 <div style={{ marginTop: 20 }}>结果：</div>
                 <Spin spinning={loading}>
-                    <div className={styles.result} ref={resultRef}>
+                    <div className={`${styles.result} ScrollBar`} ref={resultRef}>
                         {result}
                     </div>
                 </Spin>
