@@ -31,10 +31,11 @@ interface Props {
     onOk: any;
     isFieldsChange: () => void;
     activeTodo?: TodoItemType;
+    open: boolean;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-    const { form, onOk, isFieldsChange, activeTodo } = props;
+    const { form, onOk, isFieldsChange, activeTodo, open } = props;
 
     const [category, setCategory] = useState<CategoryType[]>([]);
     const getCategory = async () => {
@@ -102,8 +103,8 @@ const TodoForm: React.FC<Props> = (props) => {
 
     const input = useRef<any>(null);
     useEffect(() => {
-        input?.current && input.current?.focus();
-    }, [activeTodo]);
+        open && input?.current && input.current?.focus();
+    }, [open]);
 
     return (
         <Form

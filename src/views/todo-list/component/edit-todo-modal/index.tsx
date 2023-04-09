@@ -483,6 +483,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 {form && (
                     <TodoForm
                         form={form}
+                        open={visible}
                         // 除了编辑，其他走的都是新建的路子
                         onOk={() => handleOk(false)}
                         isFieldsChange={() => {
@@ -531,6 +532,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             >
                 <TodoForm
                     form={form2}
+                    open={visible2}
                     // 除了编辑，其他走的都是新建的路子
                     onOk={() => handleOk2()}
                     isFieldsChange={() => {
