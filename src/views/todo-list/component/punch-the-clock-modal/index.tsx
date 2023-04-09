@@ -25,7 +25,7 @@ export const handleIsTodayPunchTheClock = (
     return (
         (isHasToday &&
             item?.child_todo_list
-                .map((item) => item.time)
+                ?.map((item) => item.time)
                 .includes(dayjs().format("YYYY-MM-DD"))) ||
         false
     );
@@ -39,13 +39,14 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
         setShowPunchTheClockModal(false);
     };
 
-    const active = useSelector((state: RootState) => state.edit.activeTodo) as TodoItemType;
-    const visible = useSelector((state: RootState) => state.edit.showPunchTheClockModal);
+    const active = useSelector(
+        (state: RootState) => state.edit.activeTodo
+    ) as TodoItemType;
+    const visible = useSelector(
+        (state: RootState) => state.edit.showPunchTheClockModal
+    );
     const dispatch = useDispatch<Dispatch>();
-    const {
-        setShowPunchTheClockModal,
-        setActiveTodo,
-    } = dispatch.edit;
+    const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
     const { refreshData } = dispatch.data;
 
     const punchTheClock = async (active: TodoItemType | undefined) => {
