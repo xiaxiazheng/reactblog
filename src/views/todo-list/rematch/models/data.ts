@@ -256,6 +256,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         status: TodoStatus[type],
                         pageSize: 200,
+                        sortBy: [['color']]
                     };
 
                     const res = await getTodoList(req);
