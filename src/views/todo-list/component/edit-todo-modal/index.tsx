@@ -106,8 +106,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             // 保存足迹
             setFootPrintList(item.todo_id);
-        } else {
-            form?.resetFields();
         }
     }, [activeTodo]);
 

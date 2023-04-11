@@ -9,6 +9,24 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
+export const originTodo = {
+    name: "",
+    description: "",
+    time: dayjs(),
+    status: TodoStatus.todo,
+    color: "3",
+    category: "个人",
+    doing: "0",
+    isNote: "0",
+    isTarget: "0",
+    isBookMark: "0",
+    other_id: "",
+    startTime: dayjs(),
+    target: 7,
+    range: 7,
+    isPunchTheClock: "0",
+};
+
 const GlobalSearch: React.FC = () => {
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(
@@ -47,16 +65,7 @@ const GlobalSearch: React.FC = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        form?.setFieldsValue({
-            time: dayjs(),
-            status: TodoStatus.todo,
-            color: "3",
-            category: "个人",
-            doing: "0",
-            isNote: "0",
-            isTarget: "0",
-            isBookMark: "0",
-        });
+        form?.setFieldsValue(originTodo);
     };
 
     useEffect(() => {

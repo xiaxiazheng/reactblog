@@ -10,6 +10,7 @@ import { debounce } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { Dispatch, RootState } from "../rematch";
+import { originTodo } from "../component/global-search";
 
 const { Search } = Input;
 
@@ -26,14 +27,8 @@ const TodoNote: React.FC<IProps> = (props) => {
         setOperatorType("add");
         setShowEdit(true);
         form?.setFieldsValue({
-            time: dayjs(),
-            status: TodoStatus.todo,
-            color: "3",
-            category: "个人",
-            doing: "0",
-            isNote: "0",
-            isTarget: "0",
-            isBookMark: "0",
+            ...originTodo,
+            isNote: "1",
         });
     };
     const isRefreshNote = useSelector(
