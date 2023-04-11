@@ -95,7 +95,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                 }
                             >
                                 {item.child_todo_list_length !== 0 &&
-                                    renderChildTodo(item.child_todo_list)}
+                                    renderChildTodo(item.child_todo_list || [])}
                             </Collapse.Panel>
                         </Collapse>
                     ) : (
@@ -193,6 +193,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 {/* 后续 */}
                 {nowTodo &&
                     nowTodo.child_todo_list_length !== 0 &&
+                    nowTodo.child_todo_list &&
                     handleFilter(nowTodo.child_todo_list)?.length !== 0 && (
                         <>
                             <Divider style={{ margin: "12px 0" }} />
