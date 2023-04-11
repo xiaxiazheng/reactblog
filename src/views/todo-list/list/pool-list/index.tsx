@@ -33,11 +33,7 @@ const PoolList: React.FC<Props> = (props) => {
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {
         const l = !isSortTime ? list : handleSort(list);
-
-        // doing === '1' 的放前面，所以依然是正在处理的事情优先级最高
-        return l
-            .filter((item) => item.doing === "1")
-            .concat(l.filter((item) => item.doing !== "1"));
+        return l;
     };
 
     return (
