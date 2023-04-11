@@ -256,7 +256,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         status: TodoStatus[type],
                         pageSize: 200,
-                        sortBy: [['color']]
+                        sortBy: [["color"]],
                     };
 
                     const res = await getTodoList(req);
@@ -276,21 +276,21 @@ export const data = createModel<RootModel>()({
                 }
             }
         },
-        refreshData(type: StatusType | undefined, state) {
-            const showBookMarkDrawer = state.edit.showBookMarkDrawer;
+        refreshData(type?: StatusType) {
+            // const showBookMarkDrawer = state.edit.showBookMarkDrawer;
             if (!type) {
                 this.getTodo("todo");
                 this.getTodo("done");
                 this.getTodo("pool");
                 this.getTodo("target");
-                showBookMarkDrawer && this.getTodo("bookMark");
+                // showBookMarkDrawer && this.getTodo("bookMark");
             } else {
                 type === "todo" && this.getTodo("todo");
                 type === "done" && this.getTodo("done");
                 type === "pool" && this.getTodo("pool");
                 type === "target" && this.getTodo("target");
                 type === "bookMark" &&
-                    showBookMarkDrawer &&
+                    // showBookMarkDrawer &&
                     this.getTodo("bookMark");
             }
         },
