@@ -115,23 +115,24 @@ const GlobalSearch: React.FC = () => {
                 <div>
                     <span>类别：</span>
                     <Select
+                        className={styles.select}
                         value={activeCategory}
                         onChange={(val: any) => setActiveCategory(val)}
+                        showSearch
+                        filterOption={(input, option) =>
+                            (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                        }
                         allowClear
                         style={{ width: 120 }}
-                    >
-                        <Select.Option key="所有" value="">
-                            所有
-                        </Select.Option>
-                        {category?.map((item) => (
-                            <Select.Option
-                                key={item.category}
-                                value={item.category}
-                            >
-                                {item.category}
-                            </Select.Option>
-                        ))}
-                    </Select>
+                        options={category?.map((item) => {
+                            return {
+                                label: item.category,
+                                value: item.category,
+                            };
+                        })}
+                    />
                 </div>
                 <div>
                     <span>时间：</span>

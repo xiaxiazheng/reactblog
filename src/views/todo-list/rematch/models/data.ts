@@ -300,7 +300,7 @@ export const data = createModel<RootModel>()({
             if (activeColor !== "") {
                 l = l.filter((item) => item.color === activeColor);
             }
-            if (activeCategory !== "") {
+            if (activeCategory && activeCategory !== "") {
                 l = l.filter((item) => item.category === activeCategory);
             }
             if (keyword !== "") {
