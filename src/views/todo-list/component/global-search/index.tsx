@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, DatePicker, Input, Radio, Select, Space } from "antd";
+import { Button, DatePicker, Input, Radio, Select, Space, Tooltip } from "antd";
 import { TodoStatus } from "../../types";
-import { ClearOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
+import {
+    AppleFilled,
+    ClearOutlined,
+    PlusOutlined,
+    RedoOutlined,
+} from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
 import dayjs from "dayjs";
@@ -230,9 +235,20 @@ const GlobalSearch: React.FC = () => {
                         type={showFilter ? "primary" : "default"}
                         onClick={() => setShowFilter((prev) => !prev)}
                     >
-                        筛选
+                        Filter
                     </Button>
-
+                    {isWork !== "1" && (
+                        <Tooltip title="开启工作模式">
+                            <Button
+                                type="text"
+                                onClick={() => setIsWork("1")}
+                                icon={
+                                    <AppleFilled style={{ color: "#00d4d8" }} />
+                                }
+                                style={{ borderColor: "#00d4d8" }}
+                            />
+                        </Tooltip>
+                    )}
                     {/* 清理筛选项 */}
                     {(isFilter() || showFilter) && (
                         <Button
