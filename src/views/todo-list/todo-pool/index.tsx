@@ -13,11 +13,7 @@ const TodoPool = () => {
     );
     const poolList = useSelector((state: RootState) => state.data.poolList);
     const dispatch = useDispatch<Dispatch>();
-    const { getTodo, setPoolList, getFilterList } = dispatch.data;
-
-    useEffect(() => {
-        getTodo("pool");
-    }, []);
+    const { setPoolList, getFilterList } = dispatch.data;
 
     useEffect(() => {
         setPoolList(getFilterList(poolListOrigin));

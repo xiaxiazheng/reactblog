@@ -33,6 +33,7 @@ export const originTodo = {
 };
 
 const GlobalSearch: React.FC = () => {
+    const category = useSelector((state: RootState) => state.data.category);
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
@@ -181,14 +182,6 @@ const GlobalSearch: React.FC = () => {
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
-    const [category, setCategory] = useState<any[]>([]);
-    const getCategory = async () => {
-        const res = await getTodoCategory();
-        setCategory(res.data);
-    };
-    useEffect(() => {
-        getCategory();
-    }, []);
 
     const [keyword, setKeyword] = useState<string>("");
     useEffect(() => {

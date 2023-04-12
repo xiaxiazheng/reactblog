@@ -15,17 +15,12 @@ const TodoTarget = () => {
         (state: RootState) => state.data.targetListOrigin
     );
     const dispatch = useDispatch<Dispatch>();
-    const { setTargetList, getFilterList, getTodo } = dispatch.data;
+    const { setTargetList, getFilterList } = dispatch.data;
     useEffect(() => {
         setTargetList(getFilterList(targetListOrigin));
     }, [targetListOrigin]);
 
     const [isShowDoneTarget, setIsShowDoneTarget] = useState<boolean>(false);
-
-    useEffect(() => {
-        getTodo("target");
-        // getTodo("punchTheClock");
-    }, []);
 
     return (
         <PoolList

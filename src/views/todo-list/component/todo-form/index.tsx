@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
     Form,
     Input,
@@ -15,16 +15,17 @@ import {
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
-import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorMap, colorNameMap, colorList, handleCopy } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
 import dayjs from "dayjs";
-import { CategoryType, TodoItemType } from "../../types";
+import { TodoItemType } from "../../types";
 import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../rematch";
 
 interface Props {
     form: FormInstance;
@@ -37,14 +38,7 @@ interface Props {
 const TodoForm: React.FC<Props> = (props) => {
     const { form, onOk, isFieldsChange, activeTodo, open } = props;
 
-    const [category, setCategory] = useState<CategoryType[]>([]);
-    const getCategory = async () => {
-        const res = await getTodoCategory();
-        setCategory(res.data);
-    };
-    useEffect(() => {
-        getCategory();
-    }, []);
+    const category = useSelector((state: RootState) => state.data.category);
 
     const MyDatePicker = (props: any) => {
         const { value, onChange } = props;

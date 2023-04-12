@@ -24,11 +24,7 @@ const TodoToday = () => {
         (state: RootState) => state.data.todoListOrigin
     );
     const dispatch = useDispatch<Dispatch>();
-    const { getTodo, setTodoList, getFilterList } = dispatch.data;
-
-    useEffect(() => {
-        getTodo("todo");
-    }, []);
+    const { setTodoList, getFilterList } = dispatch.data;
 
     useEffect(() => {
         setTodoList(getFilterList(todoListOrigin));
@@ -37,7 +33,6 @@ const TodoToday = () => {
     return (
         <List
             loading={todoLoading}
-            getTodo={getTodo}
             sortKey={SortKeyMap.todo}
             title={
                 <>

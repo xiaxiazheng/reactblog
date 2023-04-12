@@ -41,10 +41,19 @@ const TodoList: React.FC = () => {
 
     const [form] = useForm();
     const dispatch = useDispatch<Dispatch>();
+    const { getTodo, getCategory } = dispatch.data;
     const { setForm } = dispatch.edit;
     useEffect(() => {
         setForm(form);
     }, [form]);
+
+    useEffect(() => {
+        getTodo("todo");
+        getTodo("pool");
+        getTodo("target");
+        // getTodo("punchTheClock");
+        getCategory();
+    }, []);
 
     return (
         <div className={styles.todoList}>

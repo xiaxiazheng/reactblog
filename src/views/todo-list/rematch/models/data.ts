@@ -1,7 +1,12 @@
-import { getTodoList } from "@/client/TodoListHelper";
+import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { createModel } from "@rematch/core";
 import { message } from "antd";
-import { StatusType, TodoItemType, TodoStatus } from "../../types";
+import {
+    CategoryType,
+    StatusType,
+    TodoItemType,
+    TodoStatus,
+} from "../../types";
 import type { RootModel } from "./index";
 
 interface DataType {
@@ -21,6 +26,7 @@ interface DataType {
     targetList: TodoItemType[];
     bookMarkList: TodoItemType[];
     punchTheClockList: TodoItemType[];
+    category: CategoryType[];
 }
 
 export const data = createModel<RootModel>()({
@@ -41,6 +47,7 @@ export const data = createModel<RootModel>()({
         targetList: [],
         bookMarkList: [],
         punchTheClockList: [],
+        category: [],
     } as DataType,
     reducers: {
         setTodoLoading: (state, payload) => {
@@ -137,6 +144,12 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 punchTheClockList: payload,
+            };
+        },
+        setCategory: (state, payload) => {
+            return {
+                ...state,
+                category: payload,
             };
         },
     },
@@ -281,6 +294,7 @@ export const data = createModel<RootModel>()({
             }
         },
         refreshData(type?: StatusType) {
+            this.getCategory();
             // const showBookMarkDrawer = state.edit.showBookMarkDrawer;
             if (!type) {
                 this.getTodo("todo");
@@ -348,6 +362,10 @@ export const data = createModel<RootModel>()({
             setPoolList(this.getFilterList(poolListOrigin));
             setTargetList(this.getFilterList(targetListOrigin));
             this.getTodo("done");
+        },
+        async getCategory() {
+            const res = await getTodoCategory();
+            this.setCategory(res.data);
         },
     }),
 });
