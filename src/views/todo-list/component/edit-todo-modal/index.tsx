@@ -76,16 +76,16 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
-            let timeRange: TimeRange & { isPunchTheClock: '0' | '1' } = {
+            let timeRange: TimeRange & { isPunchTheClock: "0" | "1" } = {
                 startTime: dayjs(),
                 target: 7,
                 range: 7,
-                isPunchTheClock: '0',
+                isPunchTheClock: "0",
             };
             if (item.timeRange) {
                 timeRange = {
                     ...timeRangeParse(item.timeRange),
-                    isPunchTheClock: '1',
+                    isPunchTheClock: "1",
                 };
             }
             form &&
@@ -202,7 +202,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isWork: formData.isWork || "0",
                 isBookMark: formData.isBookMark || "0",
             };
-            if (formData.isPunchTheClock === '1') {
+            if (formData.isPunchTheClock === "1") {
                 const { startTime, range, target } = formData;
                 req.timeRange = timeRangeStringify({
                     startTime,
@@ -330,6 +330,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             isNote: "0",
             isTarget: "0",
             isBookMark: "0",
+            isWork: item.isWork,
         });
         setVisible2(true);
         setIsEdit2(true);
