@@ -321,7 +321,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         form2?.setFieldsValue({
             name: item.name,
             description: item.description,
-            time: dayjs(item.time),
+            time: type === "copy" ? dayjs(item.time) : dayjs(),
             status: TodoStatus.todo,
             color: item.color,
             category: item.category,
