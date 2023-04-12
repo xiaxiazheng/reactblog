@@ -16,7 +16,7 @@ import {
     StarFilled,
 } from "@ant-design/icons";
 import { getTodoCategory } from "@/client/TodoListHelper";
-import { colorMap, colorNameMap, colorList, handleCopy, timeRangeParse } from "../../utils";
+import { colorMap, colorNameMap, colorList, handleCopy } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
 import dayjs from "dayjs";
@@ -99,7 +99,7 @@ const TodoForm: React.FC<Props> = (props) => {
         );
     };
 
-    const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === '1';
+    const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === "1";
 
     const input = useRef<any>(null);
     useEffect(() => {
@@ -187,6 +187,15 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
             <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
                 <Space>
+                    <Form.Item
+                        name="isWork"
+                        rules={[{ required: true }]}
+                        initialValue={"0"}
+                    >
+                        <SwitchComp>
+                            <span style={{ color: "#00d4d8" }}>工作</span>
+                        </SwitchComp>
+                    </Form.Item>
                     <Form.Item
                         name="doing"
                         rules={[{ required: true }]}

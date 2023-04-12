@@ -7,6 +7,7 @@ interface FilterType {
     activeColor: string;
     activeCategory: string;
     startEndTime: any;
+    isWork: string; // 是否是工作
     pageNo: number;
     pageSize: number;
 }
@@ -18,6 +19,7 @@ export const filter = createModel<RootModel>()({
         activeColor: "",
         activeCategory: "",
         startEndTime: "",
+        isWork: "",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
     } as FilterType,
@@ -52,6 +54,12 @@ export const filter = createModel<RootModel>()({
                 startEndTime: payload,
             };
         },
+        setIsWork: (state, payload) => {
+            return {
+                ...state,
+                isWork: payload,
+            };
+        },
         setPageNo: (state, payload) => {
             return {
                 ...state,
@@ -72,11 +80,13 @@ export const filter = createModel<RootModel>()({
                 setActiveColor,
                 setKeyword,
                 setStartEndTime,
+                setIsWork,
                 setPageNo,
             } = dispatch.filter;
             setActiveCategory("");
             setActiveColor("");
             setKeyword("");
+            setIsWork("");
             setStartEndTime(undefined);
             setPageNo(1);
         },

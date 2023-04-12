@@ -161,6 +161,7 @@ export const data = createModel<RootModel>()({
                 keyword,
                 pageNo,
                 pageSize,
+                isWork,
                 startEndTime,
                 activeCategory,
                 activeColor,
@@ -231,6 +232,9 @@ export const data = createModel<RootModel>()({
                         endTime: startEndTime?.[1]?.format("YYYY-MM-DD"),
                     };
 
+                    if (isWork) {
+                        req["isWork"] = isWork;
+                    }
                     if (activeCategory) {
                         req["category"] = activeCategory;
                     }
@@ -295,13 +299,17 @@ export const data = createModel<RootModel>()({
             }
         },
         getFilterList(list: TodoItemType[], state) {
-            const { activeColor, activeCategory, keyword } = state.filter;
+            const { activeColor, activeCategory, keyword, isWork } =
+                state.filter;
             let l = list;
             if (activeColor !== "") {
                 l = l.filter((item) => item.color === activeColor);
             }
             if (activeCategory && activeCategory !== "") {
                 l = l.filter((item) => item.category === activeCategory);
+            }
+            if (isWork && isWork !== "") {
+                l = l.filter((item) => item.isWork === isWork);
             }
             if (keyword !== "") {
                 if (keyword.includes(" ")) {
