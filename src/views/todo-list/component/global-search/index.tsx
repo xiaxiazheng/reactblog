@@ -38,6 +38,7 @@ const GlobalSearch: React.FC = () => {
     const startEndTime = useSelector(
         (state: RootState) => state.filter.startEndTime
     );
+    const isWork = useSelector((state: RootState) => state.filter.isWork);
     const contextKeyword = useSelector(
         (state: RootState) => state.filter.keyword
     );
@@ -59,6 +60,7 @@ const GlobalSearch: React.FC = () => {
         setStartEndTime,
         setKeyword: setContextKeyword,
         handleClear,
+        setIsWork,
     } = dispatch.filter;
 
     const handleAdd = () => {
@@ -75,6 +77,7 @@ const GlobalSearch: React.FC = () => {
         activeColor,
         activeCategory,
         startEndTime,
+        isWork,
         pageNo,
         pageSize,
     ]);
@@ -82,6 +85,31 @@ const GlobalSearch: React.FC = () => {
     const Filter = () => {
         return (
             <div className={styles.filterWrapper}>
+                <div>
+                    <span>W / L：</span>
+                    <Radio.Group
+                        optionType="button"
+                        buttonStyle="solid"
+                        value={isWork}
+                    >
+                        {[
+                            { label: "work", value: "1" },
+                            { label: "life", value: "0" },
+                        ].map((item) => (
+                            <Radio.Button
+                                key={item.value}
+                                value={item.value}
+                                onClick={() =>
+                                    setIsWork(
+                                        isWork === item.value ? "" : item.value
+                                    )
+                                }
+                            >
+                                {item.label}
+                            </Radio.Button>
+                        ))}
+                    </Radio.Group>
+                </div>
                 <div>
                     <span>轻重：</span>
                     <Radio.Group
@@ -178,7 +206,8 @@ const GlobalSearch: React.FC = () => {
             activeCategory !== "" ||
             keyword !== "" ||
             !!startEndTime ||
-            pageNo !== 1
+            pageNo !== 1 ||
+            isWork !== ""
         );
     };
 

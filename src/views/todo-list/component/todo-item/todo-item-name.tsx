@@ -7,6 +7,7 @@ import {
     StarFilled,
     AimOutlined,
     BookOutlined,
+    AppleFilled,
 } from "@ant-design/icons";
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
@@ -31,9 +32,9 @@ export const renderDescription = (str: string, keyword: string = "") => {
     );
 };
 
-const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement" | "isModalOrDrawer">> = (
-    props
-) => {
+const ToolTipsWrapper: React.FC<
+    Pick<NameProps, "item" | "placement" | "isModalOrDrawer">
+> = (props) => {
     const { item, placement, isModalOrDrawer } = props;
 
     const keyword = useSelector((state: RootState) => state.filter.keyword);
@@ -49,8 +50,12 @@ const ToolTipsWrapper: React.FC<Pick<NameProps, "item" | "placement" | "isModalO
             title={
                 <>
                     {item.description &&
-                        renderDescription(item.description, 
-                            isModalOrDrawer ? `${keyword} ${localKeyword}` : keyword)}
+                        renderDescription(
+                            item.description,
+                            isModalOrDrawer
+                                ? `${keyword} ${localKeyword}`
+                                : keyword
+                        )}
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"
@@ -144,7 +149,11 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     const isDone = item.status === String(TodoStatus.done);
 
     return (
-        <ToolTipsWrapper item={item} placement={placement} isModalOrDrawer={isModalOrDrawer}>
+        <ToolTipsWrapper
+            item={item}
+            placement={placement}
+            isModalOrDrawer={isModalOrDrawer}
+        >
             <div
                 className={styles.name}
                 onClick={() => !onlyShow && handleEdit(item)}
@@ -157,6 +166,10 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 >
                     {item.category}
                 </span>
+                {/* 公司 */}
+                {item.isWork === "1" && (
+                    <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
+                )}
                 {/* 目标 */}
                 {item.isTarget === "1" && (
                     <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />

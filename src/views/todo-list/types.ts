@@ -15,6 +15,7 @@ export interface TodoItemType {
     mTime?: string;
     isNote?: "0" | "1";
     isTarget?: "0" | "1";
+    isWork?: "0" | "1";
     isBookMark?: "0" | "1";
     timeRange?: string;
 
@@ -36,6 +37,7 @@ export interface CreateTodoItemReq {
     doing: "0" | "1";
     isNote: "0" | "1";
     isTarget: "0" | "1";
+    isWork: "0" | "1";
     isBookMark: "0" | "1";
     timeRange?: string;
 }

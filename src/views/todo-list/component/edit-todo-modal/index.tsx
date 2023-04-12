@@ -100,6 +100,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     doing: item.doing,
                     isNote: item.isNote,
                     isTarget: item.isTarget,
+                    isWork: item.isWork,
                     isBookMark: item.isBookMark,
                     ...timeRange,
                 });
@@ -156,6 +157,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 doing: formData.doing || "0",
                 isNote: formData.isNote || "0",
                 isTarget: formData.isTarget || "0",
+                isWork: formData.isWork || "0",
                 isBookMark: formData.isBookMark || "0",
             };
             const res = await addTodoItem(req);
@@ -197,6 +199,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 doing: formData.doing || "0",
                 isNote: formData.isNote || "0",
                 isTarget: formData.isTarget || "0",
+                isWork: formData.isWork || "0",
                 isBookMark: formData.isBookMark || "0",
             };
             if (formData.isPunchTheClock === '1') {
