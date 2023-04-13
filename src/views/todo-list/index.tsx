@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./index.module.scss";
 import DoneList from "./list/done-list";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import {
+    ArrowLeftOutlined,
+    HistoryOutlined,
+    StarFilled,
+} from "@ant-design/icons";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
 import GlobalSearch from "./component/global-search";
@@ -18,20 +22,61 @@ import TodoTarget from "./todo-target";
 import DrawerBookMark from "./drawers/drawer-bookMark";
 import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
+import { Tooltip } from "antd";
+
+const useTimer = (fn: Function, ms: number = 500) => {
+    const timer = useRef<any>(null);
+
+    const run = () => {
+        timer.current = setTimeout(() => {
+            fn();
+        }, ms);
+    };
+
+    const cancel = () => {
+        timer?.current && clearTimeout(timer.current);
+    };
+
+    return { run, cancel };
+};
 
 const HoverOpen = () => {
     const dispatch = useDispatch<Dispatch>();
-    const { setShowFootprintDrawer } = dispatch.edit;
+    const { setShowFootprintDrawer, setShowBookMarkDrawer } = dispatch.edit;
+
+    const { run: run1, cancel: cancel1 } = useTimer(() =>
+        setShowBookMarkDrawer(true)
+    );
+    const { run: run2, cancel: cancel2 } = useTimer(() =>
+        setShowFootprintDrawer(true)
+    );
 
     return (
-        <div
-            className={styles.bookMark}
-            onMouseEnter={() => setShowFootprintDrawer(true)}
-            onClick={() => {
-                setShowFootprintDrawer(true);
-            }}
-        >
-            <ArrowLeftOutlined />
+        <div className={styles.hoverOpen}>
+            <Tooltip title="书签" placement="left">
+                <div
+                    className={styles.bookMark}
+                    onMouseEnter={() => run1()}
+                    onMouseLeave={() => cancel1()}
+                    onClick={() => {
+                        setShowBookMarkDrawer(true);
+                    }}
+                >
+                    <StarFilled />
+                </div>
+            </Tooltip>
+            <Tooltip title="足迹" placement="left">
+                <div
+                    className={styles.footprint}
+                    onMouseEnter={() => run2()}
+                    onMouseLeave={() => cancel2()}
+                    onClick={() => {
+                        setShowFootprintDrawer(true);
+                    }}
+                >
+                    <HistoryOutlined />
+                </div>
+            </Tooltip>
         </div>
     );
 };

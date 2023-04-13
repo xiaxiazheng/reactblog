@@ -256,14 +256,14 @@ const GlobalSearch: React.FC = () => {
                     )}
                 </Space>
                 <Space>
-                    <Button
+                    {/* <Button
                         type="primary"
                         onClick={() => {
                             setShowBookMarkDrawer(true);
                         }}
                     >
                         书签
-                    </Button>
+                    </Button> */}
                     <Button
                         type="primary"
                         onClick={() => {
@@ -272,14 +272,14 @@ const GlobalSearch: React.FC = () => {
                     >
                         存档
                     </Button>
-                    <Button
+                    {/* <Button
                         type="primary"
                         onClick={() => {
                             setShowFootprintDrawer(true);
                         }}
                     >
                         足迹
-                    </Button>
+                    </Button> */}
                 </Space>
             </div>
 

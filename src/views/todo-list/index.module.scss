@@ -8,13 +8,19 @@
         height: 100%;
     }
 }
-
-.bookMark {
-    width: 15px;
-    height: 100%;
-    line-height: 100vh;
-    border-left: 1px solid #ccc;
-    cursor: pointer;
+.hoverOpen {
+    display: flex;
+    flex-direction: column;
+    .bookMark, .footprint {
+        width: 15px;
+        height: 50%;
+        line-height: 50vh;
+        border-left: 1px solid #ccc;
+        cursor: pointer;
+    }
+    .footprint {
+        border-top: 1px solid #ccc;
+    }
 }
 
 .Layout {
