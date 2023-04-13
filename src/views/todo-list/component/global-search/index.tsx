@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Button, DatePicker, Input, Radio, Select, Space, Tooltip } from "antd";
 import { TodoStatus } from "../../types";
@@ -8,7 +8,6 @@ import {
     PlusOutlined,
     RedoOutlined,
 } from "@ant-design/icons";
-import { getTodoCategory } from "@/client/TodoListHelper";
 import { colorList, colorMap, colorNameMap } from "../../utils";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,9 +54,9 @@ const GlobalSearch: React.FC = () => {
         setShowEdit,
         setOperatorType,
         setActiveTodo,
-        setShowBookMarkDrawer,
+        // setShowBookMarkDrawer,
         setShowNoteDrawer,
-        setShowFootprintDrawer,
+        // setShowFootprintDrawer,
     } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
     const {
@@ -73,7 +72,11 @@ const GlobalSearch: React.FC = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        form?.setFieldsValue(originTodo);
+        form?.setFieldsValue({
+            ...originTodo,
+            category: isWork ? "公司" : originTodo.category,
+            isWork,
+        });
     };
 
     useEffect(() => {
@@ -181,7 +184,6 @@ const GlobalSearch: React.FC = () => {
     };
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
-
 
     const [keyword, setKeyword] = useState<string>("");
     useEffect(() => {
