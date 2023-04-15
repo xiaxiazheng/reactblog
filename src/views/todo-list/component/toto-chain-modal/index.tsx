@@ -16,6 +16,7 @@ import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import styles from "./index.module.scss";
 
 interface IProps extends DrawerProps {}
 
@@ -145,62 +146,64 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             width={isShowAll ? 1000 : 650}
         >
             <Spin spinning={loading}>
-                {/* 前置 */}
-                {handleFilter(
-                    todoChainList.filter((item) => item.todo_id !== chainId)
-                )?.length !== 0 && (
-                    <>
-                        <h4>前置：</h4>
-                        {handleFilter(
-                            todoChainList.filter(
-                                (item) => item.todo_id !== chainId
-                            )
-                        )
-                            .filter((item) => item.todo_id !== chainId)
-                            .reverse()
-                            .map((item) => (
-                                <TodoItem
-                                    key={item.todo_id}
-                                    item={item}
-                                    showDoneIcon={false}
-                                    isChain={true}
-                                    isModalOrDrawer={true}
-                                />
-                            ))}
-                        <Divider style={{ margin: "12px 0" }} />
-                    </>
-                )}
-                {/* 当前 */}
-                {nowTodo && handleFilter([nowTodo])?.length !== 0 && (
-                    <>
-                        <h4>
-                            <span
-                                style={{
-                                    color: "#40a9ff",
-                                }}
-                            >
-                                当前：
-                            </span>
-                        </h4>
-                        <TodoItem
-                            item={nowTodo}
-                            showDoneIcon={false}
-                            isChain={true}
-                            isModalOrDrawer={true}
-                        />
-                    </>
-                )}
-                {/* 后续 */}
-                {nowTodo &&
-                    nowTodo.child_todo_list_length !== 0 &&
-                    nowTodo.child_todo_list &&
-                    handleFilter(nowTodo.child_todo_list)?.length !== 0 && (
+                <div className={styles.content}>
+                    {/* 前置 */}
+                    {handleFilter(
+                        todoChainList.filter((item) => item.todo_id !== chainId)
+                    )?.length !== 0 && (
                         <>
+                            <h4>前置：</h4>
+                            {handleFilter(
+                                todoChainList.filter(
+                                    (item) => item.todo_id !== chainId
+                                )
+                            )
+                                .filter((item) => item.todo_id !== chainId)
+                                .reverse()
+                                .map((item) => (
+                                    <TodoItem
+                                        key={item.todo_id}
+                                        item={item}
+                                        showDoneIcon={false}
+                                        isChain={true}
+                                        isModalOrDrawer={true}
+                                    />
+                                ))}
                             <Divider style={{ margin: "12px 0" }} />
-                            <h4>后续：</h4>
-                            {renderChildTodo(nowTodo.child_todo_list)}
                         </>
                     )}
+                    {/* 当前 */}
+                    {nowTodo && handleFilter([nowTodo])?.length !== 0 && (
+                        <>
+                            <h4>
+                                <span
+                                    style={{
+                                        color: "#40a9ff",
+                                    }}
+                                >
+                                    当前：
+                                </span>
+                            </h4>
+                            <TodoItem
+                                item={nowTodo}
+                                showDoneIcon={false}
+                                isChain={true}
+                                isModalOrDrawer={true}
+                            />
+                        </>
+                    )}
+                    {/* 后续 */}
+                    {nowTodo &&
+                        nowTodo.child_todo_list_length !== 0 &&
+                        nowTodo.child_todo_list &&
+                        handleFilter(nowTodo.child_todo_list)?.length !== 0 && (
+                            <>
+                                <Divider style={{ margin: "12px 0" }} />
+                                <h4>后续：</h4>
+                                {renderChildTodo(nowTodo.child_todo_list)}
+                            </>
+                        )}
+                </div>
             </Spin>
         </Modal>
     );
