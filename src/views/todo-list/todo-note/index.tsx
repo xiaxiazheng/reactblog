@@ -8,9 +8,8 @@ import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../component/todo-item/todo-item-name";
 import { debounce } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
-import dayjs from "dayjs";
 import { Dispatch, RootState } from "../rematch";
-import { originTodo } from "../component/global-search";
+import { getOriginTodo } from "../component/global-search";
 
 const { Search } = Input;
 
@@ -27,7 +26,7 @@ const TodoNote: React.FC<IProps> = (props) => {
         setOperatorType("add");
         setShowEdit(true);
         form?.setFieldsValue({
-            ...originTodo,
+            ...getOriginTodo(),
             isNote: "1",
         });
     };
