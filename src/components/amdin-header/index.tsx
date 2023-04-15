@@ -19,11 +19,15 @@ const Header: React.FC<PropsType> = (props) => {
 
     const [already, setAlready] = useState<string>();
     const [alreadyDays, setAlreadyDays] = useState<string | number>();
+    const [nextDays, setNextDays] = useState<string | number>();
+    const [nextBirthday, setNextBirthday] = useState<string | number>();
 
     useEffect(() => {
         const obj = getAlreadyDate();
         setAlready(obj.date);
         setAlreadyDays(obj.days);
+        setNextDays(obj.next);
+        setNextBirthday(obj.nextBirthday);
     }, []);
 
     /** 点击切换主题 */
@@ -103,11 +107,33 @@ const Header: React.FC<PropsType> = (props) => {
                 </Popover>
             </div>
             <div className={styles.headerRight}>
-                {
-                    <span className={styles.already}>
-                        已经 {already} 啦({alreadyDays}天)
-                    </span>
-                }
+                <div className={styles.already}>
+                    <Tooltip
+                        title={
+                            <div>
+                                <div>已经 {already}啦</div>
+                                <div>也就是 {alreadyDays} 天</div>
+                                <div>
+                                    {nextDays === 0
+                                        ? "今天是纪念日哟"
+                                        : `下次纪念日还有 ${nextDays} 天`}
+                                </div>
+                                <div>
+                                    {nextBirthday === 0
+                                        ? "今天是小猪生日"
+                                        : `小猪下次生日还有 ${nextBirthday} 天`}
+                                </div>
+                            </div>
+                        }
+                    >
+                        <span style={{ cursor: "pointer" }}>
+                            {nextDays === 0 ? "今天是纪念日哟" : nextDays}，
+                            {nextBirthday === 0
+                                ? "今天是小猪生日哟"
+                                : nextBirthday}
+                        </span>
+                    </Tooltip>
+                </div>
                 {/* 主题切换开关 */}
                 <Switch
                     className={styles.switch}
