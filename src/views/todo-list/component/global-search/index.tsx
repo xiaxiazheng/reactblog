@@ -31,7 +31,7 @@ export const getOriginTodo = () => {
         target: 7,
         range: 7,
         isPunchTheClock: "0",
-    }
+    };
 };
 
 const GlobalSearch: React.FC = () => {
@@ -79,7 +79,7 @@ const GlobalSearch: React.FC = () => {
         form?.setFieldsValue({
             ...originTodo,
             category: isWork ? "公司" : originTodo.category,
-            isWork,
+            isWork: isWork || "0",
         });
     };
 
