@@ -237,10 +237,21 @@ const GlobalSearch: React.FC = () => {
                         Filter
                     </Button>
                     {isWork !== "1" && (
-                        <Tooltip title="开启工作模式">
+                        <Tooltip
+                            title={
+                                <>
+                                    <div>左键：开启 Work 模式</div>
+                                    <div>左键：开启 Life 模式</div>
+                                </>
+                            }
+                        >
                             <Button
                                 type="text"
                                 onClick={() => setIsWork("1")}
+                                onContextMenu={(e) => {
+                                    setIsWork("0");
+                                    e.preventDefault();
+                                }}
                                 icon={
                                     <AppleFilled style={{ color: "#00d4d8" }} />
                                 }
