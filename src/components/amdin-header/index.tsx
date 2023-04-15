@@ -126,7 +126,16 @@ const Header: React.FC<PropsType> = (props) => {
                             </div>
                         }
                     >
-                        <span style={{ cursor: "pointer" }}>
+                        <span
+                            style={{
+                                cursor: "pointer",
+                                color:
+                                    (nextDays && nextDays < 15) ||
+                                    (nextBirthday && nextBirthday < 15)
+                                        ? "#40a9ff"
+                                        : "unset",
+                            }}
+                        >
                             {nextDays === 0 ? "今天是纪念日哟" : nextDays}，
                             {nextBirthday === 0
                                 ? "今天是小猪生日哟"
