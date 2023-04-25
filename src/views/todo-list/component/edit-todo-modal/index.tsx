@@ -42,6 +42,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
+import { getOriginTodo } from "../global-search";
 
 interface EditTodoModalType {}
 
@@ -318,7 +319,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         item: TodoItemType
     ) => {
         setType2(type);
+        const originTodo = getOriginTodo();
         form2?.setFieldsValue({
+            ...originTodo,
             name: item.name,
             description: item.description,
             time: type === "copy" ? dayjs(item.time) : dayjs(),
@@ -329,10 +332,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     : item.color,
             category: item.category,
             other_id: type === "copy" ? item.other_id : item.todo_id,
-            doing: "0",
-            isNote: "0",
-            isTarget: "0",
-            isBookMark: "0",
             isWork: item.isWork,
         });
         setVisible2(true);
