@@ -323,7 +323,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             description: item.description,
             time: type === "copy" ? dayjs(item.time) : dayjs(),
             status: TodoStatus.todo,
-            color: item.color,
+            color:
+                type === "add_progress" && `${item.color}` !== "3"
+                    ? `${Number(item.color) + 1}`
+                    : item.color,
             category: item.category,
             other_id: type === "copy" ? item.other_id : item.todo_id,
             doing: "0",
@@ -460,7 +463,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                         }
                                         disabled={isEdit}
                                     >
-                                        添加后续 todo
+                                        添加进度
                                     </Button>
                                     {activeTodo && (
                                         <TodoChainIcon item={activeTodo} />
