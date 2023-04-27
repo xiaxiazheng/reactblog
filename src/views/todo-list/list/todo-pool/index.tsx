@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
-import PoolList from "../../todo-all-list";
+import PoolList from "../../todo-split-time-range-list";
 import { Dispatch, RootState } from "../../rematch";
 
 const TodoPool = () => {
@@ -24,7 +24,7 @@ const TodoPool = () => {
             loading={poolLoading}
             sortKey={SortKeyMap.pool}
             title="待办池"
-            mapList={poolList}
+            list={poolList}
             showDoneIcon={true}
         />
     );

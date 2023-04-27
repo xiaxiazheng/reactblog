@@ -1,0 +1,52 @@
+.list {
+    position: relative;
+    flex: 1;
+    min-height: 100%;
+
+    &:nth-child(2) {
+        flex: 1.2;
+        border-left: 1px solid var(--border_color);
+        border-right: 1px solid var(--border_color);
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px 5px;
+        font-size: 18px;
+        font-weight: 600;
+
+        > span {
+            &.active {
+                color: var(--color_active);
+            }
+        }
+    }
+
+    .OneDayListWrap {
+        height: calc(100% - 75px);
+        padding: 0 20px;
+    }
+
+    .oneDay {
+        margin-bottom: 8px;
+
+        .time {
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border_color);
+
+            &.today {
+                color: var(--color_active);
+            }
+
+            &.previously {
+                color: red;
+            }
+
+            &.future {
+                color: grey;
+            }
+        }
+    }
+}
