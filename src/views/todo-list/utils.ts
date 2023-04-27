@@ -27,11 +27,13 @@ export const colorMap: any = {
     // [-2]: "#20d420",
 };
 
+export const colorTitle = '优先级';
+
 export const colorNameMap: any = {
-    0: "重要紧急",
-    1: "重要",
-    2: "紧急",
-    3: "普通",
+    0: "很重要",
+    1: "比较重要",
+    2: "有点重要",
+    3: "琐事",
     // [-1]: "自定义",
     // [-2]: "短期目标",
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./index.module.scss";
-import DoneList from "./list/done-list";
+import DoneList from "./list/todo-done";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import {
@@ -14,14 +14,14 @@ import TodoChainModal from "./component/toto-chain-modal";
 import store, { Dispatch } from "./rematch";
 import { Provider, useDispatch } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
-import TodoAfter from "./todo-after";
-import TodoToday from "./todo-today";
-import TodoPool from "./todo-pool";
-import TodoTarget from "./todo-target";
+import TodoAfter from "./list/todo-after";
+import TodoToday from "./list/todo-today";
+import TodoPool from "./list/todo-pool";
+import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
 import { Tooltip } from "antd";
-import TodoBookMark from "./todo-bookmark";
+import TodoBookMark from "./list/todo-bookmark";
 
 const useTimer = (fn: Function, ms: number = 500) => {
     const timer = useRef<any>(null);

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "../index.module.scss";
 import { ThemeContext } from "@/context/ThemeContext";
-import TodoFootPrint from "../../todo-footprint";
+import TodoFootPrint from "../../list/todo-footprint";
 
 const DrawerFootprint = () => {
     const { theme } = useContext(ThemeContext);

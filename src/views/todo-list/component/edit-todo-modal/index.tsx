@@ -39,7 +39,7 @@ import {
 } from "../../utils";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
-import { setFootPrintList } from "../../todo-footprint";
+import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { getOriginTodo } from "../global-search";

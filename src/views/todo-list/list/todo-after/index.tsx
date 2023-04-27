@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { SortKeyMap } from "../component/sort-btn";
-import List from "../list/todo-list";
-import { RootState } from "../rematch";
-import { formatArrayToTimeMap } from "../utils";
+import { SortKeyMap } from "../../component/sort-btn";
+import List from "../../todo-split-day-list";
+import { RootState } from "../../rematch";
+import { formatArrayToTimeMap } from "../../utils";
 import dayjs from 'dayjs';
 
 const TodoAfter = () => {

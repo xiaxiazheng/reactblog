@@ -5,12 +5,12 @@ import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
-import { getWeek } from "../../utils";
-import { TodoItemType, TodoStatus } from "../../types";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
-import TodoItem from "../../component/todo-item";
+import { getWeek } from "../utils";
+import { TodoItemType, TodoStatus } from "../types";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import TodoItem from "../component/todo-item";
 import { useDispatch } from "react-redux";
-import { Dispatch } from "../../rematch";
+import { Dispatch } from "../rematch";
 
 interface Props {
     loading: boolean;

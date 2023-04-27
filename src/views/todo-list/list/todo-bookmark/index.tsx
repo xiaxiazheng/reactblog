@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "../rematch";
-import PoolList from "../list/pool-list";
-import { SortKeyMap } from "../component/sort-btn";
-import { TodoItemType } from "../types";
+import { Dispatch, RootState } from "../../rematch";
+import PoolList from "../../todo-all-list";
+import { SortKeyMap } from "../../component/sort-btn";
+import { TodoItemType } from "../../types";
 
 const TodoBookMark = () => {
     const bookMarkList = useSelector(

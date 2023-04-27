@@ -8,7 +8,7 @@ import {
     PlusOutlined,
     RedoOutlined,
 } from "@ant-design/icons";
-import { colorList, colorMap, colorNameMap } from "../../utils";
+import { colorList, colorMap, colorNameMap, colorTitle } from "../../utils";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
@@ -124,7 +124,7 @@ const GlobalSearch: React.FC = () => {
                     </Radio.Group>
                 </div>
                 <div>
-                    <span>轻重：</span>
+                    <span>{colorTitle}：</span>
                     <Radio.Group
                         optionType="button"
                         buttonStyle="solid"

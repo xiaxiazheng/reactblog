@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SortKeyMap } from "../component/sort-btn";
-import PoolList from "../list/pool-list";
-import { Dispatch, RootState } from "../rematch";
+import { SortKeyMap } from "../../component/sort-btn";
+import PoolList from "../../todo-all-list";
+import { Dispatch, RootState } from "../../rematch";
 
 const TodoPool = () => {
     const poolLoading = useSelector(

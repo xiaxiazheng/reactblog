@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import { TodoItemType } from "../../types";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
-import TodoItem from "../../component/todo-item";
+import { TodoItemType } from "../types";
+import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import TodoItem from "../component/todo-item";
 
 interface Props {
     loading: boolean;
@@ -14,7 +14,6 @@ interface Props {
     showDoneIcon?: boolean;
     btn?: any;
     isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
-    input?: any;
     isShowTime?: boolean;
 }
 
@@ -53,7 +52,6 @@ const PoolList: React.FC<Props> = (props) => {
                     />
                 </Space>
             </div>
-            {props.input}
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
                     {getShowList(mapList).map((item) => (

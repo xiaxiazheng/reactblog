@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { Tooltip } from "antd";
-import { formatArrayToTimeMap } from "../utils";
-import List from "../list/todo-list";
+import { formatArrayToTimeMap } from "../../utils";
+import List from "../../todo-split-day-list";
 import {
     AimOutlined,
     BookOutlined,
     QuestionCircleOutlined,
     StarFilled,
 } from "@ant-design/icons";
-import { SortKeyMap } from "../component/sort-btn";
-import { Dispatch, RootState } from "../rematch";
+import { SortKeyMap } from "../../component/sort-btn";
+import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 

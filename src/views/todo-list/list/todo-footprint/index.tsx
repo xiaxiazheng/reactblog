@@ -1,9 +1,9 @@
 import { getTodoByIdList, getTodoList } from "@/client/TodoListHelper";
 import { Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "../../types";
 import dayjs from "dayjs";
-import TodoItem from "../component/todo-item";
+import TodoItem from "../../component/todo-item";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 
