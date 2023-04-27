@@ -31,7 +31,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             pageSize: 20,
             sortBy: [
                 ['isTarget', 'DESC'],
-                ['status']
+                ['color']
             ]
         };
 

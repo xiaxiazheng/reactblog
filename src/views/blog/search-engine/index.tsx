@@ -64,7 +64,7 @@ const SearchEngine: React.FC<IProps> = (props) => {
                     className={styles.keyword}
                     value={keyword}
                     onChange={(e) =>
-                        setKeyword(e.target.value.replaceAll(" ", "%"))
+                        setKeyword(e.target.value)
                     }
                     size="large"
                     placeholder="输入关键字并回车搜索"

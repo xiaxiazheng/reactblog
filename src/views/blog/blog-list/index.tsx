@@ -128,7 +128,7 @@ const BlogList: React.FC<PropsType> = (props) => {
         setMyKeyword(keyword);
     }, [keyword]);
     const handleKeyword = (e: any) => {
-        setMyKeyword(e.target.value?.replaceAll(" ", "%") || "");
+        setMyKeyword(e.target.value || "");
     };
 
     // myKeyword 删除到空就发请求
