@@ -273,10 +273,28 @@ export const data = createModel<RootModel>()({
                     }
                     break;
                 }
-                case "todo":
+                case "todo": {
+                    setTodoLoading(true);
+
+                    const req: any = {
+                        status: TodoStatus[type],
+                        pageSize: 200,
+                        isBookMark: "0",
+                        isTarget: "0",
+                        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+                    };
+
+                    const res = await getTodoList(req);
+                    if (res) {
+                        setTodoListOrigin(res.data.list);
+                        setTodoLoading(false);
+                    } else {
+                        message.error("获取 todolist 失败");
+                    }
+                    break;
+                }
                 case "pool": {
-                    type === "todo" && setTodoLoading(true);
-                    type === "pool" && setPoolLoading(true);
+                    setPoolLoading(true);
 
                     const req: any = {
                         status: TodoStatus[type],
@@ -286,14 +304,8 @@ export const data = createModel<RootModel>()({
 
                     const res = await getTodoList(req);
                     if (res) {
-                        if (type === "todo") {
-                            setTodoListOrigin(res.data.list);
-                            setTodoLoading(false);
-                        }
-                        if (type === "pool") {
-                            setPoolListOrigin(res.data.list);
-                            setPoolLoading(false);
-                        }
+                        setPoolListOrigin(res.data.list);
+                        setPoolLoading(false);
                     } else {
                         message.error("获取 todolist 失败");
                     }
@@ -360,9 +372,14 @@ export const data = createModel<RootModel>()({
             return l;
         },
         handleSearch(payload, state): void {
-            const { todoListOrigin, poolListOrigin, targetListOrigin, bookMarkListOrigin } =
-                state.data;
-            const { setTodoList, setPoolList, setTargetList, setBookMarkList } = dispatch.data;
+            const {
+                todoListOrigin,
+                poolListOrigin,
+                targetListOrigin,
+                bookMarkListOrigin,
+            } = state.data;
+            const { setTodoList, setPoolList, setTargetList, setBookMarkList } =
+                dispatch.data;
             setTodoList(this.getFilterList(todoListOrigin));
             setPoolList(this.getFilterList(poolListOrigin));
             setTargetList(this.getFilterList(targetListOrigin));

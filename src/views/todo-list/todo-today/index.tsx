@@ -77,9 +77,7 @@ const TodoToday = () => {
                 </>
             }
             mapList={formatArrayToTimeMap(
-                todoList.filter(
-                    (item) => item.time <= today && item.isTarget !== "1"
-                )
+                todoList.filter((item) => item.time <= today)
             )}
             showDoneIcon={true}
         />

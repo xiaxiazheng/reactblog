@@ -4,9 +4,8 @@ import DoneList from "./list/done-list";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import {
-    ArrowLeftOutlined,
     HistoryOutlined,
-    StarFilled,
+    BookOutlined,
 } from "@ant-design/icons";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
@@ -19,7 +18,6 @@ import TodoAfter from "./todo-after";
 import TodoToday from "./todo-today";
 import TodoPool from "./todo-pool";
 import TodoTarget from "./todo-target";
-import DrawerBookMark from "./drawers/drawer-bookMark";
 import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
 import { Tooltip } from "antd";
@@ -63,7 +61,7 @@ const HoverOpen = () => {
                         setShowNoteDrawer(true);
                     }}
                 >
-                    <StarFilled />
+                    <BookOutlined />
                 </div>
             </Tooltip>
             <Tooltip title="足迹" placement="left">
