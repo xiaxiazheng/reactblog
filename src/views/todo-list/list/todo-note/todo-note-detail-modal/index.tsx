@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, message, Popconfirm, Modal, Tooltip } from "antd";
-import TodoImageFile from "../../component/todo-image-file";
+import TodoImageFile from "../../../component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@/views/todo-list/types";
 import { deleteTodoItem } from "@/client/TodoListHelper";

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "../index.module.scss";
 import { ThemeContext } from "@/context/ThemeContext";
-import TodoNote from "../../todo-note";
+import TodoNote from "../../list/todo-note";
 
 const DrawerNote = () => {
     const { theme } = useContext(ThemeContext);
