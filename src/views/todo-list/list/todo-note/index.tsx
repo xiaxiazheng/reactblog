@@ -115,7 +115,7 @@ const TodoNote: React.FC<IProps> = (props) => {
         getData();
     }, [sortBy, pageNo, isRefreshNote]);
 
-    const [showFilter, setShowFilter] = useState<boolean>(false);
+    const [showFilter, setShowFilter] = useState<boolean>(true);
 
     return (
         <div className={`${styles.note} ScrollBar`}>
