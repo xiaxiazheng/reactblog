@@ -29,16 +29,16 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(24, 1fr);
-    .box1 {
+    .lt {
         grid-column-start: 1;
         grid-column-end: 2;
         grid-row-start: 1;
-        grid-row-end: 11;
+        grid-row-end: 9;
         border-bottom: 1px solid #ccc;
         border-right: 1px solid #ccc;
     }
 
-    .box2 {
+    .mt {
         grid-column-start: 2;
         grid-column-end: 3;
         grid-row-start: 1;
@@ -46,7 +46,7 @@
         border-bottom: 1px solid #ccc;
     }
 
-    .box3 {
+    .rt {
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 1;
@@ -64,15 +64,24 @@
         }
     }
 
-    .box4 {
+    .lm {
         grid-column-start: 1;
         grid-column-end: 2;
-        grid-row-start: 11;
-        grid-row-end: 25;
+        grid-row-start: 9;
+        grid-row-end: 17;
         border-right: 1px solid #ccc;
     }
 
-    .box5 {
+    .lb {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 17;
+        grid-row-end: 25;
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+    }
+
+    .mb {
         grid-column-start: 2;
         grid-column-end: 3;
         grid-row-start: 16;

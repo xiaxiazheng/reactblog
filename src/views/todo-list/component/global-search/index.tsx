@@ -58,7 +58,7 @@ const GlobalSearch: React.FC = () => {
         setOperatorType,
         setActiveTodo,
         // setShowBookMarkDrawer,
-        setShowNoteDrawer,
+        // setShowNoteDrawer,
         // setShowFootprintDrawer,
     } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
@@ -271,32 +271,6 @@ const GlobalSearch: React.FC = () => {
                             }}
                         />
                     )}
-                </Space>
-                <Space>
-                    {/* <Button
-                        type="primary"
-                        onClick={() => {
-                            setShowBookMarkDrawer(true);
-                        }}
-                    >
-                        书签
-                    </Button> */}
-                    <Button
-                        type="primary"
-                        onClick={() => {
-                            setShowNoteDrawer(true);
-                        }}
-                    >
-                        存档
-                    </Button>
-                    {/* <Button
-                        type="primary"
-                        onClick={() => {
-                            setShowFootprintDrawer(true);
-                        }}
-                    >
-                        足迹
-                    </Button> */}
                 </Space>
             </div>
 

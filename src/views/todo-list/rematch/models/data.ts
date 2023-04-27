@@ -19,6 +19,7 @@ interface DataType {
     todoListOrigin: TodoItemType[];
     poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
+    bookMarkListOrigin: TodoItemType[];
     todoList: TodoItemType[];
     doneList: TodoItemType[];
     doneTotal: number;
@@ -40,6 +41,7 @@ export const data = createModel<RootModel>()({
         todoListOrigin: [],
         poolListOrigin: [],
         targetListOrigin: [],
+        bookMarkListOrigin: [],
         todoList: [],
         doneList: [],
         doneTotal: 0,
@@ -104,6 +106,12 @@ export const data = createModel<RootModel>()({
                 targetListOrigin: payload,
             };
         },
+        setBookMarkListOrigin: (state, payload) => {
+            return {
+                ...state,
+                bookMarkListOrigin: payload,
+            };
+        },
         setTodoList: (state, payload) => {
             return {
                 ...state,
@@ -157,7 +165,7 @@ export const data = createModel<RootModel>()({
         async getTodo(type: StatusType, state) {
             const {
                 setBookMarkLoading,
-                setBookMarkList,
+                setBookMarkListOrigin,
                 setTargetLoading,
                 setTargetListOrigin,
                 setIsRefreshNote,
@@ -190,7 +198,7 @@ export const data = createModel<RootModel>()({
                     };
                     const res = await getTodoList(req);
                     if (res) {
-                        setBookMarkList(res.data.list);
+                        setBookMarkListOrigin(res.data.list);
                         setBookMarkLoading(false);
                     } else {
                         message.error("获取 todolist 失败");
@@ -295,21 +303,18 @@ export const data = createModel<RootModel>()({
         },
         refreshData(type?: StatusType) {
             this.getCategory();
-            // const showBookMarkDrawer = state.edit.showBookMarkDrawer;
             if (!type) {
                 this.getTodo("todo");
                 this.getTodo("done");
                 this.getTodo("pool");
                 this.getTodo("target");
-                // showBookMarkDrawer && this.getTodo("bookMark");
+                this.getTodo("bookMark");
             } else {
                 type === "todo" && this.getTodo("todo");
                 type === "done" && this.getTodo("done");
                 type === "pool" && this.getTodo("pool");
                 type === "target" && this.getTodo("target");
-                type === "bookMark" &&
-                    // showBookMarkDrawer &&
-                    this.getTodo("bookMark");
+                type === "bookMark" && this.getTodo("bookMark");
             }
         },
         getFilterList(list: TodoItemType[], state) {
@@ -355,12 +360,13 @@ export const data = createModel<RootModel>()({
             return l;
         },
         handleSearch(payload, state): void {
-            const { todoListOrigin, poolListOrigin, targetListOrigin } =
+            const { todoListOrigin, poolListOrigin, targetListOrigin, bookMarkListOrigin } =
                 state.data;
-            const { setTodoList, setPoolList, setTargetList } = dispatch.data;
+            const { setTodoList, setPoolList, setTargetList, setBookMarkList } = dispatch.data;
             setTodoList(this.getFilterList(todoListOrigin));
             setPoolList(this.getFilterList(poolListOrigin));
             setTargetList(this.getFilterList(targetListOrigin));
+            setBookMarkList(this.getFilterList(bookMarkListOrigin));
             this.getTodo("done");
         },
         async getCategory() {

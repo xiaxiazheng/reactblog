@@ -221,7 +221,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                 <StarFilled
                                     style={{ marginRight: 5, color: "#ffeb3b" }}
                                 />{" "}
-                                书签
+                                Pin
                             </span>
                         </SwitchComp>
                     </Form.Item>
@@ -235,7 +235,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                 <BookOutlined
                                     style={{ marginRight: 5, color: "#ffeb3b" }}
                                 />{" "}
-                                存档
+                                Note
                             </span>
                         </SwitchComp>
                     </Form.Item>

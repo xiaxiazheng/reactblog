@@ -23,6 +23,7 @@ import DrawerBookMark from "./drawers/drawer-bookMark";
 import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
 import { Tooltip } from "antd";
+import TodoBookMark from "./todo-bookmark";
 
 const useTimer = (fn: Function, ms: number = 500) => {
     const timer = useRef<any>(null);
@@ -42,10 +43,10 @@ const useTimer = (fn: Function, ms: number = 500) => {
 
 const HoverOpen = () => {
     const dispatch = useDispatch<Dispatch>();
-    const { setShowFootprintDrawer, setShowBookMarkDrawer } = dispatch.edit;
+    const { setShowFootprintDrawer, setShowNoteDrawer } = dispatch.edit;
 
     const { run: run1, cancel: cancel1 } = useTimer(() =>
-        setShowBookMarkDrawer(true)
+        setShowNoteDrawer(true)
     );
     const { run: run2, cancel: cancel2 } = useTimer(() =>
         setShowFootprintDrawer(true)
@@ -53,13 +54,13 @@ const HoverOpen = () => {
 
     return (
         <div className={styles.hoverOpen}>
-            <Tooltip title="书签" placement="left">
+            <Tooltip title="note" placement="left">
                 <div
                     className={styles.bookMark}
                     onMouseEnter={() => run1()}
                     onMouseLeave={() => cancel1()}
                     onClick={() => {
-                        setShowBookMarkDrawer(true);
+                        setShowNoteDrawer(true);
                     }}
                 >
                     <StarFilled />
@@ -96,7 +97,7 @@ const TodoList: React.FC = () => {
         getTodo("todo");
         getTodo("pool");
         getTodo("target");
-        // getTodo("punchTheClock");
+        getTodo("bookMark");
         getCategory();
     }, []);
 
@@ -105,15 +106,15 @@ const TodoList: React.FC = () => {
             <div>
                 <div className={styles.Layout}>
                     {/* 之后待办 */}
-                    <div className={`${styles.box1} ScrollBar`}>
+                    <div className={`${styles.mb} ScrollBar`}>
                         <TodoAfter />
                     </div>
-                    {/* 待办 */}
-                    <div className={`${styles.box2} ScrollBar`}>
+                    {/* 今日待办 */}
+                    <div className={`${styles.mt} ScrollBar`}>
                         <TodoToday />
                     </div>
                     {/* 已完成 */}
-                    <div className={`${styles.box3} ScrollBar`}>
+                    <div className={`${styles.rt} ScrollBar`}>
                         <GlobalSearch />
                         <div className="ScrollBar">
                             <DoneList
@@ -123,19 +124,21 @@ const TodoList: React.FC = () => {
                             />
                         </div>
                     </div>
+                    {/* 公告 */}
+                    <div className={`${styles.lt} ScrollBar`}>
+                        <TodoBookMark />
+                    </div>
                     {/* 待办池 */}
-                    <div className={`${styles.box4} ScrollBar`}>
+                    <div className={`${styles.lb} ScrollBar`}>
                         <TodoPool />
                     </div>
                     {/* 目标 */}
-                    <div className={`${styles.box5} ScrollBar`}>
+                    <div className={`${styles.lm} ScrollBar`}>
                         <TodoTarget />
                     </div>
                 </div>
             </div>
             <HoverOpen />
-            {/* 书签展示的抽屉 */}
-            <DrawerBookMark />
             {/* todo note 展示的抽屉 */}
             <DrawerNote />
             {/* todo 足迹展示的抽屉 */}

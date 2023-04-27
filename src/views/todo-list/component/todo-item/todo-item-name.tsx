@@ -102,9 +102,7 @@ const Name: React.FC<{
                 item.name,
                 isModalOrDrawer ? `${keyword} ${localKeyword}` : keyword
             )}
-            {(isShowTime ||
-                item.isTarget === "1" ||
-                item.isBookMark === "1") && (
+            {(isShowTime || item.isTarget === "1") && (
                 <span
                     className={`${styles.time} ${
                         item.time === today
@@ -174,7 +172,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {item.isTarget === "1" && (
                     <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
                 )}
-                {/* 存档 */}
+                {/* note */}
                 {item.isNote === "1" && (
                     <BookOutlined
                         style={{ marginRight: 5, color: "#ffeb3b" }}
@@ -185,12 +183,8 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />
                 )}
 
-                {isDone ? (
-                    <s
-                        className={`${
-                            item.isBookMark === "1" ? styles.big : styles.grey
-                        }`}
-                    >
+                {isDone && item.isBookMark !== "1" ? (
+                    <s className={`${styles.grey}`}>
                         <Name
                             item={item}
                             isShowTime={isShowTime}
@@ -199,7 +193,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     </s>
                 ) : (
                     <span
-                        className={`${item.isBookMark === "1" ? styles.big : ""}
+                        className={`${""}
                         ${isTodo && item.doing === "1" ? styles.yellow : ""}`}
                     >
                         <Name

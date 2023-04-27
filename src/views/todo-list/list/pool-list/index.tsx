@@ -15,6 +15,7 @@ interface Props {
     btn?: any;
     isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
     input?: any;
+    isShowTime?: boolean;
 }
 
 // 待办池
@@ -26,6 +27,7 @@ const PoolList: React.FC<Props> = (props) => {
         showDoneIcon = false,
         sortKey,
         isModalOrDrawer = false,
+        isShowTime = false,
     } = props;
 
     const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(`${sortKey}-sort-time`);
@@ -60,6 +62,7 @@ const PoolList: React.FC<Props> = (props) => {
                             item={item}
                             showDoneIcon={showDoneIcon}
                             isModalOrDrawer={isModalOrDrawer}
+                            isShowTime={isShowTime}
                         />
                     ))}
                 </div>
