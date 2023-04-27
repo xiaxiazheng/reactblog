@@ -10,9 +10,9 @@ import { hot } from "react-hot-loader/root";
 import { isDev } from "./env_config";
 
 // 开发版才引入打开 vscode 的操作
-if (isDev) {
-    require("../openInVscode/listenDomClick");
-}
+// if (isDev) {
+//     require("../openInVscode/listenDomClick");
+// }
 
 const App: React.FC = () => {
     return (

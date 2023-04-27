@@ -80,7 +80,7 @@ const TodoNote: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (isRefreshNote) {
-            getNoteList();
+            refreshData();
             setIsRefreshNote(false);
         }
     }, [isRefreshNote]);
@@ -256,7 +256,13 @@ const TodoNote: React.FC<IProps> = (props) => {
 
                 {/* 详情 */}
                 <TodoNoteDetailModal
-                    visible={isShowDetail}
+                    visible={
+                        !!activeTodo &&
+                        !!list?.find(
+                            (item) => item.todo_id === activeTodo.todo_id
+                        ) &&
+                        isShowDetail
+                    }
                     activeTodo={
                         activeTodo &&
                         list?.find(

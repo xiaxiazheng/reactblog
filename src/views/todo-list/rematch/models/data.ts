@@ -327,6 +327,7 @@ export const data = createModel<RootModel>()({
                 type === "pool" && this.getTodo("pool");
                 type === "target" && this.getTodo("target");
                 type === "bookMark" && this.getTodo("bookMark");
+                type === "note" && this.getTodo("note");
             }
         },
         getFilterList(list: TodoItemType[], state) {
