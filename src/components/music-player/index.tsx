@@ -210,50 +210,57 @@ const Music: React.FC<PropsType> = (props) => {
                     <source src={""} />
                 </audio>
             </div>
-            <div className={styles.songName} title={active ? active.key : ""}>
-                <span>{active ? active.key : "暂无播放"}</span>
+            <div
+                className={styles.songName}
+                title={active ? active.key : ""}
+            >
+                <span onClick={showSongList}>
+                    {active ? active.key : "暂无播放"}
+                </span>
             </div>
             {/* 控件 */}
-            <div className={styles.iconBox}>
-                <RedoOutlined
-                    className={`${styles.playIcon} ${
-                        isOneCircle ? styles.active : ""
-                    }`}
-                    title={"单曲循环"}
-                    onClick={() => setIsOneCircle(!isOneCircle)}
-                />
-                <ArrowLeftOutlined
-                    className={styles.playIcon}
-                    title={`上一首：${getBeforeSong()}`}
-                    onClick={playBeforeSong}
-                />
-                {!isPlaying && (
-                    <PlayCircleOutlined
-                        className={`${styles.playIcon}`}
-                        title={`播放`}
-                        onClick={handlePlaying.bind(null, true)}
+            {active && (
+                <div className={styles.iconBox}>
+                    <RedoOutlined
+                        className={`${styles.playIcon} ${
+                            isOneCircle ? styles.active : ""
+                        }`}
+                        title={"单曲循环"}
+                        onClick={() => setIsOneCircle(!isOneCircle)}
                     />
-                )}
-                {isPlaying && (
-                    <PauseCircleOutlined
-                        className={`${styles.playIcon}`}
-                        title={`暂停`}
-                        onClick={handlePlaying.bind(null, false)}
+                    <ArrowLeftOutlined
+                        className={styles.playIcon}
+                        title={`上一首：${getBeforeSong()}`}
+                        onClick={playBeforeSong}
                     />
-                )}
-                <ArrowRightOutlined
-                    className={styles.playIcon}
-                    title={`下一首：${getAfterSong()}`}
-                    onClick={playAfterSong}
-                />
-                <UnorderedListOutlined
-                    className={`${styles.playIcon} ${
-                        isShowList ? styles.active : ""
-                    }`}
-                    title={`歌曲列表`}
-                    onClick={showSongList}
-                />
-            </div>
+                    {!isPlaying && (
+                        <PlayCircleOutlined
+                            className={`${styles.playIcon}`}
+                            title={`播放`}
+                            onClick={handlePlaying.bind(null, true)}
+                        />
+                    )}
+                    {isPlaying && (
+                        <PauseCircleOutlined
+                            className={`${styles.playIcon}`}
+                            title={`暂停`}
+                            onClick={handlePlaying.bind(null, false)}
+                        />
+                    )}
+                    <ArrowRightOutlined
+                        className={styles.playIcon}
+                        title={`下一首：${getAfterSong()}`}
+                        onClick={playAfterSong}
+                    />
+                    {/* <UnorderedListOutlined
+                        className={`${styles.playIcon} ${
+                            isShowList ? styles.active : ""
+                        }`}
+                        title={`歌曲列表`}
+                        onClick={showSongList}
+                    /> */}
+                </div>
+            )}
             {/* 列表 */}
             <div
                 className={`${styles.musicList} ${

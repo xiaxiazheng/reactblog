@@ -1,12 +1,16 @@
 .music {
     position: relative;
-    padding: 10px 6px 5px;
+    // padding: 10px 6px 5px;
     text-align: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
     .musicBox {
+        position: fixed;
+        display: none;
         width: 100%;
         height: 32px;
-        // width: 270px;
-        // height: 100%;
         > audio {
             width: 100%;
             height: 100%;
@@ -21,8 +25,7 @@
         white-space: nowrap;
         vertical-align: middle;
         font-size: 16px;
-        width: 100%;
-        padding: 8px 5px 4px;
+        padding: 0 5px;
         // 歌曲名称超出之后的动画
         > span {
             display: inline-block;
@@ -42,7 +45,8 @@
     }
     .iconBox {
         position: relative;
-        padding: 0 0 5px;
+        display: flex;
+        justify-content: center;
         .playIcon {
             font-size: 18px;
             margin: 0 8px;
@@ -58,7 +62,7 @@
     }
     .musicList {
         position: absolute;
-        top: 115px;
+        top: 26px;
         left: 0;
         right: 0;
         overflow-y: auto;
@@ -66,7 +70,7 @@
         border-radius: 4px;
         box-sizing: border-box;
         background-color: var(--bg_color);
-        z-index: 1;
+        z-index: 10;
         opacity: 0;
         max-height: 0;
         font-size: 13px;

@@ -62,7 +62,7 @@ export const routes = [
     },
     { route: "/admin/blog", name: "Blog", component: Blog, isShow: true },
 
-    { route: "/admin/music", name: "Music", component: Music, isShow: true },
+    { route: "/admin/music", name: "Music", component: Music, isShow: false },
 
     { route: "/admin/note", name: "Note", component: Note, isShow: false },
     {

@@ -6,6 +6,7 @@ import { ExportOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { ThemeContext } from "@/context/ThemeContext";
 import { getAlreadyDate } from "./utils";
+import Music from "../music-player";
 
 interface PropsType extends RouteComponentProps {
     routes: any[];
@@ -107,6 +108,7 @@ const Header: React.FC<PropsType> = (props) => {
                 </Popover>
             </div>
             <div className={styles.headerRight}>
+                <Music />
                 <div className={styles.already}>
                     <Tooltip
                         title={
