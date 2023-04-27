@@ -89,7 +89,7 @@ const PoolList: React.FC<Props> = (props) => {
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(mapList).map((item) => {
-                    return (
+                    return mapList[item].length === 0 ? null : (
                         <div className={styles.oneDay} key={item}>
                             <div className={styles.time}>{item}</div>
                             <div>
