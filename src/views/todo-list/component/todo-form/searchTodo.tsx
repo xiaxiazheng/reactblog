@@ -29,6 +29,10 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             keyword: newValue,
             pageNo: 1,
             pageSize: 20,
+            sortBy: [
+                ['isTarget', 'DESC'],
+                ['status']
+            ]
         };
 
         const res = await getTodoList(req);
