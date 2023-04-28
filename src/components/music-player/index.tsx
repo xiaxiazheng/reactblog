@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import { getMediaList } from "@/client/VideoHelper";
 import { cdnUrl } from "@/env_config";
-import { message } from "antd";
+import { Button, Input, message, Tooltip } from "antd";
 import {
     ArrowLeftOutlined,
     ArrowRightOutlined,
@@ -202,65 +202,15 @@ const Music: React.FC<PropsType> = (props) => {
         }
     };
 
+    const [keyword, setKeyword] = useState<string>("");
+
     return (
         <div className={styles.music}>
-            {/* 播放 */}
-            <div className={styles.musicBox} ref={musicBox}>
-                <audio controls>
-                    <source src={""} />
-                </audio>
-            </div>
-            <div
-                className={styles.songName}
-                title={active ? active.key : ""}
-            >
+            <div className={styles.songName} title={active ? active.key : ""}>
                 <span onClick={showSongList}>
                     {active ? active.key : "暂无播放"}
                 </span>
             </div>
-            {/* 控件 */}
-            {active && (
-                <div className={styles.iconBox}>
-                    <RedoOutlined
-                        className={`${styles.playIcon} ${
-                            isOneCircle ? styles.active : ""
-                        }`}
-                        title={"单曲循环"}
-                        onClick={() => setIsOneCircle(!isOneCircle)}
-                    />
-                    <ArrowLeftOutlined
-                        className={styles.playIcon}
-                        title={`上一首：${getBeforeSong()}`}
-                        onClick={playBeforeSong}
-                    />
-                    {!isPlaying && (
-                        <PlayCircleOutlined
-                            className={`${styles.playIcon}`}
-                            title={`播放`}
-                            onClick={handlePlaying.bind(null, true)}
-                        />
-                    )}
-                    {isPlaying && (
-                        <PauseCircleOutlined
-                            className={`${styles.playIcon}`}
-                            title={`暂停`}
-                            onClick={handlePlaying.bind(null, false)}
-                        />
-                    )}
-                    <ArrowRightOutlined
-                        className={styles.playIcon}
-                        title={`下一首：${getAfterSong()}`}
-                        onClick={playAfterSong}
-                    />
-                    {/* <UnorderedListOutlined
-                        className={`${styles.playIcon} ${
-                            isShowList ? styles.active : ""
-                        }`}
-                        title={`歌曲列表`}
-                        onClick={showSongList}
-                    /> */}
-                </div>
-            )}
             {/* 列表 */}
             <div
                 className={`${styles.musicList} ${
@@ -269,22 +219,103 @@ const Music: React.FC<PropsType> = (props) => {
                         : isShowList
                         ? styles.show
                         : styles.hide
-                } ScrollBar`}
+                }`}
             >
-                {musicList &&
-                    musicList.map((item) => (
-                        <span
-                            key={item.key}
-                            onClick={() => handleChoice(item)}
-                            className={
-                                active && active.key === item.key
-                                    ? styles.active
-                                    : ""
+                {/* 播放 */}
+                <div className={styles.musicBox} ref={musicBox}>
+                    <audio controls>
+                        <source src={""} />
+                    </audio>
+                </div>
+                <div className={styles.iconBox}>
+                    <Tooltip title={`单曲循环`} placement="bottom">
+                        <Button
+                            type="text"
+                            icon={
+                                <RedoOutlined
+                                    className={`${styles.playIcon} ${
+                                        isOneCircle ? styles.active : ""
+                                    }`}
+                                />
                             }
-                        >
-                            {item.key}
-                        </span>
-                    ))}
+                            onClick={() => setIsOneCircle(!isOneCircle)}
+                        />
+                    </Tooltip>
+                    <Tooltip
+                        title={`上一首：${getBeforeSong()}`}
+                        placement="bottom"
+                    >
+                        <Button
+                            type="text"
+                            icon={
+                                <ArrowLeftOutlined
+                                    className={styles.playIcon}
+                                />
+                            }
+                            onClick={playBeforeSong}
+                        />
+                    </Tooltip>
+                    {!isPlaying && (
+                        <Tooltip title={`播放`} placement="bottom">
+                            <Button
+                                type="text"
+                                icon={
+                                    <PlayCircleOutlined
+                                        className={`${styles.playIcon}`}
+                                    />
+                                }
+                                onClick={handlePlaying.bind(null, true)}
+                            />
+                        </Tooltip>
+                    )}
+                    {isPlaying && (
+                        <Tooltip title={`暂停`} placement="bottom">
+                            <Button
+                                type="text"
+                                icon={<PauseCircleOutlined />}
+                                className={`${styles.playIcon}`}
+                                onClick={handlePlaying.bind(null, false)}
+                            />
+                        </Tooltip>
+                    )}
+                    <Tooltip
+                        title={`下一首：${getAfterSong()}`}
+                        placement="bottom"
+                    >
+                        <Button
+                            type="text"
+                            icon={<ArrowRightOutlined />}
+                            className={styles.playIcon}
+                            onClick={playAfterSong}
+                        />
+                    </Tooltip>
+                </div>
+                <Input
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                />
+                <div className="ScrollBar">
+                    {musicList &&
+                        musicList
+                            .filter((item) =>
+                                item.key
+                                    .toLowerCase()
+                                    .includes(keyword.toLowerCase())
+                            )
+                            .map((item) => (
+                                <span
+                                    key={item.key}
+                                    onClick={() => handleChoice(item)}
+                                    className={
+                                        active && active.key === item.key
+                                            ? styles.active
+                                            : ""
+                                    }
+                                >
+                                    {item.key}
+                                </span>
+                            ))}
+                </div>
             </div>
         </div>
     );
