@@ -9,7 +9,7 @@ import {
     PauseCircleOutlined,
     PlayCircleOutlined,
     RedoOutlined,
-    UnorderedListOutlined,
+    TrademarkOutlined,
 } from "@ant-design/icons";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
@@ -51,9 +51,14 @@ const Music: React.FC<PropsType> = (props) => {
             );
             setMusicList(music);
             // 每次初始化生成随机列表
-            const list = [...music].sort(() => Math.random() - Math.random());
-            setRandomList(list);
+            getRandomList(music);
         }
+    };
+
+    const getRandomList = (list: any[]) => {
+        // 每次初始化生成随机列表
+        const l = [...list].sort(() => Math.random() - Math.random());
+        setRandomList(l);
     };
 
     const musicBox = useRef(null);
@@ -287,6 +292,14 @@ const Music: React.FC<PropsType> = (props) => {
                             icon={<ArrowRightOutlined />}
                             className={styles.playIcon}
                             onClick={playAfterSong}
+                        />
+                    </Tooltip>
+                    <Tooltip title={`乱序`} placement="bottom">
+                        <Button
+                            type="text"
+                            icon={<TrademarkOutlined />}
+                            className={styles.playIcon}
+                            onClick={() => getRandomList(randomList)}
                         />
                     </Tooltip>
                 </div>
