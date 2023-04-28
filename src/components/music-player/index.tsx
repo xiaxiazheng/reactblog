@@ -154,6 +154,7 @@ const Music: React.FC<PropsType> = (props) => {
     const handleChoice = (item: FType) => {
         setActive(item);
         setIsShowList(null);
+        setKeyword("");
         message.success(`当前播放：${item.key}`, 1);
     };
 
