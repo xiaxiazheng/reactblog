@@ -27,7 +27,7 @@ export const colorMap: any = {
     // [-2]: "#20d420",
 };
 
-export const colorTitle = '优先级';
+export const colorTitle = "优先级";
 
 export const colorNameMap: any = {
     0: "很重要",
@@ -44,8 +44,9 @@ export const handleSortColor = () => {};
 
 // 确定 todo 的刷新范围
 export const handleRefreshList = (formData: any) => {
+    console.log("formData", formData);
     const list: StatusType[] = [];
-    if (formData.isTarget === "1") {
+    if (formData.isTarget === "1" || formData.name.includes("打卡")) {
         list.push("target");
     }
     if (formData.isNote === "1") {
@@ -78,7 +79,7 @@ export const debounce = (fn: () => void, ms: number) => {
         timer = setTimeout(() => {
             fn();
         }, ms);
-    }
+    };
 };
 
 export interface TimeRange {
@@ -87,14 +88,22 @@ export interface TimeRange {
     target: number;
 }
 
-export const timeRangeStringify = ({ startTime, range, target }: TimeRange): string => {
-    return JSON.stringify({ startTime: startTime.format('YYYY-MM-DD'), range, target });
+export const timeRangeStringify = ({
+    startTime,
+    range,
+    target,
+}: TimeRange): string => {
+    return JSON.stringify({
+        startTime: startTime.format("YYYY-MM-DD"),
+        range,
+        target,
+    });
 };
 
 export const timeRangeParse = (val: string): TimeRange => {
     const obj = JSON.parse(val);
     return {
         ...obj,
-        startTime: dayjs(obj.startTime)
-    }
+        startTime: dayjs(obj.startTime),
+    };
 };
