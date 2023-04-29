@@ -78,7 +78,7 @@ const GlobalSearch: React.FC = () => {
         const originTodo = getOriginTodo();
         form?.setFieldsValue({
             ...originTodo,
-            category: isWork ? "公司" : originTodo.category,
+            category: isWork === "1" ? "公司" : originTodo.category,
             isWork: isWork || "0",
         });
     };
