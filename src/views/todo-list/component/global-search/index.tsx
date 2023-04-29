@@ -7,6 +7,8 @@ import {
     ClearOutlined,
     PlusOutlined,
     RedoOutlined,
+    CoffeeOutlined,
+    FilterOutlined,
 } from "@ant-design/icons";
 import { colorList, colorMap, colorNameMap, colorTitle } from "../../utils";
 import dayjs from "dayjs";
@@ -57,9 +59,6 @@ const GlobalSearch: React.FC = () => {
         setShowEdit,
         setOperatorType,
         setActiveTodo,
-        // setShowBookMarkDrawer,
-        // setShowNoteDrawer,
-        // setShowFootprintDrawer,
     } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
     const {
@@ -210,8 +209,7 @@ const GlobalSearch: React.FC = () => {
             activeCategory !== "" ||
             keyword !== "" ||
             !!startEndTime ||
-            pageNo !== 1 ||
-            isWork !== ""
+            pageNo !== 1
         );
     };
 
@@ -230,35 +228,63 @@ const GlobalSearch: React.FC = () => {
                         <RedoOutlined />
                         refresh
                     </Button>
+                    <Tooltip title={"开启 Work 模式"}>
+                        <Button
+                            type="text"
+                            onClick={() => setIsWork(isWork === "1" ? "" : "1")}
+                            onContextMenu={(e) => {
+                                setIsWork("0");
+                                e.preventDefault();
+                            }}
+                            icon={
+                                <AppleFilled
+                                    style={
+                                        isWork === "1"
+                                            ? {}
+                                            : { color: "#00d4d8" }
+                                    }
+                                />
+                            }
+                            style={
+                                isWork === "1"
+                                    ? {
+                                          borderColor: "#00d4d8",
+                                          background: "#00d4d8",
+                                      }
+                                    : { borderColor: "#00d4d8" }
+                            }
+                        />
+                    </Tooltip>
+                    <Tooltip title={"开启 Life 模式"}>
+                        <Button
+                            type="text"
+                            onClick={() => setIsWork(isWork === "0" ? "" : "0")}
+                            icon={
+                                <CoffeeOutlined
+                                    style={
+                                        isWork === "0"
+                                            ? {}
+                                            : { color: "#00d4d8" }
+                                    }
+                                />
+                            }
+                            style={
+                                isWork === "0"
+                                    ? {
+                                          borderColor: "#00d4d8",
+                                          background: "#00d4d8",
+                                      }
+                                    : { borderColor: "#00d4d8" }
+                            }
+                        />
+                    </Tooltip>
                     <Button
                         type={showFilter ? "primary" : "default"}
                         onClick={() => setShowFilter((prev) => !prev)}
                     >
+                        <FilterOutlined />
                         Filter
                     </Button>
-                    {isWork !== "1" && (
-                        <Tooltip
-                            title={
-                                <>
-                                    <div>左键：开启 Work 模式</div>
-                                    <div>左键：开启 Life 模式</div>
-                                </>
-                            }
-                        >
-                            <Button
-                                type="text"
-                                onClick={() => setIsWork("1")}
-                                onContextMenu={(e) => {
-                                    setIsWork("0");
-                                    e.preventDefault();
-                                }}
-                                icon={
-                                    <AppleFilled style={{ color: "#00d4d8" }} />
-                                }
-                                style={{ borderColor: "#00d4d8" }}
-                            />
-                        </Tooltip>
-                    )}
                     {/* 清理筛选项 */}
                     {(isFilter() || showFilter) && (
                         <Button

@@ -80,13 +80,13 @@ export const filter = createModel<RootModel>()({
                 setActiveColor,
                 setKeyword,
                 setStartEndTime,
-                setIsWork,
+                // setIsWork,
                 setPageNo,
             } = dispatch.filter;
             setActiveCategory("");
             setActiveColor("");
             setKeyword("");
-            setIsWork("");
+            // setIsWork("");
             setStartEndTime(undefined);
             setPageNo(1);
         },
