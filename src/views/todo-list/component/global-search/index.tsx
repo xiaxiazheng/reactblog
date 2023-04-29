@@ -97,7 +97,7 @@ const GlobalSearch: React.FC = () => {
     const Filter = () => {
         return (
             <div className={styles.filterWrapper}>
-                <div>
+                {/* <div>
                     <span>W / L：</span>
                     <Radio.Group
                         optionType="button"
@@ -121,7 +121,7 @@ const GlobalSearch: React.FC = () => {
                             </Radio.Button>
                         ))}
                     </Radio.Group>
-                </div>
+                </div> */}
                 <div>
                     <span>{colorTitle}：</span>
                     <Radio.Group

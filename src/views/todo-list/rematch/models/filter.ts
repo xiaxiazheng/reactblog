@@ -19,7 +19,7 @@ export const filter = createModel<RootModel>()({
         activeColor: "",
         activeCategory: "",
         startEndTime: "",
-        isWork: "",
+        isWork: localStorage.getItem("todoGlobalSearchIsWork") || "",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
     } as FilterType,
@@ -55,6 +55,7 @@ export const filter = createModel<RootModel>()({
             };
         },
         setIsWork: (state, payload) => {
+            localStorage.setItem("todoGlobalSearchIsWork", payload);
             return {
                 ...state,
                 isWork: payload,
