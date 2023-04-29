@@ -45,9 +45,26 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     const visible = useSelector(
         (state: RootState) => state.edit.showPunchTheClockModal
     );
+    const targetListOrigin = useSelector(
+        (state: RootState) => state.data.targetListOrigin
+    );
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
     const { refreshData } = dispatch.data;
+
+    // // 不直接用 activeTodo，而是从 targetListOrigin 里拿，这样就能在 targetListOrigin 刷新之后获取到最新的状态
+    // const active = targetListOrigin.find(
+    //     (item) => item.todo_id === activeTodo?.todo_id
+    // );
+    // 也可以监听变化，然后把最新的同步回 activeTodo
+    useEffect(() => {
+        visible &&
+            setActiveTodo(
+                targetListOrigin.find(
+                    (item) => item.todo_id === active?.todo_id
+                )
+            );
+    }, [targetListOrigin, visible]);
 
     const punchTheClock = async (active: TodoItemType | undefined) => {
         if (active) {
@@ -62,12 +79,13 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
                 other_id: active.todo_id,
                 status: "1",
                 doing: "0",
+                isWork: "0",
                 time: dayjs().format("YYYY-MM-DD"),
             };
             await addTodoItem(val);
             message.success("打卡成功");
-            refreshData("target");
             refreshData("done");
+            refreshData("target");
         }
     };
 
