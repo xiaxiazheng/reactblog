@@ -84,18 +84,15 @@ export const debounce = (fn: () => void, ms: number) => {
 
 export interface TimeRange {
     startTime: dayjs.Dayjs;
-    range: number;
     target: number;
 }
 
 export const timeRangeStringify = ({
     startTime,
-    range,
     target,
 }: TimeRange): string => {
     return JSON.stringify({
         startTime: startTime.format("YYYY-MM-DD"),
-        range,
         target,
     });
 };

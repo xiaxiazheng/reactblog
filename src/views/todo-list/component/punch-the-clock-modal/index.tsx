@@ -17,17 +17,22 @@ export const handleIsTodayPunchTheClock = (
     if (!item?.timeRange) return false;
 
     // 先判断今天是否在任务范围内
-    const { startTime, endTime } = handleTimeRange(item.timeRange);
+    // const { startTime, endTime } = handleTimeRange(item.timeRange);
 
-    const isHasToday =
-        dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
-    // 如果在再判断子任务中包不包含今天的打卡时间
+    // const isHasToday =
+    //     dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
+    // // 如果在再判断子任务中包不包含今天的打卡时间
+    // return (
+    //     (isHasToday &&
+    //         item?.child_todo_list
+    //             ?.map((item) => item.time)
+    //             .includes(dayjs().format("YYYY-MM-DD"))) ||
+    //     false
+    // );
     return (
-        (isHasToday &&
-            item?.child_todo_list
-                ?.map((item) => item.time)
-                .includes(dayjs().format("YYYY-MM-DD"))) ||
-        false
+        item?.child_todo_list
+            ?.map((item) => item.time)
+            .includes(dayjs().format("YYYY-MM-DD")) || false
     );
 };
 
@@ -92,13 +97,12 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     const renderDetail = (item: TodoItemType | undefined) => {
         if (!item || !item.timeRange) return null;
 
-        const { startTime, endTime, range, target } = handleTimeRange(
-            item.timeRange
-        );
+        const { startTime, endTime, target } = handleTimeRange(item.timeRange);
         return (
             <>
                 <div>
-                    打卡周期：{startTime} ~ {endTime}，共 {range} 天
+                    打卡开始日期：{startTime}，已经进行{" "}
+                    {dayjs(endTime).diff(dayjs(startTime), "d")} 天
                 </div>
                 <div>
                     达标天数：{target}，
@@ -114,7 +118,6 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
             </>
         );
     };
-
     return (
         <Modal
             title={active?.name}

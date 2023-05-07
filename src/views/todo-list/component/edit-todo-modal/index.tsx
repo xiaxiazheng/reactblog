@@ -80,7 +80,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             let timeRange: TimeRange & { isPunchTheClock: "0" | "1" } = {
                 startTime: dayjs(),
                 target: 7,
-                range: 7,
                 isPunchTheClock: "0",
             };
             if (item.timeRange) {
@@ -204,10 +203,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isBookMark: formData.isBookMark || "0",
             };
             if (formData.isPunchTheClock === "1") {
-                const { startTime, range, target } = formData;
+                const { startTime, target } = formData;
                 req.timeRange = timeRangeStringify({
                     startTime,
-                    range,
                     target,
                 });
                 req.isTarget = "1";

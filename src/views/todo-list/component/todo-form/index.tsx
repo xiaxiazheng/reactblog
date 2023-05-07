@@ -271,14 +271,6 @@ const TodoForm: React.FC<Props> = (props) => {
                         <MyDatePicker />
                     </Form.Item>
                     <Form.Item
-                        name="range"
-                        label="持续天数"
-                        rules={[{ required: true }]}
-                        initialValue={7}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
                         name="target"
                         label="达标天数"
                         rules={[{ required: true }]}
