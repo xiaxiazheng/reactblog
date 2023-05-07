@@ -7,7 +7,7 @@ export const handleHighlight = (string: string, keyword: string = "") => {
 
 // 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
 export const handleUrlHighlight = (str: string, keyword: string = '') => {
-    const re = /http[s]?:\/\/[^\s]*/g;
+    const re = /http[s]?:\/\/[^\s|,|，|:|：]*/g;
     let match;
     const urlList: string[] = [];
     let s = str;
