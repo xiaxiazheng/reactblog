@@ -14,6 +14,7 @@ import {
     ClockCircleOutlined,
     QuestionCircleOutlined,
     StarFilled,
+    ThunderboltOutlined,
 } from "@ant-design/icons";
 import { colorMap, colorNameMap, colorList, handleCopy, colorTitle } from "../../utils";
 import styles from "./index.module.scss";
@@ -196,7 +197,9 @@ const TodoForm: React.FC<Props> = (props) => {
                         initialValue={"0"}
                     >
                         <SwitchComp>
-                            <span style={{ color: "#ffeb3b" }}>现在处理</span>
+                            <span>
+                                <ThunderboltOutlined style={{ color: "red" }}/>{" "}
+                                加急</span>
                         </SwitchComp>
                     </Form.Item>
                     <Form.Item

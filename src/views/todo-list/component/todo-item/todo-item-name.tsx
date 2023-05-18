@@ -8,6 +8,7 @@ import {
     AimOutlined,
     BookOutlined,
     AppleFilled,
+    ThunderboltOutlined,
 } from "@ant-design/icons";
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
@@ -168,6 +169,10 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {item.isWork === "1" && (
                     <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
                 )}
+                {/* 现在处理 */}
+                {item.doing === "1" && (
+                    <ThunderboltOutlined style={{ marginRight: 5, color: "red" }} />
+                )}
                 {/* 目标 */}
                 {item.isTarget === "1" && (
                     <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
@@ -192,10 +197,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         />
                     </s>
                 ) : (
-                    <span
-                        className={`${""}
-                        ${isTodo && item.doing === "1" ? styles.yellow : ""}`}
-                    >
+                    <span>
                         <Name
                             item={item}
                             isShowTime={isShowTime}
