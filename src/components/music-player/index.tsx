@@ -331,6 +331,7 @@ const Music: React.FC<PropsType> = (props) => {
                             ))}
                 </div>
             </div>
+            {isShowList && <div className={styles.mask} onClick={() => setIsShowList(false)} />}
         </div>
     );
 };

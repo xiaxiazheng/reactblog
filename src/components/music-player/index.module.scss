@@ -93,6 +93,14 @@
             }
         }
     }
+    .mask {
+        background: transparent;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9;
+    }
     .show {
         max-height: $height;
         animation: show 1s;
