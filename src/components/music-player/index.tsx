@@ -148,7 +148,7 @@ const Music: React.FC<PropsType> = (props) => {
             const audio = dom.current.childNodes[0];
             audio.onended = handleFinish;
         }
-    }, [isOneCircle]);
+    }, [isOneCircle, randomList]);
 
     // 处理选择歌曲
     const handleChoice = (item: FType) => {
