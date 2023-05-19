@@ -63,7 +63,8 @@
     .musicList {
         position: absolute;
         top: 24px;
-        left: 0;
+        /* left: 0; */
+        width: 400px;
         right: 0;
         border: 1px solid #ccc;
         border-radius: 4px;
