@@ -8,7 +8,7 @@ import {
     AimOutlined,
     BookOutlined,
     AppleFilled,
-    ThunderboltOutlined,
+    ThunderboltFilled,
 } from "@ant-design/icons";
 import { colorMap } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
@@ -171,7 +171,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
                 {/* 现在处理 */}
                 {item.doing === "1" && (
-                    <ThunderboltOutlined style={{ marginRight: 5, color: "red" }} />
+                    <ThunderboltFilled style={{ marginRight: 5, color: "red" }} />
                 )}
                 {/* 目标 */}
                 {item.isTarget === "1" && (
