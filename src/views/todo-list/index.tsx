@@ -122,17 +122,19 @@ const TodoList: React.FC = () => {
                             />
                         </div>
                     </div>
-                    {/* 公告 */}
-                    <div className={`${styles.lt} ScrollBar`}>
-                        <TodoBookMark />
-                    </div>
-                    {/* 待办池 */}
-                    <div className={`${styles.lb} ScrollBar`}>
-                        <TodoPool />
-                    </div>
-                    {/* 目标 */}
-                    <div className={`${styles.lm} ScrollBar`}>
-                        <TodoTarget />
+                    <div className={styles.l}>
+                        {/* 公告 */}
+                        <div className={`${styles.lt} ScrollBar`}>
+                            <TodoBookMark />
+                        </div>
+                        {/* 目标 */}
+                        <div className={`${styles.lm} ScrollBar`}>
+                            <TodoTarget />
+                        </div>
+                        {/* 待办池 */}
+                        <div className={`${styles.lb} ScrollBar`}>
+                            <TodoPool />
+                        </div>
                     </div>
                 </div>
             </div>

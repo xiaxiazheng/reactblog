@@ -11,7 +11,8 @@
 .hoverOpen {
     display: flex;
     flex-direction: column;
-    .bookMark, .footprint {
+    .bookMark,
+    .footprint {
         width: 15px;
         height: 50%;
         line-height: 50vh;
@@ -29,14 +30,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(24, 1fr);
-    .lt {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 9;
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-    }
 
     .mt {
         grid-column-start: 2;
@@ -44,6 +37,13 @@
         grid-row-start: 1;
         grid-row-end: 16;
         border-bottom: 1px solid #ccc;
+    }
+
+    .mb {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 16;
+        grid-row-end: 25;
     }
 
     .rt {
@@ -64,27 +64,36 @@
         }
     }
 
-    .lm {
+    .l {
         grid-column-start: 1;
         grid-column-end: 2;
-        grid-row-start: 9;
-        grid-row-end: 17;
+        grid-row-start: 1;
+        grid-row-end: 25;
+        display: grid;
+    }
+    .lt {
+        //     grid-column-start: 1;
+        //     grid-column-end: 2;
+        //     grid-row-start: 1;
+        //     grid-row-end: 9;
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+    }
+
+    .lm {
+        //     grid-column-start: 1;
+        //     grid-column-end: 2;
+        //     grid-row-start: 9;
+        //     grid-row-end: 17;
         border-right: 1px solid #ccc;
     }
 
     .lb {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 17;
-        grid-row-end: 25;
+        //     grid-column-start: 1;
+        //     grid-column-end: 2;
+        //     grid-row-start: 17;
+        //     grid-row-end: 25;
         border-top: 1px solid #ccc;
         border-right: 1px solid #ccc;
-    }
-
-    .mb {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 16;
-        grid-row-end: 25;
     }
 }

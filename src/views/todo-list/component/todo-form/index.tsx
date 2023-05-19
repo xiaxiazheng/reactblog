@@ -15,8 +15,15 @@ import {
     QuestionCircleOutlined,
     StarFilled,
     ThunderboltFilled,
+    AppleFilled,
 } from "@ant-design/icons";
-import { colorMap, colorNameMap, colorList, handleCopy, colorTitle } from "../../utils";
+import {
+    colorMap,
+    colorNameMap,
+    colorList,
+    handleCopy,
+    colorTitle,
+} from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
 import dayjs from "dayjs";
@@ -143,7 +150,11 @@ const TodoForm: React.FC<Props> = (props) => {
             >
                 <InputList />
             </Form.Item>
-            <Form.Item name="color" label={colorTitle} rules={[{ required: true }]}>
+            <Form.Item
+                name="color"
+                label={colorTitle}
+                rules={[{ required: true }]}
+            >
                 <Radio.Group optionType="button" buttonStyle="solid">
                     {colorList.map((item) => (
                         <Radio.Button
@@ -188,7 +199,10 @@ const TodoForm: React.FC<Props> = (props) => {
                         initialValue={"0"}
                     >
                         <SwitchComp>
-                            <span style={{ color: "#00d4d8" }}>工作</span>
+                            <span>
+                                <AppleFilled style={{ color: "#00d4d8" }} />{" "}
+                                工作
+                            </span>
                         </SwitchComp>
                     </Form.Item>
                     <Form.Item
@@ -198,8 +212,9 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <ThunderboltFilled style={{ color: "red" }}/>{" "}
-                                加急</span>
+                                <ThunderboltFilled style={{ color: "red" }} />{" "}
+                                加急
+                            </span>
                         </SwitchComp>
                     </Form.Item>
                     <Form.Item
