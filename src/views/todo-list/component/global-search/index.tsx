@@ -55,11 +55,7 @@ const GlobalSearch: React.FC = () => {
     const pageNo = useSelector((state: RootState) => state.filter.pageNo);
     const pageSize = useSelector((state: RootState) => state.filter.pageSize);
     const dispatch = useDispatch<Dispatch>();
-    const {
-        setShowEdit,
-        setOperatorType,
-        setActiveTodo,
-    } = dispatch.edit;
+    const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
     const {
         setActiveColor,
@@ -97,31 +93,6 @@ const GlobalSearch: React.FC = () => {
     const Filter = () => {
         return (
             <div className={styles.filterWrapper}>
-                {/* <div>
-                    <span>W / L：</span>
-                    <Radio.Group
-                        optionType="button"
-                        buttonStyle="solid"
-                        value={isWork}
-                    >
-                        {[
-                            { label: "work", value: "1" },
-                            { label: "life", value: "0" },
-                        ].map((item) => (
-                            <Radio.Button
-                                key={item.value}
-                                value={item.value}
-                                onClick={() =>
-                                    setIsWork(
-                                        isWork === item.value ? "" : item.value
-                                    )
-                                }
-                            >
-                                {item.label}
-                            </Radio.Button>
-                        ))}
-                    </Radio.Group>
-                </div> */}
                 <div>
                     <span>{colorTitle}：</span>
                     <Radio.Group
@@ -151,28 +122,6 @@ const GlobalSearch: React.FC = () => {
                             </Radio.Button>
                         ))}
                     </Radio.Group>
-                </div>
-                <div>
-                    <span>类别：</span>
-                    <Select
-                        className={styles.select}
-                        value={activeCategory}
-                        onChange={(val: any) => setActiveCategory(val)}
-                        showSearch
-                        filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
-                        }
-                        allowClear
-                        style={{ width: 120 }}
-                        options={category?.map((item) => {
-                            return {
-                                label: item.category,
-                                value: item.category,
-                            };
-                        })}
-                    />
                 </div>
                 <div>
                     <span>时间：</span>
@@ -278,6 +227,26 @@ const GlobalSearch: React.FC = () => {
                             }
                         />
                     </Tooltip>
+                    <Select
+                        className={styles.select}
+                        value={activeCategory || undefined}
+                        placeholder="类别"
+                        onChange={(val: any) => setActiveCategory(val)}
+                        showSearch
+                        filterOption={(input, option) =>
+                            (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                        }
+                        allowClear
+                        style={{ width: 100 }}
+                        options={category?.map((item) => {
+                            return {
+                                label: item.category,
+                                value: item.category,
+                            };
+                        })}
+                    />
                     <Button
                         type={showFilter ? "primary" : "default"}
                         onClick={() => setShowFilter((prev) => !prev)}

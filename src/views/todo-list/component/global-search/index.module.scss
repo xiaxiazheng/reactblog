@@ -26,6 +26,18 @@
     color: var(--color);
 }
 
+.select {
+    :global {
+        .ant-select-clear {
+            color: white;
+            background: transparent;
+            &:hover {
+                color: white;
+                background: transparent;
+            }
+        }
+    }
+}
 
 .color {
     &.zero {
