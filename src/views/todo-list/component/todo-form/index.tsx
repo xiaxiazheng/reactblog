@@ -116,7 +116,12 @@ const TodoForm: React.FC<Props> = (props) => {
             wrapperCol={{ span: 19 }}
             onFieldsChange={isFieldsChange}
         >
-            <Form.Item name="name" label="名称" rules={[{ required: true }]}>
+            <Form.Item
+                name="name"
+                label="名称"
+                rules={[{ required: true }]}
+                style={{ position: "sticky", top: 0 }}
+            >
                 <Input.TextArea
                     className={styles2.textarea}
                     placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"

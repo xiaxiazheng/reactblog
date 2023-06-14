@@ -6,9 +6,9 @@ import { NoteType, CategoryType } from "./types";
 import NoteEditModal from "./note-edit-modal";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { handleNote } from "./utils";
-import { debounce } from "lodash";
 import ImgFileNoteList from "./img-file-note-list";
 import NoteDetailModal from "./note-detail-modal";
+import { debounce } from "../todo-list/utils";
 
 const { Search } = Input;
 

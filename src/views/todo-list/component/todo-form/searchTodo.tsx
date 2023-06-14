@@ -2,9 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Divider, message, Select, Tooltip } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
-import { debounce } from "lodash";
 import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
+
+export const debounce = (fn: Function, time = 500) => {
+    let timer: any = -1;
+    return (...args: any) => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            fn(...args);
+        }, time);
+    };
+};
 
 const SearchTodo = ({ value, onChange, activeTodo }: any) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
@@ -29,10 +40,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             keyword: newValue,
             pageNo: 1,
             pageSize: 20,
-            sortBy: [
-                ['isTarget', 'DESC'],
-                ['color']
-            ]
+            sortBy: [["isTarget", "DESC"], ["color"]],
         };
 
         const res = await getTodoList(req);
@@ -82,7 +90,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}
-            onSearch={debounce(handleSearch, 500)}
+            onSearch={debounce(handleSearch, 800)}
             onChange={onChange}
             onDropdownVisibleChange={() => {
                 // 如果展开为空的话，再去获取默认数据

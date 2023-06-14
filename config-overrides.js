@@ -53,7 +53,6 @@ module.exports = {
                 quill: "Quill",
                 // echarts: "echarts",
                 "markdown-it": "markdownit",
-                "_": "lodash",
             }),
             // addWebpackPlugin(
             //   new HelloWorldPlugin({ options: true })
