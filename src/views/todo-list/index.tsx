@@ -123,7 +123,7 @@ const TodoList: React.FC = () => {
                         </div>
                     </div>
                     <div className={styles.l}>
-                        {/* 公告 */}
+                        {/* Pin */}
                         <div className={`${styles.lt} ScrollBar`}>
                             <TodoBookMark />
                         </div>

@@ -13,7 +13,7 @@ import {
     BookOutlined,
     ClockCircleOutlined,
     QuestionCircleOutlined,
-    StarFilled,
+    PushpinOutlined,
     ThunderboltFilled,
     AppleFilled,
 } from "@ant-design/icons";
@@ -236,7 +236,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <StarFilled
+                                <PushpinOutlined
                                     style={{ marginRight: 5, color: "#ffeb3b" }}
                                 />{" "}
                                 Pin

@@ -27,7 +27,7 @@ const TodoBookMark = () => {
     return (
         <PoolList
             loading={bookMarkLoading}
-            title="公告"
+            title="Pin"
             sortKey={SortKeyMap.bookmark}
             mapList={bookMarkList.sort(
                 (a, b) => Number(a.color) - Number(b.color)
