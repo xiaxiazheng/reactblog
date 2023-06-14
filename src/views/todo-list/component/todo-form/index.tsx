@@ -7,6 +7,7 @@ import {
     Radio,
     Tooltip,
     Space,
+    Button,
 } from "antd";
 import {
     AimOutlined,
@@ -23,6 +24,7 @@ import {
     colorList,
     handleCopy,
     colorTitle,
+    getWeek,
 } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
@@ -54,6 +56,11 @@ const TodoForm: React.FC<Props> = (props) => {
         return (
             <>
                 <DatePicker value={value} onChange={onChange} />
+                <span className={styles.week}>{getWeek(value)}</span>
+                <Button onClick={() => onChange(value.add(1, "day"))}>+</Button>
+                <Button onClick={() => onChange(value.subtract(1, "day"))}>
+                    -
+                </Button>
                 <span
                     className={`${styles.today} ${
                         dayjs().isSame(value, "d") ? styles.active : ""
