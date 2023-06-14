@@ -59,7 +59,7 @@ export const TodoStatusMap: any = {
 }
 
 export type OperatorType = "add" | "edit";
-export type OperatorType2 = "add_progress" | "copy";
+export type OperatorType2 = "add_progress" | "add_same_level_progress" | "copy";
 
 const obj2 = {
     category: "个人",

@@ -50,7 +50,8 @@ const titleMap = {
     add: "新增",
     edit: "编辑",
     copy: "复制",
-    add_progress: "新增后续 todo",
+    add_progress: "新增后续进度",
+    add_same_level_progress: "新增并行进度"
 };
 
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
@@ -329,7 +330,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     ? `${Number(item.color) + 1}`
                     : item.color,
             category: item.category,
-            other_id: type === "copy" ? item.other_id : item.todo_id,
+            other_id:
+                type === "copy"
+                    ? ""
+                    : type === "add_same_level_progress"
+                    ? item.other_id
+                    : item.todo_id,
             isWork: item.isWork,
         });
         setVisible2(true);
@@ -443,10 +449,21 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                         }
                                         disabled={isEdit}
                                     >
-                                        创建
-                                        {form && form.getFieldValue("other_id")
-                                            ? "同级任务"
-                                            : "副本"}
+                                        复制
+                                    </Button>
+                                    <Button
+                                        type="primary"
+                                        ghost
+                                        onClick={() =>
+                                            activeTodo &&
+                                            createCopyOrNextTask(
+                                                "copy",
+                                                activeTodo
+                                            )
+                                        }
+                                        disabled={isEdit}
+                                    >
+                                        添加并行进度
                                     </Button>
                                     <Button
                                         type="primary"
@@ -460,7 +477,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                         }
                                         disabled={isEdit}
                                     >
-                                        添加进度
+                                        添加后续进度
                                     </Button>
                                     {activeTodo && (
                                         <TodoChainIcon item={activeTodo} />
