@@ -127,7 +127,12 @@ const TodoForm: React.FC<Props> = (props) => {
                 name="name"
                 label="名称"
                 rules={[{ required: true }]}
-                style={{ position: "sticky", top: 0 }}
+                style={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1,
+                    background: "rgb(0, 21, 41)",
+                }}
             >
                 <Input.TextArea
                     className={styles2.textarea}
