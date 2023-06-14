@@ -51,7 +51,7 @@ const titleMap = {
     edit: "编辑",
     copy: "复制",
     add_progress: "新增后续进度",
-    add_same_level_progress: "新增并行进度"
+    add_same_level_progress: "新增并行进度",
 };
 
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
@@ -437,48 +437,54 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             {type === "edit" ? (
                                 <>
                                     {renderDeleteButton()}
-                                    <Button
-                                        type="primary"
-                                        ghost
-                                        onClick={() =>
-                                            activeTodo &&
-                                            createCopyOrNextTask(
-                                                "copy",
-                                                activeTodo
-                                            )
-                                        }
-                                        disabled={isEdit}
-                                    >
-                                        复制
-                                    </Button>
-                                    <Button
-                                        type="primary"
-                                        ghost
-                                        onClick={() =>
-                                            activeTodo &&
-                                            createCopyOrNextTask(
-                                                "copy",
-                                                activeTodo
-                                            )
-                                        }
-                                        disabled={isEdit}
-                                    >
-                                        添加并行进度
-                                    </Button>
-                                    <Button
-                                        type="primary"
-                                        ghost
-                                        onClick={() =>
-                                            activeTodo &&
-                                            createCopyOrNextTask(
-                                                "add_progress",
-                                                activeTodo
-                                            )
-                                        }
-                                        disabled={isEdit}
-                                    >
-                                        添加后续进度
-                                    </Button>
+                                    <Tooltip title="不继承前置todo，其余整体复制">
+                                        <Button
+                                            type="primary"
+                                            ghost
+                                            onClick={() =>
+                                                activeTodo &&
+                                                createCopyOrNextTask(
+                                                    "copy",
+                                                    activeTodo
+                                                )
+                                            }
+                                            disabled={isEdit}
+                                        >
+                                            复制
+                                        </Button>
+                                    </Tooltip>
+                                    <Tooltip title="复制前置todo，时间改为今日，其余整体复制">
+                                        <Button
+                                            type="primary"
+                                            ghost
+                                            onClick={() =>
+                                                activeTodo &&
+                                                createCopyOrNextTask(
+                                                    "add_same_level_progress",
+                                                    activeTodo
+                                                )
+                                            }
+                                            disabled={isEdit}
+                                        >
+                                            添加并行进度
+                                        </Button>
+                                    </Tooltip>
+                                    <Tooltip title="将当前todo作为前置todo，时间改为今日，其余整体复制">
+                                        <Button
+                                            type="primary"
+                                            ghost
+                                            onClick={() =>
+                                                activeTodo &&
+                                                createCopyOrNextTask(
+                                                    "add_progress",
+                                                    activeTodo
+                                                )
+                                            }
+                                            disabled={isEdit}
+                                        >
+                                            添加后续进度
+                                        </Button>
+                                    </Tooltip>
                                     {activeTodo && (
                                         <TodoChainIcon item={activeTodo} />
                                     )}
