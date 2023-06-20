@@ -9,15 +9,7 @@ import {
     Space,
     Button,
 } from "antd";
-import {
-    AimOutlined,
-    BookOutlined,
-    ClockCircleOutlined,
-    QuestionCircleOutlined,
-    PushpinOutlined,
-    ThunderboltFilled,
-    AppleFilled,
-} from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import {
     colorMap,
     colorNameMap,
@@ -36,6 +28,7 @@ import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
+import TodoTypeIcon from "../todo-type-icon";
 
 interface Props {
     form: FormInstance;
@@ -217,7 +210,10 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <AppleFilled style={{ color: "#00d4d8" }} />{" "}
+                                <TodoTypeIcon
+                                    type="work"
+                                    style={{ color: "#00d4d8" }}
+                                />{" "}
                                 工作
                             </span>
                         </SwitchComp>
@@ -229,7 +225,10 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <ThunderboltFilled style={{ color: "red" }} />{" "}
+                                <TodoTypeIcon
+                                    type="urgent"
+                                    style={{ color: "red" }}
+                                />{" "}
                                 加急
                             </span>
                         </SwitchComp>
@@ -241,7 +240,10 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <AimOutlined style={{ color: "#ffeb3b" }} />{" "}
+                                <TodoTypeIcon
+                                    type="target"
+                                    style={{ color: "#ffeb3b" }}
+                                />{" "}
                                 目标
                             </span>
                         </SwitchComp>
@@ -253,7 +255,8 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <PushpinOutlined
+                                <TodoTypeIcon
+                                    type="pin"
                                     style={{ marginRight: 5, color: "#ffeb3b" }}
                                 />{" "}
                                 Pin
@@ -267,7 +270,8 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <BookOutlined
+                                <TodoTypeIcon
+                                    type="note"
                                     style={{ marginRight: 5, color: "#ffeb3b" }}
                                 />{" "}
                                 Note
@@ -281,7 +285,8 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <SwitchComp>
                             <span>
-                                <ClockCircleOutlined
+                                <TodoTypeIcon
+                                    type="punchTheClock"
                                     style={{ marginRight: 5, color: "#ffeb3b" }}
                                 />{" "}
                                 打卡

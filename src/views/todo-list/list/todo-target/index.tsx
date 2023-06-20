@@ -5,6 +5,7 @@ import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
 import { TodoStatus } from "../../types";
 import { Button } from "antd";
+import TodoTypeIcon from "../../component/todo-type-icon";
 
 const TodoTarget = () => {
     const targetLoading = useSelector(
@@ -26,7 +27,11 @@ const TodoTarget = () => {
         <PoolList
             loading={targetLoading}
             sortKey={SortKeyMap.target}
-            title="目标 & 打卡"
+            title={
+                <>
+                    <TodoTypeIcon type="target" /> 目标 & 打卡
+                </>
+            }
             btn={
                 <>
                     <Button

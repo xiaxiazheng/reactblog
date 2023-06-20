@@ -5,6 +5,7 @@ import { Dispatch, RootState } from "../../rematch";
 import PoolList from "../../todo-all-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import { TodoItemType } from "../../types";
+import TodoTypeIcon from "../../component/todo-type-icon";
 
 const TodoBookMark = () => {
     const bookMarkList = useSelector(
@@ -27,7 +28,11 @@ const TodoBookMark = () => {
     return (
         <PoolList
             loading={bookMarkLoading}
-            title="Pin"
+            title={
+                <>
+                    <TodoTypeIcon type="pin" /> Pin
+                </>
+            }
             sortKey={SortKeyMap.bookmark}
             mapList={bookMarkList.sort(
                 (a, b) => Number(a.color) - Number(b.color)

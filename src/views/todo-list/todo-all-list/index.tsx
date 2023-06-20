@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
@@ -8,7 +8,7 @@ import TodoItem from "../component/todo-item";
 
 interface Props {
     loading: boolean;
-    title: string;
+    title: ReactNode | string;
     sortKey: SortKeyMap;
     mapList: TodoItemType[];
     showDoneIcon?: boolean;
