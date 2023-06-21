@@ -29,7 +29,9 @@ const PoolList: React.FC<Props> = (props) => {
         isShowTime = false,
     } = props;
 
-    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(`${sortKey}-sort-time`);
+    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(
+        `${sortKey}-sort-time`
+    );
 
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {
@@ -41,7 +43,7 @@ const PoolList: React.FC<Props> = (props) => {
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>
+                <span style={{ color: "#1890ffcc" }}>
                     {title}({mapList.length})
                 </span>
                 <Space size={16}>

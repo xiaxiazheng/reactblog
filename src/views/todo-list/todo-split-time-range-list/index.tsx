@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
@@ -9,7 +9,7 @@ import dayjs, { ManipulateType } from "dayjs";
 
 interface Props {
     loading: boolean;
-    title: string;
+    title: string | ReactNode;
     sortKey: SortKeyMap;
     list: TodoItemType[];
     showDoneIcon?: boolean;
@@ -76,7 +76,7 @@ const PoolList: React.FC<Props> = (props) => {
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span>
+                <span style={{ color: "#1890ffcc" }}>
                     {title}({list.length})
                 </span>
                 <Space size={16}>

@@ -55,7 +55,7 @@ const DoneList: React.FC<Props> = (props) => {
             {doneLoading && <Loading />}
             <div className={styles.header}>
                 <div className={styles.header1}>
-                    <span>
+                    <span style={{ color: "#1890ffcc" }}>
                         {title}({doneTotal})
                     </span>
                     <SortBtn
