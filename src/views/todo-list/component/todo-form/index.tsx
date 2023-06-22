@@ -9,7 +9,11 @@ import {
     Space,
     Button,
 } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import {
+    QuestionCircleOutlined,
+    PlusOutlined,
+    MinusOutlined,
+} from "@ant-design/icons";
 import {
     colorMap,
     colorNameMap,
@@ -17,6 +21,7 @@ import {
     handleCopy,
     colorTitle,
     getWeek,
+    getRangeFormToday,
 } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
@@ -48,24 +53,19 @@ const TodoForm: React.FC<Props> = (props) => {
 
         return (
             <>
-                <DatePicker value={value} onChange={onChange} />
-                <span className={styles.week}>{getWeek(value)}</span>
-                <Button onClick={() => onChange(value.add(1, "day"))}>+</Button>
                 <Button onClick={() => onChange(value.subtract(1, "day"))}>
-                    -
+                    <MinusOutlined />
                 </Button>
-                <span
-                    className={`${styles.today} ${
-                        dayjs().isSame(value, "d") ? styles.active : ""
-                    }`}
-                    onClick={() => {
-                        // form.setFieldsValue({
-                        //     time: dayjs(),
-                        // });
-                        onChange(dayjs());
-                    }}
-                >
-                    Today
+                <DatePicker
+                    style={{ width: 130 }}
+                    value={value}
+                    onChange={onChange}
+                />
+                <Button onClick={() => onChange(value.add(1, "day"))}>
+                    <PlusOutlined />
+                </Button>
+                <span className={styles.week}>
+                    {getWeek(value)}，{getRangeFormToday(value)}
                 </span>
                 <span
                     className={`${styles.today} ${
@@ -74,13 +74,20 @@ const TodoForm: React.FC<Props> = (props) => {
                             : ""
                     }`}
                     onClick={() => {
-                        // form.setFieldsValue({
-                        //     time: dayjs().subtract(1, "day"),
-                        // });
                         onChange(dayjs().subtract(1, "day"));
                     }}
                 >
                     Yesterday
+                </span>
+                <span
+                    className={`${styles.today} ${
+                        dayjs().isSame(value, "d") ? styles.active : ""
+                    }`}
+                    onClick={() => {
+                        onChange(dayjs());
+                    }}
+                >
+                    Today
                 </span>
                 <span
                     className={`${styles.today} ${
@@ -89,9 +96,6 @@ const TodoForm: React.FC<Props> = (props) => {
                             : ""
                     }`}
                     onClick={() => {
-                        // form.setFieldsValue({
-                        //     time: dayjs().add(1, "day"),
-                        // });
                         onChange(dayjs().add(1, "day"));
                     }}
                 >

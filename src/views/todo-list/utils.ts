@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { message } from "antd";
 import { StatusType, TodoStatusMap } from "./types";
+import { getDayjs } from "@/components/amdin-header/utils";
 
 export const formatArrayToTimeMap = (list: any[]) => {
     return list.reduce((prev, cur) => {
@@ -15,6 +16,13 @@ export const formatArrayToTimeMap = (list: any[]) => {
 const weekList = ["日", "一", "二", "三", "四", "五", "六"];
 export const getWeek = (time: string) => {
     return `周${weekList[dayjs(time).day()]}`;
+};
+
+export const getRangeFormToday = (time: string | undefined) => {
+    if (!time) return '';
+    const day = getDayjs(time).diff(getDayjs(dayjs()), "d");
+    if (day === 0) return "今天";
+    return `${Math.abs(day)} 天${day < 0 ? "前" : "后"}`;
 };
 
 export const colorMap: any = {

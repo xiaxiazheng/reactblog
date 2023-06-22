@@ -3,7 +3,7 @@ import { Pagination } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
-import { getWeek, formatArrayToTimeMap } from "../../utils";
+import { getWeek, formatArrayToTimeMap, getRangeFormToday } from "../../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,7 +77,8 @@ const DoneList: React.FC<Props> = (props) => {
                                         : ""
                                 }`}
                             >
-                                {time}&nbsp; ({getWeek(time)})
+                                {time}&nbsp; ({getWeek(time)}，
+                                {getRangeFormToday(time)})
                                 {doneMap[time]?.length > 6
                                     ? ` ${doneMap[time]?.length}`
                                     : null}

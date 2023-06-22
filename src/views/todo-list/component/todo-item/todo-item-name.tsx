@@ -171,7 +171,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
                 {/* 现在处理 */}
                 {item.doing === "1" && (
-                    <ThunderboltFilled style={{ marginRight: 5, color: "red" }} />
+                    <ThunderboltFilled
+                        style={{ marginRight: 5, color: "red" }}
+                    />
                 )}
                 {/* 目标 */}
                 {item.isTarget === "1" && (

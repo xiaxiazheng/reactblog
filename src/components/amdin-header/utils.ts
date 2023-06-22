@@ -1,12 +1,19 @@
 import dayjs from "dayjs";
 
+export const getDayjs = (day: dayjs.Dayjs | string) => {
+    if (typeof day === "string") {
+        day = dayjs(day);
+    }
+    const year = day.get("year");
+    const month = day.get("month") + 1;
+    const date = day.get("date");
+    return dayjs(`${year}-${month}-${date}`);
+};
+
 const getToday = () => {
     const day = dayjs();
-    const year = day.get('year');
-    const month = day.get('month') + 1;
-    const date = day.get('date');
-    return dayjs(`${year}-${month}-${date}`);
-}
+    return getDayjs(day);
+};
 
 // 获取已经在一起多久的日期
 export const getAlreadyDate = () => {
@@ -36,7 +43,10 @@ export const getAlreadyDate = () => {
         const year = dayjs().get("year");
         const thisYearDate = dayjs(`${year}-${month}-${date}`);
         const today = getToday();
-        if (thisYearDate.isSame(today, "days") || thisYearDate.isAfter(today, "days")) {
+        if (
+            thisYearDate.isSame(today, "days") ||
+            thisYearDate.isAfter(today, "days")
+        ) {
             return thisYearDate.diff(today, "days");
         } else {
             return thisYearDate.add(1, "years").diff(today, "days");
