@@ -15,6 +15,7 @@ interface Props {
     item: TodoItemType;
     showDoneIcon?: boolean; // 控制已完成按钮
     isShowTime?: boolean; // 是否展示时间
+    isShowTimeRange?: boolean; // 是否展示距离今天的范围
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
     isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
@@ -26,6 +27,7 @@ const TodoItem: React.FC<Props> = (props) => {
         item,
         showDoneIcon = false,
         isShowTime = false,
+        isShowTimeRange = false,
         isChain = false,
         isChainNext = false,
         isModalOrDrawer = false,
@@ -107,6 +109,7 @@ const TodoItem: React.FC<Props> = (props) => {
                     <TodoItemName
                         item={item}
                         isShowTime={isChain || isShowTime}
+                        isShowTimeRange={isShowTimeRange}
                         isModalOrDrawer={isModalOrDrawer}
                     />
                     <TodoChainIcon

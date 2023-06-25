@@ -10,7 +10,7 @@ import {
     AppleFilled,
     ThunderboltFilled,
 } from "@ant-design/icons";
-import { colorMap } from "../../utils";
+import { colorMap, getRangeFormToday } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
@@ -90,8 +90,9 @@ const today = dayjs().format("YYYY-MM-DD");
 const Name: React.FC<{
     item: TodoItemType;
     isShowTime: boolean;
+    isShowTimeRange: boolean;
     isModalOrDrawer: boolean;
-}> = ({ item, isShowTime, isModalOrDrawer }) => {
+}> = ({ item, isShowTime, isShowTimeRange, isModalOrDrawer }) => {
     const keyword = useSelector((state: RootState) => state.filter.keyword);
     const localKeyword = useSelector(
         (state: RootState) => state.filter.localKeyword
@@ -114,6 +115,11 @@ const Name: React.FC<{
                     }`}
                 >{` (${item.time})`}</span>
             )}
+            {isShowTimeRange && (
+                <span className={`${styles.time}`}>
+                    {` (${getRangeFormToday(item.time)})`}
+                </span>
+            )}
         </>
     );
 };
@@ -121,6 +127,7 @@ const Name: React.FC<{
 interface NameProps {
     item: TodoItemType;
     isShowTime?: boolean;
+    isShowTimeRange?: boolean;
     placement?: TooltipPlacement;
     onlyShow?: boolean;
     isModalOrDrawer?: boolean;
@@ -131,6 +138,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     const {
         item,
         isShowTime = false,
+        isShowTimeRange = false,
         placement,
         onlyShow = false,
         isModalOrDrawer = false,
@@ -195,6 +203,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         <Name
                             item={item}
                             isShowTime={isShowTime}
+                            isShowTimeRange={isShowTimeRange}
                             isModalOrDrawer={isModalOrDrawer}
                         />
                     </s>
@@ -203,6 +212,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         <Name
                             item={item}
                             isShowTime={isShowTime}
+                            isShowTimeRange={isShowTimeRange}
                             isModalOrDrawer={isModalOrDrawer}
                         />
                     </span>

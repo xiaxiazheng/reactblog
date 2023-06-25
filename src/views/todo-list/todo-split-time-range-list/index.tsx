@@ -104,6 +104,7 @@ const PoolList: React.FC<Props> = (props) => {
                                             showDoneIcon={showDoneIcon}
                                             isModalOrDrawer={isModalOrDrawer}
                                             isShowTime={isShowTime}
+                                            isShowTimeRange={true}
                                         />
                                     );
                                 })}
