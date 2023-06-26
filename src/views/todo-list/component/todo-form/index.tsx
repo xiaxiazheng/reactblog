@@ -45,6 +45,7 @@ interface Props {
 
 const MyDatePicker = (props: any) => {
     const { value, onChange } = props;
+    const range = getRangeFormToday(value);
 
     return (
         <>
@@ -60,12 +61,23 @@ const MyDatePicker = (props: any) => {
                 <PlusOutlined />
             </Button>
             <span className={styles.week}>
-                {getWeek(value)}，{getRangeFormToday(value)}
+                {getWeek(value)}，
+                <span
+                    className={
+                        range.includes("今天")
+                            ? styles.active
+                            : range.includes("后")
+                            ? styles.active2
+                            : styles.active1
+                    }
+                >
+                    {range}
+                </span>
             </span>
             <span
                 className={`${styles.today} ${
                     dayjs().subtract(1, "day").isSame(value, "d")
-                        ? styles.active
+                        ? styles.active1
                         : ""
                 }`}
                 onClick={() => {
@@ -87,7 +99,7 @@ const MyDatePicker = (props: any) => {
             <span
                 className={`${styles.today} ${
                     dayjs().add(1, "day").isSame(value, "d")
-                        ? styles.active
+                        ? styles.active2
                         : ""
                 }`}
                 onClick={() => {

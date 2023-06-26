@@ -1,6 +1,15 @@
 .week {
     padding: 0 5px;
     color: rgba(255, 255, 255, 0.65);
+    &.active {
+        color: #40a9ff;
+    }
+    &.active1 {
+        color: #f5222d;
+    }
+    &.active2 {
+        color: #20d420;
+    }
 }
 
 .today {
@@ -9,6 +18,12 @@
     color: rgba(255, 255, 255, 0.65);
     &.active {
         color: #40a9ff;
+    }
+    &.active1 {
+        color: #f5222d;
+    }
+    &.active2 {
+        color: #20d420;
     }
 }
 
