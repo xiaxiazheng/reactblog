@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Button, Collapse, Divider } from "antd";
+import React, { ReactNode, useState } from "react";
+import { Button, Divider } from "antd";
 import { TodoItemType } from "../../../types";
 import TodoItem from "../../todo-item";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 interface IProps {
     localKeyword: string;
@@ -11,6 +12,28 @@ interface IProps {
     nowTodo: TodoItemType | undefined;
     chainId: string;
 }
+
+interface CollapseProps {
+    title: ReactNode | string;
+    children: any;
+}
+
+const Collapse: React.FC<CollapseProps> = (props) => {
+    const [isShow, setIsShow] = useState<boolean>(true);
+
+    return (
+        <>
+            <h4
+                onClick={() => setIsShow((prev) => !prev)}
+                style={{ cursor: "pointer" }}
+            >
+                {isShow ? <DownOutlined /> : <UpOutlined />}&nbsp;
+                {props.title}
+            </h4>
+            {isShow && <div className={styles.children}>{props.children}</div>}
+        </>
+    );
+};
 
 const TodoChainFlat: React.FC<IProps> = (props) => {
     const { localKeyword, todoChainList, nowTodo, chainId } = props;
@@ -23,8 +46,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                     -1 ||
                 item.description
                     .toLowerCase()
-                    .indexOf(localKeyword.toLowerCase()) !== -1 ||
-                handleFilter(item?.child_todo_list || [])?.length !== 0
+                    .indexOf(localKeyword.toLowerCase()) !== -1
         );
     };
 
@@ -68,7 +90,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
             const range = timeRange[cur];
             const l = list.filter((item) => {
                 const time = dayjs(
-                    (isSortTime ? item.cTime : item.mTime) || "2018-01-01"
+                    (isSortTime ? item.time : item.mTime) || "2018-01-01"
                 );
                 return time.isBefore(range[0]) && time.isAfter(range[1]);
             });
@@ -83,7 +105,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
     ) => {
         const { isReverse, isReverseList = false } = params;
         const map = handleSplitListByTimeRange(
-            handleFilter(handleFlat(list)).sort(
+            list.sort(
                 (a, b) =>
                     new Date(a.time).getTime() - new Date(b.time).getTime()
             )
@@ -94,79 +116,82 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                 if (map[time].length === 0) return null;
                 return (
                     <div key={time}>
-                        <div
-                            style={{
-                                color: "#1890ffcc",
-                                fontSize: "15px",
-                                borderBottom: "1px solid #ccc",
-                            }}
+                        <Collapse
+                            title={
+                                <span
+                                    style={{
+                                        color: "#1890ffcc",
+                                        fontSize: "15px",
+                                        borderBottom: "1px solid #ccc",
+                                    }}
+                                >
+                                    {time}
+                                </span>
+                            }
                         >
-                            {time}
-                        </div>
-                        <div>
-                            {(isReverseList
-                                ? map[time].reverse()
-                                : map[time]
-                            ).map((item) => (
-                                <div key={item.todo_id}>
-                                    <TodoItem
-                                        key={item.todo_id}
-                                        item={item}
-                                        showDoneIcon={false}
-                                        isChain={true}
-                                        isChainNext={true}
-                                        isModalOrDrawer={true}
-                                        isShowTimeRange={true}
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                            <div>
+                                {(isReverseList
+                                    ? map[time].reverse()
+                                    : map[time]
+                                ).map((item) => (
+                                    <div key={item.todo_id}>
+                                        <TodoItem
+                                            key={item.todo_id}
+                                            item={item}
+                                            showDoneIcon={false}
+                                            isChain={true}
+                                            isChainNext={true}
+                                            isModalOrDrawer={true}
+                                            isShowTimeRange={true}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </Collapse>
                     </div>
                 );
             }
         );
     };
 
-    const [sortTime, setSortTime] = useState<"cTime" | "mTime">("mTime");
-
     const beforeList = handleFilter(
-        todoChainList.filter((item) => item.todo_id !== chainId)
+        handleFlat(todoChainList.filter((item) => item.todo_id !== chainId))
     ).filter((item) => item.todo_id !== chainId);
+    const afterList = handleFilter(handleFlat(nowTodo?.child_todo_list || []));
 
     return (
         <>
             <Button
                 type="primary"
-                onClick={() =>
-                    setSortTime((prev) =>
-                        prev === "cTime" ? "mTime" : "cTime"
-                    )
-                }
+                onClick={() => setIsSortTime((prev) => !prev)}
             >
-                {sortTime}
+                {isSortTime ? "time" : "mTime"}
             </Button>
             <div className={styles.content}>
                 {/* 前置 */}
                 {beforeList?.length !== 0 && (
                     <>
-                        <h4>
-                            <span
-                                style={{
-                                    color: "#40a9ff",
-                                    fontSize: "16px",
-                                }}
-                            >
-                                前置：
-                            </span>
-                        </h4>
-                        {renderChildTodo(beforeList, { isReverse: true })}
+                        <Collapse
+                            title={
+                                <span
+                                    style={{
+                                        color: "#40a9ff",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    前置：
+                                </span>
+                            }
+                        >
+                            {renderChildTodo(beforeList, { isReverse: true })}
+                        </Collapse>
                         <Divider style={{ margin: "12px 0" }} />
                     </>
                 )}
                 {/* 当前 */}
                 {nowTodo && handleFilter([nowTodo])?.length !== 0 && (
-                    <>
-                        <h4>
+                    <Collapse
+                        title={
                             <span
                                 style={{
                                     color: "#40a9ff",
@@ -175,23 +200,22 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                             >
                                 当前：
                             </span>
-                        </h4>
+                        }
+                    >
                         <TodoItem
                             item={nowTodo}
                             showDoneIcon={false}
                             isChain={true}
                             isModalOrDrawer={true}
                         />
-                    </>
+                    </Collapse>
                 )}
                 {/* 后续 */}
-                {nowTodo &&
-                    nowTodo.child_todo_list_length !== 0 &&
-                    nowTodo.child_todo_list &&
-                    handleFilter(nowTodo.child_todo_list)?.length !== 0 && (
-                        <>
-                            <Divider style={{ margin: "12px 0" }} />
-                            <h4>
+                {nowTodo && afterList?.length !== 0 && (
+                    <>
+                        <Divider style={{ margin: "12px 0" }} />
+                        <Collapse
+                            title={
                                 <span
                                     style={{
                                         color: "#52d19c",
@@ -200,13 +224,15 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                 >
                                     后续：
                                 </span>
-                            </h4>
-                            {renderChildTodo(nowTodo.child_todo_list, {
+                            }
+                        >
+                            {renderChildTodo(afterList, {
                                 isReverse: false,
                                 isReverseList: true,
                             })}
-                        </>
-                    )}
+                        </Collapse>
+                    </>
+                )}
             </div>
         </>
     );
