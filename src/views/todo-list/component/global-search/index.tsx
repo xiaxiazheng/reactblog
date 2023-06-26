@@ -11,7 +11,7 @@ import {
     FilterOutlined,
 } from "@ant-design/icons";
 import { colorList, colorMap, colorNameMap, colorTitle } from "../../utils";
-import dayjs from "dayjs";
+import dayjs, { ManipulateType } from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 
@@ -91,6 +91,24 @@ const GlobalSearch: React.FC = () => {
     ]);
 
     const Filter = () => {
+        const getTimeRange = (
+            start: number,
+            end: number,
+            type: ManipulateType = "day"
+        ) => {
+            return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
+        };
+
+        const timeRange: Record<string, dayjs.Dayjs[]> = {
+            三天内: getTimeRange(0, 3),
+            七天内: getTimeRange(0, 7),
+            一月内: getTimeRange(0, 30),
+            三月内: getTimeRange(0, 3, "month"),
+            半年内: getTimeRange(0, 6, "month"),
+            一年内: getTimeRange(0, 12, "month"),
+            一年前: getTimeRange(1, 10, "year"),
+        };
+
         return (
             <div className={styles.filterWrapper}>
                 <div>
@@ -130,6 +148,18 @@ const GlobalSearch: React.FC = () => {
                         onChange={(val) => setStartEndTime(val)}
                         placeholder={["开始时间", "结束时间"]}
                     />
+                    {Object.keys(timeRange).map((item) => (
+                        <Button
+                            type="text"
+                            key={item}
+                            className={styles.btn}
+                            onClick={() =>
+                                setStartEndTime(timeRange[item].reverse())
+                            }
+                        >
+                            {item}
+                        </Button>
+                    ))}
                 </div>
             </div>
         );

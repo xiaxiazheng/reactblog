@@ -39,6 +39,13 @@
     }
 }
 
+.btn {
+    color: var(--color) !important;
+    & > span:hover {
+        color: var(--color_active) !important;
+    }
+}
+
 .color {
     &.zero {
         :global {
