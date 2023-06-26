@@ -40,7 +40,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
             keyword: newValue,
             pageNo: 1,
             pageSize: 20,
-            sortBy: [["isTarget", "DESC"], ["color"]],
+            sortBy: [["isTarget", "DESC"], ["mTime", "DESC"], ["color"]],
         };
 
         const res = await getTodoList(req);
@@ -114,6 +114,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
                             item={item}
                             placement="left"
                             onlyShow={true}
+                            isShowTimeRange={true}
                         />
                     </Select.Option>
                 );
