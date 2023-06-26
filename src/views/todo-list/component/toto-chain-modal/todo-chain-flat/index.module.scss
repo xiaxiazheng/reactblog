@@ -6,3 +6,11 @@
 .children {
   padding-left: 16px;
 }
+
+.checkboxGroup {
+  :global {
+    .ant-checkbox-wrapper {
+      color: var(--color);
+    }
+  }
+}

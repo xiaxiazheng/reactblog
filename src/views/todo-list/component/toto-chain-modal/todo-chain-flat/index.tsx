@@ -1,10 +1,11 @@
 import React, { ReactNode, useState } from "react";
-import { Button, Divider } from "antd";
+import { Button, Checkbox, Divider, Space } from "antd";
 import { TodoItemType } from "../../../types";
 import TodoItem from "../../todo-item";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import { colorList, colorNameMap, colorMap } from "@/views/todo-list/utils";
 
 interface IProps {
     localKeyword: string;
@@ -37,17 +38,22 @@ const Collapse: React.FC<CollapseProps> = (props) => {
 
 const TodoChainFlat: React.FC<IProps> = (props) => {
     const { localKeyword, todoChainList, nowTodo, chainId } = props;
+    
+    const [selectedColorList, setSelectedColorList] = useState<string[]>(colorList);
 
     const handleFilter = (list: TodoItemType[]): TodoItemType[] => {
-        return list.filter(
-            (item) =>
-                !localKeyword ||
-                item.name.toLowerCase().indexOf(localKeyword.toLowerCase()) !==
-                    -1 ||
-                item.description
-                    .toLowerCase()
-                    .indexOf(localKeyword.toLowerCase()) !== -1
-        );
+        return list
+            .filter(
+                (item) =>
+                    !localKeyword ||
+                    item.name
+                        .toLowerCase()
+                        .indexOf(localKeyword.toLowerCase()) !== -1 ||
+                    item.description
+                        .toLowerCase()
+                        .indexOf(localKeyword.toLowerCase()) !== -1
+            )
+            .filter((item) => selectedColorList.includes(item.color));
     };
 
     const handleFlat = (list: TodoItemType[]) => {
@@ -159,12 +165,25 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
 
     return (
         <>
-            <Button
-                type="primary"
-                onClick={() => setIsSortTime((prev) => !prev)}
-            >
-                {isSortTime ? "time" : "mTime"}
-            </Button>
+            <Space>
+                <Button
+                    type="primary"
+                    onClick={() => setIsSortTime((prev) => !prev)}
+                >
+                    {isSortTime ? "time" : "mTime"}
+                </Button>
+                <Checkbox.Group
+                    className={styles.checkboxGroup}
+                    options={colorList.map((item) => {
+                        return {
+                            label: <span style={{ color: colorMap[item] }}>{colorNameMap[item]}</span>,
+                            value: item,
+                        };
+                    })}
+                    value={selectedColorList}
+                    onChange={(val: any) => setSelectedColorList(val)}
+                />
+            </Space>
             <div className={styles.content}>
                 {/* 前置 */}
                 {beforeList?.length !== 0 && (
