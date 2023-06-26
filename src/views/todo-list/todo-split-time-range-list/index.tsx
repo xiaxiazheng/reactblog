@@ -6,6 +6,7 @@ import { TodoItemType } from "../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import TodoItem from "../component/todo-item";
 import dayjs, { ManipulateType } from "dayjs";
+import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 
 interface Props {
     loading: boolean;
@@ -17,6 +18,29 @@ interface Props {
     isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
     isShowTime?: boolean;
 }
+
+interface CollapseProps {
+    title: ReactNode | string;
+    children: any;
+}
+
+const Collapse: React.FC<CollapseProps> = (props) => {
+    const [isShow, setIsShow] = useState<boolean>(true);
+
+    return (
+        <>
+            <div
+                className={styles.time}
+                onClick={() => setIsShow((prev) => !prev)}
+                style={{ cursor: "pointer" }}
+            >
+                {isShow ? <CaretDownOutlined /> : <CaretUpOutlined />}&nbsp;
+                {props.title}
+            </div>
+            {isShow && <div className={styles.children}>{props.children}</div>}
+        </>
+    );
+};
 
 // 待办池
 const PoolList: React.FC<Props> = (props) => {
@@ -91,24 +115,27 @@ const PoolList: React.FC<Props> = (props) => {
                 {Object.keys(mapList).map((item) => {
                     return mapList[item].length === 0 ? null : (
                         <div className={styles.oneDay} key={item}>
-                            <div className={styles.time}>{item}</div>
-                            <div>
-                                {(isSortTime
-                                    ? handleSort(mapList[item])
-                                    : mapList[item]
-                                ).map((item) => {
-                                    return (
-                                        <TodoItem
-                                            key={item.todo_id}
-                                            item={item}
-                                            showDoneIcon={showDoneIcon}
-                                            isModalOrDrawer={isModalOrDrawer}
-                                            isShowTime={isShowTime}
-                                            isShowTimeRange={true}
-                                        />
-                                    );
-                                })}
-                            </div>
+                            <Collapse title={item}>
+                                <div>
+                                    {(isSortTime
+                                        ? handleSort(mapList[item])
+                                        : mapList[item]
+                                    ).map((item) => {
+                                        return (
+                                            <TodoItem
+                                                key={item.todo_id}
+                                                item={item}
+                                                showDoneIcon={showDoneIcon}
+                                                isModalOrDrawer={
+                                                    isModalOrDrawer
+                                                }
+                                                isShowTime={isShowTime}
+                                                isShowTimeRange={true}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </Collapse>
                         </div>
                     );
                 })}
