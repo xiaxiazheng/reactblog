@@ -116,6 +116,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                         isChain={true}
                                         isChainNext={true}
                                         isModalOrDrawer={true}
+                                        isShowTimeRange={true}
                                     />
                                 </div>
                             ))}
