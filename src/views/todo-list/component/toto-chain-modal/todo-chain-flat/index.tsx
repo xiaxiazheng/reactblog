@@ -4,7 +4,7 @@ import { TodoItemType } from "../../../types";
 import TodoItem from "../../todo-item";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 
 interface IProps {
     localKeyword: string;
@@ -27,7 +27,7 @@ const Collapse: React.FC<CollapseProps> = (props) => {
                 onClick={() => setIsShow((prev) => !prev)}
                 style={{ cursor: "pointer" }}
             >
-                {isShow ? <DownOutlined /> : <UpOutlined />}&nbsp;
+                {isShow ? <CaretDownOutlined /> : <CaretUpOutlined />}&nbsp;
                 {props.title}
             </h4>
             {isShow && <div className={styles.children}>{props.children}</div>}
@@ -121,8 +121,6 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                 <span
                                     style={{
                                         color: "#1890ffcc",
-                                        fontSize: "15px",
-                                        borderBottom: "1px solid #ccc",
                                     }}
                                 >
                                     {time}
