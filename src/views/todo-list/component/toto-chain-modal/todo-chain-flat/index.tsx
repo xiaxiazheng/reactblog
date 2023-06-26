@@ -79,9 +79,9 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
 
     const renderChildTodo = (
         list: TodoItemType[],
-        params: { isReverse: boolean }
+        params: { isReverse: boolean; isReverseList?: boolean }
     ) => {
-        const { isReverse } = params;
+        const { isReverse, isReverseList = false } = params;
         const map = handleSplitListByTimeRange(
             handleFilter(handleFlat(list)).sort(
                 (a, b) =>
@@ -104,7 +104,10 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                             {time}
                         </div>
                         <div>
-                            {map[time].map((item) => (
+                            {(isReverseList
+                                ? map[time].reverse()
+                                : map[time]
+                            ).map((item) => (
                                 <div key={item.todo_id}>
                                     <TodoItem
                                         key={item.todo_id}
@@ -199,6 +202,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                             </h4>
                             {renderChildTodo(nowTodo.child_todo_list, {
                                 isReverse: false,
+                                isReverseList: true,
                             })}
                         </>
                     )}
