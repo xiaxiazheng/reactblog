@@ -10,7 +10,11 @@
     }
 
     .header {
+        position: sticky;
+        top: 0;
         padding: 20px 20px 10px;
+        background-color: var(--bg_color);
+        z-index: 3;
         .header1 {
             display: flex;
             justify-content: space-between;
