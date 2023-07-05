@@ -29,6 +29,7 @@ const DoneList: React.FC<Props> = (props) => {
     const doneLoading = useSelector(
         (state: RootState) => state.data.doneLoading
     );
+    const { setStartEndTime, setKeyword } = dispatch.filter;
 
     const [doneMap, setDoneMap] = useState<any>({});
 
@@ -76,6 +77,10 @@ const DoneList: React.FC<Props> = (props) => {
                                         ? styles.future
                                         : ""
                                 }`}
+                                onClick={() => {
+                                    setKeyword("");
+                                    setStartEndTime([dayjs(time), dayjs(time)]);
+                                }}
                             >
                                 {time}&nbsp; ({getWeek(time)}，
                                 {getRangeFormToday(time)})

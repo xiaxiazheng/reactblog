@@ -6,6 +6,7 @@ import {
     AppleFilled,
     ClearOutlined,
     PlusOutlined,
+    MinusOutlined,
     RedoOutlined,
     CoffeeOutlined,
     FilterOutlined,
@@ -143,11 +144,62 @@ const GlobalSearch: React.FC = () => {
                 </div>
                 <div>
                     <span>时间：</span>
+                    {startEndTime?.[0] && (
+                        <>
+                            <Button
+                                icon={<MinusOutlined />}
+                                onClick={() =>
+                                    setStartEndTime([
+                                        dayjs(startEndTime?.[0]).subtract(
+                                            1,
+                                            "d"
+                                        ),
+                                        startEndTime?.[1],
+                                    ])
+                                }
+                            />
+                            <Button
+                                icon={<PlusOutlined />}
+                                onClick={() =>
+                                    setStartEndTime([
+                                        dayjs(startEndTime?.[0]).add(1, "d"),
+                                        startEndTime?.[1],
+                                    ])
+                                }
+                            />
+                        </>
+                    )}
                     <DatePicker.RangePicker
                         value={startEndTime}
                         onChange={(val) => setStartEndTime(val)}
                         placeholder={["开始时间", "结束时间"]}
                     />
+                    {startEndTime?.[1] && (
+                        <>
+                            <Button
+                                icon={<MinusOutlined />}
+                                onClick={() =>
+                                    setStartEndTime([
+                                        startEndTime?.[0],
+                                        dayjs(startEndTime?.[1]).subtract(
+                                            1,
+                                            "d"
+                                        ),
+                                    ])
+                                }
+                            />
+                            <Button
+                                icon={<PlusOutlined />}
+                                onClick={() =>
+                                    setStartEndTime([
+                                        startEndTime?.[0],
+                                        dayjs(startEndTime?.[1]).add(1, "d"),
+                                    ])
+                                }
+                            />
+                        </>
+                    )}
+
                     {Object.keys(timeRange).map((item) => (
                         <Button
                             type="text"
