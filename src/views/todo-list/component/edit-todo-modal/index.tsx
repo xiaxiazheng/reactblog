@@ -499,8 +499,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     <TodoImageFile
                         todo={activeTodo}
                         handleFresh={(item) => {
-                            item && setActiveTodo(item);
-                            needFresh.current = [];
+                            if (item) {
+                                setActiveTodo(item);
+                                needFresh.current.push(
+                                    ...handleRefreshList(item)
+                                );
+                            }
                         }}
                     />
                 )}
