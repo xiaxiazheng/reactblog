@@ -224,6 +224,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                             showDoneIcon={false}
                             isChain={true}
                             isModalOrDrawer={true}
+                            style={{ color: 'yellow' }}
                         />
                     </Collapse>
                 )}

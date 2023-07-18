@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { CSSProperties, useContext } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import { CheckCircleOutlined, PlayCircleOutlined } from "@ant-design/icons";
@@ -19,6 +19,7 @@ interface Props {
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
     isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
+    style?: CSSProperties;
 }
 
 // 单条 todo 的渲染
@@ -31,6 +32,7 @@ const TodoItem: React.FC<Props> = (props) => {
         isChain = false,
         isChainNext = false,
         isModalOrDrawer = false,
+        style = {},
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -111,6 +113,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         isShowTime={isChain || isShowTime}
                         isShowTimeRange={isShowTimeRange}
                         isModalOrDrawer={isModalOrDrawer}
+                        style={style}
                     />
                     <TodoChainIcon
                         item={item}

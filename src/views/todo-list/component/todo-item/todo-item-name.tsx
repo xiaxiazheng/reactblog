@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { CSSProperties, useContext, useState } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import {
@@ -131,6 +131,7 @@ interface NameProps {
     placement?: TooltipPlacement;
     onlyShow?: boolean;
     isModalOrDrawer?: boolean;
+    style?: CSSProperties;
 }
 
 // 单条 todo 中的 name 的渲染
@@ -142,6 +143,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         placement,
         onlyShow = false,
         isModalOrDrawer = false,
+        style = {},
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -201,7 +203,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {isDone && item.isBookMark !== "1" ? (
                     <s
                         className={`${styles.grey}`}
-                        style={judgeIsLastModify(item.todo_id)}
+                        style={{ ...judgeIsLastModify(item.todo_id), ...style }}
                     >
                         <Name
                             item={item}
@@ -211,7 +213,9 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         />
                     </s>
                 ) : (
-                    <span style={judgeIsLastModify(item.todo_id)}>
+                    <span
+                        style={{ ...judgeIsLastModify(item.todo_id), ...style }}
+                    >
                         <Name
                             item={item}
                             isShowTime={isShowTime}
