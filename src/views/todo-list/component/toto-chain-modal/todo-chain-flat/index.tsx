@@ -38,8 +38,9 @@ const Collapse: React.FC<CollapseProps> = (props) => {
 
 const TodoChainFlat: React.FC<IProps> = (props) => {
     const { localKeyword, todoChainList, nowTodo, chainId } = props;
-    
-    const [selectedColorList, setSelectedColorList] = useState<string[]>(colorList);
+
+    const [selectedColorList, setSelectedColorList] =
+        useState<string[]>(colorList);
 
     const handleFilter = (list: TodoItemType[]): TodoItemType[] => {
         return list
@@ -147,6 +148,12 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                             isChainNext={true}
                                             isModalOrDrawer={true}
                                             isShowTimeRange={true}
+                                            style={
+                                                item.todo_id ===
+                                                nowTodo?.todo_id
+                                                    ? { color: "yellow" }
+                                                    : {}
+                                            }
                                         />
                                     </div>
                                 ))}
@@ -163,6 +170,8 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
     ).filter((item) => item.todo_id !== chainId);
     const afterList = handleFilter(handleFlat(nowTodo?.child_todo_list || []));
 
+    const [isSplitTime, setIsSplitTime] = useState<boolean>(false);
+
     return (
         <>
             <Space>
@@ -176,79 +185,111 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                     className={styles.checkboxGroup}
                     options={colorList.map((item) => {
                         return {
-                            label: <span style={{ color: colorMap[item] }}>{colorNameMap[item]}</span>,
+                            label: (
+                                <span style={{ color: colorMap[item] }}>
+                                    {colorNameMap[item]}
+                                </span>
+                            ),
                             value: item,
                         };
                     })}
                     value={selectedColorList}
                     onChange={(val: any) => setSelectedColorList(val)}
                 />
+                <Button
+                    type="primary"
+                    onClick={() => setIsSplitTime((prev) => !prev)}
+                >
+                    {isSplitTime ? "区分" : "不区分"}前中后
+                </Button>
             </Space>
             <div className={styles.content}>
-                {/* 前置 */}
-                {beforeList?.length !== 0 && (
+                {isSplitTime && (
                     <>
-                        <Collapse
-                            title={
-                                <span
-                                    style={{
-                                        color: "#40a9ff",
-                                        fontSize: "16px",
-                                    }}
+                        {/* 前置 */}
+                        {beforeList?.length !== 0 && (
+                            <>
+                                <Collapse
+                                    title={
+                                        <span
+                                            style={{
+                                                color: "#40a9ff",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            前置：
+                                        </span>
+                                    }
                                 >
-                                    前置：
-                                </span>
-                            }
-                        >
-                            {renderChildTodo(beforeList, { isReverse: true })}
-                        </Collapse>
-                        <Divider style={{ margin: "12px 0" }} />
+                                    {renderChildTodo(beforeList, {
+                                        isReverse: true,
+                                    })}
+                                </Collapse>
+                                <Divider style={{ margin: "12px 0" }} />
+                            </>
+                        )}
+                        {/* 当前 */}
+                        {nowTodo && handleFilter([nowTodo])?.length !== 0 && (
+                            <Collapse
+                                title={
+                                    <span
+                                        style={{
+                                            color: "#40a9ff",
+                                            fontSize: "16px",
+                                        }}
+                                    >
+                                        当前：
+                                    </span>
+                                }
+                            >
+                                <TodoItem
+                                    item={nowTodo}
+                                    showDoneIcon={false}
+                                    isChain={true}
+                                    isModalOrDrawer={true}
+                                    style={{ color: "yellow" }}
+                                />
+                            </Collapse>
+                        )}
+                        {/* 后续 */}
+                        {nowTodo && afterList?.length !== 0 && (
+                            <>
+                                <Divider style={{ margin: "12px 0" }} />
+                                <Collapse
+                                    title={
+                                        <span
+                                            style={{
+                                                color: "#52d19c",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            后续：
+                                        </span>
+                                    }
+                                >
+                                    {renderChildTodo(afterList, {
+                                        isReverse: false,
+                                        isReverseList: true,
+                                    })}
+                                </Collapse>
+                            </>
+                        )}
                     </>
                 )}
-                {/* 当前 */}
-                {nowTodo && handleFilter([nowTodo])?.length !== 0 && (
-                    <Collapse
-                        title={
-                            <span
-                                style={{
-                                    color: "#40a9ff",
-                                    fontSize: "16px",
-                                }}
-                            >
-                                当前：
-                            </span>
-                        }
-                    >
-                        <TodoItem
-                            item={nowTodo}
-                            showDoneIcon={false}
-                            isChain={true}
-                            isModalOrDrawer={true}
-                            style={{ color: 'yellow' }}
-                        />
-                    </Collapse>
-                )}
-                {/* 后续 */}
-                {nowTodo && afterList?.length !== 0 && (
+                {!isSplitTime && (
                     <>
-                        <Divider style={{ margin: "12px 0" }} />
-                        <Collapse
-                            title={
-                                <span
-                                    style={{
-                                        color: "#52d19c",
-                                        fontSize: "16px",
-                                    }}
-                                >
-                                    后续：
-                                </span>
-                            }
-                        >
-                            {renderChildTodo(afterList, {
-                                isReverse: false,
-                                isReverseList: true,
-                            })}
-                        </Collapse>
+                        {nowTodo &&
+                            renderChildTodo(
+                                [
+                                    ...(beforeList || []),
+                                    nowTodo,
+                                    ...(afterList || []),
+                                ],
+                                {
+                                    isReverse: false,
+                                    isReverseList: true,
+                                }
+                            )}
                     </>
                 )}
             </div>
