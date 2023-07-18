@@ -330,7 +330,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     ? `${Number(item.color) + 1}`
                     : item.color,
             category: item.category,
-            other_id: item.todo_id,
+            other_id: type === "copy" ? item.other_id : item.todo_id,
             isWork: item.isWork,
         });
         setVisible2(true);
