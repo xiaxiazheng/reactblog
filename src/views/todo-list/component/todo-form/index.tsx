@@ -139,7 +139,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 style={{
                     position: "sticky",
                     top: 0,
-                    zIndex: 1,
+                    zIndex: 2,
                     background: "rgb(0, 21, 41)",
                 }}
             >
