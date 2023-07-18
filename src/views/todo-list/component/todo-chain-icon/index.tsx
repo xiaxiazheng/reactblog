@@ -61,11 +61,7 @@ const TodoChainIcon = (props: {
                 }}
                 title="查看 todo 链"
                 onClick={() => {
-                    setChainId(
-                        isHasChild
-                            ? item.todo_id
-                            : item.other_id || item.todo_id
-                    );
+                    setChainId(item.todo_id);
                     setShowChainModal(true);
                 }}
             />
