@@ -14,7 +14,7 @@ import { colorMap, getRangeFormToday } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { handleHighlight } from "./utils";
+import { handleHighlight, judgeIsLastModify } from "./utils";
 import { splitStr } from "../input-list";
 import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
@@ -199,7 +199,10 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
 
                 {isDone && item.isBookMark !== "1" ? (
-                    <s className={`${styles.grey}`}>
+                    <s
+                        className={`${styles.grey}`}
+                        style={judgeIsLastModify(item.todo_id)}
+                    >
                         <Name
                             item={item}
                             isShowTime={isShowTime}
@@ -208,7 +211,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         />
                     </s>
                 ) : (
-                    <span>
+                    <span style={judgeIsLastModify(item.todo_id)}>
                         <Name
                             item={item}
                             isShowTime={isShowTime}
