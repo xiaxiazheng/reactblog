@@ -74,14 +74,6 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         }
     };
 
-    const Name = ({ item }: { item: TodoItemType }) => {
-        return (
-            <div style={{ whiteSpace: "pre-line" }}>
-                {item.name} <span style={{ color: "#ccc" }}>({item.time})</span>
-            </div>
-        );
-    };
-
     return (
         <Select
             showSearch
