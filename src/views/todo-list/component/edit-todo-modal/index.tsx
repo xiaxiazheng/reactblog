@@ -50,8 +50,8 @@ const titleMap = {
     add: "新增",
     edit: "编辑",
     copy: "复制",
-    add_progress: "新增后续进度",
-    add_same_level_progress: "新增并行进度",
+    add_child: "添加子任务",
+    add_progress: "新增进度",
 };
 
 const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
@@ -326,11 +326,16 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             time: type === "copy" ? dayjs(item.time) : dayjs(),
             status: TodoStatus.todo,
             color:
-                type === "add_progress" && `${item.color}` !== "3"
+                type === "add_child" && `${item.color}` !== "3"
                     ? `${Number(item.color) + 1}`
                     : item.color,
             category: item.category,
-            other_id: type === "copy" ? item.other_id : item.todo_id,
+            other_id:
+                type === "copy"
+                    ? ""
+                    : type === "add_progress"
+                    ? item.other_id
+                    : item.todo_id,
             isWork: item.isWork,
         });
         setVisible2(true);
@@ -432,34 +437,59 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             {type === "edit" ? (
                                 <>
                                     {renderDeleteButton()}
-                                    <Button
-                                        type="primary"
-                                        ghost
-                                        onClick={() =>
-                                            activeTodo &&
-                                            createCopyOrNextTask(
-                                                "copy",
-                                                activeTodo
-                                            )
-                                        }
-                                        disabled={isEdit}
-                                    >
-                                        复制
-                                    </Button>
-                                    <Button
-                                        type="primary"
-                                        ghost
-                                        onClick={() =>
-                                            activeTodo &&
-                                            createCopyOrNextTask(
-                                                "add_progress",
-                                                activeTodo
-                                            )
-                                        }
-                                        disabled={isEdit}
-                                    >
-                                        添加进度
-                                    </Button>
+                                    <Tooltip title="添加的是前置todo的进度，与当前todo挂同样的前置todo">
+                                        {activeTodo?.other_id && (
+                                            <Button
+                                                type="primary"
+                                                ghost
+                                                onClick={() =>
+                                                    activeTodo &&
+                                                    createCopyOrNextTask(
+                                                        "add_progress",
+                                                        activeTodo
+                                                    )
+                                                }
+                                                disabled={isEdit}
+                                            >
+                                                添加进度
+                                            </Button>
+                                        )}
+                                    </Tooltip>
+
+                                    <Tooltip title="复制，不带上前置 todo">
+                                        <Button
+                                            type="primary"
+                                            ghost
+                                            onClick={() =>
+                                                activeTodo &&
+                                                createCopyOrNextTask(
+                                                    "copy",
+                                                    activeTodo
+                                                )
+                                            }
+                                            disabled={isEdit}
+                                        >
+                                            复制
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="添加的是当前 todo 的子任务，当前 todo 作为子任务的前置 todo">
+                                        <Button
+                                            type="primary"
+                                            ghost
+                                            onClick={() =>
+                                                activeTodo &&
+                                                createCopyOrNextTask(
+                                                    "add_child",
+                                                    activeTodo
+                                                )
+                                            }
+                                            disabled={isEdit}
+                                        >
+                                            添加子任务
+                                        </Button>
+                                    </Tooltip>
+
                                     {activeTodo && (
                                         <TodoChainIcon item={activeTodo} />
                                     )}
