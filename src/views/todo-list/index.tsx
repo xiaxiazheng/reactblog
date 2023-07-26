@@ -103,13 +103,15 @@ const TodoList: React.FC = () => {
         <div className={styles.todoList}>
             <div>
                 <div className={styles.Layout}>
-                    {/* 之后待办 */}
-                    <div className={`${styles.mb} ScrollBar`}>
-                        <TodoAfter />
-                    </div>
-                    {/* 今日待办 */}
-                    <div className={`${styles.mt} ScrollBar`}>
-                        <TodoToday />
+                    <div className={styles.m}>
+                        {/* 今日待办 */}
+                        <div className={`${styles.mt} ScrollBar`}>
+                            <TodoToday />
+                        </div>
+                        {/* 之后待办 */}
+                        <div className={`${styles.mb} ScrollBar`}>
+                            <TodoAfter />
+                        </div>
                     </div>
                     {/* 已完成 */}
                     <div className={`${styles.rt} ScrollBar`}>
