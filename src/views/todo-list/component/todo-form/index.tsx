@@ -29,7 +29,7 @@ import dayjs from "dayjs";
 import { TodoItemType } from "../../types";
 import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
-import SearchTodo from "./searchTodo";
+import SearchTodoModal from "../search-todo-modal";
 import CategoryOptions from "./categoryOptions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
@@ -313,7 +313,7 @@ const TodoForm: React.FC<Props> = (props) => {
             </Form.Item>
 
             <Form.Item name="other_id" label="前置 todo">
-                <SearchTodo activeTodo={activeTodo} />
+                <SearchTodoModal activeTodo={activeTodo} />
             </Form.Item>
 
             {isPunchTheClock && (
