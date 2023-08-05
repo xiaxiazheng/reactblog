@@ -36,8 +36,9 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         <>
             {value ? (
                 nowTodo && !loading ? (
-                    <Space size={8}>
+                    <Space size={8} className={styles.space}>
                         <Button
+                            className={styles.nowTodo}
                             onClick={() => {
                                 setVisible(true);
                             }}

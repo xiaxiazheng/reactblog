@@ -27,6 +27,23 @@
     }
 }
 
+.space {
+    max-width: 100%;
+    :global {
+        .ant-space-item {
+            overflow: hidden;
+        }
+        .ant-space-item:first-child {
+            flex: 1;
+            overflow: hidden;
+        }
+    }
+    .nowTodo {
+        width: 100%;
+        overflow: hidden;
+    }
+}
+
 .form {
     :global {
         .ant-form-item {
