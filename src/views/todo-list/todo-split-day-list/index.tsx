@@ -1,6 +1,10 @@
-import React from "react";
-import { message, Popconfirm, Space, Tooltip } from "antd";
-import { VerticalAlignTopOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Button, message, Popconfirm, Space, Tooltip } from "antd";
+import {
+    VerticalAlignTopOutlined,
+    ArrowLeftOutlined,
+    ThunderboltFilled,
+} from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import dayjs from "dayjs";
@@ -20,11 +24,19 @@ interface Props {
     };
     sortKey: SortKeyMap;
     showDoneIcon?: boolean; // 是否展示快捷完成 icon
+    showDoingBtn?: boolean; // 是否展示加急的筛选按钮
 }
 
 // 待办
 const List: React.FC<Props> = (props) => {
-    const { loading, title, mapList, showDoneIcon = false, sortKey } = props;
+    const {
+        loading,
+        title,
+        mapList,
+        showDoneIcon = false,
+        sortKey,
+        showDoingBtn,
+    } = props;
 
     const dispatch = useDispatch<Dispatch>();
     const { getTodo } = dispatch.data;
@@ -74,14 +86,22 @@ const List: React.FC<Props> = (props) => {
 
     // 获取展示的 list
     const getShowList = (list: TodoItemType[]) => {
-        const l = !isSortTime
-            ? list
-                  .filter((item) => item.doing === "1")
-                  .concat(list.filter((item) => item.doing !== "1"))
-            : handleSort(list);
+        let l = list;
+        if (isOnlyShowDoing) {
+            l = l.filter((item) => item.doing === "1");
+        }
+        if (!isSortTime) {
+            l = l
+                .filter((item) => item.doing === "1")
+                .concat(l.filter((item) => item.doing !== "1"));
+        } else {
+            l = handleSort(l);
+        }
 
         return l;
     };
+
+    const [isOnlyShowDoing, setIsOnlyShowDoing] = useState<boolean>(false);
 
     return (
         <div className={styles.list}>
@@ -90,10 +110,22 @@ const List: React.FC<Props> = (props) => {
                 <span className={styles.active}>
                     {title}({total})
                 </span>
-                <SortBtn
-                    isSortTime={isSortTime}
-                    setIsSortTime={setIsSortTime}
-                />
+                <Space size={8}>
+                    {showDoingBtn && (
+                        <Button
+                            className={
+                                isOnlyShowDoing ? styles.isOnlyShowDoing : ""
+                            }
+                            type={isOnlyShowDoing ? "primary" : "default"}
+                            onClick={() => setIsOnlyShowDoing((prev) => !prev)}
+                            icon={<ThunderboltFilled />}
+                        ></Button>
+                    )}
+                    <SortBtn
+                        isSortTime={isSortTime}
+                        setIsSortTime={setIsSortTime}
+                    />
+                </Space>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 {Object.keys(mapList)

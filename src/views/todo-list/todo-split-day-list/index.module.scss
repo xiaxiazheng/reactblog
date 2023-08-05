@@ -24,6 +24,16 @@
         }
     }
 
+    .isOnlyShowDoing {
+        color: red;
+        background-color: transparent;
+        border-color: red;
+        &:hover {
+            color: black;
+            background-color: red;
+        }
+    }
+
     .OneDayListWrap {
         height: calc(100% - 75px);
         padding: 0 20px;

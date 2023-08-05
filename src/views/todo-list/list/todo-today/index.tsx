@@ -34,6 +34,7 @@ const TodoToday = () => {
         <List
             loading={todoLoading}
             sortKey={SortKeyMap.todo}
+            showDoingBtn={true}
             title={
                 <>
                     今日待办{" "}
