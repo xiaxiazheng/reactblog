@@ -179,7 +179,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {item.isWork === "1" && (
                     <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
                 )}
-                {/* 现在处理 */}
+                {/* 加急 */}
                 {item.doing === "1" && (
                     <ThunderboltFilled
                         style={{ marginRight: 5, color: "red" }}
@@ -214,6 +214,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     </s>
                 ) : (
                     <span
+                        className={`${item.doing === '1' && styles.doing}`}
                         style={{ ...judgeIsLastModify(item.todo_id), ...style }}
                     >
                         <Name
