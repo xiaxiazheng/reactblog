@@ -1,117 +1,80 @@
 import React, { useEffect, useState } from "react";
-import { Divider, message, Select, Tooltip } from "antd";
-import { getTodoById, getTodoList } from "@/client/TodoListHelper";
+import { Button, Space } from "antd";
+import { getTodoById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
 import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
-
-export const debounce = (fn: Function, time = 500) => {
-    let timer: any = -1;
-    return (...args: any) => {
-        if (timer) {
-            clearTimeout(timer);
-        }
-        timer = setTimeout(() => {
-            fn(...args);
-        }, time);
-    };
-};
+import Loading from "@/components/loading";
+import SearchTodoModal from "../search-todo-modal";
+import { ClearOutlined } from "@ant-design/icons";
 
 const SearchTodo = ({ value, onChange, activeTodo }: any) => {
-    const [options, setOptions] = useState<TodoItemType[]>([]);
-
     const [loading, setLoading] = useState<boolean>(false);
+
+    const [nowTodo, setNowTodo] = useState<TodoItemType>();
 
     useEffect(() => {
         // 如果本来就有关联的 todo，就初始化
-        if (!options.find((item) => item.todo_id === value) && value) {
+        if (value && (!nowTodo || nowTodo?.todo_id !== value)) {
+            setLoading(true);
             getTodoById(value).then((res) => {
                 if (res.data) {
-                    setOptions((prev) => [res.data].concat(prev));
+                    setNowTodo(res.data);
                 }
+                setLoading(false);
             });
         }
     }, [value]);
 
-    // 搜索接口
-    const handleSearch = async (newValue: string) => {
-        setLoading(true);
-        const req: any = {
-            keyword: newValue,
-            pageNo: 1,
-            pageSize: 20,
-            sortBy: [["isTarget", "DESC"], ["mTime", "DESC"], ["color"]],
-        };
+    const [visible, setVisible] = useState<boolean>(false);
 
-        const res = await getTodoList(req);
-        if (res) {
-            // 前置 todo 不能是自己
-            setOptions(
-                res.data.list.filter(
-                    (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id
-                )
-            );
-            setLoading(false);
-        } else {
-            message.error("获取 todolist 失败");
-        }
-    };
-
-    // 默认数据，去拿 target 目标列表
-    const getDefaultList = async () => {
-        setLoading(true);
-        const req: any = {
-            isTarget: "1",
-            pageNo: 1,
-            pageSize: 100,
-        };
-        const res = await getTodoList(req);
-        if (res) {
-            setOptions(res.data.list);
-            setLoading(false);
-        } else {
-            message.error("获取 todolist 失败");
-        }
+    const handleClose = () => {
+        setVisible(false);
     };
 
     return (
-        <Select
-            showSearch
-            value={value}
-            loading={loading}
-            defaultActiveFirstOption={false}
-            showArrow={false}
-            filterOption={false}
-            onSearch={debounce(handleSearch, 800)}
-            onChange={onChange}
-            onDropdownVisibleChange={() => {
-                // 如果展开为空的话，再去获取默认数据
-                if (options.length === 0) {
-                    getDefaultList();
-                }
-            }}
-            notFoundContent={null}
-            allowClear
-            dropdownClassName={`${styles.selectOptions} darkTheme`}
-            dropdownStyle={{ background: "var(--bg_color)" }}
-        >
-            {options?.map((item) => {
-                return (
-                    <Select.Option
-                        key={item.todo_id}
-                        label={item.name}
-                        value={item.todo_id}
-                    >
-                        <TodoItemName
-                            item={item}
-                            placement="left"
-                            onlyShow={true}
-                            isShowTimeRange={true}
+        <>
+            {value ? (
+                nowTodo && !loading ? (
+                    <Space size={8}>
+                        <Button
+                            onClick={() => {
+                                setVisible(true);
+                            }}
+                        >
+                            <TodoItemName
+                                item={nowTodo}
+                                placement="left"
+                                onlyShow={true}
+                                isShowTimeRange={true}
+                            />
+                        </Button>
+                        <Button
+                            icon={<ClearOutlined />}
+                            type="primary"
+                            danger
+                            onClick={() => onChange("")}
                         />
-                    </Select.Option>
-                );
-            })}
-        </Select>
+                    </Space>
+                ) : (
+                    <Loading />
+                )
+            ) : (
+                <Button onClick={() => setVisible(true)}>
+                    点击选择前置 todo
+                </Button>
+            )}
+            <SearchTodoModal
+                value={value}
+                onChange={(item) => {
+                    setNowTodo(item);
+                    onChange(item.todo_id);
+                }}
+                visible={visible}
+                handleClose={handleClose}
+                activeTodo={activeTodo}
+            />
+        </>
     );
 };
 

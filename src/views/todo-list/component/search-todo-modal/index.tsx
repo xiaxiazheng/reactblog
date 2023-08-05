@@ -16,7 +16,15 @@ import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 
-const SearchTodoModal = ({ value, onChange, activeTodo }: any) => {
+interface IProps {
+    visible: boolean;
+    handleClose: () => void;
+    value: string | undefined;
+    onChange: (item: TodoItemType) => void;
+    activeTodo: TodoItemType;
+}
+
+const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChange, activeTodo }) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -60,72 +68,47 @@ const SearchTodoModal = ({ value, onChange, activeTodo }: any) => {
         !value && handleSearch("");
     }, []);
 
-    const [visible, setVisible] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>("");
 
-    const handleClose = () => {
-        setVisible(false);
-    };
-
     return (
-        <>
-            {value ? (
-                options.find((item) => item.todo_id === value) && (
-                    <Button onClick={() => {
-                        setVisible(true);
-                    }}>
-                        <TodoItemName
-                        item={options.find((item) => item.todo_id === value) as TodoItemType}
-                        placement="left"
-                        onlyShow={true}
-                        isShowTimeRange={true}
-                    />
-                    </Button>
-                )
-            ) : (
-                <Button onClick={() => setVisible(true)}>
-                    点击选择前置 todo
-                </Button>
-            )}
-            <Modal
-                title="选择前置 Todo"
-                open={visible}
-                width={700}
-                className={styles.modal}
-                onCancel={handleClose}
-                footer={<Pagination />}
-            >
-                {loading && <Loading />}
-                <Input
-                    className={styles.input}
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onPressEnter={() => handleSearch(keyword)}
-                />
-                <div className={`${styles.content} ScrollBar`}>
-                    <Space size={10} direction="vertical">
-                        {options?.map((item) => {
-                            return (
-                                <div
-                                    key={item.todo_id}
-                                    onClick={() => {
-                                        onChange(item.todo_id);
-                                        handleClose();
-                                    }}
-                                >
-                                    <TodoItemName
-                                        item={item}
-                                        placement="left"
-                                        onlyShow={true}
-                                        isShowTimeRange={true}
-                                    />
-                                </div>
-                            );
-                        })}
-                    </Space>
-                </div>
-            </Modal>
-        </>
+        <Modal
+            title="选择前置 Todo"
+            open={visible}
+            width={700}
+            className={styles.modal}
+            onCancel={handleClose}
+            footer={<Pagination />}
+        >
+            {loading && <Loading />}
+            <Input
+                className={styles.input}
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onPressEnter={() => handleSearch(keyword)}
+            />
+            <div className={`${styles.content} ScrollBar`}>
+                <Space size={10} direction="vertical">
+                    {options?.map((item) => {
+                        return (
+                            <div
+                                key={item.todo_id}
+                                onClick={() => {
+                                    onChange(item);
+                                    handleClose();
+                                }}
+                            >
+                                <TodoItemName
+                                    item={item}
+                                    placement="left"
+                                    onlyShow={true}
+                                    isShowTimeRange={true}
+                                />
+                            </div>
+                        );
+                    })}
+                </Space>
+            </div>
+        </Modal>
     );
 };
 
