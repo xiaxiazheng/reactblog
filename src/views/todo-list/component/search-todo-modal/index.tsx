@@ -49,6 +49,9 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
             pageSize: 20,
             sortBy: [["isTarget", "DESC"], ["mTime", "DESC"], ["color"]],
         };
+        if (newValue === '') {
+            req.status = '0';
+        }
 
         const res = await getTodoList(req);
         if (res) {
@@ -96,6 +99,7 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
                                     onChange(item);
                                     handleClose();
                                 }}
+                                className={styles.todoItem}
                             >
                                 <TodoItemName
                                     item={item}
