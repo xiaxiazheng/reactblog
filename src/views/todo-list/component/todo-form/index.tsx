@@ -106,6 +106,20 @@ const TodoForm: React.FC<Props> = (props) => {
                 {!isShowOther && (
                     <div className={styles.right}>
                         <Form.Item
+                            name="status"
+                            label="状态"
+                            rules={[{ required: true }]}
+                        >
+                            <Radio.Group
+                                optionType="button"
+                                buttonStyle="solid"
+                            >
+                                <Radio.Button value={0}>待办</Radio.Button>
+                                <Radio.Button value={1}>已完成</Radio.Button>
+                                <Radio.Button value={2}>待办池</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item
                             name="color"
                             label={colorTitle}
                             rules={[{ required: true }]}
@@ -145,20 +159,6 @@ const TodoForm: React.FC<Props> = (props) => {
                             rules={[{ required: true }]}
                         >
                             <MyDatePicker />
-                        </Form.Item>
-                        <Form.Item
-                            name="status"
-                            label="状态"
-                            rules={[{ required: true }]}
-                        >
-                            <Radio.Group
-                                optionType="button"
-                                buttonStyle="solid"
-                            >
-                                <Radio.Button value={0}>待办</Radio.Button>
-                                <Radio.Button value={1}>已完成</Radio.Button>
-                                <Radio.Button value={2}>待办池</Radio.Button>
-                            </Radio.Group>
                         </Form.Item>
                         <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
                             <Space className={styles.special} size={[8, 0]}>

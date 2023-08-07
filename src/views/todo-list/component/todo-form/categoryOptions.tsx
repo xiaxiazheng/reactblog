@@ -21,7 +21,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
                 value={value}
                 onChange={(val) => onChange(val)}
             >
-                {(showAll ? l : l.slice(0, 9)).map(
+                {(showAll ? l : l.slice(0, 8)).map(
                     (item: CategoryType) => (
                         <Radio.Button key={item.category} value={item.category}>
                             {item.category} ({item.count})
