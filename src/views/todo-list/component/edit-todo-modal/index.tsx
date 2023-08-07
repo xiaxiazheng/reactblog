@@ -27,6 +27,7 @@ import {
     addTodoItem,
     deleteTodoItem,
     editTodoItem,
+    getTodoById,
 } from "@/client/TodoListHelper";
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -75,6 +76,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         form?.resetFields();
     };
 
+    const [otherTodo, setOtherTodo] = useState<TodoItemType>();
+
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
@@ -106,8 +109,37 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     ...timeRange,
                 });
 
+            if (activeTodo?.other_id) {
+                getTodoById(activeTodo.other_id).then((res) => {
+                    if (res.data) {
+                        const item = res.data;
+                        setOtherTodo(item);
+                        otherForm &&
+                            otherForm.setFieldsValue({
+                                name: item.name,
+                                description: item.description,
+                                // time: dayjs(item.time),
+                                // status: Number(item.status),
+                                // color: item.color,
+                                // category: item.category,
+                                // other_id: item.other_id,
+                                // doing: item.doing,
+                                // isNote: item.isNote,
+                                // isTarget: item.isTarget,
+                                // isWork: item.isWork,
+                                // isBookMark: item.isBookMark,
+                            });
+                        setIsShowOther(true);
+                    }
+                });
+            } else {
+                setIsShowOther(false);
+            }
+
             // 保存足迹
             setFootPrintList(item.todo_id);
+        } else {
+            setIsShowOther(false);
         }
     }, [activeTodo]);
 
@@ -188,6 +220,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             form && (await form.validateFields());
             const formData = form && form.getFieldsValue();
 
+            editOtherTodo();
+
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
                 name: formData.name,
@@ -234,6 +268,32 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
+    // 编辑前置 todo
+    const editOtherTodo = async () => {
+        if (isShowOther && activeTodo?.other_id) {
+            try {
+                otherForm && (await otherForm.validateFields());
+                const formData = otherForm && otherForm.getFieldsValue();
+
+                const req: any = {
+                    ...otherTodo,
+                    name: formData.name,
+                    description: formData.description || "",
+                };
+                const res = await editTodoItem(req);
+                if (res) {
+                    message.success(res.message);
+                } else {
+                    message.error("编辑 todo 失败");
+                    return false;
+                }
+            } catch (err) {
+                message.warning("请检查表单输入");
+                return false;
+            }
+        }
+    };
+
     // 删除 todo
     const deleteTodo = async (activeTodo: TodoItemType | undefined) => {
         if (activeTodo?.todo_id) {
@@ -253,11 +313,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     useCtrlSHooks(() => {
-        if (visible2) {
-            handleOk2();
-        } else {
-            visible && handleOk(false);
-        }
+        visible && handleOk(false);
     });
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -317,9 +373,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         type: OperatorType2,
         item: TodoItemType
     ) => {
-        setType2(type);
         const originTodo = getOriginTodo();
-        form2?.setFieldsValue({
+        otherForm?.setFieldsValue({
+            name: item.name,
+            description: item.description,
+        });
+        form?.setFieldsValue({
             ...originTodo,
             name: item.name,
             description: item.description,
@@ -338,39 +397,18 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     : item.todo_id,
             isWork: item.isWork,
         });
-        setVisible2(true);
-        setIsEdit2(true);
-        setIsClose2(false);
+        if (type === 'copy') {
+            setIsShowOther(false);
+        } else {
+            setIsShowOther(true);
+        }
+        setIsEdit(true);
+        setIsClose(false);
     };
 
     // 跟第二个 modal 有关的变量
-    const [type2, setType2] = useState<OperatorType2>();
-    const [form2] = Form.useForm();
-    const [visible2, setVisible2] = useState<boolean>(false);
-    const [isEdit2, setIsEdit2] = useState<boolean>(false);
-    const [isClose2, setIsClose2] = useState<boolean>(false);
-    const handleClose2 = () => {
-        if (isEdit2 && !isClose2) {
-            message.warning("你还有修改没保存，确定不要的话再点一次");
-            setIsClose2(true);
-        } else {
-            setIsClose2(false);
-            setIsEdit2(false);
-            setVisible2(false);
-        }
-    };
-    const [loading2, setLoading2] = useState<boolean>(false);
-    const handleOk2 = async () => {
-        if (visible2) {
-            setLoading2(true);
-            const res = await addTodo(form2);
-            setLoading2(false);
-            if (res) {
-                setVisible2(false);
-                setIsEdit2(false);
-            }
-        }
-    };
+    const [otherForm] = Form.useForm();
+    const [isShowOther, setIsShowOther] = useState<boolean>(false);
 
     const renderDeleteButton = () => {
         const cantDelete = handleCantDelete();
@@ -419,10 +457,29 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const { theme } = useContext(ThemeContext);
 
+    const controlList = [
+        {
+            label: "添加进度",
+            tooltip: "添加的是前置todo的进度，与当前todo挂同样的前置todo",
+            key: "add_progress",
+        },
+        {
+            label: "复制",
+            tooltip: "复制，不带上前置 todo",
+            key: "copy",
+        },
+        {
+            label: "添加子任务",
+            tooltip:
+                "添加的是当前 todo 的子任务，当前 todo 作为子任务的前置 todo",
+            key: "add_child",
+        },
+    ];
+
     return (
         <>
             <Modal
-                className={`${visible2 ? styles.modal1 : ""} ${styles.modal} ${
+                className={`${styles.modal} ${
                     theme === "dark" ? "darkTheme" : ""
                 }`}
                 title={type ? getTitle(type) : ""}
@@ -430,65 +487,35 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 onCancel={() => onClose()}
                 transitionName=""
                 destroyOnClose
-                width={700}
+                width={isShowOther ? 1500 : 1000}
                 footer={
                     <div className={styles.footer}>
                         <Space>
                             {type === "edit" ? (
                                 <>
                                     {renderDeleteButton()}
-                                    <Tooltip title="添加的是前置todo的进度，与当前todo挂同样的前置todo">
-                                        {activeTodo?.other_id && (
+
+                                    {controlList.map((item) => (
+                                        <Tooltip
+                                            key={item.key}
+                                            title={item.tooltip}
+                                        >
                                             <Button
                                                 type="primary"
                                                 ghost
                                                 onClick={() =>
                                                     activeTodo &&
                                                     createCopyOrNextTask(
-                                                        "add_progress",
+                                                        item.key as OperatorType2,
                                                         activeTodo
                                                     )
                                                 }
                                                 disabled={isEdit}
                                             >
-                                                添加进度
+                                                {item.label}
                                             </Button>
-                                        )}
-                                    </Tooltip>
-
-                                    <Tooltip title="复制，不带上前置 todo">
-                                        <Button
-                                            type="primary"
-                                            ghost
-                                            onClick={() =>
-                                                activeTodo &&
-                                                createCopyOrNextTask(
-                                                    "copy",
-                                                    activeTodo
-                                                )
-                                            }
-                                            disabled={isEdit}
-                                        >
-                                            复制
-                                        </Button>
-                                    </Tooltip>
-
-                                    <Tooltip title="添加的是当前 todo 的子任务，当前 todo 作为子任务的前置 todo">
-                                        <Button
-                                            type="primary"
-                                            ghost
-                                            onClick={() =>
-                                                activeTodo &&
-                                                createCopyOrNextTask(
-                                                    "add_child",
-                                                    activeTodo
-                                                )
-                                            }
-                                            disabled={isEdit}
-                                        >
-                                            添加子任务
-                                        </Button>
-                                    </Tooltip>
+                                        </Tooltip>
+                                    ))}
 
                                     {activeTodo && (
                                         <TodoChainIcon item={activeTodo} />
@@ -512,71 +539,82 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     </div>
                 }
             >
-                {form && (
-                    <TodoForm
-                        form={form}
-                        open={visible}
-                        // 除了编辑，其他走的都是新建的路子
-                        onOk={() => handleOk(false)}
-                        isFieldsChange={() => {
-                            setIsEdit(true);
-                            setIsClose(false);
-                        }}
-                        activeTodo={activeTodo}
-                    />
-                )}
-                {type === "edit" && activeTodo && (
-                    <TodoImageFile
-                        todo={activeTodo}
-                        handleFresh={(item) => {
-                            if (item) {
-                                setActiveTodo(item);
-                                needFresh.current.push(
-                                    ...handleRefreshList(item)
-                                );
-                            }
-                        }}
-                    />
-                )}
-            </Modal>
-
-            <Modal
-                className={styles.modal2}
-                title={type2 ? getTitle(type2) : ""}
-                open={visible2}
-                onCancel={() => handleClose2()}
-                transitionName=""
-                destroyOnClose
-                width={700}
-                footer={
-                    <div className={styles.footer2}>
-                        <Space>
-                            <Button onClick={() => handleClose2()}>
-                                Cancel
-                            </Button>
-                            <Button
-                                type="primary"
-                                danger={isEdit2}
-                                onClick={() => handleOk2()}
-                                loading={loading2}
-                            >
-                                OK
-                            </Button>
-                        </Space>
+                {isShowOther && (
+                    <div className={styles.wrapper}>
+                        <div className={`${styles.otherForm} ${styles.left} ScrollBar`}>
+                            <div className={styles.title}>前置 Todo：</div>
+                            <TodoForm
+                                form={otherForm}
+                                open={isShowOther}
+                                isFieldsChange={() => {
+                                    setIsEdit(true);
+                                    setIsClose(false);
+                                }}
+                                activeTodo={activeTodo}
+                                isShowOther={true}
+                            />
+                        </div>
+                        <div className={`${styles.right} ScrollBar`}>
+                            <div className={styles.title}>当前 Todo：</div>
+                            {form && (
+                                <TodoForm
+                                    form={form}
+                                    open={visible}
+                                    isFieldsChange={() => {
+                                        setIsEdit(true);
+                                        setIsClose(false);
+                                    }}
+                                    activeTodo={activeTodo}
+                                >
+                                    {type === "edit" && activeTodo && (
+                                        <TodoImageFile
+                                            todo={activeTodo}
+                                            handleFresh={(item) => {
+                                                if (item) {
+                                                    setActiveTodo(item);
+                                                    needFresh.current.push(
+                                                        ...handleRefreshList(
+                                                            item
+                                                        )
+                                                    );
+                                                }
+                                            }}
+                                        />
+                                    )}
+                                </TodoForm>
+                            )}
+                        </div>
                     </div>
-                }
-            >
-                <TodoForm
-                    form={form2}
-                    open={visible2}
-                    // 除了编辑，其他走的都是新建的路子
-                    onOk={() => handleOk2()}
-                    isFieldsChange={() => {
-                        setIsEdit2(true);
-                        setIsClose2(false);
-                    }}
-                    activeTodo={activeTodo}
-                />
+                )}
+                {!isShowOther && (
+                    <div className={styles.full}>
+                        {form && (
+                            <TodoForm
+                                form={form}
+                                open={visible}
+                                isFieldsChange={() => {
+                                    setIsEdit(true);
+                                    setIsClose(false);
+                                }}
+                                activeTodo={activeTodo}
+                            >
+                                {type === "edit" && activeTodo && (
+                                    <TodoImageFile
+                                        todo={activeTodo}
+                                        handleFresh={(item) => {
+                                            if (item) {
+                                                setActiveTodo(item);
+                                                needFresh.current.push(
+                                                    ...handleRefreshList(item)
+                                                );
+                                            }
+                                        }}
+                                    />
+                                )}
+                            </TodoForm>
+                        )}
+                    </div>
+                )}
             </Modal>
         </>
     );

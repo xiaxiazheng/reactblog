@@ -1,5 +1,26 @@
-.week {
-    padding: 0 5px;
+.wrapper {
+    display: flex;
+    .left {
+        width: calc(50% - 10px);
+        padding-left: 10px;
+    }
+    .right {
+        width: calc(50% - 30px);
+        padding-left: 30px;
+    }
+    .full {
+        width: 100%;
+        padding-right: 20px;
+    }
+}
+
+.special {
+    flex-wrap: wrap;
+}
+
+.today {
+    margin-left: 10px;
+    cursor: pointer;
     color: rgba(255, 255, 255, 0.65);
     &.active {
         color: #40a9ff;
@@ -12,9 +33,8 @@
     }
 }
 
-.today {
-    margin-left: 10px;
-    cursor: pointer;
+.week {
+    padding: 0 5px;
     color: rgba(255, 255, 255, 0.65);
     &.active {
         color: #40a9ff;
