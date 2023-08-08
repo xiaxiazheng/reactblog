@@ -112,36 +112,39 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (activeTodo?.other_id) {
                 getTodoById(activeTodo.other_id).then((res) => {
                     if (res.data) {
-                        const item = res.data;
-                        setOtherTodo(item);
-                        otherForm &&
-                            otherForm.setFieldsValue({
-                                name: item.name,
-                                description: item.description,
-                                // time: dayjs(item.time),
-                                // status: Number(item.status),
-                                // color: item.color,
-                                // category: item.category,
-                                // other_id: item.other_id,
-                                // doing: item.doing,
-                                // isNote: item.isNote,
-                                // isTarget: item.isTarget,
-                                // isWork: item.isWork,
-                                // isBookMark: item.isBookMark,
-                            });
-                        setIsShowOther(true);
+                        setOtherTodo(res.data);
                     }
                 });
             } else {
-                setIsShowOther(false);
+                setOtherTodo(undefined);
             }
 
             // 保存足迹
             setFootPrintList(item.todo_id);
         } else {
-            setIsShowOther(false);
+            setOtherTodo(undefined);
         }
     }, [activeTodo]);
+
+    useEffect(() => {
+        if (otherTodo) {
+            otherForm &&
+                otherForm.setFieldsValue({
+                    name: otherTodo.name,
+                    description: otherTodo.description,
+                    // time: dayjs(otherTodo.time),
+                    // status: Number(otherTodo.status),
+                    // color: otherTodo.color,
+                    // category: otherTodo.category,
+                    // other_id: otherTodo.other_id,
+                    // doing: otherTodo.doing,
+                    // isNote: otherTodo.isNote,
+                    // isTarget: otherTodo.isTarget,
+                    // isWork: otherTodo.isWork,
+                    // isBookMark: otherTodo.isBookMark,
+                });
+        }
+    }, [otherTodo]);
 
     const needFresh = useRef<StatusType[]>([]);
     const { updateFlag } = useUpdateFlag();
@@ -159,16 +162,17 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             updateFlag(); // 刷新 todo chain
         }
         handleCloseBackUp();
+        setType2(undefined);
     };
 
     const [isClose, setIsClose] = useState<boolean>(false);
     const onClose = () => {
-        if (isEdit && !isClose) {
+        if (isEditing && !isClose) {
             message.warning("你还有修改没保存，确定不要的话再点一次");
             setIsClose(true);
         } else {
             setIsClose(false);
-            setIsEdit(false);
+            setIsEditing(false);
             handleClose();
         }
     };
@@ -178,6 +182,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         try {
             await form.validateFields();
             const formData = form.getFieldsValue();
+
+            editOtherTodo();
 
             const req: CreateTodoItemReq = {
                 name: formData.name,
@@ -270,7 +276,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     // 编辑前置 todo
     const editOtherTodo = async () => {
-        if (isShowOther && activeTodo?.other_id) {
+        if (otherTodo?.todo_id) {
             try {
                 otherForm && (await otherForm.validateFields());
                 const formData = otherForm && otherForm.getFieldsValue();
@@ -318,7 +324,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleOk = async (isButton: boolean) => {
-        if (visible && isEdit) {
+        if (visible && isEditing) {
             setLoading(true);
             let res = false;
             if (type === "edit") {
@@ -334,13 +340,14 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 if (isButton) {
                     handleClose();
                 }
-                setIsEdit(false);
+                setIsEditing(false);
             }
         } else {
             if (isButton) {
                 handleClose();
             }
         }
+        setType2(undefined);
     };
 
     const getTitle = (type: OperatorType | OperatorType2) => {
@@ -366,18 +373,18 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
-    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
     // 创建副本或子 todo
+    const [type2, setType2] = useState<OperatorType2 | undefined>();
     const createCopyOrNextTask = async (
         type: OperatorType2,
         item: TodoItemType
     ) => {
+        // 每种情况下都不变的“新增”
+        setType("add");
+        setType2(type);
         const originTodo = getOriginTodo();
-        otherForm?.setFieldsValue({
-            name: item.name,
-            description: item.description,
-        });
         form?.setFieldsValue({
             ...originTodo,
             name: item.name,
@@ -397,18 +404,19 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     : item.todo_id,
             isWork: item.isWork,
         });
-        if (type === 'copy') {
-            setIsShowOther(false);
-        } else {
-            setIsShowOther(true);
+
+        if (type === "add_child") {
+            setOtherTodo(item);
         }
-        setIsEdit(true);
+        if (type === "copy") {
+            setOtherTodo(undefined);
+        }
+        setIsEditing(true);
         setIsClose(false);
     };
 
     // 跟第二个 modal 有关的变量
     const [otherForm] = Form.useForm();
-    const [isShowOther, setIsShowOther] = useState<boolean>(false);
 
     const renderDeleteButton = () => {
         const cantDelete = handleCantDelete();
@@ -435,7 +443,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     const handleCantDelete = () => {
-        if (isEdit) {
+        if (isEditing) {
             return true;
         }
         if (activeTodo) {
@@ -462,17 +470,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             label: "添加进度",
             tooltip: "添加的是前置todo的进度，与当前todo挂同样的前置todo",
             key: "add_progress",
+            isShow: activeTodo?.other_id,
         },
         {
             label: "复制",
             tooltip: "复制，不带上前置 todo",
             key: "copy",
+            isShow: true,
         },
         {
             label: "添加子任务",
             tooltip:
                 "添加的是当前 todo 的子任务，当前 todo 作为子任务的前置 todo",
             key: "add_child",
+            isShow: true,
         },
     ];
 
@@ -482,12 +493,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 className={`${styles.modal} ${
                     theme === "dark" ? "darkTheme" : ""
                 }`}
-                title={type ? getTitle(type) : ""}
+                title={type ? getTitle(type2 || type) : ""}
                 open={visible}
                 onCancel={() => onClose()}
                 transitionName=""
                 destroyOnClose
-                width={isShowOther ? 1500 : 1000}
+                width={otherTodo ? 1500 : 1000}
                 footer={
                     <div className={styles.footer}>
                         <Space>
@@ -495,27 +506,30 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 <>
                                     {renderDeleteButton()}
 
-                                    {controlList.map((item) => (
-                                        <Tooltip
-                                            key={item.key}
-                                            title={item.tooltip}
-                                        >
-                                            <Button
-                                                type="primary"
-                                                ghost
-                                                onClick={() =>
-                                                    activeTodo &&
-                                                    createCopyOrNextTask(
-                                                        item.key as OperatorType2,
-                                                        activeTodo
-                                                    )
-                                                }
-                                                disabled={isEdit}
-                                            >
-                                                {item.label}
-                                            </Button>
-                                        </Tooltip>
-                                    ))}
+                                    {controlList.map(
+                                        (item) =>
+                                            item.isShow && (
+                                                <Tooltip
+                                                    key={item.key}
+                                                    title={item.tooltip}
+                                                >
+                                                    <Button
+                                                        type="primary"
+                                                        ghost
+                                                        onClick={() =>
+                                                            activeTodo &&
+                                                            createCopyOrNextTask(
+                                                                item.key as OperatorType2,
+                                                                activeTodo
+                                                            )
+                                                        }
+                                                        disabled={isEditing}
+                                                    >
+                                                        {item.label}
+                                                    </Button>
+                                                </Tooltip>
+                                            )
+                                    )}
 
                                     {activeTodo && (
                                         <TodoChainIcon item={activeTodo} />
@@ -529,7 +543,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             <Button onClick={() => onClose()}>Cancel</Button>
                             <Button
                                 type="primary"
-                                danger={isEdit}
+                                danger={isEditing}
                                 onClick={() => handleOk(true)}
                                 loading={loading}
                             >
@@ -539,15 +553,17 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     </div>
                 }
             >
-                {isShowOther && (
+                {otherTodo && (
                     <div className={styles.wrapper}>
-                        <div className={`${styles.otherForm} ${styles.left} ScrollBar`}>
+                        <div
+                            className={`${styles.otherForm} ${styles.left} ScrollBar`}
+                        >
                             <div className={styles.title}>前置 Todo：</div>
                             <TodoForm
                                 form={otherForm}
-                                open={isShowOther}
+                                open={!!otherTodo}
                                 isFieldsChange={() => {
-                                    setIsEdit(true);
+                                    setIsEditing(true);
                                     setIsClose(false);
                                 }}
                                 activeTodo={activeTodo}
@@ -561,7 +577,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     form={form}
                                     open={visible}
                                     isFieldsChange={() => {
-                                        setIsEdit(true);
+                                        setIsEditing(true);
                                         setIsClose(false);
                                     }}
                                     activeTodo={activeTodo}
@@ -586,14 +602,14 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         </div>
                     </div>
                 )}
-                {!isShowOther && (
+                {!otherTodo && (
                     <div className={styles.full}>
                         {form && (
                             <TodoForm
                                 form={form}
                                 open={visible}
                                 isFieldsChange={() => {
-                                    setIsEdit(true);
+                                    setIsEditing(true);
                                     setIsClose(false);
                                 }}
                                 activeTodo={activeTodo}
