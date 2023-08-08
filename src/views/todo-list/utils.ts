@@ -22,6 +22,8 @@ export const getRangeFormToday = (time: string | undefined) => {
     if (!time) return '';
     const day = getDayjs(time).diff(getDayjs(dayjs()), "d");
     if (day === 0) return "今天";
+    if (day === -1) return "昨天";
+    if (day === -2) return "前天";
     return `${Math.abs(day)} 天${day < 0 ? "前" : "后"}`;
 };
 
