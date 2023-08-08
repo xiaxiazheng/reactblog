@@ -243,7 +243,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
-                                <Form.Item
+                                {/* <Form.Item
                                     name="isPunchTheClock"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
@@ -260,7 +260,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                             打卡
                                         </span>
                                     </SwitchComp>
-                                </Form.Item>
+                                </Form.Item> */}
                             </Space>
                         </Form.Item>
 
