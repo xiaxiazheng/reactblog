@@ -584,7 +584,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             <div style={{ marginBottom: 15 }}>
                                 <TodoItemName
                                     item={otherTodo}
-                                    onlyShow={true}
+                                    // onlyShow={true}
                                     isShowTime={true}
                                     isShowTimeRange={true}
                                 />
