@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Form, Input, FormInstance, Radio, Tooltip, Space } from "antd";
+import { Form, Input, FormInstance, Radio, Tooltip, Space, FormListFieldData } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import {
     colorMap,
@@ -23,7 +23,7 @@ import MyDatePicker from "./MyDataPicker";
 
 interface Props {
     form: FormInstance;
-    isFieldsChange: () => void;
+    isFieldsChange: (changedFields?: any[], allFields?: any[]) => void;
     activeTodo?: TodoItemType;
     open: boolean;
     isShowOther?: boolean;

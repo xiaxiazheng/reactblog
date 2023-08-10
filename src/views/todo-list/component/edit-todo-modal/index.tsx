@@ -44,6 +44,8 @@ import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { getOriginTodo } from "../global-search";
+import TodoItem from "../todo-item";
+import TodoItemName from "../todo-item/todo-item-name";
 
 interface EditTodoModalType {}
 
@@ -109,15 +111,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     ...timeRange,
                 });
 
-            if (activeTodo?.other_id) {
-                getTodoById(activeTodo.other_id).then((res) => {
-                    if (res.data) {
-                        setOtherTodo(res.data);
-                    }
-                });
-            } else {
-                setOtherTodo(undefined);
-            }
+            getOtherTodoById(item.other_id);
 
             // 保存足迹
             setFootPrintList(item.todo_id);
@@ -180,10 +174,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     // 新增 todo
     const addTodo = async (form: FormInstance<any>) => {
         try {
-            await form.validateFields();
-            const formData = form.getFieldsValue();
-
             editOtherTodo();
+            if (!isEditing) return false;
+
+            await form.validateFields(); // 这个会触发 isFieldsChange
+            const formData = form.getFieldsValue();
 
             const req: CreateTodoItemReq = {
                 name: formData.name,
@@ -223,10 +218,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const editTodo = async () => {
         if (!activeTodo?.todo_id) return false;
         try {
-            form && (await form.validateFields());
-            const formData = form && form.getFieldsValue();
-
             editOtherTodo();
+            if (!isEditing) return false;
+
+            form && (await form.validateFields()); // 这个会触发 isFieldsChange
+            const formData = form && form.getFieldsValue();
 
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
@@ -276,7 +272,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     // 编辑前置 todo
     const editOtherTodo = async () => {
-        if (otherTodo?.todo_id) {
+        if (otherTodo?.todo_id && isEditingOther) {
             try {
                 otherForm && (await otherForm.validateFields());
                 const formData = otherForm && otherForm.getFieldsValue();
@@ -289,6 +285,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 const res = await editTodoItem(req);
                 if (res) {
                     message.success(res.message);
+                    setIsEditingOther(false);
                 } else {
                     message.error("编辑 todo 失败");
                     return false;
@@ -324,7 +321,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleOk = async (isButton: boolean) => {
-        if (visible && isEditing) {
+        if (visible && (isEditing || isEditingOther)) {
             setLoading(true);
             let res = false;
             if (type === "edit") {
@@ -375,6 +372,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    const [isEditingOther, setIsEditingOther] = useState<boolean>(false);
+
     // 创建副本或子 todo
     const [type2, setType2] = useState<OperatorType2 | undefined>();
     const createCopyOrNextTask = async (
@@ -388,7 +387,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         form?.setFieldsValue({
             ...originTodo,
             name: item.name,
-            description: item.description,
+            description: type === "copy" ? item.description : "",
             time: type === "copy" ? dayjs(item.time) : dayjs(),
             status: TodoStatus.todo,
             color:
@@ -443,7 +442,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     const handleCantDelete = () => {
-        if (isEditing) {
+        if (isEditing || isEditingOther) {
             return true;
         }
         if (activeTodo) {
@@ -487,6 +486,26 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         },
     ];
 
+    const handleOtherIdChange = (changedFields?: any[]) => {
+        if (changedFields?.[0]?.name?.[0] === "other_id") {
+            getOtherTodoById(changedFields?.[0]?.value);
+        }
+    };
+
+    const getOtherTodoById = (id?: string) => {
+        if (id) {
+            if (otherTodo?.todo_id !== id) {
+                getTodoById(id).then((res) => {
+                    if (res.data) {
+                        setOtherTodo(res.data);
+                    }
+                });
+            }
+        } else {
+            setOtherTodo(undefined);
+        }
+    };
+
     return (
         <>
             <Modal
@@ -523,7 +542,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                                                 activeTodo
                                                             )
                                                         }
-                                                        disabled={isEditing}
+                                                        disabled={
+                                                            isEditing ||
+                                                            isEditingOther
+                                                        }
                                                     >
                                                         {item.label}
                                                     </Button>
@@ -543,7 +565,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             <Button onClick={() => onClose()}>Cancel</Button>
                             <Button
                                 type="primary"
-                                danger={isEditing}
+                                danger={isEditing || isEditingOther}
                                 onClick={() => handleOk(true)}
                                 loading={loading}
                             >
@@ -553,62 +575,42 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     </div>
                 }
             >
-                {otherTodo && (
-                    <div className={styles.wrapper}>
+                <div className={styles.wrapper}>
+                    {otherTodo && (
                         <div
                             className={`${styles.otherForm} ${styles.left} ScrollBar`}
                         >
                             <div className={styles.title}>前置 Todo：</div>
+                            <div style={{ marginBottom: 15 }}>
+                                <TodoItemName
+                                    item={otherTodo}
+                                    onlyShow={true}
+                                />
+                            </div>
                             <TodoForm
                                 form={otherForm}
                                 open={!!otherTodo}
                                 isFieldsChange={() => {
-                                    setIsEditing(true);
+                                    setIsEditingOther(true);
                                     setIsClose(false);
                                 }}
                                 activeTodo={activeTodo}
                                 isShowOther={true}
                             />
                         </div>
-                        <div className={`${styles.right} ScrollBar`}>
-                            <div className={styles.title}>当前 Todo：</div>
-                            {form && (
-                                <TodoForm
-                                    form={form}
-                                    open={visible}
-                                    isFieldsChange={() => {
-                                        setIsEditing(true);
-                                        setIsClose(false);
-                                    }}
-                                    activeTodo={activeTodo}
-                                >
-                                    {type === "edit" && activeTodo && (
-                                        <TodoImageFile
-                                            todo={activeTodo}
-                                            handleFresh={(item) => {
-                                                if (item) {
-                                                    setActiveTodo(item);
-                                                    needFresh.current.push(
-                                                        ...handleRefreshList(
-                                                            item
-                                                        )
-                                                    );
-                                                }
-                                            }}
-                                        />
-                                    )}
-                                </TodoForm>
-                            )}
-                        </div>
-                    </div>
-                )}
-                {!otherTodo && (
-                    <div className={styles.full}>
+                    )}
+                    <div
+                        className={`${
+                            otherTodo ? styles.right : styles.full
+                        } ScrollBar`}
+                    >
+                        <div className={styles.title}>当前 Todo：</div>
                         {form && (
                             <TodoForm
                                 form={form}
                                 open={visible}
-                                isFieldsChange={() => {
+                                isFieldsChange={(changedFields) => {
+                                    handleOtherIdChange(changedFields);
                                     setIsEditing(true);
                                     setIsClose(false);
                                 }}
@@ -630,7 +632,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             </TodoForm>
                         )}
                     </div>
-                )}
+                </div>
             </Modal>
         </>
     );
