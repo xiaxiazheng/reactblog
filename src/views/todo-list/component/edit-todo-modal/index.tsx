@@ -44,7 +44,6 @@ import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { getOriginTodo } from "../global-search";
-import TodoItem from "../todo-item";
 import TodoItemName from "../todo-item/todo-item-name";
 
 interface EditTodoModalType {}
@@ -79,6 +78,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
+
+    useEffect(() => {
+        if (type === 'edit') {
+            setType2(undefined);
+        }
+    }, [type]);
 
     useEffect(() => {
         if (activeTodo) {
@@ -384,7 +389,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setType("add");
         setType2(type);
         const originTodo = getOriginTodo();
-        form?.setFieldsValue({
+        const newTodo = {
             ...originTodo,
             name: item.name,
             description: type === "copy" ? item.description : "",
@@ -402,14 +407,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     ? item.other_id
                     : item.todo_id,
             isWork: item.isWork,
-        });
-
-        if (type === "add_child") {
-            setOtherTodo(item);
-        }
-        if (type === "copy") {
-            setOtherTodo(undefined);
-        }
+        };
+        setActiveTodo(newTodo)
         setIsEditing(true);
         setIsClose(false);
     };
@@ -587,6 +586,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     // onlyShow={true}
                                     isShowTime={true}
                                     isShowTimeRange={true}
+                                    beforeClick={() => {
+                                        if (isEditing || isEditingOther) {
+                                            message.warning("正在编辑，不能切换");
+                                            return false;
+                                        }
+                                        return true;
+                                    }}
                                 />
                             </div>
                             <TodoForm

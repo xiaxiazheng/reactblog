@@ -132,6 +132,7 @@ interface NameProps {
     onlyShow?: boolean;
     isModalOrDrawer?: boolean;
     style?: CSSProperties;
+    beforeClick?: () => boolean;
 }
 
 // 单条 todo 中的 name 的渲染
@@ -144,10 +145,14 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         onlyShow = false,
         isModalOrDrawer = false,
         style = {},
+        beforeClick,
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
     const handleEdit = (item: TodoItemType) => {
+        if (beforeClick && !beforeClick()) {
+            return;
+        };
         const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
         setActiveTodo(item);
         setShowEdit(true);
