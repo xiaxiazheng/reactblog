@@ -10,6 +10,7 @@ interface FilterType {
     isWork: string; // 是否是工作
     pageNo: number;
     pageSize: number;
+    targetStatus: 'todo' | 'done';
 }
 
 export const filter = createModel<RootModel>()({
@@ -22,6 +23,7 @@ export const filter = createModel<RootModel>()({
         isWork: localStorage.getItem("todoGlobalSearchIsWork") || "",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
+        targetStatus: 'todo',
     } as FilterType,
     reducers: {
         setKeyword: (state, payload) => {
@@ -71,6 +73,12 @@ export const filter = createModel<RootModel>()({
             return {
                 ...state,
                 pageSize: payload,
+            };
+        },
+        setTargetStatus: (state, payload) => {
+            return {
+                ...state,
+                targetStatus: payload,
             };
         },
     },

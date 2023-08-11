@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
 import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
-import { TodoStatus } from "../../types";
 import { Button } from "antd";
 import TodoTypeIcon from "../../component/todo-type-icon";
 
@@ -15,13 +14,22 @@ const TodoTarget = () => {
     const targetListOrigin = useSelector(
         (state: RootState) => state.data.targetListOrigin
     );
+    const isWork = useSelector(
+        (state: RootState) => state.filter.isWork
+    );
+    const targetStatus = useSelector(
+        (state: RootState) => state.filter.targetStatus
+    );
     const dispatch = useDispatch<Dispatch>();
-    const { setTargetList, getFilterList } = dispatch.data;
+    const { setTargetList, getFilterList, getTodo } = dispatch.data;
+    const { setTargetStatus } = dispatch.filter;
     useEffect(() => {
         setTargetList(getFilterList(targetListOrigin));
     }, [targetListOrigin]);
 
-    const [isShowDoneTarget, setIsShowDoneTarget] = useState<boolean>(false);
+    useEffect(() => {
+        getTodo('target');
+    }, [targetStatus, isWork]);
 
     return (
         <PoolList
@@ -35,20 +43,20 @@ const TodoTarget = () => {
             btn={
                 <>
                     <Button
-                        onClick={() => setIsShowDoneTarget((prev) => !prev)}
-                        type={!isShowDoneTarget ? "default" : "primary"}
+                        onClick={() =>
+                            setTargetStatus(
+                                targetStatus === "todo" ? "done" : "todo"
+                            )
+                        }
+                        type={targetStatus === "todo" ? "default" : "primary"}
                     >
-                        {!isShowDoneTarget ? "未完成" : "已完成"}
+                        {targetStatus === "todo" ? "未完成" : "已完成"}
                     </Button>
                 </>
             }
-            mapList={targetList
-                .filter((item) =>
-                    isShowDoneTarget
-                        ? item.status === String(TodoStatus.done)
-                        : item.status !== String(TodoStatus.done)
-                )
-                .sort((a, b) => Number(a.color) - Number(b.color))}
+            mapList={targetList.sort(
+                (a, b) => Number(a.color) - Number(b.color)
+            )}
         />
     );
 };

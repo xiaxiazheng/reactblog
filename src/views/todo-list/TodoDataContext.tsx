@@ -182,12 +182,6 @@ export const TodoDataProvider: React.FC = (props) => {
         }
     };
 
-    useEffect(() => {
-        getTodo("todo");
-        getTodo("pool");
-        getTodo("target");
-    }, []);
-
     // 筛选相关，根据颜色和类别筛选
     // 根据颜色和类别筛选
     const [keyword, setKeyword] = useState<string>("");

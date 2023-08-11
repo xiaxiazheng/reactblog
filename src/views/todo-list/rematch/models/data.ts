@@ -186,6 +186,7 @@ export const data = createModel<RootModel>()({
                 startEndTime,
                 activeCategory,
                 activeColor,
+                targetStatus,
             } = state.filter;
 
             switch (type) {
@@ -210,7 +211,9 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         isTarget: "1",
                         pageNo: 1,
-                        pageSize: 100,
+                        pageSize: 10,
+                        status: TodoStatus[targetStatus],
+                        isWork,
                     };
                     const res = await getTodoList(req);
                     if (res) {
@@ -334,7 +337,7 @@ export const data = createModel<RootModel>()({
             const { activeColor, activeCategory, keyword, isWork } =
                 state.filter;
             let l = list;
-            if (activeColor !== "") {
+            if (activeColor && activeColor !== "") {
                 l = l.filter((item) => item.color === activeColor);
             }
             if (activeCategory && activeCategory !== "") {
@@ -343,7 +346,7 @@ export const data = createModel<RootModel>()({
             if (isWork && isWork !== "") {
                 l = l.filter((item) => item.isWork === isWork);
             }
-            if (keyword !== "") {
+            if (keyword && keyword !== "") {
                 if (keyword.includes(" ")) {
                     const kList = keyword.split(" ");
                     // 这里得多个关键字都包含才能返回
