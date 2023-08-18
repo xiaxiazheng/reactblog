@@ -80,7 +80,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
 
     useEffect(() => {
-        if (type === 'edit') {
+        if (type === "edit") {
             setType2(undefined);
         }
     }, [type]);
@@ -166,7 +166,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const [isClose, setIsClose] = useState<boolean>(false);
     const onClose = () => {
-        if (isEditing && !isClose) {
+        if ((isEditing || isEditingOther) && !isClose) {
             message.warning("你还有修改没保存，确定不要的话再点一次");
             setIsClose(true);
         } else {
@@ -408,7 +408,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     : item.todo_id,
             isWork: item.isWork,
         };
-        setActiveTodo(newTodo)
+        setActiveTodo(newTodo);
         setIsEditing(true);
         setIsClose(false);
     };
@@ -588,7 +588,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     isShowTimeRange={true}
                                     beforeClick={() => {
                                         if (isEditing || isEditingOther) {
-                                            message.warning("正在编辑，不能切换");
+                                            message.warning(
+                                                "正在编辑，不能切换"
+                                            );
                                             return false;
                                         }
                                         return true;
