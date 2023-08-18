@@ -172,6 +172,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         } else {
             setIsClose(false);
             setIsEditing(false);
+            setIsEditingOther(false);
             handleClose();
         }
     };
