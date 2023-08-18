@@ -291,6 +291,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 const res = await editTodoItem(req);
                 if (res) {
                     message.success(res.message);
+                    needFresh.current.push(...handleRefreshList(req));
                     setIsEditingOther(false);
                 } else {
                     message.error("编辑 todo 失败");
