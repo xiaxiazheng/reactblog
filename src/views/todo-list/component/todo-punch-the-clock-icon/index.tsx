@@ -13,7 +13,7 @@ const TodoPunchTheClockIcon = (props: { item: TodoItemType }) => {
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
 
-    if (item.isTarget !== "1" || !item.timeRange) {
+    if (!item.timeRange) {
         return null;
     }
 

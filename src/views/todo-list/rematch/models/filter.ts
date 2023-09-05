@@ -11,6 +11,7 @@ interface FilterType {
     pageNo: number;
     pageSize: number;
     targetStatus: 'todo' | 'done';
+    hobitStatus: 'todo' | 'done';
 }
 
 export const filter = createModel<RootModel>()({
@@ -24,6 +25,7 @@ export const filter = createModel<RootModel>()({
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
         targetStatus: 'todo',
+        hobitStatus: 'todo',
     } as FilterType,
     reducers: {
         setKeyword: (state, payload) => {
@@ -79,6 +81,12 @@ export const filter = createModel<RootModel>()({
             return {
                 ...state,
                 targetStatus: payload,
+            };
+        },
+        setHobitStatus: (state, payload) => {
+            return {
+                ...state,
+                hobitStatus: payload,
             };
         },
     },

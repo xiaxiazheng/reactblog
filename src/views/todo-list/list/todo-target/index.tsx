@@ -14,9 +14,7 @@ const TodoTarget = () => {
     const targetListOrigin = useSelector(
         (state: RootState) => state.data.targetListOrigin
     );
-    const isWork = useSelector(
-        (state: RootState) => state.filter.isWork
-    );
+    const isWork = useSelector((state: RootState) => state.filter.isWork);
     const targetStatus = useSelector(
         (state: RootState) => state.filter.targetStatus
     );
@@ -24,11 +22,13 @@ const TodoTarget = () => {
     const { setTargetList, getFilterList, getTodo } = dispatch.data;
     const { setTargetStatus } = dispatch.filter;
     useEffect(() => {
-        setTargetList(getFilterList(targetListOrigin));
+        setTargetList(
+            getFilterList({ list: targetListOrigin, type: "target" })
+        );
     }, [targetListOrigin]);
 
     useEffect(() => {
-        getTodo('target');
+        getTodo("target");
     }, [targetStatus, isWork]);
 
     return (
@@ -37,7 +37,7 @@ const TodoTarget = () => {
             sortKey={SortKeyMap.target}
             title={
                 <>
-                    <TodoTypeIcon type="target" /> 目标 & 打卡
+                    <TodoTypeIcon type="target" /> 目标
                 </>
             }
             btn={

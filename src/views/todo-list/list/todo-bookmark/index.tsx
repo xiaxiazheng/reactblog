@@ -22,7 +22,9 @@ const TodoBookMark = () => {
     const { setBookMarkList, getFilterList } = dispatch.data;
 
     useEffect(() => {
-        setBookMarkList(getFilterList(bookMarkListOrigin));
+        setBookMarkList(
+            getFilterList({ list: bookMarkListOrigin, type: "bookMark" })
+        );
     }, [bookMarkListOrigin]);
 
     return (

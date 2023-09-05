@@ -27,7 +27,7 @@ const TodoToday = () => {
     const { setTodoList, getFilterList } = dispatch.data;
 
     useEffect(() => {
-        setTodoList(getFilterList(todoListOrigin));
+        setTodoList(getFilterList({ list: todoListOrigin, type: "todo" }));
     }, [todoListOrigin]);
 
     return (

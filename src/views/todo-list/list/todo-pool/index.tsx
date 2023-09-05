@@ -16,7 +16,7 @@ const TodoPool = () => {
     const { setPoolList, getFilterList } = dispatch.data;
 
     useEffect(() => {
-        setPoolList(getFilterList(poolListOrigin));
+        setPoolList(getFilterList({list: poolListOrigin, type: 'pool'}));
     }, [poolListOrigin]);
 
     return (

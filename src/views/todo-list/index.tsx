@@ -22,6 +22,7 @@ import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
 import { Tooltip } from "antd";
 import TodoBookMark from "./list/todo-bookmark";
+import TodoHobit from "./list/todo-hobit";
 
 const useTimer = (fn: Function, ms: number = 500) => {
     const timer = useRef<any>(null);
@@ -129,8 +130,12 @@ const TodoList: React.FC = () => {
                             <TodoBookMark />
                         </div>
                         {/* 目标 */}
-                        <div className={`${styles.lm} ScrollBar`}>
+                        <div className={`${styles.lmt} ScrollBar`}>
                             <TodoTarget />
+                        </div>
+                        {/* 习惯 */}
+                        <div className={`${styles.lmb} ScrollBar`}>
+                            <TodoHobit />
                         </div>
                         {/* 待办池 */}
                         <div className={`${styles.lb} ScrollBar`}>

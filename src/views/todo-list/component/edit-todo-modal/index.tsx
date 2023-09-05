@@ -251,7 +251,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     startTime,
                     target,
                 });
-                req.isTarget = "1";
             }
             const res = await editTodoItem(req);
             if (res) {

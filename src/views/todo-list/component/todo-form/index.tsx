@@ -243,7 +243,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
-                                {/* <Form.Item
+                                <Form.Item
                                     name="isPunchTheClock"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
@@ -251,16 +251,16 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <SwitchComp>
                                         <span>
                                             <TodoTypeIcon
-                                                type="punchTheClock"
+                                                type="hobit"
                                                 style={{
                                                     marginRight: 5,
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            打卡
+                                            习惯
                                         </span>
                                     </SwitchComp>
-                                </Form.Item> */}
+                                </Form.Item>
                             </Space>
                         </Form.Item>
 

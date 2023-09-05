@@ -14,19 +14,21 @@ interface DataType {
     doneLoading: boolean;
     poolLoading: boolean;
     targetLoading: boolean;
+    hobitLoading: boolean;
     bookMarkLoading: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
     poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
+    hobitListOrigin: TodoItemType[];
     bookMarkListOrigin: TodoItemType[];
     todoList: TodoItemType[];
     doneList: TodoItemType[];
     doneTotal: number;
     poolList: TodoItemType[];
     targetList: TodoItemType[];
+    hobitList: TodoItemType[];
     bookMarkList: TodoItemType[];
-    punchTheClockList: TodoItemType[];
     category: CategoryType[];
 }
 
@@ -36,19 +38,21 @@ export const data = createModel<RootModel>()({
         doneLoading: false,
         poolLoading: false,
         targetLoading: false,
+        hobitLoading: false,
         bookMarkLoading: false,
         isRefreshNote: false,
         todoListOrigin: [],
         poolListOrigin: [],
         targetListOrigin: [],
+        hobitListOrigin: [],
         bookMarkListOrigin: [],
         todoList: [],
         doneList: [],
         doneTotal: 0,
         poolList: [],
         targetList: [],
+        hobitList: [],
         bookMarkList: [],
-        punchTheClockList: [],
         category: [],
     } as DataType,
     reducers: {
@@ -74,6 +78,12 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 targetLoading: payload,
+            };
+        },
+        setHobitLoading: (state, payload) => {
+            return {
+                ...state,
+                hobitLoading: payload,
             };
         },
         setBookMarkLoading: (state, payload) => {
@@ -104,6 +114,12 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 targetListOrigin: payload,
+            };
+        },
+        setHobitListOrigin: (state, payload) => {
+            return {
+                ...state,
+                hobitListOrigin: payload,
             };
         },
         setBookMarkListOrigin: (state, payload) => {
@@ -142,16 +158,16 @@ export const data = createModel<RootModel>()({
                 targetList: payload,
             };
         },
+        setHobitList: (state, payload) => {
+            return {
+                ...state,
+                hobitList: payload,
+            };
+        },
         setBookMarkList: (state, payload) => {
             return {
                 ...state,
                 bookMarkList: payload,
-            };
-        },
-        setPunchTheClockList: (state, payload) => {
-            return {
-                ...state,
-                punchTheClockList: payload,
             };
         },
         setCategory: (state, payload) => {
@@ -168,6 +184,8 @@ export const data = createModel<RootModel>()({
                 setBookMarkListOrigin,
                 setTargetLoading,
                 setTargetListOrigin,
+                setHobitLoading,
+                setHobitListOrigin,
                 setIsRefreshNote,
                 setDoneLoading,
                 setDoneList,
@@ -187,6 +205,7 @@ export const data = createModel<RootModel>()({
                 activeCategory,
                 activeColor,
                 targetStatus,
+                hobitStatus,
             } = state.filter;
 
             switch (type) {
@@ -211,7 +230,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         isTarget: "1",
                         pageNo: 1,
-                        pageSize: 10,
+                        pageSize: 60,
                         status: TodoStatus[targetStatus],
                         isWork,
                     };
@@ -224,23 +243,24 @@ export const data = createModel<RootModel>()({
                     }
                     break;
                 }
-                // 暂时跟着目标走，没必要再多发一个请求
-                // case "punchTheClock": {
-                //     setTargetLoading(true);
-                //     const req: any = {
-                //         isPunchTheClock: "1",
-                //         pageNo: 1,
-                //         pageSize: 100,
-                //     };
-                //     const res = await getTodoList(req);
-                //     if (res) {
-                //         setTargetListOrigin(res.data.list);
-                //         setTargetLoading(false);
-                //     } else {
-                //         message.error("获取 todolist 失败");
-                //     }
-                //     break;
-                // }
+                case "hobit": {
+                    setHobitLoading(true);
+                    const req: any = {
+                        pageNo: 1,
+                        pageSize: 30,
+                        status: TodoStatus[hobitStatus],
+                        isWork,
+                        isPunchTheClock: "1",
+                    };
+                    const res = await getTodoList(req);
+                    if (res) {
+                        setHobitListOrigin(res.data.list);
+                        setHobitLoading(false);
+                    } else {
+                        message.error("获取 todolist 失败");
+                    }
+                    break;
+                }
                 case "note": {
                     setIsRefreshNote(true);
                     break;
@@ -333,7 +353,8 @@ export const data = createModel<RootModel>()({
                 type === "note" && this.getTodo("note");
             }
         },
-        getFilterList(list: TodoItemType[], state) {
+        getFilterList(params: {list: TodoItemType[], type: StatusType }, state) {
+            const { list, type } = params;
             const { activeColor, activeCategory, keyword, isWork } =
                 state.filter;
             let l = list;
@@ -373,6 +394,9 @@ export const data = createModel<RootModel>()({
                     );
                 }
             }
+            if (type !== "hobit") {
+                l = l.filter((item) => !item.timeRange);
+            }
             return l;
         },
         handleSearch(payload, state): void {
@@ -384,10 +408,10 @@ export const data = createModel<RootModel>()({
             } = state.data;
             const { setTodoList, setPoolList, setTargetList, setBookMarkList } =
                 dispatch.data;
-            setTodoList(this.getFilterList(todoListOrigin));
-            setPoolList(this.getFilterList(poolListOrigin));
-            setTargetList(this.getFilterList(targetListOrigin));
-            setBookMarkList(this.getFilterList(bookMarkListOrigin));
+            setTodoList(this.getFilterList({ list: todoListOrigin, type: 'todo' }));
+            setPoolList(this.getFilterList({ list: poolListOrigin, type: 'pool' }));
+            setTargetList(this.getFilterList({ list: targetListOrigin, type: 'target' }));
+            setBookMarkList(this.getFilterList({ list: bookMarkListOrigin, type: 'bookmark' }));
             this.getTodo("done");
         },
         async getCategory() {
