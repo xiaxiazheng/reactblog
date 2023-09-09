@@ -395,7 +395,7 @@ export const data = createModel<RootModel>()({
                 }
             }
             if (type !== "hobit") {
-                l = l.filter((item) => !item.isHabit);
+                l = l.filter((item) => item.isHabit !== '1');
             }
             return l;
         },

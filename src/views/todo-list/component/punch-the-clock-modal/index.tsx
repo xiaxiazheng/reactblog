@@ -15,7 +15,7 @@ dayjs.locale("zh-cn");
 export const handleIsTodayPunchTheClock = (
     item: TodoItemType | undefined
 ): boolean => {
-    if (!item?.isHabit) return false;
+    if (!item || item.isHabit !== '1') return false;
 
     return (
         item?.child_todo_list
