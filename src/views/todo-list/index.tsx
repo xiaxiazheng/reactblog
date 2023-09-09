@@ -11,8 +11,8 @@ import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/punch-the-clock-modal";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
-import store, { Dispatch } from "./rematch";
-import { Provider, useDispatch } from "react-redux";
+import store, { Dispatch, RootState } from "./rematch";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import TodoAfter from "./list/todo-after";
 import TodoToday from "./list/todo-today";
@@ -88,6 +88,7 @@ const TodoList: React.FC = () => {
     const dispatch = useDispatch<Dispatch>();
     const { getTodo, getCategory } = dispatch.data;
     const { setForm } = dispatch.edit;
+    const isWork = useSelector((state: RootState) => state.filter.isWork);
     useEffect(() => {
         setForm(form);
     }, [form]);
@@ -134,9 +135,9 @@ const TodoList: React.FC = () => {
                             <TodoTarget />
                         </div>
                         {/* 习惯 */}
-                        <div className={`${styles.lmb} ScrollBar`}>
+                        {!isWork && <div className={`${styles.lmb} ScrollBar`}>
                             <TodoHobit />
-                        </div>
+                        </div>}
                         {/* 待办池 */}
                         <div className={`${styles.lb} ScrollBar`}>
                             <TodoPool />
