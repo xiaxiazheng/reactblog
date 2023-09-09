@@ -250,7 +250,7 @@ export const data = createModel<RootModel>()({
                         pageSize: 30,
                         status: TodoStatus[hobitStatus],
                         isWork,
-                        isPunchTheClock: "1",
+                        isHabit: "1",
                     };
                     const res = await getTodoList(req);
                     if (res) {
@@ -395,7 +395,7 @@ export const data = createModel<RootModel>()({
                 }
             }
             if (type !== "hobit") {
-                l = l.filter((item) => !item.timeRange);
+                l = l.filter((item) => !item.isHabit);
             }
             return l;
         },

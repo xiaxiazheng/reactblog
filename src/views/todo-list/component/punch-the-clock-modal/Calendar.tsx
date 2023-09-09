@@ -5,16 +5,6 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { TodoItemType } from "../../types";
 
-// 计算时间相关
-export const handleTimeRange = (timeRange: string) => {
-    const { startTime, target } = JSON.parse(timeRange);
-    return {
-        startTime,
-        endTime: dayjs().format("YYYY-MM-DD"),
-        target,
-    };
-};
-
 interface IProps {
     active: TodoItemType | undefined;
 }
@@ -33,7 +23,7 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
 
     if (!active) return null;
 
-    const { startTime, endTime } = handleTimeRange(active.timeRange || "");
+    const startTime = dayjs(active.time), endTime = dayjs();
     const endTimeAddOne = dayjs(endTime).add(1, "day");
 
     return (

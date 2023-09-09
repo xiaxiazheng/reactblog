@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, message, Modal, Space, Spin } from "antd";
 import dayjs from "dayjs";
-import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
+import PunchTheClockCalendar from "./Calendar";
 import { CreateTodoItemReq, TodoItemType } from "../../types";
 import { addTodoItem } from "@/client/TodoListHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import { getRangeFormToday } from "../../utils";
 
 dayjs.locale("zh-cn");
 
@@ -14,27 +15,22 @@ dayjs.locale("zh-cn");
 export const handleIsTodayPunchTheClock = (
     item: TodoItemType | undefined
 ): boolean => {
-    if (!item?.timeRange) return false;
+    if (!item?.isHabit) return false;
 
-    // 先判断今天是否在任务范围内
-    // const { startTime, endTime } = handleTimeRange(item.timeRange);
-
-    // const isHasToday =
-    //     dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
-    // // 如果在再判断子任务中包不包含今天的打卡时间
-    // return (
-    //     (isHasToday &&
-    //         item?.child_todo_list
-    //             ?.map((item) => item.time)
-    //             .includes(dayjs().format("YYYY-MM-DD"))) ||
-    //     false
-    // );
     return (
         item?.child_todo_list
             ?.map((item) => item.time)
             .includes(dayjs().format("YYYY-MM-DD")) || false
     );
 };
+
+export const getToday = () => {
+    return getZeroDay(dayjs().format('YYYY-MM-DD'));
+}
+
+export const getZeroDay = (date: string) => {
+    return dayjs(`${date} 00:00:00`);
+}
 
 interface IProps {}
 
@@ -75,7 +71,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
         if (active) {
             const val: CreateTodoItemReq = {
                 category: active.category,
-                color: active.color,
+                color: active.color !== '3' ? `${Number(active.color) + 1}` : '3',
                 description: active.description,
                 name: `打卡：${active.name}`,
                 isBookMark: "0",
@@ -86,6 +82,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
                 doing: "0",
                 isWork: "0",
                 time: dayjs().format("YYYY-MM-DD"),
+                isHabit: "0"
             };
             await addTodoItem(val);
             message.success("打卡成功");
@@ -94,27 +91,27 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
         }
     };
 
-    const renderDetail = (item: TodoItemType | undefined) => {
-        if (!item || !item.timeRange) return null;
+    const renderHabitDetail = (item: TodoItemType | undefined) => {
+        if (!item || !item.isHabit) return null;
 
-        const { startTime, endTime, target } = handleTimeRange(item.timeRange);
+        const untilNow = getToday().diff(getZeroDay(item.time), "d") + 1;
+        const lastDoneTodo = item.child_todo_list?.[0];
+        const lastDoneDay = lastDoneTodo?.time;
         return (
             <>
                 <div>
-                    打卡开始日期：{startTime}，已经进行{" "}
-                    {dayjs(endTime).diff(dayjs(startTime), "d")} 天
-                </div>
-                <div>
-                    达标天数：{target}，
-                    {item.child_todo_list_length < target
-                        ? `还差 ${target - item.child_todo_list_length} 天`
-                        : `已达成目标`}
-                </div>
-                <div>已打卡天数：{item.child_todo_list_length}</div>
-                <div>
-                    今日：
+                    今日
                     {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
                 </div>
+                <div>习惯的描述：{item?.description || '暂无'}</div>
+                <div>
+                    习惯立项日期：{item.time} {getRangeFormToday(item.time)}
+                </div>
+                <div>
+                    已打卡天数：{item.child_todo_list_length} / {untilNow}
+                </div>
+                <div>最后一次打卡时间：{lastDoneDay ? `${lastDoneDay} ${getRangeFormToday(lastDoneDay)}` : "暂无"}</div>
+                <div>最后一次打卡的描述：{lastDoneTodo?.description || "暂无"}</div>
             </>
         );
     };
@@ -149,7 +146,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
             onCancel={() => onClose()}
         >
             <PunchTheClockCalendar active={active} />
-            {active && renderDetail(active)}
+            {active && renderHabitDetail(active)}
         </Modal>
     );
 };

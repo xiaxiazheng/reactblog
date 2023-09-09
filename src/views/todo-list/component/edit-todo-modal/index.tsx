@@ -32,12 +32,7 @@ import {
 import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
-import {
-    handleRefreshList,
-    TimeRange,
-    timeRangeParse,
-    timeRangeStringify,
-} from "../../utils";
+import { handleRefreshList } from "../../utils";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../list/todo-footprint";
@@ -88,17 +83,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
-            let timeRange: TimeRange & { isPunchTheClock: "0" | "1" } = {
-                startTime: dayjs(),
-                target: 7,
-                isPunchTheClock: "0",
-            };
-            if (item.timeRange) {
-                timeRange = {
-                    ...timeRangeParse(item.timeRange),
-                    isPunchTheClock: "1",
-                };
-            }
             form &&
                 form.setFieldsValue({
                     name: item.name,
@@ -113,7 +97,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     isTarget: item.isTarget,
                     isWork: item.isWork,
                     isBookMark: item.isBookMark,
-                    ...timeRange,
+                    isHabit: item.isHabit,
                 });
 
             getOtherTodoById(item.other_id);
@@ -199,6 +183,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isTarget: formData.isTarget || "0",
                 isWork: formData.isWork || "0",
                 isBookMark: formData.isBookMark || "0",
+                isHabit: formData.isHabit || "0",
             };
             const res = await addTodoItem(req);
             if (res) {
@@ -244,14 +229,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 isTarget: formData.isTarget || "0",
                 isWork: formData.isWork || "0",
                 isBookMark: formData.isBookMark || "0",
+                isHabit: formData.isHabit || "0",
             };
-            if (formData.isPunchTheClock === "1") {
-                const { startTime, target } = formData;
-                req.timeRange = timeRangeStringify({
-                    startTime,
-                    target,
-                });
-            }
             const res = await editTodoItem(req);
             if (res) {
                 message.success(res.message);

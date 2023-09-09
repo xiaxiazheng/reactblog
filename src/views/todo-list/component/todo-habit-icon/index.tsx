@@ -7,13 +7,13 @@ import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 import { handleIsTodayPunchTheClock } from "../punch-the-clock-modal";
 
-const TodoPunchTheClockIcon = (props: { item: TodoItemType }) => {
+const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
 
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
 
-    if (!item.timeRange) {
+    if (!item.isHabit) {
         return null;
     }
 
@@ -36,4 +36,4 @@ const TodoPunchTheClockIcon = (props: { item: TodoItemType }) => {
     );
 };
 
-export default TodoPunchTheClockIcon;
+export default TodoHabitIcon;

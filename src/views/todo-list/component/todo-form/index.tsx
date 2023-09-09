@@ -41,7 +41,7 @@ const TodoForm: React.FC<Props> = (props) => {
 
     const category = useSelector((state: RootState) => state.data.category);
 
-    const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === "1";
+    // const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === "1";
 
     const input = useRef<any>(null);
     useEffect(() => {
@@ -244,7 +244,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     </SwitchComp>
                                 </Form.Item>
                                 <Form.Item
-                                    name="isPunchTheClock"
+                                    name="isHabit"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
@@ -268,7 +268,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             <SearchTodo activeTodo={activeTodo} />
                         </Form.Item>
 
-                        {isPunchTheClock && (
+                        {/* {isPunchTheClock && (
                             <>
                                 <Form.Item
                                     name="startTime"
@@ -287,7 +287,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <Input />
                                 </Form.Item>
                             </>
-                        )}
+                        )} */}
 
                         {props?.children}
                     </div>

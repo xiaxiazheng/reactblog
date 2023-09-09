@@ -29,11 +29,8 @@ export const getOriginTodo = () => {
         isTarget: "0",
         isBookMark: "0",
         isWork: "0",
+        isHabit: "0",
         other_id: "",
-        startTime: dayjs(),
-        target: 7,
-        range: 7,
-        isPunchTheClock: "0",
     };
 };
 
