@@ -6,6 +6,7 @@ import {
     message,
     Modal,
     Pagination,
+    Radio,
     Select,
     Space,
     Tooltip,
@@ -24,7 +25,15 @@ interface IProps {
     activeTodo: TodoItemType;
 }
 
-const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChange, activeTodo }) => {
+const pageSize = 15;
+
+const SearchTodoModal: React.FC<IProps> = ({
+    visible,
+    handleClose,
+    value,
+    onChange,
+    activeTodo,
+}) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -43,14 +52,27 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
     // 搜索接口
     const handleSearch = async (newValue: string) => {
         setLoading(true);
+        let sort: string[] = ["mTime", "DESC"];
+        if (sortBy === "time") {
+            sort = ["time", "DESC"];
+        }
+        if (sortBy === "mTime") {
+            sort = ["mTime", "DESC"];
+        }
+        if (sortBy === "cTime") {
+            sort = ["cTime", "DESC"];
+        }
+        if (sortBy === "color") {
+            sort = ["color"];
+        }
         const req: any = {
             keyword: newValue,
-            pageNo: 1,
-            pageSize: 20,
-            sortBy: [["isTarget", "DESC"], ["mTime", "DESC"], ["color"]],
+            pageNo,
+            pageSize,
+            sortBy: [sort],
         };
-        if (newValue === '') {
-            req.status = '0';
+        if (newValue === "") {
+            req.status = "0";
         }
 
         const res = await getTodoList(req);
@@ -61,6 +83,7 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
                     (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id
                 )
             );
+            setTotal(res.data.total);
             setLoading(false);
         } else {
             message.error("获取 todolist 失败");
@@ -72,6 +95,13 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
     }, []);
 
     const [keyword, setKeyword] = useState<string>("");
+    const [pageNo, setPageNo] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0);
+
+    const [sortBy, setSortBy] = useState<string>("");
+    useEffect(() => {
+        handleSearch(keyword);
+    }, [sortBy, pageNo]);
 
     return (
         <Modal
@@ -80,7 +110,16 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
             width={700}
             className={styles.modal}
             onCancel={handleClose}
-            footer={<Pagination />}
+            footer={
+                <Pagination
+                    className={styles.pagination}
+                    current={pageNo}
+                    pageSize={pageSize}
+                    total={total}
+                    showTotal={(total) => `共 ${total} 条`}
+                    onChange={(pageNo) => setPageNo(pageNo)}
+                />
+            }
         >
             {loading && <Loading />}
             <Input
@@ -88,6 +127,19 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 onPressEnter={() => handleSearch(keyword)}
+            />
+            <Radio.Group
+                style={{ marginBottom: 10 }}
+                defaultValue={"mTime"}
+                onChange={(e) => setSortBy(e.target.value)}
+                buttonStyle="solid"
+                optionType="button"
+                options={[
+                    { label: "默认时间", value: "time" },
+                    { label: "修改时间", value: "mTime" },
+                    { label: "创建时间", value: "cTime" },
+                    { label: "重要程度", value: "color" },
+                ]}
             />
             <div className={`${styles.content} ScrollBar`}>
                 <Space size={10} direction="vertical">
@@ -105,6 +157,7 @@ const SearchTodoModal: React.FC<IProps> = ({ visible, handleClose, value, onChan
                                     item={item}
                                     placement="left"
                                     onlyShow={true}
+                                    isShowTime={true}
                                     isShowTimeRange={true}
                                 />
                             </div>
