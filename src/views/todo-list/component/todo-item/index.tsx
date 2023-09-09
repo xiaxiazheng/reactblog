@@ -7,7 +7,7 @@ import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import dayjs from "dayjs";
 import TodoChainIcon from "../todo-chain-icon";
-import TodoPunchTheClockIcon from "../todo-punch-the-clock-icon";
+import TodoIsHabitIcon from "../todo-habit-icon";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 
@@ -61,6 +61,7 @@ const TodoItem: React.FC<Props> = (props) => {
             isTarget: item.isTarget || "0",
             isBookMark: item.isBookMark || "0",
             isWork: item.isWork || '0',
+            isHabit: item.isHabit || '0',
             status: TodoStatus.todo,
             time: dayjs().format("YYYY-MM-DD"),
         };
@@ -120,7 +121,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         isChain={isChain}
                         isChainNext={isChainNext}
                     />
-                    <TodoPunchTheClockIcon item={item} />
+                    <TodoIsHabitIcon item={item} />
                 </span>
             </div>
         </div>
