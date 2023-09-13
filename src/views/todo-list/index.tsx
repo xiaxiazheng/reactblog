@@ -8,7 +8,7 @@ import {
     BookOutlined,
 } from "@ant-design/icons";
 import { SortKeyMap } from "./component/sort-btn";
-import PunchTheClockModal from "./component/punch-the-clock-modal";
+import PunchTheClockModal from "./component/habit-detail-modal";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import store, { Dispatch, RootState } from "./rematch";

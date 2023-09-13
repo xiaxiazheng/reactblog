@@ -24,7 +24,6 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
     if (!active) return null;
 
     const startTime = dayjs(active.time), endTime = dayjs();
-    const endTimeAddOne = dayjs(endTime).add(1, "day");
 
     return (
         <div className={styles.calendarWrapper}>
@@ -34,7 +33,7 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                 disabledDate={(currentData) =>
                     active
                         ? currentData.isBefore(startTime) ||
-                          currentData.isAfter(endTimeAddOne)
+                          currentData.isAfter(endTime)
                         : false
                 }
                 dateFullCellRender={(date) => {
@@ -66,7 +65,7 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                             );
                         }
                         if (
-                            date.isBefore(endTimeAddOne) &&
+                            date.isBefore(endTime) &&
                             date.isAfter(dayjs())
                         ) {
                             return (

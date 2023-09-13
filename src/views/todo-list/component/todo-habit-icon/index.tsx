@@ -5,7 +5,7 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../types";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
-import { handleIsTodayPunchTheClock } from "../punch-the-clock-modal";
+import { handleIsTodayPunchTheClock } from "../habit-detail-modal";
 
 const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;

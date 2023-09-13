@@ -47,6 +47,8 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                         isChain={true}
                                         isChainNext={true}
                                         isModalOrDrawer={true}
+                                        isShowTime={true}
+                                        isShowTimeRange={true}
                                     />
                                 }
                             >
@@ -63,6 +65,8 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                 isChain={true}
                                 isChainNext={true}
                                 isModalOrDrawer={true}
+                                isShowTime={true}
+                                isShowTimeRange={true}
                             />
                         </div>
                     )}
@@ -103,6 +107,8 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                     showDoneIcon={false}
                                     isChain={true}
                                     isModalOrDrawer={true}
+                                    isShowTime={true}
+                                    isShowTimeRange={true}
                                 />
                             ))}
                         <Divider style={{ margin: "12px 0" }} />
@@ -125,6 +131,8 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                             showDoneIcon={false}
                             isChain={true}
                             isModalOrDrawer={true}
+                            isShowTime={true}
+                            isShowTimeRange={true}
                         />
                     </>
                 )}

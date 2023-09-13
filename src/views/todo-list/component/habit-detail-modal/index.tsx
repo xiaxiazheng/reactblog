@@ -87,7 +87,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
             await addTodoItem(val);
             message.success("打卡成功");
             refreshData("done");
-            refreshData("target");
+            refreshData("habit");
         }
     };
 

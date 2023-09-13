@@ -65,6 +65,9 @@ export const handleRefreshList = (formData: any) => {
     if (formData.isBookMark === "1") {
         list.push("bookMark");
     }
+    if (formData.isHabit === "1") {
+        list.push("habit");
+    }
     list.push(TodoStatusMap[formData.status]);
 
     return list;

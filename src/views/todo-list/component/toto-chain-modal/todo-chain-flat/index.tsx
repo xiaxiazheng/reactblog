@@ -147,6 +147,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                             isChain={true}
                                             isChainNext={true}
                                             isModalOrDrawer={true}
+                                            isShowTime={true}
                                             isShowTimeRange={true}
                                             style={
                                                 item.todo_id ===
@@ -248,6 +249,8 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                     isChain={true}
                                     isModalOrDrawer={true}
                                     style={{ color: "yellow" }}
+                                    isShowTime={true}
+                                    isShowTimeRange={true}
                                 />
                             </Collapse>
                         )}
