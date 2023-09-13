@@ -14,20 +14,20 @@ interface DataType {
     doneLoading: boolean;
     poolLoading: boolean;
     targetLoading: boolean;
-    hobitLoading: boolean;
+    habitLoading: boolean;
     bookMarkLoading: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
     poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
-    hobitListOrigin: TodoItemType[];
+    habitListOrigin: TodoItemType[];
     bookMarkListOrigin: TodoItemType[];
     todoList: TodoItemType[];
     doneList: TodoItemType[];
     doneTotal: number;
     poolList: TodoItemType[];
     targetList: TodoItemType[];
-    hobitList: TodoItemType[];
+    habitList: TodoItemType[];
     bookMarkList: TodoItemType[];
     category: CategoryType[];
 }
@@ -38,20 +38,20 @@ export const data = createModel<RootModel>()({
         doneLoading: false,
         poolLoading: false,
         targetLoading: false,
-        hobitLoading: false,
+        habitLoading: false,
         bookMarkLoading: false,
         isRefreshNote: false,
         todoListOrigin: [],
         poolListOrigin: [],
         targetListOrigin: [],
-        hobitListOrigin: [],
+        habitListOrigin: [],
         bookMarkListOrigin: [],
         todoList: [],
         doneList: [],
         doneTotal: 0,
         poolList: [],
         targetList: [],
-        hobitList: [],
+        habitList: [],
         bookMarkList: [],
         category: [],
     } as DataType,
@@ -80,10 +80,10 @@ export const data = createModel<RootModel>()({
                 targetLoading: payload,
             };
         },
-        setHobitLoading: (state, payload) => {
+        setHabitLoading: (state, payload) => {
             return {
                 ...state,
-                hobitLoading: payload,
+                habitLoading: payload,
             };
         },
         setBookMarkLoading: (state, payload) => {
@@ -116,10 +116,10 @@ export const data = createModel<RootModel>()({
                 targetListOrigin: payload,
             };
         },
-        setHobitListOrigin: (state, payload) => {
+        setHabitListOrigin: (state, payload) => {
             return {
                 ...state,
-                hobitListOrigin: payload,
+                habitListOrigin: payload,
             };
         },
         setBookMarkListOrigin: (state, payload) => {
@@ -158,10 +158,10 @@ export const data = createModel<RootModel>()({
                 targetList: payload,
             };
         },
-        setHobitList: (state, payload) => {
+        setHabitList: (state, payload) => {
             return {
                 ...state,
-                hobitList: payload,
+                habitList: payload,
             };
         },
         setBookMarkList: (state, payload) => {
@@ -184,8 +184,8 @@ export const data = createModel<RootModel>()({
                 setBookMarkListOrigin,
                 setTargetLoading,
                 setTargetListOrigin,
-                setHobitLoading,
-                setHobitListOrigin,
+                setHabitLoading,
+                setHabitListOrigin,
                 setIsRefreshNote,
                 setDoneLoading,
                 setDoneList,
@@ -205,7 +205,7 @@ export const data = createModel<RootModel>()({
                 activeCategory,
                 activeColor,
                 targetStatus,
-                hobitStatus,
+                habitStatus,
             } = state.filter;
 
             switch (type) {
@@ -243,19 +243,19 @@ export const data = createModel<RootModel>()({
                     }
                     break;
                 }
-                case "hobit": {
-                    setHobitLoading(true);
+                case "habit": {
+                    setHabitLoading(true);
                     const req: any = {
                         pageNo: 1,
                         pageSize: 30,
-                        status: TodoStatus[hobitStatus],
+                        status: TodoStatus[habitStatus],
                         isWork,
                         isHabit: "1",
                     };
                     const res = await getTodoList(req);
                     if (res) {
-                        setHobitListOrigin(res.data.list);
-                        setHobitLoading(false);
+                        setHabitListOrigin(res.data.list);
+                        setHabitLoading(false);
                     } else {
                         message.error("获取 todolist 失败");
                     }
@@ -394,7 +394,7 @@ export const data = createModel<RootModel>()({
                     );
                 }
             }
-            if (type !== "hobit") {
+            if (type !== "habit") {
                 l = l.filter((item) => item.isHabit !== '1');
             }
             return l;

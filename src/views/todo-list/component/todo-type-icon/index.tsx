@@ -8,12 +8,12 @@ import {
     AppleFilled,
 } from "@ant-design/icons";
 
-type TodoType = "target" | "note" | "hobit" | "pin" | "urgent" | "work";
+type TodoType = "target" | "note" | "habit" | "pin" | "urgent" | "work";
 
 const map = {
     target: AimOutlined,
     note: BookOutlined,
-    hobit: ClockCircleOutlined,
+    habit: ClockCircleOutlined,
     pin: PushpinOutlined,
     urgent: ThunderboltFilled,
     work: AppleFilled,

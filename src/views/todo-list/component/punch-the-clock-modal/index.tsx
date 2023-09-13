@@ -46,8 +46,8 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     const visible = useSelector(
         (state: RootState) => state.edit.showPunchTheClockModal
     );
-    const hobitListOrigin = useSelector(
-        (state: RootState) => state.data.hobitListOrigin
+    const habitListOrigin = useSelector(
+        (state: RootState) => state.data.habitListOrigin
     );
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
@@ -61,11 +61,11 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     useEffect(() => {
         visible &&
             setActiveTodo(
-                hobitListOrigin.find(
+                habitListOrigin.find(
                     (item) => item.todo_id === active?.todo_id
                 )
             );
-    }, [hobitListOrigin, visible]);
+    }, [habitListOrigin, visible]);
 
     const punchTheClock = async (active: TodoItemType | undefined) => {
         if (active) {

@@ -251,7 +251,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <SwitchComp>
                                         <span>
                                             <TodoTypeIcon
-                                                type="hobit"
+                                                type="habit"
                                                 style={{
                                                     marginRight: 5,
                                                     color: "#ffeb3b",

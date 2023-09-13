@@ -9,7 +9,7 @@ export enum SortKeyMap {
     done,
     pool,
     target,
-    hobit,
+    habit,
     bookmark,
     footprint,
 }
