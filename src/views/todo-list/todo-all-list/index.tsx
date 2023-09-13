@@ -3,7 +3,7 @@ import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import { TodoItemType } from "../types";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import SortBtnMulti, { SortKeyMap, useIsSortByMulti } from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
 
 interface Props {
@@ -29,15 +29,9 @@ const PoolList: React.FC<Props> = (props) => {
         isShowTime = false,
     } = props;
 
-    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(
+    const { isSortBy, setIsSortBy, handleSort } = useIsSortByMulti(
         `${sortKey}-sort-time`
     );
-
-    // 获取展示的 list
-    const getShowList = (list: TodoItemType[]) => {
-        const l = !isSortTime ? list : handleSort(list);
-        return l;
-    };
 
     return (
         <div className={styles.list}>
@@ -48,15 +42,15 @@ const PoolList: React.FC<Props> = (props) => {
                 </span>
                 <Space size={16}>
                     {props.btn}
-                    <SortBtn
-                        isSortTime={isSortTime}
-                        setIsSortTime={setIsSortTime}
+                    <SortBtnMulti
+                        isSortBy={isSortBy}
+                        setIsSortBy={setIsSortBy}
                     />
                 </Space>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>
                 <div className={styles.oneDay}>
-                    {getShowList(mapList).map((item) => (
+                    {handleSort(mapList).map((item) => (
                         <TodoItem
                             key={item.todo_id}
                             item={item}

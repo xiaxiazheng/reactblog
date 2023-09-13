@@ -3,7 +3,7 @@ import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import { TodoItemType } from "../types";
-import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
+import SortBtn, { SortKeyMap, useIsSortByMulti } from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
@@ -54,7 +54,7 @@ const PoolList: React.FC<Props> = (props) => {
         isShowTime = false,
     } = props;
 
-    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(
+    const { isSortBy, setIsSortBy, handleSort, handleShowTime } = useIsSortByMulti(
         `${sortKey}-sort-time`
     );
 
@@ -82,7 +82,7 @@ const PoolList: React.FC<Props> = (props) => {
             const range = timeRange[cur];
             const l = list.filter((item) => {
                 const time = dayjs(
-                    (isSortTime ? item.cTime : item.mTime) || "2018-01-01"
+                    (handleShowTime(item)) || "2018-01-01"
                 );
                 return time.isBefore(range[0]) && time.isAfter(range[1]);
             });
@@ -106,8 +106,8 @@ const PoolList: React.FC<Props> = (props) => {
                 <Space size={16}>
                     {props.btn}
                     <SortBtn
-                        isSortTime={isSortTime}
-                        setIsSortTime={setIsSortTime}
+                        isSortBy={isSortBy}
+                        setIsSortBy={setIsSortBy}
                     />
                 </Space>
             </div>
@@ -117,10 +117,7 @@ const PoolList: React.FC<Props> = (props) => {
                         <div className={styles.oneDay} key={item}>
                             <Collapse title={item}>
                                 <div>
-                                    {(isSortTime
-                                        ? handleSort(mapList[item])
-                                        : mapList[item]
-                                    ).map((item) => {
+                                    {handleSort(mapList[item]).map((item) => {
                                         return (
                                             <TodoItem
                                                 key={item.todo_id}
