@@ -344,6 +344,7 @@ export const data = createModel<RootModel>()({
                 this.getTodo("pool");
                 this.getTodo("target");
                 this.getTodo("bookMark");
+                this.getTodo("habit");
             } else {
                 type === "todo" && this.getTodo("todo");
                 type === "done" && this.getTodo("done");
@@ -351,6 +352,7 @@ export const data = createModel<RootModel>()({
                 type === "target" && this.getTodo("target");
                 type === "bookMark" && this.getTodo("bookMark");
                 type === "note" && this.getTodo("note");
+                type === "habit" && this.getTodo("habit");
             }
         },
         getFilterList(params: {list: TodoItemType[], type: StatusType }, state) {
