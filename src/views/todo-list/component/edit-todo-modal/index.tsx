@@ -453,7 +453,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         },
     ];
     // 当存在父级时，如果该任务不是关键节点，则限制其往下继续创建子任务
-    const controlList = activeTodo?.other_id && isKeyNode === '1' ? l : l.slice(0, 1);
+    const controlList = !activeTodo?.other_id || (activeTodo?.other_id && isKeyNode === '1') ? l : l.slice(0, 1);
 
     const handleOtherIdChange = (changedFields?: any[]) => {
         if (changedFields?.[0]?.name?.[0] === "other_id") {

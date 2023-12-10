@@ -42,6 +42,7 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
             isNote: "1",
             isTarget: "0",
             isBookMark: "0",
+            isKeyNode: "0",
         };
         await addTodoItem(req);
         message.success("迁移成功, 若有图片需手动处理");

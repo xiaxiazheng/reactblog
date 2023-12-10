@@ -62,6 +62,7 @@ const TodoItem: React.FC<Props> = (props) => {
             isBookMark: item.isBookMark || "0",
             isWork: item.isWork || '0',
             isHabit: item.isHabit || '0',
+            isKeyNode: item.isKeyNode || '0',
             status: TodoStatus.todo,
             time: dayjs().format("YYYY-MM-DD"),
         };

@@ -29,6 +29,7 @@ export const getOriginTodo = () => {
         isBookMark: "0",
         isWork: "0",
         isHabit: "0",
+        isKeyNode: "0",
         other_id: "",
     };
 };
