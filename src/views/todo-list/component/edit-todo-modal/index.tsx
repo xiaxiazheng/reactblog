@@ -235,6 +235,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         handleRefreshList(activeTodo)
                     )
                 );
+                
+                // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
+                otherTodo?.todo_id && refershOtherTodoById(otherTodo?.todo_id);
 
                 setActiveTodo({ ...activeTodo, ...req });
                 return true;
@@ -466,16 +469,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const getOtherTodoById = (id?: string) => {
         if (id) {
             if (otherTodo?.todo_id !== id) {
-                getTodoById(id, true).then((res) => {
-                    if (res.data) {
-                        setOtherTodo(res.data);
-                    }
-                });
+                refershOtherTodoById(id);
             }
         } else {
             setOtherTodo(undefined);
         }
     };
+
+    const refershOtherTodoById = (id: string) => {
+        getTodoById(id, true).then((res) => {
+            if (res.data) {
+                setOtherTodo(res.data);
+            }
+        });
+    }
 
     return (
         <>
