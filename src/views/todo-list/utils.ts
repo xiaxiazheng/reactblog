@@ -54,7 +54,6 @@ export const handleSortColor = () => {};
 
 // 确定 todo 的刷新范围
 export const handleRefreshList = (formData: any) => {
-    console.log("formData", formData);
     const list: StatusType[] = [];
     if (formData.isTarget === "1" || formData.name.includes("打卡")) {
         list.push("target");

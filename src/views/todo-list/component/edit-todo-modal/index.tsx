@@ -98,6 +98,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     isWork: item.isWork,
                     isBookMark: item.isBookMark,
                     isHabit: item.isHabit,
+                    isKeyNode: item.isKeyNode,
                 });
 
             getOtherTodoById(item.other_id);
@@ -161,6 +162,25 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
+    const handleFormData = (formData: any) => {
+        return {
+            name: formData.name,
+            time: dayjs(formData.time).format("YYYY-MM-DD"),
+            status: formData.status,
+            description: formData.description || "",
+            color: formData.color,
+            category: formData.category,
+            other_id: formData.other_id || "",
+            doing: formData.doing || "0",
+            isNote: formData.isNote || "0",
+            isTarget: formData.isTarget || "0",
+            isWork: formData.isWork || "0",
+            isBookMark: formData.isBookMark || "0",
+            isHabit: formData.isHabit || "0",
+            isKeyNode: formData.isKeyNode || "0",
+        };
+    };
+
     // 新增 todo
     const addTodo = async (form: FormInstance<any>) => {
         try {
@@ -170,21 +190,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             await form.validateFields(); // 这个会触发 isFieldsChange
             const formData = form.getFieldsValue();
 
-            const req: CreateTodoItemReq = {
-                name: formData.name,
-                time: dayjs(formData.time).format("YYYY-MM-DD"),
-                status: formData.status,
-                description: formData.description || "",
-                color: formData.color,
-                category: formData.category,
-                other_id: formData.other_id || "",
-                doing: formData.doing || "0",
-                isNote: formData.isNote || "0",
-                isTarget: formData.isTarget || "0",
-                isWork: formData.isWork || "0",
-                isBookMark: formData.isBookMark || "0",
-                isHabit: formData.isHabit || "0",
-            };
+            const req: CreateTodoItemReq = handleFormData(formData);
             const res = await addTodoItem(req);
             if (res) {
                 message.success(res.message);
@@ -217,19 +223,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             const req: EditTodoItemReq = {
                 todo_id: activeTodo.todo_id,
-                name: formData.name,
-                time: dayjs(formData.time).format("YYYY-MM-DD"),
-                status: formData.status,
-                description: formData.description || "",
-                color: formData.color,
-                category: formData.category,
-                other_id: formData.other_id || "",
-                doing: formData.doing || "0",
-                isNote: formData.isNote || "0",
-                isTarget: formData.isTarget || "0",
-                isWork: formData.isWork || "0",
-                isBookMark: formData.isBookMark || "0",
-                isHabit: formData.isHabit || "0",
+                ...handleFormData(formData),
             };
             const res = await editTodoItem(req);
             if (res) {
@@ -438,7 +432,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const { theme } = useContext(ThemeContext);
 
-    const controlList = [
+
+    const isKeyNode = form?.getFieldValue('isKeyNode');
+
+    const l = [
         {
             label: activeTodo?.other_id ? "添加同级进度" : "复制",
             tooltip: activeTodo?.other_id
@@ -455,6 +452,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             isShow: true,
         },
     ];
+    // 当存在父级时，如果该任务不是关键节点，则限制其往下继续创建子任务
+    const controlList = activeTodo?.other_id && isKeyNode === '1' ? l : l.slice(0, 1);
 
     const handleOtherIdChange = (changedFields?: any[]) => {
         if (changedFields?.[0]?.name?.[0] === "other_id") {

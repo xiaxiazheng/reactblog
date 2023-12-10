@@ -18,6 +18,7 @@ export interface TodoItemType {
     isWork?: "0" | "1";
     isBookMark?: "0" | "1";
     isHabit?: "0" | "1";
+    isKeyNode?: "0" | "1";
 
     imgList: ImageType[];
     fileList: FileType[];
@@ -40,6 +41,7 @@ export interface CreateTodoItemReq {
     isWork: "0" | "1";
     isBookMark: "0" | "1";
     isHabit: "0" | "1";
+    isKeyNode: "0" | "1";
 }
 
 export interface EditTodoItemReq extends CreateTodoItemReq {

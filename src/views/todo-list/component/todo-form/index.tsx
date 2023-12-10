@@ -1,5 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { Form, Input, FormInstance, Radio, Tooltip, Space, FormListFieldData } from "antd";
+import {
+    Form,
+    Input,
+    FormInstance,
+    Radio,
+    Tooltip,
+    Space,
+    FormListFieldData,
+} from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import {
     colorMap,
@@ -260,6 +268,14 @@ const TodoForm: React.FC<Props> = (props) => {
                                             习惯
                                         </span>
                                     </SwitchComp>
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="isKeyNode"
+                                    rules={[{ required: true }]}
+                                    initialValue={"0"}
+                                >
+                                    <SwitchComp>关键节点</SwitchComp>
                                 </Form.Item>
                             </Space>
                         </Form.Item>
