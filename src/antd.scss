@@ -240,6 +240,11 @@
     //     background-color: var(--bg_color) !important;
     // }
 
+    .ant-btn-default {
+        color: var(--color) !important;
+        background-color: var(--bg_color) !important;
+    }
+
     .ant-switch-checked {
         background-color: transparent !important;
     }
