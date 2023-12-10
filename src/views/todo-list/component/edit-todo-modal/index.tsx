@@ -372,7 +372,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         const newTodo = {
             ...originTodo,
             name: item.name,
-            description: type === "copy" ? item.description : "",
+            description: type !== "add_child" ? item.description : "",
             time: type === "copy" ? dayjs(item.time) : dayjs(),
             status: TodoStatus.todo,
             color:
@@ -380,12 +380,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     ? `${Number(item.color) + 1}`
                     : item.color,
             category: item.category,
-            other_id:
-                type === "copy"
-                    ? ""
-                    : type === "add_progress"
-                    ? item.other_id
-                    : item.todo_id,
+            other_id: type === "add_progress" ? item.other_id : item.todo_id,
             isWork: item.isWork,
         };
         setActiveTodo(newTodo);
@@ -445,19 +440,15 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const controlList = [
         {
-            label: "添加进度",
-            tooltip: "添加的是前置todo的进度，与当前todo挂同样的前置todo",
+            label: activeTodo?.other_id ? "添加同级进度" : "复制",
+            tooltip: activeTodo?.other_id
+                ? "添加的是前置todo的进度，与当前todo挂同样的前置todo"
+                : "",
             key: "add_progress",
-            isShow: activeTodo?.other_id,
-        },
-        {
-            label: "复制",
-            tooltip: "复制，不带上前置 todo",
-            key: "copy",
             isShow: true,
         },
         {
-            label: "添加子任务",
+            label: "添加后续",
             tooltip:
                 "添加的是当前 todo 的子任务，当前 todo 作为子任务的前置 todo",
             key: "add_child",
