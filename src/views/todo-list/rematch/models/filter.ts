@@ -8,10 +8,11 @@ interface FilterType {
     activeCategory: string;
     startEndTime: any;
     isWork: string; // 是否是工作
+    isTarget: string;
+    isNote: string;
+    isHabit: string;
     pageNo: number;
     pageSize: number;
-    targetStatus: 'todo' | 'done';
-    habitStatus: 'todo' | 'done';
 }
 
 export const filter = createModel<RootModel>()({
@@ -22,10 +23,11 @@ export const filter = createModel<RootModel>()({
         activeCategory: "",
         startEndTime: "",
         isWork: localStorage.getItem("todoGlobalSearchIsWork") || "",
+        isTarget: "0",
+        isNote: "0",
+        isHabit: "0",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
-        targetStatus: 'todo',
-        habitStatus: 'todo',
     } as FilterType,
     reducers: {
         setKeyword: (state, payload) => {
@@ -65,6 +67,24 @@ export const filter = createModel<RootModel>()({
                 isWork: payload,
             };
         },
+        setIsTarget: (state, payload) => {
+            return {
+                ...state,
+                isTarget: payload,
+            };
+        },
+        setIsNote: (state, payload) => {
+            return {
+                ...state,
+                isNote: payload,
+            };
+        },
+        setIsHabit: (state, payload) => {
+            return {
+                ...state,
+                isHabit: payload,
+            };
+        },
         setPageNo: (state, payload) => {
             return {
                 ...state,
@@ -77,18 +97,6 @@ export const filter = createModel<RootModel>()({
                 pageSize: payload,
             };
         },
-        setTargetStatus: (state, payload) => {
-            return {
-                ...state,
-                targetStatus: payload,
-            };
-        },
-        setHabitStatus: (state, payload) => {
-            return {
-                ...state,
-                habitStatus: payload,
-            };
-        },
     },
     effects: (dispatch) => ({
         handleClear(payload, state): void {
@@ -99,13 +107,38 @@ export const filter = createModel<RootModel>()({
                 setStartEndTime,
                 // setIsWork,
                 setPageNo,
+                setIsTarget,
+                setIsNote,
+                setIsHabit,
             } = dispatch.filter;
             setActiveCategory("");
             setActiveColor("");
             setKeyword("");
             // setIsWork("");
+            setIsTarget("0");
+            setIsNote("0");
+            setIsHabit("0");
             setStartEndTime(undefined);
             setPageNo(1);
         },
+        handleSpecialStatus(params: { type: 'isTarget' | 'isHabit', status: '0' | '1'}, state): void {
+            const {
+                setIsHabit,
+                setIsTarget,
+            } = dispatch.filter;
+            const { status, type } = params;
+            if (type === 'isHabit') {
+                setIsHabit(status);
+                if (status === '1') {
+                    setIsTarget('0')
+                }
+            }
+            if (type === 'isTarget') {
+                setIsTarget(status);
+                if (status === '1') {
+                    setIsHabit('0');
+                }
+            }
+        }
     }),
 });

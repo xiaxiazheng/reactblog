@@ -15,12 +15,10 @@ const TodoTarget = () => {
         (state: RootState) => state.data.targetListOrigin
     );
     const isWork = useSelector((state: RootState) => state.filter.isWork);
-    const targetStatus = useSelector(
-        (state: RootState) => state.filter.targetStatus
-    );
+    const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const dispatch = useDispatch<Dispatch>();
     const { setTargetList, getFilterList, getTodo } = dispatch.data;
-    const { setTargetStatus } = dispatch.filter;
+    const { handleSpecialStatus } = dispatch.filter;
     useEffect(() => {
         setTargetList(
             getFilterList({ list: targetListOrigin, type: "target" })
@@ -29,7 +27,7 @@ const TodoTarget = () => {
 
     useEffect(() => {
         getTodo("target");
-    }, [targetStatus, isWork]);
+    }, [isWork]);
 
     return (
         <PoolList
@@ -44,13 +42,14 @@ const TodoTarget = () => {
                 <>
                     <Button
                         onClick={() =>
-                            setTargetStatus(
-                                targetStatus === "todo" ? "done" : "todo"
-                            )
+                            handleSpecialStatus({
+                                type: "isTarget",
+                                status: isTarget === "1" ? "0" : "1",
+                            })
                         }
-                        type={targetStatus === "todo" ? "default" : "primary"}
+                        type={isTarget === "1" ? "primary" : "default"}
                     >
-                        {targetStatus === "todo" ? "未完成" : "已完成"}
+                        查看已完成
                     </Button>
                 </>
             }

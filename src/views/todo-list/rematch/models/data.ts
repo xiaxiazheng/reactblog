@@ -204,8 +204,9 @@ export const data = createModel<RootModel>()({
                 startEndTime,
                 activeCategory,
                 activeColor,
-                targetStatus,
-                habitStatus,
+                isTarget,
+                isNote,
+                isHabit,
             } = state.filter;
 
             switch (type) {
@@ -231,7 +232,7 @@ export const data = createModel<RootModel>()({
                         isTarget: "1",
                         pageNo: 1,
                         pageSize: 60,
-                        status: TodoStatus[targetStatus],
+                        status: TodoStatus["todo"],
                         isWork,
                     };
                     const res = await getTodoList(req);
@@ -248,7 +249,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         pageNo: 1,
                         pageSize: 30,
-                        status: TodoStatus[habitStatus],
+                        status: TodoStatus["todo"],
                         isWork,
                         isHabit: "1",
                     };
@@ -278,6 +279,15 @@ export const data = createModel<RootModel>()({
 
                     if (isWork) {
                         req["isWork"] = isWork;
+                    }
+                    if (isTarget) {
+                        req["isTarget"] = isTarget;
+                    }
+                    if (isNote) {
+                        req["isNote"] = isNote;
+                    }
+                    if (isHabit) {
+                        req["isHabit"] = isHabit;
                     }
                     if (activeCategory) {
                         req["category"] = activeCategory;
@@ -410,10 +420,12 @@ export const data = createModel<RootModel>()({
             } = state.data;
             const { setTodoList, setPoolList, setTargetList, setBookMarkList } =
                 dispatch.data;
+            // 其他模块直接过滤不用发请求
             setTodoList(this.getFilterList({ list: todoListOrigin, type: 'todo' }));
             setPoolList(this.getFilterList({ list: poolListOrigin, type: 'pool' }));
             setTargetList(this.getFilterList({ list: targetListOrigin, type: 'target' }));
             setBookMarkList(this.getFilterList({ list: bookMarkListOrigin, type: 'bookmark' }));
+            // 已完成模块除外
             this.getTodo("done");
         },
         async getCategory() {

@@ -221,7 +221,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            Pin
+                                            书签
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>

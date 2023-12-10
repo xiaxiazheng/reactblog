@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Button, DatePicker, Input, Radio, Select, Space, Tooltip } from "antd";
+import { Button, Input, Select, Space, Tooltip } from "antd";
 import { TodoStatus } from "../../types";
 import {
     AppleFilled,
     ClearOutlined,
     PlusOutlined,
-    MinusOutlined,
     RedoOutlined,
     CoffeeOutlined,
     FilterOutlined,
 } from "@ant-design/icons";
-import { colorList, colorMap, colorNameMap, colorTitle } from "../../utils";
-import dayjs, { ManipulateType } from "dayjs";
+import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import Filter from "./filter";
 
 export const getOriginTodo = () => {
     return {
@@ -52,13 +51,15 @@ const GlobalSearch: React.FC = () => {
     );
     const pageNo = useSelector((state: RootState) => state.filter.pageNo);
     const pageSize = useSelector((state: RootState) => state.filter.pageSize);
+    const isTarget = useSelector((state: RootState) => state.filter.isTarget);
+    const isNote = useSelector((state: RootState) => state.filter.isNote);
+    const isHabit = useSelector((state: RootState) => state.filter.isHabit);
+
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
     const {
-        setActiveColor,
         setActiveCategory,
-        setStartEndTime,
         setKeyword: setContextKeyword,
         handleClear,
         setIsWork,
@@ -86,133 +87,16 @@ const GlobalSearch: React.FC = () => {
         isWork,
         pageNo,
         pageSize,
+        isTarget,
+        isNote,
+        isHabit,
     ]);
 
-    const Filter = () => {
-        const getTimeRange = (
-            start: number,
-            end: number,
-            type: ManipulateType = "day"
-        ) => {
-            return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
-        };
-
-        const timeRange: Record<string, dayjs.Dayjs[]> = {
-            三天内: getTimeRange(0, 3),
-            七天内: getTimeRange(0, 7),
-            一月内: getTimeRange(0, 30),
-            三月内: getTimeRange(0, 3, "month"),
-            半年内: getTimeRange(0, 6, "month"),
-            一年内: getTimeRange(0, 12, "month"),
-            一年前: getTimeRange(1, 10, "year"),
-        };
-
-        return (
-            <div className={styles.filterWrapper}>
-                <div>
-                    <span>{colorTitle}：</span>
-                    <Radio.Group
-                        optionType="button"
-                        buttonStyle="solid"
-                        value={activeColor}
-                    >
-                        {colorList.map((item) => (
-                            <Radio.Button
-                                key={item}
-                                value={item}
-                                onClick={() =>
-                                    setActiveColor(
-                                        activeColor === item ? "" : item
-                                    )
-                                }
-                                style={{ color: colorMap[item] }}
-                                className={`${styles.color} ${
-                                    item === "0" ? styles.zero : ""
-                                }${item === "1" ? styles.one : ""}${
-                                    item === "2" ? styles.two : ""
-                                }${item === "3" ? styles.three : ""}${
-                                    item === "-1" ? styles.minusOne : ""
-                                }`}
-                            >
-                                {colorNameMap[item]}
-                            </Radio.Button>
-                        ))}
-                    </Radio.Group>
-                </div>
-                <div>
-                    <span>时间：</span>
-                    {startEndTime?.[0] && (
-                        <>
-                            <Button
-                                icon={<MinusOutlined />}
-                                onClick={() =>
-                                    setStartEndTime([
-                                        dayjs(startEndTime?.[0]).subtract(
-                                            1,
-                                            "d"
-                                        ),
-                                        startEndTime?.[1],
-                                    ])
-                                }
-                            />
-                            <Button
-                                icon={<PlusOutlined />}
-                                onClick={() =>
-                                    setStartEndTime([
-                                        dayjs(startEndTime?.[0]).add(1, "d"),
-                                        startEndTime?.[1],
-                                    ])
-                                }
-                            />
-                        </>
-                    )}
-                    <DatePicker.RangePicker
-                        value={startEndTime}
-                        onChange={(val) => setStartEndTime(val)}
-                        placeholder={["开始时间", "结束时间"]}
-                    />
-                    {startEndTime?.[1] && (
-                        <>
-                            <Button
-                                icon={<MinusOutlined />}
-                                onClick={() =>
-                                    setStartEndTime([
-                                        startEndTime?.[0],
-                                        dayjs(startEndTime?.[1]).subtract(
-                                            1,
-                                            "d"
-                                        ),
-                                    ])
-                                }
-                            />
-                            <Button
-                                icon={<PlusOutlined />}
-                                onClick={() =>
-                                    setStartEndTime([
-                                        startEndTime?.[0],
-                                        dayjs(startEndTime?.[1]).add(1, "d"),
-                                    ])
-                                }
-                            />
-                        </>
-                    )}
-
-                    {Object.keys(timeRange).map((item) => (
-                        <Button
-                            type="text"
-                            key={item}
-                            className={styles.btn}
-                            onClick={() =>
-                                setStartEndTime(timeRange[item].reverse())
-                            }
-                        >
-                            {item}
-                        </Button>
-                    ))}
-                </div>
-            </div>
-        );
-    };
+    useEffect(() => {
+        if (isHabit === "1" || isTarget === "1") {
+            setShowFilter(true);
+        }
+    }, [isHabit, isTarget]);
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
@@ -237,7 +121,9 @@ const GlobalSearch: React.FC = () => {
             activeCategory !== "" ||
             keyword !== "" ||
             !!startEndTime ||
-            pageNo !== 1
+            pageNo !== 1 ||
+            isHabit === '1' ||
+            isTarget === '1'
         );
     };
 
@@ -357,6 +243,7 @@ const GlobalSearch: React.FC = () => {
                 allowClear={true}
                 placeholder="可用空格分词实现一定模糊搜索"
             />
+
             {showFilter && <Filter />}
         </Space>
     );

@@ -32,7 +32,7 @@ const TodoBookMark = () => {
             loading={bookMarkLoading}
             title={
                 <>
-                    <TodoTypeIcon type="pin" /> Pin
+                    <TodoTypeIcon type="pin" /> 书签
                 </>
             }
             sortKey={SortKeyMap.bookmark}

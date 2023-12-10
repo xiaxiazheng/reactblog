@@ -15,19 +15,19 @@ const TodoHabit = () => {
         (state: RootState) => state.data.habitListOrigin
     );
     const isWork = useSelector((state: RootState) => state.filter.isWork);
-    const habitStatus = useSelector(
-        (state: RootState) => state.filter.habitStatus
+    const isHabit = useSelector(
+        (state: RootState) => state.filter.isHabit
     );
     const dispatch = useDispatch<Dispatch>();
     const { setHabitList, getFilterList, getTodo } = dispatch.data;
-    const { setHabitStatus } = dispatch.filter;
+    const { handleSpecialStatus } = dispatch.filter;
     useEffect(() => {
         setHabitList(getFilterList({ list: habitListOrigin, type: "habit" }));
     }, [habitListOrigin]);
 
     useEffect(() => {
         getTodo("habit");
-    }, [habitStatus, isWork]);
+    }, [isWork]);
 
     return (
         <PoolList
@@ -42,13 +42,11 @@ const TodoHabit = () => {
                 <>
                     <Button
                         onClick={() =>
-                            setHabitStatus(
-                                habitStatus === "todo" ? "done" : "todo"
-                            )
+                            handleSpecialStatus({ type: 'isHabit', status: isHabit === '1' ? "0" : "1" })
                         }
-                        type={habitStatus === "todo" ? "default" : "primary"}
+                        type={isHabit === "1" ? "primary" : "default"}
                     >
-                        {habitStatus === "todo" ? "未完成" : "已完成"}
+                        查看已完成
                     </Button>
                 </>
             }
