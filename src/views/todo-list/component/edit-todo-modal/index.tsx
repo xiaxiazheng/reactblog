@@ -432,8 +432,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const { theme } = useContext(ThemeContext);
 
-
-    const isKeyNode = form?.getFieldValue('isKeyNode');
+    const isKeyNode = form?.getFieldValue("isKeyNode");
 
     const l = [
         {
@@ -453,7 +452,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         },
     ];
     // 当存在父级时，如果该任务不是关键节点，则限制其往下继续创建子任务
-    const controlList = !activeTodo?.other_id || (activeTodo?.other_id && isKeyNode === '1') ? l : l.slice(0, 1);
+    const controlList =
+        !activeTodo?.other_id || (activeTodo?.other_id && isKeyNode === "1")
+            ? l
+            : l.slice(0, 1);
 
     const handleOtherIdChange = (changedFields?: any[]) => {
         if (changedFields?.[0]?.name?.[0] === "other_id") {
@@ -464,7 +466,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const getOtherTodoById = (id?: string) => {
         if (id) {
             if (otherTodo?.todo_id !== id) {
-                getTodoById(id).then((res) => {
+                getTodoById(id, true).then((res) => {
                     if (res.data) {
                         setOtherTodo(res.data);
                     }
@@ -577,6 +579,36 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 activeTodo={activeTodo}
                                 isShowOther={true}
                             />
+                            {otherTodo.child_todo_list && (
+                                <>
+                                    <div>同级别todo: {otherTodo.child_todo_list_length}</div>
+                                    {otherTodo.child_todo_list.map(
+                                        (item, index) => {
+                                            return (
+                                                <TodoItemName
+                                                    key={index}
+                                                    item={item}
+                                                    // onlyShow={true}
+                                                    isShowTime={true}
+                                                    isShowTimeRange={true}
+                                                    beforeClick={() => {
+                                                        if (
+                                                            isEditing ||
+                                                            isEditingOther
+                                                        ) {
+                                                            message.warning(
+                                                                "正在编辑，不能切换"
+                                                            );
+                                                            return false;
+                                                        }
+                                                        return true;
+                                                    }}
+                                                />
+                                            );
+                                        }
+                                    )}
+                                </>
+                            )}
                         </div>
                     )}
                     <div
