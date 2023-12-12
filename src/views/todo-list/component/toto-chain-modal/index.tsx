@@ -19,6 +19,8 @@ import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
 import TodoChainLevel from "./todo-chain-level";
 import TodoChainFlat from "./todo-chain-flat";
+import { formatArrayToTimeMap, getRangeFormToday, getWeek } from "../../utils";
+import dayjs from "dayjs";
 
 interface IProps extends DrawerProps {}
 
@@ -61,7 +63,11 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     const nowTodo = todoChainList.find((item) => item.todo_id === chainId);
 
-    const [showType, setShowType] = useState<"flat" | "level">("flat");
+    const [showType, setShowType] = useState<"flat" | "level" | "timeline">("timeline");
+
+    const timeMap = formatArrayToTimeMap(todoChainList);
+
+    const today = dayjs().format("YYYY-MM-DD");
 
     return (
         <Modal
@@ -95,6 +101,34 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             width={1000}
         >
             <Spin spinning={loading}>
+                {showType === 'timeline' && (
+                    <div className={`${styles.OneDayListWrap} ScrollBar`}>
+                        {Object.keys(timeMap).map((time) => {
+                            return (
+                                <div className={styles.oneDay} key={time}>
+                                    <div
+                                        className={`${styles.time} ${
+                                            time === today
+                                                ? styles.today
+                                                : time > today
+                                                ? styles.future
+                                                : ""
+                                        }`}
+                                    >
+                                        {time}&nbsp; ({getWeek(time)}，
+                                        {getRangeFormToday(time)})
+                                        {timeMap[time]?.length > 6
+                                            ? ` ${timeMap[time]?.length}`
+                                            : null}
+                                    </div>
+                                    {timeMap[time].map((item: TodoItemType) => (
+                                        <TodoItem key={item.todo_id} item={item} />
+                                    ))}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
                 {showType === "level" && (
                     <TodoChainLevel
                         localKeyword={localKeyword}
