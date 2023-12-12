@@ -6,9 +6,10 @@ import {
     PushpinOutlined,
     ThunderboltFilled,
     AppleFilled,
+    KeyOutlined,
 } from "@ant-design/icons";
 
-type TodoType = "target" | "note" | "habit" | "pin" | "urgent" | "work";
+type TodoType = "target" | "note" | "habit" | "pin" | "urgent" | "work" | "key";
 
 const map = {
     target: AimOutlined,
@@ -17,6 +18,7 @@ const map = {
     pin: PushpinOutlined,
     urgent: ThunderboltFilled,
     work: AppleFilled,
+    key: KeyOutlined,
 };
 
 interface IProps {

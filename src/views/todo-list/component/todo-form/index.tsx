@@ -275,7 +275,18 @@ const TodoForm: React.FC<Props> = (props) => {
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>关键节点</SwitchComp>
+                                    <SwitchComp>
+                                        <span>
+                                            <TodoTypeIcon
+                                                type="key"
+                                                style={{
+                                                    marginRight: 5,
+                                                    color: "#ffeb3b",
+                                                }}
+                                            />{" "}
+                                            关键节点
+                                        </span>
+                                    </SwitchComp>
                                 </Form.Item>
                             </Space>
                         </Form.Item>

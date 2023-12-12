@@ -8,6 +8,7 @@ import {
     AimOutlined,
     BookOutlined,
     AppleFilled,
+    KeyOutlined,
     ThunderboltFilled,
 } from "@ant-design/icons";
 import { colorMap, getRangeFormToday } from "../../utils";
@@ -183,6 +184,10 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {/* 公司 */}
                 {item.isWork === "1" && (
                     <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
+                )}
+                {/* 关键节点 */}
+                {item.isKeyNode === "1" && item.isWork !== "1" && (
+                    <KeyOutlined style={{ marginRight: 5, color: "#00d4d8" }} />
                 )}
                 {/* 加急 */}
                 {item.doing === "1" && (
