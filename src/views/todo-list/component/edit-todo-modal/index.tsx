@@ -589,7 +589,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 activeTodo={activeTodo}
                                 isShowOther={true}
                             />
-                            {otherTodo.child_todo_list && (
+                            {otherTodo?.child_todo_list && (
                                 <>
                                     <div>同级别todo: {otherTodo.child_todo_list_length}</div>
                                     {otherTodo.child_todo_list.map(
@@ -637,8 +637,37 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     setIsClose(false);
                                 }}
                                 activeTodo={activeTodo}
-                            >
-                                {type === "edit" && activeTodo && (
+                                leftChildren={activeTodo?.child_todo_list && (
+                                    <>
+                                        <div>下一级todo: {activeTodo.child_todo_list_length}</div>
+                                        {activeTodo.child_todo_list.map(
+                                            (item, index) => {
+                                                return (
+                                                    <TodoItemName
+                                                        key={index}
+                                                        item={item}
+                                                        // onlyShow={true}
+                                                        isShowTime={true}
+                                                        isShowTimeRange={true}
+                                                        beforeClick={() => {
+                                                            if (
+                                                                isEditing ||
+                                                                isEditingOther
+                                                            ) {
+                                                                message.warning(
+                                                                    "正在编辑，不能切换"
+                                                                );
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        }}
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </>
+                                )}
+                                rightChildren={type === "edit" && activeTodo && (
                                     <TodoImageFile
                                         todo={activeTodo}
                                         handleFresh={(item) => {
@@ -651,7 +680,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                         }}
                                     />
                                 )}
-                            </TodoForm>
+                            />
                         )}
                     </div>
                 </div>

@@ -35,7 +35,8 @@ interface Props {
     activeTodo?: TodoItemType;
     open: boolean;
     isShowOther?: boolean;
-    children?: any;
+    leftChildren?: any;
+    rightChildren?: any;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
@@ -110,6 +111,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     >
                         <InputList />
                     </Form.Item>
+                    {props.leftChildren}
                 </div>
                 {!isShowOther && (
                     <div className={styles.right}>
@@ -316,7 +318,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             </>
                         )} */}
 
-                        {props?.children}
+                        {props?.rightChildren}
                     </div>
                 )}
             </div>
