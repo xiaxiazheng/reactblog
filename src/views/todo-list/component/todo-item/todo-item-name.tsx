@@ -185,10 +185,6 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {item.isWork === "1" && (
                     <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
                 )}
-                {/* 关键节点 */}
-                {item.isKeyNode === "1" && item.isWork !== "1" && (
-                    <KeyOutlined style={{ marginRight: 5, color: "#00d4d8" }} />
-                )}
                 {/* 加急 */}
                 {item.doing === "1" && (
                     <ThunderboltFilled
@@ -198,6 +194,10 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 {/* 目标 */}
                 {item.isTarget === "1" && (
                     <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                )}
+                {/* 关键节点 */}
+                {item.isKeyNode === "1" && item.isTarget !== "1" && (
+                    <KeyOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
                 )}
                 {/* note */}
                 {item.isNote === "1" && (
