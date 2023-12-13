@@ -103,7 +103,10 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         >
             <Spin spinning={loading}>
                 {showType === "timeline" && (
-                    <TodoTimeLine todoChainList={todoChainList} />
+                    <TodoTimeLine
+                        todoChainList={todoChainList}
+                        chainId={chainId}
+                    />
                 )}
                 {showType === "level" && (
                     <TodoChainLevel

@@ -11,10 +11,11 @@ import dayjs from "dayjs";
 
 interface IProps {
     todoChainList: TodoItemType[];
+    chainId: string;
 }
 
 const TodoTimeLine: React.FC<IProps> = (props) => {
-    const { todoChainList } = props;
+    const { todoChainList, chainId } = props;
 
     const today = dayjs().format("YYYY-MM-DD");
 
@@ -33,30 +34,32 @@ const TodoTimeLine: React.FC<IProps> = (props) => {
 
     return (
         <div className={`${styles.OneDayListWrap} ScrollBar`}>
-            {Object.keys(timeMap).sort((a, b) => dayjs(a).isBefore(dayjs(b)) ? 1 : -1).map((time) => {
-                return (
-                    <div className={styles.oneDay} key={time}>
-                        <div
-                            className={`${styles.time} ${
-                                time === today
-                                    ? styles.today
-                                    : time > today
-                                    ? styles.future
-                                    : ""
-                            }`}
-                        >
-                            {time}&nbsp; ({getWeek(time)}，
-                            {getRangeFormToday(time)})
-                            {timeMap[time]?.length > 6
-                                ? ` ${timeMap[time]?.length}`
-                                : null}
+            {Object.keys(timeMap)
+                .sort((a, b) => (dayjs(a).isBefore(dayjs(b)) ? 1 : -1))
+                .map((time) => {
+                    return (
+                        <div className={styles.oneDay} key={time}>
+                            <div
+                                className={`${styles.time} ${
+                                    time === today
+                                        ? styles.today
+                                        : time > today
+                                        ? styles.future
+                                        : ""
+                                }`}
+                            >
+                                {time}&nbsp; ({getWeek(time)}，
+                                {getRangeFormToday(time)})
+                                {timeMap[time]?.length > 6
+                                    ? ` ${timeMap[time]?.length}`
+                                    : null}
+                            </div>
+                            {timeMap[time].map((item: TodoItemType) => (
+                                <TodoItem key={item.todo_id} item={item} isShowPointIcon={item.todo_id === chainId} />
+                            ))}
                         </div>
-                        {timeMap[time].map((item: TodoItemType) => (
-                            <TodoItem key={item.todo_id} item={item} />
-                        ))}
-                    </div>
-                );
-            })}
+                    );
+                })}
         </div>
     );
 };

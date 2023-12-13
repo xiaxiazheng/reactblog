@@ -1,7 +1,7 @@
 import React, { CSSProperties, useContext } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
-import { CheckCircleOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, PlayCircleOutlined, SendOutlined } from "@ant-design/icons";
 import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
 import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
@@ -13,6 +13,7 @@ import { Dispatch } from "../../rematch";
 
 interface Props {
     item: TodoItemType;
+    isShowPointIcon?: boolean; // 展示 point 的 icon
     showDoneIcon?: boolean; // 控制已完成按钮
     isShowTime?: boolean; // 是否展示时间
     isShowTimeRange?: boolean; // 是否展示距离今天的范围
@@ -26,6 +27,7 @@ interface Props {
 const TodoItem: React.FC<Props> = (props) => {
     const {
         item,
+        isShowPointIcon = false,
         showDoneIcon = false,
         isShowTime = false,
         isShowTimeRange = false,
@@ -60,9 +62,9 @@ const TodoItem: React.FC<Props> = (props) => {
             isNote: item.isNote || "0",
             isTarget: item.isTarget || "0",
             isBookMark: item.isBookMark || "0",
-            isWork: item.isWork || '0',
-            isHabit: item.isHabit || '0',
-            isKeyNode: item.isKeyNode || '0',
+            isWork: item.isWork || "0",
+            isHabit: item.isHabit || "0",
+            isKeyNode: item.isKeyNode || "0",
             status: TodoStatus.todo,
             time: dayjs().format("YYYY-MM-DD"),
         };
@@ -80,6 +82,12 @@ const TodoItem: React.FC<Props> = (props) => {
         <div key={item.todo_id}>
             <div className={styles.item}>
                 <span>
+                    {isShowPointIcon && (
+                        <SendOutlined
+                            title="当前 chain todo"
+                            className={styles.doneIcon}
+                        />
+                    )}
                     {showDoneIcon && item.status == TodoStatus.todo && (
                         <Popconfirm
                             title="确认已完成吗？"
