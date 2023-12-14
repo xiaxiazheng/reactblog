@@ -134,6 +134,7 @@ interface NameProps {
     isModalOrDrawer?: boolean;
     style?: CSSProperties;
     beforeClick?: () => boolean;
+    children?: any;
 }
 
 // 单条 todo 中的 name 的渲染
@@ -153,7 +154,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
     const handleEdit = (item: TodoItemType) => {
         if (beforeClick && !beforeClick()) {
             return;
-        };
+        }
         const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
         setActiveTodo(item);
         setShowEdit(true);
@@ -224,7 +225,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     </s>
                 ) : (
                     <span
-                        className={`${item.doing === '1' && styles.doing}`}
+                        className={`${item.doing === "1" && styles.doing}`}
                         style={{ ...judgeIsLastModify(item.todo_id), ...style }}
                     >
                         <Name
@@ -242,6 +243,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     (item.fileList && item.fileList.length !== 0)) && (
                     <FileImageOutlined className={styles.icon} />
                 )}
+                {props.children}
             </div>
         </ToolTipsWrapper>
     );

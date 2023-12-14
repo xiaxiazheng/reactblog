@@ -40,6 +40,7 @@ import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { getOriginTodo } from "../global-search";
 import TodoItemName from "../todo-item/todo-item-name";
+import TodoChildList from "./todo-child-list";
 
 interface EditTodoModalType {}
 
@@ -80,6 +81,10 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     }, [type]);
 
+    const [activeTodoChildList, setActiveTodoChildList] = useState<
+        TodoItemType[]
+    >([]);
+
     useEffect(() => {
         if (activeTodo) {
             const item = activeTodo;
@@ -105,6 +110,19 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             // 保存足迹
             setFootPrintList(item.todo_id);
+
+            if (item.child_todo_list) {
+                setActiveTodoChildList(item.child_todo_list);
+            } else if (
+                item.child_todo_list_length !== 0 &&
+                !item.child_todo_list
+            ) {
+                getTodoById(activeTodo.todo_id, true).then((res) => {
+                    setActiveTodoChildList(res.data.child_todo_list);
+                });
+            } else {
+                setActiveTodoChildList([]);
+            }
         } else {
             setOtherTodo(undefined);
         }
@@ -238,7 +256,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         handleRefreshList(activeTodo)
                     )
                 );
-                
+
                 // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
                 otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
 
@@ -485,7 +503,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 setOtherTodo(res.data);
             }
         });
-    }
+    };
 
     return (
         <>
@@ -498,7 +516,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 onCancel={() => onClose()}
                 transitionName=""
                 destroyOnClose
-                width={otherTodo ? 1500 : 1000}
+                width={otherTodo ? 1600 : 1000}
                 footer={
                     <div className={styles.footer}>
                         <Space>
@@ -588,37 +606,20 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 }}
                                 activeTodo={activeTodo}
                                 isShowOther={true}
+                                leftChildren={
+                                    otherTodo?.child_todo_list && (
+                                        <TodoChildList
+                                            title={`同级别 todo: ${otherTodo.child_todo_list_length}`}
+                                            todoChildList={
+                                                otherTodo.child_todo_list
+                                            }
+                                            isEditing={
+                                                isEditing || isEditingOther
+                                            }
+                                        />
+                                    )
+                                }
                             />
-                            {otherTodo?.child_todo_list && (
-                                <>
-                                    <div>同级别todo: {otherTodo.child_todo_list_length}</div>
-                                    {otherTodo.child_todo_list.map(
-                                        (item, index) => {
-                                            return (
-                                                <TodoItemName
-                                                    key={index}
-                                                    item={item}
-                                                    // onlyShow={true}
-                                                    isShowTime={true}
-                                                    isShowTimeRange={true}
-                                                    beforeClick={() => {
-                                                        if (
-                                                            isEditing ||
-                                                            isEditingOther
-                                                        ) {
-                                                            message.warning(
-                                                                "正在编辑，不能切换"
-                                                            );
-                                                            return false;
-                                                        }
-                                                        return true;
-                                                    }}
-                                                />
-                                            );
-                                        }
-                                    )}
-                                </>
-                            )}
                         </div>
                     )}
                     <div
@@ -637,49 +638,36 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                     setIsClose(false);
                                 }}
                                 activeTodo={activeTodo}
-                                leftChildren={activeTodo?.child_todo_list && (
-                                    <>
-                                        <div>下一级todo: {activeTodo.child_todo_list_length}</div>
-                                        {activeTodo.child_todo_list.map(
-                                            (item, index) => {
-                                                return (
-                                                    <TodoItemName
-                                                        key={index}
-                                                        item={item}
-                                                        // onlyShow={true}
-                                                        isShowTime={true}
-                                                        isShowTimeRange={true}
-                                                        beforeClick={() => {
-                                                            if (
-                                                                isEditing ||
-                                                                isEditingOther
-                                                            ) {
-                                                                message.warning(
-                                                                    "正在编辑，不能切换"
-                                                                );
-                                                                return false;
-                                                            }
-                                                            return true;
-                                                        }}
-                                                    />
-                                                );
+                                leftChildren={
+                                    activeTodo &&
+                                    activeTodoChildList && (
+                                        <TodoChildList
+                                            title={`下一级 todo: ${activeTodo.child_todo_list_length}`}
+                                            todoChildList={activeTodoChildList}
+                                            isEditing={
+                                                isEditing || isEditingOther
                                             }
-                                        )}
-                                    </>
-                                )}
-                                rightChildren={type === "edit" && activeTodo && (
-                                    <TodoImageFile
-                                        todo={activeTodo}
-                                        handleFresh={(item) => {
-                                            if (item) {
-                                                setActiveTodo(item);
-                                                needFresh.current.push(
-                                                    ...handleRefreshList(item)
-                                                );
-                                            }
-                                        }}
-                                    />
-                                )}
+                                        />
+                                    )
+                                }
+                                rightChildren={
+                                    type === "edit" &&
+                                    activeTodo && (
+                                        <TodoImageFile
+                                            todo={activeTodo}
+                                            handleFresh={(item) => {
+                                                if (item) {
+                                                    setActiveTodo(item);
+                                                    needFresh.current.push(
+                                                        ...handleRefreshList(
+                                                            item
+                                                        )
+                                                    );
+                                                }
+                                            }}
+                                        />
+                                    )
+                                }
                             />
                         )}
                     </div>

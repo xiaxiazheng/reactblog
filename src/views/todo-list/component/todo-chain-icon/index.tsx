@@ -14,8 +14,14 @@ const TodoChainIcon = (props: {
     item: TodoItemType;
     isChain?: boolean; // 是否是 chain modal 中的展示
     isChainNext?: boolean; // 是否是后续任务
+    isOnlyShow?: boolean;
 }) => {
-    const { item, isChain = false, isChainNext = false } = props;
+    const {
+        item,
+        isChain = false,
+        isChainNext = false,
+        isOnlyShow = false,
+    } = props;
 
     const dispatch = useDispatch<Dispatch>();
     const { setChainId, setShowChainModal } = dispatch.edit;
@@ -58,11 +64,14 @@ const TodoChainIcon = (props: {
                 className={styles.progressIcon}
                 style={{
                     color: "#40a9ff",
+                    paddingTop: isOnlyShow ? 0 : 5,
                 }}
                 title="查看 todo 链"
                 onClick={() => {
-                    setChainId(item.todo_id);
-                    setShowChainModal(true);
+                    if (!isOnlyShow) {
+                        setChainId(item.todo_id);
+                        setShowChainModal(true);
+                    }
                 }}
             />
         </Tooltip>

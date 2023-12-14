@@ -84,8 +84,9 @@ const TodoItem: React.FC<Props> = (props) => {
                 <span>
                     {isShowPointIcon && (
                         <SendOutlined
+                            className={`${styles.rotateX} ${styles.doneIcon}`}
+                            style={{ color: "#00d4d8" }}
                             title="当前 chain todo"
-                            className={styles.doneIcon}
                         />
                     )}
                     {showDoneIcon && item.status == TodoStatus.todo && (
