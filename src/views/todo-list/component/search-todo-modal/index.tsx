@@ -40,7 +40,7 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     useEffect(() => {
         // 如果本来就有关联的 todo，就初始化
-        if (!options.find((item) => item.todo_id === value) && value) {
+        if ( !options.find((item) => item.todo_id === value) && value) {
             getTodoById(value).then((res) => {
                 if (res.data) {
                     setOptions((prev) => [res.data].concat(prev));
@@ -90,18 +90,14 @@ const SearchTodoModal: React.FC<IProps> = ({
         }
     };
 
-    useEffect(() => {
-        !value && handleSearch("");
-    }, []);
-
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
 
     const [sortBy, setSortBy] = useState<string>("");
     useEffect(() => {
-        handleSearch(keyword);
-    }, [sortBy, pageNo]);
+        visible && handleSearch(keyword);
+    }, [sortBy, pageNo, visible]);
 
     return (
         <Modal
