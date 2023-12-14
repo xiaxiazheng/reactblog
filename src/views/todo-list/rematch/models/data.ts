@@ -280,13 +280,13 @@ export const data = createModel<RootModel>()({
                     if (isWork) {
                         req["isWork"] = isWork;
                     }
-                    if (isTarget) {
+                    if (isTarget === '1') {
                         req["isTarget"] = isTarget;
                     }
-                    if (isNote) {
+                    if (isNote === '1') {
                         req["isNote"] = isNote;
                     }
-                    if (isHabit) {
+                    if (isHabit === '1') {
                         req["isHabit"] = isHabit;
                     }
                     if (activeCategory) {
