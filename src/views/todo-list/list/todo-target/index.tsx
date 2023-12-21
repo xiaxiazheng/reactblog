@@ -4,7 +4,7 @@ import { SortKeyMap } from "../../component/sort-btn";
 import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
-import TodoTypeIcon from "../../component/todo-type-icon";
+import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
 
 const TodoTarget = () => {
     const targetLoading = useSelector(
@@ -35,7 +35,7 @@ const TodoTarget = () => {
             sortKey={SortKeyMap.target}
             title={
                 <>
-                    <TodoTypeIcon type="target" /> 目标
+                    <TodoTypeIcon type="target" /> {todoNameMap.target}
                 </>
             }
             btn={

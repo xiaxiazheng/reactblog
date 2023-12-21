@@ -104,6 +104,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                     isBookMark: item.isBookMark,
                     isHabit: item.isHabit,
                     isKeyNode: item.isKeyNode,
+                    isFollowUp: item.isFollowUp,
                 });
 
             getOtherTodoById(item.other_id);
@@ -196,6 +197,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             isBookMark: formData.isBookMark || "0",
             isHabit: formData.isHabit || "0",
             isKeyNode: formData.isKeyNode || "0",
+            isFollowUp: formData.isFollowUp || "0",
         };
     };
 
@@ -475,9 +477,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             isShow: true,
         },
     ];
-    // 当存在父级时，如果该任务不是关键节点，则限制其往下继续创建子任务
+    // 当存在父级时，如果该任务不是关键节点也不是目标，则限制其往下继续创建子任务
     const controlList =
-        !activeTodo?.other_id || (activeTodo?.other_id && isKeyNode === "1")
+        !activeTodo?.other_id || (activeTodo?.other_id && (isKeyNode === "1" || activeTodo?.isTarget !== '1'))
             ? l
             : l.slice(0, 1);
 

@@ -12,6 +12,7 @@ export enum SortKeyMap {
     habit,
     bookmark,
     footprint,
+    followUp,
 }
 
 const handleSortByMTime = (list: TodoItemType[]) => {

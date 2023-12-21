@@ -26,7 +26,7 @@ import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
-import TodoTypeIcon from "../todo-type-icon";
+import TodoTypeIcon, { todoNameMap } from "../todo-type-icon";
 import MyDatePicker from "./MyDataPicker";
 
 interface Props {
@@ -183,7 +183,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 type="work"
                                                 style={{ color: "#00d4d8" }}
                                             />{" "}
-                                            工作
+                                            {todoNameMap.work}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -198,7 +198,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 type="urgent"
                                                 style={{ color: "red" }}
                                             />{" "}
-                                            加急
+                                            {todoNameMap.urgent}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -213,7 +213,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 type="target"
                                                 style={{ color: "#ffeb3b" }}
                                             />{" "}
-                                            目标
+                                            {todoNameMap.target}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -225,13 +225,13 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <SwitchComp>
                                         <span>
                                             <TodoTypeIcon
-                                                type="pin"
+                                                type="bookMark"
                                                 style={{
                                                     marginRight: 5,
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            书签
+                                            {todoNameMap['bookMark']}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -249,7 +249,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            Note
+                                            {todoNameMap.note}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -267,7 +267,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            习惯
+                                            {todoNameMap.habit}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -286,7 +286,26 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            关键节点
+                                            {todoNameMap.key}
+                                        </span>
+                                    </SwitchComp>
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="isFollowUp"
+                                    rules={[{ required: true }]}
+                                    initialValue={"0"}
+                                >
+                                    <SwitchComp>
+                                        <span>
+                                            <TodoTypeIcon
+                                                type="followUp"
+                                                style={{
+                                                    marginRight: 5,
+                                                    color: "#ffeb3b",
+                                                }}
+                                            />{" "}
+                                            {todoNameMap.followUp}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>

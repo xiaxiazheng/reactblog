@@ -4,7 +4,7 @@ import { SortKeyMap } from "../../component/sort-btn";
 import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
-import TodoTypeIcon from "../../component/todo-type-icon";
+import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
 
 const TodoHabit = () => {
     const habitLoading = useSelector(
@@ -35,7 +35,7 @@ const TodoHabit = () => {
             sortKey={SortKeyMap.habit}
             title={
                 <>
-                    <TodoTypeIcon type="habit" /> 习惯
+                    <TodoTypeIcon type="habit" /> {todoNameMap.habit}
                 </>
             }
             btn={

@@ -14,12 +14,14 @@ interface DataType {
     doneLoading: boolean;
     poolLoading: boolean;
     targetLoading: boolean;
+    followUpLoading: boolean;
     habitLoading: boolean;
     bookMarkLoading: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
     poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
+    followUpListOrigin: TodoItemType[];
     habitListOrigin: TodoItemType[];
     bookMarkListOrigin: TodoItemType[];
     todoList: TodoItemType[];
@@ -27,6 +29,7 @@ interface DataType {
     doneTotal: number;
     poolList: TodoItemType[];
     targetList: TodoItemType[];
+    followUpList: TodoItemType[];
     habitList: TodoItemType[];
     bookMarkList: TodoItemType[];
     category: CategoryType[];
@@ -38,12 +41,14 @@ export const data = createModel<RootModel>()({
         doneLoading: false,
         poolLoading: false,
         targetLoading: false,
+        followUpLoading: false,
         habitLoading: false,
         bookMarkLoading: false,
         isRefreshNote: false,
         todoListOrigin: [],
         poolListOrigin: [],
         targetListOrigin: [],
+        followUpListOrigin: [],
         habitListOrigin: [],
         bookMarkListOrigin: [],
         todoList: [],
@@ -51,6 +56,7 @@ export const data = createModel<RootModel>()({
         doneTotal: 0,
         poolList: [],
         targetList: [],
+        followUpList: [],
         habitList: [],
         bookMarkList: [],
         category: [],
@@ -78,6 +84,12 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 targetLoading: payload,
+            };
+        },
+        setFollowUpLoading: (state, payload) => {
+            return {
+                ...state,
+                followUpLoading: payload,
             };
         },
         setHabitLoading: (state, payload) => {
@@ -114,6 +126,12 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 targetListOrigin: payload,
+            };
+        },
+        setFollowUpListOrigin: (state, payload) => {
+            return {
+                ...state,
+                followUpListOrigin: payload,
             };
         },
         setHabitListOrigin: (state, payload) => {
@@ -158,6 +176,12 @@ export const data = createModel<RootModel>()({
                 targetList: payload,
             };
         },
+        setFollowUpList: (state, payload) => {
+            return {
+                ...state,
+                followUpList: payload,
+            };
+        },
         setHabitList: (state, payload) => {
             return {
                 ...state,
@@ -184,6 +208,8 @@ export const data = createModel<RootModel>()({
                 setBookMarkListOrigin,
                 setTargetLoading,
                 setTargetListOrigin,
+                setFollowUpLoading,
+                setFollowUpListOrigin,
                 setHabitLoading,
                 setHabitListOrigin,
                 setIsRefreshNote,
@@ -239,6 +265,24 @@ export const data = createModel<RootModel>()({
                     if (res) {
                         setTargetListOrigin(res.data.list);
                         setTargetLoading(false);
+                    } else {
+                        message.error("获取 todolist 失败");
+                    }
+                    break;
+                }
+                case "followUp": {
+                    setFollowUpLoading(true);
+                    const req: any = {
+                        isFollowUp: "1",
+                        pageNo: 1,
+                        pageSize: 60,
+                        // status: TodoStatus["todo"],
+                        isWork,
+                    };
+                    const res = await getTodoList(req);
+                    if (res) {
+                        setFollowUpListOrigin(res.data.list);
+                        setFollowUpLoading(false);
                     } else {
                         message.error("获取 todolist 失败");
                     }
@@ -314,6 +358,7 @@ export const data = createModel<RootModel>()({
                         pageSize: 200,
                         isBookMark: "0",
                         isTarget: "0",
+                        isFollowUp: "0",
                         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
                     };
 
@@ -355,6 +400,7 @@ export const data = createModel<RootModel>()({
                 this.getTodo("target");
                 this.getTodo("bookMark");
                 this.getTodo("habit");
+                this.getTodo("followUp");
             } else {
                 type === "todo" && this.getTodo("todo");
                 type === "done" && this.getTodo("done");
@@ -363,6 +409,7 @@ export const data = createModel<RootModel>()({
                 type === "bookMark" && this.getTodo("bookMark");
                 type === "note" && this.getTodo("note");
                 type === "habit" && this.getTodo("habit");
+                type === "followUp" && this.getTodo("followUp");
             }
         },
         getFilterList(params: {list: TodoItemType[], type: StatusType }, state) {
@@ -416,14 +463,16 @@ export const data = createModel<RootModel>()({
                 todoListOrigin,
                 poolListOrigin,
                 targetListOrigin,
+                followUpListOrigin,
                 bookMarkListOrigin,
             } = state.data;
-            const { setTodoList, setPoolList, setTargetList, setBookMarkList } =
+            const { setTodoList, setPoolList, setTargetList, setFollowUpList, setBookMarkList } =
                 dispatch.data;
             // 其他模块直接过滤不用发请求
             setTodoList(this.getFilterList({ list: todoListOrigin, type: 'todo' }));
             setPoolList(this.getFilterList({ list: poolListOrigin, type: 'pool' }));
             setTargetList(this.getFilterList({ list: targetListOrigin, type: 'target' }));
+            setFollowUpList(this.getFilterList({ list: followUpListOrigin, type: 'followUp' }));
             setBookMarkList(this.getFilterList({ list: bookMarkListOrigin, type: 'bookmark' }));
             // 已完成模块除外
             this.getTodo("done");

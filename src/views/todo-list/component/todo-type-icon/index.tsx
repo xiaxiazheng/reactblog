@@ -6,20 +6,33 @@ import {
     PushpinOutlined,
     ThunderboltFilled,
     AppleFilled,
-    KeyOutlined,
+    StarFilled,
+    FireFilled,
 } from "@ant-design/icons";
 
-type TodoType = "target" | "note" | "habit" | "pin" | "urgent" | "work" | "key";
-
-const map = {
+const todoIconMap = {
     target: AimOutlined,
     note: BookOutlined,
     habit: ClockCircleOutlined,
-    pin: PushpinOutlined,
     urgent: ThunderboltFilled,
     work: AppleFilled,
-    key: KeyOutlined,
+    key: PushpinOutlined,
+    followUp: FireFilled,
+    bookMark: StarFilled,
 };
+
+export const todoNameMap = {
+    target: "长期跟进",
+    note: "Note",
+    habit: "习惯",
+    urgent: '加急',
+    work: "工作",
+    key: "关键节点",
+    followUp: "短期需要跟进",
+    bookMark: "置顶",
+}
+
+type TodoType = keyof typeof todoIconMap;
 
 interface IProps {
     type: TodoType;
@@ -29,7 +42,7 @@ interface IProps {
 const TodoTypeIcon: React.FC<IProps> = (props) => {
     const { type, ...rest } = props;
 
-    const Component = map[type];
+    const Component = todoIconMap[type];
 
     return <Component {...rest} />;
 };

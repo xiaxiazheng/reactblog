@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, Select, Space, Tooltip } from "antd";
-import { TodoStatus } from "../../types";
+import { CreateTodoItemReq, TodoStatus } from "../../types";
 import {
-    AppleFilled,
     ClearOutlined,
     PlusOutlined,
     RedoOutlined,
@@ -14,6 +13,7 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import Filter from "./filter";
+import TodoTypeIcon from "../todo-type-icon";
 
 export const getOriginTodo = () => {
     return {
@@ -30,6 +30,7 @@ export const getOriginTodo = () => {
         isWork: "0",
         isHabit: "0",
         isKeyNode: "0",
+        isFollowUp: "0",
         other_id: "",
     };
 };
@@ -123,8 +124,8 @@ const GlobalSearch: React.FC = () => {
             keyword !== "" ||
             !!startEndTime ||
             pageNo !== 1 ||
-            isHabit === '1' ||
-            isTarget === '1'
+            isHabit === "1" ||
+            isTarget === "1"
         );
     };
 
@@ -152,7 +153,8 @@ const GlobalSearch: React.FC = () => {
                                 e.preventDefault();
                             }}
                             icon={
-                                <AppleFilled
+                                <TodoTypeIcon
+                                    type="work"
                                     style={
                                         isWork === "1"
                                             ? {}

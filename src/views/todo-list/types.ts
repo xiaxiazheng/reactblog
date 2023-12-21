@@ -19,6 +19,7 @@ export interface TodoItemType {
     isBookMark?: "0" | "1";
     isHabit?: "0" | "1";
     isKeyNode?: "0" | "1";
+    isFollowUp?: "0" | "1";
 
     imgList: ImageType[];
     fileList: FileType[];
@@ -42,13 +43,14 @@ export interface CreateTodoItemReq {
     isBookMark: "0" | "1";
     isHabit: "0" | "1";
     isKeyNode: "0" | "1";
+    isFollowUp: "0" | "1";
 }
 
 export interface EditTodoItemReq extends CreateTodoItemReq {
     todo_id: string;
 }
 
-export type StatusType = "todo" | "done" | "pool" | "target" | "bookMark" | "note" | "habit";
+export type StatusType = "todo" | "done" | "pool" | "target" | "bookMark" | "note" | "habit" | "followUp";
 export enum TodoStatus {
     todo = 0,
     done = 1,

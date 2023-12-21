@@ -84,6 +84,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
                 time: dayjs().format("YYYY-MM-DD"),
                 isHabit: "0",
                 isKeyNode: "0",
+                isFollowUp: "0",
             };
             await addTodoItem(val);
             message.success("打卡成功");

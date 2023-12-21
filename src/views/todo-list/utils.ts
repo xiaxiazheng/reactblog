@@ -67,6 +67,9 @@ export const handleRefreshList = (formData: any) => {
     if (formData.isHabit === "1") {
         list.push("habit");
     }
+    if (formData.isFollowUp === "1") {
+        list.push("followUp");
+    }
     list.push(TodoStatusMap[formData.status]);
 
     return list;

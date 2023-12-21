@@ -6,7 +6,7 @@ import { colorList, colorMap, colorNameMap, colorTitle } from "../../utils";
 import dayjs, { ManipulateType } from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import TodoTypeIcon from "../todo-type-icon";
+import TodoTypeIcon, { todoNameMap } from "../todo-type-icon";
 import SwitchComp from "../todo-form/switch";
 
 const Filter = () => {
@@ -156,7 +156,7 @@ const Filter = () => {
                                 type="target"
                                 style={{ color: "#ffeb3b" }}
                             />{" "}
-                            目标
+                            {todoNameMap.target}
                         </span>
                     </SwitchComp>
                     <SwitchComp value={isNote} onChange={setIsNote}>
@@ -168,7 +168,7 @@ const Filter = () => {
                                     color: "#ffeb3b",
                                 }}
                             />{" "}
-                            Note
+                            {todoNameMap.note}
                         </span>
                     </SwitchComp>
                     <SwitchComp
@@ -188,7 +188,7 @@ const Filter = () => {
                                     color: "#ffeb3b",
                                 }}
                             />{" "}
-                            习惯
+                            {todoNameMap.habit}
                         </span>
                     </SwitchComp>
                 </Space>

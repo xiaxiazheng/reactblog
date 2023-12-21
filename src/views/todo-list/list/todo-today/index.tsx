@@ -12,6 +12,9 @@ import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
+import { TodoItemType } from "../../types";
+import TodoItemName from "../../component/todo-item/todo-item-name";
 
 const TodoToday = () => {
     const today = dayjs().format("YYYY-MM-DD");
@@ -41,33 +44,20 @@ const TodoToday = () => {
                     <Tooltip
                         title={
                             <>
-                                <div>
-                                    <AimOutlined
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />
-                                    这个是目标
-                                </div>
-                                <div>
-                                    <BookOutlined
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />
-                                    这个是 note
-                                </div>
-                                <div>
-                                    <StarFilled
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />
-                                    这个是书签
-                                </div>
+                                {Object.keys(todoNameMap).map((item) => {
+                                    return (
+                                        <div key={item}>
+                                            <TodoTypeIcon
+                                                type={item as keyof typeof todoNameMap}
+                                                style={{
+                                                    marginRight: 5,
+                                                    color: "#ffeb3b",
+                                                }}
+                                            />
+                                            这个是{todoNameMap[item as keyof typeof todoNameMap]}
+                                        </div>
+                                    )
+                                })}
                                 <div>整个 title 变黄，是指现在处理。</div>
                             </>
                         }

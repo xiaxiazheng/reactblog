@@ -4,12 +4,6 @@ import { Tooltip } from "antd";
 import {
     QuestionCircleOutlined,
     FileImageOutlined,
-    StarFilled,
-    AimOutlined,
-    BookOutlined,
-    AppleFilled,
-    KeyOutlined,
-    ThunderboltFilled,
 } from "@ant-design/icons";
 import { colorMap, getRangeFormToday } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
@@ -21,6 +15,7 @@ import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import TodoTypeIcon from "../todo-type-icon";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -184,31 +179,45 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 </span>
                 {/* 公司 */}
                 {item.isWork === "1" && (
-                    <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
+                    <TodoTypeIcon
+                        type="work"
+                        style={{ marginRight: 5, color: "#00d4d8" }}
+                    />
                 )}
                 {/* 加急 */}
                 {item.doing === "1" && (
-                    <ThunderboltFilled
+                    <TodoTypeIcon
+                        type="urgent"
                         style={{ marginRight: 5, color: "red" }}
                     />
                 )}
                 {/* 目标 */}
                 {item.isTarget === "1" && (
-                    <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                    <TodoTypeIcon
+                        type="target"
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
                 )}
                 {/* 关键节点 */}
                 {item.isKeyNode === "1" && item.isTarget !== "1" && (
-                    <KeyOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />
+                    <TodoTypeIcon
+                        type="key"
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
                 )}
                 {/* note */}
                 {item.isNote === "1" && (
-                    <BookOutlined
+                    <TodoTypeIcon
+                        type="note"
                         style={{ marginRight: 5, color: "#ffeb3b" }}
                     />
                 )}
                 {/* 书签 */}
                 {item.isBookMark === "1" && (
-                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />
+                    <TodoTypeIcon
+                        type="bookMark"
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
                 )}
 
                 {isDone && item.isBookMark !== "1" ? (
