@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
 import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
-import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
+import TodoTypeIcon from "../../component/todo-type-icon";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const TodoFollowUp = () => {
+    const { todoNameMap } = useContext(SettingsContext);
+
     const followUpLoading = useSelector(
         (state: RootState) => state.data.followUpLoading
     );

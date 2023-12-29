@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, DatePicker, Radio, Space } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
@@ -6,10 +6,13 @@ import { colorList, colorMap, colorNameMap, colorTitle } from "../../utils";
 import dayjs, { ManipulateType } from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import TodoTypeIcon, { todoNameMap } from "../todo-type-icon";
+import TodoTypeIcon from "../todo-type-icon";
 import SwitchComp from "../todo-form/switch";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const Filter = () => {
+    const { todoNameMap } = useContext(SettingsContext);
+
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
     );

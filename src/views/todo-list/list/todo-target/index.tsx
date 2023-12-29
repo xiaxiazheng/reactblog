@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
 import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
-import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
+import TodoTypeIcon from "../../component/todo-type-icon";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const TodoTarget = () => {
+    const { todoNameMap } = useContext(SettingsContext);
+
     const targetLoading = useSelector(
         (state: RootState) => state.data.targetLoading
     );

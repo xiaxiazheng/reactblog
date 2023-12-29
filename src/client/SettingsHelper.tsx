@@ -6,6 +6,11 @@ export async function getSettings(): Promise<any> {
     return data && data.resultsCode === "success" ? data.data : false;
 }
 
+export async function getSettingsList(): Promise<any> {
+    const data = await getHelper(`/settings/getSettingsList`);
+    return data && data.resultsCode === "success" ? data.data : false;
+}
+
 export async function addSettings(params: {
     name: string;
     value: any;

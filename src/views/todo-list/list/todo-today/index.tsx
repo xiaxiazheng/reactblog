@@ -1,22 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Tooltip } from "antd";
 import { formatArrayToTimeMap } from "../../utils";
 import List from "../../todo-split-day-list";
 import {
-    AimOutlined,
-    BookOutlined,
-    QuestionCircleOutlined,
-    StarFilled,
+    QuestionCircleOutlined
 } from "@ant-design/icons";
 import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
-import { TodoItemType } from "../../types";
-import TodoItemName from "../../component/todo-item/todo-item-name";
+import TodoTypeIcon from "../../component/todo-type-icon";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const TodoToday = () => {
+    const { todoNameMap } = useContext(SettingsContext);
+
     const today = dayjs().format("YYYY-MM-DD");
 
     const todoLoading = useSelector(
@@ -44,17 +42,17 @@ const TodoToday = () => {
                     <Tooltip
                         title={
                             <>
-                                {Object.keys(todoNameMap).map((item) => {
+                                {Object.keys(todoNameMap).map((item: any) => {
                                     return (
                                         <div key={item}>
                                             <TodoTypeIcon
-                                                type={item as keyof typeof todoNameMap}
+                                                type={item}
                                                 style={{
                                                     marginRight: 5,
                                                     color: "#ffeb3b",
                                                 }}
                                             />
-                                            这个是{todoNameMap[item as keyof typeof todoNameMap]}
+                                            这个是{todoNameMap[item]}
                                         </div>
                                     )
                                 })}

@@ -40,6 +40,9 @@ const Log = lazy(() => import(/* webpackChunkName: "Log" */ "../views/log"));
 const Music = lazy(
     () => import(/* webpackChunkName: "Music" */ "../views/music")
 );
+const Settings = lazy(
+    () => import(/* webpackChunkName: "Settings" */ "../views/settings")
+);
 
 interface PropsType extends RouteComponentProps {
     component?: any;
@@ -109,6 +112,8 @@ export const routes = [
     },
 
     { route: "/admin/maopu", name: "猫谱", component: MaoPu, isShow: false },
+    
+    { route: "/admin/settings", name: "Settings", component: Settings, isShow: false },
     // { route: "/admin/log", name: 'log', component: Log, isShow: false },
 ];
 

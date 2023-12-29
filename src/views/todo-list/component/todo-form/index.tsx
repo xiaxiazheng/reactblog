@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import {
     Form,
     Input,
@@ -26,8 +26,9 @@ import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
-import TodoTypeIcon, { todoNameMap } from "../todo-type-icon";
+import TodoTypeIcon from "../todo-type-icon";
 import MyDatePicker from "./MyDataPicker";
+import { SettingsContext } from "@/context/SettingsContext";
 
 interface Props {
     form: FormInstance;
@@ -47,6 +48,8 @@ const TodoForm: React.FC<Props> = (props) => {
         open,
         isShowOther = false,
     } = props;
+
+    const { todoNameMap } = useContext(SettingsContext);
 
     const category = useSelector((state: RootState) => state.data.category);
 

@@ -21,17 +21,6 @@ const todoIconMap = {
     bookMark: StarFilled,
 };
 
-export const todoNameMap = {
-    target: "长期跟进",
-    note: "Note",
-    habit: "习惯",
-    urgent: '加急',
-    work: "工作",
-    key: "关键节点",
-    followUp: "短期需要跟进",
-    bookMark: "置顶",
-}
-
 type TodoType = keyof typeof todoIconMap;
 
 interface IProps {

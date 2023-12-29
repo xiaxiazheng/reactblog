@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import PoolList from "../../todo-all-list";
 import { SortKeyMap } from "../../component/sort-btn";
-import TodoTypeIcon, { todoNameMap } from "../../component/todo-type-icon";
+import TodoTypeIcon from "../../component/todo-type-icon";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const TodoBookMark = () => {
+    const { todoNameMap } = useContext(SettingsContext);
+
     const bookMarkList = useSelector(
         (state: RootState) => state.data.bookMarkList
     );
