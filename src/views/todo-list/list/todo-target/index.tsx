@@ -6,9 +6,10 @@ import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
+import { RenderTodoDescriptionIcon } from "../todo-today";
 
 const TodoTarget = () => {
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
 
     const targetLoading = useSelector(
         (state: RootState) => state.data.targetLoading
@@ -38,7 +39,10 @@ const TodoTarget = () => {
             sortKey={SortKeyMap.target}
             title={
                 <>
-                    <TodoTypeIcon type="target" /> {todoNameMap.target}
+                    <TodoTypeIcon type="target" /> {todoNameMap.target}{" "}
+                    <RenderTodoDescriptionIcon
+                        title={todoDescriptionMap?.["target"]}
+                    />{" "}
                 </>
             }
             btn={

@@ -1,4 +1,5 @@
 import {
+    addSettings,
     deleteSettings,
     getSettingsList,
     updateSettings,
@@ -26,9 +27,9 @@ const Settings = () => {
             title: "Value",
             dataIndex: "value",
             key: "value",
-			render: (_) => {
-				return <div className={styles.renderValue}>{_}</div>
-			}
+            render: (_) => {
+                return <div className={styles.renderValue}>{_}</div>;
+            },
         },
         {
             title: "Action",
@@ -52,6 +53,25 @@ const Settings = () => {
     const [editingName, setEditingName] = useState<string>();
     const [editingValue, setEditingValue] = useState<string>();
     const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    const saveCreate = async () => {
+        if (editingName && editingValue) {
+            try {
+                console.log(JSON.parse(editingValue));
+
+                await addSettings({
+                    name: editingName,
+                    value: JSON.parse(editingValue),
+                });
+                setIsEditing(false);
+                getData();
+            } catch (e) {
+                message.error("保存失败，当前不是第一个完整对象");
+            }
+        } else {
+            message.error("不能为空");
+        }
+    };
 
     const saveEdit = async () => {
         if (editing && editingName && editingValue) {
@@ -124,14 +144,13 @@ const Settings = () => {
         setEditingValue("");
     };
 
-	const handleAdd = () => {
-		setIsEditing(true);
-	}
+    const handleAdd = () => {
+        setIsEditing(true);
+    };
 
     return (
-        <div className={styles.wrapper}
-        >
-			<Button onClick={handleAdd}>新建配置</Button>
+        <div className={styles.wrapper}>
+            <Button onClick={handleAdd}>新建配置</Button>
             <Table
                 className={styles.table}
                 style={{ width: 800 }}
@@ -145,7 +164,15 @@ const Settings = () => {
                 footer={
                     <>
                         <Button onClick={handleFormat}>格式化</Button>
-                        <Button type="primary" onClick={saveEdit} disabled={!editingName || !editingValue || checkFormat() === '格式出错'}>
+                        <Button
+                            type="primary"
+                            onClick={editing ? saveEdit : saveCreate}
+                            disabled={
+                                !editingName ||
+                                !editingValue ||
+                                checkFormat() === "格式出错"
+                            }
+                        >
                             保存
                         </Button>
                     </>

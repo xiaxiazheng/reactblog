@@ -5,9 +5,10 @@ import PoolList from "../../todo-all-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
+import { RenderTodoDescriptionIcon } from "../todo-today";
 
 const TodoBookMark = () => {
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
 
     const bookMarkList = useSelector(
         (state: RootState) => state.data.bookMarkList
@@ -33,7 +34,10 @@ const TodoBookMark = () => {
             loading={bookMarkLoading}
             title={
                 <>
-                    <TodoTypeIcon type="bookMark" /> {todoNameMap.bookMark}
+                    <TodoTypeIcon type="bookMark" /> {todoNameMap.bookMark}{" "}
+                    <RenderTodoDescriptionIcon
+                        title={todoDescriptionMap?.["bookMark"]}
+                    />{" "}
                 </>
             }
             sortKey={SortKeyMap.bookmark}

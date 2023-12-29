@@ -12,7 +12,7 @@ import { TodoItemType } from "../../types";
 import TodoItem from "../../component/todo-item";
 
 interface Props {
-    title: string;
+    title: any;
     sortKey: SortKeyMap;
 }
 

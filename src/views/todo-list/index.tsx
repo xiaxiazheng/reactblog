@@ -1,12 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styles from "./index.module.scss";
 import DoneList from "./list/todo-done";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
-import {
-    HistoryOutlined,
-    BookOutlined,
-} from "@ant-design/icons";
+import { HistoryOutlined, BookOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/habit-detail-modal";
 import GlobalSearch from "./component/global-search";
@@ -15,7 +12,7 @@ import store, { Dispatch, RootState } from "./rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import TodoAfter from "./list/todo-after";
-import TodoToday from "./list/todo-today";
+import TodoToday, { RenderTodoDescriptionIcon } from "./list/todo-today";
 import TodoPool from "./list/todo-pool";
 import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./drawers/drawer-footprint";
@@ -24,6 +21,7 @@ import { Tooltip } from "antd";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
 import TodoFollowUp from "./list/todo-follow-up";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const useTimer = (fn: Function, ms: number = 500) => {
     const timer = useRef<any>(null);
@@ -85,6 +83,8 @@ const HoverOpen = () => {
 const TodoList: React.FC = () => {
     useDocumentTitle("todo-list");
 
+    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
+
     const [form] = useForm();
     const dispatch = useDispatch<Dispatch>();
     const { getTodo, getCategory } = dispatch.data;
@@ -124,7 +124,14 @@ const TodoList: React.FC = () => {
                         <GlobalSearch />
                         <div className="ScrollBar">
                             <DoneList
-                                title="已完成"
+                                title={
+                                    <>
+                                        {todoNameMap["done"]}
+                                        <RenderTodoDescriptionIcon
+                                            title={todoDescriptionMap?.["done"]}
+                                        />{" "}
+                                    </>
+                                }
                                 key="done"
                                 sortKey={SortKeyMap.done}
                             />
@@ -140,9 +147,11 @@ const TodoList: React.FC = () => {
                             <TodoTarget />
                         </div>
                         {/* 习惯 */}
-                        {isWork !== '1' && <div className={`${styles.lmb} ScrollBar`}>
-                            <TodoHabit />
-                        </div>}
+                        {isWork !== "1" && (
+                            <div className={`${styles.lmb} ScrollBar`}>
+                                <TodoHabit />
+                            </div>
+                        )}
                         {/* 待办池 */}
                         <div className={`${styles.lb} ScrollBar`}>
                             <TodoPool />

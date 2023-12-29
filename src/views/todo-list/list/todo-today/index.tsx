@@ -2,9 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Tooltip } from "antd";
 import { formatArrayToTimeMap } from "../../utils";
 import List from "../../todo-split-day-list";
-import {
-    QuestionCircleOutlined
-} from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +10,19 @@ import dayjs from "dayjs";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 
+export const RenderTodoDescriptionIcon = (props: { title: any }) => {
+    const { title } = props;
+    if (!title) return null;
+
+    return (
+        <Tooltip title={title} placement="bottom">
+            <QuestionCircleOutlined style={{ cursor: "pointer" }} />
+        </Tooltip>
+    );
+};
+
 const TodoToday = () => {
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
 
     const today = dayjs().format("YYYY-MM-DD");
 
@@ -38,31 +47,10 @@ const TodoToday = () => {
             showDoingBtn={true}
             title={
                 <>
-                    今日待办{" "}
-                    <Tooltip
-                        title={
-                            <>
-                                {Object.keys(todoNameMap).map((item: any) => {
-                                    return (
-                                        <div key={item}>
-                                            <TodoTypeIcon
-                                                type={item}
-                                                style={{
-                                                    marginRight: 5,
-                                                    color: "#ffeb3b",
-                                                }}
-                                            />
-                                            这个是{todoNameMap[item]}
-                                        </div>
-                                    )
-                                })}
-                                <div>整个 title 变黄，是指现在处理。</div>
-                            </>
-                        }
-                        placement="bottom"
-                    >
-                        <QuestionCircleOutlined style={{ cursor: "pointer" }} />
-                    </Tooltip>{" "}
+                    {todoNameMap['today']}{" "}
+                    <RenderTodoDescriptionIcon
+                        title={todoDescriptionMap?.["today"]}
+                    />{" "}
                 </>
             }
             mapList={formatArrayToTimeMap(

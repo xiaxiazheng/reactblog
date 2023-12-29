@@ -5,14 +5,17 @@ import PoolList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
+import { RenderTodoDescriptionIcon } from "../todo-today";
 
 const TodoFollowUp = () => {
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
 
     const followUpLoading = useSelector(
         (state: RootState) => state.data.followUpLoading
     );
-    const followUpList = useSelector((state: RootState) => state.data.followUpList);
+    const followUpList = useSelector(
+        (state: RootState) => state.data.followUpList
+    );
     const followUpListOrigin = useSelector(
         (state: RootState) => state.data.followUpListOrigin
     );
@@ -35,7 +38,10 @@ const TodoFollowUp = () => {
             sortKey={SortKeyMap.followUp}
             title={
                 <>
-                    <TodoTypeIcon type="followUp" /> {todoNameMap.followUp}
+                    <TodoTypeIcon type="followUp" /> {todoNameMap.followUp}{" "}
+                    <RenderTodoDescriptionIcon
+                        title={todoDescriptionMap?.["followUp"]}
+                    />{" "}
                 </>
             }
             mapList={followUpList.sort(

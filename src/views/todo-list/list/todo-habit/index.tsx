@@ -32,6 +32,8 @@ const TodoHabit = () => {
         getTodo("habit");
     }, [isWork]);
 
+    if (!habitList?.length) return null;
+
     return (
         <PoolList
             loading={habitLoading}
