@@ -9,7 +9,7 @@ import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
-import { getWeek } from "../utils";
+import { getRangeFormToday, getWeek } from "../utils";
 import { TodoItemType, TodoStatus } from "../types";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import TodoItem from "../component/todo-item";
@@ -143,7 +143,8 @@ const List: React.FC<Props> = (props) => {
                                     }`}
                                 >
                                     <span>
-                                        {time}&nbsp; ({getWeek(time)})
+                                        {time}&nbsp; ({getWeek(time)},
+                                        {getRangeFormToday(time)})
                                         {mapList[time]?.length > 6
                                             ? ` ${mapList[time]?.length}`
                                             : null}
