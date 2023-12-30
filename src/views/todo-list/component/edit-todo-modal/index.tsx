@@ -76,6 +76,12 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
 
     useEffect(() => {
+        if (visible && type === 'add') {
+            setOtherTodo(undefined);
+        }
+    }, [visible, type]);
+
+    useEffect(() => {
         if (type === "edit") {
             setType2(undefined);
         }
