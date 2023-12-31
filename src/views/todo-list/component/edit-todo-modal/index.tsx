@@ -76,7 +76,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
 
     useEffect(() => {
-        if (visible && type === 'add') {
+        if (visible && type === "add") {
             setOtherTodo(undefined);
         }
     }, [visible, type]);
@@ -486,7 +486,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     ];
     // 当存在父级时，如果该任务不是关键节点也不是目标，则限制其往下继续创建子任务
     const controlList =
-        !activeTodo?.other_id || (activeTodo?.other_id && (isKeyNode === "1" || isTarget === '1'))
+        !activeTodo?.other_id ||
+        (activeTodo?.other_id && (isKeyNode === "1" || isTarget === "1"))
             ? l
             : l.slice(0, 1);
 
@@ -649,7 +650,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 activeTodo={activeTodo}
                                 leftChildren={
                                     activeTodo &&
-                                    activeTodoChildList && (
+                                    activeTodoChildList &&
+                                    activeTodo.child_todo_list_length && (
                                         <TodoChildList
                                             title={`下一级 todo: ${activeTodo.child_todo_list_length}`}
                                             todoChildList={activeTodoChildList}
