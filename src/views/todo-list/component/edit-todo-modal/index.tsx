@@ -76,12 +76,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
 
     useEffect(() => {
-        if (visible && type === "add") {
-            setOtherTodo(undefined);
-        }
-    }, [visible, type]);
-
-    useEffect(() => {
         if (type === "edit") {
             setType2(undefined);
         }
@@ -413,6 +407,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setIsEditing(true);
         setIsClose(false);
     };
+
+    useEffect(() => {
+        // 每次打开编辑弹窗，在新增todo且不是添加子进度的情况下，设置otherTodo为空
+        if (visible && type === "add" && !type2) {
+            setOtherTodo(undefined);
+        }
+    }, [visible, type, type2]);
 
     // 跟第二个 modal 有关的变量
     const [otherForm] = Form.useForm();
