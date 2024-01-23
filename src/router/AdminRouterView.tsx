@@ -14,7 +14,7 @@ const Blog = lazy(() => import(/* webpackChunkName: "Blog" */ "../views/blog"));
 const BlogCont = lazy(
     () => import(/* webpackChunkName: "BlogCont" */ "../views/blog/blog-cont")
 );
-const Note = lazy(() => import(/* webpackChunkName: "Note" */ "../views/note"));
+// const Note = lazy(() => import(/* webpackChunkName: "Note" */ "../views/note"));
 const Admin = lazy(
     () => import(/* webpackChunkName: "Admin" */ "../views/admin")
 );
