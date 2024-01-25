@@ -1,4 +1,4 @@
-# yarn build
+yarn build
 
 cd ../blog-deploy
 
