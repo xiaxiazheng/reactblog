@@ -356,7 +356,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         if (type === "edit") {
             return (
                 <>
-                    {titleMap[type]}{" "}
+                    <span className={styles.titleEditColor} /> {titleMap[type]}{" "}
                     <Tooltip
                         placement="bottom"
                         title={
@@ -366,12 +366,18 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             </>
                         }
                     >
-                        <QuestionCircleOutlined style={{ cursor: "pointer" }} />
+                        <QuestionCircleOutlined
+                            style={{ cursor: "pointer", marginLeft: 5 }}
+                        />
                     </Tooltip>
                 </>
             );
         } else {
-            return titleMap[type];
+            return (
+                <>
+                    <span className={styles.titleEditColor2} /> {titleMap[type]}
+                </>
+            );
         }
     };
 
@@ -522,7 +528,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 className={`${styles.modal} ${
                     theme === "dark" ? "darkTheme" : ""
                 }`}
-                title={type ? getTitle(type2 || type) : ""}
+                title={
+                    <div className={styles.modalTitle}>
+                        {type ? getTitle(type2 || type) : ""}
+                    </div>
+                }
                 open={visible}
                 onCancel={() => onClose()}
                 transitionName=""

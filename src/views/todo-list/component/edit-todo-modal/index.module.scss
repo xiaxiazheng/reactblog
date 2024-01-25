@@ -17,6 +17,29 @@
     color: rgba(255, 255, 255, 0.65);
 }
 
+.modalTitle {
+    display: flex;
+    align-items: center;
+}
+
+.titleEditColor {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #eeaf3c;
+}
+
+.titleEditColor2 {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #3fc93f;
+}
+
 .modal {
     :global {
         .ant-input::placeholder {
