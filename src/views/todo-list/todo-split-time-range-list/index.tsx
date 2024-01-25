@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
@@ -97,7 +97,7 @@ const PoolList: React.FC<Props> = (props) => {
     useEffect(() => {
         setMapList(
             handleSplitListByTimeRange(
-                isSlice ? handleSort(list).slice(0, isSlice) : list
+                isSlice ? handleSort(list).slice(0, isSlice + 1) : list
             )
         );
     }, [list, isSlice]);

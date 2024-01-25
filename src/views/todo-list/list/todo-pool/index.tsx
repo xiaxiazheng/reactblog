@@ -8,7 +8,7 @@ import { RenderTodoDescriptionIcon } from "../todo-today";
 import { Button } from "antd";
 
 const TodoPool = () => {
-    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap, todoPoolDefaultShow } = useContext(SettingsContext);
 
     const poolLoading = useSelector(
         (state: RootState) => state.data.poolLoading
@@ -38,7 +38,7 @@ const TodoPool = () => {
                     />{" "}
                 </>
             }
-            isSlice={isShowAll ? false : 5}
+            isSlice={isShowAll ? false : todoPoolDefaultShow}
             btn={
                 <>
                     <Button
