@@ -3,7 +3,10 @@ import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import { TodoItemType } from "../types";
-import SortBtn, { SortKeyMap, useIsSortByMulti } from "../component/sort-btn-multi";
+import SortBtn, {
+    SortKeyMap,
+    useIsSortByMulti,
+} from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
@@ -17,6 +20,7 @@ interface Props {
     btn?: any;
     isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
     isShowTime?: boolean;
+    isSlice?: number | false; // 是否裁切
 }
 
 interface CollapseProps {
@@ -52,11 +56,11 @@ const PoolList: React.FC<Props> = (props) => {
         sortKey,
         isModalOrDrawer = false,
         isShowTime = false,
+        isSlice = false,
     } = props;
 
-    const { isSortBy, setIsSortBy, handleSort, handleShowTime } = useIsSortByMulti(
-        `${sortKey}-sort-time`
-    );
+    const { isSortBy, setIsSortBy, handleSort, handleShowTime } =
+        useIsSortByMulti(`${sortKey}-sort-time`);
 
     const getTimeRange = (
         start: number,
@@ -81,9 +85,7 @@ const PoolList: React.FC<Props> = (props) => {
         return Object.keys(timeRange).reduce((prev, cur) => {
             const range = timeRange[cur];
             const l = list.filter((item) => {
-                const time = dayjs(
-                    (handleShowTime(item)) || "2018-01-01"
-                );
+                const time = dayjs(handleShowTime(item) || "2018-01-01");
                 return time.isBefore(range[0]) && time.isAfter(range[1]);
             });
             prev[cur] = l;
@@ -93,8 +95,12 @@ const PoolList: React.FC<Props> = (props) => {
 
     const [mapList, setMapList] = useState<Record<string, TodoItemType[]>>({});
     useEffect(() => {
-        setMapList(handleSplitListByTimeRange(list));
-    }, [list]);
+        setMapList(
+            handleSplitListByTimeRange(
+                isSlice ? handleSort(list).slice(0, isSlice) : list
+            )
+        );
+    }, [list, isSlice]);
 
     return (
         <div className={styles.list}>
@@ -105,10 +111,7 @@ const PoolList: React.FC<Props> = (props) => {
                 </span>
                 <Space size={16}>
                     {props.btn}
-                    <SortBtn
-                        isSortBy={isSortBy}
-                        setIsSortBy={setIsSortBy}
-                    />
+                    <SortBtn isSortBy={isSortBy} setIsSortBy={setIsSortBy} />
                 </Space>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`}>

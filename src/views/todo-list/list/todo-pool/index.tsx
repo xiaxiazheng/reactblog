@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
 import PoolList from "../../todo-split-time-range-list";
 import { Dispatch, RootState } from "../../rematch";
 import { SettingsContext } from "@/context/SettingsContext";
 import { RenderTodoDescriptionIcon } from "../todo-today";
+import { Button } from "antd";
 
 const TodoPool = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
@@ -23,6 +24,8 @@ const TodoPool = () => {
         setPoolList(getFilterList({ list: poolListOrigin, type: "pool" }));
     }, [poolListOrigin]);
 
+    const [isShowAll, setIsShowAll] = useState<boolean>(false);
+
     return (
         <PoolList
             loading={poolLoading}
@@ -33,6 +36,19 @@ const TodoPool = () => {
                     <RenderTodoDescriptionIcon
                         title={todoDescriptionMap?.["pool"]}
                     />{" "}
+                </>
+            }
+            isSlice={isShowAll ? false : 5}
+            btn={
+                <>
+                    <Button
+                        onClick={() => {
+                            setIsShowAll((prev) => !prev);
+                        }}
+                        type={isShowAll ? "primary" : "default"}
+                    >
+                        查看全部 {poolList.length} 条
+                    </Button>
                 </>
             }
             list={poolList}
