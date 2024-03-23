@@ -9,7 +9,13 @@ import SortBtn, {
 } from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
 import dayjs, { ManipulateType } from "dayjs";
-import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import {
+    CaretDownOutlined,
+    CaretUpOutlined,
+    DownOutlined,
+    UpOutlined,
+} from "@ant-design/icons";
+import { useIsHIdeModel } from "../hooks";
 
 interface Props {
     loading: boolean;
@@ -102,44 +108,56 @@ const PoolList: React.FC<Props> = (props) => {
         );
     }, [list, isSlice]);
 
+    const { isHide, setIsHide } = useIsHIdeModel(`${sortKey}`);
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span style={{ color: "#1890ffcc" }}>
-                    {title}({list.length})
+                <span
+                    style={{ color: "#1890ffcc" }}
+                    onClick={() => setIsHide()}
+                >
+                    {title}({list.length}){" "}
+                    {isHide ? <DownOutlined /> : <UpOutlined />}
                 </span>
                 <Space size={16}>
                     {props.btn}
                     <SortBtn isSortBy={isSortBy} setIsSortBy={setIsSortBy} />
                 </Space>
             </div>
-            <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                {Object.keys(mapList).map((item) => {
-                    return mapList[item].length === 0 ? null : (
-                        <div className={styles.oneDay} key={item}>
-                            <Collapse title={item}>
-                                <div>
-                                    {handleSort(mapList[item]).map((item) => {
-                                        return (
-                                            <TodoItem
-                                                key={item.todo_id}
-                                                item={item}
-                                                showDoneIcon={showDoneIcon}
-                                                isModalOrDrawer={
-                                                    isModalOrDrawer
-                                                }
-                                                isShowTime={isShowTime}
-                                                isShowTimeRange={true}
-                                            />
-                                        );
-                                    })}
-                                </div>
-                            </Collapse>
-                        </div>
-                    );
-                })}
-            </div>
+            {!isHide && (
+                <div className={`${styles.OneDayListWrap} ScrollBar`}>
+                    {Object.keys(mapList).map((item) => {
+                        return mapList[item].length === 0 ? null : (
+                            <div className={styles.oneDay} key={item}>
+                                <Collapse title={item}>
+                                    <div>
+                                        {handleSort(mapList[item]).map(
+                                            (item) => {
+                                                return (
+                                                    <TodoItem
+                                                        key={item.todo_id}
+                                                        item={item}
+                                                        showDoneIcon={
+                                                            showDoneIcon
+                                                        }
+                                                        isModalOrDrawer={
+                                                            isModalOrDrawer
+                                                        }
+                                                        isShowTime={isShowTime}
+                                                        isShowTimeRange={true}
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </div>
+                                </Collapse>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 };

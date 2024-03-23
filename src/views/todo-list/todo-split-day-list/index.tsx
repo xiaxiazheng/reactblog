@@ -4,6 +4,8 @@ import {
     VerticalAlignTopOutlined,
     ArrowLeftOutlined,
     ThunderboltFilled,
+    DownOutlined,
+    UpOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { editTodoItem } from "@/client/TodoListHelper";
@@ -15,6 +17,7 @@ import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import TodoItem from "../component/todo-item";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../rematch";
+import { useIsHIdeModel } from "../hooks";
 
 interface Props {
     loading: boolean;
@@ -103,12 +106,15 @@ const List: React.FC<Props> = (props) => {
 
     const [isOnlyShowDoing, setIsOnlyShowDoing] = useState<boolean>(false);
 
+    const { isHide, setIsHide } = useIsHIdeModel(`${sortKey}`);
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span className={styles.active}>
-                    {title}({total})
+                <span className={styles.active} onClick={() => setIsHide()}>
+                    {title}({total}){" "}
+                    {isHide ? <DownOutlined /> : <UpOutlined />}
                 </span>
                 <Space size={8}>
                     {showDoingBtn && (
@@ -127,76 +133,83 @@ const List: React.FC<Props> = (props) => {
                     />
                 </Space>
             </div>
-            <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                {Object.keys(mapList)
-                    .sort()
-                    .map((time) => {
-                        return (
-                            <div className={styles.oneDay} key={time}>
-                                <div
-                                    className={`${styles.time} ${
-                                        time === today
-                                            ? styles.today
-                                            : time > today
-                                            ? styles.future
-                                            : styles.previously
-                                    }`}
-                                >
-                                    <span>
-                                        {time}&nbsp; ({getWeek(time)},
-                                        {getRangeFormToday(time)})
-                                        {mapList[time]?.length > 6
-                                            ? ` ${mapList[time]?.length}`
-                                            : null}
-                                    </span>
-                                    <Space size={6}>
-                                        {time < today && (
+
+            {!isHide && (
+                <div className={`${styles.OneDayListWrap} ScrollBar`}>
+                    {Object.keys(mapList)
+                        .sort()
+                        .map((time) => {
+                            return (
+                                <div className={styles.oneDay} key={time}>
+                                    <div
+                                        className={`${styles.time} ${
+                                            time === today
+                                                ? styles.today
+                                                : time > today
+                                                ? styles.future
+                                                : styles.previously
+                                        }`}
+                                    >
+                                        <span>
+                                            {time}&nbsp; ({getWeek(time)},
+                                            {getRangeFormToday(time)})
+                                            {mapList[time]?.length > 6
+                                                ? ` ${mapList[time]?.length}`
+                                                : null}
+                                        </span>
+                                        <Space size={6}>
+                                            {time < today && (
+                                                <Popconfirm
+                                                    title={`是否将 ${time} 的 Todo 日期调整成今天`}
+                                                    onConfirm={() =>
+                                                        changeExpireToToday(
+                                                            mapList[time]
+                                                        )
+                                                    }
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    <Tooltip title={"调整日期"}>
+                                                        <VerticalAlignTopOutlined
+                                                            title="调整日期"
+                                                            className={
+                                                                styles.icon
+                                                            }
+                                                        />
+                                                    </Tooltip>
+                                                </Popconfirm>
+                                            )}
                                             <Popconfirm
-                                                title={`是否将 ${time} 的 Todo 日期调整成今天`}
+                                                title={`是否将 ${time} 的 Todo 放进待办池`}
                                                 onConfirm={() =>
-                                                    changeExpireToToday(
+                                                    changeTodoToPool(
                                                         mapList[time]
                                                     )
                                                 }
                                                 okText="Yes"
                                                 cancelText="No"
                                             >
-                                                <Tooltip title={"调整日期"}>
-                                                    <VerticalAlignTopOutlined
-                                                        title="调整日期"
+                                                <Tooltip title={"调整到待办池"}>
+                                                    <ArrowLeftOutlined
+                                                        title="调整到待办池"
                                                         className={styles.icon}
                                                     />
                                                 </Tooltip>
                                             </Popconfirm>
-                                        )}
-                                        <Popconfirm
-                                            title={`是否将 ${time} 的 Todo 放进待办池`}
-                                            onConfirm={() =>
-                                                changeTodoToPool(mapList[time])
-                                            }
-                                            okText="Yes"
-                                            cancelText="No"
-                                        >
-                                            <Tooltip title={"调整到待办池"}>
-                                                <ArrowLeftOutlined
-                                                    title="调整到待办池"
-                                                    className={styles.icon}
-                                                />
-                                            </Tooltip>
-                                        </Popconfirm>
-                                    </Space>
+                                        </Space>
+                                    </div>
+                                    {getShowList(mapList[time]).map((item) => (
+                                        <TodoItem
+                                            key={item.todo_id}
+                                            item={item}
+                                            showDoneIcon={showDoneIcon}
+                                        />
+                                    ))}
                                 </div>
-                                {getShowList(mapList[time]).map((item) => (
-                                    <TodoItem
-                                        key={item.todo_id}
-                                        item={item}
-                                        showDoneIcon={showDoneIcon}
-                                    />
-                                ))}
-                            </div>
-                        );
-                    })}
-            </div>
+                            );
+                        })}
+                </div>
+            )}
         </div>
     );
 };

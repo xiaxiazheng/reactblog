@@ -3,8 +3,13 @@ import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import { TodoItemType } from "../types";
-import SortBtnMulti, { SortKeyMap, useIsSortByMulti } from "../component/sort-btn-multi";
+import SortBtnMulti, {
+    SortKeyMap,
+    useIsSortByMulti,
+} from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
+import { useIsHIdeModel } from "../hooks";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 interface Props {
     loading: boolean;
@@ -33,12 +38,17 @@ const PoolList: React.FC<Props> = (props) => {
         `${sortKey}-sort-time`
     );
 
+    const { isHide, setIsHide } = useIsHIdeModel(`${sortKey}`);
+
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span style={{ color: "#1890ffcc" }}>
-                    {title}({mapList.length})
+                <span
+                    style={{ color: "#1890ffcc" }}
+                    onClick={() => setIsHide()}
+                >
+                    {title}({mapList.length}) {isHide ? <DownOutlined /> : <UpOutlined />}
                 </span>
                 <Space size={16}>
                     {props.btn}
@@ -48,19 +58,21 @@ const PoolList: React.FC<Props> = (props) => {
                     />
                 </Space>
             </div>
-            <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                <div className={styles.oneDay}>
-                    {handleSort(mapList).map((item) => (
-                        <TodoItem
-                            key={item.todo_id}
-                            item={item}
-                            showDoneIcon={showDoneIcon}
-                            isModalOrDrawer={isModalOrDrawer}
-                            isShowTime={isShowTime}
-                        />
-                    ))}
+            {!isHide && (
+                <div className={`${styles.OneDayListWrap} ScrollBar`}>
+                    <div className={styles.oneDay}>
+                        {handleSort(mapList).map((item) => (
+                            <TodoItem
+                                key={item.todo_id}
+                                item={item}
+                                showDoneIcon={showDoneIcon}
+                                isModalOrDrawer={isModalOrDrawer}
+                                isShowTime={isShowTime}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
