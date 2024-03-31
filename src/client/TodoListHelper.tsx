@@ -12,6 +12,11 @@ export async function getTodoByIdList(params: any): Promise<any> {
     return data && data.resultsCode === "success" ? data : false;
 }
 
+export async function getTodoDoneCountList(params: any): Promise<any> {
+    const data = await postHelper(`/todo/getTodoDoneCountList`, params);
+    return data && data.resultsCode === "success" ? data : false;
+}
+
 /** 获取类别 */
 export async function getTodoCategory(params?: {
     isNote?: string;

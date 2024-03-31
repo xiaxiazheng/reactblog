@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Pagination } from "antd";
+import { Pagination, Space } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { TodoItemType } from "../../types";
 import TodoItem from "../../component/todo-item";
+import TodoDoneDataModal from "./todo-done-data-modal";
 
 interface Props {
     title: any;
@@ -48,6 +49,8 @@ const DoneList: React.FC<Props> = (props) => {
         `${sortKey}-sort-time`
     );
 
+    const [open, setOpen] = useState<boolean>(false);
+
     const getList = (time: string): TodoItemType[] =>
         !isSortTime ? doneMap[time] : handleSort(doneMap[time]);
 
@@ -59,10 +62,13 @@ const DoneList: React.FC<Props> = (props) => {
                     <span style={{ color: "#1890ffcc" }}>
                         {title}({doneTotal})
                     </span>
-                    <SortBtn
-                        isSortTime={isSortTime}
-                        setIsSortTime={setIsSortTime}
-                    />
+                    <Space>
+                        <TodoDoneDataModal open={open} setOpen={setOpen} />
+                        <SortBtn
+                            isSortTime={isSortTime}
+                            setIsSortTime={setIsSortTime}
+                        />
+                    </Space>
                 </div>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`} ref={ref}>
