@@ -37,20 +37,17 @@ const Filter = () => {
         return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
     };
 
-    const timeRange: Record<string, dayjs.Dayjs[]> = {
-        三天内: getTimeRange(0, 3),
-        七天内: getTimeRange(0, 7),
-        一月内: getTimeRange(0, 30),
-        三月内: getTimeRange(0, 3, "month"),
-        半年内: getTimeRange(0, 6, "month"),
-        一年内: getTimeRange(0, 12, "month"),
-        一年前: getTimeRange(1, 10, "year"),
-    };
-
     const [timeType, setTimeType] = useState<"month" | "day" | "year">("day");
 
     const handleStarEndTime = (val: any) => {
-        setStartEndTime(val);
+        console.log("timeType", timeType);
+        if (timeType === "year") {
+            setStartEndTime([val[0].startOf("year"), val[1].endOf("year")]);
+        } else if (timeType === "month") {
+            setStartEndTime([val[0].startOf("month"), val[1].endOf("month")]);
+        } else {
+            setStartEndTime(val);
+        }
     };
 
     const handleAddSubtractTime = (
