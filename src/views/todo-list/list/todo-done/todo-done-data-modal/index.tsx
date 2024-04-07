@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, Select, Table } from "antd";
 import { useSelector } from "react-redux";
-import { getTodoDoneCountList } from "@/client/TodoListHelper";
+import { getTodoDoneCountList, getTodoList } from "@/client/TodoListHelper";
 import { RootState } from "@/views/todo-list/rematch";
 import dayjs from "dayjs";
 import { SettingsContext } from "@/context/SettingsContext";
+import styles from "./index.module.scss";
+import TodoCalendar from "@/views/todo-list/component/habit-detail-modal/TodoCalendar";
+import { TodoItemType } from "@/views/todo-list/types";
 
 interface Props {
     open: boolean;
@@ -17,6 +20,16 @@ const DoneList: React.FC<Props> = (props) => {
 
     const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
 
+    const category = useSelector((state: RootState) => state.data.category);
+
+    const [activeCategory, setActiveCategory] = useState<string>();
+    useEffect(() => {
+        if (open && activeCategory) {
+            getThisYearTodoList();
+            getDoneTotalData();
+        }
+    }, [open, activeCategory]);
+
     const isWork = useSelector((state: RootState) => state.filter.isWork);
 
     const [doneTotalData, setDoneTotalData] = useState<any[]>([]);
@@ -27,6 +40,7 @@ const DoneList: React.FC<Props> = (props) => {
     const getDoneTotalData = async () => {
         const params = {
             isWork,
+            category: activeCategory,
         };
         const data = await getTodoDoneCountList(params);
         const { total, ...rest } = data.data;
@@ -98,6 +112,24 @@ const DoneList: React.FC<Props> = (props) => {
         open && columns.length === 0 && getColoums();
     }, [open, columns]);
 
+    const thisYear = dayjs().startOf("year").format("YYYY-MM-DD");
+    const [thisYearTodoList, setThisYearTodoList] = useState<TodoItemType[]>();
+    const [thisYearTodoListTotal, setThisYearTodoListTotal] = useState<TodoItemType[]>();
+    useState<TodoItemType[]>();
+    const getThisYearTodoList = async () => {
+        const params = {
+            isWork,
+            category: activeCategory,
+            startTime: thisYear,
+            endTime: dayjs().format("YYYY-MM-DD"),
+            status: '1'
+        };
+        const res = await getTodoList(params);
+        console.log(res);
+        setThisYearTodoList(res.data.list);
+        setThisYearTodoListTotal(res.data.total);
+    };
+
     return (
         <>
             <Button
@@ -119,7 +151,42 @@ const DoneList: React.FC<Props> = (props) => {
                 onCancel={() => setOpen(false)}
                 footer={null}
             >
+                <div className={styles.filter}>
+                    <Select
+                        className={styles.select}
+                        value={activeCategory || undefined}
+                        placeholder="类别"
+                        onChange={(val: any) => setActiveCategory(val)}
+                        showSearch
+                        filterOption={(input, option) =>
+                            (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                        }
+                        allowClear
+                        style={{ width: 150 }}
+                        options={category?.map((item) => {
+                            return {
+                                label: `${item.category} (${item.count})`,
+                                value: item.category,
+                            };
+                        })}
+                    />
+                </div>
                 <Table columns={columns} dataSource={doneTotalData} />
+                {activeCategory && thisYearTodoList && (
+                    <>
+                        <h2>今年该类别下的情况：</h2>
+                        <TodoCalendar
+                            startTime={thisYear}
+                            todoList={thisYearTodoList}
+                        />
+                        <div>
+                            <div>今年至今 {dayjs().diff(thisYear, 'day')} 天</div>
+                            <div>有记录 {thisYearTodoListTotal} 条</div>
+                        </div>
+                    </>
+                )}
             </Modal>
         </>
     );
