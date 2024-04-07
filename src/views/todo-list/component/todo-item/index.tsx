@@ -7,7 +7,7 @@ import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import dayjs from "dayjs";
 import TodoChainIcon from "../todo-chain-icon";
-import TodoIsHabitIcon from "../todo-habit-icon";
+import TodoHabitIcon from "../todo-habit-icon";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 
@@ -132,7 +132,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         isChain={isChain}
                         isChainNext={isChainNext}
                     />
-                    <TodoIsHabitIcon item={item} />
+                    <TodoHabitIcon item={item} />
                 </span>
             </div>
         </div>

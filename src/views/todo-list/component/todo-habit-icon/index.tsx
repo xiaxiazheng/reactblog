@@ -13,7 +13,7 @@ const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
 
-    if (item.isHabit !== '1') {
+    if (item.isHabit !== '1' && item.isTarget !== "1") {
         return null;
     }
 
