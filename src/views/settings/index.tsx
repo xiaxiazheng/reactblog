@@ -154,6 +154,7 @@ const Settings = () => {
             <Table
                 className={styles.table}
                 style={{ width: 800 }}
+                scroll={{ y: 'calc(100vh - 300px)' }}
                 columns={columns}
                 key="settings_id"
                 dataSource={list}

@@ -43,7 +43,7 @@ const TodoForm: React.FC<Props> = (props) => {
         isShowOther = false,
     } = props;
 
-    const { todoNameMap, todoColorMap, todoColorNameMap } =
+    const { todoNameMap, todoColorMap, todoColorNameMap, todoDescriptionMap } =
         useContext(SettingsContext);
 
     const category = useSelector((state: RootState) => state.data.category);
@@ -129,7 +129,16 @@ const TodoForm: React.FC<Props> = (props) => {
                         </Form.Item>
                         <Form.Item
                             name="color"
-                            label={colorTitle}
+                            label={
+                                <Tooltip
+                                    placement="top"
+                                    title={
+                                        <pre>{todoDescriptionMap?.color}</pre>
+                                    }
+                                >
+                                    {colorTitle} <QuestionCircleOutlined />
+                                </Tooltip>
+                            }
                             rules={[{ required: true }]}
                         >
                             <Radio.Group
