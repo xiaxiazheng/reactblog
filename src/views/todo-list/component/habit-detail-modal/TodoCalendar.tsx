@@ -6,14 +6,14 @@ import dayjs from "dayjs";
 import { TodoItemType } from "../../types";
 
 interface IProps {
-    active: TodoItemType | undefined;
+    todoList: TodoItemType[] | undefined; // 需要在日历上标记的项目的 todo 列表
+    startTime: string; // 日历展示数据的起始时间
 }
 
-const PunchTheClockCalendar: React.FC<IProps> = (props) => {
-    const { active } = props;
+const TodoCalendar: React.FC<IProps> = (props) => {
+    const { todoList, startTime: strStartTime } = props;
 
-    const childDateList =
-        active?.child_todo_list?.map((item) => item.time) || [];
+    const childDateList = todoList?.map((item) => item.time) || [];
 
     const isThisMonth = (date: dayjs.Dayjs) => {
         return value?.get("M") === date.get("M");
@@ -21,9 +21,8 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
 
     const [value, setValue] = useState<any>(dayjs());
 
-    if (!active) return null;
-
-    const startTime = dayjs(active.time), endTime = dayjs();
+    const startTime = dayjs(strStartTime),
+        endTime = dayjs();
 
     return (
         <div className={styles.calendarWrapper}>
@@ -31,23 +30,20 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                 fullscreen={false}
                 onChange={(val) => setValue(val)}
                 disabledDate={(currentData) =>
-                    active
-                        ? currentData.isBefore(startTime) ||
-                          currentData.isAfter(endTime)
-                        : false
+                    currentData.isBefore(startTime) ||
+                    currentData.isAfter(endTime)
                 }
                 dateFullCellRender={(date) => {
-                    if (active) {
-                        if (date.isAfter(startTime) && date.isBefore(dayjs())) {
-                            const isDone = childDateList.includes(
-                                date.format("YYYY-MM-DD")
-                            );
-                            const isToday =
-                                date.format("YYYY-MM-DD") ===
-                                dayjs().format("YYYY-MM-DD");
-                            return (
-                                <div
-                                    className={`${styles.cell}
+                    if (date.isAfter(startTime) && date.isBefore(dayjs())) {
+                        const isDone = childDateList.includes(
+                            date.format("YYYY-MM-DD")
+                        );
+                        const isToday =
+                            date.format("YYYY-MM-DD") ===
+                            dayjs().format("YYYY-MM-DD");
+                        return (
+                            <div
+                                className={`${styles.cell}
                                     ${
                                         !isThisMonth(date) &&
                                         styles.notThisMonth
@@ -59,26 +55,22 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
                                             ? styles.blue
                                             : styles.red
                                     }`}
-                                >
-                                    {date.get("D")}
-                                </div>
-                            );
-                        }
-                        if (
-                            date.isBefore(endTime) &&
-                            date.isAfter(dayjs())
-                        ) {
-                            return (
-                                <div
-                                    className={`${styles.cell} 
+                            >
+                                {date.get("D")}
+                            </div>
+                        );
+                    }
+                    if (date.isBefore(endTime) && date.isAfter(dayjs())) {
+                        return (
+                            <div
+                                className={`${styles.cell} 
                                 ${!isThisMonth(date) && styles.notThisMonth} ${
-                                        styles.blueBorder
-                                    }`}
-                                >
-                                    {date.get("D")}
-                                </div>
-                            );
-                        }
+                                    styles.blueBorder
+                                }`}
+                            >
+                                {date.get("D")}
+                            </div>
+                        );
                     }
                     return <div className={styles.cell}>{date.get("D")}</div>;
                 }}
@@ -125,4 +117,4 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
     );
 };
 
-export default PunchTheClockCalendar;
+export default TodoCalendar;

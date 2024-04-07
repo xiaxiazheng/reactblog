@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, message, Modal, Space, Spin } from "antd";
 import dayjs from "dayjs";
-import PunchTheClockCalendar from "./Calendar";
 import { CreateTodoItemReq, TodoItemType } from "../../types";
 import { addTodoItem } from "@/client/TodoListHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { getRangeFormToday } from "../../utils";
+import TodoCalendar from "./TodoCalendar";
 
 dayjs.locale("zh-cn");
 
@@ -162,7 +162,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
                     >
                         修改打卡计划
                     </Button> */}
-                    {active?.isHabit === '1' &&
+                    {active?.isHabit === "1" &&
                         (handleIsTodayPunchTheClock(active) ? (
                             <Button
                                 type="primary"
@@ -183,7 +183,14 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
             open={visible}
             onCancel={() => onClose()}
         >
-            <PunchTheClockCalendar active={active} />
+            <div className={styles.calendarWrapper}>
+                {active && (
+                    <TodoCalendar
+                        todoList={active.child_todo_list}
+                        startTime={active.time}
+                    />
+                )}
+            </div>
             {active &&
                 (active?.isTarget
                     ? renderTargetDetail(active)
