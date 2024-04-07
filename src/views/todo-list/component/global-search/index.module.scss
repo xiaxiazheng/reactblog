@@ -74,6 +74,14 @@
     &.three {
         :global {
             .ant-radio-button-checked {
+                background-color: #fa8c16;
+                border-color: #fa8c16;
+            }
+        }
+    }
+    &.four {
+        :global {
+            .ant-radio-button-checked {
                 background-color: #827e7e;
                 border-color: #827e7e;
             }
