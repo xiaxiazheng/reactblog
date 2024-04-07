@@ -146,6 +146,8 @@ const TodoForm: React.FC<Props> = (props) => {
                                         }${item === "1" ? styles.one : ""}${
                                             item === "2" ? styles.two : ""
                                         }${item === "3" ? styles.three : ""}${
+                                            item === "4" ? styles.four : ""
+                                        }${
                                             item === "-1" ? styles.minusOne : ""
                                         }`}
                                     >

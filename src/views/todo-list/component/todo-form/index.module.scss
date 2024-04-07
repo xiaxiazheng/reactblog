@@ -133,12 +133,20 @@
     &.one {
         :global {
             .ant-radio-button-checked {
+                background-color: #a756df;
+                border-color: #a756df;
+            }
+        }
+    }
+    &.two {
+        :global {
+            .ant-radio-button-checked {
                 background-color: #40a9ff;
                 border-color: #40a9ff;
             }
         }
     }
-    &.two {
+    &.three {
         :global {
             .ant-radio-button-checked {
                 background-color: #fa8c16;
@@ -146,7 +154,7 @@
             }
         }
     }
-    &.three {
+    &.four {
         :global {
             .ant-radio-button-checked {
                 background-color: #827e7e;

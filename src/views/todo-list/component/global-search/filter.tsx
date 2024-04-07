@@ -11,7 +11,8 @@ import SwitchComp from "../todo-form/switch";
 import { SettingsContext } from "@/context/SettingsContext";
 
 const Filter = () => {
-    const { todoNameMap, todoColorMap, todoColorNameMap } = useContext(SettingsContext);
+    const { todoNameMap, todoColorMap, todoColorNameMap } =
+        useContext(SettingsContext);
 
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
@@ -128,8 +129,8 @@ const Filter = () => {
                             }${item === "1" ? styles.one : ""}${
                                 item === "2" ? styles.two : ""
                             }${item === "3" ? styles.three : ""}${
-                                item === "-1" ? styles.minusOne : ""
-                            }`}
+                                item === "4" ? styles.four : ""
+                            }${item === "-1" ? styles.minusOne : ""}`}
                         >
                             {todoColorNameMap[item]}
                         </Radio.Button>
@@ -163,22 +164,10 @@ const Filter = () => {
                             placeholder={["开始时间", "结束时间"]}
                             ranges={{
                                 Today: [dayjs(), dayjs()],
-                                "这周至今": [
-                                    dayjs().startOf("week"),
-                                    dayjs(),
-                                ],
-                                "一周内": [
-                                    dayjs().subtract(1, 'week'),
-                                    dayjs(),
-                                ],
-                                "这月至今": [
-                                    dayjs().startOf("month"),
-                                    dayjs(),
-                                ],
-                                "今年至今": [
-                                    dayjs().startOf("year"),
-                                    dayjs(),
-                                ],
+                                这周至今: [dayjs().startOf("week"), dayjs()],
+                                一周内: [dayjs().subtract(1, "week"), dayjs()],
+                                这月至今: [dayjs().startOf("month"), dayjs()],
+                                今年至今: [dayjs().startOf("year"), dayjs()],
                             }}
                         />
                     )}
@@ -190,17 +179,21 @@ const Filter = () => {
                             onChange={(val) => handleStarEndTime(val)}
                             placeholder={["开始时间", "结束时间"]}
                             ranges={{
-                                "这个月": [
+                                这个月: [
                                     dayjs().startOf("month"),
                                     dayjs().endOf("month"),
                                 ],
-                                "上个月": [
-                                    dayjs().startOf("month").subtract(1, 'month'),
-                                    dayjs().endOf("month").subtract(1, 'month'),
+                                上个月: [
+                                    dayjs()
+                                        .startOf("month")
+                                        .subtract(1, "month"),
+                                    dayjs().endOf("month").subtract(1, "month"),
                                 ],
-                                "上上个月": [
-                                    dayjs().startOf("month").subtract(2, 'month'),
-                                    dayjs().endOf("month").subtract(2, 'month'),
+                                上上个月: [
+                                    dayjs()
+                                        .startOf("month")
+                                        .subtract(2, "month"),
+                                    dayjs().endOf("month").subtract(2, "month"),
                                 ],
                             }}
                         />
@@ -213,17 +206,17 @@ const Filter = () => {
                             onChange={(val) => handleStarEndTime(val)}
                             placeholder={["开始时间", "结束时间"]}
                             ranges={{
-                                "今年": [
+                                今年: [
                                     dayjs().startOf("year"),
                                     dayjs().endOf("year"),
                                 ],
-                                "去年": [
-                                    dayjs().startOf("year").subtract(1, 'y'),
-                                    dayjs().endOf("year").subtract(1, 'y'),
+                                去年: [
+                                    dayjs().startOf("year").subtract(1, "y"),
+                                    dayjs().endOf("year").subtract(1, "y"),
                                 ],
-                                "前年": [
-                                    dayjs().startOf("year").subtract(2, 'y'),
-                                    dayjs().endOf("year").subtract(2, 'y'),
+                                前年: [
+                                    dayjs().startOf("year").subtract(2, "y"),
+                                    dayjs().endOf("year").subtract(2, "y"),
                                 ],
                             }}
                         />
@@ -256,9 +249,8 @@ const Filter = () => {
                         <Radio.Button value={"month"}>月</Radio.Button>
                         <Radio.Button value={"day"}>日</Radio.Button>
                     </Radio.Group>
-                    <span>今天是 {dayjs().format('YYYY-MM-DD')}</span>
+                    <span>今天是 {dayjs().format("YYYY-MM-DD")}</span>
                 </Space>
-                
             </div>
 
             <div>
