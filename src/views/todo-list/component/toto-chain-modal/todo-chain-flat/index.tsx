@@ -1,11 +1,11 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 import { Button, Checkbox, Divider, Space } from "antd";
 import { TodoItemType } from "../../../types";
 import TodoItem from "../../todo-item";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
-import { colorList, colorNameMap, colorMap } from "@/views/todo-list/utils";
+import { SettingsContext } from "@/context/SettingsContext";
 
 interface IProps {
     localKeyword: string;
@@ -39,8 +39,11 @@ const Collapse: React.FC<CollapseProps> = (props) => {
 const TodoChainFlat: React.FC<IProps> = (props) => {
     const { localKeyword, todoChainList, nowTodo, chainId } = props;
 
+    const { todoColorMap, todoColorNameMap } =
+        useContext(SettingsContext);
+
     const [selectedColorList, setSelectedColorList] =
-        useState<string[]>(colorList);
+        useState<string[]>(todoColorMap);
 
     const handleFilter = (list: TodoItemType[]): TodoItemType[] => {
         return list
@@ -184,11 +187,11 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                 </Button>
                 <Checkbox.Group
                     className={styles.checkboxGroup}
-                    options={colorList.map((item) => {
+                    options={Object.keys(todoColorMap).map((item) => {
                         return {
                             label: (
-                                <span style={{ color: colorMap[item] }}>
-                                    {colorNameMap[item]}
+                                <span style={{ color: todoColorMap[item] }}>
+                                    {todoColorNameMap[item]}
                                 </span>
                             ),
                             value: item,

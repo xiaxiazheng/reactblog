@@ -1,11 +1,8 @@
 import React, { CSSProperties, useContext, useState } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
-import {
-    QuestionCircleOutlined,
-    FileImageOutlined,
-} from "@ant-design/icons";
-import { colorMap, getRangeFormToday } from "../../utils";
+import { QuestionCircleOutlined, FileImageOutlined } from "@ant-design/icons";
+import { getRangeFormToday } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
@@ -16,6 +13,7 @@ import { TooltipPlacement } from "antd/lib/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
+import { SettingsContext } from "@/context/SettingsContext";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -145,6 +143,8 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         beforeClick,
     } = props;
 
+    const { todoColorMap } = useContext(SettingsContext);
+
     const dispatch = useDispatch<Dispatch>();
     const handleEdit = (item: TodoItemType) => {
         if (beforeClick && !beforeClick()) {
@@ -172,7 +172,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 <span
                     className={styles.category}
                     style={{
-                        background: colorMap[item.color],
+                        background: todoColorMap[item.color],
                     }}
                 >
                     {item.category}

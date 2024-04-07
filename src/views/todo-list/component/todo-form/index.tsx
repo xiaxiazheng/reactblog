@@ -9,13 +9,7 @@ import {
     FormListFieldData,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import {
-    colorMap,
-    colorNameMap,
-    colorList,
-    handleCopy,
-    colorTitle,
-} from "../../utils";
+import { handleCopy, colorTitle } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
 import dayjs from "dayjs";
@@ -49,7 +43,8 @@ const TodoForm: React.FC<Props> = (props) => {
         isShowOther = false,
     } = props;
 
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap, todoColorMap, todoColorNameMap } =
+        useContext(SettingsContext);
 
     const category = useSelector((state: RootState) => state.data.category);
 
@@ -141,11 +136,11 @@ const TodoForm: React.FC<Props> = (props) => {
                                 optionType="button"
                                 buttonStyle="solid"
                             >
-                                {colorList.map((item) => (
+                                {Object.keys(todoColorMap).map((item) => (
                                     <Radio.Button
                                         key={item}
                                         value={item}
-                                        style={{ color: colorMap[item] }}
+                                        style={{ color: todoColorMap[item] }}
                                         className={`${styles.color} ${
                                             item === "0" ? styles.zero : ""
                                         }${item === "1" ? styles.one : ""}${
@@ -154,7 +149,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                             item === "-1" ? styles.minusOne : ""
                                         }`}
                                     >
-                                        {colorNameMap[item]}
+                                        {todoColorNameMap[item]}
                                     </Radio.Button>
                                 ))}
                             </Radio.Group>
@@ -234,7 +229,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap['bookMark']}
+                                            {todoNameMap["bookMark"]}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>

@@ -29,28 +29,7 @@ export const getRangeFormToday = (time: string | undefined) => {
     return `${Math.abs(day)} 天${day < 0 ? "前" : "后"}`;
 };
 
-export const colorMap: any = {
-    0: "#f5222d",
-    1: "#40a9ff",
-    2: "#fa8c16",
-    3: "#827e7e",
-    // [-1]: "#00d4d8",
-    // [-1]: "#9c27b0",
-    // [-2]: "#20d420",
-};
-
 export const colorTitle = "优先级";
-
-export const colorNameMap: any = {
-    0: "很重要",
-    1: "比较重要",
-    2: "有点重要",
-    3: "琐事",
-    // [-1]: "自定义",
-    // [-2]: "短期目标",
-};
-
-export const colorList = Object.keys(colorNameMap);
 
 export const handleSortColor = () => {};
 

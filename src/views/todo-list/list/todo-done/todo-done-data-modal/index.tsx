@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Modal, Table } from "antd";
 import { useSelector } from "react-redux";
 import { getTodoDoneCountList } from "@/client/TodoListHelper";
 import { RootState } from "@/views/todo-list/rematch";
 import dayjs from "dayjs";
-import { colorMap, colorNameMap } from "@/views/todo-list/utils";
+import { SettingsContext } from "@/context/SettingsContext";
 
 interface Props {
     open: boolean;
@@ -14,6 +14,8 @@ interface Props {
 // 已完成列表
 const DoneList: React.FC<Props> = (props) => {
     const { open, setOpen } = props;
+
+    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
 
     const isWork = useSelector((state: RootState) => state.filter.isWork);
 
@@ -70,8 +72,8 @@ const DoneList: React.FC<Props> = (props) => {
                     dataIndex: "color",
                     key: "color",
                     render: (color: number) => (
-                        <span style={{ color: colorMap[color] }}>
-                            {colorNameMap[color] || "合计"}
+                        <span style={{ color: todoColorMap[color] }}>
+                            {todoColorNameMap[color] || "合计"}
                         </span>
                     ),
                 },
