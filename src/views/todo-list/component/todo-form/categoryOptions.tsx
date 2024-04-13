@@ -1,8 +1,12 @@
-import { DownCircleOutlined, UpCircleOutlined, UpOutlined } from "@ant-design/icons";
+import {
+    DownCircleOutlined,
+    UpCircleOutlined,
+    UpOutlined,
+} from "@ant-design/icons";
 import { Button, Input, message, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { CategoryType } from "../../types";
-import styles from './index.module.scss';
+import styles from "./index.module.scss";
 
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
@@ -11,7 +15,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
     const [l, setList] = useState<CategoryType[]>(category);
     useEffect(() => {
         setList(category);
-    }, [category])
+    }, [category]);
 
     return (
         <>
@@ -21,17 +25,20 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
                 value={value}
                 onChange={(val) => onChange(val)}
             >
-                {(showAll ? l : l.slice(0, 8)).map(
-                    (item: CategoryType) => (
-                        <Radio.Button key={item.category} value={item.category}>
-                            {item.category} ({item.count})
-                        </Radio.Button>
-                    )
-                )}
+                {(showAll ? l : l.slice(0, 10)).map((item: CategoryType) => (
+                    <Radio.Button key={item.category} value={item.category}>
+                        {item.category} ({item.count})
+                    </Radio.Button>
+                ))}
+                <Button
+                    className={styles.showMore}
+                    type="text"
+                    onClick={() => setShowAll((prev) => !prev)}
+                >
+                    show all category
+                    {showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
+                </Button>
             </Radio.Group>
-            <Button className={styles.showMore} type="text" onClick={() => setShowAll((prev) => !prev)}>
-                show all category{showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
-            </Button>
             {showAll && (
                 <Input
                     placeholder="请输入类别名称"
