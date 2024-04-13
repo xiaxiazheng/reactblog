@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Pagination, Space } from "antd";
+import { Pagination, Space, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
@@ -83,16 +83,28 @@ const DoneList: React.FC<Props> = (props) => {
                                         ? styles.future
                                         : ""
                                 }`}
-                                onClick={() => {
-                                    setKeyword("");
-                                    setStartEndTime([dayjs(time), dayjs(time)]);
-                                }}
                             >
-                                {time}&nbsp; ({getWeek(time)}，
-                                {getRangeFormToday(time)})
-                                {doneMap[time]?.length > 6
-                                    ? ` ${doneMap[time]?.length}`
-                                    : null}
+                                <Tooltip
+                                    placement="right"
+                                    title="点击只查看这一天的todo"
+                                >
+                                    <span
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                            setKeyword("");
+                                            setStartEndTime([
+                                                dayjs(time),
+                                                dayjs(time),
+                                            ]);
+                                        }}
+                                    >
+                                        {time}&nbsp; ({getWeek(time)}，
+                                        {getRangeFormToday(time)})
+                                        {doneMap[time]?.length > 6
+                                            ? ` ${doneMap[time]?.length}`
+                                            : null}
+                                    </span>
+                                </Tooltip>
                             </div>
                             {getList(time).map((item) => (
                                 <TodoItem key={item.todo_id} item={item} />
