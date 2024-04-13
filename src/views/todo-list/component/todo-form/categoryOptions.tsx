@@ -1,16 +1,19 @@
+import { SettingsContext } from "@/context/SettingsContext";
 import {
     DownCircleOutlined,
     UpCircleOutlined,
     UpOutlined,
 } from "@ant-design/icons";
 import { Button, Input, message, Radio } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CategoryType } from "../../types";
 import styles from "./index.module.scss";
 
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>();
+
+    const { todoCategoryDefaultShow } = useContext(SettingsContext);
 
     const [l, setList] = useState<CategoryType[]>(category);
     useEffect(() => {
@@ -25,7 +28,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
                 value={value}
                 onChange={(val) => onChange(val)}
             >
-                {(showAll ? l : l.slice(0, 10)).map((item: CategoryType) => (
+                {(showAll ? l : l.slice(0, todoCategoryDefaultShow)).map((item: CategoryType) => (
                     <Radio.Button key={item.category} value={item.category}>
                         {item.category} ({item.count})
                     </Radio.Button>
