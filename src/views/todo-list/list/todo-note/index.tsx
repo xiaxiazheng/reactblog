@@ -9,7 +9,7 @@ import { renderDescription } from "../../component/todo-item/todo-item-name";
 import { debounce } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import { getOriginTodo } from "../../component/global-search";
+import { useOriginTodo } from "../../component/global-search";
 
 const { Search } = Input;
 
@@ -20,13 +20,14 @@ interface IProps {}
 const TodoNote: React.FC<IProps> = (props) => {
     const form = useSelector((state: RootState) => state.edit.form);
     const dispatch = useDispatch<Dispatch>();
+    const originTodo = useOriginTodo();
     const handleAdd = () => {
         const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
         form?.setFieldsValue({
-            ...getOriginTodo(),
+            ...originTodo,
             isNote: "1",
         });
     };

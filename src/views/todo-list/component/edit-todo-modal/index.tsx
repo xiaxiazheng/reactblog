@@ -38,9 +38,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
-import { getOriginTodo } from "../global-search";
+import { useOriginTodo } from "../global-search";
 import TodoItemName from "../todo-item/todo-item-name";
 import TodoChildList from "./todo-child-list";
+import { SettingsContext } from "@/context/SettingsContext";
 
 interface EditTodoModalType {}
 
@@ -66,6 +67,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setActiveTodo,
     } = dispatch.edit;
     const { refreshData } = dispatch.data;
+
+    const settings = useContext(SettingsContext);
 
     const handleCloseBackUp = () => {
         setActiveTodo(undefined);
@@ -384,6 +387,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     const [isEditingOther, setIsEditingOther] = useState<boolean>(false);
+    
+    const originTodo = useOriginTodo();
 
     // 创建副本或子 todo
     const [type2, setType2] = useState<OperatorType2 | undefined>();
@@ -394,7 +399,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         // 每种情况下都不变的“新增”
         setType("add");
         setType2(type);
-        const originTodo = getOriginTodo();
         const newTodo = {
             ...originTodo,
             name: item.name,
@@ -402,8 +406,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             time: type === "copy" ? dayjs(item.time) : dayjs(),
             status: TodoStatus.todo,
             color:
-                type === "add_child" && `${item.color}` !== "3"
-                    ? `${Number(item.color) + 1}`
+                type === "add_child"
+                    ? (settings?.todoDefaultColor || "3")
                     : item.color,
             category: item.category,
             other_id: type === "add_progress" ? item.other_id : item.todo_id,

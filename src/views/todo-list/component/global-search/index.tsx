@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, Select, Space, Tooltip } from "antd";
 import { CreateTodoItemReq, TodoStatus } from "../../types";
@@ -14,14 +14,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import Filter from "./filter";
 import TodoTypeIcon from "../todo-type-icon";
+import { SettingsContext } from "@/context/SettingsContext";
 
-export const getOriginTodo = () => {
+export const useOriginTodo = () => {
+    const settings = useContext(SettingsContext);
+
     return {
         name: "",
         description: "",
         time: dayjs(),
         status: TodoStatus.todo,
-        color: "3",
+        color: String(settings?.todoDefaultColor || "3"),
         category: "个人",
         doing: "0",
         isNote: "0",
@@ -66,12 +69,13 @@ const GlobalSearch: React.FC = () => {
         handleClear,
         setIsWork,
     } = dispatch.filter;
+    
+    const originTodo = useOriginTodo();
 
     const handleAdd = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
-        const originTodo = getOriginTodo();
         form?.setFieldsValue({
             ...originTodo,
             category: isWork === "1" ? "公司" : originTodo.category,

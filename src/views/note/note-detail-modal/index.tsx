@@ -9,7 +9,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { CreateTodoItemReq, TodoStatus } from "@/views/todo-list/types";
 import dayjs from "dayjs";
 import { addTodoItem } from "@/client/TodoListHelper";
-import { getOriginTodo } from "@/views/todo-list/component/global-search";
+import { useOriginTodo } from "@/views/todo-list/component/global-search";
 
 interface IProps {
     visible: boolean;
@@ -29,10 +29,12 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
         handleEdit,
         refreshData,
     } = props;
+    
+    const originTodo = useOriginTodo();
 
     const addTodo = async (item: NoteType) => {
         const req: CreateTodoItemReq = {
-            ...getOriginTodo(),
+            ...originTodo as any,
             name: item.note.split("\n")?.[0],
             time: dayjs(item.cTime).format("YYYY-MM-DD"),
             status: TodoStatus.done,
