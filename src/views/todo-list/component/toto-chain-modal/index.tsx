@@ -106,6 +106,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     <TodoTimeLine
                         todoChainList={todoChainList}
                         chainId={chainId}
+                        localKeyword={localKeyword}
                     />
                 )}
                 {showType === "level" && (

@@ -12,10 +12,11 @@ import dayjs from "dayjs";
 interface IProps {
     todoChainList: TodoItemType[];
     chainId: string;
+    localKeyword: string;
 }
 
 const TodoTimeLine: React.FC<IProps> = (props) => {
-    const { todoChainList, chainId } = props;
+    const { todoChainList, chainId, localKeyword } = props;
 
     const today = dayjs().format("YYYY-MM-DD");
 
@@ -28,7 +29,18 @@ const TodoTimeLine: React.FC<IProps> = (props) => {
     };
 
     const handleTimeMap = (list: TodoItemType[]) => {
-        return formatArrayToTimeMap(dfs(list));
+        let l = dfs(list);
+        if (!localKeyword) return formatArrayToTimeMap(l);
+        l = l.filter(
+            (item: TodoItemType) =>
+                !localKeyword ||
+                item.name.toLowerCase().indexOf(localKeyword.toLowerCase()) !==
+                    -1 ||
+                item.description
+                    .toLowerCase()
+                    .indexOf(localKeyword.toLowerCase()) !== -1
+        );
+        return formatArrayToTimeMap(l);
     };
     const timeMap = handleTimeMap(todoChainList);
 
@@ -55,7 +67,11 @@ const TodoTimeLine: React.FC<IProps> = (props) => {
                                     : null}
                             </div>
                             {timeMap[time].map((item: TodoItemType) => (
-                                <TodoItem key={item.todo_id} item={item} isShowPointIcon={item.todo_id === chainId} />
+                                <TodoItem
+                                    key={item.todo_id}
+                                    item={item}
+                                    isShowPointIcon={item.todo_id === chainId}
+                                />
                             ))}
                         </div>
                     );

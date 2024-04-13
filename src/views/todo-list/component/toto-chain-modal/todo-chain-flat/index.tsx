@@ -43,7 +43,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
         useContext(SettingsContext);
 
     const [selectedColorList, setSelectedColorList] =
-        useState<string[]>(todoColorMap);
+        useState<string[]>(Object.keys(todoColorMap));
 
     const handleFilter = (list: TodoItemType[]): TodoItemType[] => {
         return list
