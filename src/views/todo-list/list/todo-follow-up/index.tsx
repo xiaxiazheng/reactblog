@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
-// import PoolList from "../../todo-all-list";
 import List from "../../todo-split-day-list";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../../component/todo-type-icon";

@@ -199,12 +199,12 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                     />
                 )}
                 {/* 关键节点 */}
-                {item.isKeyNode === "1" && item.isTarget !== "1" && (
+                {/* {item.isKeyNode === "1" && item.isTarget !== "1" && (
                     <TodoTypeIcon
                         type="key"
                         style={{ marginRight: 5, color: "#ffeb3b" }}
                     />
-                )}
+                )} */}
                 {/* note */}
                 {item.isNote === "1" && (
                     <TodoTypeIcon

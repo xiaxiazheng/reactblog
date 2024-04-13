@@ -471,8 +471,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     const { theme } = useContext(ThemeContext);
 
-    const isKeyNode = form?.getFieldValue("isKeyNode");
-    const isTarget = form?.getFieldValue("isTarget");
+    // const isKeyNode = form?.getFieldValue("isKeyNode");
+    // const isTarget = form?.getFieldValue("isTarget");
+    const color = form?.getFieldValue("color");
 
     const l = [
         {
@@ -492,9 +493,15 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         },
     ];
     // 当存在父级时，如果该任务不是关键节点也不是目标，则限制其往下继续创建子任务
+    // const controlList =
+    //     !activeTodo?.other_id ||
+    //     (activeTodo?.other_id && (isKeyNode === "1" || isTarget === "1"))
+    //         ? l
+    //         : l.slice(0, 1);
+    // 暂时改成这样
     const controlList =
         !activeTodo?.other_id ||
-        (activeTodo?.other_id && (isKeyNode === "1" || isTarget === "1"))
+        (activeTodo?.other_id && (color !== '4'))
             ? l
             : l.slice(0, 1);
 

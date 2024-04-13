@@ -281,7 +281,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     </SwitchComp>
                                 </Form.Item>
 
-                                <Form.Item
+                                {/* <Form.Item
                                     name="isKeyNode"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
@@ -298,7 +298,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                             {todoNameMap.key}
                                         </span>
                                     </SwitchComp>
-                                </Form.Item>
+                                </Form.Item> */}
 
                                 <Form.Item
                                     name="isFollowUp"
