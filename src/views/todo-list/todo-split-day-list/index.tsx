@@ -28,6 +28,8 @@ interface Props {
     sortKey: SortKeyMap;
     showDoneIcon?: boolean; // 是否展示快捷完成 icon
     showDoingBtn?: boolean; // 是否展示加急的筛选按钮
+    showTimeOprationBtn?: boolean; // 是否展示日期右边的操作按钮
+    isReverseTime?: boolean; // 是否倒序展示日期
 }
 
 // 待办
@@ -39,6 +41,8 @@ const List: React.FC<Props> = (props) => {
         showDoneIcon = false,
         sortKey,
         showDoingBtn,
+        showTimeOprationBtn = true,
+        isReverseTime = false,
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -136,27 +140,29 @@ const List: React.FC<Props> = (props) => {
 
             {!isHide && (
                 <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                    {Object.keys(mapList)
-                        .sort()
-                        .map((time) => {
-                            return (
-                                <div className={styles.oneDay} key={time}>
-                                    <div
-                                        className={`${styles.time} ${
-                                            time === today
-                                                ? styles.today
-                                                : time > today
-                                                ? styles.future
-                                                : styles.previously
-                                        }`}
-                                    >
-                                        <span>
-                                            {time}&nbsp; ({getWeek(time)},
-                                            {getRangeFormToday(time)})
-                                            {mapList[time]?.length > 6
-                                                ? ` ${mapList[time]?.length}`
-                                                : null}
-                                        </span>
+                    {(isReverseTime
+                        ? Object.keys(mapList).sort().reverse()
+                        : Object.keys(mapList).sort()
+                    ).map((time) => {
+                        return (
+                            <div className={styles.oneDay} key={time}>
+                                <div
+                                    className={`${styles.time} ${
+                                        time === today
+                                            ? styles.today
+                                            : time > today
+                                            ? styles.future
+                                            : styles.previously
+                                    }`}
+                                >
+                                    <span>
+                                        {time}&nbsp; ({getWeek(time)},
+                                        {getRangeFormToday(time)})
+                                        {mapList[time]?.length > 6
+                                            ? ` ${mapList[time]?.length}`
+                                            : null}
+                                    </span>
+                                    {showTimeOprationBtn && (
                                         <Space size={6}>
                                             {time < today && (
                                                 <Popconfirm
@@ -197,17 +203,18 @@ const List: React.FC<Props> = (props) => {
                                                 </Tooltip>
                                             </Popconfirm>
                                         </Space>
-                                    </div>
-                                    {getShowList(mapList[time]).map((item) => (
-                                        <TodoItem
-                                            key={item.todo_id}
-                                            item={item}
-                                            showDoneIcon={showDoneIcon}
-                                        />
-                                    ))}
+                                    )}
                                 </div>
-                            );
-                        })}
+                                {getShowList(mapList[time]).map((item) => (
+                                    <TodoItem
+                                        key={item.todo_id}
+                                        item={item}
+                                        showDoneIcon={showDoneIcon}
+                                    />
+                                ))}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>

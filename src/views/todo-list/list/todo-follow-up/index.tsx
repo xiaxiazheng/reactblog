@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
-import PoolList from "../../todo-all-list";
+// import PoolList from "../../todo-all-list";
+import List from "../../todo-split-day-list";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import { RenderTodoDescriptionIcon } from "../todo-today";
+import { formatArrayToTimeMap } from "../../utils";
 
 const TodoFollowUp = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
@@ -33,7 +35,7 @@ const TodoFollowUp = () => {
     }, [isWork]);
 
     return (
-        <PoolList
+        <List
             loading={followUpLoading}
             sortKey={SortKeyMap.followUp}
             title={
@@ -44,9 +46,9 @@ const TodoFollowUp = () => {
                     />{" "}
                 </>
             }
-            mapList={followUpList.sort(
-                (a, b) => Number(a.color) - Number(b.color)
-            )}
+            mapList={formatArrayToTimeMap(followUpList)}
+            showTimeOprationBtn={false}
+            isReverseTime={true}
         />
     );
 };
