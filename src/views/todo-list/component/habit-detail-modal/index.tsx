@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, message, Modal, Space, Spin } from "antd";
 import dayjs from "dayjs";
-import { CreateTodoItemReq, TodoItemType } from "../../types";
+import { CreateTodoItemReq, TodoItemType, TodoStatusMap } from "../../types";
 import { addTodoItem } from "@/client/TodoListHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { getRangeFormToday } from "../../utils";
+import { TodoStatus } from "../../types";
 import TodoCalendar from "./TodoCalendar";
 
 dayjs.locale("zh-cn");
@@ -19,6 +20,7 @@ export const handleIsTodayPunchTheClock = (
 
     return (
         item?.child_todo_list
+            ?.filter((item) => item.status === TodoStatus.done)
             ?.map((item) => item.time)
             .includes(dayjs().format("YYYY-MM-DD")) || false
     );
