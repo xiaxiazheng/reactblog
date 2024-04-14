@@ -565,7 +565,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                                 >
                                                     <Button
                                                         type="primary"
-                                                        ghost
+                                                        ghost={item.key !== 'add_progress'}
                                                         onClick={() =>
                                                             activeTodo &&
                                                             createCopyOrNextTask(
