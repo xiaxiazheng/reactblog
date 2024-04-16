@@ -565,7 +565,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                                 >
                                                     <Button
                                                         type="primary"
-                                                        ghost={item.key !== 'add_progress'}
+                                                        // 如果 activeTodo 是 target，优先展示添加进度，否则优先展示添加同级进度/复制
+                                                        ghost={Number(activeTodo?.isTarget) ? item.key !== 'add_child' : item.key !== 'add_progress'}
                                                         onClick={() =>
                                                             activeTodo &&
                                                             createCopyOrNextTask(
