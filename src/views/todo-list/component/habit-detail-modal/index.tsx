@@ -20,7 +20,7 @@ export const handleIsTodayPunchTheClock = (
 
     return (
         item?.child_todo_list
-            ?.filter((item) => item.status === TodoStatus.done)
+            ?.filter((item) => String(item.status) === String(TodoStatus.done))
             ?.map((item) => item.time)
             .includes(dayjs().format("YYYY-MM-DD")) || false
     );

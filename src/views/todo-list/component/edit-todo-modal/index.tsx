@@ -407,7 +407,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             status: TodoStatus.todo,
             color:
                 type === "add_child"
-                    ? (settings?.todoDefaultColor || "3")
+                    ? String(settings?.todoDefaultColor || "3")
                     : item.color,
             category: item.category,
             other_id: type === "add_progress" ? item.other_id : item.todo_id,
