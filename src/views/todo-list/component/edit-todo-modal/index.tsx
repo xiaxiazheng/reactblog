@@ -219,6 +219,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 message.success(res.message);
 
                 needFresh.current.push(...handleRefreshList(formData));
+                otherTodo &&
+                    needFresh.current.push(...handleRefreshList(otherTodo));
 
                 // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
                 otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
@@ -261,6 +263,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         handleRefreshList(activeTodo)
                     )
                 );
+
+                otherTodo &&
+                    needFresh.current.push(...handleRefreshList(otherTodo));
 
                 // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
                 otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
@@ -315,6 +320,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             if (res) {
                 message.success(res.message);
                 needFresh.current.push(...handleRefreshList(activeTodo));
+                otherTodo &&
+                    needFresh.current.push(...handleRefreshList(otherTodo));
 
                 onClose();
             } else {
@@ -387,7 +394,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     const [isEditingOther, setIsEditingOther] = useState<boolean>(false);
-    
+
     const originTodo = useOriginTodo();
 
     // 创建副本或子 todo
@@ -504,8 +511,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     //         : l.slice(0, 1);
     // 暂时改成这样
     const controlList =
-        !activeTodo?.other_id ||
-        (activeTodo?.other_id && (color !== '4'))
+        !activeTodo?.other_id || (activeTodo?.other_id && color !== "4")
             ? l
             : l.slice(0, 1);
 
@@ -566,7 +572,15 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                                     <Button
                                                         type="primary"
                                                         // 如果 activeTodo 是 target，优先展示添加进度，否则优先展示添加同级进度/复制
-                                                        ghost={Number(activeTodo?.isTarget) ? item.key !== 'add_child' : item.key !== 'add_progress'}
+                                                        ghost={
+                                                            Number(
+                                                                activeTodo?.isTarget
+                                                            )
+                                                                ? item.key !==
+                                                                  "add_child"
+                                                                : item.key !==
+                                                                  "add_progress"
+                                                        }
                                                         onClick={() =>
                                                             activeTodo &&
                                                             createCopyOrNextTask(
