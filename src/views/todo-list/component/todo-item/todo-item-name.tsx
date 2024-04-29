@@ -198,6 +198,13 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         style={{ marginRight: 5, color: "#ffeb3b" }}
                     />
                 )}
+                {/* 待跟进 */}
+                {item.isFollowUp === "1" && (
+                    <TodoTypeIcon
+                        type="followUp"
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
+                )}
                 {/* 关键节点 */}
                 {/* {item.isKeyNode === "1" && item.isTarget !== "1" && (
                     <TodoTypeIcon
