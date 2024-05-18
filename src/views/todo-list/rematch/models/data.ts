@@ -477,8 +477,9 @@ export const data = createModel<RootModel>()({
             // 已完成模块除外
             this.getTodo("done");
         },
-        async getCategory() {
-            const res = await getTodoCategory();
+        async getCategory(payload, state) {
+            const { isWork } = state.filter;
+            const res = await getTodoCategory({ isWork });
             this.setCategory(res.data);
         },
     }),

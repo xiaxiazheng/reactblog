@@ -20,12 +20,17 @@ export async function getTodoDoneCountList(params: any): Promise<any> {
 /** 获取类别 */
 export async function getTodoCategory(params?: {
     isNote?: string;
+    isWork?: string;
 }): Promise<any> {
     const data = await getHelper(
-        `/todo/getTodoCategory${
+        `/todo/getTodoCategory?${
             typeof params?.isNote === "undefined"
                 ? ""
-                : `?isNote=${params.isNote}`
+                : `isNote=${params.isNote}&`
+        }${
+            typeof params?.isWork === "undefined"
+                ? ""
+                : `isWork=${params.isWork}`
         }`
     );
     return data && data.resultsCode === "success" ? data : false;

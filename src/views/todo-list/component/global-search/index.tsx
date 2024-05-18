@@ -202,7 +202,7 @@ const GlobalSearch: React.FC = () => {
                     <Select
                         className={styles.select}
                         value={activeCategory || undefined}
-                        placeholder="类别"
+                        placeholder="类别筛选"
                         onChange={(val: any) => setActiveCategory(val)}
                         showSearch
                         filterOption={(input, option) =>
@@ -211,10 +211,10 @@ const GlobalSearch: React.FC = () => {
                                 .includes(input.toLowerCase())
                         }
                         allowClear
-                        style={{ width: 100 }}
+                        style={{ width: 130 }}
                         options={category?.map((item) => {
                             return {
-                                label: item.category,
+                                label: `${item.category} (${item.count})`,
                                 value: item.category,
                             };
                         })}
