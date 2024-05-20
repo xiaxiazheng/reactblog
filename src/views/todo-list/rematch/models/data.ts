@@ -417,11 +417,11 @@ export const data = createModel<RootModel>()({
             const { activeColor, activeCategory, keyword, isWork } =
                 state.filter;
             let l = list;
-            if (activeColor && activeColor !== "") {
-                l = l.filter((item) => item.color === activeColor);
+            if (activeColor && activeColor?.length !== 0) {
+                l = l.filter((item) => activeColor.includes(item.color));
             }
-            if (activeCategory && activeCategory !== "") {
-                l = l.filter((item) => item.category === activeCategory);
+            if (activeCategory && activeCategory?.length !== 0) {
+                l = l.filter((item) => activeCategory.includes(item.category));
             }
             if (isWork && isWork !== "") {
                 l = l.filter((item) => item.isWork === isWork);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, DatePicker, Radio, Space } from "antd";
+import { Button, Checkbox, DatePicker, Radio, Space } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { colorTitle } from "../../utils";
 import dayjs, { ManipulateType } from "dayjs";
@@ -10,10 +10,17 @@ import TodoTypeIcon from "../todo-type-icon";
 import SwitchComp from "../todo-form/switch";
 import { SettingsContext } from "@/context/SettingsContext";
 
-const Filter = () => {
+interface IProps {
+    isSimple: boolean;
+}
+
+const Filter: React.FC<IProps> = (props) => {
     const { todoNameMap, todoColorMap, todoColorNameMap } =
         useContext(SettingsContext);
-
+    const category = useSelector((state: RootState) => state.data.category);
+    const activeCategory = useSelector(
+        (state: RootState) => state.filter.activeCategory
+    );
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
     );
@@ -26,8 +33,13 @@ const Filter = () => {
 
     const dispatch = useDispatch<Dispatch>();
 
-    const { setActiveColor, setStartEndTime, setIsNote, handleSpecialStatus } =
-        dispatch.filter;
+    const {
+        setActiveCategory,
+        setActiveColor,
+        setStartEndTime,
+        setIsNote,
+        handleSpecialStatus,
+    } = dispatch.filter;
 
     const getTimeRange = (
         start: number,
@@ -105,206 +117,335 @@ const Filter = () => {
     };
 
     return (
-        <div className={styles.filterWrapper}>
-            <div>
-                <span>{colorTitle}：</span>
-                <Radio.Group
-                    optionType="button"
-                    buttonStyle="solid"
-                    value={activeColor}
-                >
-                    {Object.keys(todoColorMap).map((item) => (
-                        <Radio.Button
+        <>
+            {props.isSimple && (
+                <Space>
+                    {activeCategory?.map((item) => (
+                        <Button
                             key={item}
-                            value={item}
+                            size="small"
                             onClick={() =>
-                                setActiveColor(activeColor === item ? "" : item)
+                                setActiveCategory(
+                                    activeCategory.filter((i) => i !== item)
+                                )
                             }
-                            style={{ color: todoColorMap[item] }}
-                            className={`${styles.color} ${
-                                item === "0" ? styles.zero : ""
-                            }${item === "1" ? styles.one : ""}${
-                                item === "2" ? styles.two : ""
-                            }${item === "3" ? styles.three : ""}${
-                                item === "4" ? styles.four : ""
-                            }${item === "-1" ? styles.minusOne : ""}`}
                         >
-                            {todoColorNameMap[item]}
-                        </Radio.Button>
+                            {item}
+                        </Button>
                     ))}
-                </Radio.Group>
-            </div>
-            <div>
-                <div>
-                    <span>时间：</span>
-                    {startEndTime?.[0] && (
-                        <>
-                            <Button
-                                icon={<MinusOutlined />}
-                                onClick={() =>
-                                    handleAddSubtractTime("subtract", "start")
-                                }
-                            />
-                            <Button
-                                icon={<PlusOutlined />}
-                                onClick={() =>
-                                    handleAddSubtractTime("add", "start")
-                                }
-                            />
-                        </>
-                    )}
-                    {timeType === "day" && (
-                        <DatePicker.RangePicker
-                            style={{ width: 250 }}
-                            value={startEndTime as any}
-                            onChange={(val) => handleStarEndTime(val)}
-                            placeholder={["开始时间", "结束时间"]}
-                            ranges={{
-                                Today: [dayjs(), dayjs()],
-                                这周至今: [dayjs().startOf("week"), dayjs()],
-                                一周内: [dayjs().subtract(1, "week"), dayjs()],
-                                这月至今: [dayjs().startOf("month"), dayjs()],
-                                今年至今: [dayjs().startOf("year"), dayjs()],
-                            }}
-                        />
-                    )}
-                    {timeType === "month" && (
-                        <DatePicker.RangePicker
-                            style={{ width: 200 }}
-                            picker="month"
-                            value={startEndTime as any}
-                            onChange={(val) => handleStarEndTime(val)}
-                            placeholder={["开始时间", "结束时间"]}
-                            ranges={{
-                                这个月: [
-                                    dayjs().startOf("month"),
-                                    dayjs().endOf("month"),
-                                ],
-                                上个月: [
-                                    dayjs()
-                                        .startOf("month")
-                                        .subtract(1, "month"),
-                                    dayjs().endOf("month").subtract(1, "month"),
-                                ],
-                                上上个月: [
-                                    dayjs()
-                                        .startOf("month")
-                                        .subtract(2, "month"),
-                                    dayjs().endOf("month").subtract(2, "month"),
-                                ],
-                            }}
-                        />
-                    )}
-                    {timeType === "year" && (
-                        <DatePicker.RangePicker
-                            style={{ width: 200 }}
-                            picker="year"
-                            value={startEndTime as any}
-                            onChange={(val) => handleStarEndTime(val)}
-                            placeholder={["开始时间", "结束时间"]}
-                            ranges={{
-                                今年: [
-                                    dayjs().startOf("year"),
-                                    dayjs().endOf("year"),
-                                ],
-                                去年: [
-                                    dayjs().startOf("year").subtract(1, "y"),
-                                    dayjs().endOf("year").subtract(1, "y"),
-                                ],
-                                前年: [
-                                    dayjs().startOf("year").subtract(2, "y"),
-                                    dayjs().endOf("year").subtract(2, "y"),
-                                ],
-                            }}
-                        />
-                    )}
-                    {startEndTime?.[1] && (
-                        <>
-                            <Button
-                                icon={<MinusOutlined />}
-                                onClick={() => {
-                                    handleAddSubtractTime("subtract", "end");
-                                }}
-                            />
-                            <Button
-                                icon={<PlusOutlined />}
-                                onClick={() => {
-                                    handleAddSubtractTime("add", "end");
-                                }}
-                            />
-                        </>
-                    )}
-                </div>
-                <Space style={{ marginTop: 8, paddingLeft: 42 }}>
-                    <Radio.Group
-                        value={timeType}
-                        onChange={(val) => {
-                            handleTimeTypeChange(val.target.value);
-                        }}
-                    >
-                        <Radio.Button value={"year"}>年</Radio.Button>
-                        <Radio.Button value={"month"}>月</Radio.Button>
-                        <Radio.Button value={"day"}>日</Radio.Button>
-                    </Radio.Group>
-                    <span>今天是 {dayjs().format("YYYY-MM-DD")}</span>
+                    {activeColor?.map((item) => (
+                        <Button
+                            key={item}
+                            size="small"
+                            onClick={() =>
+                                setActiveColor(
+                                    activeColor.filter((i) => i !== item)
+                                )
+                            }
+                        >
+                            <span style={{ color: todoColorMap[item] }}>
+                                {todoColorNameMap[item]}
+                            </span>
+                        </Button>
+                    ))}
                 </Space>
-            </div>
+            )}
 
-            <div>
-                <span>特殊状态：</span>
-                <Space className={styles.special} size={[8, 0]}>
-                    <SwitchComp
-                        value={isTarget}
-                        onChange={(val) =>
-                            handleSpecialStatus({
-                                type: "isTarget",
-                                status: val,
-                            })
-                        }
-                    >
-                        <span>
-                            <TodoTypeIcon
-                                type="target"
-                                style={{ color: "#ffeb3b" }}
-                            />{" "}
-                            {todoNameMap.target}
-                        </span>
-                    </SwitchComp>
-                    <SwitchComp value={isNote} onChange={setIsNote}>
-                        <span>
-                            <TodoTypeIcon
-                                type="note"
-                                style={{
-                                    marginRight: 5,
-                                    color: "#ffeb3b",
+            {!props.isSimple && (
+                <div className={styles.filterWrapper}>
+                    <div>
+                        <span>{colorTitle}：</span>
+                        <Checkbox.Group value={activeColor}>
+                            {Object.keys(todoColorMap).map((item) => (
+                                <Checkbox
+                                    key={item}
+                                    value={item}
+                                    onClick={() => {
+                                        setActiveColor(
+                                            activeColor.includes(item)
+                                                ? activeColor.filter(
+                                                      (i) => i !== item
+                                                  )
+                                                : activeColor.concat(item)
+                                        );
+                                    }}
+                                    style={{ color: todoColorMap[item] }}
+                                    className={`${styles.color} ${
+                                        item === "0" ? styles.zero : ""
+                                    }${item === "1" ? styles.one : ""}${
+                                        item === "2" ? styles.two : ""
+                                    }${item === "3" ? styles.three : ""}${
+                                        item === "4" ? styles.four : ""
+                                    }${item === "-1" ? styles.minusOne : ""}`}
+                                >
+                                    {todoColorNameMap[item]}
+                                </Checkbox>
+                            ))}
+                        </Checkbox.Group>
+                    </div>
+                    <div>
+                        <span>类别筛选：</span>
+                        <Checkbox.Group value={activeCategory}>
+                            <Space wrap>
+                                {category?.map((item) => {
+                                    return (
+                                        <Checkbox
+                                            key={item.category}
+                                            value={item.category}
+                                            style={{ color: "white" }}
+                                            onClick={() => {
+                                                console.log(
+                                                    "activeCategory",
+                                                    activeCategory
+                                                );
+                                                setActiveCategory(
+                                                    activeCategory.includes(
+                                                        item.category
+                                                    )
+                                                        ? activeCategory.filter(
+                                                              (i) =>
+                                                                  i !==
+                                                                  item.category
+                                                          )
+                                                        : activeCategory.concat(
+                                                              item.category
+                                                          )
+                                                );
+                                            }}
+                                        >
+                                            {item.category} ({item.count})
+                                        </Checkbox>
+                                    );
+                                })}
+                            </Space>
+                        </Checkbox.Group>
+                        {/* <Select
+                    className={styles.select}
+                    value={activeCategory || undefined}
+                    placeholder="类别筛选"
+                    onChange={(val: any) => setActiveCategory(val)}
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.label ?? "")
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                    }
+                    allowClear
+                    style={{ width: 130 }}
+                    options={category?.map((item) => {
+                        return {
+                            label: `${item.category} (${item.count})`,
+                            value: item.category,
+                        };
+                    })}
+                /> */}
+                    </div>
+                    <div>
+                        <div>
+                            <span>时间：</span>
+                            {startEndTime?.[0] && (
+                                <>
+                                    <Button
+                                        icon={<MinusOutlined />}
+                                        onClick={() =>
+                                            handleAddSubtractTime(
+                                                "subtract",
+                                                "start"
+                                            )
+                                        }
+                                    />
+                                    <Button
+                                        icon={<PlusOutlined />}
+                                        onClick={() =>
+                                            handleAddSubtractTime(
+                                                "add",
+                                                "start"
+                                            )
+                                        }
+                                    />
+                                </>
+                            )}
+                            {timeType === "day" && (
+                                <DatePicker.RangePicker
+                                    style={{ width: 250 }}
+                                    value={startEndTime as any}
+                                    onChange={(val) => handleStarEndTime(val)}
+                                    placeholder={["开始时间", "结束时间"]}
+                                    ranges={{
+                                        Today: [dayjs(), dayjs()],
+                                        这周至今: [
+                                            dayjs().startOf("week"),
+                                            dayjs(),
+                                        ],
+                                        一周内: [
+                                            dayjs().subtract(1, "week"),
+                                            dayjs(),
+                                        ],
+                                        这月至今: [
+                                            dayjs().startOf("month"),
+                                            dayjs(),
+                                        ],
+                                        今年至今: [
+                                            dayjs().startOf("year"),
+                                            dayjs(),
+                                        ],
+                                    }}
+                                />
+                            )}
+                            {timeType === "month" && (
+                                <DatePicker.RangePicker
+                                    style={{ width: 200 }}
+                                    picker="month"
+                                    value={startEndTime as any}
+                                    onChange={(val) => handleStarEndTime(val)}
+                                    placeholder={["开始时间", "结束时间"]}
+                                    ranges={{
+                                        这个月: [
+                                            dayjs().startOf("month"),
+                                            dayjs().endOf("month"),
+                                        ],
+                                        上个月: [
+                                            dayjs()
+                                                .startOf("month")
+                                                .subtract(1, "month"),
+                                            dayjs()
+                                                .endOf("month")
+                                                .subtract(1, "month"),
+                                        ],
+                                        上上个月: [
+                                            dayjs()
+                                                .startOf("month")
+                                                .subtract(2, "month"),
+                                            dayjs()
+                                                .endOf("month")
+                                                .subtract(2, "month"),
+                                        ],
+                                    }}
+                                />
+                            )}
+                            {timeType === "year" && (
+                                <DatePicker.RangePicker
+                                    style={{ width: 200 }}
+                                    picker="year"
+                                    value={startEndTime as any}
+                                    onChange={(val) => handleStarEndTime(val)}
+                                    placeholder={["开始时间", "结束时间"]}
+                                    ranges={{
+                                        今年: [
+                                            dayjs().startOf("year"),
+                                            dayjs().endOf("year"),
+                                        ],
+                                        去年: [
+                                            dayjs()
+                                                .startOf("year")
+                                                .subtract(1, "y"),
+                                            dayjs()
+                                                .endOf("year")
+                                                .subtract(1, "y"),
+                                        ],
+                                        前年: [
+                                            dayjs()
+                                                .startOf("year")
+                                                .subtract(2, "y"),
+                                            dayjs()
+                                                .endOf("year")
+                                                .subtract(2, "y"),
+                                        ],
+                                    }}
+                                />
+                            )}
+                            {startEndTime?.[1] && (
+                                <>
+                                    <Button
+                                        icon={<MinusOutlined />}
+                                        onClick={() => {
+                                            handleAddSubtractTime(
+                                                "subtract",
+                                                "end"
+                                            );
+                                        }}
+                                    />
+                                    <Button
+                                        icon={<PlusOutlined />}
+                                        onClick={() => {
+                                            handleAddSubtractTime("add", "end");
+                                        }}
+                                    />
+                                </>
+                            )}
+                        </div>
+                        <Space style={{ marginTop: 8, paddingLeft: 42 }}>
+                            <Radio.Group
+                                value={timeType}
+                                onChange={(val) => {
+                                    handleTimeTypeChange(val.target.value);
                                 }}
-                            />{" "}
-                            {todoNameMap.note}
-                        </span>
-                    </SwitchComp>
-                    <SwitchComp
-                        value={isHabit}
-                        onChange={(val) =>
-                            handleSpecialStatus({
-                                type: "isHabit",
-                                status: val,
-                            })
-                        }
-                    >
-                        <span>
-                            <TodoTypeIcon
-                                type="habit"
-                                style={{
-                                    marginRight: 5,
-                                    color: "#ffeb3b",
-                                }}
-                            />{" "}
-                            {todoNameMap.habit}
-                        </span>
-                    </SwitchComp>
-                </Space>
-            </div>
-        </div>
+                            >
+                                <Radio.Button value={"year"}>年</Radio.Button>
+                                <Radio.Button value={"month"}>月</Radio.Button>
+                                <Radio.Button value={"day"}>日</Radio.Button>
+                            </Radio.Group>
+                            <span>今天是 {dayjs().format("YYYY-MM-DD")}</span>
+                        </Space>
+                    </div>
+
+                    <div>
+                        <span>特殊状态：</span>
+                        <Space className={styles.special} size={[8, 0]}>
+                            <SwitchComp
+                                value={isTarget}
+                                onChange={(val) =>
+                                    handleSpecialStatus({
+                                        type: "isTarget",
+                                        status: val,
+                                    })
+                                }
+                            >
+                                <span>
+                                    <TodoTypeIcon
+                                        type="target"
+                                        style={{ color: "#ffeb3b" }}
+                                    />{" "}
+                                    {todoNameMap.target}
+                                </span>
+                            </SwitchComp>
+                            <SwitchComp value={isNote} onChange={setIsNote}>
+                                <span>
+                                    <TodoTypeIcon
+                                        type="note"
+                                        style={{
+                                            marginRight: 5,
+                                            color: "#ffeb3b",
+                                        }}
+                                    />{" "}
+                                    {todoNameMap.note}
+                                </span>
+                            </SwitchComp>
+                            <SwitchComp
+                                value={isHabit}
+                                onChange={(val) =>
+                                    handleSpecialStatus({
+                                        type: "isHabit",
+                                        status: val,
+                                    })
+                                }
+                            >
+                                <span>
+                                    <TodoTypeIcon
+                                        type="habit"
+                                        style={{
+                                            marginRight: 5,
+                                            color: "#ffeb3b",
+                                        }}
+                                    />{" "}
+                                    {todoNameMap.habit}
+                                </span>
+                            </SwitchComp>
+                        </Space>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

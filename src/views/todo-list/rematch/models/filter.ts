@@ -4,8 +4,8 @@ import type { RootModel } from "./index";
 interface FilterType {
     keyword: string; // 这个是 todo 的全局 keyword
     localKeyword: string; // 这个是 modal 和 drawer 用的局部 keyword
-    activeColor: string;
-    activeCategory: string;
+    activeColor: string[];
+    activeCategory: string[];
     startEndTime: any;
     isWork: string; // 是否是工作
     isTarget: string;
@@ -19,8 +19,8 @@ export const filter = createModel<RootModel>()({
     state: {
         keyword: "",
         localKeyword: "",
-        activeColor: "",
-        activeCategory: "",
+        activeColor: [],
+        activeCategory: [],
         startEndTime: "",
         isWork: localStorage.getItem("todoGlobalSearchIsWork") || "",
         isTarget: "0",
@@ -111,8 +111,8 @@ export const filter = createModel<RootModel>()({
                 setIsNote,
                 setIsHabit,
             } = dispatch.filter;
-            setActiveCategory("");
-            setActiveColor("");
+            setActiveCategory([]);
+            setActiveColor([]);
             setKeyword("");
             // setIsWork("");
             setIsTarget("0");

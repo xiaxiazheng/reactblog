@@ -29,10 +29,10 @@ interface ContextType {
     refreshData: (type?: StatusType) => void;
     getTodo: (type: StatusType, params?: any) => Promise<void>;
 
-    activeColor: string;
-    setActiveColor: React.Dispatch<React.SetStateAction<string>>;
-    activeCategory: string;
-    setActiveCategory: React.Dispatch<React.SetStateAction<string>>;
+    activeColor: string[];
+    setActiveColor: React.Dispatch<React.SetStateAction<string[]>>;
+    activeCategory: string[];
+    setActiveCategory: React.Dispatch<React.SetStateAction<string[]>>;
     startEndTime: any;
     setStartEndTime: React.Dispatch<React.SetStateAction<any>>;
     keyword: string;
@@ -185,8 +185,8 @@ export const TodoDataProvider: React.FC = (props) => {
     // 筛选相关，根据颜色和类别筛选
     // 根据颜色和类别筛选
     const [keyword, setKeyword] = useState<string>("");
-    const [activeColor, setActiveColor] = useState<string>("");
-    const [activeCategory, setActiveCategory] = useState<string>("");
+    const [activeColor, setActiveColor] = useState<string[]>([]);
+    const [activeCategory, setActiveCategory] = useState<string[]>([]);
     const [startEndTime, setStartEndTime] = useState<any>(undefined);
     const [pageNo, setPageNo] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(
@@ -195,11 +195,11 @@ export const TodoDataProvider: React.FC = (props) => {
 
     const getFilterList = (list: TodoItemType[]) => {
         let l = list;
-        if (activeColor !== "") {
-            l = l.filter((item) => item.color === activeColor);
+        if (activeColor?.length !== 0) {
+            l = l.filter((item) => activeColor.includes(item.color));
         }
-        if (activeCategory !== "") {
-            l = l.filter((item) => item.category === activeCategory);
+        if (activeCategory?.length !== 0) {
+            l = l.filter((item) => activeCategory.includes(item.category));
         }
         if (keyword !== "") {
             if (keyword.includes(" ")) {
@@ -236,8 +236,8 @@ export const TodoDataProvider: React.FC = (props) => {
     }, [todoListOrigin, poolListOrigin, targetListOrigin]);
 
     const handleClear = () => {
-        setActiveCategory("");
-        setActiveColor("");
+        setActiveCategory([]);
+        setActiveColor([]);
         setKeyword("");
         setStartEndTime(undefined);
         setPageNo(1);
@@ -246,8 +246,8 @@ export const TodoDataProvider: React.FC = (props) => {
     // 是否是正在筛选状态
     const isFilter = () => {
         return (
-            activeColor !== "" ||
-            activeCategory !== "" ||
+            activeColor?.length !== 0 ||
+            activeCategory?.length !== 0 ||
             keyword !== "" ||
             !!startEndTime ||
             pageNo !== 1

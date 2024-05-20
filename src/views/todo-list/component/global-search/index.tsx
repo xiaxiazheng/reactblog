@@ -123,8 +123,8 @@ const GlobalSearch: React.FC = () => {
 
     const isFilter = () => {
         return (
-            activeColor !== "" ||
-            activeCategory !== "" ||
+            activeColor?.length !== 0 ||
+            activeCategory?.length !== 0 ||
             keyword !== "" ||
             !!startEndTime ||
             pageNo !== 1 ||
@@ -199,7 +199,7 @@ const GlobalSearch: React.FC = () => {
                             }
                         />
                     </Tooltip>
-                    <Select
+                    {/* <Select
                         className={styles.select}
                         value={activeCategory || undefined}
                         placeholder="类别筛选"
@@ -218,7 +218,7 @@ const GlobalSearch: React.FC = () => {
                                 value: item.category,
                             };
                         })}
-                    />
+                    /> */}
                     <Button
                         type={showFilter ? "primary" : "default"}
                         onClick={() => setShowFilter((prev) => !prev)}
@@ -251,7 +251,7 @@ const GlobalSearch: React.FC = () => {
                 placeholder="可用空格分词实现一定模糊搜索"
             />
 
-            {showFilter && <Filter />}
+            <Filter isSimple={!showFilter} />
         </Space>
     );
 };
