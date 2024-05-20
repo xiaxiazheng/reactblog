@@ -20,6 +20,11 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
         setList(category);
     }, [category]);
 
+    const getList = () => {
+        const list = l.slice(0, todoCategoryDefaultShow);
+        return list.map(item => item.category).includes(value) ? list : l.slice(0, todoCategoryDefaultShow - 1).concat(l.filter(item => item.category === value));
+    };
+
     return (
         <>
             <Radio.Group
@@ -28,7 +33,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
                 value={value}
                 onChange={(val) => onChange(val)}
             >
-                {(showAll ? l : l.slice(0, todoCategoryDefaultShow)).map((item: CategoryType) => (
+                {(showAll ? l : getList()).map((item: CategoryType) => (
                     <Radio.Button key={item.category} value={item.category}>
                         {item.category} ({item.count})
                     </Radio.Button>
