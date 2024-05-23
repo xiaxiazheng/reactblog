@@ -45,6 +45,10 @@
         position: relative;
         display: flex;
         justify-content: center;
+        align-items: center;
+        .nums {
+            padding: 0 8px;
+        }
         .playIcon {
             font-size: 18px;
             padding: 0 8px;

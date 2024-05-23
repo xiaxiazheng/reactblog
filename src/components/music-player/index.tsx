@@ -303,6 +303,7 @@ const Music: React.FC<PropsType> = (props) => {
                             onClick={() => getRandomList(randomList)}
                         />
                     </Tooltip>
+                    <div className={styles.nums}>{musicList.findIndex(item => item.key === active?.key) + 1} / {musicList.length}</div>
                 </div>
                 <Input
                     value={keyword}
