@@ -118,7 +118,7 @@ const List: React.FC<Props> = (props) => {
             <div className={styles.header}>
                 <span className={styles.active} onClick={() => setIsHide()}>
                     {title}({total}){" "}
-                    {isHide ? <DownOutlined /> : <UpOutlined />}
+                    {isHide ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={8}>
                     {showDoingBtn && (

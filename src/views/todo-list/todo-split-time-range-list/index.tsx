@@ -119,7 +119,7 @@ const PoolList: React.FC<Props> = (props) => {
                     onClick={() => setIsHide()}
                 >
                     {title}({list.length}){" "}
-                    {isHide ? <DownOutlined /> : <UpOutlined />}
+                    {isHide ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={16}>
                     {props.btn}

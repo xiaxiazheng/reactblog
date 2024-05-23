@@ -48,7 +48,7 @@ const PoolList: React.FC<Props> = (props) => {
                     style={{ color: "#1890ffcc" }}
                     onClick={() => setIsHide()}
                 >
-                    {title}({mapList.length}) {isHide ? <DownOutlined /> : <UpOutlined />}
+                    {title}({mapList.length}) {isHide ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={16}>
                     {props.btn}

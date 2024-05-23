@@ -98,7 +98,7 @@ const TodoList: React.FC = () => {
         getTodo("todo");
         getTodo("pool");
         getTodo("bookMark");
-        getCategory();
+        getCategory({});
     }, []);
 
     return (
