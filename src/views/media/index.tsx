@@ -9,7 +9,7 @@ import {
     UnorderedListOutlined,
     YoutubeOutlined,
 } from "@ant-design/icons";
-import MusicPlayer, { FType } from "@/components/music-player";
+import MusicPlayer, { FType } from "@/components/music-player-in-header";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 const Video: React.FC = () => {

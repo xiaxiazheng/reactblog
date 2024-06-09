@@ -24,7 +24,7 @@ interface PropsType {
     setActiveSong?: (file: FType) => void;
 }
 
-const Music: React.FC<PropsType> = (props) => {
+const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
     const { activeSong, setActiveSong } = props;
 
     useEffect(() => {
@@ -337,4 +337,4 @@ const Music: React.FC<PropsType> = (props) => {
     );
 };
 
-export default Music;
+export default MusicPlayerInHeader;

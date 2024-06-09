@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import MusicPlayer from "@/components/music-player";
+import MusicPlayer from "@/components/music-player-in-header";
 
 // 放在 header 里的迷你播放器
 const MiniMusicPlayer: React.FC = () => {

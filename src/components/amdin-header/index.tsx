@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-import { Popover, Switch, Tooltip } from "antd";
+import { Button, Popover, Switch, Tooltip } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { ThemeContext } from "@/context/ThemeContext";
 import { getAlreadyDate } from "./utils";
-import Music from "../music-player";
+import MusicPlayerInHeader from "../music-player-in-header";
+import TranslateInHeader from "../translate-in-header";
 
 interface PropsType extends RouteComponentProps {
     routes: any[];
@@ -108,7 +109,9 @@ const Header: React.FC<PropsType> = (props) => {
                 </Popover>
             </div>
             <div className={styles.headerRight}>
-                <Music />
+                <TranslateInHeader />
+                {/* 导航里的音乐播放器 */}
+                <MusicPlayerInHeader />
                 <div className={styles.already}>
                     <Tooltip
                         title={
