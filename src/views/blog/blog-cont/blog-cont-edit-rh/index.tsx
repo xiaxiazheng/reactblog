@@ -66,7 +66,7 @@ class BlogContEdit extends React.Component<PropsType> {
 
     // 键盘事件
     onKeyDown = (e: any) => {
-        // 加上了 mac 的 command 按键的 metaKey 的兼容
+        // 监听 ctrl + s，加上了 mac 的 command 按键的 metaKey 的兼容
         if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
             this.saveEditLog();

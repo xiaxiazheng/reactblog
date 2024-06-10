@@ -3,6 +3,7 @@ import {
     YouDaoTranslate,
     YouDaoTranslateDict,
 } from "@/client/TranslateHelper";
+import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
 import { Button, message, Modal, Input, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
@@ -57,21 +58,9 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
         }
     };
 
-    useEffect(() => {
-        const listenLogin = (event: any) => {
-            // 监听 ctrl + s 组合键，直接翻译
-            if (event.ctrlKey && event.keyCode === 83) {
-                handleTranslate();
-                // 禁止浏览器的默认行为
-                event.preventDefault();
-            }
-        };
-        document.addEventListener("keydown", listenLogin);
-
-        return () => {
-            document.removeEventListener("keydown", listenLogin);
-        };
-    }, [keyword]);
+    useCtrlSHooks(() => {
+        isShowModal && handleTranslate();
+    });
 
     const renderTranslate = () => {
         return (
@@ -162,46 +151,53 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                             )}
                                         </div>
                                     </div>
-                                    {word?.wfs && <div>
-                                        <div className={styles.label}>
-                                            其他形式：
+                                    {word?.wfs && (
+                                        <div>
+                                            <div className={styles.label}>
+                                                其他形式：
+                                            </div>
+                                            <Space wrap>
+                                                {word.wfs?.map(
+                                                    (
+                                                        wfs: any,
+                                                        index: number
+                                                    ) => (
+                                                        <div key={index}>
+                                                            <span>
+                                                                {wfs?.wf?.name}
+                                                            </span>
+                                                            ：
+                                                            <span>
+                                                                {wfs?.wf?.value}
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                )}
+                                            </Space>
                                         </div>
-                                        <Space wrap>
-                                            {word.wfs?.map(
-                                                (wfs: any, index: number) => (
-                                                    <div key={index}>
-                                                        <span>
-                                                            {wfs?.wf?.name}
-                                                        </span>
-                                                        ：
-                                                        <span>
-                                                            {wfs?.wf?.value}
-                                                        </span>
-                                                    </div>
-                                                )
-                                            )}
-                                        </Space>
-                                    </div>}
+                                    )}
                                 </Space>
                             )
                         )}
                     </div>
                 )}
-                {
-                  translate?.result?.blng_sents_part && <div>
-                    <div className={styles.label}>
-                      例句：
+                {translate?.result?.blng_sents_part && (
+                    <div>
+                        <div className={styles.label}>例句：</div>
+                        <Space direction="vertical">
+                            {translate.result.blng_sents_part?.[
+                                "sentence-pair"
+                            ]?.map((item: any, index: number) => (
+                                <div key={index}>
+                                    <div>
+                                        {index + 1}. {item?.["sentence"]}
+                                    </div>
+                                    <div>{item?.["sentence-translation"]}</div>
+                                </div>
+                            ))}
+                        </Space>
                     </div>
-                    <Space direction="vertical">
-                      {translate.result.blng_sents_part?.['sentence-pair']?.map((item: any, index: number) => (
-                        <div key={index}>
-                          <div>{index + 1}. {item?.['sentence']}</div>
-                          <div>{item?.['sentence-translation']}</div>
-                        </div>
-                      ))}
-                    </Space>
-                  </div>
-                }
+                )}
             </>
         );
     };
@@ -218,7 +214,13 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                 translate
             </Button>
             <Modal
-                title={`翻译${keyword ? (isAllEnglishLetter(keyword) ? "单词" : "句子") : ""}`}
+                title={`翻译${
+                    keyword
+                        ? isAllEnglishLetter(keyword)
+                            ? "单词"
+                            : "句子"
+                        : ""
+                }`}
                 open={isShowModal}
                 onCancel={() => setIsShowModal(false)}
                 width={"80vw"}
@@ -239,13 +241,19 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                         </Button>
                         {translate?.isMark === 1 && <span>当前查询已记录</span>}
                         {translate && (
-                            <Button onClick={() => switchMark()} danger={translate.isMark === 1}>
+                            <Button
+                                onClick={() => switchMark()}
+                                danger={translate.isMark === 1}
+                            >
                                 {translate.isMark === 0 ? "保存" : "移除"}
                             </Button>
                         )}
                     </Space>
                     {lastKeyword && (
-                        <Space direction="vertical" className={`${styles.result} ScrollBar`}>
+                        <Space
+                            direction="vertical"
+                            className={`${styles.result} ScrollBar`}
+                        >
                             {isAllEnglishLetter(lastKeyword)
                                 ? renderTranslateDict()
                                 : renderTranslate()}

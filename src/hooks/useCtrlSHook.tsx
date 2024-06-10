@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export const useCtrlSHooks = (fn: Function) => {
+export const useCtrlSHooks = (fn: Function, keyCode = 83) => {
     const [isKeyDown, setIsKeyDown] = useState(false);
     useEffect(() => {
         if (isKeyDown) {
@@ -18,8 +18,8 @@ export const useCtrlSHooks = (fn: Function) => {
 
     // 键盘事件
     const onKeyDown = (e: any) => {
-        // 加上了 mac 的 command 按键的 metaKey 的兼容
-        if (e.keyCode === 83 && (e.ctrlKey || e.metaKey)) {
+        // 监听 ctrl + s，加上了 mac 的 command 按键的 metaKey 的兼容
+        if (e.keyCode === keyCode && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
             setIsKeyDown(true);
         }
