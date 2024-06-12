@@ -1,10 +1,10 @@
 import { getHelper, postHelper } from ".";
 
-export const YouDaoTranslate = async (keyword: string) => {
+export const TranslateSentence = async (keyword: string) => {
     const params = {
         keyword,
     };
-    const data = await postHelper(`/translate/YouDaoTranslate`, params);
+    const data = await postHelper(`/translate/translateSentence`, params);
     return data || false;
 };
 
@@ -16,16 +16,11 @@ export const YouDaoTranslateDict = async (keyword: string) => {
   return data || false;
 };
 
-export async function getTranslateList(
-    keyword: string,
+export async function getTranslateList(params: {
+    keyword?: string,
     pageNo: number,
     pageSize?: number
-): Promise<any> {
-    const params = {
-        keyword,
-        pageNo,
-        pageSize,
-    };
+}): Promise<any> {
     const data = await postHelper(`/translate/getTranslateList`, params);
     return data && data.resultsCode === "success" ? data.data : false;
 }

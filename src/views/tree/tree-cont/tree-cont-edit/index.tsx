@@ -23,7 +23,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { ImageType } from "@/client/ImgHelper";
-import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import { useCtrlHooks } from "@/hooks/useCtrlHook";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 
 interface PropsType extends RouteComponentProps {
@@ -57,7 +57,7 @@ const TreeContEdit: React.FC<PropsType> = (props) => {
         second_id && getTreeCont();
     }, [second_id]);
 
-    useCtrlSHooks(() => {
+    useCtrlHooks(() => {
         saveTreeCont();
     });
 

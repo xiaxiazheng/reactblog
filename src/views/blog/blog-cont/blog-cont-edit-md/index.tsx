@@ -10,7 +10,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { staticUrl } from "@/env_config";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
-import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import { useCtrlHooks } from "@/hooks/useCtrlHook";
 
 interface PropsType {
     blogData: OneBlogType;
@@ -37,7 +37,7 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
         setMarkString(blogData.blogcont || "");
     }, []);
 
-    useCtrlSHooks(() => {
+    useCtrlHooks(() => {
         saveEditLog();
     });
 

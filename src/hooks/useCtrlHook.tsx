@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export const useCtrlSHooks = (fn: Function, keyCode = 83) => {
+export const useCtrlHooks = (fn: Function, keyCode = 83) => {
     const [isKeyDown, setIsKeyDown] = useState(false);
     useEffect(() => {
         if (isKeyDown) {

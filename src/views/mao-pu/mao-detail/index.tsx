@@ -7,7 +7,7 @@ import { Input, Button, message, Select } from "antd";
 import { LeftOutlined, SaveOutlined } from "@ant-design/icons";
 import { updateMaoPu } from "@/client/MaoPuHelper";
 import { IMao } from "../types";
-import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import { useCtrlHooks } from "@/hooks/useCtrlHook";
 
 const { Option } = Select;
 
@@ -44,7 +44,7 @@ const MaoDetail: React.FC<IMaoDetailProps> = (props) => {
     const [description, setDescription] = useState<string>(mao.description);
     const [remarks, setRemarks] = useState<string>(mao.remarks);
 
-    useCtrlSHooks(() => {
+    useCtrlHooks(() => {
         saveMaoPu();
     });
 

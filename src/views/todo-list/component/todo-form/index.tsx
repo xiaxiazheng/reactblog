@@ -51,6 +51,7 @@ const TodoForm: React.FC<Props> = (props) => {
     // const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === "1";
 
     const input = useRef<any>(null);
+    // 聚焦在输入框
     useEffect(() => {
         open && input?.current && input.current?.focus();
     }, [open]);

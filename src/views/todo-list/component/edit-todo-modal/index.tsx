@@ -29,7 +29,7 @@ import {
     editTodoItem,
     getTodoById,
 } from "@/client/TodoListHelper";
-import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import { useCtrlHooks } from "@/hooks/useCtrlHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
@@ -330,7 +330,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         }
     };
 
-    useCtrlSHooks(() => {
+    useCtrlHooks(() => {
         visible && handleOk(false);
     });
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Input, message, Space, Spin } from "antd";
-import { useCtrlSHooks } from "../../hooks/useCtrlSHook";
+import { useCtrlHooks } from "../../hooks/useCtrlHook";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { addTodoItem, getTodoList } from "@/client/TodoListHelper";
@@ -46,7 +46,7 @@ const CMD: React.FC<ICMD> = (props) => {
         }
     };
 
-    useCtrlSHooks(submit);
+    useCtrlHooks(submit);
 
     const sendMsg = (str: string) => {
         ref?.current?.send(str);

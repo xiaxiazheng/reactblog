@@ -5,7 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { CategoryType, NoteType } from "../types";
 import { addNote, editNote, getNoteById } from "@/client/NoteHelper";
 import ImgFileNoteList from "../img-file-note-list";
-import { useCtrlSHooks } from "@/hooks/useCtrlSHook";
+import { useCtrlHooks } from "@/hooks/useCtrlHook";
 
 const { TextArea } = Input;
 
@@ -91,7 +91,7 @@ const EditNoteModal: React.FC<Props> = (props) => {
         }
     }, [activeNote, visible]);
 
-    useCtrlSHooks(() => {
+    useCtrlHooks(() => {
         visible && onOk();
     });
 
