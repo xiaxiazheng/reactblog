@@ -121,7 +121,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
         isShowModal && handleTranslate();
     });
 
-    // 监听 ctrl + q，打开 or 关闭翻译弹窗，打开时让输入框 focus
+    // 监听 ctrl + x，打开 or 关闭翻译弹窗，打开时让输入框 focus
     useCtrlHooks(() => {
         if (!isShowModal) {
             setTimeout(() => {
@@ -129,7 +129,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
             }, 0);
         }
         setIsShowModal((prev) => !prev);
-    }, 81);
+    }, 88);
 
     useEffect(() => {
         isShowModal && getList();
