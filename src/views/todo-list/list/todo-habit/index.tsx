@@ -17,20 +17,15 @@ const TodoHabit = () => {
     const habitListOrigin = useSelector(
         (state: RootState) => state.data.habitListOrigin
     );
-    const isWork = useSelector((state: RootState) => state.filter.isWork);
     const isHabit = useSelector(
         (state: RootState) => state.filter.isHabit
     );
     const dispatch = useDispatch<Dispatch>();
-    const { setHabitList, getFilterList, getTodo } = dispatch.data;
+    const { setHabitList, getFilterList } = dispatch.data;
     const { handleSpecialStatus } = dispatch.filter;
     useEffect(() => {
         setHabitList(getFilterList({ list: habitListOrigin, type: "habit" }));
     }, [habitListOrigin]);
-
-    useEffect(() => {
-        getTodo("habit");
-    }, [isWork]);
 
     if (!habitList?.length) return null;
 

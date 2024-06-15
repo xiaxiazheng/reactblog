@@ -18,20 +18,15 @@ const TodoTarget = () => {
     const targetListOrigin = useSelector(
         (state: RootState) => state.data.targetListOrigin
     );
-    const isWork = useSelector((state: RootState) => state.filter.isWork);
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const dispatch = useDispatch<Dispatch>();
-    const { setTargetList, getFilterList, getTodo } = dispatch.data;
+    const { setTargetList, getFilterList } = dispatch.data;
     const { handleSpecialStatus } = dispatch.filter;
     useEffect(() => {
         setTargetList(
             getFilterList({ list: targetListOrigin, type: "target" })
         );
     }, [targetListOrigin]);
-
-    useEffect(() => {
-        getTodo("target");
-    }, [isWork]);
 
     return (
         <PoolList

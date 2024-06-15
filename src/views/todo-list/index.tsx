@@ -87,7 +87,7 @@ const TodoList: React.FC = () => {
 
     const [form] = useForm();
     const dispatch = useDispatch<Dispatch>();
-    const { getTodo, getCategory } = dispatch.data;
+    const { getCategory, getTodo } = dispatch.data;
     const { setForm } = dispatch.edit;
     const isWork = useSelector((state: RootState) => state.filter.isWork);
     useEffect(() => {
@@ -95,11 +95,16 @@ const TodoList: React.FC = () => {
     }, [form]);
 
     useEffect(() => {
+        // 这里不刷新 done list, 那个会在 global-search 里请求
+        getCategory({});
         getTodo("todo");
         getTodo("pool");
+        getTodo("target");
         getTodo("bookMark");
-        getCategory({});
-    }, []);
+        getTodo("note");
+        getTodo("habit");
+        getTodo("followUp");
+    }, [isWork]);
 
     return (
         <div className={styles.todoList}>

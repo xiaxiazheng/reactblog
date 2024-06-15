@@ -64,12 +64,11 @@ const GlobalSearch: React.FC = () => {
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
     const { refreshData, handleSearch: search } = dispatch.data;
     const {
-        setActiveCategory,
         setKeyword: setContextKeyword,
         handleClear,
         setIsWork,
     } = dispatch.filter;
-    
+
     const originTodo = useOriginTodo();
 
     const handleAdd = () => {
@@ -106,20 +105,7 @@ const GlobalSearch: React.FC = () => {
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
-    const [keyword, setKeyword] = useState<string>("");
-    useEffect(() => {
-        setKeyword(contextKeyword);
-    }, [contextKeyword]);
-
-    useEffect(() => {
-        if (!keyword || keyword === "") {
-            handleSearch("");
-        }
-    }, [keyword]);
-
-    const handleSearch = (str: string) => {
-        setContextKeyword(str);
-    };
+    const [keyword, setKeyword] = useState<string>();
 
     const isFilter = () => {
         return (
@@ -244,8 +230,14 @@ const GlobalSearch: React.FC = () => {
             <Input.Search
                 className={styles.search}
                 value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                onSearch={() => handleSearch(keyword)}
+                onChange={(e) => {
+                    setKeyword(e.target.value);
+                    // keyword 一旦清空就直接刷新
+                    if (!e.target.value || e.target.value === '') {
+                        setContextKeyword("");
+                    }
+                }}
+                onSearch={() => setContextKeyword(keyword || "")}
                 enterButton
                 allowClear={true}
                 placeholder="可用空格分词实现一定模糊搜索"

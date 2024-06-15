@@ -20,18 +20,13 @@ const TodoFollowUp = () => {
     const followUpListOrigin = useSelector(
         (state: RootState) => state.data.followUpListOrigin
     );
-    const isWork = useSelector((state: RootState) => state.filter.isWork);
     const dispatch = useDispatch<Dispatch>();
-    const { setFollowUpList, getFilterList, getTodo } = dispatch.data;
+    const { setFollowUpList, getFilterList } = dispatch.data;
     useEffect(() => {
         setFollowUpList(
             getFilterList({ list: followUpListOrigin, type: "followUp" })
         );
     }, [followUpListOrigin]);
-
-    useEffect(() => {
-        getTodo("followUp");
-    }, [isWork]);
 
     return (
         <List
