@@ -2,8 +2,7 @@ import {
     deleteTranslateItem,
     getTranslateList,
     switchTranslateMark,
-    TranslateSentence,
-    YouDaoTranslateDict,
+    getTranslate,
 } from "@/client/TranslateHelper";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";
 import {
@@ -27,7 +26,7 @@ import styles from "./index.module.scss";
 const { TextArea } = Input;
 const { confirm } = Modal;
 
-const isAllEnglishLetter = (str: string) => /^[a-zA-Z]+$/.test(str);
+// const isAllEnglishLetter = (str: string) => !/^[a-zA-Z]+$/.test(str);
 
 interface TranslateType {
     isMark: 0 | 1;
@@ -82,9 +81,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
             message.warning("请输入要翻译的内容");
             return;
         }
-        const res = isAllEnglishLetter(str)
-            ? await YouDaoTranslateDict(str)
-            : await TranslateSentence(str);
+        const res = await getTranslate(str);
         if (res) {
             const result = res?.result && JSON.parse(res.result);
             console.log(result);
@@ -158,141 +155,148 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
         });
     };
 
-    const renderTranslateSentence = (result: any) => {
-        return (
-            <>
-                {result && <div className={styles.label}>有道翻译：</div>}
-                {result?.youdao?.translation?.map((item: any) => {
-                    return <div key={item}>{item}</div>;
-                })}
-            </>
-        );
-    };
-
     const renderTranslateDict = (result: any, simple: boolean = false) => {
+        if (!result?.dict) {
+            return null;
+        }
+        const { ec, blng_sents_part, fanyi } = result.dict;
         return (
             <>
-                {result?.ec && (
+                {ec && (
                     <div>
-                        {result.ec?.word?.map(
-                            (word: any, wordIndex: number) => (
-                                <Space key={wordIndex} direction="vertical">
+                        {ec?.word?.map((word: any, wordIndex: number) => (
+                            <Space key={wordIndex} direction="vertical">
+                                {(word?.usphone || word?.usphone) && (
                                     <div>
                                         <div className={styles.label}>
                                             音标：
                                         </div>
                                         <Space>
-                                            <span>
-                                                us:{" "}
-                                                <span
-                                                    className={styles.phonetic}
-                                                >
-                                                    [${word.usphone}]
+                                            {word?.usphone && (
+                                                <span>
+                                                    us:{" "}
+                                                    <span
+                                                        className={
+                                                            styles.phonetic
+                                                        }
+                                                    >
+                                                        [{word.usphone}]
+                                                    </span>
                                                 </span>
-                                            </span>
-                                            <span>
-                                                uk:{" "}
-                                                <span
-                                                    className={styles.phonetic}
-                                                >
-                                                    [${word.ukphone}]
+                                            )}
+                                            {word.ukphone && (
+                                                <span>
+                                                    uk:{" "}
+                                                    <span
+                                                        className={
+                                                            styles.phonetic
+                                                        }
+                                                    >
+                                                        [{word.ukphone}]
+                                                    </span>
                                                 </span>
-                                            </span>
+                                            )}
                                         </Space>
                                     </div>
+                                )}
+                                <div>
+                                    <div className={styles.label}>单词翻译：</div>
+                                    <div>
+                                        {word?.trs?.map(
+                                            (trs: any, trsIndex: number) => (
+                                                <div key={trsIndex}>
+                                                    {trs.tr.map(
+                                                        (
+                                                            tr: any,
+                                                            trIndex: number
+                                                        ) => (
+                                                            <div key={trIndex}>
+                                                                {tr?.l?.i?.map(
+                                                                    (
+                                                                        i: any,
+                                                                        iIndex: number
+                                                                    ) => (
+                                                                        <div
+                                                                            key={
+                                                                                iIndex
+                                                                            }
+                                                                        >
+                                                                            {i}
+                                                                        </div>
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                </div>
+                                {!simple && word?.wfs && (
                                     <div>
                                         <div className={styles.label}>
-                                            翻译：
+                                            其他形式：
                                         </div>
-                                        <div>
-                                            {word?.trs?.map(
-                                                (
-                                                    trs: any,
-                                                    trsIndex: number
-                                                ) => (
-                                                    <div key={trsIndex}>
-                                                        {trs.tr.map(
-                                                            (
-                                                                tr: any,
-                                                                trIndex: number
-                                                            ) => (
-                                                                <div
-                                                                    key={
-                                                                        trIndex
-                                                                    }
-                                                                >
-                                                                    {tr?.l?.i?.map(
-                                                                        (
-                                                                            i: any,
-                                                                            iIndex: number
-                                                                        ) => (
-                                                                            <div
-                                                                                key={
-                                                                                    iIndex
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    i
-                                                                                }
-                                                                            </div>
-                                                                        )
-                                                                    )}
-                                                                </div>
-                                                            )
-                                                        )}
+                                        <Space wrap>
+                                            {word.wfs?.map(
+                                                (wfs: any, index: number) => (
+                                                    <div key={index}>
+                                                        <span>
+                                                            {wfs?.wf?.name}
+                                                        </span>
+                                                        ：
+                                                        <span>
+                                                            {wfs?.wf?.value}
+                                                        </span>
                                                     </div>
                                                 )
                                             )}
-                                        </div>
+                                        </Space>
                                     </div>
-                                    {!simple && word?.wfs && (
-                                        <div>
-                                            <div className={styles.label}>
-                                                其他形式：
-                                            </div>
-                                            <Space wrap>
-                                                {word.wfs?.map(
-                                                    (
-                                                        wfs: any,
-                                                        index: number
-                                                    ) => (
-                                                        <div key={index}>
-                                                            <span>
-                                                                {wfs?.wf?.name}
-                                                            </span>
-                                                            ：
-                                                            <span>
-                                                                {wfs?.wf?.value}
-                                                            </span>
-                                                        </div>
-                                                    )
-                                                )}
-                                            </Space>
-                                        </div>
-                                    )}
-                                </Space>
-                            )
-                        )}
+                                )}
+                            </Space>
+                        ))}
                     </div>
                 )}
-                {!simple && result?.blng_sents_part && (
+                {fanyi?.tran && <div>
+                    <div className={styles.label}>语句翻译：</div>
+                    <div>{fanyi?.tran}</div>
+                    </div>}
+                {!simple && blng_sents_part && (
                     <div>
                         <div className={styles.label}>例句：</div>
                         <Space direction="vertical">
-                            {translate.result.blng_sents_part?.[
-                                "sentence-pair"
-                            ]?.map((item: any, index: number) => (
-                                <div key={index}>
-                                    <div>
-                                        {index + 1}. {item?.["sentence"]}
+                            {blng_sents_part?.["sentence-pair"]?.map(
+                                (item: any, index: number) => (
+                                    <div key={index}>
+                                        <div>
+                                            {index + 1}. {item?.["sentence"]}
+                                        </div>
+                                        <div>
+                                            {item?.["sentence-translation"]}
+                                        </div>
                                     </div>
-                                    <div>{item?.["sentence-translation"]}</div>
-                                </div>
-                            ))}
+                                )
+                            )}
                         </Space>
                     </div>
                 )}
             </>
+        );
+    };
+
+    const renderTranslateSentence = (result: any) => {
+        if (!result?.youdao) {
+            return null;
+        }
+        return (
+            <div>
+                <div className={styles.label}>有道翻译：</div>
+                {result.youdao?.translation?.map((item: any) => {
+                    return <div key={item}>{item}</div>;
+                })}
+            </div>
         );
     };
 
@@ -311,13 +315,8 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                 translate
             </Button>
             <Modal
-                title={`翻译${
-                    keyword
-                        ? isAllEnglishLetter(keyword)
-                            ? "单词"
-                            : "句子"
-                        : ""
-                }`}
+                className={styles.modal}
+                title={`翻译`}
                 open={isShowModal}
                 onCancel={() => setIsShowModal(false)}
                 width={"80vw"}
@@ -362,11 +361,8 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                     direction="vertical"
                                     className={`${styles.result} ScrollBar`}
                                 >
-                                    {isAllEnglishLetter(translate?.keyword)
-                                        ? renderTranslateDict(translate?.result)
-                                        : renderTranslateSentence(
-                                              translate?.result
-                                          )}
+                                    {renderTranslateDict(translate?.result)}
+                                    {renderTranslateSentence(translate?.result)}
                                 </Space>
                             )}
                         </Space>
@@ -396,7 +392,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                 }}
                             />
                         </Space>
-                        <Space direction="vertical" style={{ width: "100%" }}>
+                        <Space direction="vertical" className={styles.list}>
                             {list?.map((item) => {
                                 return (
                                     <div
@@ -420,14 +416,13 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                             {item.keyword}
                                         </div>
                                         <div className={styles.content}>
-                                            {item.isWord
-                                                ? renderTranslateDict(
-                                                      item.result,
-                                                      true
-                                                  )
-                                                : renderTranslateSentence(
-                                                      item.result
-                                                  )}
+                                            {renderTranslateDict(
+                                                item.result,
+                                                true
+                                            )}
+                                            {renderTranslateSentence(
+                                                item.result
+                                            )}
                                         </div>
                                         <Tooltip
                                             placement="left"

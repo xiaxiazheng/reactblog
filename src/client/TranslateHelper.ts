@@ -1,19 +1,11 @@
 import { getHelper, postHelper } from ".";
 
-export const TranslateSentence = async (keyword: string) => {
+export const getTranslate = async (keyword: string) => {
     const params = {
         keyword,
     };
-    const data = await postHelper(`/translate/translateSentence`, params);
+    const data = await postHelper(`/translate/translate`, params);
     return data || false;
-};
-
-export const YouDaoTranslateDict = async (keyword: string) => {
-  const params = {
-      keyword,
-  };
-  const data = await postHelper(`/translate/YouDaoTranslateDict`, params);
-  return data || false;
 };
 
 export async function getTranslateList(params: {
