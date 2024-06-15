@@ -510,10 +510,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     //         ? l
     //         : l.slice(0, 1);
     // 暂时改成这样
-    const controlList =
-        !activeTodo?.other_id || (activeTodo?.other_id && color !== "4")
-            ? l
-            : l.slice(0, 1);
+    const controlList = !activeTodo?.other_id ? l : l.slice(0, 1);
 
     const handleOtherIdChange = (changedFields?: any[]) => {
         if (changedFields?.[0]?.name?.[0] === "other_id") {
