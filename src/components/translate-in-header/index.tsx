@@ -200,7 +200,9 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                     </div>
                                 )}
                                 <div>
-                                    <div className={styles.label}>单词翻译：</div>
+                                    <div className={styles.label}>
+                                        单词翻译：
+                                    </div>
                                     <div>
                                         {word?.trs?.map(
                                             (trs: any, trsIndex: number) => (
@@ -259,10 +261,12 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                         ))}
                     </div>
                 )}
-                {fanyi?.tran && <div>
-                    <div className={styles.label}>语句翻译：</div>
-                    <div>{fanyi?.tran}</div>
-                    </div>}
+                {fanyi?.tran && (
+                    <div>
+                        <div className={styles.label}>语句翻译：</div>
+                        <div>{fanyi?.tran}</div>
+                    </div>
+                )}
                 {!simple && blng_sents_part && (
                     <div>
                         <div className={styles.label}>例句：</div>
@@ -310,7 +314,6 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                         input?.current?.focus();
                     }, 0);
                 }}
-                type="primary"
             >
                 translate
             </Button>
@@ -384,7 +387,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                 </Radio.Button>
                             </Radio.Group>
                             <Pagination
-                                style={{ background: '#345582' }}
+                                style={{ background: "#345582" }}
                                 pageSize={pageSize}
                                 total={total}
                                 current={pageNo}

@@ -62,7 +62,7 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     );
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
-    const { refreshData } = dispatch.data;
+    const { refreshData, punchTheClock } = dispatch.data;
 
     // // 不直接用 activeTodo，而是从 targetListOrigin 里拿，这样就能在 targetListOrigin 刷新之后获取到最新的状态
     // const active = targetListOrigin.find(
@@ -79,33 +79,6 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
             todo && setActiveTodo(todo);
         }
     }, [habitListOrigin, visible]);
-
-    const punchTheClock = async (active: TodoItemType | undefined) => {
-        if (active) {
-            const val: CreateTodoItemReq = {
-                category: active.category,
-                color:
-                    active.color !== "3" ? `${Number(active.color) + 1}` : "3",
-                description: active.description,
-                name: `打卡：${active.name}`,
-                isBookMark: "0",
-                isNote: "0",
-                isTarget: "0",
-                other_id: active.todo_id,
-                status: "1",
-                doing: "0",
-                isWork: "0",
-                time: dayjs().format("YYYY-MM-DD"),
-                isHabit: "0",
-                isKeyNode: "0",
-                isFollowUp: "0",
-            };
-            await addTodoItem(val);
-            message.success("打卡成功");
-            refreshData("done");
-            refreshData("habit");
-        }
-    };
 
     const renderHabitDetail = (item: TodoItemType | undefined) => {
         if (!item) return null;

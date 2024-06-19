@@ -1,13 +1,15 @@
-import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
+import { addTodoItem, getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { createModel } from "@rematch/core";
 import { message } from "antd";
 import {
     CategoryType,
+    CreateTodoItemReq,
     StatusType,
     TodoItemType,
     TodoStatus,
 } from "../../types";
 import type { RootModel } from "./index";
+import dayjs from 'dayjs';
 
 interface DataType {
     todoLoading: boolean;
@@ -482,5 +484,32 @@ export const data = createModel<RootModel>()({
             const res = await getTodoCategory({ isWork });
             this.setCategory(res.data);
         },
+        // 打卡
+        async punchTheClock(active: TodoItemType | undefined) {
+            if (active) {
+                const val: CreateTodoItemReq = {
+                    category: active.category,
+                    color:
+                        active.color !== "4" ? `${Number(active.color) + 1}` : "4",
+                    description: active.description,
+                    name: `打卡：${active.name}`,
+                    isBookMark: "0",
+                    isNote: "0",
+                    isTarget: "0",
+                    other_id: active.todo_id,
+                    status: "1",
+                    doing: "0",
+                    isWork: "0",
+                    time: dayjs().format("YYYY-MM-DD"),
+                    isHabit: "0",
+                    isKeyNode: "0",
+                    isFollowUp: "0",
+                };
+                await addTodoItem(val);
+                message.success("打卡成功");
+                this.refreshData("done");
+                this.refreshData("habit");
+            }
+        }
     }),
 });
