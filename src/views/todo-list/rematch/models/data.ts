@@ -489,8 +489,7 @@ export const data = createModel<RootModel>()({
             if (active) {
                 const val: CreateTodoItemReq = {
                     category: active.category,
-                    color:
-                        active.color !== "4" ? `${Number(active.color) + 1}` : "4",
+                    color: active.color,
                     description: active.description,
                     name: `打卡：${active.name}`,
                     isBookMark: "0",
