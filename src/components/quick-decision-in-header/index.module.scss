@@ -1,0 +1,107 @@
+.modalContent {
+    .list {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 5px 20px 10px;
+        box-sizing: border-box;
+        .item {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+.modal {
+    :global {
+        .ant-input::placeholder {
+            color: rgba(255, 255, 255, 0.65);
+            background-color: #001529;
+        }
+        .ant-modal-header,
+        .ant-modal-content,
+        .ant-modal-title {
+            color: rgba(255, 255, 255, 0.65);
+            background-color: #001529;
+        }
+
+        .ant-btn-default.ant-btn-dangerous:disabled,
+        .ant-btn-primary:disabled,
+        .ant-btn-primary.ant-btn-background-ghost:disabled {
+            color: #a8a8a8;
+            background-color: white;
+        }
+
+        .ant-modal-close {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* 进度条全局样式 */
+        .ant-modal-body {
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        .ant-modal-body::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            width: 3px; /* 高宽分别对应横竖滚动条的尺寸 */
+            height: 3px;
+        }
+        .ant-modal-body::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 0.5rem;
+            // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+        .ant-modal-body::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            background: #001529;
+        }
+
+        .ant-form-item {
+            margin-bottom: 10px;
+        }
+
+        .ant-form-item-label > label {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .ant-input {
+            padding-right: 20px;
+        }
+
+        .ant-input-affix-wrapper,
+        .ant-input,
+        .anticon.ant-input-clear-icon,
+        .ant-btn,
+        .ant-radio-button-wrapper,
+        .ant-select-selector.ant-select-selector,
+        .ant-picker,
+        .ant-picker-input > input,
+        .ant-picker-suffix,
+        .ant-picker-clear {
+            color: rgba(255, 255, 255, 0.65);
+            background-color: #001529;
+        }
+        .ant-switch {
+            background-color: #4b4646;
+        }
+        .ant-btn:hover {
+            color: #1890ff;
+        }
+        .ant-switch-checked,
+        .ant-btn-primary {
+            background-color: #1890ff;
+            color: white;
+        }
+        .ant-btn-primary.ant-btn-dangerous {
+            background-color: #ff4d4f;
+        }
+        .ant-radio-button-wrapper-checked {
+            color: white !important;
+        }
+    }
+}

@@ -384,6 +384,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                 </Radio.Button>
                             </Radio.Group>
                             <Pagination
+                                style={{ background: '#345582' }}
                                 pageSize={pageSize}
                                 total={total}
                                 current={pageNo}
