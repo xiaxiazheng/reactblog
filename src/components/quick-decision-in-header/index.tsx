@@ -311,7 +311,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                                     {listLoading && <Loading />}
                                     {(isShowAll
                                         ? listOrigin
-                                        : listOrigin.slice(0, 20)
+                                        : listOrigin.slice(0, 18)
                                     )?.map((item, index) => {
                                         return (
                                             <div
