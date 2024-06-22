@@ -36,6 +36,39 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
     const { punchTheClock } = dispatch.data;
+    const [waitType, setWaitType] = useState<"punchTheClock" | "todoAndPool">(
+        "punchTheClock"
+    );
+    const [isShowAll, setIsShowAll] = useState<boolean>(false);
+
+    const habitLoading = useSelector(
+        (state: RootState) => state.data.habitLoading
+    );
+    const habitListOrigin = useSelector(
+        (state: RootState) => state.data.habitListOrigin
+    ).sort((a, b) => Number(a.color) - Number(b.color));
+    const listLoading = useSelector(
+        (state: RootState) => state.data.todoLoading || state.data.poolLoading
+    );
+    const todoListOrigin = useSelector(
+        (state: RootState) => state.data.todoListOrigin // 不能在这里直接 concat 两个对象，会导致每次函数重跑都是新的对象，造成循环
+    );
+    const poolListOrigin = useSelector(
+        (state: RootState) => state.data.poolListOrigin
+    );
+    const [listOrigin, setListOrigin] = useState<TodoItemType[]>([]);
+
+    useEffect(() => {
+        setListOrigin(
+            todoListOrigin
+                .concat(poolListOrigin)
+                .sort(
+                    (a, b) =>
+                        new Date(b.cTime || "").getTime() -
+                        new Date(a.cTime || "").getTime()
+                ) // 把创建时间最晚的放前面
+        );
+    }, [todoListOrigin, poolListOrigin]);
 
     const originTodo = useOriginTodo();
 
@@ -51,44 +84,52 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
         });
     };
 
-    const habitLoading = useSelector(
-        (state: RootState) => state.data.habitLoading
-    );
-    const habitListOrigin = useSelector(
-        (state: RootState) => state.data.habitListOrigin
-    ).sort((a, b) => Number(a.color) - Number(b.color));
-
     const settings = useContext(SettingsContext);
 
     const [chanceList, setChanceList] = useState<number[]>();
     const [activeIndex, setActiveIndex] = useState<number>();
-    const [random, setRandom] = useState<number>();
+    const [random, setRandom] = useState<number>(); // 抽奖的随机数
 
     useEffect(() => {
         if (isShowModal && !random) {
-            calculateChange();
+            waitType === "punchTheClock" && calculateChance(habitListOrigin);
+            waitType === "todoAndPool" && calculateChance2(listOrigin);
         }
-    }, [habitListOrigin, isShowModal, random]);
+    }, [habitListOrigin, listOrigin, isShowModal, random, waitType]);
 
-    const calculateChange = () => {
+    // 这是基于打卡任务计算的，会用子todo数量进行计算
+    const calculateChance = (l: TodoItemType[]) => {
         const chanceColorList = settings?.quickDecisionConfig?.chanceColorList;
         const max =
-            habitListOrigin
+            l
                 .map((item) => item.child_todo_list_length)
                 .sort((a, b) => b - a)?.[0] + 1; // 这里算出来，没有做过的事情占一份，做过的事情占 N+1 份
-        const list = habitListOrigin
+        const list = l
             .map(
                 (item) => max - item.child_todo_list_length // 用 max 去减，得出的是反向的次数占比，用来提高做得少的事情的优先级
             )
             .map((item, index) => {
-                const colorWeight =
-                    chanceColorList[Number(habitListOrigin[index].color)];
+                const colorWeight = chanceColorList[Number(l[index].color)];
                 return colorWeight * item; // 这里是乘以优先级的权重
             });
         const sum = list.reduce((prev, cur) => prev + cur, 0);
-        setChanceList(
-            list.map((item) => Math.floor((item / sum) * 10000) / 100)
-        );
+        setChanceList(list.map((item) => (item / sum) * 100));
+    };
+
+    // 这是基于普通任务计算的，会用创建时间进行计算
+    const calculateChance2 = (l: TodoItemType[]) => {
+        const chanceColorList = settings?.quickDecisionConfig?.chanceColorList;
+        // 因为默认创建时间晚的放前面，所以 index 越高，创建时间越早
+        const list = l
+            .map(
+                (item, index) => index * 0.01 + 1 // 所以直接用 index 提高创建时间早的任务的比例，每多一件，概率高 0.01
+            )
+            .map((item, index) => {
+                const colorWeight = chanceColorList[Number(l[index].color)];
+                return colorWeight * item; // 这里是乘以优先级的权重
+            });
+        const sum = list.reduce((prev, cur) => prev + cur, 0);
+        setChanceList(list.map((item) => (item / sum) * 100));
     };
 
     const [isSelected, setIsSelected] = useState<boolean>(false);
@@ -107,22 +148,32 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     };
 
     const handleSelect = () => {
+        const total =
+            chanceList?.reduce((prev, cur) => {
+                return prev + cur;
+            }, 0) || 100;
         let random = Math.floor(Math.random() * 10000) / 100;
+        if (random > total) {
+            // 兜底，计算可能导致精度丢失，以至于让 total < 100%，遇到这汇总情况直接重新来
+            // 另一层兜底就是在就算时不截断位数，只在展示时截断
+            message.warning("触发溢出，自动重试");
+            handleSelect();
+            return;
+        }
         setRandom(random);
-        setActiveIndex(
-            chanceList?.findIndex((item) => {
-                if (random < item) {
-                    return true;
-                }
-                random -= item;
-                return false;
-            })
-        );
+        const index = chanceList?.findIndex((item) => {
+            if (random <= item) {
+                return true;
+            }
+            random = random - item;
+            return false;
+        });
+        setActiveIndex(index);
     };
 
     const handleFinish = async () => {
         const todo = habitListOrigin[activeIndex as number];
-        const res = await punchTheClock(todo);
+        await punchTheClock(todo);
         onClear();
     };
 
@@ -149,7 +200,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                 title={settings?.quickDecisionConfig?.title}
                 open={isShowModal}
                 onCancel={() => setIsShowModal(false)}
-                width={"600px"}
+                width={"900px"}
                 footer={
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         {!isSelected && (
@@ -163,13 +214,18 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                         )}
                         {isSelectedEnd && (
                             <div>
-                                <Button
-                                    size="large"
-                                    type="primary"
-                                    onClick={handleFinish}
-                                >
-                                    {settings?.quickDecisionConfig?.finishText}
-                                </Button>
+                                {waitType === "punchTheClock" && (
+                                    <Button
+                                        size="large"
+                                        type="primary"
+                                        onClick={handleFinish}
+                                    >
+                                        {
+                                            settings?.quickDecisionConfig
+                                                ?.finishText
+                                        }
+                                    </Button>
+                                )}
                                 <Button size="large" onClick={onClear}>
                                     {settings?.quickDecisionConfig?.restartText}
                                 </Button>
@@ -185,40 +241,106 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                 >
                     {isSelected && typeof activeIndex !== "undefined" && (
                         <div>
-                            当前选中的是第{activeIndex + 1}位，抽中概率
-                            {chanceList?.[activeIndex]}%：
-                            <TodoItem item={habitListOrigin[activeIndex]} />
+                            当前选中的是第{activeIndex + 1} /{" "}
+                            {chanceList?.length}位，抽中概率
+                            {chanceList?.[activeIndex]?.toFixed(2)}%：
+                            <TodoItem
+                                item={
+                                    waitType === "punchTheClock"
+                                        ? habitListOrigin[activeIndex]
+                                        : listOrigin[activeIndex]
+                                }
+                                isShowTime={waitType !== "punchTheClock"}
+                                isShowTimeRange={waitType !== "punchTheClock"}
+                            />
                         </div>
                     )}
                     {!isSelected && (
                         <>
+                            <Radio.Group
+                                value={waitType}
+                                optionType="button"
+                                onChange={(e) => setWaitType(e.target.value)}
+                            >
+                                <Radio.Button value="punchTheClock">
+                                    打卡任务 ({habitListOrigin?.length})
+                                </Radio.Button>
+                                <Radio.Button value="todoAndPool">
+                                    todo 和 pool ({listOrigin?.length})
+                                </Radio.Button>
+                            </Radio.Group>
                             <div>
                                 {settings?.quickDecisionConfig?.description}
                             </div>
-                            <div className={styles.list}>
-                                {habitLoading && <Loading />}
-                                {habitListOrigin?.map((item, index) => {
-                                    return (
-                                        <div
-                                            key={item.todo_id}
-                                            className={styles.item}
-                                        >
-                                            <TodoItem item={item} />
-                                            <div>
-                                                完成次数：
-                                                {item.child_todo_list_length} |
-                                                概率：{chanceList?.[index]}%
+                            {waitType === "punchTheClock" && (
+                                <div className={`${styles.list} ScrollBar`}>
+                                    {habitLoading && <Loading />}
+                                    {habitListOrigin?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={item.todo_id}
+                                                className={styles.item}
+                                            >
+                                                <TodoItem item={item} />
+                                                <div
+                                                    className={styles.itemInfo}
+                                                >
+                                                    完成次数：
+                                                    {
+                                                        item.child_todo_list_length
+                                                    }{" "}
+                                                    | 概率：
+                                                    {chanceList?.[
+                                                        index
+                                                    ]?.toFixed(2)}
+                                                    %
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-                                <Button
-                                    style={{ marginTop: 5 }}
-                                    onClick={() => handleAdd()}
-                                >
-                                    新建任务
-                                </Button>
-                            </div>
+                                        );
+                                    })}
+                                    <Button
+                                        style={{ marginTop: 5 }}
+                                        onClick={() => handleAdd()}
+                                    >
+                                        新建打卡任务
+                                    </Button>
+                                </div>
+                            )}
+                            {waitType === "todoAndPool" && (
+                                <div className={styles.list}>
+                                    {listLoading && <Loading />}
+                                    {(isShowAll
+                                        ? listOrigin
+                                        : listOrigin.slice(0, 20)
+                                    )?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={item.todo_id}
+                                                className={styles.item}
+                                            >
+                                                <TodoItem item={item} />
+                                                <div
+                                                    className={styles.itemInfo}
+                                                >
+                                                    创建时间：
+                                                    {item.cTime} | 概率：
+                                                    {chanceList?.[
+                                                        index
+                                                    ]?.toFixed(2)}
+                                                    %
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                    {!isShowAll && (
+                                        <Button
+                                            onClick={() => setIsShowAll(true)}
+                                        >
+                                            展示全部
+                                        </Button>
+                                    )}
+                                </div>
+                            )}
                         </>
                     )}
                 </Space>

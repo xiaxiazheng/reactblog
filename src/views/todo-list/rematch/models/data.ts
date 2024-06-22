@@ -244,6 +244,7 @@ export const data = createModel<RootModel>()({
                         isBookMark: "1",
                         pageNo: 1,
                         pageSize: 100,
+                        isWork,
                     };
                     const res = await getTodoList(req);
                     if (res) {
@@ -362,6 +363,7 @@ export const data = createModel<RootModel>()({
                         isTarget: "0",
                         isFollowUp: "0",
                         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+                        isWork,
                     };
 
                     const res = await getTodoList(req);
@@ -380,6 +382,7 @@ export const data = createModel<RootModel>()({
                         status: TodoStatus[type],
                         pageSize: 200,
                         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+                        isWork,
                     };
 
                     const res = await getTodoList(req);
