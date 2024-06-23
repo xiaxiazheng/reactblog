@@ -1,4 +1,8 @@
-import { addTodoItem, getTodoCategory, getTodoList } from "@/client/TodoListHelper";
+import {
+    addTodoItem,
+    getTodoCategory,
+    getTodoList,
+} from "@/client/TodoListHelper";
 import { createModel } from "@rematch/core";
 import { message } from "antd";
 import {
@@ -9,7 +13,7 @@ import {
     TodoStatus,
 } from "../../types";
 import type { RootModel } from "./index";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 interface DataType {
     todoLoading: boolean;
@@ -327,13 +331,13 @@ export const data = createModel<RootModel>()({
                     if (isWork) {
                         req["isWork"] = isWork;
                     }
-                    if (isTarget === '1') {
+                    if (isTarget === "1") {
                         req["isTarget"] = isTarget;
                     }
-                    if (isNote === '1') {
+                    if (isNote === "1") {
                         req["isNote"] = isNote;
                     }
-                    if (isHabit === '1') {
+                    if (isHabit === "1") {
                         req["isHabit"] = isHabit;
                     }
                     if (activeCategory) {
@@ -417,7 +421,10 @@ export const data = createModel<RootModel>()({
                 type === "followUp" && this.getTodo("followUp");
             }
         },
-        getFilterList(params: {list: TodoItemType[], type: StatusType }, state) {
+        getFilterList(
+            params: { list: TodoItemType[]; type: StatusType },
+            state
+        ) {
             const { list, type } = params;
             const { activeColor, activeCategory, keyword, isWork } =
                 state.filter;
@@ -459,7 +466,7 @@ export const data = createModel<RootModel>()({
                 }
             }
             if (type !== "habit") {
-                l = l.filter((item) => item.isHabit !== '1');
+                l = l.filter((item) => item.isHabit !== "1");
             }
             return l;
         },
@@ -471,14 +478,35 @@ export const data = createModel<RootModel>()({
                 followUpListOrigin,
                 bookMarkListOrigin,
             } = state.data;
-            const { setTodoList, setPoolList, setTargetList, setFollowUpList, setBookMarkList } =
-                dispatch.data;
+            const {
+                setTodoList,
+                setPoolList,
+                setTargetList,
+                setFollowUpList,
+                setBookMarkList,
+            } = dispatch.data;
             // 其他模块直接过滤不用发请求
-            setTodoList(this.getFilterList({ list: todoListOrigin, type: 'todo' }));
-            setPoolList(this.getFilterList({ list: poolListOrigin, type: 'pool' }));
-            setTargetList(this.getFilterList({ list: targetListOrigin, type: 'target' }));
-            setFollowUpList(this.getFilterList({ list: followUpListOrigin, type: 'followUp' }));
-            setBookMarkList(this.getFilterList({ list: bookMarkListOrigin, type: 'bookmark' }));
+            setTodoList(
+                this.getFilterList({ list: todoListOrigin, type: "todo" })
+            );
+            setPoolList(
+                this.getFilterList({ list: poolListOrigin, type: "pool" })
+            );
+            setTargetList(
+                this.getFilterList({ list: targetListOrigin, type: "target" })
+            );
+            setFollowUpList(
+                this.getFilterList({
+                    list: followUpListOrigin,
+                    type: "followUp",
+                })
+            );
+            setBookMarkList(
+                this.getFilterList({
+                    list: bookMarkListOrigin,
+                    type: "bookmark",
+                })
+            );
             // 已完成模块除外
             this.getTodo("done");
         },
@@ -492,7 +520,9 @@ export const data = createModel<RootModel>()({
             if (active) {
                 const val: CreateTodoItemReq = {
                     category: active.category,
-                    color: active.color,
+                    color: `${
+                        active.color === "4" ? "4" : Number(active.color) + 1
+                    }`,
                     description: active.description,
                     name: `打卡：${active.name}`,
                     isBookMark: "0",
@@ -512,6 +542,6 @@ export const data = createModel<RootModel>()({
                 this.refreshData("done");
                 this.refreshData("habit");
             }
-        }
+        },
     }),
 });
