@@ -111,7 +111,7 @@ const GlobalSearch: React.FC = () => {
         return (
             activeColor?.length !== 0 ||
             activeCategory?.length !== 0 ||
-            keyword !== "" ||
+            (typeof keyword !== "undefined" && keyword !== "") ||
             !!startEndTime ||
             pageNo !== 1 ||
             isHabit === "1" ||
@@ -220,6 +220,7 @@ const GlobalSearch: React.FC = () => {
                             danger
                             onClick={() => {
                                 handleClear(undefined);
+                                setKeyword(undefined);
                                 setShowFilter(false);
                             }}
                         />
@@ -233,7 +234,7 @@ const GlobalSearch: React.FC = () => {
                 onChange={(e) => {
                     setKeyword(e.target.value);
                     // keyword 一旦清空就直接刷新
-                    if (!e.target.value || e.target.value === '') {
+                    if (!e.target.value || e.target.value === "") {
                         setContextKeyword("");
                     }
                 }}
