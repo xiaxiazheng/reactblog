@@ -157,8 +157,8 @@ const TreeMenu: React.FC<PropsType> = (props) => {
                 level: 1,
                 sort:
                     addtype === "front"
-                        ? treeList[0].sort
-                        : treeList[treeList.length - 1].sort,
+                        ? (treeList?.[0]?.sort || 0)
+                        : (treeList?.[treeList.length - 1]?.sort || 0),
                 addtype: addtype,
             };
         }
