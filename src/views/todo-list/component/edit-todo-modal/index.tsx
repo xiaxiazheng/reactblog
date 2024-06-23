@@ -484,9 +484,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
     // const isKeyNode = form?.getFieldValue("isKeyNode");
     // const isTarget = form?.getFieldValue("isTarget");
-    const color = form?.getFieldValue("color");
+    // const color = form?.getFieldValue("color");
 
-    const l = [
+    const controlList = [
         {
             label: activeTodo?.other_id ? "添加同级进度" : "复制",
             tooltip: activeTodo?.other_id
@@ -503,14 +503,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             isShow: true,
         },
     ];
-    // 当存在父级时，如果该任务不是关键节点也不是目标，则限制其往下继续创建子任务
-    // const controlList =
-    //     !activeTodo?.other_id ||
-    //     (activeTodo?.other_id && (isKeyNode === "1" || isTarget === "1"))
-    //         ? l
-    //         : l.slice(0, 1);
-    // 暂时改成这样
-    const controlList = !activeTodo?.other_id ? l : l.slice(0, 1);
 
     const handleOtherIdChange = (changedFields?: any[]) => {
         if (changedFields?.[0]?.name?.[0] === "other_id") {
