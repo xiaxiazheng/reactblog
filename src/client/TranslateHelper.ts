@@ -12,6 +12,7 @@ export async function getTranslateList(params: {
     keyword?: string,
     pageNo: number,
     pageSize?: number
+    isMark?: number
 }): Promise<any> {
     const data = await postHelper(`/translate/getTranslateList`, params);
     return data && data.resultsCode === "success" ? data.data : false;
