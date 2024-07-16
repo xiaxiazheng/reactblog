@@ -20,7 +20,7 @@ import DrawerNote from "./drawers/drawer-note";
 import { Tooltip } from "antd";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
-import TodoFollowUp from "./list/todo-follow-up";
+// import TodoFollowUp from "./list/todo-follow-up";
 import { SettingsContext } from "@/context/SettingsContext";
 
 const useTimer = (fn: Function, ms: number = 500) => {
@@ -116,9 +116,9 @@ const TodoList: React.FC = () => {
                             <TodoToday />
                         </div>
                         {/* 短期需要跟进 */}
-                        <div className={`${styles.mm} ScrollBar`}>
+                        {/* <div className={`${styles.mm} ScrollBar`}>
                             <TodoFollowUp />
-                        </div>
+                        </div> */}
                         {/* 之后待办 */}
                         <div className={`${styles.mb} ScrollBar`}>
                             <TodoAfter />

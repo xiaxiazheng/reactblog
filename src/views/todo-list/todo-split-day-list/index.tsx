@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, message, Popconfirm, Space, Tooltip } from "antd";
 import {
     VerticalAlignTopOutlined,
@@ -18,6 +18,7 @@ import TodoItem from "../component/todo-item";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../rematch";
 import { useIsHIdeModel } from "../hooks";
+import { SettingsContext } from "@/context/SettingsContext";
 
 interface Props {
     loading: boolean;
@@ -30,6 +31,7 @@ interface Props {
     showDoingBtn?: boolean; // 是否展示加急的筛选按钮
     showTimeOprationBtn?: boolean; // 是否展示日期右边的操作按钮
     isReverseTime?: boolean; // 是否倒序展示日期
+    btnChildren?: React.ReactNode; // 额外的按钮
 }
 
 // 待办
@@ -43,7 +45,10 @@ const List: React.FC<Props> = (props) => {
         showDoingBtn,
         showTimeOprationBtn = true,
         isReverseTime = false,
+        btnChildren = null,
     } = props;
+
+    const { todoNameMap } = useContext(SettingsContext);
 
     const dispatch = useDispatch<Dispatch>();
     const { getTodo } = dispatch.data;
@@ -121,15 +126,22 @@ const List: React.FC<Props> = (props) => {
                     {isHide ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={8}>
+                    {btnChildren}
                     {showDoingBtn && (
-                        <Button
-                            className={
-                                isOnlyShowDoing ? styles.isOnlyShowDoing : ""
-                            }
-                            type={isOnlyShowDoing ? "primary" : "default"}
-                            onClick={() => setIsOnlyShowDoing((prev) => !prev)}
-                            icon={<ThunderboltFilled />}
-                        ></Button>
+                        <Tooltip title={`只看 ${todoNameMap?.urgent}`}>
+                            <Button
+                                className={
+                                    isOnlyShowDoing
+                                        ? styles.isOnlyShowDoing
+                                        : ""
+                                }
+                                type={isOnlyShowDoing ? "primary" : "default"}
+                                onClick={() =>
+                                    setIsOnlyShowDoing((prev) => !prev)
+                                }
+                                icon={<ThunderboltFilled />}
+                            ></Button>
+                        </Tooltip>
                     )}
                     <SortBtn
                         isSortTime={isSortTime}
