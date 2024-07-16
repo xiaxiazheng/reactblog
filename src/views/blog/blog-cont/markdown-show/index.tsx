@@ -8,10 +8,11 @@ import mdStyle from "./gitlab.module.scss";
 
 interface PropsType {
     blogcont: string | undefined;
+    style?: React.CSSProperties;
 }
 
 const MarkdownShow: React.FC<PropsType> = (props) => {
-    const { blogcont } = props;
+    const { blogcont, style } = props;
     const md = new markdownIt({
         // 代码高亮，貌似加不上去
         // highlight: function (str: any, lang: any) {
@@ -28,6 +29,7 @@ const MarkdownShow: React.FC<PropsType> = (props) => {
     return (
         <div
             className={`${styles.markdownShower} ${mdStyle.markdownShower}`}
+            style={style}
             dangerouslySetInnerHTML={{
                 __html: md.render(blogcont || ''),
             }}

@@ -43,7 +43,7 @@ const PDF: React.FC<IPDF> = (props) => {
   return (
     <div className={`${styles.pdf} ScrollBar`}>
       {/* 打印 markdown */}
-      {blogType === "markdown" && <MarkdownShow blogcont={blogdata?.blogcont} />}
+      {blogType === "markdown" && <MarkdownShow blogcont={blogdata?.blogcont} style={{ padding: '0 120px 0 0' }} />}
       {/* 打印富文本 */}
       {blogType === "richtext" && (
         <div className={rhStyles.blogcontShow}>
