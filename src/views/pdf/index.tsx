@@ -27,7 +27,7 @@ const PDF: React.FC<IPDF> = (props) => {
     let myState: any = state;
     if (myState && myState.type) {
       setBLogType(myState.type);
-      setBlogdata(myState.blogdata);
+      setBlogdata(myState.blogData);
     }
   }, [state]);
 
@@ -43,13 +43,13 @@ const PDF: React.FC<IPDF> = (props) => {
   return (
     <div className={`${styles.pdf} ScrollBar`}>
       {/* 打印 markdown */}
-      {blogType === "markdown" && <MarkdownShow blogcont={blogdata.blogcont} />}
+      {blogType === "markdown" && <MarkdownShow blogcont={blogdata?.blogcont} />}
       {/* 打印富文本 */}
       {blogType === "richtext" && (
         <div className={rhStyles.blogcontShow}>
-          <div className={rhStyles.title}>{blogdata.title}</div>
-          <div className={rhStyles.author}>{blogdata.author}</div>
-          <RichtextShow blogcont={blogdata.blogcont} />
+          <div className={rhStyles.title}>{blogdata?.title}</div>
+          <div className={rhStyles.author}>{blogdata?.author}</div>
+          <RichtextShow blogcont={blogdata?.blogcont} />
         </div>
       )}
     </div>

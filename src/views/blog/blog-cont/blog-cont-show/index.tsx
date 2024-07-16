@@ -20,6 +20,7 @@ import RichtextShow from "../richtext-show";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import useScrollToHook from "@/hooks/useScrollToHooks";
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface PropsType extends RouteComponentProps {
     blog_id: string;
@@ -27,6 +28,8 @@ interface PropsType extends RouteComponentProps {
 
 const BlogContShow: React.FC<PropsType> = (props) => {
     const { history, blog_id, match, location } = props;
+
+    const { setTheme } = useContext(ThemeContext);
 
     const [edittype, setEdittype] = useState<"richtext" | "markdown">(
         "richtext"
@@ -69,13 +72,16 @@ const BlogContShow: React.FC<PropsType> = (props) => {
 
     // 导出到 pdf
     const exportPdf = () => {
-        history.push({
-            pathname: "/pdf",
-            state: {
-                type: edittype,
-                blogData: blogData,
-            },
-        });
+        setTheme("light");
+        setTimeout(() => {
+            history.push({
+                pathname: "/pdf",
+                state: {
+                    type: edittype,
+                    blogData: blogData,
+                },
+            });
+        }, 200);
     };
 
     // 打开游客界面
@@ -147,14 +153,14 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                     </>
                 )}
                 {/* 导出到 pdf 按钮 */}
-                {/* <Button
+                <Button
                     className={styles.exportPdf}
                     // type={'danger'}
                     onClick={exportPdf}
                 >
                     <FilePdfOutlined />
                     导出
-                </Button> */}
+                </Button>
                 {/* 打开访客界面 */}
                 {isLogin && (
                     <Button

@@ -29,7 +29,7 @@ const MarkdownShow: React.FC<PropsType> = (props) => {
         <div
             className={`${styles.markdownShower} ${mdStyle.markdownShower}`}
             dangerouslySetInnerHTML={{
-                __html: md.render(blogcont),
+                __html: md.render(blogcont || ''),
             }}
         />
     );
