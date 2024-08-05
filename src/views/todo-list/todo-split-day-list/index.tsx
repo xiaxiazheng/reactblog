@@ -218,9 +218,9 @@ const List: React.FC<Props> = (props) => {
                                         </Space>
                                     )}
                                 </div>
-                                {getShowList(mapList[time]).map((item) => (
+                                {getShowList(mapList[time]).map((item, index) => (
                                     <TodoItem
-                                        key={item.todo_id}
+                                        key={item.todo_id + index}
                                         item={item}
                                         showDoneIcon={showDoneIcon}
                                     />

@@ -61,6 +61,15 @@ const TodoToday = () => {
 
     const [isShowFollowUp, setIsShowFollowUp] = useState<boolean>(true);
 
+    console.log('todoList', todoList)
+    console.log('followUpList', followUpList)
+
+    console.log('formatArrayToTimeMap', formatArrayToTimeMap(
+        todoList
+            .filter((item) => item.time <= Today())
+            .concat(isShowFollowUp ? followUpList : [])
+    ))
+
     return (
         <List
             loading={todoLoading || followUpLoading}
