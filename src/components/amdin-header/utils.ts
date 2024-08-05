@@ -7,7 +7,7 @@ export const getDayjs = (day: dayjs.Dayjs | string) => {
     return day.set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
 };
 
-const getToday = () => {
+export const getToday = () => {
     return getDayjs(dayjs());
 };
 

@@ -26,11 +26,11 @@ export const handleIsTodayPunchTheClock = (
     );
 };
 
-export const getToday = () => {
+const getToday = () => {
     return getZeroDay(dayjs().format("YYYY-MM-DD"));
 };
 
-export const getZeroDay = (date: string) => {
+const getZeroDay = (date: string) => {
     return dayjs(`${date} 00:00:00`);
 };
 

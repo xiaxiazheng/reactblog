@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
+import { getToday } from "@/components/amdin-header/utils";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -79,7 +80,7 @@ const ToolTipsWrapper: React.FC<
     );
 };
 
-const today = dayjs().format("YYYY-MM-DD");
+const Today = () => getToday().format("YYYY-MM-DD");
 
 const Name: React.FC<{
     item: TodoItemType;
@@ -101,9 +102,9 @@ const Name: React.FC<{
             {(isShowTime || item.isTarget === "1") && (
                 <span
                     className={`${styles.time} ${
-                        item.time === today
+                        item.time === Today()
                             ? styles.today
-                            : item.time > today
+                            : item.time > Today()
                             ? styles.future
                             : styles.previously
                     }`}

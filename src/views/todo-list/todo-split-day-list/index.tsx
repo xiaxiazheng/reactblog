@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { Dispatch } from "../rematch";
 import { useIsHIdeModel } from "../hooks";
 import { SettingsContext } from "@/context/SettingsContext";
+import { getToday } from "@/components/amdin-header/utils";
 
 interface Props {
     loading: boolean;
@@ -53,7 +54,7 @@ const List: React.FC<Props> = (props) => {
     const dispatch = useDispatch<Dispatch>();
     const { getTodo } = dispatch.data;
 
-    const today = dayjs().format("YYYY-MM-DD");
+    const Today = () => getToday().format("YYYY-MM-DD");
 
     const total = Object.keys(mapList).reduce(
         (prev, cur) => mapList[cur].length + prev,
@@ -65,7 +66,7 @@ const List: React.FC<Props> = (props) => {
         const promiseList = list.map((item) => {
             return editTodoItem({
                 ...item,
-                time: today,
+                time: Today(),
             });
         });
         const res = await Promise.all(promiseList);
@@ -160,9 +161,9 @@ const List: React.FC<Props> = (props) => {
                             <div className={styles.oneDay} key={time}>
                                 <div
                                     className={`${styles.time} ${
-                                        time === today
+                                        time === Today()
                                             ? styles.today
-                                            : time > today
+                                            : time > Today()
                                             ? styles.future
                                             : styles.previously
                                     }`}
@@ -176,7 +177,7 @@ const List: React.FC<Props> = (props) => {
                                     </span>
                                     {showTimeOprationBtn && (
                                         <Space size={6}>
-                                            {time < today && (
+                                            {time < Today() && (
                                                 <Popconfirm
                                                     title={`是否将 ${time} 的 Todo 日期调整成今天`}
                                                     onConfirm={() =>

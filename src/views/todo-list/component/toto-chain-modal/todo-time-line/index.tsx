@@ -8,6 +8,7 @@ import {
     getWeek,
 } from "../../../utils";
 import dayjs from "dayjs";
+import { getToday } from "@/components/amdin-header/utils";
 
 interface IProps {
     todoChainList: TodoItemType[];
@@ -18,7 +19,7 @@ interface IProps {
 const TodoTimeLine: React.FC<IProps> = (props) => {
     const { todoChainList, chainId, localKeyword } = props;
 
-    const today = dayjs().format("YYYY-MM-DD");
+    const Today = () => getToday().format("YYYY-MM-DD");
 
     const dfs = (l: TodoItemType[]): TodoItemType[] => {
         return l.reduce((prev, cur) => {
@@ -53,9 +54,9 @@ const TodoTimeLine: React.FC<IProps> = (props) => {
                         <div className={styles.oneDay} key={time}>
                             <div
                                 className={`${styles.time} ${
-                                    time === today
+                                    time === Today()
                                         ? styles.today
-                                        : time > today
+                                        : time > Today()
                                         ? styles.future
                                         : ""
                                 }`}

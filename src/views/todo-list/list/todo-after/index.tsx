@@ -7,10 +7,10 @@ import { formatArrayToTimeMap } from "../../utils";
 import dayjs from "dayjs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { RenderTodoDescriptionIcon } from "../todo-today";
+import { getToday } from "@/components/amdin-header/utils";
 
 const TodoAfter = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
-    const today = dayjs().format("YYYY-MM-DD");
 
     const todoLoading = useSelector(
         (state: RootState) => state.data.todoLoading
@@ -18,7 +18,7 @@ const TodoAfter = () => {
 
     const todoList = useSelector((state: RootState) => state.data.todoList);
 
-    if (!todoList.filter((item) => item.time > today).length) {
+    if (!todoList.filter((item) => item.time > getToday().format("YYYY-MM-DD")).length) {
         return null;
     }
 
@@ -36,7 +36,7 @@ const TodoAfter = () => {
                 </>
             }
             mapList={formatArrayToTimeMap(
-                todoList.filter((item) => item.time > today)
+                todoList.filter((item) => item.time > getToday().format("YYYY-MM-DD"))
             )}
         />
     );

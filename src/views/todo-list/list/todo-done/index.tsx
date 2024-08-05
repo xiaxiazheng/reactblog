@@ -11,6 +11,7 @@ import { Dispatch, RootState } from "../../rematch";
 import { TodoItemType } from "../../types";
 import TodoItem from "../../component/todo-item";
 import TodoDoneDataModal from "./todo-done-data-modal";
+import { getToday } from "@/components/amdin-header/utils";
 
 interface Props {
     title: any;
@@ -34,7 +35,7 @@ const DoneList: React.FC<Props> = (props) => {
 
     const [doneMap, setDoneMap] = useState<any>({});
 
-    const today = dayjs().format("YYYY-MM-DD");
+    const Today = () => getToday().format("YYYY-MM-DD");
 
     const ref = useRef<any>(null);
     const { scrollToTop } = useScrollToHook(ref);
@@ -77,9 +78,9 @@ const DoneList: React.FC<Props> = (props) => {
                         <div className={styles.oneDay} key={time}>
                             <div
                                 className={`${styles.time} ${
-                                    time === today
+                                    time === Today()
                                         ? styles.today
-                                        : time > today
+                                        : time > Today()
                                         ? styles.future
                                         : ""
                                 }`}

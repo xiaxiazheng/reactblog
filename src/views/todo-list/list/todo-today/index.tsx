@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import styles from "./index.module.scss";
+import { getToday } from "@/components/amdin-header/utils";
 
 export const RenderTodoDescriptionIcon = (props: { title: any }) => {
     const { title } = props;
@@ -25,7 +26,7 @@ export const RenderTodoDescriptionIcon = (props: { title: any }) => {
 const TodoToday = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
 
-    const today = dayjs().format("YYYY-MM-DD");
+    const Today = () => getToday().format("YYYY-MM-DD");
 
     const todoLoading = useSelector(
         (state: RootState) => state.data.todoLoading
@@ -75,7 +76,7 @@ const TodoToday = () => {
             }
             mapList={formatArrayToTimeMap(
                 todoList
-                    .filter((item) => item.time <= today)
+                    .filter((item) => item.time <= Today())
                     .concat(isShowFollowUp ? followUpList : [])
             )}
             showDoneIcon={true}
