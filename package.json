@@ -11,12 +11,12 @@
         "buildAnalysis": "cross-env OPEN_ANALYSIS=yes react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-app-rewired eject",
-        "deploy": "sh deploy.sh",
+        "push": "sh deploy.sh",
         "deployLocal": "sh deployLocal.sh",
         "prepare": "husky install",
         "checkByted": "node ./checkByted.js",
-        "push": "sh deployPush.sh",
-        "pull": "node deployPull.js"
+        "deployPush": "sh deployPush.sh",
+        "deployPull": "node deployPull.js"
     },
     "dependencies": {
         "@ant-design/icons": "^4.6.4",
