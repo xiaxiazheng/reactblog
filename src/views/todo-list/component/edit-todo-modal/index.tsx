@@ -42,6 +42,8 @@ import { useOriginTodo } from "../global-search";
 import TodoItemName from "../todo-item/todo-item-name";
 import TodoChildList from "./todo-child-list";
 import { SettingsContext } from "@/context/SettingsContext";
+import { addBlogCont } from "@/client/BlogHelper";
+import { splitStr } from "../input-list";
 
 interface EditTodoModalType {}
 
@@ -528,6 +530,45 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         });
     };
 
+    // 将当前 todo 另存为 blog
+    const handleSaveAsBlog = async () => {
+        message.success("正在将当前 todo 保存为 blog");
+
+        const formData = form && form.getFieldsValue();
+
+        const todoData = handleFormData(formData);
+
+        // 添加日志
+        const params = {
+            edittype: "richtext",
+            title: todoData.name,
+            author: "xiaxiazheng from todo",
+            blogcont: todoData.description.replaceAll(splitStr, "<br>"),
+        };
+
+        const res: any = await addBlogCont(params);
+        if (res) {
+            message.success("新建成功");
+            /** 新建成功直接跳转到新日志 */
+            const newId = res.newid;
+            const url = `${location.origin}/admin/blog/${btoa(
+                decodeURIComponent(newId)
+            )}`;
+
+            form?.setFieldValue(
+                "description",
+                `${todoData.description}${splitStr}已保存到 blog：${url}`
+            );
+            setIsEditing(true);
+
+            setTimeout(() => {
+                window.open(url);
+            }, 1000);
+        } else {
+            message.error("新建失败");
+        }
+    };
+
     return (
         <>
             <Modal
@@ -597,6 +638,13 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                             )}
                         </Space>
                         <Space>
+                            <Button
+                                onClick={() => handleSaveAsBlog()}
+                                disabled={isEditing}
+                                type="primary"
+                            >
+                                Save as blog
+                            </Button>
                             <Button onClick={() => onClose()}>Cancel</Button>
                             <Button
                                 type="primary"
