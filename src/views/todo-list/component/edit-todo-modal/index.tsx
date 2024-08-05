@@ -570,195 +570,183 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     return (
-        <>
-            <Modal
-                className={`${styles.modal} ${
-                    theme === "dark" ? "darkTheme" : ""
-                }`}
-                title={
-                    <div className={styles.modalTitle}>
-                        {type ? getTitle(type2 || type) : ""}
-                    </div>
-                }
-                open={visible}
-                onCancel={() => onClose()}
-                transitionName=""
-                destroyOnClose
-                width={otherTodo ? 1600 : 1000}
-                footer={
-                    <div className={styles.footer}>
-                        <Space>
-                            {type === "edit" ? (
-                                <>
-                                    {renderDeleteButton()}
+        <Modal
+            className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
+            title={
+                <div className={styles.modalTitle}>
+                    {type ? getTitle(type2 || type) : ""}
+                </div>
+            }
+            open={visible}
+            onCancel={() => onClose()}
+            // transitionName="" // 这个可以让弹出的动画消失，原来这个动画是 transition 做的
+            destroyOnClose
+            width={otherTodo ? 1600 : 1000}
+            footer={
+                <div className={styles.footer}>
+                    <Space>
+                        {type === "edit" ? (
+                            <>
+                                {renderDeleteButton()}
 
-                                    {controlList.map(
-                                        (item) =>
-                                            item.isShow && (
-                                                <Tooltip
-                                                    key={item.key}
-                                                    title={item.tooltip}
+                                {controlList.map(
+                                    (item) =>
+                                        item.isShow && (
+                                            <Tooltip
+                                                key={item.key}
+                                                title={item.tooltip}
+                                            >
+                                                <Button
+                                                    type="primary"
+                                                    // 如果 activeTodo 是 target，优先展示添加进度，否则优先展示添加同级进度/复制
+                                                    ghost={
+                                                        Number(
+                                                            activeTodo?.isTarget
+                                                        )
+                                                            ? item.key !==
+                                                              "add_child"
+                                                            : item.key !==
+                                                              "add_progress"
+                                                    }
+                                                    onClick={() =>
+                                                        activeTodo &&
+                                                        createCopyOrNextTask(
+                                                            item.key as OperatorType2,
+                                                            activeTodo
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        isEditing ||
+                                                        isEditingOther
+                                                    }
                                                 >
-                                                    <Button
-                                                        type="primary"
-                                                        // 如果 activeTodo 是 target，优先展示添加进度，否则优先展示添加同级进度/复制
-                                                        ghost={
-                                                            Number(
-                                                                activeTodo?.isTarget
-                                                            )
-                                                                ? item.key !==
-                                                                  "add_child"
-                                                                : item.key !==
-                                                                  "add_progress"
-                                                        }
-                                                        onClick={() =>
-                                                            activeTodo &&
-                                                            createCopyOrNextTask(
-                                                                item.key as OperatorType2,
-                                                                activeTodo
-                                                            )
-                                                        }
-                                                        disabled={
-                                                            isEditing ||
-                                                            isEditingOther
-                                                        }
-                                                    >
-                                                        {item.label}
-                                                    </Button>
-                                                </Tooltip>
-                                            )
-                                    )}
+                                                    {item.label}
+                                                </Button>
+                                            </Tooltip>
+                                        )
+                                )}
 
-                                    {activeTodo && (
-                                        <TodoChainIcon item={activeTodo} />
-                                    )}
-                                </>
-                            ) : (
-                                ""
-                            )}
-                        </Space>
-                        <Space>
-                            <Button
-                                onClick={() => handleSaveAsBlog()}
-                                disabled={isEditing}
-                                type="primary"
-                            >
-                                Save as blog
-                            </Button>
-                            <Button onClick={() => onClose()}>Cancel</Button>
-                            <Button
-                                type="primary"
-                                danger={isEditing || isEditingOther}
-                                onClick={() => handleOk(true)}
-                                loading={loading}
-                            >
-                                OK
-                            </Button>
-                        </Space>
-                    </div>
-                }
-            >
-                <div className={styles.wrapper}>
-                    {otherTodo && (
-                        <div
-                            className={`${styles.otherForm} ${styles.left} ScrollBar`}
+                                {activeTodo && (
+                                    <TodoChainIcon item={activeTodo} />
+                                )}
+                            </>
+                        ) : (
+                            ""
+                        )}
+                    </Space>
+                    <Space>
+                        <Button
+                            onClick={() => handleSaveAsBlog()}
+                            disabled={isEditing}
+                            type="primary"
                         >
-                            <div className={styles.title}>前置 Todo：</div>
-                            <div style={{ marginBottom: 15 }}>
-                                <TodoItemName
-                                    item={otherTodo}
-                                    // onlyShow={true}
-                                    isShowTime={true}
-                                    isShowTimeRange={true}
-                                    beforeClick={() => {
-                                        if (isEditing || isEditingOther) {
-                                            message.warning(
-                                                "正在编辑，不能切换"
-                                            );
-                                            return false;
-                                        }
-                                        return true;
-                                    }}
-                                />
-                            </div>
-                            <TodoForm
-                                form={otherForm}
-                                open={!!otherTodo}
-                                isFieldsChange={() => {
-                                    setIsEditingOther(true);
-                                    setIsClose(false);
+                            Save as blog
+                        </Button>
+                        <Button onClick={() => onClose()}>Cancel</Button>
+                        <Button
+                            type="primary"
+                            danger={isEditing || isEditingOther}
+                            onClick={() => handleOk(true)}
+                            loading={loading}
+                        >
+                            OK
+                        </Button>
+                    </Space>
+                </div>
+            }
+        >
+            <div className={styles.wrapper}>
+                {otherTodo && (
+                    <div
+                        className={`${styles.otherForm} ${styles.left} ScrollBar`}
+                    >
+                        <div className={styles.title}>前置 Todo：</div>
+                        <div style={{ marginBottom: 15 }}>
+                            <TodoItemName
+                                item={otherTodo}
+                                // onlyShow={true}
+                                isShowTime={true}
+                                isShowTimeRange={true}
+                                beforeClick={() => {
+                                    if (isEditing || isEditingOther) {
+                                        message.warning("正在编辑，不能切换");
+                                        return false;
+                                    }
+                                    return true;
                                 }}
-                                activeTodo={activeTodo}
-                                isShowOther={true}
-                                leftChildren={
-                                    otherTodo?.child_todo_list && (
-                                        <TodoChildList
-                                            title={`同级别 todo: ${otherTodo.child_todo_list_length}`}
-                                            todoChildList={
-                                                otherTodo.child_todo_list
-                                            }
-                                            isEditing={
-                                                isEditing || isEditingOther
-                                            }
-                                        />
-                                    )
-                                }
                             />
                         </div>
-                    )}
-                    <div
-                        className={`${
-                            otherTodo ? styles.right : styles.full
-                        } ScrollBar`}
-                    >
-                        <div className={styles.title}>当前 Todo：</div>
-                        {form && (
-                            <TodoForm
-                                form={form}
-                                open={visible}
-                                isFieldsChange={(changedFields) => {
-                                    handleOtherIdChange(changedFields);
-                                    setIsEditing(true);
-                                    setIsClose(false);
-                                }}
-                                activeTodo={activeTodo}
-                                leftChildren={
-                                    activeTodo &&
-                                    activeTodoChildList &&
-                                    activeTodo.child_todo_list_length && (
-                                        <TodoChildList
-                                            title={`下一级 todo: ${activeTodo.child_todo_list_length}`}
-                                            todoChildList={activeTodoChildList}
-                                            isEditing={
-                                                isEditing || isEditingOther
-                                            }
-                                        />
-                                    )
-                                }
-                                rightChildren={
-                                    type === "edit" &&
-                                    activeTodo && (
-                                        <TodoImageFile
-                                            todo={activeTodo}
-                                            handleFresh={(item) => {
-                                                if (item) {
-                                                    setActiveTodo(item);
-                                                    needFresh.current.push(
-                                                        ...handleRefreshList(
-                                                            item
-                                                        )
-                                                    );
-                                                }
-                                            }}
-                                        />
-                                    )
-                                }
-                            />
-                        )}
+                        <TodoForm
+                            form={otherForm}
+                            open={!!otherTodo}
+                            isFieldsChange={() => {
+                                setIsEditingOther(true);
+                                setIsClose(false);
+                            }}
+                            activeTodo={activeTodo}
+                            isShowOther={true}
+                            leftChildren={
+                                otherTodo?.child_todo_list && (
+                                    <TodoChildList
+                                        title={`同级别 todo: ${otherTodo.child_todo_list_length}`}
+                                        todoChildList={
+                                            otherTodo.child_todo_list
+                                        }
+                                        isEditing={isEditing || isEditingOther}
+                                    />
+                                )
+                            }
+                        />
                     </div>
+                )}
+                <div
+                    className={`${
+                        otherTodo ? styles.right : styles.full
+                    } ScrollBar`}
+                >
+                    <div className={styles.title}>当前 Todo：</div>
+                    {form && (
+                        <TodoForm
+                            form={form}
+                            open={visible}
+                            isFieldsChange={(changedFields) => {
+                                handleOtherIdChange(changedFields);
+                                setIsEditing(true);
+                                setIsClose(false);
+                            }}
+                            activeTodo={activeTodo}
+                            leftChildren={
+                                activeTodo &&
+                                activeTodoChildList &&
+                                activeTodo.child_todo_list_length && (
+                                    <TodoChildList
+                                        title={`下一级 todo: ${activeTodo.child_todo_list_length}`}
+                                        todoChildList={activeTodoChildList}
+                                        isEditing={isEditing || isEditingOther}
+                                    />
+                                )
+                            }
+                            rightChildren={
+                                type === "edit" &&
+                                activeTodo && (
+                                    <TodoImageFile
+                                        todo={activeTodo}
+                                        handleFresh={(item) => {
+                                            if (item) {
+                                                setActiveTodo(item);
+                                                needFresh.current.push(
+                                                    ...handleRefreshList(item)
+                                                );
+                                            }
+                                        }}
+                                    />
+                                )
+                            }
+                        />
+                    )}
                 </div>
-            </Modal>
-        </>
+            </div>
+        </Modal>
     );
 };
 
