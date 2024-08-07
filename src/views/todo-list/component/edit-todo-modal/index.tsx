@@ -73,8 +73,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const settings = useContext(SettingsContext);
 
     const handleCloseBackUp = () => {
+        setShowEdit(false); // 关闭弹窗
         setActiveTodo(undefined);
-        setShowEdit(false);
         form?.resetFields();
     };
 
