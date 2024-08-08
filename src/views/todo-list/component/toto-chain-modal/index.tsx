@@ -8,6 +8,7 @@ import {
     Modal,
     Space,
     Spin,
+    Checkbox,
 } from "antd";
 import { getTodoChainById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
@@ -20,11 +21,13 @@ import styles from "./index.module.scss";
 import TodoChainLevel from "./todo-chain-level";
 import TodoChainFlat from "./todo-chain-flat";
 import TodoTimeLine from "./todo-time-line";
+import { SettingsContext } from "@/context/SettingsContext";
 
 interface IProps extends DrawerProps {}
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
+    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
 
     const visible = useSelector(
         (state: RootState) => state.edit.showChainModal
@@ -66,6 +69,14 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         "timeline"
     );
 
+    const [selectedColorList, setSelectedColorList] = useState<string[]>(
+        Object.keys(todoColorMap)
+    );
+
+    const getFilterList = (list: TodoItemType[]) => {
+        return list.filter((item) => selectedColorList.includes(item.color));
+    };
+
     return (
         <Modal
             className={theme === "dark" ? "darkTheme" : ""}
@@ -102,9 +113,24 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             width={1000}
         >
             <Spin spinning={loading}>
+                <Checkbox.Group
+                    className={styles.checkboxGroup}
+                    options={Object.keys(todoColorMap).map((item) => {
+                        return {
+                            label: (
+                                <span style={{ color: todoColorMap[item] }}>
+                                    {todoColorNameMap[item]}
+                                </span>
+                            ),
+                            value: item,
+                        };
+                    })}
+                    value={selectedColorList}
+                    onChange={(val: any) => setSelectedColorList(val)}
+                />
                 {showType === "timeline" && (
                     <TodoTimeLine
-                        todoChainList={todoChainList}
+                        todoChainList={getFilterList(todoChainList)}
                         chainId={chainId}
                         localKeyword={localKeyword}
                     />
@@ -113,7 +139,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     <TodoChainLevel
                         localKeyword={localKeyword}
                         nowTodo={nowTodo}
-                        todoChainList={todoChainList}
+                        todoChainList={getFilterList(todoChainList)}
                         chainId={chainId}
                     />
                 )}
@@ -121,7 +147,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     <TodoChainFlat
                         localKeyword={localKeyword}
                         nowTodo={nowTodo}
-                        todoChainList={todoChainList}
+                        todoChainList={getFilterList(todoChainList)}
                         chainId={chainId}
                     />
                 )}

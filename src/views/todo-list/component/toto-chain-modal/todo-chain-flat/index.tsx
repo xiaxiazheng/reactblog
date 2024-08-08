@@ -5,7 +5,6 @@ import TodoItem from "../../todo-item";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
-import { SettingsContext } from "@/context/SettingsContext";
 
 interface IProps {
     localKeyword: string;
@@ -39,12 +38,6 @@ const Collapse: React.FC<CollapseProps> = (props) => {
 const TodoChainFlat: React.FC<IProps> = (props) => {
     const { localKeyword, todoChainList, nowTodo, chainId } = props;
 
-    const { todoColorMap, todoColorNameMap } =
-        useContext(SettingsContext);
-
-    const [selectedColorList, setSelectedColorList] =
-        useState<string[]>(Object.keys(todoColorMap));
-
     const handleFilter = (list: TodoItemType[]): TodoItemType[] => {
         return list
             .filter(
@@ -56,8 +49,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                     item.description
                         .toLowerCase()
                         .indexOf(localKeyword.toLowerCase()) !== -1
-            )
-            .filter((item) => selectedColorList.includes(item.color));
+            );
     };
 
     const handleFlat = (list: TodoItemType[]) => {
@@ -185,21 +177,6 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                 >
                     {isSortTime ? "time" : "mTime"}
                 </Button>
-                <Checkbox.Group
-                    className={styles.checkboxGroup}
-                    options={Object.keys(todoColorMap).map((item) => {
-                        return {
-                            label: (
-                                <span style={{ color: todoColorMap[item] }}>
-                                    {todoColorNameMap[item]}
-                                </span>
-                            ),
-                            value: item,
-                        };
-                    })}
-                    value={selectedColorList}
-                    onChange={(val: any) => setSelectedColorList(val)}
-                />
                 <Button
                     type="primary"
                     onClick={() => setIsSplitTime((prev) => !prev)}
