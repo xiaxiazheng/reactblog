@@ -152,11 +152,9 @@ const TodoList: React.FC = () => {
                             <TodoTarget />
                         </div>
                         {/* 习惯 */}
-                        {isWork !== "1" && (
-                            <div className={`${styles.lmb} ScrollBar`}>
-                                <TodoHabit />
-                            </div>
-                        )}
+                        <div className={`${styles.lmb} ScrollBar`}>
+                            <TodoHabit />
+                        </div>
                         {/* 待办池 */}
                         <div className={`${styles.lb} ScrollBar`}>
                             <TodoPool />
