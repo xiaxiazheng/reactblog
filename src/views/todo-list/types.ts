@@ -46,9 +46,19 @@ export interface CreateTodoItemReq {
     isFollowUp: "0" | "1";
 }
 
-export interface EditTodoItemReq extends CreateTodoItemReq {
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type Merge<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
+
+export type EditTodoItemReq = Merge<CreateTodoItemReq, {
     todo_id: string;
-}
+    isNote?: "0" | "1";
+    isTarget?: "0" | "1";
+    isWork?: "0" | "1";
+    isBookMark?: "0" | "1";
+    isHabit?: "0" | "1";
+    isKeyNode?: "0" | "1";
+    isFollowUp?: "0" | "1";
+}>
 
 export type StatusType = "todo" | "done" | "pool" | "target" | "bookMark" | "note" | "habit" | "followUp";
 export enum TodoStatus {

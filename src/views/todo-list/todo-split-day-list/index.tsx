@@ -62,8 +62,8 @@ const List: React.FC<Props> = (props) => {
     );
 
     // 把过期 todo 的日期调整成今天
-    const changeExpireToToday = async (list: any[]) => {
-        const promiseList = list.map((item) => {
+    const changeExpireToToday = async (list: TodoItemType[]) => {
+        const promiseList = list.filter(item => item.status === TodoStatus.todo).map((item) => {
             return editTodoItem({
                 ...item,
                 time: Today(),
@@ -78,8 +78,8 @@ const List: React.FC<Props> = (props) => {
     };
 
     // 把 todo 丢到待办池
-    const changeTodoToPool = async (list: any[]) => {
-        const promiseList = list.map((item) => {
+    const changeTodoToPool = async (list: TodoItemType[]) => {
+        const promiseList = list.filter(item => item.status === TodoStatus.todo).map((item) => {
             return editTodoItem({
                 ...item,
                 status: TodoStatus.pool,
