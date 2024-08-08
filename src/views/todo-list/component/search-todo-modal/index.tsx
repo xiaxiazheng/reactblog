@@ -38,6 +38,7 @@ const SearchTodoModal: React.FC<IProps> = ({
     onChange,
     activeTodo,
 }) => {
+    const [footprintList, setFootprintList] = useState<TodoItemType[]>([]);
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -55,6 +56,7 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     // 搜索接口
     const handleSearch = async (newValue: string) => {
+        if (sortBy === "footprint") return;
         setLoading(true);
         let sort: string[] = ["mTime", "DESC"];
         if (sortBy === "time") {
@@ -97,15 +99,14 @@ const SearchTodoModal: React.FC<IProps> = ({
     const handleGetFootprint = async (keyword: string) => {
         const list = getFootPrintList();
         const l = await fetchFootprintList(list);
-        setTotal(list.length);
-        setOptions(l);
+        setFootprintList(l);
     };
 
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
 
-    const [sortBy, setSortBy] = useState<string>("");
+    const [sortBy, setSortBy] = useState<string>("footprint");
     useEffect(() => {
         if (visible) {
             if (sortBy === "footprint") {
@@ -116,6 +117,22 @@ const SearchTodoModal: React.FC<IProps> = ({
         }
     }, [sortBy, pageNo, visible]);
 
+    useEffect(() => {
+        if (sortBy === "footprint") {
+            if (!keyword || keyword === "") {
+                setOptions(footprintList);
+            } else {
+                setOptions(
+                    footprintList.filter(
+                        (item) =>
+                            item.name.includes(keyword) ||
+                            item.description.includes(keyword)
+                    )
+                );
+            }
+        }
+    }, [keyword, footprintList]);
+
     return (
         <Modal
             title="选择前置 Todo"
@@ -124,14 +141,16 @@ const SearchTodoModal: React.FC<IProps> = ({
             className={styles.modal}
             onCancel={handleClose}
             footer={
-                <Pagination
-                    className={styles.pagination}
-                    current={pageNo}
-                    pageSize={pageSize}
-                    total={total}
-                    showTotal={(total) => `共 ${total} 条`}
-                    onChange={(pageNo) => setPageNo(pageNo)}
-                />
+                sortBy !== "footprint" && (
+                    <Pagination
+                        className={styles.pagination}
+                        current={pageNo}
+                        pageSize={pageSize}
+                        total={total}
+                        showTotal={(total) => `共 ${total} 条`}
+                        onChange={(pageNo) => setPageNo(pageNo)}
+                    />
+                )
             }
         >
             {loading && <Loading />}
@@ -148,7 +167,10 @@ const SearchTodoModal: React.FC<IProps> = ({
                 buttonStyle="solid"
                 optionType="button"
                 options={[
-                    { label: "足迹", value: "footprint" },
+                    {
+                        label: `足迹${footprintList.length}`,
+                        value: "footprint",
+                    },
                     { label: "默认时间", value: "time" },
                     { label: "修改时间", value: "mTime" },
                     { label: "创建时间", value: "cTime" },
