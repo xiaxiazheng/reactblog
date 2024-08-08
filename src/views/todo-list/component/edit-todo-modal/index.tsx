@@ -242,11 +242,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     };
 
     // 编辑 todo
-    const editTodo = async () => {
+    const editTodo = async (forceSave = false) => {
         if (!activeTodo?.todo_id) return false;
         try {
             editOtherTodo();
-            if (!isEditing) return false;
+            if (!forceSave && !isEditing) return false;
 
             form && (await form.validateFields()); // 这个会触发 isFieldsChange
             const formData = form && form.getFieldsValue();
@@ -543,7 +543,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             edittype: "richtext",
             title: todoData.name,
             author: "xiaxiazheng from todo",
-            blogcont: todoData.description.replaceAll(splitStr, "<br>"),
+            blogcont: todoData.description.replaceAll(splitStr, "<br>").replaceAll('\n', "<br>"),
         };
 
         const res: any = await addBlogCont(params);
@@ -559,8 +559,8 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                 "description",
                 `${todoData.description}${splitStr}已保存到 blog：${url}`
             );
-            setIsEditing(true);
-
+            await editTodo(true);
+            setIsEditing(false);
             setTimeout(() => {
                 window.open(url);
             }, 1000);
