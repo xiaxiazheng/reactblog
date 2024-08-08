@@ -16,6 +16,10 @@ import { TodoItemType } from "../../types";
 import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
+import {
+    fetchFootprintList,
+    getFootPrintList,
+} from "../../list/todo-footprint";
 
 interface IProps {
     visible: boolean;
@@ -40,7 +44,7 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     useEffect(() => {
         // 如果本来就有关联的 todo，就初始化
-        if ( !options.find((item) => item.todo_id === value) && value) {
+        if (!options.find((item) => item.todo_id === value) && value) {
             getTodoById(value).then((res) => {
                 if (res.data) {
                     setOptions((prev) => [res.data].concat(prev));
@@ -90,13 +94,26 @@ const SearchTodoModal: React.FC<IProps> = ({
         }
     };
 
+    const handleGetFootprint = async (keyword: string) => {
+        const list = getFootPrintList();
+        const l = await fetchFootprintList(list);
+        setTotal(list.length);
+        setOptions(l);
+    };
+
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
 
     const [sortBy, setSortBy] = useState<string>("");
     useEffect(() => {
-        visible && handleSearch(keyword);
+        if (visible) {
+            if (sortBy === "footprint") {
+                handleGetFootprint(keyword);
+            } else {
+                handleSearch(keyword);
+            }
+        }
     }, [sortBy, pageNo, visible]);
 
     return (
@@ -126,11 +143,12 @@ const SearchTodoModal: React.FC<IProps> = ({
             />
             <Radio.Group
                 style={{ marginBottom: 10 }}
-                defaultValue={"mTime"}
+                defaultValue={"footprint"}
                 onChange={(e) => setSortBy(e.target.value)}
                 buttonStyle="solid"
                 optionType="button"
                 options={[
+                    { label: "足迹", value: "footprint" },
                     { label: "默认时间", value: "time" },
                     { label: "修改时间", value: "mTime" },
                     { label: "创建时间", value: "cTime" },

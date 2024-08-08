@@ -25,6 +25,39 @@ interface FootprintType {
 const showLength = 15;
 const maxLength = 50;
 
+export const fetchFootprintList = async (
+    list: FootprintType[],
+    isShowAll = true
+) => {
+    const todoIdList = list
+        .slice(0, isShowAll ? maxLength : showLength)
+        .map((item) => item.todo_id);
+
+    const res = await getTodoByIdList({
+        todoIdList,
+    });
+    if (res) {
+        // 把 edit_time 放进 todoItem 里，用于下面展示
+        const map = transferToMap(list);
+        const l: NewTodoItemType[] = res.data.map((item: TodoItemType) => {
+            return {
+                ...item,
+                edit_time: map[item.todo_id],
+            };
+        });
+
+        // 返回的数据，按照足迹的顺序排序
+
+        return l.sort(
+            (a: NewTodoItemType, b: NewTodoItemType) =>
+                list.findIndex((item) => item.todo_id === a.todo_id) -
+                list.findIndex((item) => item.todo_id === b.todo_id)
+        );
+    } else {
+        return [];
+    }
+};
+
 export const getFootPrintList = (): FootprintType[] => {
     const str = localStorage.getItem(key);
     return str ? JSON.parse(str) : [];
@@ -70,36 +103,8 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
         const list = getFootPrintList();
         setTotal(list.length);
         if (list.length !== 0) {
-            const todoIdList = list
-                .slice(0, isShowAll ? maxLength : showLength)
-                .map((item) => item.todo_id);
-
-            const res = await getTodoByIdList({
-                todoIdList,
-            });
-            if (res) {
-                // 把 edit_time 放进 todoItem 里，用于下面展示
-                const map = transferToMap(list);
-                const l: NewTodoItemType[] = res.data.map(
-                    (item: TodoItemType) => {
-                        return {
-                            ...item,
-                            edit_time: map[item.todo_id],
-                        };
-                    }
-                );
-
-                // 返回的数据，按照足迹的顺序排序
-                setList(
-                    l.sort(
-                        (a: NewTodoItemType, b: NewTodoItemType) =>
-                            list.findIndex(
-                                (item) => item.todo_id === a.todo_id
-                            ) -
-                            list.findIndex((item) => item.todo_id === b.todo_id)
-                    )
-                );
-            }
+            const l = await fetchFootprintList(list, isShowAll);
+            setList(l);
         }
         setLoading(false);
     };
