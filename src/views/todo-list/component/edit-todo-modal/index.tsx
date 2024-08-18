@@ -290,9 +290,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             try {
                 otherForm && (await otherForm.validateFields());
                 const formData = otherForm && otherForm.getFieldsValue();
-
+                const { child_todo_list, ...rest } = otherTodo; // child_todo_list 如果赋值给 req，请求体就会超长
                 const req: any = {
-                    ...otherTodo,
+                    ...rest,
                     name: formData.name,
                     description: formData.description || "",
                 };
@@ -543,7 +543,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             edittype: "richtext",
             title: todoData.name,
             author: "xiaxiazheng from todo",
-            blogcont: todoData.description.replaceAll(splitStr, "<br>").replaceAll('\n', "<br>"),
+            blogcont: todoData.description
+                .replaceAll(splitStr, "<br>")
+                .replaceAll("\n", "<br>"),
         };
 
         const res: any = await addBlogCont(params);
