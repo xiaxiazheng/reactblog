@@ -274,6 +274,12 @@ const GlobalSearch: React.FC = () => {
                         </Checkbox>
                     ))}
                 </Checkbox.Group>
+                <Button
+                    size="small"
+                    onClick={() => setActiveColor(["0", "1", "2"])}
+                >
+                    important
+                </Button>
             </div>
 
             <Filter isSimple={!showFilter} />
