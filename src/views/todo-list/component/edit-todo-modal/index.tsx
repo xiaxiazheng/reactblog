@@ -717,6 +717,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                                 setIsClose(false);
                             }}
                             activeTodo={activeTodo}
+                            needFocus={true}
                             leftChildren={
                                 activeTodo &&
                                 activeTodoChildList &&

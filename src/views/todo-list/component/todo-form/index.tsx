@@ -32,6 +32,7 @@ interface Props {
     isShowOther?: boolean;
     leftChildren?: any;
     rightChildren?: any;
+    needFocus?: boolean;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
@@ -41,6 +42,7 @@ const TodoForm: React.FC<Props> = (props) => {
         activeTodo,
         open,
         isShowOther = false,
+        needFocus = false,
     } = props;
 
     const { todoNameMap, todoColorMap, todoColorNameMap, todoDescriptionMap } =
@@ -53,8 +55,8 @@ const TodoForm: React.FC<Props> = (props) => {
     const input = useRef<any>(null);
     // 聚焦在输入框
     useEffect(() => {
-        open && input?.current && input.current?.focus();
-    }, [open]);
+        open && needFocus && input?.current && input.current?.focus();
+    }, [open, needFocus]);
 
     return (
         <Form

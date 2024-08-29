@@ -36,14 +36,6 @@ const Filter: React.FC<IProps> = (props) => {
         handleSpecialStatus,
     } = dispatch.filter;
 
-    const getTimeRange = (
-        start: number,
-        end: number,
-        type: ManipulateType = "day"
-    ) => {
-        return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
-    };
-
     const [timeType, setTimeType] = useState<"month" | "day" | "year">("day");
 
     const handleStarEndTime = (val: any) => {
