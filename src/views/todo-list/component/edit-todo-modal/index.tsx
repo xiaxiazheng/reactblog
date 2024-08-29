@@ -364,11 +364,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         setType2(undefined);
     };
 
-    const getTitle = (type: OperatorType | OperatorType2) => {
+    const getTitle = (type: OperatorType | OperatorType2, text: string) => {
         if (type === "edit") {
             return (
                 <>
-                    <span className={styles.titleEditColor} /> {titleMap[type]}{" "}
+                    <span className={styles.titleEditColor} /> {text}{" "}
                     <Tooltip
                         placement="bottom"
                         title={
@@ -387,7 +387,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
         } else {
             return (
                 <>
-                    <span className={styles.titleEditColor2} /> {titleMap[type]}
+                    <span className={styles.titleEditColor2} /> {text}
                 </>
             );
         }
@@ -576,7 +576,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
             title={
                 <div className={styles.modalTitle}>
-                    {type ? getTitle(type2 || type) : ""}
+                    {type ? getTitle(type2 || type, titleMap[type]) : ""}
                 </div>
             }
             open={visible}
@@ -706,7 +706,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
                         otherTodo ? styles.right : styles.full
                     } ScrollBar`}
                 >
-                    <div className={styles.title}>当前 Todo：</div>
+                    <div className={styles.title}>{getTitle(type2 || type, "当前 Todo：")}</div>
                     {form && (
                         <TodoForm
                             form={form}
