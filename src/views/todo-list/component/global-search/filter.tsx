@@ -15,14 +15,10 @@ interface IProps {
 }
 
 const Filter: React.FC<IProps> = (props) => {
-    const { todoNameMap, todoColorMap, todoColorNameMap } =
-        useContext(SettingsContext);
+    const { todoNameMap } = useContext(SettingsContext);
     const category = useSelector((state: RootState) => state.data.category);
     const activeCategory = useSelector(
         (state: RootState) => state.filter.activeCategory
-    );
-    const activeColor = useSelector(
-        (state: RootState) => state.filter.activeColor
     );
     const startEndTime: Array<dayjs.Dayjs> = useSelector(
         (state: RootState) => state.filter.startEndTime
@@ -35,7 +31,6 @@ const Filter: React.FC<IProps> = (props) => {
 
     const {
         setActiveCategory,
-        setActiveColor,
         setStartEndTime,
         setIsNote,
         handleSpecialStatus,
@@ -133,7 +128,7 @@ const Filter: React.FC<IProps> = (props) => {
                             {item}
                         </Button>
                     ))}
-                    {activeColor?.map((item) => (
+                    {/* {activeColor?.map((item) => (
                         <Button
                             key={item}
                             size="small"
@@ -147,42 +142,12 @@ const Filter: React.FC<IProps> = (props) => {
                                 {todoColorNameMap[item]}
                             </span>
                         </Button>
-                    ))}
+                    ))} */}
                 </Space>
             )}
 
             {!props.isSimple && (
                 <div className={styles.filterWrapper}>
-                    <div>
-                        <span>{colorTitle}：</span>
-                        <Checkbox.Group value={activeColor}>
-                            {Object.keys(todoColorMap).map((item) => (
-                                <Checkbox
-                                    key={item}
-                                    value={item}
-                                    onClick={() => {
-                                        setActiveColor(
-                                            activeColor.includes(item)
-                                                ? activeColor.filter(
-                                                      (i) => i !== item
-                                                  )
-                                                : activeColor.concat(item)
-                                        );
-                                    }}
-                                    style={{ color: todoColorMap[item] }}
-                                    className={`${styles.color} ${
-                                        item === "0" ? styles.zero : ""
-                                    }${item === "1" ? styles.one : ""}${
-                                        item === "2" ? styles.two : ""
-                                    }${item === "3" ? styles.three : ""}${
-                                        item === "4" ? styles.four : ""
-                                    }${item === "-1" ? styles.minusOne : ""}`}
-                                >
-                                    {todoColorNameMap[item]}
-                                </Checkbox>
-                            ))}
-                        </Checkbox.Group>
-                    </div>
                     <div>
                         <span>类别筛选：</span>
                         <Checkbox.Group value={activeCategory}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, Input, Select, Space, Tooltip } from "antd";
+import { Button, Input, Checkbox, Space, Tooltip } from "antd";
 import { CreateTodoItemReq, TodoStatus } from "../../types";
 import {
     ClearOutlined,
@@ -15,6 +15,7 @@ import { Dispatch, RootState } from "../../rematch";
 import Filter from "./filter";
 import TodoTypeIcon from "../todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
+import { colorTitle } from "../../utils";
 
 export const useOriginTodo = () => {
     const settings = useContext(SettingsContext);
@@ -39,6 +40,7 @@ export const useOriginTodo = () => {
 };
 
 const GlobalSearch: React.FC = () => {
+    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
     const category = useSelector((state: RootState) => state.data.category);
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(
@@ -67,6 +69,7 @@ const GlobalSearch: React.FC = () => {
         setKeyword: setContextKeyword,
         handleClear,
         setIsWork,
+        setActiveColor,
     } = dispatch.filter;
 
     const originTodo = useOriginTodo();
@@ -130,9 +133,9 @@ const GlobalSearch: React.FC = () => {
                         <PlusOutlined />
                         todo
                     </Button>
+                    {/* refresh */}
                     <Button onClick={() => refreshData()} type="primary">
                         <RedoOutlined />
-                        refresh
                     </Button>
                     <Tooltip title={"开启 Work 模式"}>
                         <Button
@@ -243,6 +246,35 @@ const GlobalSearch: React.FC = () => {
                 allowClear={true}
                 placeholder="可用空格分词实现一定模糊搜索"
             />
+
+            <div>
+                <span>{colorTitle}：</span>
+                <Checkbox.Group value={activeColor}>
+                    {Object.keys(todoColorMap).map((item) => (
+                        <Checkbox
+                            key={item}
+                            value={item}
+                            onClick={() => {
+                                setActiveColor(
+                                    activeColor.includes(item)
+                                        ? activeColor.filter((i) => i !== item)
+                                        : activeColor.concat(item)
+                                );
+                            }}
+                            style={{ color: todoColorMap[item] }}
+                            className={`${styles.color} ${
+                                item === "0" ? styles.zero : ""
+                            }${item === "1" ? styles.one : ""}${
+                                item === "2" ? styles.two : ""
+                            }${item === "3" ? styles.three : ""}${
+                                item === "4" ? styles.four : ""
+                            }${item === "-1" ? styles.minusOne : ""}`}
+                        >
+                            {todoColorNameMap[item]}
+                        </Checkbox>
+                    ))}
+                </Checkbox.Group>
+            </div>
 
             <Filter isSimple={!showFilter} />
         </Space>
