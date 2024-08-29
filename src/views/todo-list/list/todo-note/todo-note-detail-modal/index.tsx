@@ -7,6 +7,7 @@ import { TodoItemType } from "@/views/todo-list/types";
 import { deleteTodoItem } from "@/client/TodoListHelper";
 import { renderDescription } from "@/views/todo-list/component/todo-item/todo-item-name";
 import { ThemeContext } from "@/context/ThemeContext";
+import CopyButton from "@/components/copy-button";
 
 interface IProps {
     visible: boolean;
@@ -34,16 +35,6 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
     //     refreshData();
     //     onCancel();
     // };
-
-    const handleCopy = (content: string) => {
-        const input = document.createElement("textarea");
-        document.body.appendChild(input);
-        input.value = content;
-        input.select();
-        document.execCommand("copy");
-        message.success("已复制到粘贴板");
-        document.body.removeChild(input);
-    };
 
     return (
         <Modal
@@ -75,17 +66,15 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
             footer={
                 <>
-                    <Button
+                    <CopyButton
                         className={styles.copy_note}
-                        onClick={() => {
-                            handleCopy(
-                                `${activeTodo?.name}\n${activeTodo?.description}` ||
-                                    ""
-                            );
-                        }}
+                        text={
+                            `${activeTodo?.name}\n${activeTodo?.description}` ||
+                            ""
+                        }
                     >
                         复制内容
-                    </Button>
+                    </CopyButton>
                     <Button
                         className={styles.edit_note}
                         type="primary"

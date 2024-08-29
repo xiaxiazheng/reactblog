@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Input, message, Space } from "antd";
 import { CopyOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
+import CopyButton from "@/components/copy-button";
 
 const { TextArea } = Input;
 
@@ -19,16 +20,6 @@ const InputList = ({ value = "", onChange }: any) => {
         onChange(l.join(splitStr));
     };
 
-    const handleCopy = (str: string) => {
-        const input = document.createElement("textarea");
-        document.body.appendChild(input);
-        input.value = str;
-        input.select();
-        document.execCommand("copy");
-        message.success("已复制到粘贴板");
-        document.body.removeChild(input);
-    };
-
     return (
         <Space size={4} direction="vertical" style={{ width: "100%" }}>
             <div style={{ width: "100%", display: "flex", alignItems: 'center' }}>
@@ -39,9 +30,9 @@ const InputList = ({ value = "", onChange }: any) => {
                 >
                     增加描述
                 </Button>
-                <Button
+                <CopyButton
                     style={{ margin: "0 10px" }}
-                    onClick={() => handleCopy(value)}
+                    text={value}
                     icon={<CopyOutlined />}
                 />
                 <Button

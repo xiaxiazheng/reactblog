@@ -21,6 +21,7 @@ import {
     Tooltip,
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
+import CopyButton from "../copy-button";
 import styles from "./index.module.scss";
 
 const { TextArea } = Input;
@@ -264,7 +265,12 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                 {fanyi?.tran && (
                     <div>
                         <div className={styles.label}>语句翻译：</div>
-                        <div>{fanyi?.tran}</div>
+                        <div>
+                            {fanyi?.tran}{" "}
+                            <CopyButton text={fanyi?.tran} size="small">
+                                copy
+                            </CopyButton>
+                        </div>
                     </div>
                 )}
                 {!simple && blng_sents_part && (
@@ -275,10 +281,26 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                 (item: any, index: number) => (
                                     <div key={index}>
                                         <div>
-                                            {index + 1}. {item?.["sentence"]}
+                                            {index + 1}. {item?.["sentence"]}{" "}
+                                            <CopyButton
+                                                text={item?.["sentence"]}
+                                                size="small"
+                                            >
+                                                copy
+                                            </CopyButton>
                                         </div>
                                         <div>
-                                            {item?.["sentence-translation"]}
+                                            {item?.["sentence-translation"]}{" "}
+                                            <CopyButton
+                                                text={
+                                                    item?.[
+                                                        "sentence-translation"
+                                                    ]
+                                                }
+                                                size="small"
+                                            >
+                                                copy
+                                            </CopyButton>
                                         </div>
                                     </div>
                                 )
@@ -298,7 +320,14 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
             <div>
                 <div className={styles.label}>有道翻译：</div>
                 {result.youdao?.translation?.map((item: any) => {
-                    return <div key={item}>{item}</div>;
+                    return (
+                        <div key={item}>
+                            {item}{" "}
+                            <CopyButton text={item} size="small">
+                                copy
+                            </CopyButton>
+                        </div>
+                    );
                 })}
             </div>
         );
@@ -356,17 +385,27 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                     </Button>
                                 )}
                             </Space>
-                            <div className={styles.keyword}>
-                                {translate?.keyword}
-                            </div>
                             {translate?.keyword && (
-                                <Space
-                                    direction="vertical"
-                                    className={`${styles.result} ScrollBar`}
-                                >
-                                    {renderTranslateDict(translate?.result)}
-                                    {renderTranslateSentence(translate?.result)}
-                                </Space>
+                                <>
+                                    <div className={styles.keyword}>
+                                        {translate?.keyword}{" "}
+                                        <CopyButton
+                                            text={translate?.keyword}
+                                            size="small"
+                                        >
+                                            copy
+                                        </CopyButton>
+                                    </div>
+                                    <Space
+                                        direction="vertical"
+                                        className={`${styles.result} ScrollBar`}
+                                    >
+                                        {renderTranslateDict(translate?.result)}
+                                        {renderTranslateSentence(
+                                            translate?.result
+                                        )}
+                                    </Space>
+                                </>
                             )}
                         </Space>
                     </div>

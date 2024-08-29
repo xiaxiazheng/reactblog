@@ -10,6 +10,7 @@ import { CreateTodoItemReq, TodoStatus } from "@/views/todo-list/types";
 import dayjs from "dayjs";
 import { addTodoItem } from "@/client/TodoListHelper";
 import { useOriginTodo } from "@/views/todo-list/component/global-search";
+import CopyButton from "@/components/copy-button";
 
 interface IProps {
     visible: boolean;
@@ -29,12 +30,12 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
         handleEdit,
         refreshData,
     } = props;
-    
+
     const originTodo = useOriginTodo();
 
     const addTodo = async (item: NoteType) => {
         const req: CreateTodoItemReq = {
-            ...originTodo as any,
+            ...(originTodo as any),
             name: item.note.split("\n")?.[0],
             time: dayjs(item.cTime).format("YYYY-MM-DD"),
             status: TodoStatus.done,
@@ -59,16 +60,6 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
         await deleteNote(params);
         message.success("删除 note 成功");
         handleDelete();
-    };
-
-    const handleCopy = (content: string) => {
-        const input = document.createElement("textarea");
-        document.body.appendChild(input);
-        input.value = content;
-        input.select();
-        document.execCommand("copy");
-        message.success("已复制到粘贴板");
-        document.body.removeChild(input);
     };
 
     return (
@@ -103,14 +94,12 @@ const NoteDetailModal: React.FC<IProps> = (props) => {
                     >
                         迁移到 todo-note
                     </Button>
-                    <Button
+                    <CopyButton
                         className={styles.copy_note}
-                        onClick={() => {
-                            handleCopy(activeNote?.note || "");
-                        }}
+                        text={activeNote?.note || ""}
                     >
                         复制内容
-                    </Button>
+                    </CopyButton>
                     <Button
                         className={styles.edit_note}
                         type="primary"
