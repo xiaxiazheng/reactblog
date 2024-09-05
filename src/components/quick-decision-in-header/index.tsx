@@ -1,18 +1,9 @@
 import {
-    DeleteOutlined,
-    InfoCircleFilled,
-    StarFilled,
-} from "@ant-design/icons";
-import {
     Button,
     message,
     Modal,
-    Input,
     Space,
-    Pagination,
     Radio,
-    Tooltip,
-    Spin,
 } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
@@ -22,10 +13,7 @@ import TodoItem from "@/views/todo-list/component/todo-item";
 import { useOriginTodo } from "@/views/todo-list/component/global-search";
 import { SettingsContext } from "@/context/SettingsContext";
 import Loading from "../loading";
-import { CreateTodoItemReq, TodoItemType } from "@/views/todo-list/types";
-import { addTodoItem } from "@/client/TodoListHelper";
-
-const { confirm } = Modal;
+import { TodoItemType } from "@/views/todo-list/types";
 
 interface PropsType {}
 
