@@ -475,12 +475,14 @@ export const data = createModel<RootModel>()({
                 todoListOrigin,
                 poolListOrigin,
                 targetListOrigin,
+                habitListOrigin,
                 followUpListOrigin,
                 bookMarkListOrigin,
             } = state.data;
             const {
                 setTodoList,
                 setPoolList,
+                setHabitList,
                 setTargetList,
                 setFollowUpList,
                 setBookMarkList,
@@ -494,6 +496,9 @@ export const data = createModel<RootModel>()({
             );
             setTargetList(
                 this.getFilterList({ list: targetListOrigin, type: "target" })
+            );
+            setHabitList(
+                this.getFilterList({ list: habitListOrigin, type: "habit" })
             );
             setFollowUpList(
                 this.getFilterList({

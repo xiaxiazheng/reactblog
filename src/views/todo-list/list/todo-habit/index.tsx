@@ -27,8 +27,6 @@ const TodoHabit = () => {
         setHabitList(getFilterList({ list: habitListOrigin, type: "habit" }));
     }, [habitListOrigin]);
 
-    if (!habitList?.length) return null;
-
     return (
         <PoolList
             loading={habitLoading}
