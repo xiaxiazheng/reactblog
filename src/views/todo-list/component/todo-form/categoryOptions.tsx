@@ -21,8 +21,8 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
     }, [category]);
 
     const getList = () => {
-        const list = l.slice(0, todoCategoryDefaultShow);
-        return list.map(item => item.category).includes(value) ? list : l.slice(0, todoCategoryDefaultShow - 1).concat(l.filter(item => item.category === value));
+        const list = l?.slice(0, todoCategoryDefaultShow);
+        return list?.map(item => item.category).includes(value) ? list : l?.slice(0, todoCategoryDefaultShow - 1).concat(l.filter(item => item.category === value));
     };
 
     return (
