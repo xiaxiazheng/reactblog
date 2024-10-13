@@ -5,8 +5,10 @@ import { TodoItemType, CategoryType, TodoStatus } from "../../types";
 import TodoImageFile from "../../component/todo-image-file";
 import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
-import { renderDescription } from "../../component/todo-item/todo-item-name";
-import { debounce } from "../../utils";
+import TodoItemName, {
+    renderDescription,
+} from "../../component/todo-item/todo-item-name";
+import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { useOriginTodo } from "../../component/global-search";
@@ -61,7 +63,13 @@ const TodoNote: React.FC<IProps> = (props) => {
             pageNo,
             pageSize,
             isNote: "1",
-            sortBy: [[sortBy, "DESC"]],
+            sortBy:
+                sortBy === "time"
+                    ? [
+                          ["time", "DESC"],
+                          ["cTime", "DESC"],
+                      ]
+                    : [[sortBy, "DESC"]],
         };
 
         if (activeCategory !== "所有") {
@@ -111,7 +119,7 @@ const TodoNote: React.FC<IProps> = (props) => {
     // 详情
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
 
-    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("mTime");
+    const [sortBy, setSortBy] = useState<"time" | "mTime">("time");
     useEffect(() => {
         getData();
     }, [sortBy, pageNo, isRefreshNote]);
@@ -125,6 +133,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                     <div className={styles.header}>
                         <span>todo note ({total})</span>
                         <Space>
+                            {/* 搜索框 */}
                             <Search
                                 className={styles.input}
                                 value={keyword}
@@ -143,14 +152,16 @@ const TodoNote: React.FC<IProps> = (props) => {
                             >
                                 筛选
                             </Button>
+                            {/* 排序规则 */}
                             <Button
                                 onClick={() =>
                                     setSortBy(
-                                        sortBy === "cTime" ? "mTime" : "cTime"
+                                        sortBy === "time" ? "mTime" : "time"
                                     )
                                 }
                             >
-                                按{sortBy === "cTime" ? "创建" : "修改"}时间倒序
+                                按{sortBy === "time" ? "time" : "修改"}
+                                时间倒序
                             </Button>
                             <Button
                                 className={styles.add_note}
@@ -163,6 +174,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                             </Button>
                         </Space>
                     </div>
+                    {/* 类目筛选 */}
                     {showFilter && (
                         <Radio.Group
                             className={styles.radioList}
@@ -200,36 +212,43 @@ const TodoNote: React.FC<IProps> = (props) => {
                                         setIsShowDetail(true);
                                     }}
                                 >
-                                    <div className={styles.note_header}>
-                                        <span className={styles.category}>
-                                            {item.category}
-                                        </span>
-                                        <span>{item.name}</span>
+                                    <div className={styles.note_time}>
+                                        {item.time}(
+                                        {getRangeFormToday(item.time)})
                                     </div>
-                                    <div className={styles.note_content}>
-                                        {renderDescription(
-                                            item.description,
-                                            keyword
+                                    <div className={styles.note_box}>
+                                        <div className={styles.note_header}>
+                                            <TodoItemName
+                                                item={item}
+                                                onlyShow
+                                            />
+                                        </div>
+                                        <div className={styles.note_content}>
+                                            {renderDescription(
+                                                item.description,
+                                                keyword
+                                            )}
+                                        </div>
+                                        <TodoImageFile
+                                            isOnlyShow={true}
+                                            todo={{
+                                                ...item,
+                                                imgList: item.imgList.slice(
+                                                    0,
+                                                    maxLength
+                                                ),
+                                            }}
+                                            width="120px"
+                                        />
+                                        {item.imgList.length > maxLength && (
+                                            <div style={{ opacity: 0.7 }}>
+                                                还有{" "}
+                                                {item.imgList.length -
+                                                    maxLength}{" "}
+                                                张图
+                                            </div>
                                         )}
                                     </div>
-                                    <TodoImageFile
-                                        isOnlyShow={true}
-                                        todo={{
-                                            ...item,
-                                            imgList: item.imgList.slice(
-                                                0,
-                                                maxLength
-                                            ),
-                                        }}
-                                        width="120px"
-                                    />
-                                    {item.imgList.length > maxLength && (
-                                        <div style={{ opacity: 0.7 }}>
-                                            还有{" "}
-                                            {item.imgList.length - maxLength}{" "}
-                                            张图
-                                        </div>
-                                    )}
                                 </div>
                             );
                         })}
