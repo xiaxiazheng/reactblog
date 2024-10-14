@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import DoneList from "./list/todo-done";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
@@ -106,6 +106,18 @@ const TodoList: React.FC = () => {
         getTodo("followUp");
     }, [isWork]);
 
+    const [hoverIndex, setHoverIndex] = useState<number>();
+    const [gridTemplateRows, setGridTemplateRows] = useState<string>("");
+    useEffect(() => {
+        if (typeof hoverIndex !== 'undefined') {
+            const l = Array(isWork === "1" ? 3 : 4).fill("120px");
+            l[hoverIndex] = '1fr';
+            setGridTemplateRows(l.join(" "));
+        } else {
+            setGridTemplateRows('');
+        }
+    }, [hoverIndex]);
+
     return (
         <div className={styles.todoList}>
             <div>
@@ -142,21 +154,27 @@ const TodoList: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className={styles.l}>
+                    <div
+                        className={styles.l}
+                        style={{ gridTemplateRows }}
+                        onMouseLeave={() => setHoverIndex(undefined)}
+                    >
                         {/* Pin */}
-                        <div className={`${styles.lt} ScrollBar`}>
+                        <div className={`${styles.lt} ScrollBar`} onMouseEnter={() => setHoverIndex(0)}>
                             <TodoBookMark />
                         </div>
                         {/* 目标 */}
-                        <div className={`${styles.lmt} ScrollBar`}>
+                        <div className={`${styles.lmt} ScrollBar`} onMouseEnter={() => setHoverIndex(1)}>
                             <TodoTarget />
                         </div>
                         {/* 习惯 */}
-                        {isWork !== '1' && <div className={`${styles.lmb} ScrollBar`}>
-                            <TodoHabit />
-                        </div>}
+                        {isWork !== "1" && (
+                            <div className={`${styles.lmb} ScrollBar`} onMouseEnter={() => setHoverIndex(2)}>
+                                <TodoHabit />
+                            </div>
+                        )}
                         {/* 待办池 */}
-                        <div className={`${styles.lb} ScrollBar`}>
+                        <div className={`${styles.lb} ScrollBar`} onMouseEnter={() => setHoverIndex(isWork === "1" ? 2 : 3)}>
                             <TodoPool />
                         </div>
                     </div>

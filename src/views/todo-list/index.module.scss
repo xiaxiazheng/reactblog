@@ -91,36 +91,20 @@
 
         display: grid;
         .lt {
-            //     grid-column-start: 1;
-            //     grid-column-end: 2;
-            //     grid-row-start: 1;
-            //     grid-row-end: 9;
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
         }
 
         .lmt {
-            //     grid-column-start: 1;
-            //     grid-column-end: 2;
-            //     grid-row-start: 9;
-            //     grid-row-end: 17;
             border-right: 1px solid #ccc;
         }
 
         .lmb {
-            //     grid-column-start: 1;
-            //     grid-column-end: 2;
-            //     grid-row-start: 9;
-            //     grid-row-end: 17;
             border-top: 1px solid #ccc;
             border-right: 1px solid #ccc;
         }
 
         .lb {
-            //     grid-column-start: 1;
-            //     grid-column-end: 2;
-            //     grid-row-start: 17;
-            //     grid-row-end: 25;
             border-top: 1px solid #ccc;
             border-right: 1px solid #ccc;
         }
