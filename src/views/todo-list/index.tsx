@@ -106,9 +106,9 @@ const TodoList: React.FC = () => {
         getTodo("followUp");
     }, [isWork]);
 
-    const [hoverIndex, setHoverIndex] = useState<number>();
+    // const [hoverIndex, setHoverIndex] = useState<number>();
     const [gridTemplateRows, setGridTemplateRows] = useState<string>("");
-    useEffect(() => {
+    const setHoverIndex = (hoverIndex?: number) => {
         if (typeof hoverIndex !== 'undefined') {
             const l = Array(isWork === "1" ? 3 : 4).fill("120px");
             l[hoverIndex] = '1fr';
@@ -116,7 +116,8 @@ const TodoList: React.FC = () => {
         } else {
             setGridTemplateRows('');
         }
-    }, [hoverIndex]);
+    }
+    // }, [hoverIndex]);
 
     return (
         <div className={styles.todoList}>
