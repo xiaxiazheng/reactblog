@@ -67,8 +67,6 @@ export const routes = [
 
     { route: "/admin/music", name: "Music", component: Music, isShow: false },
 
-    // note 模块下掉了，note表数据也清空了，挪到了todo里
-    // { route: "/admin/note", name: "Note", component: Note, isShow: false },
     {
         route: "/admin/cloud/:parent_id",
         name: "Cloud",

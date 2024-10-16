@@ -5,7 +5,7 @@ import TodoImageFile from "../../../component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@/views/todo-list/types";
 import { deleteTodoItem } from "@/client/TodoListHelper";
-import { renderDescription } from "@/views/todo-list/component/todo-item/todo-item-name";
+import TodoItemName, { renderDescription } from "@/views/todo-list/component/todo-item/todo-item-name";
 import { ThemeContext } from "@/context/ThemeContext";
 import CopyButton from "@/components/copy-button";
 
@@ -39,17 +39,14 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
     return (
         <Modal
             title={
-                <>
-                    <span className={styles.category}>
-                        {activeTodo?.category}
-                    </span>
-                    <span>{activeTodo?.name}</span>
-                    <span>({activeTodo?.time})</span>
+                <div className={styles.title}>
+                    {activeTodo && <TodoItemName item={activeTodo} />}
                     &nbsp;
                     <Tooltip
                         placement="bottom"
                         title={
                             <>
+                                <div>time: {activeTodo?.time}</div>
                                 <div>创建时间：{activeTodo?.cTime}</div>
                                 <div>编辑时间：{activeTodo?.mTime}</div>
                             </>
@@ -57,7 +54,7 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
                     >
                         <QuestionCircleOutlined style={{ cursor: "pointer" }} />
                     </Tooltip>
-                </>
+                </div>
             }
             open={visible}
             onCancel={() => onCancel()}
