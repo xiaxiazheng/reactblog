@@ -4,12 +4,12 @@ import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import { TodoItemType } from "../types";
 import SortBtnMulti, {
-    SortKeyMap,
     useIsSortByMulti,
 } from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
 import { useIsHIdeModel } from "../hooks";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { SortKeyMap } from "../component/sort-btn";
 
 interface Props {
     loading: boolean;
@@ -23,7 +23,7 @@ interface Props {
 }
 
 // 待办池
-const PoolList: React.FC<Props> = (props) => {
+const TodoAllList: React.FC<Props> = (props) => {
     const {
         loading,
         title,
@@ -77,4 +77,4 @@ const PoolList: React.FC<Props> = (props) => {
     );
 };
 
-export default PoolList;
+export default TodoAllList;

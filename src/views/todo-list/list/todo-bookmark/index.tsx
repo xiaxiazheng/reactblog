@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import PoolList from "../../todo-all-list";
+import TodoAllList from "../../todo-all-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
@@ -30,7 +30,7 @@ const TodoBookMark = () => {
     }, [bookMarkListOrigin]);
 
     return (
-        <PoolList
+        <TodoAllList
             loading={bookMarkLoading}
             title={
                 <>

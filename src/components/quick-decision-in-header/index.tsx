@@ -24,7 +24,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
     const { punchTheClock } = dispatch.data;
-    const [waitType, setWaitType] = useState<"punchTheClock" | "todoAndPool">(
+    const [waitType, setWaitType] = useState<"punchTheClock" | "todo">(
         "punchTheClock"
     );
     const [isShowAll, setIsShowAll] = useState<boolean>(false);
@@ -36,27 +36,23 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
         (state: RootState) => state.data.habitListOrigin
     ).sort((a, b) => Number(a.color) - Number(b.color));
     const listLoading = useSelector(
-        (state: RootState) => state.data.todoLoading || state.data.poolLoading
+        (state: RootState) => state.data.todoLoading
     );
     const todoListOrigin = useSelector(
         (state: RootState) => state.data.todoListOrigin // 不能在这里直接 concat 两个对象，会导致每次函数重跑都是新的对象，造成循环
-    );
-    const poolListOrigin = useSelector(
-        (state: RootState) => state.data.poolListOrigin
     );
     const [listOrigin, setListOrigin] = useState<TodoItemType[]>([]);
 
     useEffect(() => {
         setListOrigin(
             todoListOrigin
-                .concat(poolListOrigin)
                 .sort(
                     (a, b) =>
                         new Date(b.cTime || "").getTime() -
                         new Date(a.cTime || "").getTime()
                 ) // 把创建时间最晚的放前面
         );
-    }, [todoListOrigin, poolListOrigin]);
+    }, [todoListOrigin]);
 
     const originTodo = useOriginTodo();
 
@@ -81,7 +77,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     useEffect(() => {
         if (isShowModal && !random) {
             waitType === "punchTheClock" && calculateChance(habitListOrigin);
-            waitType === "todoAndPool" && calculateChance2(listOrigin);
+            waitType === "todo" && calculateChance2(listOrigin);
         }
     }, [habitListOrigin, listOrigin, isShowModal, random, waitType]);
 
@@ -253,8 +249,8 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                                 <Radio.Button value="punchTheClock">
                                     打卡任务 ({habitListOrigin?.length})
                                 </Radio.Button>
-                                <Radio.Button value="todoAndPool">
-                                    todo 和 pool ({listOrigin?.length})
+                                <Radio.Button value="todo">
+                                    todo ({listOrigin?.length})
                                 </Radio.Button>
                             </Radio.Group>
                             <div>
@@ -294,7 +290,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                                     </Button>
                                 </div>
                             )}
-                            {waitType === "todoAndPool" && (
+                            {waitType === "todo" && (
                                 <div className={styles.list}>
                                     {listLoading && <Loading />}
                                     {(isShowAll

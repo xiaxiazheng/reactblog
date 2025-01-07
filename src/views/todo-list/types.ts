@@ -60,16 +60,14 @@ export type EditTodoItemReq = Merge<CreateTodoItemReq, {
     isFollowUp?: "0" | "1";
 }>
 
-export type StatusType = "todo" | "done" | "pool" | "target" | "bookMark" | "note" | "habit" | "followUp";
+export type StatusType = "todo" | "done" | "target" | "bookMark" | "note" | "habit" | "followUp";
 export enum TodoStatus {
     todo = 0,
     done = 1,
-    pool = 2,
 }
 export const TodoStatusMap: any = {
     [TodoStatus.todo]: 'todo',
     [TodoStatus.done]: 'done',
-    [TodoStatus.pool]: 'pool',
 }
 
 export type OperatorType = "add" | "edit";

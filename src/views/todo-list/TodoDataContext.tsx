@@ -8,21 +8,17 @@ import { debounce } from "./utils";
 interface ContextType {
     todoLoading: boolean;
     doneLoading: boolean;
-    poolLoading: boolean;
     targetLoading: boolean;
     bookMarkLoading: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
-    poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
     todoList: TodoItemType[];
     doneList: TodoItemType[];
     doneTotal: number;
-    poolList: TodoItemType[];
     targetList: TodoItemType[];
     bookMarkList: TodoItemType[];
     setTodoList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
-    setPoolList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
     setTargetList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
     setBookMarkList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
     setIsRefreshNote: React.Dispatch<React.SetStateAction<boolean>>;
@@ -56,14 +52,12 @@ export const TodoDataContext = createContext({} as ContextType);
 export const TodoDataProvider: React.FC = (props) => {
     const [todoLoading, setTodoLoading] = useState<boolean>(false);
     const [doneLoading, setDoneLoading] = useState<boolean>(false);
-    const [poolLoading, setPoolLoading] = useState<boolean>(false);
     const [targetLoading, setTargetLoading] = useState<boolean>(false);
     const [bookMarkLoading, setBookMarkLoading] = useState<boolean>(false);
 
     const [isRefreshNote, setIsRefreshNote] = useState<boolean>(false);
 
     const [todoListOrigin, setTodoListOrigin] = useState<TodoItemType[]>([]);
-    const [poolListOrigin, setPoolListOrigin] = useState<TodoItemType[]>([]);
     const [targetListOrigin, setTargetListOrigin] = useState<TodoItemType[]>(
         []
     );
@@ -71,7 +65,6 @@ export const TodoDataProvider: React.FC = (props) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
     const [doneList, setDoneList] = useState<TodoItemType[]>([]);
     const [doneTotal, setDoneTotal] = useState<number>(0);
-    const [poolList, setPoolList] = useState<TodoItemType[]>([]);
     const [targetList, setTargetList] = useState<TodoItemType[]>([]);
     const [bookMarkList, setBookMarkList] = useState<TodoItemType[]>([]);
 
@@ -141,10 +134,8 @@ export const TodoDataProvider: React.FC = (props) => {
                 }
                 break;
             }
-            case "todo":
-            case "pool": {
+            case "todo": {
                 type === "todo" && setTodoLoading(true);
-                type === "pool" && setPoolLoading(true);
 
                 const req: any = {
                     status: TodoStatus[type],
@@ -155,10 +146,6 @@ export const TodoDataProvider: React.FC = (props) => {
                     if (type === "todo") {
                         setTodoListOrigin(res.data);
                         setTodoLoading(false);
-                    }
-                    if (type === "pool") {
-                        setPoolListOrigin(res.data);
-                        setPoolLoading(false);
                     }
                 } else {
                     message.error("获取 todolist 失败");
@@ -172,12 +159,10 @@ export const TodoDataProvider: React.FC = (props) => {
         if (!type) {
             getTodo("todo");
             getTodo("done");
-            getTodo("pool");
             getTodo("target");
         } else {
             type === "todo" && getTodo("todo");
             type === "done" && getTodo("done");
-            type === "pool" && getTodo("pool");
             type === "target" && getTodo("target");
         }
     };
@@ -224,16 +209,14 @@ export const TodoDataProvider: React.FC = (props) => {
 
     const handleSearch = () => {
         setTodoList(getFilterList(todoListOrigin));
-        setPoolList(getFilterList(poolListOrigin));
         setTargetList(getFilterList(targetListOrigin));
         getTodo("done");
     };
 
     useEffect(() => {
         setTodoList(getFilterList(todoListOrigin));
-        setPoolList(getFilterList(poolListOrigin));
         setTargetList(getFilterList(targetListOrigin));
-    }, [todoListOrigin, poolListOrigin, targetListOrigin]);
+    }, [todoListOrigin, targetListOrigin]);
 
     const handleClear = () => {
         setActiveCategory([]);
@@ -263,21 +246,17 @@ export const TodoDataProvider: React.FC = (props) => {
             value={{
                 todoLoading,
                 doneLoading,
-                poolLoading,
                 targetLoading,
                 bookMarkLoading,
                 isRefreshNote,
                 todoListOrigin,
-                poolListOrigin,
                 targetListOrigin,
                 todoList,
                 doneList,
                 doneTotal,
-                poolList,
                 targetList,
                 bookMarkList,
                 setTodoList,
-                setPoolList,
                 setTargetList,
                 setBookMarkList,
                 setIsRefreshNote,

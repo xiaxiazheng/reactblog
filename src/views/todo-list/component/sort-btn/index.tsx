@@ -7,7 +7,6 @@ export enum SortKeyMap {
     todo,
     after,
     done,
-    pool,
     target,
     habit,
     bookmark,
