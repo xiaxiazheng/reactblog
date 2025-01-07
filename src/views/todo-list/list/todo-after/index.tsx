@@ -6,7 +6,7 @@ import { RootState } from "../../rematch";
 import { formatArrayToTimeMap } from "../../utils";
 import dayjs from "dayjs";
 import { SettingsContext } from "@/context/SettingsContext";
-import { RenderTodoDescriptionIcon } from "../todo-today";
+import { RenderTodoDescriptionIcon } from "../todo-list";
 import { getToday } from "@/components/amdin-header/utils";
 
 const TodoAfter = () => {

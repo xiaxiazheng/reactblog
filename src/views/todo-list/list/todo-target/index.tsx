@@ -6,7 +6,7 @@ import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
-import { RenderTodoDescriptionIcon } from "../todo-today";
+import { RenderTodoDescriptionIcon } from "../todo-list";
 
 const TodoTarget = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);

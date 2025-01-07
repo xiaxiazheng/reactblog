@@ -12,14 +12,13 @@ import store, { Dispatch, RootState } from "./rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import TodoAfter from "./list/todo-after";
-import TodoToday, { RenderTodoDescriptionIcon } from "./list/todo-today";
+import TodoList, { RenderTodoDescriptionIcon } from "./list/todo-list";
 import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
 import { Tooltip } from "antd";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
-// import TodoFollowUp from "./list/todo-follow-up";
 import { SettingsContext } from "@/context/SettingsContext";
 
 const useTimer = (fn: Function, ms: number = 500) => {
@@ -79,7 +78,7 @@ const HoverOpen = () => {
     );
 };
 
-const TodoList: React.FC = () => {
+const TodoListHome: React.FC = () => {
     useDocumentTitle("todo-list");
 
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
@@ -122,9 +121,9 @@ const TodoList: React.FC = () => {
             <div>
                 <div className={styles.Layout}>
                     <div className={styles.m}>
-                        {/* 今日待办 */}
+                        {/* 待办列表 */}
                         <div className={`${styles.mt} ScrollBar`}>
-                            <TodoToday />
+                            <TodoList />
                         </div>
                         {/* 之后待办 */}
                         <div className={`${styles.mb} ScrollBar`}>
@@ -188,7 +187,7 @@ const TodoList: React.FC = () => {
 
 const TodoListWrapper: React.FC = () => (
     <Provider store={store}>
-        <TodoList />
+        <TodoListHome />
     </Provider>
 );
 

@@ -5,7 +5,7 @@ import TodoAllList from "../../todo-all-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
-import { RenderTodoDescriptionIcon } from "../todo-today";
+import { RenderTodoDescriptionIcon } from "../todo-list";
 
 const TodoBookMark = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);

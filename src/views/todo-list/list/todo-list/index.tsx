@@ -23,7 +23,7 @@ export const RenderTodoDescriptionIcon = (props: { title: any }) => {
     );
 };
 
-const TodoToday = () => {
+const TodoList = () => {
     const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
 
     const Today = () => getToday().format("YYYY-MM-DD");
@@ -60,15 +60,15 @@ const TodoToday = () => {
     }, [followUpListOrigin]);
 
     const [isShowFollowUp, setIsShowFollowUp] = useState<boolean>(true);
-
-    // console.log('todoList', todoList)
-    // console.log('followUpList', followUpList)
-
-    // console.log('formatArrayToTimeMap', formatArrayToTimeMap(
-    //     todoList
-    //         .filter((item) => item.time <= Today())
-    //         .concat(isShowFollowUp ? followUpList : [])
-    // ))
+    const [isShowOnlyToday, setIsShowOnlyToday] = useState<boolean>(true);
+    useEffect(() => {
+        setIsShowOnlyToday(localStorage.getItem('isShowOnlyToday') === 'true');
+    }, []);
+    const updateIsShowOnlyToday = () => {
+        const temp = !isShowOnlyToday;
+        setIsShowOnlyToday(temp);
+        localStorage.setItem('isShowOnlyToday', temp.toString());
+    }
 
     return (
         <List
@@ -84,23 +84,26 @@ const TodoToday = () => {
                 </>
             }
             mapList={formatArrayToTimeMap(
-                todoList
-                    .filter((item) => item.time <= Today())
+                isShowOnlyToday ? todoList
                     .concat(isShowFollowUp ? followUpList : [])
+                    .filter(item => item.time === Today()) :
+                    todoList
+                        .filter((item) => item.time <= Today())
+                        .concat(isShowFollowUp ? followUpList : [])
             )}
             showDoneIcon={true}
             isReverseTime={true}
             btnChildren={
-                followUpList.length ? (
-                    <Tooltip title={`查看 ${todoNameMap?.followUp}`}>
+                <>
+                    <Tooltip title={`${todoNameMap?.onlyToday}`}>
                         <Button
-                            type={isShowFollowUp ? "primary" : "default"}
-                            onClick={() => setIsShowFollowUp((prev) => !prev)}
+                            type={isShowOnlyToday ? "primary" : "default"}
+                            onClick={updateIsShowOnlyToday}
                             icon={
                                 <TodoTypeIcon
-                                    type="followUp"
+                                    type="onlyToday"
                                     style={
-                                        !isShowFollowUp
+                                        !isShowOnlyToday
                                             ? { color: "#ffeb3b" }
                                             : {}
                                     }
@@ -108,10 +111,30 @@ const TodoToday = () => {
                             }
                         ></Button>
                     </Tooltip>
-                ) : null
+                    {
+                        followUpList.length ? (
+                            <Tooltip title={`查看 ${todoNameMap?.followUp}`}>
+                                <Button
+                                    type={isShowFollowUp ? "primary" : "default"}
+                                    onClick={() => setIsShowFollowUp((prev) => !prev)}
+                                    icon={
+                                        <TodoTypeIcon
+                                            type="followUp"
+                                            style={
+                                                !isShowFollowUp
+                                                    ? { color: "#ffeb3b" }
+                                                    : {}
+                                            }
+                                        />
+                                    }
+                                ></Button>
+                            </Tooltip>
+                        ) : null
+                    }
+                </>
             }
         />
     );
 };
 
-export default TodoToday;
+export default TodoList;
