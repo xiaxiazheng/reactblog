@@ -144,7 +144,7 @@ const TodoList: React.FC = () => {
                             <DoneList
                                 title={
                                     <>
-                                        {todoNameMap["done"]}
+                                        {todoNameMap?.["done"]}
                                         <RenderTodoDescriptionIcon
                                             title={todoDescriptionMap?.["done"]}
                                         />{" "}
