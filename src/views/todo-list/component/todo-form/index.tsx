@@ -126,7 +126,6 @@ const TodoForm: React.FC<Props> = (props) => {
                             >
                                 <Radio.Button value={0}>待办</Radio.Button>
                                 <Radio.Button value={1}>已完成</Radio.Button>
-                                <Radio.Button value={2}>待办池</Radio.Button>
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item
