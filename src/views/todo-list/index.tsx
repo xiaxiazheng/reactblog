@@ -103,18 +103,17 @@ const TodoListHome: React.FC = () => {
         getTodo("followUp");
     }, [isWork]);
 
-    // const [hoverIndex, setHoverIndex] = useState<number>();
-    const [gridTemplateRows, setGridTemplateRows] = useState<string>("");
+    const defaultGridTemplateRows = Array(isWork === "1" ? 2 : 3).fill("1fr");
+    const [gridTemplateRows, setGridTemplateRows] = useState<string>(defaultGridTemplateRows.join(" "));
     const setHoverIndex = (hoverIndex?: number) => {
         if (typeof hoverIndex !== 'undefined') {
-            const l = Array(isWork === "1" ? 2 : 3).fill("160px");
+            const l = Array(isWork === "1" ? 2 : 3).fill("200px");
             l[hoverIndex] = '1fr';
             setGridTemplateRows(l.join(" "));
         } else {
-            setGridTemplateRows('');
+            setGridTemplateRows(defaultGridTemplateRows.join(" "));
         }
     }
-    // }, [hoverIndex]);
 
     return (
         <div className={styles.todoList}>
