@@ -98,7 +98,6 @@ const TodoListHome: React.FC = () => {
         getTodo("todo");
         getTodo("target");
         getTodo("bookMark");
-        getTodo("note");
         getTodo("habit");
         getTodo("followUp");
     }, [isWork]);
