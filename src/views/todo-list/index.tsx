@@ -48,10 +48,7 @@ const TodoListHome: React.FC = () => {
         <div className={styles.todoList}>
             <div>
                 <div className={styles.Layout}>
-                    <div
-                        className={styles.l}
-                        style={{ gridTemplateRows: Array(isWork === "1" ? 2 : 3).fill("1fr").join(" ") }}
-                    >
+                    <div className={styles.l}>
                         {/* Pin */}
                         <div className={`${styles.lt} ScrollBar`}>
                             <TodoBookMark />

@@ -8,28 +8,36 @@
         height: 100%;
     }
 }
-.hoverOpen {
-    display: flex;
-    flex-direction: column;
-    .bookMark,
-    .footprint {
-        width: 15px;
-        height: 50%;
-        line-height: 50vh;
-        border-left: 1px solid #ccc;
-        cursor: pointer;
-    }
-    .footprint {
-        border-top: 1px solid #ccc;
-    }
-}
 
 .Layout {
     width: 100%;
     height: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(24, 1fr);
+    grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
+
+    .l {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 25;
+
+        display: grid;
+        grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
+        .lt {
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        .lm {
+            border-right: 1px solid #ccc;
+        }
+
+        .lb {
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+    }
 
     .m {
         grid-column-start: 2;
@@ -80,28 +88,6 @@
         }
         > div:last-child {
             flex: 1;
-        }
-    }
-
-    .l {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 25;
-
-        display: grid;
-        .lt {
-            border-bottom: 1px solid #ccc;
-            border-right: 1px solid #ccc;
-        }
-
-        .lm {
-            border-right: 1px solid #ccc;
-        }
-
-        .lb {
-            border-top: 1px solid #ccc;
-            border-right: 1px solid #ccc;
         }
     }
 }
