@@ -3,7 +3,6 @@ import styles from "./index.module.scss";
 import DoneList from "./list/todo-done";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
-import { HistoryOutlined, BookOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "./component/sort-btn";
 import PunchTheClockModal from "./component/habit-detail-modal";
 import GlobalSearch from "./component/global-search";
@@ -16,67 +15,10 @@ import TodoList, { RenderTodoDescriptionIcon } from "./list/todo-list";
 import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./drawers/drawer-footprint";
 import DrawerNote from "./drawers/drawer-note";
-import { Tooltip } from "antd";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
 import { SettingsContext } from "@/context/SettingsContext";
-
-const useTimer = (fn: Function, ms: number = 500) => {
-    const timer = useRef<any>(null);
-
-    const run = () => {
-        timer.current = setTimeout(() => {
-            fn();
-        }, ms);
-    };
-
-    const cancel = () => {
-        timer?.current && clearTimeout(timer.current);
-    };
-
-    return { run, cancel };
-};
-
-const HoverOpen = () => {
-    const dispatch = useDispatch<Dispatch>();
-    const { setShowFootprintDrawer, setShowNoteDrawer } = dispatch.edit;
-
-    const { run: run1, cancel: cancel1 } = useTimer(() =>
-        setShowNoteDrawer(true)
-    );
-    const { run: run2, cancel: cancel2 } = useTimer(() =>
-        setShowFootprintDrawer(true)
-    );
-
-    return (
-        <div className={styles.hoverOpen}>
-            <Tooltip title="note" placement="left">
-                <div
-                    className={styles.bookMark}
-                    onMouseEnter={() => run1()}
-                    onMouseLeave={() => cancel1()}
-                    onClick={() => {
-                        setShowNoteDrawer(true);
-                    }}
-                >
-                    <BookOutlined />
-                </div>
-            </Tooltip>
-            <Tooltip title="足迹" placement="left">
-                <div
-                    className={styles.footprint}
-                    onMouseEnter={() => run2()}
-                    onMouseLeave={() => cancel2()}
-                    onClick={() => {
-                        setShowFootprintDrawer(true);
-                    }}
-                >
-                    <HistoryOutlined />
-                </div>
-            </Tooltip>
-        </div>
-    );
-};
+import HoverOpenBar from "./component/hover-open-bar";
 
 const TodoListHome: React.FC = () => {
     useDocumentTitle("todo-list");
@@ -102,22 +44,29 @@ const TodoListHome: React.FC = () => {
         getTodo("followUp");
     }, [isWork]);
 
-    const defaultGridTemplateRows = Array(isWork === "1" ? 2 : 3).fill("1fr");
-    const [gridTemplateRows, setGridTemplateRows] = useState<string>(defaultGridTemplateRows.join(" "));
-    const setHoverIndex = (hoverIndex?: number) => {
-        if (typeof hoverIndex !== 'undefined') {
-            const l = Array(isWork === "1" ? 2 : 3).fill("200px");
-            l[hoverIndex] = '1fr';
-            setGridTemplateRows(l.join(" "));
-        } else {
-            setGridTemplateRows(defaultGridTemplateRows.join(" "));
-        }
-    }
-
     return (
         <div className={styles.todoList}>
             <div>
                 <div className={styles.Layout}>
+                    <div
+                        className={styles.l}
+                        style={{ gridTemplateRows: Array(isWork === "1" ? 2 : 3).fill("1fr").join(" ") }}
+                    >
+                        {/* Pin */}
+                        <div className={`${styles.lt} ScrollBar`}>
+                            <TodoBookMark />
+                        </div>
+                        {/* 目标 */}
+                        <div className={`${styles.lm} ScrollBar`}>
+                            <TodoTarget />
+                        </div>
+                        {/* 习惯 */}
+                        {isWork !== "1" && (
+                            <div className={`${styles.lb} ScrollBar`}>
+                                <TodoHabit />
+                            </div>
+                        )}
+                    </div>
                     <div className={styles.m}>
                         {/* 待办列表 */}
                         <div className={`${styles.mt} ScrollBar`}>
@@ -146,29 +95,10 @@ const TodoListHome: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div
-                        className={styles.l}
-                        style={{ gridTemplateRows }}
-                        onMouseLeave={() => setHoverIndex(undefined)}
-                    >
-                        {/* Pin */}
-                        <div className={`${styles.lt} ScrollBar`} onMouseEnter={() => setHoverIndex(0)}>
-                            <TodoBookMark />
-                        </div>
-                        {/* 目标 */}
-                        <div className={`${styles.lm} ScrollBar`} onMouseEnter={() => setHoverIndex(1)}>
-                            <TodoTarget />
-                        </div>
-                        {/* 习惯 */}
-                        {isWork !== "1" && (
-                            <div className={`${styles.lb} ScrollBar`} onMouseEnter={() => setHoverIndex(2)}>
-                                <TodoHabit />
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
-            <HoverOpen />
+            {/* 右边竖栏，hover 打开具体模块 */}
+            <HoverOpenBar />
             {/* todo note 展示的抽屉 */}
             <DrawerNote />
             {/* todo 足迹展示的抽屉 */}

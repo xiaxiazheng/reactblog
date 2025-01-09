@@ -77,7 +77,7 @@ const TodoList = () => {
             showDoingBtn={true}
             title={
                 <>
-                    {todoNameMap["today"]}{" "}
+                    {todoNameMap?.["today"]}{" "}
                     <RenderTodoDescriptionIcon
                         title={todoDescriptionMap?.["today"]}
                     />{" "}
