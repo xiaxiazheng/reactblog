@@ -1,3 +1,5 @@
+nvm use 16
+
 yarn build
 
 cd ../blog-deploy
