@@ -221,7 +221,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         isBookMark: "1",
                         pageNo: 1,
-                        pageSize: 100,
+                        pageSize: 300,
                         isWork,
                     };
                     const res = await getTodoList(req);
@@ -256,7 +256,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         isFollowUp: "1",
                         pageNo: 1,
-                        pageSize: 60,
+                        pageSize: 300,
                         // status: TodoStatus["todo"],
                         isWork,
                     };
@@ -336,7 +336,7 @@ export const data = createModel<RootModel>()({
 
                     const req: any = {
                         status: TodoStatus[type],
-                        pageSize: 200,
+                        pageSize: 300,
                         isBookMark: "0",
                         isTarget: "0",
                         isFollowUp: "0",
