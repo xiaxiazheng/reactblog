@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Tooltip } from "antd";
+import { Button, message, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "../../utils";
 import List from "../../todo-split-day-list";
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -10,7 +10,8 @@ import dayjs from "dayjs";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import styles from "./index.module.scss";
-import { getToday } from "@/components/amdin-header/utils";
+import { getExtraDayjs, getToday } from "@/components/amdin-header/utils";
+import { TodoItemType } from "../../types";
 
 export const RenderTodoDescriptionIcon = (props: { title: any }) => {
     const { title } = props;
@@ -24,7 +25,7 @@ export const RenderTodoDescriptionIcon = (props: { title: any }) => {
 };
 
 const TodoList = () => {
-    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap, todoShowBeforeToday } = useContext(SettingsContext);
 
     const Today = () => getToday().format("YYYY-MM-DD");
 
@@ -66,8 +67,21 @@ const TodoList = () => {
     }, []);
     const updateIsShowOnlyToday = () => {
         const temp = !isShowOnlyToday;
+        message.info(temp ? todoShowBeforeToday?.text : '看所有 todo', 1);
         setIsShowOnlyToday(temp);
         localStorage.setItem('isShowOnlyToday', temp.toString());
+    }
+
+    const getOnlyTodayList = (list: TodoItemType[]) => {
+        const d = todoShowBeforeToday?.days || 0;
+        return list.filter(item => {
+            if (item.time === getToday().format('YYYY-MM-DD')) {
+                return true;
+            }
+            if (getExtraDayjs(item.time).isBefore(getExtraDayjs(dayjs())) && getExtraDayjs(item.time).isAfter(getExtraDayjs(dayjs()).subtract(d + 1, 'day'))) {
+                return true;
+            }
+        });
     }
 
     return (
@@ -84,9 +98,8 @@ const TodoList = () => {
                 </>
             }
             mapList={formatArrayToTimeMap(
-                isShowOnlyToday ? todoList
-                    .concat(isShowFollowUp ? followUpList : [])
-                    .filter(item => item.time === Today()) :
+                isShowOnlyToday ? getOnlyTodayList(todoList
+                    .concat(isShowFollowUp ? followUpList : [])) :
                     todoList
                         .filter((item) => item.time <= Today())
                         .concat(isShowFollowUp ? followUpList : [])
@@ -95,7 +108,7 @@ const TodoList = () => {
             isReverseTime={true}
             btnChildren={
                 <>
-                    <Tooltip title={`${todoNameMap?.onlyToday}`}>
+                    <Tooltip title={`${todoShowBeforeToday?.text}`}>
                         <Button
                             type={isShowOnlyToday ? "primary" : "default"}
                             onClick={updateIsShowOnlyToday}
