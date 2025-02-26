@@ -8,7 +8,6 @@ import { modifyBlogCont } from "@/client/BlogHelper";
 import MarkdownShow from "../markdown-show";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { staticUrl } from "@/env_config";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";
 

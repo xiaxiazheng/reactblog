@@ -13,14 +13,14 @@ import {
     VerticalAlignBottomOutlined,
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
-import BlogContMao from "../blog-cont-mao";
+import BlogContMao from "../anchor-list";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import MarkdownShow from "../markdown-show";
-import RichtextShow from "../richtext-show";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { ThemeContext } from "@/context/ThemeContext";
+import RichtextShow from "../richtext-show";
 
 interface PropsType extends RouteComponentProps {
     blog_id: string;
@@ -39,7 +39,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
     const { isLogin } = useContext(IsLoginContext);
 
     const blogcontShowWrapper = useRef<any>(null);
-    const {} = useScrollToHook(blogcontShowWrapper);
+    const { } = useScrollToHook(blogcontShowWrapper);
 
     const [blogData, setBlogData] = useState<OneBlogType>();
     const [visits, setVisits] = useState<Number>();
@@ -126,7 +126,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                         {
                             // 富文本展示
                             edittype === "richtext" && (
-                                <RichtextShow blogcont={blogData.blogcont} />
+                                <RichtextShow contentHtml={blogData.blogcont || ''} />
                             )
                         }
                         {
@@ -144,7 +144,7 @@ const BlogContShow: React.FC<PropsType> = (props) => {
                                             type="blog"
                                             width="140px"
                                             fileList={blogData.fileList}
-                                            refresh={() => {}}
+                                            refresh={() => { }}
                                             isOnlyShow={true}
                                         />
                                     </div>

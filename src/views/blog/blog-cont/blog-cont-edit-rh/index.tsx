@@ -11,16 +11,14 @@ import "./index.scss";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
-import { staticUrl } from "@/env_config";
-import BlogContMao from "../blog-cont-mao";
+import BlogContMao from "../anchor-list";
 // 代码高亮
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
 // 富文本编辑器及图片拉伸
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import ImageResize from "quill-image-resize-module";
-Quill.register("modules/imageResize", ImageResize);
+
 const icons = Quill.import("ui/icons");
 icons["header"]["2"] = `<span class="header-icon">H2</span>`;
 icons["header"]["3"] = `<span class="header-icon">H3</span>`;
@@ -96,15 +94,6 @@ class BlogContEdit extends React.Component<PropsType> {
     // 编辑器配置
     modules: any = {
         counter: true,
-        imageResize: {
-            //调整大小组件。
-            displayStyles: {
-                backgroundColor: "black",
-                border: "none",
-                color: "white",
-            },
-            modules: ["Resize", "DisplaySize"],
-        },
         toolbar: {
             container: this.toolbarOption, // 工具栏
             handlers: {

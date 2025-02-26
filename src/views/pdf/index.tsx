@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
-import RichtextShow from "@/views/blog/blog-cont/richtext-show";
 import rhStyles from "@/views/blog/blog-cont/blog-cont-show/index.module.scss";
 import { message } from "antd";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import RichtextShow from "../blog/blog-cont/richtext-show";
 
 interface IPDF extends RouteComponentProps {}
 
@@ -54,7 +54,7 @@ const PDF: React.FC<IPDF> = (props) => {
                 <div className={rhStyles.blogcontShow}>
                     <div className={rhStyles.title}>{blogdata?.title}</div>
                     <div className={rhStyles.author}>{blogdata?.author}</div>
-                    <RichtextShow blogcont={blogdata?.blogcont} />
+                    <RichtextShow contentHtml={blogdata.blogcont || ''} />
                 </div>
             )}
         </div>
