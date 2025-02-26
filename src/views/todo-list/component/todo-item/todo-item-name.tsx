@@ -1,4 +1,4 @@
-import React, { CSSProperties, useContext, useState } from "react";
+import React, { CSSProperties, useContext, } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import { QuestionCircleOutlined, FileImageOutlined } from "@ant-design/icons";
@@ -8,13 +8,13 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { handleHighlight, judgeIsLastModify } from "./utils";
 import { splitStr } from "../input-list";
-import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import { getToday } from "@/components/amdin-header/utils";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
@@ -45,13 +45,14 @@ const ToolTipsWrapper: React.FC<
             overlayClassName={styles.tooltip}
             title={
                 <>
-                    {item.description &&
+                    {/* {item.description &&
                         renderDescription(
                             item.description,
                             isModalOrDrawer
                                 ? `${keyword} ${localKeyword}`
                                 : keyword
-                        )}
+                        )} */}
+                    {item.description && <MarkdownShow blogcont={item.description} />}
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"
