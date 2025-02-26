@@ -12,6 +12,7 @@ import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { useOriginTodo } from "../../component/global-search";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 const { Search } = Input;
 
@@ -224,10 +225,11 @@ const TodoNote: React.FC<IProps> = (props) => {
                                             />
                                         </div>
                                         <div className={styles.note_content}>
-                                            {renderDescription(
+                                            {/* {renderDescription(
                                                 item.description,
                                                 keyword
-                                            )}
+                                            )} */}
+                                            <MarkdownShow blogcont={item.description} />
                                         </div>
                                         <TodoImageFile
                                             isOnlyShow={true}
