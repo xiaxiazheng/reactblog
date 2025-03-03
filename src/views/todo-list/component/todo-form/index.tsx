@@ -146,7 +146,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                 optionType="button"
                                 buttonStyle="solid"
                             >
-                                {Object.keys(todoColorMap).map((item) => (
+                                {todoColorMap && Object.keys(todoColorMap).map((item) => (
                                     <Radio.Button
                                         key={item}
                                         value={item}
@@ -161,7 +161,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                             item === "-1" ? styles.minusOne : ""
                                         }`}
                                     >
-                                        {todoColorNameMap[item]}
+                                        {todoColorNameMap?.[item]}
                                     </Radio.Button>
                                 ))}
                             </Radio.Group>
@@ -193,7 +193,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 type="work"
                                                 style={{ color: "#00d4d8" }}
                                             />{" "}
-                                            {todoNameMap.work}
+                                            {todoNameMap?.work}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -208,7 +208,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 type="urgent"
                                                 style={{ color: "red" }}
                                             />{" "}
-                                            {todoNameMap.urgent}
+                                            {todoNameMap?.urgent}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -223,7 +223,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 type="target"
                                                 style={{ color: "#ffeb3b" }}
                                             />{" "}
-                                            {todoNameMap.target}
+                                            {todoNameMap?.target}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -241,7 +241,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap["bookMark"]}
+                                            {todoNameMap?.bookMark}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -259,7 +259,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap.note}
+                                            {todoNameMap?.note}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -277,7 +277,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap.habit}
+                                            {todoNameMap?.habit}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -296,7 +296,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap.key}
+                                            {todoNameMap?.key}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item> */}
@@ -315,7 +315,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap.followUp}
+                                            {todoNameMap?.followUp}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
