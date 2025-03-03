@@ -29,7 +29,7 @@ const TodoAfter = () => {
             key="after"
             title={
                 <>
-                    {todoNameMap["after"]}
+                    {todoNameMap?.["after"]}
                     <RenderTodoDescriptionIcon
                         title={todoDescriptionMap?.["after"]}
                     />{" "}

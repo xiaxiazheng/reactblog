@@ -70,7 +70,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
     );
 
     const [selectedColorList, setSelectedColorList] = useState<string[]>(
-        Object.keys(todoColorMap)
+        Object.keys(todoColorMap || {})
     );
 
     const getFilterList = (list: TodoItemType[]) => {
@@ -115,11 +115,11 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             <Spin spinning={loading}>
                 <Checkbox.Group
                     className={styles.checkboxGroup}
-                    options={Object.keys(todoColorMap).map((item) => {
+                    options={todoColorMap && Object.keys(todoColorMap).map((item) => {
                         return {
                             label: (
                                 <span style={{ color: todoColorMap[item] }}>
-                                    {todoColorNameMap[item]}
+                                    {todoColorNameMap?.[item]}
                                 </span>
                             ),
                             value: item,

@@ -8,7 +8,7 @@ import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 
 const TodoHabit = () => {
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap = {} } = useContext(SettingsContext);
 
     const habitLoading = useSelector(
         (state: RootState) => state.data.habitLoading

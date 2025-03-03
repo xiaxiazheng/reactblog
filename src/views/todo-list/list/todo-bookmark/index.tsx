@@ -34,7 +34,7 @@ const TodoBookMark = () => {
             loading={bookMarkLoading}
             title={
                 <>
-                    <TodoTypeIcon type="bookMark" /> {todoNameMap.bookMark}{" "}
+                    <TodoTypeIcon type="bookMark" /> {todoNameMap?.bookMark}{" "}
                     <RenderTodoDescriptionIcon
                         title={todoDescriptionMap?.["bookMark"]}
                     />{" "}

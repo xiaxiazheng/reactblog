@@ -34,7 +34,7 @@ const TodoFollowUp = () => {
             sortKey={SortKeyMap.followUp}
             title={
                 <>
-                    <TodoTypeIcon type="followUp" /> {todoNameMap.followUp}{" "}
+                    <TodoTypeIcon type="followUp" /> {todoNameMap?.followUp}{" "}
                     <RenderTodoDescriptionIcon
                         title={todoDescriptionMap?.["followUp"]}
                     />{" "}

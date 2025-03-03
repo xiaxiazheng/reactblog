@@ -174,7 +174,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 <span
                     className={styles.category}
                     style={{
-                        background: todoColorMap[item.color],
+                        background: todoColorMap?.[item.color],
                     }}
                 >
                     {item.category}

@@ -34,7 +34,7 @@ const TodoTarget = () => {
             sortKey={SortKeyMap.target}
             title={
                 <>
-                    <TodoTypeIcon type="target" /> {todoNameMap.target}{" "}
+                    <TodoTypeIcon type="target" /> {todoNameMap?.target}{" "}
                     <RenderTodoDescriptionIcon
                         title={todoDescriptionMap?.["target"]}
                     />{" "}
