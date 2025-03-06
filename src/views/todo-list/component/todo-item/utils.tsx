@@ -1,7 +1,8 @@
 import React from "react";
 import { getFootPrintList } from "../../list/todo-footprint";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
-export const handleHighlight = (string: string, keyword: string = "") => {
+export const handleDescriptionHighlight = (string: string, keyword: string = "") => {
     if (!string) return "";
     return handleUrlHighlight(string, keyword);
 };
@@ -19,7 +20,8 @@ export const handleUrlHighlight = (str: string, keyword: string = "") => {
     }
 
     return urlList.length === 0 ? (
-        handleKeywordHighlight(str, keyword)
+        // handleKeywordHighlight(str, keyword)
+        <MarkdownShow blogcont={str} />
     ) : (
         <span>
             {s.split("<url_flag>").map((item, index) => {
@@ -60,13 +62,6 @@ export const handleKeywordHighlight = (
 
     // 用空格分隔关键字
     const keys = keyword.split(" ").filter((item) => !!item);
-
-    // demo 代码：
-    // var str = "31331231";
-    // var a1 = 31,
-    //     a2 = 23;
-    // var reg = new RegExp(`(${a2})|(${a1})`, "gim");
-    // str.split(reg);
 
     try {
         const key = keys.map((item) => `(${item})`).join("|");
