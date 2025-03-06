@@ -4,49 +4,50 @@ import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 export const handleDescriptionHighlight = (string: string, keyword: string = "") => {
     if (!string) return "";
-    return handleUrlHighlight(string, keyword);
+    // return handleUrlHighlight(string, keyword); 不需要单独处理了，对于markdown来说，链接可点击加一对<>的事
+    return <MarkdownShow blogcont={string} />;
 };
 
 // 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
-export const handleUrlHighlight = (str: string, keyword: string = "") => {
-    const re = /http[s]?:\/\/[^\s|,|，|:|：]*/g;
-    let match;
-    const urlList: string[] = [];
-    let s = str;
-    while ((match = re.exec(str)) !== null) {
-        const url = match[0];
-        urlList.push(url);
-        s = s.replace(url, "<url_flag>");
-    }
+// export const handleUrlHighlight = (str: string, keyword: string = "") => {
+//     const re = /http[s]?:\/\/[^\s|,|，|:|：]*/g;
+//     let match;
+//     const urlList: string[] = [];
+//     let s = str;
+//     while ((match = re.exec(str)) !== null) {
+//         const url = match[0];
+//         urlList.push(url);
+//         s = s.replace(url, "<url_flag>");
+//     }
 
-    return urlList.length === 0 ? (
-        // handleKeywordHighlight(str, keyword)
-        <MarkdownShow blogcont={str} />
-    ) : (
-        <span>
-            {s.split("<url_flag>").map((item, index) => {
-                return (
-                    <span key={index}>
-                        {handleKeywordHighlight(item, keyword)}
-                        {urlList[index] && (
-                            <a
-                                style={{ color: "#40a9ff" }}
-                                href={urlList[index]}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {handleKeywordHighlight(
-                                    urlList[index],
-                                    keyword
-                                )}
-                            </a>
-                        )}
-                    </span>
-                );
-            })}
-        </span>
-    );
-};
+//     return urlList.length === 0 ? (
+//         // handleKeywordHighlight(str, keyword)
+//         <MarkdownShow blogcont={str} />
+//     ) : (
+//         <span>
+//             {s.split("<url_flag>").map((item, index) => {
+//                 return (
+//                     <span key={index}>
+//                         {handleKeywordHighlight(item, keyword)}
+//                         {urlList[index] && (
+//                             <a
+//                                 style={{ color: "#40a9ff" }}
+//                                 href={urlList[index]}
+//                                 target="_blank"
+//                                 rel="noreferrer"
+//                             >
+//                                 {handleKeywordHighlight(
+//                                     urlList[index],
+//                                     keyword
+//                                 )}
+//                             </a>
+//                         )}
+//                     </span>
+//                 );
+//             })}
+//         </span>
+//     );
+// };
 
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 

@@ -14,7 +14,6 @@ const MarkdownShow = React.forwardRef<HTMLInputElement, PropsType>((props, ref) 
 
     const md = markdownIt({
         highlight: function (str: string, lang: string) {
-            console.log('hljs.getLanguage(lang)', hljs.getLanguage(lang))
             if (lang && hljs.getLanguage(lang)) {
                 try {
                     return '<pre><code class="hljs">' +

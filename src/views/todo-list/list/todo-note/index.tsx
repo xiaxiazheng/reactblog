@@ -225,11 +225,10 @@ const TodoNote: React.FC<IProps> = (props) => {
                                             />
                                         </div>
                                         <div className={styles.note_content}>
-                                            {/* {renderDescription(
+                                            {renderDescription(
                                                 item.description,
                                                 keyword
-                                            )} */}
-                                            <MarkdownShow blogcont={item.description} />
+                                            )}
                                         </div>
                                         <TodoImageFile
                                             isOnlyShow={true}
