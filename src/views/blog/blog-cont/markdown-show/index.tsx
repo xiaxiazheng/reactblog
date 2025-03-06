@@ -9,7 +9,7 @@ interface PropsType {
     style?: React.CSSProperties;
 }
 
-const MarkdownShow: React.FC<PropsType> = (props) => {
+const MarkdownShow = React.forwardRef<HTMLInputElement, PropsType>((props, ref) => {
     const { blogcont, style } = props;
 
     const md = markdownIt({
@@ -29,12 +29,13 @@ const MarkdownShow: React.FC<PropsType> = (props) => {
     return (
         <div
             className={`${styles.markdownShower}`}
+            ref={ref}
             style={style}
             dangerouslySetInnerHTML={{
                 __html: md.render(blogcont || ''),
             }}
         />
     );
-};
+});
 
 export default MarkdownShow;

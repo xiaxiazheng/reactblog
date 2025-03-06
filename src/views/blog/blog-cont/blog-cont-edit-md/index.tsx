@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { OneBlogType } from "../../BlogType";
 import styles from "./index.module.scss";
 import classnames from "classnames";
@@ -82,6 +82,49 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
         setIsAuthorChange(blogData.author !== e.target.value);
     };
 
+    const editor = useRef<any>();
+    const preview = useRef<any>();
+    // 引入标志位，用于控制是否响应滚动事件
+    const isScrolling = useRef(false); 
+
+    // 滚动同步控制
+    useEffect(() => {
+        if (editor?.current?.resizableTextArea?.textArea && preview?.current) {
+            const editorRef = editor?.current?.resizableTextArea?.textArea;
+
+            const handleEditorScroll = () => {
+                // 如果正在滚动，直接返回，避免循环触发
+                if (isScrolling.current) return; 
+                // 设置正在滚动标志
+                isScrolling.current = true; 
+                const scrollPercentage = editorRef.scrollTop / (editorRef.scrollHeight - editorRef.clientHeight);
+                preview.current.scrollTop = (preview.current.scrollHeight - preview.current.clientHeight) * scrollPercentage;
+                // 滚动操作完成，重置标志
+                setTimeout(() => {
+                    isScrolling.current = false; 
+                }, 0);
+            };
+
+            const handlePreviewScroll = () => {
+                if (isScrolling.current) return;
+                isScrolling.current = true;
+                const scrollPercentage = preview.current.scrollTop / (preview.current.scrollHeight - preview.current.clientHeight);
+                editorRef.scrollTop = (editorRef.scrollHeight - editorRef.clientHeight) * scrollPercentage;
+                setTimeout(() => {
+                    isScrolling.current = false;
+                }, 0);
+            };
+
+            editorRef.addEventListener('scroll', handleEditorScroll);
+            preview.current.addEventListener('scroll', handlePreviewScroll);
+
+            return () => {
+                editorRef.removeEventListener('scroll', handleEditorScroll);
+                preview.current.removeEventListener('scroll', handlePreviewScroll);
+            };
+        }
+    }, [editor?.current?.resizableTextArea?.textArea, preview?.current]);
+
     return (
         <div className={className}>
             {blogData && (
@@ -115,11 +158,12 @@ const LogContEditByMD: React.FC<PropsType> = (props) => {
                         <span>修改时间：{blogData.mTime}</span>
                     </div>
                     {/* markdown 展示 */}
-                    <div className={`${styles.markdownShower} ScrollBar`}>
+                    <div className={`${styles.markdownShower} ScrollBar`} ref={preview}>
                         <MarkdownShow blogcont={markString} />
                     </div>
                     {/* markdown 编辑 */}
                     <TextArea
+                        ref={editor}
                         rows={10}
                         className={`${styles.markdownEditor} ScrollBar`}
                         value={markString}
