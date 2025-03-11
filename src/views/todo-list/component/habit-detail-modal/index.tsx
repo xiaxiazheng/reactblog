@@ -57,9 +57,6 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
     const todoListOrigin = useSelector(
         (state: RootState) => state.data.todoListOrigin
     );
-    const poolListOrigin = useSelector(
-        (state: RootState) => state.data.poolListOrigin
-    );
     const dispatch = useDispatch<Dispatch>();
     const { setShowPunchTheClockModal, setActiveTodo } = dispatch.edit;
     const { refreshData, punchTheClock } = dispatch.data;
@@ -74,7 +71,6 @@ const PunchTheClockModal: React.FC<IProps> = (props) => {
             const todo = habitListOrigin
                 .concat(targetListOrigin)
                 .concat(todoListOrigin)
-                .concat(poolListOrigin)
                 .find((item) => item.todo_id === active?.todo_id);
             todo && setActiveTodo(todo);
         }

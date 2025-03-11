@@ -18,7 +18,7 @@ interface Props {
 const DoneList: React.FC<Props> = (props) => {
     const { open, setOpen } = props;
 
-    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
+    const { todoColorMap = {}, todoColorNameMap = {} } = useContext(SettingsContext);
 
     const category = useSelector((state: RootState) => state.data.category);
 

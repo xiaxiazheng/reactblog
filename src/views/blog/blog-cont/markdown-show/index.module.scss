@@ -5,9 +5,30 @@
   vertical-align: top;
   box-sizing: border-box;
   padding: 0 12px;
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--color);
     padding-bottom: .3em;
-    border-bottom: 1px solid #eaecef;
+    // border-bottom: 1px solid #eaecef;
+  }
+
+  code {
+    display: block;
+    padding: 10px !important;
+  }
+
+  :global(.keyword) {
+    color: #908080;
+    background: yellow;
+    margin: 0 3px;
+    padding: 0 3px;
+    font-size: 14px;
+    border-radius: 4px;
+    box-sizing: border-box;
   }
 }

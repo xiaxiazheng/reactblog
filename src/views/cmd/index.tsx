@@ -201,7 +201,7 @@ const CMD: React.FC<ICMD> = (props) => {
             </div>
             <div>
                 <div>预设脚本：</div>
-                <div className={styles.script}>
+                <div className={`${styles.script} ScrollBar`}>
                     {list?.map((item) => {
                         return (
                             <div
@@ -209,7 +209,7 @@ const CMD: React.FC<ICMD> = (props) => {
                                 key={item.todo_id}
                                 onClick={() => setCmd(item.description)}
                             >
-                                <div style={{ fontWeight: 600 }}>
+                                <div className={styles.itemName}>
                                     {item.name}
                                 </div>
                                 {item.description}

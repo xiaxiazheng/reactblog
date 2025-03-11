@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export const getDayjs = (day: dayjs.Dayjs | string) => {
+export const getExtraDayjs = (day: dayjs.Dayjs | string) => {
     if (typeof day === "string") {
         day = dayjs(day).set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
     }
@@ -8,14 +8,14 @@ export const getDayjs = (day: dayjs.Dayjs | string) => {
 };
 
 export const getToday = () => {
-    return getDayjs(dayjs());
+    return getExtraDayjs(dayjs());
 };
 
 // 获取已经在一起多久的日期
 export const getAlreadyDate = () => {
     // 获取相隔的年月日
     const getAlreadyDate = () => {
-        const startDate = getDayjs("2016-04-16");
+        const startDate = getExtraDayjs("2016-04-16");
         const today = getToday();
         // 計算兩者差異年數
         const years = today.diff(startDate, "years");
@@ -30,14 +30,14 @@ export const getAlreadyDate = () => {
     };
     // 获取相隔的日期
     const getAlreadyDays = () => {
-        const startDate = getDayjs("2016-04-16");
+        const startDate = getExtraDayjs("2016-04-16");
         const today = getToday();
         return today.diff(startDate, "days");
     };
     // 获取下一次纪念日的时间
     const getNextDate = (month: number, date: number) => {
         const year = dayjs().get("year");
-        const thisYearDate = getDayjs(`${year}-${month}-${date}`);
+        const thisYearDate = getExtraDayjs(`${year}-${month}-${date}`);
         const today = getToday();
         if (
             thisYearDate.isSame(today, "days") ||

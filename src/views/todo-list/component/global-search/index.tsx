@@ -250,7 +250,7 @@ const GlobalSearch: React.FC = () => {
             <div>
                 <span>{colorTitle}：</span>
                 <Checkbox.Group value={activeColor}>
-                    {Object.keys(todoColorMap).map((item) => (
+                    {todoColorMap && Object.keys(todoColorMap).map((item) => (
                         <Checkbox
                             key={item}
                             value={item}
@@ -270,7 +270,7 @@ const GlobalSearch: React.FC = () => {
                                 item === "4" ? styles.four : ""
                             }${item === "-1" ? styles.minusOne : ""}`}
                         >
-                            {todoColorNameMap[item]}
+                            {todoColorNameMap?.[item]}
                         </Checkbox>
                     ))}
                 </Checkbox.Group>

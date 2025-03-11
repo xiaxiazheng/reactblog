@@ -5,7 +5,6 @@ import { CheckCircleOutlined, PlayCircleOutlined, SendOutlined } from "@ant-desi
 import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
 import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
-import dayjs from "dayjs";
 import TodoChainIcon from "../todo-chain-icon";
 import TodoHabitIcon from "../todo-habit-icon";
 import { useDispatch } from "react-redux";
@@ -55,30 +54,6 @@ const TodoItem: React.FC<Props> = (props) => {
         }
     };
 
-    // 现在做这个 todo (只有待办池才能触发这个函数)
-    const doItNow = async (item: TodoItemType) => {
-        const req = {
-            ...item,
-            isNote: item.isNote || "0",
-            isTarget: item.isTarget || "0",
-            isBookMark: item.isBookMark || "0",
-            isWork: item.isWork || "0",
-            isHabit: item.isHabit || "0",
-            isKeyNode: item.isKeyNode || "0",
-            isFollowUp: item.isFollowUp || "0",
-            status: TodoStatus.todo,
-            time: dayjs().format("YYYY-MM-DD"),
-        };
-        const res = await editTodoItem(req);
-        if (res) {
-            message.success(res.message);
-            getTodo("pool");
-            getTodo("todo");
-        } else {
-            message.error("修改 todo 失败");
-        }
-    };
-
     return (
         <div key={item.todo_id}>
             <div className={styles.item}>
@@ -106,19 +81,6 @@ const TodoItem: React.FC<Props> = (props) => {
                                 />
                             </Tooltip>
                         </Popconfirm>
-                    )}
-                    {showDoneIcon && item.status == TodoStatus.pool && (
-                        <Tooltip
-                            title={"现在就做！"}
-                            color="#20d420"
-                            placement="topLeft"
-                        >
-                            <PlayCircleOutlined
-                                title="现在就做！"
-                                className={styles.doneIcon}
-                                onClick={() => doItNow(item)}
-                            />
-                        </Tooltip>
                     )}
                     <TodoItemName
                         item={item}

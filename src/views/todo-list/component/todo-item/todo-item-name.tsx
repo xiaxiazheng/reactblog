@@ -1,4 +1,4 @@
-import React, { CSSProperties, useContext, useState } from "react";
+import React, { CSSProperties, useContext, } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import { QuestionCircleOutlined, FileImageOutlined } from "@ant-design/icons";
@@ -6,9 +6,8 @@ import { getRangeFormToday } from "../../utils";
 import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { handleHighlight, judgeIsLastModify } from "./utils";
+import { handleDescriptionHighlight, handleKeywordHighlight, judgeIsLastModify } from "./utils";
 import { splitStr } from "../input-list";
-import dayjs from "dayjs";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
@@ -21,7 +20,7 @@ export const renderDescription = (str: string, keyword: string = "") => {
         <div className={styles.descList}>
             {str.split(splitStr).map((i, index) => (
                 <div className={styles.desc} key={index}>
-                    {handleHighlight(i, keyword)}
+                    {handleDescriptionHighlight(i, keyword)}
                 </div>
             ))}
         </div>
@@ -55,7 +54,7 @@ const ToolTipsWrapper: React.FC<
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"
-                            refresh={() => {}}
+                            refresh={() => { }}
                             width="120px"
                             imageList={item.imgList}
                         />
@@ -63,7 +62,7 @@ const ToolTipsWrapper: React.FC<
                     {item.fileList && item.fileList.length !== 0 && (
                         <FileListBox
                             type="todo"
-                            refresh={() => {}}
+                            refresh={() => { }}
                             width="120px"
                             fileList={item.fileList}
                         />
@@ -95,19 +94,18 @@ const Name: React.FC<{
 
     return (
         <>
-            {handleHighlight(
+            {handleKeywordHighlight(
                 item.name,
                 isModalOrDrawer ? `${keyword} ${localKeyword}` : keyword
             )}
             {(isShowTime || item.isTarget === "1") && (
                 <span
-                    className={`${styles.time} ${
-                        item.time === Today()
+                    className={`${styles.time} ${item.time === Today()
                             ? styles.today
                             : item.time > Today()
-                            ? styles.future
-                            : styles.previously
-                    }`}
+                                ? styles.future
+                                : styles.previously
+                        }`}
                 >{` (${item.time})`}</span>
             )}
             {isShowTimeRange && (
@@ -173,7 +171,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 <span
                     className={styles.category}
                     style={{
-                        background: todoColorMap[item.color],
+                        background: todoColorMap?.[item.color],
                     }}
                 >
                     {item.category}
@@ -258,8 +256,8 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                 )}
                 {((item.imgList && item.imgList.length !== 0) ||
                     (item.fileList && item.fileList.length !== 0)) && (
-                    <FileImageOutlined className={styles.icon} />
-                )}
+                        <FileImageOutlined className={styles.icon} />
+                    )}
                 {props.children}
             </div>
         </ToolTipsWrapper>

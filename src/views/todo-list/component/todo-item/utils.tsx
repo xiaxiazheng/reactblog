@@ -1,49 +1,11 @@
 import React from "react";
 import { getFootPrintList } from "../../list/todo-footprint";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
-export const handleHighlight = (string: string, keyword: string = "") => {
+export const handleDescriptionHighlight = (string: string, keyword: string = "") => {
     if (!string) return "";
-    return handleUrlHighlight(string, keyword);
-};
-
-// 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
-export const handleUrlHighlight = (str: string, keyword: string = "") => {
-    const re = /http[s]?:\/\/[^\s|,|，|:|：]*/g;
-    let match;
-    const urlList: string[] = [];
-    let s = str;
-    while ((match = re.exec(str)) !== null) {
-        const url = match[0];
-        urlList.push(url);
-        s = s.replace(url, "<url_flag>");
-    }
-
-    return urlList.length === 0 ? (
-        handleKeywordHighlight(str, keyword)
-    ) : (
-        <span>
-            {s.split("<url_flag>").map((item, index) => {
-                return (
-                    <span key={index}>
-                        {handleKeywordHighlight(item, keyword)}
-                        {urlList[index] && (
-                            <a
-                                style={{ color: "#40a9ff" }}
-                                href={urlList[index]}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {handleKeywordHighlight(
-                                    urlList[index],
-                                    keyword
-                                )}
-                            </a>
-                        )}
-                    </span>
-                );
-            })}
-        </span>
-    );
+    // return handleUrlHighlight(string, keyword); 不需要单独处理了，对于markdown来说，链接可点击加一对<>的事
+    return <MarkdownShow blogcont={string} keyword={keyword} />;
 };
 
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
@@ -60,13 +22,6 @@ export const handleKeywordHighlight = (
 
     // 用空格分隔关键字
     const keys = keyword.split(" ").filter((item) => !!item);
-
-    // demo 代码：
-    // var str = "31331231";
-    // var a1 = 31,
-    //     a2 = 23;
-    // var reg = new RegExp(`(${a2})|(${a1})`, "gim");
-    // str.split(reg);
 
     try {
         const key = keys.map((item) => `(${item})`).join("|");
@@ -123,4 +78,45 @@ export const judgeIsLastModify = (todo_id: string) => {
     return index !== -1
         ? { backgroundColor: latestColorList[index], display: "inline" }
         : {};
+};
+
+// 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
+export const handleUrlHighlight = (str: string, keyword: string = "") => {
+    const re = /http[s]?:\/\/[^\s|,|，|:|：]*/g;
+    let match;
+    const urlList: string[] = [];
+    let s = str;
+    while ((match = re.exec(str)) !== null) {
+        const url = match[0];
+        urlList.push(url);
+        s = s.replace(url, "<url_flag>");
+    }
+
+    return urlList.length === 0 ? (
+        // handleKeywordHighlight(str, keyword)
+        <MarkdownShow blogcont={str} />
+    ) : (
+        <span>
+            {s.split("<url_flag>").map((item, index) => {
+                return (
+                    <span key={index}>
+                        {handleKeywordHighlight(item, keyword)}
+                        {urlList[index] && (
+                            <a
+                                style={{ color: "#40a9ff" }}
+                                href={urlList[index]}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {handleKeywordHighlight(
+                                    urlList[index],
+                                    keyword
+                                )}
+                            </a>
+                        )}
+                    </span>
+                );
+            })}
+        </span>
+    );
 };

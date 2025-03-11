@@ -8,6 +8,7 @@ import {
     AppleFilled,
     StarFilled,
     FireFilled,
+    FieldTimeOutlined,
 } from "@ant-design/icons";
 
 const todoIconMap = {
@@ -19,6 +20,7 @@ const todoIconMap = {
     key: PushpinOutlined,
     followUp: FireFilled,
     bookMark: StarFilled,
+    onlyToday: FieldTimeOutlined,
 };
 
 type TodoType = keyof typeof todoIconMap;

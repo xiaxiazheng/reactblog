@@ -4,7 +4,6 @@ import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import { TodoItemType } from "../types";
 import SortBtn, {
-    SortKeyMap,
     useIsSortByMulti,
 } from "../component/sort-btn-multi";
 import TodoItem from "../component/todo-item";
@@ -16,6 +15,7 @@ import {
     UpOutlined,
 } from "@ant-design/icons";
 import { useIsHIdeModel } from "../hooks";
+import { SortKeyMap } from "../component/sort-btn";
 
 interface Props {
     loading: boolean;
@@ -52,8 +52,7 @@ const Collapse: React.FC<CollapseProps> = (props) => {
     );
 };
 
-// 待办池
-const PoolList: React.FC<Props> = (props) => {
+const TodoSplitTimeRangeList: React.FC<Props> = (props) => {
     const {
         loading,
         title,
@@ -162,4 +161,4 @@ const PoolList: React.FC<Props> = (props) => {
     );
 };
 
-export default PoolList;
+export default TodoSplitTimeRangeList;

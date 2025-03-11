@@ -8,6 +8,7 @@ import { deleteTodoItem } from "@/client/TodoListHelper";
 import TodoItemName, { renderDescription } from "@/views/todo-list/component/todo-item/todo-item-name";
 import { ThemeContext } from "@/context/ThemeContext";
 import CopyButton from "@/components/copy-button";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 interface IProps {
     visible: boolean;
@@ -86,7 +87,8 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
         >
             <div className={`${styles.note_item} ScrollBar`}>
                 <div className={styles.note_content}>
-                    {activeTodo && renderDescription(activeTodo.description)}
+                    {/* {activeTodo && renderDescription(activeTodo.description)} */}
+                    {activeTodo?.description && <MarkdownShow blogcont={activeTodo.description} />}
                 </div>
                 {activeTodo && (
                     <TodoImageFile

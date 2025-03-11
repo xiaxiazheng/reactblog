@@ -1,5 +1,3 @@
-@import "../richtext-show/richtext.module.scss";
-
 .blogcontedit {
     height: calc(100% - 2rem);
     margin: 1rem 14% 1rem 10%;
@@ -97,8 +95,6 @@
                     width: 100%;
                     height: 100%;
                     overflow-y: auto;
-                    // 公共的富文本展示样式
-                    @extend %rich-common;
                     // 进度条
                     & {
                         display: inline-block;

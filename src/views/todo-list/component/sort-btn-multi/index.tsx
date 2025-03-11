@@ -3,18 +3,6 @@ import { Button, Tooltip } from "antd";
 import React, { useState } from "react";
 import { TodoItemType } from "../../types";
 
-export enum SortKeyMap {
-    todo,
-    after,
-    done,
-    pool,
-    target,
-    habit,
-    bookmark,
-    footprint,
-    followUp,
-}
-
 const handleSortByMTime = (list: TodoItemType[]) => {
     return [...list].sort(
         // sort 会改变原数组

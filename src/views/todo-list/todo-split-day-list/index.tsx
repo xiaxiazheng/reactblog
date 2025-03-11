@@ -73,23 +73,6 @@ const List: React.FC<Props> = (props) => {
         if (res) {
             message.success(`Todo 日期调整成功`);
             getTodo("todo");
-            getTodo("pool");
-        }
-    };
-
-    // 把 todo 丢到待办池
-    const changeTodoToPool = async (list: TodoItemType[]) => {
-        const promiseList = list.filter(item => item.status === TodoStatus.todo).map((item) => {
-            return editTodoItem({
-                ...item,
-                status: TodoStatus.pool,
-            });
-        });
-        const res = await Promise.all(promiseList);
-        if (res) {
-            message.success(`Todo 调整到待办池成功`);
-            getTodo("todo");
-            getTodo("pool");
         }
     };
 
@@ -198,23 +181,6 @@ const List: React.FC<Props> = (props) => {
                                                     </Tooltip>
                                                 </Popconfirm>
                                             )}
-                                            <Popconfirm
-                                                title={`是否将 ${time} 的 Todo 放进待办池`}
-                                                onConfirm={() =>
-                                                    changeTodoToPool(
-                                                        mapList[time]
-                                                    )
-                                                }
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <Tooltip title={"调整到待办池"}>
-                                                    <ArrowLeftOutlined
-                                                        title="调整到待办池"
-                                                        className={styles.icon}
-                                                    />
-                                                </Tooltip>
-                                            </Popconfirm>
                                         </Space>
                                     )}
                                 </div>

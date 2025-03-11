@@ -20,7 +20,7 @@ git push
 
 echo "正在将文件夹上传至服务器"
 
-scp -r ./fe/ root@123.207.5.131:/root/myproject/blog-deploy
+scp -r ./fe/ root@111.230.47.60:/root/myproject/blog-deploy
 
 cd ../reactblog
 

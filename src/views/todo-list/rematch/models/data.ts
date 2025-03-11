@@ -18,14 +18,12 @@ import dayjs from "dayjs";
 interface DataType {
     todoLoading: boolean;
     doneLoading: boolean;
-    poolLoading: boolean;
     targetLoading: boolean;
     followUpLoading: boolean;
     habitLoading: boolean;
     bookMarkLoading: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
-    poolListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
     followUpListOrigin: TodoItemType[];
     habitListOrigin: TodoItemType[];
@@ -33,7 +31,6 @@ interface DataType {
     todoList: TodoItemType[];
     doneList: TodoItemType[];
     doneTotal: number;
-    poolList: TodoItemType[];
     targetList: TodoItemType[];
     followUpList: TodoItemType[];
     habitList: TodoItemType[];
@@ -45,14 +42,12 @@ export const data = createModel<RootModel>()({
     state: {
         todoLoading: false,
         doneLoading: false,
-        poolLoading: false,
         targetLoading: false,
         followUpLoading: false,
         habitLoading: false,
         bookMarkLoading: false,
         isRefreshNote: false,
         todoListOrigin: [],
-        poolListOrigin: [],
         targetListOrigin: [],
         followUpListOrigin: [],
         habitListOrigin: [],
@@ -60,7 +55,6 @@ export const data = createModel<RootModel>()({
         todoList: [],
         doneList: [],
         doneTotal: 0,
-        poolList: [],
         targetList: [],
         followUpList: [],
         habitList: [],
@@ -78,12 +72,6 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 doneLoading: payload,
-            };
-        },
-        setPoolLoading: (state, payload) => {
-            return {
-                ...state,
-                poolLoading: payload,
             };
         },
         setTargetLoading: (state, payload) => {
@@ -120,12 +108,6 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 todoListOrigin: payload,
-            };
-        },
-        setPoolListOrigin: (state, payload) => {
-            return {
-                ...state,
-                poolListOrigin: payload,
             };
         },
         setTargetListOrigin: (state, payload) => {
@@ -168,12 +150,6 @@ export const data = createModel<RootModel>()({
             return {
                 ...state,
                 doneTotal: payload,
-            };
-        },
-        setPoolList: (state, payload) => {
-            return {
-                ...state,
-                poolList: payload,
             };
         },
         setTargetList: (state, payload) => {
@@ -224,8 +200,6 @@ export const data = createModel<RootModel>()({
                 setDoneTotal,
                 setTodoListOrigin,
                 setTodoLoading,
-                setPoolListOrigin,
-                setPoolLoading,
             } = dispatch.data;
 
             const {
@@ -247,7 +221,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         isBookMark: "1",
                         pageNo: 1,
-                        pageSize: 100,
+                        pageSize: 300,
                         isWork,
                     };
                     const res = await getTodoList(req);
@@ -282,7 +256,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         isFollowUp: "1",
                         pageNo: 1,
-                        pageSize: 60,
+                        pageSize: 300,
                         // status: TodoStatus["todo"],
                         isWork,
                     };
@@ -362,7 +336,7 @@ export const data = createModel<RootModel>()({
 
                     const req: any = {
                         status: TodoStatus[type],
-                        pageSize: 200,
+                        pageSize: 300,
                         isBookMark: "0",
                         isTarget: "0",
                         isFollowUp: "0",
@@ -379,25 +353,6 @@ export const data = createModel<RootModel>()({
                     }
                     break;
                 }
-                case "pool": {
-                    setPoolLoading(true);
-
-                    const req: any = {
-                        status: TodoStatus[type],
-                        pageSize: 200,
-                        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
-                        isWork,
-                    };
-
-                    const res = await getTodoList(req);
-                    if (res) {
-                        setPoolListOrigin(res.data.list);
-                        setPoolLoading(false);
-                    } else {
-                        message.error("获取 todolist 失败");
-                    }
-                    break;
-                }
             }
         },
         refreshData(type?: StatusType) {
@@ -405,7 +360,6 @@ export const data = createModel<RootModel>()({
             if (!type) {
                 this.getTodo("todo");
                 this.getTodo("done");
-                this.getTodo("pool");
                 this.getTodo("target");
                 this.getTodo("bookMark");
                 this.getTodo("habit");
@@ -413,7 +367,6 @@ export const data = createModel<RootModel>()({
             } else {
                 type === "todo" && this.getTodo("todo");
                 type === "done" && this.getTodo("done");
-                type === "pool" && this.getTodo("pool");
                 type === "target" && this.getTodo("target");
                 type === "bookMark" && this.getTodo("bookMark");
                 type === "note" && this.getTodo("note");
@@ -473,7 +426,6 @@ export const data = createModel<RootModel>()({
         handleSearch(payload, state): void {
             const {
                 todoListOrigin,
-                poolListOrigin,
                 targetListOrigin,
                 habitListOrigin,
                 followUpListOrigin,
@@ -481,7 +433,6 @@ export const data = createModel<RootModel>()({
             } = state.data;
             const {
                 setTodoList,
-                setPoolList,
                 setHabitList,
                 setTargetList,
                 setFollowUpList,
@@ -490,9 +441,6 @@ export const data = createModel<RootModel>()({
             // 其他模块直接过滤不用发请求
             setTodoList(
                 this.getFilterList({ list: todoListOrigin, type: "todo" })
-            );
-            setPoolList(
-                this.getFilterList({ list: poolListOrigin, type: "pool" })
             );
             setTargetList(
                 this.getFilterList({ list: targetListOrigin, type: "target" })
