@@ -20,6 +20,7 @@ interface Props {
     keyword?: string;
     style?: CSSProperties;
     onlyShow?: boolean;
+    onClick?: (item: TodoItemType, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 // 单条 todo 的渲染
@@ -34,7 +35,8 @@ const TodoItem: React.FC<Props> = (props) => {
         isChainNext = false,
         keyword = "",
         style = {},
-        onlyShow = false
+        onlyShow = false,
+        onClick,
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -90,6 +92,7 @@ const TodoItem: React.FC<Props> = (props) => {
                         style={style}
                         keyword={keyword}
                         onlyShow={onlyShow}
+                        onClick={onClick}
                     />
                     <TodoChainIcon
                         item={item}

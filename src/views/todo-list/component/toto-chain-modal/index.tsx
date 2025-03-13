@@ -9,6 +9,7 @@ import {
     Space,
     Spin,
     Checkbox,
+    Radio,
 } from "antd";
 import { getTodoChainById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
@@ -22,9 +23,9 @@ import TodoChainLevel from "./todo-chain-level";
 import TodoChainFlat from "./todo-chain-flat";
 import TodoTimeLine from "./todo-time-line";
 import { SettingsContext } from "@/context/SettingsContext";
-import Tree from "../../component/tree";
+import TodoTree from "../todo-tree";
 
-interface IProps extends DrawerProps { }
+interface IProps extends DrawerProps {}
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
@@ -62,9 +63,9 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     const nowTodo = todoChainList.find((item) => item.todo_id === chainId);
 
-    const [showType, setShowType] = useState<"flat" | "level" | "timeline" | 'tree'>(
-        "tree"
-    );
+    const [showType, setShowType] = useState<
+        "flat" | "level" | "timeline" | "tree"
+    >("tree");
 
     const [selectedColorList, setSelectedColorList] = useState<string[]>(
         Object.keys(todoColorMap || {})
@@ -86,20 +87,19 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                         value={localKeyword}
                         onChange={(e) => setLocalKeyword(e.target.value)}
                     />
-                    <Button
-                        type="primary"
-                        onClick={() =>
-                            setShowType((prev) =>
-                                prev === "flat"
-                                    ? "level"
-                                    : prev === "level"
-                                        ? "timeline"
-                                        : "flat"
-                            )
-                        }
+                    <Radio.Group
+                        value={showType}
+                        optionType="button"
+                        onChange={(e) => setShowType(e.target.value)}
                     >
-                        {showType}
-                    </Button>
+                        {["tree", "flat", "level", "timeline"].map((item) => {
+                            return (
+                                <Radio.Button key={item} value={item}>
+                                    {item}
+                                </Radio.Button>
+                            );
+                        })}
+                    </Radio.Group>
                 </Space>
             }
             open={visible}
@@ -114,25 +114,24 @@ const TodoChainModal: React.FC<IProps> = (props) => {
             <Spin spinning={loading}>
                 <Checkbox.Group
                     className={styles.checkboxGroup}
-                    options={todoColorMap && Object.keys(todoColorMap).map((item) => {
-                        return {
-                            label: (
-                                <span style={{ color: todoColorMap[item] }}>
-                                    {todoColorNameMap?.[item]}
-                                </span>
-                            ),
-                            value: item,
-                        };
-                    })}
+                    options={
+                        todoColorMap &&
+                        Object.keys(todoColorMap).map((item) => {
+                            return {
+                                label: (
+                                    <span style={{ color: todoColorMap[item] }}>
+                                        {todoColorNameMap?.[item]}
+                                    </span>
+                                ),
+                                value: item,
+                            };
+                        })
+                    }
                     value={selectedColorList}
                     onChange={(val: any) => setSelectedColorList(val)}
                 />
                 {showType === "tree" && (
-                    <Tree
-                        items={getFilterList(todoChainList)}
-                        renderTitle={item => <TodoItem item={item} />}
-                        renderChildren={item => <TodoItem item={item} />}
-                    />
+                    <TodoTree todoList={getFilterList(todoChainList)} dataMode="tree" />
                 )}
                 {showType === "timeline" && (
                     <TodoTimeLine

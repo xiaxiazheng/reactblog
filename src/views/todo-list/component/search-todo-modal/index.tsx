@@ -20,6 +20,7 @@ import {
     fetchFootprintList,
     getFootPrintList,
 } from "../../list/todo-footprint";
+import TodoTree from "../todo-tree";
 
 interface IProps {
     visible: boolean;
@@ -105,7 +106,7 @@ const SearchTodoModal: React.FC<IProps> = ({
             pageSize,
             isHabit: "1",
             sortBy: [["color"]],
-            status: "0"
+            status: "0",
         };
 
         const res = await getTodoList(req);
@@ -136,7 +137,7 @@ const SearchTodoModal: React.FC<IProps> = ({
     const [sortBy, setSortBy] = useState<string>("footprint");
     useEffect(() => {
         if (visible) {
-            handleSearch()
+            handleSearch();
         }
     }, [sortBy, pageNo, visible]);
 
@@ -148,7 +149,7 @@ const SearchTodoModal: React.FC<IProps> = ({
         } else {
             handleTimeSearch(keyword);
         }
-    }
+    };
 
     useEffect(() => {
         if (sortBy === "footprint") {
@@ -211,28 +212,38 @@ const SearchTodoModal: React.FC<IProps> = ({
                 ]}
             />
             <div className={`${styles.content} ScrollBar`}>
-                <Space size={10} direction="vertical">
-                    {options?.map((item) => {
-                        return (
-                            <div
-                                key={item.todo_id}
-                                onClick={() => {
-                                    onChange(item);
-                                    handleClose();
-                                }}
-                                className={styles.todoItem}
-                            >
-                                <TodoItemName
-                                    item={item}
-                                    placement="left"
-                                    onlyShow={true}
-                                    isShowTime={true}
-                                    isShowTimeRange={true}
-                                />
-                            </div>
-                        );
-                    })}
-                </Space>
+                {sortBy === "directory" ? (
+                    <TodoTree
+                        todoList={options}
+                        onClick={(item) => {
+                            onChange(item);
+                            handleClose();
+                        }}
+                    />
+                ) : (
+                    <Space size={10} direction="vertical">
+                        {options?.map((item) => {
+                            return (
+                                <div
+                                    key={item.todo_id}
+                                    onClick={() => {
+                                        onChange(item);
+                                        handleClose();
+                                    }}
+                                    className={styles.todoItem}
+                                >
+                                    <TodoItemName
+                                        item={item}
+                                        placement="left"
+                                        onlyShow={true}
+                                        isShowTime={true}
+                                        isShowTimeRange={true}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </Space>
+                )}
             </div>
         </Modal>
     );

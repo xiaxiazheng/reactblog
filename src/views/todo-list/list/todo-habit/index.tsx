@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import styles from './index.module.scss';
-import type { MenuProps } from 'antd';
+import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import { TodoItemType } from "../../types";
-import TodoItem from "../../component/todo-item";
 import TodoTypeIcon from "../../component/todo-type-icon";
-import Tree from "../../component/tree";
-
-type MenuItem = Required<MenuProps>['items'][number];
+import TodoTree from "../../component/todo-tree";
 
 const TodoHabit = () => {
     const habitLoading = useSelector(
@@ -39,12 +34,9 @@ const TodoHabit = () => {
                         <TodoTypeIcon type="habit" /> 目录
                     </span>
                 </div>
-                <Tree
-                    idKey="todo_id"
-                    items={habitList}
-                    renderTitle={(item) => <TodoItem item={item as unknown as TodoItemType} />}
-                    renderChildren={(item) => <TodoItem item={item as unknown as TodoItemType} />}
-                />
+                <div style={{ padding: "0 0 10px 20px" }}>
+                    <TodoTree todoList={habitList} dataMode="flat" />
+                </div>
             </div>
         </>
     );
