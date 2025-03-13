@@ -119,26 +119,27 @@ const TodoForm: React.FC<Props> = (props) => {
                 </div>
                 {!isShowOther && (
                     <div className={styles.right}>
-                        <Form.Item
-                            label="预设">
-                            <Space>
-                                {!activeTodo && todoPreset?.map((item, index) => {
-                                    return <Button key={index} onClick={() => handlePreset(item)}>
-                                        <span style={{ color: todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
-                                        {item?.isWork && <TodoTypeIcon
-                                            type={item?.isWork === "1" ? "work" : "life"}
-                                            style={{ color: "#00d4d8" }}
-                                        />}
-                                        {item?.isNote === "1" && <TodoTypeIcon
-                                            type="note"
-                                            style={{
-                                                color: "#ffeb3b"
-                                            }}
-                                        />}
-                                    </Button>
-                                })}
-                            </Space>
-                        </Form.Item>
+                        {!activeTodo &&
+                            <Form.Item label="预设">
+                                <Space>
+                                    {todoPreset?.map((item, index) => {
+                                        return <Button key={index} onClick={() => handlePreset(item)}>
+                                            <span style={{ color: todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
+                                            {item?.isWork && <TodoTypeIcon
+                                                type={item?.isWork === "1" ? "work" : "life"}
+                                                style={{ color: "#00d4d8" }}
+                                            />}
+                                            {item?.isNote === "1" && <TodoTypeIcon
+                                                type="note"
+                                                style={{
+                                                    color: "#ffeb3b"
+                                                }}
+                                            />}
+                                        </Button>
+                                    })}
+                                </Space>
+                            </Form.Item>
+                        }
                         <Form.Item
                             name="status"
                             label="状态"
