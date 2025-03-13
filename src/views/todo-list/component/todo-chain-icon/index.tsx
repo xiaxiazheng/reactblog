@@ -67,7 +67,8 @@ const TodoChainIcon = (props: {
                     paddingTop: isOnlyShow ? 0 : 5,
                 }}
                 title="查看 todo 链"
-                onClick={() => {
+                onClick={(e: any) => {
+                    e.stopPropagation();
                     if (!isOnlyShow) {
                         setChainId(item.todo_id);
                         setShowChainModal(true);

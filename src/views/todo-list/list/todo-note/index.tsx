@@ -1,24 +1,23 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
-import { TodoItemType, CategoryType, TodoStatus } from "../../types";
+import { TodoItemType, CategoryType } from "../../types";
 import TodoImageFile from "../../component/todo-image-file";
-import TodoNoteDetailModal from "./todo-note-detail-modal";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
-import TodoItemName, {
+import {
     renderDescription,
 } from "../../component/todo-item/todo-item-name";
 import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { useOriginTodo } from "../../component/global-search";
-import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
+import TodoItem from "../../component/todo-item";
 
 const { Search } = Input;
 
 const maxLength = 1;
 
-interface IProps {}
+interface IProps { }
 
 const TodoNote: React.FC<IProps> = (props) => {
     const form = useSelector((state: RootState) => state.edit.form);
@@ -67,9 +66,9 @@ const TodoNote: React.FC<IProps> = (props) => {
             sortBy:
                 sortBy === "time"
                     ? [
-                          ["time", "DESC"],
-                          ["cTime", "DESC"],
-                      ]
+                        ["time", "DESC"],
+                        ["cTime", "DESC"],
+                    ]
                     : [[sortBy, "DESC"]],
         };
 
@@ -116,10 +115,6 @@ const TodoNote: React.FC<IProps> = (props) => {
         getCategory();
     }, []);
 
-    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
-    // 详情
-    const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
-
     const [sortBy, setSortBy] = useState<"time" | "mTime">("time");
     useEffect(() => {
         getData();
@@ -128,89 +123,93 @@ const TodoNote: React.FC<IProps> = (props) => {
     const [showFilter, setShowFilter] = useState<boolean>(true);
 
     return (
-        <div className={`${styles.note} ScrollBar`}>
+        <div className={`${styles.note}`}>
             <Spin spinning={loading}>
                 <div className={styles.wrap}>
-                    <div className={styles.header}>
-                        <span>todo note ({total})</span>
-                        <Space>
-                            {/* 搜索框 */}
-                            <Search
-                                className={styles.input}
-                                value={keyword}
-                                enterButton
-                                onChange={(e) => setKeyword(e.target.value)}
-                                onSearch={() =>
-                                    pageNo === 1 ? getData() : setPageNo(1)
-                                }
-                                onPressEnter={() =>
-                                    pageNo === 1 ? getData() : setPageNo(1)
-                                }
-                            />
-                            <Button
-                                type={showFilter ? "primary" : "default"}
-                                onClick={() => setShowFilter((prev) => !prev)}
+                    <Space className={styles.header} direction="vertical">
+                        <div className={styles.headerOne}>
+                            <span>todo note ({total})</span>
+                            <Space>
+                                {/* 搜索框 */}
+                                <Search
+                                    className={styles.input}
+                                    value={keyword}
+                                    enterButton
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    onSearch={() =>
+                                        pageNo === 1 ? getData() : setPageNo(1)
+                                    }
+                                    onPressEnter={() =>
+                                        pageNo === 1 ? getData() : setPageNo(1)
+                                    }
+                                />
+                                <Button
+                                    type={showFilter ? "primary" : "default"}
+                                    onClick={() => setShowFilter((prev) => !prev)}
+                                >
+                                    筛选
+                                </Button>
+                                {/* 排序规则 */}
+                                <Button
+                                    onClick={() =>
+                                        setSortBy(
+                                            sortBy === "time" ? "mTime" : "time"
+                                        )
+                                    }
+                                >
+                                    按{sortBy === "time" ? "time" : "修改"}
+                                    时间倒序
+                                </Button>
+                                <Button
+                                    className={styles.add_note}
+                                    type="primary"
+                                    onClick={() => {
+                                        handleAdd();
+                                    }}
+                                >
+                                    新增
+                                </Button>
+                            </Space>
+                        </div>
+                        {/* 类目筛选 */}
+                        {showFilter && (
+                            <Radio.Group
+                                className={styles.radioList}
+                                value={activeCategory}
+                                onChange={(e) => setActiveCategory(e.target.value)}
                             >
-                                筛选
-                            </Button>
-                            {/* 排序规则 */}
-                            <Button
-                                onClick={() =>
-                                    setSortBy(
-                                        sortBy === "time" ? "mTime" : "time"
+                                <Radio key="所有" value="所有">
+                                    所有 (
+                                    {category?.reduce(
+                                        (prev, cur) => prev + Number(cur.count),
+                                        0
+                                    )}
                                     )
-                                }
-                            >
-                                按{sortBy === "time" ? "time" : "修改"}
-                                时间倒序
-                            </Button>
-                            <Button
-                                className={styles.add_note}
-                                type="primary"
-                                onClick={() => {
-                                    handleAdd();
-                                }}
-                            >
-                                新增
-                            </Button>
-                        </Space>
-                    </div>
-                    {/* 类目筛选 */}
-                    {showFilter && (
-                        <Radio.Group
-                            className={styles.radioList}
-                            value={activeCategory}
-                            onChange={(e) => setActiveCategory(e.target.value)}
-                        >
-                            <Radio key="所有" value="所有">
-                                所有 (
-                                {category?.reduce(
-                                    (prev, cur) => prev + Number(cur.count),
-                                    0
-                                )}
-                                )
-                            </Radio>
-                            {category?.map((item) => {
-                                return (
-                                    <Radio
-                                        key={item.category}
-                                        value={item.category}
-                                    >
-                                        {item.category}({item.count})
-                                    </Radio>
-                                );
-                            })}
-                        </Radio.Group>
-                    )}
-                    <div className={styles.note_list}>
+                                </Radio>
+                                {category?.map((item) => {
+                                    return (
+                                        <Radio
+                                            key={item.category}
+                                            value={item.category}
+                                        >
+                                            {item.category}({item.count})
+                                        </Radio>
+                                    );
+                                })}
+                            </Radio.Group>
+                        )}
+                    </Space>
+                    <div className={`${styles.note_list} ScrollBar`}>
                         {list?.map((item) => {
                             return (
                                 <div
                                     key={item.todo_id}
                                     className={styles.note_item}
                                     onClick={() => {
+                                        const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
                                         setActiveTodo(item);
-                                        setIsShowDetail(true);
+                                        setShowEdit(true);
+                                        setOperatorType("edit");
                                     }}
                                 >
                                     <div className={styles.note_time}>
@@ -219,9 +218,9 @@ const TodoNote: React.FC<IProps> = (props) => {
                                     </div>
                                     <div className={styles.note_box}>
                                         <div className={styles.note_header}>
-                                            <TodoItemName
+                                            <TodoItem
                                                 item={item}
-                                                onlyShow
+                                                onlyShow={true}
                                             />
                                         </div>
                                         <div className={styles.note_content}>
@@ -271,31 +270,6 @@ const TodoNote: React.FC<IProps> = (props) => {
                         showTotal={(total) => `共${total}条`}
                     />
                 </div>
-
-                {/* 详情 */}
-                <TodoNoteDetailModal
-                    visible={
-                        !!activeTodo &&
-                        !!list?.find(
-                            (item) => item.todo_id === activeTodo.todo_id
-                        ) &&
-                        isShowDetail
-                    }
-                    activeTodo={
-                        activeTodo &&
-                        list?.find(
-                            (item) => item.todo_id === activeTodo.todo_id
-                        )
-                    }
-                    onCancel={() => {
-                        setIsShowDetail(false);
-                        setActiveTodo(undefined);
-                    }}
-                    refreshData={refreshData}
-                    handleEdit={() => {
-                        activeTodo && handleEdit(activeTodo);
-                    }}
-                />
             </Spin>
         </div>
     );

@@ -2,19 +2,24 @@
     font-size: 16px;
     text-align: left;
     height: 100%;
+
     .wrap {
         max-width: 1200px;
         margin: 0 auto;
         padding: 10px 20px 20px;
+
         >div {
             width: 100%;
             padding-bottom: 10px;
         }
+
         >div:first-child {
             position: sticky;
             top: 0;
-            background-color: var(--bg_color);z-index: 4;
+            background-color: var(--bg_color);
+            z-index: 4;
         }
+
         .radioList {
             // margin-bottom: 10px;
         }
@@ -24,6 +29,7 @@
             z-index: 2;
         }
     }
+
     span {
         vertical-align: middle;
     }
@@ -40,12 +46,14 @@
     .add_note {
         opacity: 0.6;
     }
+
     .edit_note {
         position: fixed;
         right: 2.5rem;
         top: 10.5rem;
         opacity: 0.6;
     }
+
     .delete_note {
         position: fixed;
         right: 2.5rem;
@@ -57,14 +65,13 @@
 
 .note_list {
     display: grid;
-    grid-template-columns: repeat(2, 50%);
-    grid-auto-flow: column;
-    grid-template-rows: repeat(5, auto);
     column-gap: 10px;
     margin: 0 auto;
-    > div {
+
+    >div {
         margin-bottom: 20px;
         cursor: pointer;
+
         &:hover {
             border-color: #40a9ff;
         }
@@ -76,6 +83,7 @@
     text-overflow: ellipsis;
     font-size: 16px;
     overflow: hidden;
+
     &.active {
         border-color: #40a9ff;
         -webkit-line-clamp: unset;
@@ -84,6 +92,7 @@
         border: unset;
         padding: unset;
     }
+
     &:last-child {
         margin-bottom: 0;
     }
@@ -132,15 +141,17 @@
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
+    .headerOne {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 600;
 
-    > span {
-        &.active {
-            color: var(--color_active);
+        >span {
+            &.active {
+                color: var(--color_active);
+            }
         }
     }
 }

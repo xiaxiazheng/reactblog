@@ -60,6 +60,7 @@ const TodoForm: React.FC<Props> = (props) => {
     // 处理预设选项集
     const handlePreset = (item: Record<string, string>) => {
         form.setFieldsValue(item);
+        isFieldsChange?.();
     }
 
     return (
@@ -324,28 +325,6 @@ const TodoForm: React.FC<Props> = (props) => {
                         <Form.Item name="other_id" label="前置 todo">
                             <SearchTodo activeTodo={activeTodo} />
                         </Form.Item>
-
-                        {/* {isPunchTheClock && (
-                            <>
-                                <Form.Item
-                                    name="startTime"
-                                    label="打卡开始时间"
-                                    rules={[{ required: true }]}
-                                    initialValue={dayjs()}
-                                >
-                                    <MyDatePicker />
-                                </Form.Item>
-                                <Form.Item
-                                    name="target"
-                                    label="达标天数"
-                                    rules={[{ required: true }]}
-                                    initialValue={7}
-                                >
-                                    <Input />
-                                </Form.Item>
-                            </>
-                        )} */}
-
                         {props?.rightChildren}
                     </div>
                 )}

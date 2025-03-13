@@ -6,7 +6,6 @@ import { doneTodoItem } from "@/client/TodoListHelper";
 import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import TodoChainIcon from "../todo-chain-icon";
-import TodoHabitIcon from "../todo-habit-icon";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 
@@ -20,6 +19,7 @@ interface Props {
     isChainNext?: boolean; // 是否是后续任务
     keyword?: string;
     style?: CSSProperties;
+    onlyShow?: boolean;
 }
 
 // 单条 todo 的渲染
@@ -34,6 +34,7 @@ const TodoItem: React.FC<Props> = (props) => {
         isChainNext = false,
         keyword = "",
         style = {},
+        onlyShow = false
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -88,13 +89,13 @@ const TodoItem: React.FC<Props> = (props) => {
                         isShowTimeRange={isShowTimeRange}
                         style={style}
                         keyword={keyword}
+                        onlyShow={onlyShow}
                     />
                     <TodoChainIcon
                         item={item}
                         isChain={isChain}
                         isChainNext={isChainNext}
                     />
-                    <TodoHabitIcon item={item} />
                 </span>
             </div>
         </div>

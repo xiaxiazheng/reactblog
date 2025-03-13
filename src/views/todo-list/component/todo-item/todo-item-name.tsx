@@ -127,9 +127,9 @@ const TodoItemName: React.FC<TodoItemNameProps> = (props) => {
         keyword: propsKeyword = ""
     } = props;
 
-    // 进行 keyword 的合并，如果是传入的就直接用传入的，否则用全局 global-search 里输入的
+    // 进行 keyword 的合并
     const globalKkeyword = useSelector((state: RootState) => state.filter.keyword);
-    const finalKeyword = propsKeyword || globalKkeyword;
+    const finalKeyword = `${globalKkeyword} ${propsKeyword}`;
 
     const { todoColorMap } = useContext(SettingsContext);
 
