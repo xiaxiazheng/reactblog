@@ -2,25 +2,27 @@ import React from "react";
 import {
     AimOutlined,
     BookOutlined,
-    ClockCircleOutlined,
+    BarsOutlined,
     PushpinOutlined,
     ThunderboltFilled,
     AppleFilled,
     StarFilled,
     FireFilled,
     FieldTimeOutlined,
+    CoffeeOutlined,
 } from "@ant-design/icons";
 
 const todoIconMap = {
     target: AimOutlined,
     note: BookOutlined,
-    habit: ClockCircleOutlined,
+    habit: BarsOutlined,
     urgent: ThunderboltFilled,
     work: AppleFilled,
     key: PushpinOutlined,
     followUp: FireFilled,
     bookMark: StarFilled,
     onlyToday: FieldTimeOutlined,
+    life: CoffeeOutlined,
 };
 
 type TodoType = keyof typeof todoIconMap;

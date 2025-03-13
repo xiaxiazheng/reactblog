@@ -7,6 +7,7 @@ import {
     Tooltip,
     Space,
     FormListFieldData,
+    Button,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { handleCopy, colorTitle } from "../../utils";
@@ -45,18 +46,21 @@ const TodoForm: React.FC<Props> = (props) => {
         needFocus = false,
     } = props;
 
-    const { todoNameMap, todoColorMap, todoColorNameMap, todoDescriptionMap } =
+    const { todoNameMap, todoColorMap, todoColorNameMap, todoDescriptionMap, todoPreset } =
         useContext(SettingsContext);
 
     const category = useSelector((state: RootState) => state.data.category);
-
-    // const isPunchTheClock = Form.useWatch("isPunchTheClock", form) === "1";
 
     const input = useRef<any>(null);
     // 聚焦在输入框
     useEffect(() => {
         open && needFocus && input?.current && input.current?.focus();
     }, [open, needFocus]);
+
+    // 处理预设选项集
+    const handlePreset = (item: Record<string, string>) => {
+        form.setFieldsValue(item);
+    }
 
     return (
         <Form
@@ -116,6 +120,26 @@ const TodoForm: React.FC<Props> = (props) => {
                 {!isShowOther && (
                     <div className={styles.right}>
                         <Form.Item
+                            label="预设">
+                            <Space>
+                                {!activeTodo && todoPreset?.map((item, index) => {
+                                    return <Button key={index} onClick={() => handlePreset(item)}>
+                                        <span style={{ color: todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
+                                        {item?.isWork && <TodoTypeIcon
+                                            type={item?.isWork === "1" ? "work" : "life"}
+                                            style={{ color: "#00d4d8" }}
+                                        />}
+                                        {item?.isNote === "1" && <TodoTypeIcon
+                                            type="note"
+                                            style={{
+                                                color: "#ffeb3b"
+                                            }}
+                                        />}
+                                    </Button>
+                                })}
+                            </Space>
+                        </Form.Item>
+                        <Form.Item
                             name="status"
                             label="状态"
                             rules={[{ required: true }]}
@@ -151,15 +175,11 @@ const TodoForm: React.FC<Props> = (props) => {
                                         key={item}
                                         value={item}
                                         style={{ color: todoColorMap[item] }}
-                                        className={`${styles.color} ${
-                                            item === "0" ? styles.zero : ""
-                                        }${item === "1" ? styles.one : ""}${
-                                            item === "2" ? styles.two : ""
-                                        }${item === "3" ? styles.three : ""}${
-                                            item === "4" ? styles.four : ""
-                                        }${
-                                            item === "-1" ? styles.minusOne : ""
-                                        }`}
+                                        className={`${styles.color} ${item === "0" ? styles.zero : ""
+                                            }${item === "1" ? styles.one : ""}${item === "2" ? styles.two : ""
+                                            }${item === "3" ? styles.three : ""}${item === "4" ? styles.four : ""
+                                            }${item === "-1" ? styles.minusOne : ""
+                                            }`}
                                     >
                                         {todoColorNameMap?.[item]}
                                     </Radio.Button>
@@ -198,21 +218,6 @@ const TodoForm: React.FC<Props> = (props) => {
                                     </SwitchComp>
                                 </Form.Item>
                                 <Form.Item
-                                    name="doing"
-                                    rules={[{ required: true }]}
-                                    initialValue={"0"}
-                                >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="urgent"
-                                                style={{ color: "red" }}
-                                            />{" "}
-                                            {todoNameMap?.urgent}
-                                        </span>
-                                    </SwitchComp>
-                                </Form.Item>
-                                <Form.Item
                                     name="isTarget"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
@@ -224,24 +229,6 @@ const TodoForm: React.FC<Props> = (props) => {
                                                 style={{ color: "#ffeb3b" }}
                                             />{" "}
                                             {todoNameMap?.target}
-                                        </span>
-                                    </SwitchComp>
-                                </Form.Item>
-                                <Form.Item
-                                    name="isBookMark"
-                                    rules={[{ required: true }]}
-                                    initialValue={"0"}
-                                >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="bookMark"
-                                                style={{
-                                                    marginRight: 5,
-                                                    color: "#ffeb3b",
-                                                }}
-                                            />{" "}
-                                            {todoNameMap?.bookMark}
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
@@ -281,26 +268,39 @@ const TodoForm: React.FC<Props> = (props) => {
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
-
-                                {/* <Form.Item
-                                    name="isKeyNode"
+                                <Form.Item
+                                    name="isBookMark"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
                                     <SwitchComp>
                                         <span>
                                             <TodoTypeIcon
-                                                type="key"
+                                                type="bookMark"
                                                 style={{
                                                     marginRight: 5,
                                                     color: "#ffeb3b",
                                                 }}
                                             />{" "}
-                                            {todoNameMap?.key}
+                                            {todoNameMap?.bookMark}
                                         </span>
                                     </SwitchComp>
-                                </Form.Item> */}
-
+                                </Form.Item>
+                                <Form.Item
+                                    name="doing"
+                                    rules={[{ required: true }]}
+                                    initialValue={"0"}
+                                >
+                                    <SwitchComp>
+                                        <span>
+                                            <TodoTypeIcon
+                                                type="urgent"
+                                                style={{ color: "red" }}
+                                            />{" "}
+                                            {todoNameMap?.urgent}
+                                        </span>
+                                    </SwitchComp>
+                                </Form.Item>
                                 <Form.Item
                                     name="isFollowUp"
                                     rules={[{ required: true }]}

@@ -11,6 +11,7 @@ interface ContextType {
     todoDefaultColor: number;
     quickDecisionConfig: Record<string, any>;
     todoShowBeforeToday: Record<string, any>;
+    todoPreset: Array<Record<string, string>>;
 };
 
 export const SettingsContext = createContext<Partial<ContextType>>({});
