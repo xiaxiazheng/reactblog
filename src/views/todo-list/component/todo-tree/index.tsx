@@ -11,11 +11,16 @@ interface Props {
      * tree 的话就是直接展示这个节点以及该节点以下的所有 child 数据，可能不止一层
      */
     dataMode?: "flat" | "tree";
-    onClick?: (item: TodoItemType, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    /** 用于高亮某个 todo 的情况 */
+    highlightId?: string;
+    onClick?: (
+        item: TodoItemType,
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => void;
 }
 
 const TodoTree: React.FC<Props> = (props) => {
-    const { todoList, dataMode = "flat", onClick } = props;
+    const { todoList, dataMode = "flat", highlightId, onClick } = props;
 
     // 把平铺的数据变成树
     function getTreeList(prelist: TodoItemType[]) {
@@ -40,21 +45,36 @@ const TodoTree: React.FC<Props> = (props) => {
 
     function handleTreeList(prelist: TodoItemType[]): TodoItemType[] {
         return prelist?.reduce((prev: TodoItemType[], item: TodoItemType) => {
-            return prev.concat(item)?.concat(handleTreeList(item?.child_todo_list || []))
+            return prev
+                .concat(item)
+                ?.concat(handleTreeList(item?.child_todo_list || []));
         }, []);
     }
 
     const [treeList, setTreeList] = useState<TodoItemType[]>([]);
     useEffect(() => {
         dataMode === "flat" && setTreeList(getTreeList(todoList));
-        dataMode === "tree" && setTreeList(getTreeList(handleTreeList(todoList)));
+        dataMode === "tree" &&
+            setTreeList(getTreeList(handleTreeList(todoList)));
     }, [todoList]);
 
     return (
         <Tree
             treeList={treeList}
-            renderTitle={(item) => <TodoItem item={item} onClick={onClick} />}
-            renderChildren={(item) => <TodoItem item={item} onClick={onClick} />}
+            renderTitle={(item) => (
+                <TodoItem
+                    item={item}
+                    onClick={onClick}
+                    isShowPointIcon={item.todo_id === highlightId}
+                />
+            )}
+            renderChildren={(item) => (
+                <TodoItem
+                    item={item}
+                    onClick={onClick}
+                    isShowPointIcon={item.todo_id === highlightId}
+                />
+            )}
         />
     );
 };

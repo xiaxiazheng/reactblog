@@ -131,7 +131,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     onChange={(val: any) => setSelectedColorList(val)}
                 />
                 {showType === "tree" && (
-                    <TodoTree todoList={getFilterList(todoChainList)} dataMode="tree" />
+                    <TodoTree todoList={getFilterList(todoChainList)} dataMode="tree" highlightId={chainId} />
                 )}
                 {showType === "timeline" && (
                     <TodoTimeLine

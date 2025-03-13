@@ -20,7 +20,10 @@ interface Props {
     keyword?: string;
     style?: CSSProperties;
     onlyShow?: boolean;
-    onClick?: (item: TodoItemType, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onClick?: (
+        item: TodoItemType,
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => void;
 }
 
 // 单条 todo 的渲染
@@ -61,13 +64,6 @@ const TodoItem: React.FC<Props> = (props) => {
         <div key={item.todo_id}>
             <div className={styles.item}>
                 <span>
-                    {isShowPointIcon && (
-                        <SendOutlined
-                            className={`${styles.rotateX} ${styles.doneIcon}`}
-                            style={{ color: "#00d4d8" }}
-                            title="当前 chain todo"
-                        />
-                    )}
                     {showDoneIcon && item.status == TodoStatus.todo && (
                         <Popconfirm
                             title="确认已完成吗？"
@@ -99,6 +95,15 @@ const TodoItem: React.FC<Props> = (props) => {
                         isChain={isChain}
                         isChainNext={isChainNext}
                     />
+                    {isShowPointIcon && (
+                        <span style={{ transform: "rotate(180deg)" }}>
+                            <SendOutlined
+                                className={`${styles.rotateX} ${styles.doneIcon}`}
+                                style={{ color: "#00d4d8" }}
+                                title="当前 chain todo"
+                            />
+                        </span>
+                    )}
                 </span>
             </div>
         </div>
