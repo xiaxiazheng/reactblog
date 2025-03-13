@@ -4,7 +4,7 @@ import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 export const handleDescriptionHighlight = (string: string, keyword: string = "") => {
     if (!string) return "";
-    // return handleUrlHighlight(string, keyword); 不需要单独处理了，对于markdown来说，链接可点击加一对<>的事
+    // 不需要单独处理了，对于markdown来说，链接可点击加一对<>的事
     return <MarkdownShow blogcont={string} keyword={keyword} />;
 };
 
@@ -93,7 +93,6 @@ export const handleUrlHighlight = (str: string, keyword: string = "") => {
     }
 
     return urlList.length === 0 ? (
-        // handleKeywordHighlight(str, keyword)
         <MarkdownShow blogcont={str} />
     ) : (
         <span>

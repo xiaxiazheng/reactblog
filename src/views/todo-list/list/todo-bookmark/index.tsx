@@ -44,16 +44,6 @@ const TodoBookMark = () => {
             mapList={bookMarkList.sort(
                 (a, b) => Number(a.color) - Number(b.color)
             )}
-            // input={
-            //     <Input
-            //         style={{
-            //             margin: "10px 20px",
-            //             width: "calc(100% - 40px)",
-            //         }}
-            //         value={localKeyword}
-            //         onChange={(e) => setLocalKeyword(e.target.value)}
-            //     />
-            // }
         />
     );
 };

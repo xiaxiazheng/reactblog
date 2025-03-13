@@ -22,8 +22,9 @@ import TodoChainLevel from "./todo-chain-level";
 import TodoChainFlat from "./todo-chain-flat";
 import TodoTimeLine from "./todo-time-line";
 import { SettingsContext } from "@/context/SettingsContext";
+import Tree from "../../component/tree";
 
-interface IProps extends DrawerProps {}
+interface IProps extends DrawerProps { }
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
@@ -33,12 +34,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         (state: RootState) => state.edit.showChainModal
     );
     const chainId = useSelector((state: RootState) => state.edit.chainId);
-    const localKeyword = useSelector(
-        (state: RootState) => state.filter.localKeyword
-    );
     const dispatch = useDispatch<Dispatch>();
     const { setShowChainModal } = dispatch.edit;
-    const { setLocalKeyword } = dispatch.filter;
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
@@ -65,8 +62,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
 
     const nowTodo = todoChainList.find((item) => item.todo_id === chainId);
 
-    const [showType, setShowType] = useState<"flat" | "level" | "timeline">(
-        "timeline"
+    const [showType, setShowType] = useState<"flat" | "level" | "timeline" | 'tree'>(
+        "tree"
     );
 
     const [selectedColorList, setSelectedColorList] = useState<string[]>(
@@ -76,6 +73,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
     const getFilterList = (list: TodoItemType[]) => {
         return list.filter((item) => selectedColorList.includes(item.color));
     };
+
+    const [localKeyword, setLocalKeyword] = useState<string>("");
 
     return (
         <Modal
@@ -94,8 +93,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                                 prev === "flat"
                                     ? "level"
                                     : prev === "level"
-                                    ? "timeline"
-                                    : "flat"
+                                        ? "timeline"
+                                        : "flat"
                             )
                         }
                     >
@@ -128,6 +127,13 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     value={selectedColorList}
                     onChange={(val: any) => setSelectedColorList(val)}
                 />
+                {showType === "tree" && (
+                    <Tree
+                        items={getFilterList(todoChainList)}
+                        renderTitle={item => <TodoItem item={item} />}
+                        renderChildren={item => <TodoItem item={item} />}
+                    />
+                )}
                 {showType === "timeline" && (
                     <TodoTimeLine
                         todoChainList={getFilterList(todoChainList)}

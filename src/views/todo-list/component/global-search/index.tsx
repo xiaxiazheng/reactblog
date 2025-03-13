@@ -170,7 +170,8 @@ const GlobalSearch: React.FC = () => {
                             type="text"
                             onClick={() => setIsWork(isWork === "0" ? "" : "0")}
                             icon={
-                                <CoffeeOutlined
+                                <TodoTypeIcon
+                                    type="life"
                                     style={
                                         isWork === "0"
                                             ? {}

@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SortKeyMap } from "../../component/sort-btn";
-import TodoAllList from "../../todo-all-list";
 import { Dispatch, RootState } from "../../rematch";
-import { Button } from "antd";
+import styles from './index.module.scss';
+import type { MenuProps } from 'antd';
+import Loading from "@/components/loading";
+import { TodoItemType } from "../../types";
+import TodoItem from "../../component/todo-item";
 import TodoTypeIcon from "../../component/todo-type-icon";
-import { SettingsContext } from "@/context/SettingsContext";
+import Tree from "../../component/tree";
+
+type MenuItem = Required<MenuProps>['items'][number];
 
 const TodoHabit = () => {
-    const { todoNameMap = {} } = useContext(SettingsContext);
-
     const habitLoading = useSelector(
         (state: RootState) => state.data.habitLoading
     );
@@ -17,41 +19,34 @@ const TodoHabit = () => {
     const habitListOrigin = useSelector(
         (state: RootState) => state.data.habitListOrigin
     );
-    const isHabit = useSelector(
-        (state: RootState) => state.filter.isHabit
-    );
     const dispatch = useDispatch<Dispatch>();
     const { setHabitList, getFilterList } = dispatch.data;
-    const { handleSpecialStatus } = dispatch.filter;
     useEffect(() => {
         setHabitList(getFilterList({ list: habitListOrigin, type: "habit" }));
     }, [habitListOrigin]);
 
+    const [isHide, setIsHide] = useState<boolean>(false);
+
     return (
-        <TodoAllList
-            loading={habitLoading}
-            sortKey={SortKeyMap.habit}
-            title={
-                <>
-                    <TodoTypeIcon type="habit" /> {todoNameMap.habit}
-                </>
-            }
-            btn={
-                <>
-                    <Button
-                        onClick={() =>
-                            handleSpecialStatus({ type: 'isHabit', status: isHabit === '1' ? "0" : "1" })
-                        }
-                        type={isHabit === "1" ? "primary" : "default"}
+        <>
+            <div className={styles.list}>
+                {habitLoading && <Loading />}
+                <div className={styles.header}>
+                    <span
+                        style={{ color: "#1890ffcc" }}
+                        onClick={() => setIsHide(!isHide)}
                     >
-                        查看已完成
-                    </Button>
-                </>
-            }
-            mapList={habitList.sort(
-                (a, b) => Number(a.color) - Number(b.color)
-            )}
-        />
+                        <TodoTypeIcon type="habit" /> 目录
+                    </span>
+                </div>
+                <Tree
+                    idKey="todo_id"
+                    items={habitList}
+                    renderTitle={(item) => <TodoItem item={item as unknown as TodoItemType} />}
+                    renderChildren={(item) => <TodoItem item={item as unknown as TodoItemType} />}
+                />
+            </div>
+        </>
     );
 };
 

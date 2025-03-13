@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, message, Popconfirm, Modal, Tooltip } from "antd";
+import { Button, Modal, Tooltip } from "antd";
 import TodoImageFile from "../../../component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@/views/todo-list/types";
-import { deleteTodoItem } from "@/client/TodoListHelper";
-import TodoItemName, { renderDescription } from "@/views/todo-list/component/todo-item/todo-item-name";
+import TodoItemName from "@/views/todo-list/component/todo-item/todo-item-name";
 import { ThemeContext } from "@/context/ThemeContext";
 import CopyButton from "@/components/copy-button";
 import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
@@ -22,20 +21,6 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
     const { visible, activeTodo, onCancel, handleEdit, refreshData } = props;
 
     const { theme } = useContext(ThemeContext);
-
-    // const onDelete = async () => {
-    //     if (activeTodo?.imgList.length !== 0) {
-    //         message.warning("图片不为空，不能删除");
-    //         return false;
-    //     }
-    //     const params = {
-    //         todo_id: activeTodo?.todo_id,
-    //     };
-    //     await deleteTodoItem(params);
-    //     message.success("删除 note 成功");
-    //     refreshData();
-    //     onCancel();
-    // };
 
     return (
         <Modal
@@ -87,7 +72,6 @@ const TodoNoteDetailModal: React.FC<IProps> = (props) => {
         >
             <div className={`${styles.note_item} ScrollBar`}>
                 <div className={styles.note_content}>
-                    {/* {activeTodo && renderDescription(activeTodo.description)} */}
                     {activeTodo?.description && <MarkdownShow blogcont={activeTodo.description} />}
                 </div>
                 {activeTodo && (

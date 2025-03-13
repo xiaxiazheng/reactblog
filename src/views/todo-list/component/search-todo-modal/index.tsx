@@ -55,7 +55,7 @@ const SearchTodoModal: React.FC<IProps> = ({
     }, [value]);
 
     // 搜索接口
-    const handleSearch = async (newValue: string) => {
+    const handleTimeSearch = async (newValue: string) => {
         if (sortBy === "footprint") return;
         setLoading(true);
         let sort: string[] = ["mTime", "DESC"];
@@ -96,6 +96,33 @@ const SearchTodoModal: React.FC<IProps> = ({
         }
     };
 
+    // 搜索接口
+    const handleGetDirectory = async (newValue: string) => {
+        setLoading(true);
+        const req: any = {
+            keyword: newValue,
+            pageNo,
+            pageSize,
+            isHabit: "1",
+            sortBy: [["color"]],
+            status: "0"
+        };
+
+        const res = await getTodoList(req);
+        if (res) {
+            // 前置 todo 不能是自己
+            setOptions(
+                res.data.list.filter(
+                    (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id
+                )
+            );
+            setTotal(res.data.total);
+            setLoading(false);
+        } else {
+            message.error("获取 todolist 失败");
+        }
+    };
+
     const handleGetFootprint = async (keyword: string) => {
         const list = getFootPrintList();
         const l = await fetchFootprintList(list);
@@ -109,13 +136,19 @@ const SearchTodoModal: React.FC<IProps> = ({
     const [sortBy, setSortBy] = useState<string>("footprint");
     useEffect(() => {
         if (visible) {
-            if (sortBy === "footprint") {
-                handleGetFootprint(keyword);
-            } else {
-                handleSearch(keyword);
-            }
+            handleSearch()
         }
     }, [sortBy, pageNo, visible]);
+
+    const handleSearch = () => {
+        if (sortBy === "footprint") {
+            handleGetFootprint(keyword);
+        } else if (sortBy === "directory") {
+            handleGetDirectory(keyword);
+        } else {
+            handleTimeSearch(keyword);
+        }
+    }
 
     useEffect(() => {
         if (sortBy === "footprint") {
@@ -158,7 +191,7 @@ const SearchTodoModal: React.FC<IProps> = ({
                 className={styles.input}
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onPressEnter={() => handleSearch(keyword)}
+                onPressEnter={() => handleSearch()}
             />
             <Radio.Group
                 style={{ marginBottom: 10 }}
@@ -171,7 +204,7 @@ const SearchTodoModal: React.FC<IProps> = ({
                         label: `足迹${footprintList.length}`,
                         value: "footprint",
                     },
-                    { label: "默认时间", value: "time" },
+                    { label: "知识目录", value: "directory" },
                     { label: "修改时间", value: "mTime" },
                     { label: "创建时间", value: "cTime" },
                     { label: "重要程度", value: "color" },

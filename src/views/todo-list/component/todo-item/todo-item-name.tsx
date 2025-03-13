@@ -28,14 +28,9 @@ export const renderDescription = (str: string, keyword: string = "") => {
 };
 
 const ToolTipsWrapper: React.FC<
-    Pick<NameProps, "item" | "placement" | "isModalOrDrawer">
+    Pick<TodoItemNameProps, "item" | "placement" | "keyword">
 > = (props) => {
-    const { item, placement, isModalOrDrawer } = props;
-
-    const keyword = useSelector((state: RootState) => state.filter.keyword);
-    const localKeyword = useSelector(
-        (state: RootState) => state.filter.localKeyword
-    );
+    const { item, placement, keyword } = props;
 
     return item.description ||
         (item.imgList && item.imgList.length !== 0) ||
@@ -44,13 +39,7 @@ const ToolTipsWrapper: React.FC<
             overlayClassName={styles.tooltip}
             title={
                 <>
-                    {item.description &&
-                        renderDescription(
-                            item.description,
-                            isModalOrDrawer
-                                ? `${keyword} ${localKeyword}`
-                                : keyword
-                        )}
+                    {item.description && renderDescription(item.description, keyword)}
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"
@@ -85,26 +74,22 @@ const Name: React.FC<{
     item: TodoItemType;
     isShowTime: boolean;
     isShowTimeRange: boolean;
-    isModalOrDrawer: boolean;
-}> = ({ item, isShowTime, isShowTimeRange, isModalOrDrawer }) => {
-    const keyword = useSelector((state: RootState) => state.filter.keyword);
-    const localKeyword = useSelector(
-        (state: RootState) => state.filter.localKeyword
-    );
+    keyword: string;
+}> = ({ item, isShowTime, isShowTimeRange, keyword }) => {
 
     return (
         <>
             {handleKeywordHighlight(
                 item.name,
-                isModalOrDrawer ? `${keyword} ${localKeyword}` : keyword
+                keyword
             )}
             {(isShowTime || item.isTarget === "1") && (
                 <span
                     className={`${styles.time} ${item.time === Today()
-                            ? styles.today
-                            : item.time > Today()
-                                ? styles.future
-                                : styles.previously
+                        ? styles.today
+                        : item.time > Today()
+                            ? styles.future
+                            : styles.previously
                         }`}
                 >{` (${item.time})`}</span>
             )}
@@ -117,30 +102,34 @@ const Name: React.FC<{
     );
 };
 
-interface NameProps {
+interface TodoItemNameProps {
+    keyword?: string;
     item: TodoItemType;
     isShowTime?: boolean;
     isShowTimeRange?: boolean;
     placement?: TooltipPlacement;
     onlyShow?: boolean;
-    isModalOrDrawer?: boolean;
     style?: CSSProperties;
     beforeClick?: () => boolean;
     children?: any;
 }
 
 // 单条 todo 中的 name 的渲染
-const TodoItemName: React.FC<NameProps> = (props) => {
+const TodoItemName: React.FC<TodoItemNameProps> = (props) => {
     const {
         item,
         isShowTime = false,
         isShowTimeRange = false,
         placement,
         onlyShow = false,
-        isModalOrDrawer = false,
         style = {},
         beforeClick,
+        keyword: propsKeyword = ""
     } = props;
+
+    // 进行 keyword 的合并
+    const globalKkeyword = useSelector((state: RootState) => state.filter.keyword);
+    const finalKeyword = `${globalKkeyword} ${propsKeyword}`;
 
     const { todoColorMap } = useContext(SettingsContext);
 
@@ -155,14 +144,13 @@ const TodoItemName: React.FC<NameProps> = (props) => {
         setOperatorType("edit");
     };
 
-    const isTodo = item.status === String(TodoStatus.todo);
     const isDone = item.status === String(TodoStatus.done);
 
     return (
         <ToolTipsWrapper
             item={item}
             placement={placement}
-            isModalOrDrawer={isModalOrDrawer}
+            keyword={finalKeyword}
         >
             <div
                 className={styles.name}
@@ -204,13 +192,6 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                         style={{ marginRight: 5, color: "#ffeb3b" }}
                     />
                 )}
-                {/* 关键节点 */}
-                {/* {item.isKeyNode === "1" && item.isTarget !== "1" && (
-                    <TodoTypeIcon
-                        type="key"
-                        style={{ marginRight: 5, color: "#ffeb3b" }}
-                    />
-                )} */}
                 {/* note */}
                 {item.isNote === "1" && (
                     <TodoTypeIcon
@@ -235,7 +216,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                             item={item}
                             isShowTime={isShowTime}
                             isShowTimeRange={isShowTimeRange}
-                            isModalOrDrawer={isModalOrDrawer}
+                            keyword={finalKeyword}
                         />
                     </s>
                 ) : (
@@ -247,7 +228,7 @@ const TodoItemName: React.FC<NameProps> = (props) => {
                             item={item}
                             isShowTime={isShowTime}
                             isShowTimeRange={isShowTimeRange}
-                            isModalOrDrawer={isModalOrDrawer}
+                            keyword={finalKeyword}
                         />
                     </span>
                 )}

@@ -14,18 +14,14 @@ const DrawerBookMark = () => {
     );
     const dispatch = useDispatch<Dispatch>();
     const { setShowBookMarkDrawer } = dispatch.edit;
-    const { setLocalKeyword } = dispatch.filter;
 
     return (
         <Drawer
             closable={false}
-            className={`${styles.bookMarkDrawer} ${
-                theme === "dark" ? "darkTheme" : ""
-            }`}
+            className={`${styles.bookMarkDrawer} ${theme === "dark" ? "darkTheme" : ""}`}
             open={showBookMarkDrawer}
             onClose={() => {
                 setShowBookMarkDrawer(false);
-                setLocalKeyword("");
             }}
             width="600px"
         >

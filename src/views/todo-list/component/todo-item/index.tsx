@@ -1,12 +1,11 @@
-import React, { CSSProperties, useContext } from "react";
+import React, { CSSProperties } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
-import { CheckCircleOutlined, PlayCircleOutlined, SendOutlined } from "@ant-design/icons";
-import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
+import { CheckCircleOutlined, SendOutlined } from "@ant-design/icons";
+import { doneTodoItem } from "@/client/TodoListHelper";
 import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import TodoChainIcon from "../todo-chain-icon";
-import TodoHabitIcon from "../todo-habit-icon";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 
@@ -18,8 +17,9 @@ interface Props {
     isShowTimeRange?: boolean; // 是否展示距离今天的范围
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
-    isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
+    keyword?: string;
     style?: CSSProperties;
+    onlyShow?: boolean;
 }
 
 // 单条 todo 的渲染
@@ -32,8 +32,9 @@ const TodoItem: React.FC<Props> = (props) => {
         isShowTimeRange = false,
         isChain = false,
         isChainNext = false,
-        isModalOrDrawer = false,
+        keyword = "",
         style = {},
+        onlyShow = false
     } = props;
 
     const dispatch = useDispatch<Dispatch>();
@@ -86,15 +87,15 @@ const TodoItem: React.FC<Props> = (props) => {
                         item={item}
                         isShowTime={isChain || isShowTime}
                         isShowTimeRange={isShowTimeRange}
-                        isModalOrDrawer={isModalOrDrawer}
                         style={style}
+                        keyword={keyword}
+                        onlyShow={onlyShow}
                     />
                     <TodoChainIcon
                         item={item}
                         isChain={isChain}
                         isChainNext={isChainNext}
                     />
-                    <TodoHabitIcon item={item} />
                 </span>
             </div>
         </div>

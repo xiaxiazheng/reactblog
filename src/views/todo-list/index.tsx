@@ -14,7 +14,7 @@ import TodoAfter from "./list/todo-after";
 import TodoList, { RenderTodoDescriptionIcon } from "./list/todo-list";
 import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./drawers/drawer-footprint";
-import DrawerNote from "./drawers/drawer-note";
+import ModalNote from "./drawers/modal-note";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
 import { SettingsContext } from "@/context/SettingsContext";
@@ -96,8 +96,8 @@ const TodoListHome: React.FC = () => {
             </div>
             {/* 右边竖栏，hover 打开具体模块 */}
             <HoverOpenBar />
-            {/* todo note 展示的抽屉 */}
-            <DrawerNote />
+            {/* todo note 展示的弹窗 */}
+            <ModalNote />
             {/* todo 足迹展示的抽屉 */}
             <DrawerFootprint />
             {/* 新增/编辑 todo */}
