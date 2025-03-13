@@ -33,12 +33,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         (state: RootState) => state.edit.showChainModal
     );
     const chainId = useSelector((state: RootState) => state.edit.chainId);
-    const localKeyword = useSelector(
-        (state: RootState) => state.filter.localKeyword
-    );
     const dispatch = useDispatch<Dispatch>();
     const { setShowChainModal } = dispatch.edit;
-    const { setLocalKeyword } = dispatch.filter;
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
@@ -76,6 +72,8 @@ const TodoChainModal: React.FC<IProps> = (props) => {
     const getFilterList = (list: TodoItemType[]) => {
         return list.filter((item) => selectedColorList.includes(item.color));
     };
+
+    const [localKeyword, setLocalKeyword] = useState<string>("");
 
     return (
         <Modal

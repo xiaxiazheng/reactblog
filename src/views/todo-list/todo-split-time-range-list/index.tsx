@@ -24,7 +24,6 @@ interface Props {
     list: TodoItemType[];
     showDoneIcon?: boolean;
     btn?: any;
-    isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
     isShowTime?: boolean;
     isSlice?: number | false; // 是否裁切
 }
@@ -59,7 +58,6 @@ const TodoSplitTimeRangeList: React.FC<Props> = (props) => {
         list,
         showDoneIcon = false,
         sortKey,
-        isModalOrDrawer = false,
         isShowTime = false,
         isSlice = false,
     } = props;
@@ -140,9 +138,6 @@ const TodoSplitTimeRangeList: React.FC<Props> = (props) => {
                                                         item={item}
                                                         showDoneIcon={
                                                             showDoneIcon
-                                                        }
-                                                        isModalOrDrawer={
-                                                            isModalOrDrawer
                                                         }
                                                         isShowTime={isShowTime}
                                                         isShowTimeRange={true}

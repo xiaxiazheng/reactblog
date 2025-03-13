@@ -72,6 +72,7 @@ const TodoTimeLine: React.FC<IProps> = (props) => {
                                     key={item.todo_id}
                                     item={item}
                                     isShowPointIcon={item.todo_id === chainId}
+                                    keyword={localKeyword}
                                 />
                             ))}
                         </div>

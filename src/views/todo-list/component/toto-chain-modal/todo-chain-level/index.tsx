@@ -46,9 +46,9 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                         showDoneIcon={false}
                                         isChain={true}
                                         isChainNext={true}
-                                        isModalOrDrawer={true}
                                         isShowTime={true}
                                         isShowTimeRange={true}
+                                        keyword={localKeyword}
                                     />
                                 }
                             >
@@ -64,9 +64,9 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                 showDoneIcon={false}
                                 isChain={true}
                                 isChainNext={true}
-                                isModalOrDrawer={true}
                                 isShowTime={true}
                                 isShowTimeRange={true}
+                                keyword={localKeyword}
                             />
                         </div>
                     )}
@@ -106,9 +106,9 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                     item={item}
                                     showDoneIcon={false}
                                     isChain={true}
-                                    isModalOrDrawer={true}
                                     isShowTime={true}
                                     isShowTimeRange={true}
+                                    keyword={localKeyword}
                                 />
                             ))}
                         <Divider style={{ margin: "12px 0" }} />
@@ -130,9 +130,9 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                             item={nowTodo}
                             showDoneIcon={false}
                             isChain={true}
-                            isModalOrDrawer={true}
                             isShowTime={true}
                             isShowTimeRange={true}
+                            keyword={localKeyword}
                         />
                     </>
                 )}

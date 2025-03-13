@@ -18,7 +18,6 @@ interface Props {
     mapList: TodoItemType[];
     showDoneIcon?: boolean;
     btn?: any;
-    isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
     isShowTime?: boolean;
 }
 
@@ -29,7 +28,6 @@ const TodoAllList: React.FC<Props> = (props) => {
         mapList,
         showDoneIcon = false,
         sortKey,
-        isModalOrDrawer = false,
         isShowTime = false,
     } = props;
 
@@ -65,7 +63,6 @@ const TodoAllList: React.FC<Props> = (props) => {
                                 key={item.todo_id}
                                 item={item}
                                 showDoneIcon={showDoneIcon}
-                                isModalOrDrawer={isModalOrDrawer}
                                 isShowTime={isShowTime}
                             />
                         ))}

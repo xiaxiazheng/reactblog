@@ -119,10 +119,10 @@ const TodoForm: React.FC<Props> = (props) => {
                 </div>
                 {!isShowOther && (
                     <div className={styles.right}>
-                        <Form.Item label="预设">
+                        <Form.Item label="预设选项">
                             <Space>
                                 {todoPreset?.map((item, index) => {
-                                    return <Button key={index} onClick={() => handlePreset(item)}>
+                                    return <Button style={{ borderColor: todoColorMap?.[item.color] }} key={index} onClick={() => handlePreset(item)}>
                                         <span style={{ color: todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
                                         {item?.isWork && <TodoTypeIcon
                                             type={item?.isWork === "1" ? "work" : "life"}

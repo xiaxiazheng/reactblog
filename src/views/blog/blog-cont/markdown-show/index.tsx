@@ -19,13 +19,16 @@ const MarkdownShow = React.forwardRef<HTMLInputElement, PropsType>((props, ref) 
 
         md.renderer.rules.text = (tokens: any, idx: any, options: any, env: any, self: any) => {
             const text = originalTextRenderer(tokens, idx, options, env, self);
-            if (keyword) {
-                // 使用正则表达式替换关键词
-                return text.replace(new RegExp(keyword, 'gi'), (match: any) => {
-                    return '<span class="keyword">' + match + '</span>';
-                });
+            let k = keyword?.trim();
+            if (!k || k === "") {
+                return text;
             }
-            return text;
+            const list = k.split(" ").filter((item: string) => !!item);
+            const regex = new RegExp(list.join('|'), 'gi');
+            // 使用正则表达式替换关键词
+            return text.replace(regex, (match: any) => {
+                return '<span class="keyword">' + match + '</span>';
+            });
         };
     }
 

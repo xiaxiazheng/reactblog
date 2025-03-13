@@ -141,7 +141,6 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                             showDoneIcon={false}
                                             isChain={true}
                                             isChainNext={true}
-                                            isModalOrDrawer={true}
                                             isShowTime={true}
                                             isShowTimeRange={true}
                                             style={
@@ -150,6 +149,7 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                                     ? { color: "yellow" }
                                                     : {}
                                             }
+                                            keyword={localKeyword}
                                         />
                                     </div>
                                 ))}
@@ -227,10 +227,10 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                     item={nowTodo}
                                     showDoneIcon={false}
                                     isChain={true}
-                                    isModalOrDrawer={true}
                                     style={{ color: "yellow" }}
                                     isShowTime={true}
                                     isShowTimeRange={true}
+                                    keyword={localKeyword}
                                 />
                             </Collapse>
                         )}

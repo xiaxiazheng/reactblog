@@ -1,8 +1,8 @@
-import React, { CSSProperties, useContext } from "react";
+import React, { CSSProperties } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
-import { CheckCircleOutlined, PlayCircleOutlined, SendOutlined } from "@ant-design/icons";
-import { doneTodoItem, editTodoItem } from "@/client/TodoListHelper";
+import { CheckCircleOutlined, SendOutlined } from "@ant-design/icons";
+import { doneTodoItem } from "@/client/TodoListHelper";
 import { TodoItemType, TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import TodoChainIcon from "../todo-chain-icon";
@@ -18,7 +18,7 @@ interface Props {
     isShowTimeRange?: boolean; // 是否展示距离今天的范围
     isChain?: boolean;
     isChainNext?: boolean; // 是否是后续任务
-    isModalOrDrawer?: boolean; // 是否是 modal 或 drawer 里展示的 todo
+    keyword?: string;
     style?: CSSProperties;
 }
 
@@ -32,7 +32,7 @@ const TodoItem: React.FC<Props> = (props) => {
         isShowTimeRange = false,
         isChain = false,
         isChainNext = false,
-        isModalOrDrawer = false,
+        keyword = "",
         style = {},
     } = props;
 
@@ -86,8 +86,8 @@ const TodoItem: React.FC<Props> = (props) => {
                         item={item}
                         isShowTime={isChain || isShowTime}
                         isShowTimeRange={isShowTimeRange}
-                        isModalOrDrawer={isModalOrDrawer}
                         style={style}
+                        keyword={keyword}
                     />
                     <TodoChainIcon
                         item={item}

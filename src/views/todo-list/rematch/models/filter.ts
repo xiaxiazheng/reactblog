@@ -3,7 +3,6 @@ import type { RootModel } from "./index";
 
 interface FilterType {
     keyword: string; // 这个是 todo 的全局 keyword
-    localKeyword: string; // 这个是 modal 和 drawer 用的局部 keyword
     activeColor: string[];
     activeCategory: string[];
     startEndTime: any;
@@ -18,7 +17,6 @@ interface FilterType {
 export const filter = createModel<RootModel>()({
     state: {
         keyword: "",
-        localKeyword: "",
         activeColor: [],
         activeCategory: [],
         startEndTime: "",
@@ -34,12 +32,6 @@ export const filter = createModel<RootModel>()({
             return {
                 ...state,
                 keyword: payload,
-            };
-        },
-        setLocalKeyword: (state, payload) => {
-            return {
-                ...state,
-                localKeyword: payload,
             };
         },
         setActiveColor: (state, payload) => {
