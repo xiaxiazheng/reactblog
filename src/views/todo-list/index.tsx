@@ -12,7 +12,7 @@ import { useForm } from "antd/lib/form/Form";
 import TodoAfter from "./list/todo-after";
 import TodoList, { RenderTodoDescriptionIcon } from "./list/todo-list";
 import TodoTarget from "./list/todo-target";
-import DrawerFootprint from "./drawers/drawer-footprint";
+import DrawerFootprint from "./component/drawer-footprint";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
 import { SettingsContext } from "@/context/SettingsContext";

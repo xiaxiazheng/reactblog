@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import styles from "../index.module.scss";
+import styles from "./index.module.scss";
 import { ThemeContext } from "@/context/ThemeContext";
 import TodoFootPrint from "../../list/todo-footprint";
 
