@@ -5,7 +5,7 @@ import List from "../../todo-split-day-list";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
-import { RenderTodoDescriptionIcon } from "../todo-list";
+import { RenderTodoDescriptionIcon } from "../../list/todo-list";
 import { formatArrayToTimeMap } from "../../utils";
 
 const TodoFollowUp = () => {

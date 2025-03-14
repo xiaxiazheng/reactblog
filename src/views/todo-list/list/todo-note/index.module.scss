@@ -1,3 +1,24 @@
+.noteModal {
+    z-index: 4;
+
+    :global {
+        .ant-drawer-body {
+            padding: 10px 0;
+        }
+
+        .ant-drawer-header,
+        .ant-drawer-title,
+        .ant-drawer-content {
+            background-color: #001529;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .ant-drawer-close {
+            color: rgba(255, 255, 255, 0.65);
+        }
+    }
+}
+
 .note {
     font-size: 16px;
     text-align: left;
@@ -153,5 +174,17 @@
                 color: var(--color_active);
             }
         }
+    }
+}
+
+.mainContent {
+    display: flex;
+    .leftSide {
+        width: 150px;
+        flex-shrink: 0;
+    }
+    .rightSide {
+        flex: 1;
+        height: calc(100vh - 250px);
     }
 }

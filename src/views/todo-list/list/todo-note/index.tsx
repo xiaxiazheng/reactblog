@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Input, Radio, Pagination, Empty, Button, Spin, Space } from "antd";
+import { Input, Radio, Pagination, Empty, Button, Spin, Space, Modal } from "antd";
 import { TodoItemType, CategoryType } from "../../types";
 import TodoImageFile from "../../component/todo-image-file";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
-import {
-    renderDescription,
-} from "../../component/todo-item/todo-item-name";
+import { renderDescription } from "../../component/todo-item/todo-item-name";
 import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import { useOriginTodo } from "../../component/global-search";
 import TodoItem from "../../component/todo-item";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const { Search } = Input;
 
@@ -20,19 +18,15 @@ const maxLength = 1;
 interface IProps { }
 
 const TodoNote: React.FC<IProps> = (props) => {
-    const form = useSelector((state: RootState) => state.edit.form);
     const dispatch = useDispatch<Dispatch>();
-    const originTodo = useOriginTodo();
-    const handleAdd = () => {
-        const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
-        setActiveTodo(undefined);
-        setOperatorType("add");
-        setShowEdit(true);
-        form?.setFieldsValue({
-            ...originTodo,
-            isNote: "1",
-        });
-    };
+
+    const { theme } = useContext(ThemeContext);
+
+    const showNoteDrawer = useSelector(
+        (state: RootState) => state.edit.showNoteDrawer
+    );
+    const { setShowNoteDrawer } = dispatch.edit;
+
     const isRefreshNote = useSelector(
         (state: RootState) => state.data.isRefreshNote
     );
@@ -120,158 +114,153 @@ const TodoNote: React.FC<IProps> = (props) => {
         getData();
     }, [sortBy, pageNo, isRefreshNote]);
 
-    const [showFilter, setShowFilter] = useState<boolean>(true);
-
     return (
-        <div className={`${styles.note}`}>
-            <Spin spinning={loading}>
-                <div className={styles.wrap}>
-                    <Space className={styles.header} direction="vertical">
-                        <div className={styles.headerOne}>
-                            <span>todo note ({total})</span>
-                            <Space>
-                                {/* 搜索框 */}
-                                <Search
-                                    className={styles.input}
-                                    value={keyword}
-                                    enterButton
-                                    onChange={(e) => setKeyword(e.target.value)}
-                                    onSearch={() =>
-                                        pageNo === 1 ? getData() : setPageNo(1)
-                                    }
-                                    onPressEnter={() =>
-                                        pageNo === 1 ? getData() : setPageNo(1)
-                                    }
-                                />
-                                <Button
-                                    type={showFilter ? "primary" : "default"}
-                                    onClick={() => setShowFilter((prev) => !prev)}
+        <Modal
+            closable={false}
+            className={`${styles.noteModal} ${theme === "dark" ? "darkTheme" : ""
+                }`}
+            open={showNoteDrawer}
+            onCancel={() => setShowNoteDrawer(false)}
+            width="1000px"
+            footer={<Pagination
+                className={styles.pagination}
+                current={pageNo}
+                pageSize={pageSize}
+                total={total}
+                onChange={(page) => setPageNo(page)}
+                onShowSizeChange={(cur, size) => setPageSize(size)}
+                showTotal={(total) => `共${total}条`}
+            />}
+        >
+            <div className={`${styles.note}`}>
+                <Spin spinning={loading}>
+                    <div className={styles.wrap}>
+                        {/* 顶部 */}
+                        <Space className={styles.header} direction="vertical">
+                            <div className={styles.headerOne}>
+                                <span>todo note ({total})</span>
+                                <Space>
+                                    {/* 搜索框 */}
+                                    <Search
+                                        className={styles.input}
+                                        placeholder="回车才搜索，不回车只高亮"
+                                        value={keyword}
+                                        enterButton
+                                        onChange={(e) => setKeyword(e.target.value)}
+                                        onSearch={() =>
+                                            pageNo === 1 ? getData() : setPageNo(1)
+                                        }
+                                        onPressEnter={() =>
+                                            pageNo === 1 ? getData() : setPageNo(1)
+                                        }
+                                    />
+                                    {/* 排序规则 */}
+                                    <Button
+                                        onClick={() =>
+                                            setSortBy(
+                                                sortBy === "time" ? "mTime" : "time"
+                                            )
+                                        }
+                                    >
+                                        按{sortBy === "time" ? "time" : "修改"}
+                                        时间倒序
+                                    </Button>
+                                </Space>
+                            </div>
+                        </Space>
+                        {/* 下边 */}
+                        <div className={styles.mainContent}>
+                            {/* 左边 */}
+                            <div className={styles.leftSide}>
+                                {/* 类目筛选 */}
+                                <Radio.Group
+                                    className={styles.radioList}
+                                    value={activeCategory}
+                                    onChange={(e) => setActiveCategory(e.target.value)}
                                 >
-                                    筛选
-                                </Button>
-                                {/* 排序规则 */}
-                                <Button
-                                    onClick={() =>
-                                        setSortBy(
-                                            sortBy === "time" ? "mTime" : "time"
-                                        )
-                                    }
-                                >
-                                    按{sortBy === "time" ? "time" : "修改"}
-                                    时间倒序
-                                </Button>
-                                <Button
-                                    className={styles.add_note}
-                                    type="primary"
-                                    onClick={() => {
-                                        handleAdd();
-                                    }}
-                                >
-                                    新增
-                                </Button>
-                            </Space>
-                        </div>
-                        {/* 类目筛选 */}
-                        {showFilter && (
-                            <Radio.Group
-                                className={styles.radioList}
-                                value={activeCategory}
-                                onChange={(e) => setActiveCategory(e.target.value)}
-                            >
-                                <Radio key="所有" value="所有">
-                                    所有 (
-                                    {category?.reduce(
-                                        (prev, cur) => prev + Number(cur.count),
-                                        0
-                                    )}
-                                    )
-                                </Radio>
-                                {category?.map((item) => {
-                                    return (
-                                        <Radio
-                                            key={item.category}
-                                            value={item.category}
-                                        >
-                                            {item.category}({item.count})
-                                        </Radio>
-                                    );
-                                })}
-                            </Radio.Group>
-                        )}
-                    </Space>
-                    <div className={`${styles.note_list} ScrollBar`}>
-                        {list?.map((item) => {
-                            return (
-                                <div
-                                    key={item.todo_id}
-                                    className={styles.note_item}
-                                    onClick={() => {
-                                        const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
-                                        setActiveTodo(item);
-                                        setShowEdit(true);
-                                        setOperatorType("edit");
-                                    }}
-                                >
-                                    <div className={styles.note_time}>
-                                        {item.time}(
-                                        {getRangeFormToday(item.time)})
-                                    </div>
-                                    <div className={styles.note_box}>
-                                        <div className={styles.note_header}>
-                                            <TodoItem
-                                                item={item}
-                                                onlyShow={true}
-                                            />
-                                        </div>
-                                        <div className={styles.note_content}>
-                                            {renderDescription(item.description, keyword)}
-                                        </div>
-                                        <TodoImageFile
-                                            isOnlyShow={true}
-                                            todo={{
-                                                ...item,
-                                                imgList: item.imgList.slice(
-                                                    0,
-                                                    maxLength
-                                                ),
-                                            }}
-                                            width="120px"
-                                        />
-                                        {item.imgList.length > maxLength && (
-                                            <div style={{ opacity: 0.7 }}>
-                                                还有{" "}
-                                                {item.imgList.length -
-                                                    maxLength}{" "}
-                                                张图
-                                            </div>
+                                    <Radio key="所有" value="所有">
+                                        所有 (
+                                        {category?.reduce(
+                                            (prev, cur) => prev + Number(cur.count),
+                                            0
                                         )}
-                                    </div>
+                                        )
+                                    </Radio>
+                                    {category?.map((item) => {
+                                        return (
+                                            <Radio
+                                                key={item.category}
+                                                value={item.category}
+                                            >
+                                                {item.category}({item.count})
+                                            </Radio>
+                                        );
+                                    })}
+                                </Radio.Group>
+                            </div>
+                            {/* 右边 */}
+                            <div className={`${styles.rightSide} ScrollBar`}>
+                                <div className={`${styles.note_list}`}>
+                                    {list?.map((item) => {
+                                        return (
+                                            <div
+                                                key={item.todo_id}
+                                                className={styles.note_item}
+                                                onClick={() => handleEdit(item)}
+                                            >
+                                                <div className={styles.note_time}>
+                                                    {item.time}(
+                                                    {getRangeFormToday(item.time)})
+                                                </div>
+                                                <div className={styles.note_box}>
+                                                    <div className={styles.note_header}>
+                                                        <TodoItem
+                                                            item={item}
+                                                            onlyShow={true}
+                                                        />
+                                                    </div>
+                                                    <div className={styles.note_content}>
+                                                        {renderDescription(item.description, keyword)}
+                                                    </div>
+                                                    <TodoImageFile
+                                                        isOnlyShow={true}
+                                                        todo={{
+                                                            ...item,
+                                                            imgList: item.imgList.slice(
+                                                                0,
+                                                                maxLength
+                                                            ),
+                                                        }}
+                                                        width="120px"
+                                                    />
+                                                    {item.imgList.length > maxLength && (
+                                                        <div style={{ opacity: 0.7 }}>
+                                                            还有{" "}
+                                                            {item.imgList.length -
+                                                                maxLength}{" "}
+                                                            张图
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                    {(!list || list?.length === 0) && (
+                                        <Empty
+                                            style={{
+                                                paddingTop: 100,
+                                                gridColumnStart: 1,
+                                                gridColumnEnd: 4,
+                                            }}
+                                        />
+                                    )}
                                 </div>
-                            );
-                        })}
-                        {(!list || list?.length === 0) && (
-                            <Empty
-                                style={{
-                                    paddingTop: 100,
-                                    gridColumnStart: 1,
-                                    gridColumnEnd: 4,
-                                }}
-                            />
-                        )}
+                            </div>
+                        </div>
                     </div>
-
-                    <Pagination
-                        className={styles.pagination}
-                        current={pageNo}
-                        pageSize={pageSize}
-                        total={total}
-                        onChange={(page) => setPageNo(page)}
-                        onShowSizeChange={(cur, size) => setPageSize(size)}
-                        showTotal={(total) => `共${total}条`}
-                    />
-                </div>
-            </Spin>
-        </div>
+                </Spin>
+            </div>
+        </Modal>
     );
 };
 

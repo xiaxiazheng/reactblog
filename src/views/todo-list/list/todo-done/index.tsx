@@ -9,7 +9,6 @@ import useScrollToHook from "@/hooks/useScrollToHooks";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { TodoItemType } from "../../types";
-import TodoItem from "../../component/todo-item";
 import TodoDoneDataModal from "./todo-done-data-modal";
 import { getToday } from "@/components/amdin-header/utils";
 import TodoTree from "../../component/todo-tree";

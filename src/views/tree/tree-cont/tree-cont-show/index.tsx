@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./index.module.scss";
-// import { withRouter, match } from 'react-router';
-// import { History, Location } from 'history';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getChildName } from "@/client/TreeHelper";
 import { getNodeCont } from "@/client/TreeContHelper";
-import { deleteImg, ImageType, ImgType } from "@/client/ImgHelper";
+import { ImageType } from "@/client/ImgHelper";
 import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";
@@ -13,18 +11,13 @@ import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";
 // 代码高亮
 import hljs from "highlight.js";
-// import "highlight.js/styles/atom-one-dark-reasonable.css";
 import "highlight.js/styles/vs2015.css";
-import { Button, Drawer, message } from "antd";
+import { Button } from "antd";
 import {
-    EnvironmentOutlined,
     VerticalAlignBottomOutlined,
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 import useScrollToHook from "@/hooks/useScrollToHooks";
-import { CreateTodoItemReq, TodoStatus } from "@/views/todo-list/types";
-import dayjs from "dayjs";
-import { addTodoItem } from "@/client/TodoListHelper";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;
@@ -357,8 +350,6 @@ const TreeContShow: React.FC<PropsType> = (props) => {
         <>
             <div className={`${styles.treecontshow}`}>
                 {loading && <Loading />}
-                {/* <Button onClick={() => deleteImgs()}>删除当前所有图片</Button> */}
-                {/* <Button onClick={() => transferToTodo()}>迁移到todo</Button> */}
                 <div
                     className={`${styles.treecontshowWrapper} ScrollBar`}
                     ref={contShowRef}
