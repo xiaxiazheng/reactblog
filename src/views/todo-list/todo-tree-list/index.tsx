@@ -10,6 +10,7 @@ import TodoItem from "../component/todo-item";
 import { useIsHIdeModel } from "../hooks";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../component/sort-btn";
+import TodoTree from "../component/todo-tree";
 
 interface Props {
     loading: boolean;
@@ -21,7 +22,7 @@ interface Props {
     isShowTime?: boolean;
 }
 
-const TodoAllList: React.FC<Props> = (props) => {
+const TodoTreeList: React.FC<Props> = (props) => {
     const {
         loading,
         title,
@@ -57,20 +58,11 @@ const TodoAllList: React.FC<Props> = (props) => {
             </div>
             {!isHide && (
                 <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                    <div className={styles.oneDay}>
-                        {handleSort(mapList).map((item) => (
-                            <TodoItem
-                                key={item.todo_id}
-                                item={item}
-                                showDoneIcon={showDoneIcon}
-                                isShowTime={isShowTime}
-                            />
-                        ))}
-                    </div>
+                    <TodoTree todoList={handleSort(mapList)}  />
                 </div>
             )}
         </div>
     );
 };
 
-export default TodoAllList;
+export default TodoTreeList;

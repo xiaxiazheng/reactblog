@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import styles from "./index.module.scss";
-import Loading from "@/components/loading";
 import TodoTypeIcon from "../../component/todo-type-icon";
-import TodoTree from "../../component/todo-tree";
+import TodoTreeList from "../../todo-tree-list";
+import { SortKeyMap } from "../../component/sort-btn";
+import { SettingsContext } from "@/context/SettingsContext";
 
 const TodoHabit = () => {
+    const { todoNameMap } = useContext(SettingsContext);
+
     const habitLoading = useSelector(
         (state: RootState) => state.data.habitLoading
     );
@@ -20,25 +22,19 @@ const TodoHabit = () => {
         setHabitList(getFilterList({ list: habitListOrigin, type: "habit" }));
     }, [habitListOrigin]);
 
-    const [isHide, setIsHide] = useState<boolean>(false);
-
     return (
-        <>
-            <div className={styles.list}>
-                {habitLoading && <Loading />}
-                <div className={styles.header}>
-                    <span
-                        style={{ color: "#1890ffcc" }}
-                        onClick={() => setIsHide(!isHide)}
-                    >
-                        <TodoTypeIcon type="habit" /> 目录
-                    </span>
-                </div>
-                <div style={{ padding: "0 0 10px 20px" }}>
-                    <TodoTree todoList={habitList} dataMode="flat" />
-                </div>
-            </div>
-        </>
+        <TodoTreeList
+            loading={habitLoading}
+            sortKey={SortKeyMap.habit}
+            title={
+                <>
+                    <TodoTypeIcon type="habit" /> {todoNameMap?.habit}
+                </>
+            }
+            mapList={habitList.sort(
+                (a, b) => Number(a.color) - Number(b.color)
+            )}
+        />
     );
 };
 

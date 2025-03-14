@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortKeyMap } from "../../component/sort-btn";
-import TodoAllList from "../../todo-all-list";
+import TodoTreeList from "../../todo-tree-list";
 import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
 import TodoTypeIcon from "../../component/todo-type-icon";
@@ -29,7 +29,7 @@ const TodoTarget = () => {
     }, [targetListOrigin]);
 
     return (
-        <TodoAllList
+        <TodoTreeList
             loading={targetLoading}
             sortKey={SortKeyMap.target}
             title={
