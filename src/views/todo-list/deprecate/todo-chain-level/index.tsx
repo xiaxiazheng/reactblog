@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Button, Collapse, Divider } from "antd";
-import { TodoItemType } from "../../../types";
-import TodoItem from "../../todo-item";
+import { TodoItemType } from "../../types";
 import styles from "./index.module.scss";
+import TodoItem from "../../component/todo-item";
 
 interface IProps {
     localKeyword: string;

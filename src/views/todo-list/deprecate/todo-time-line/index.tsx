@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { TodoItemType } from "../../../types";
-import TodoItem from "../../todo-item";
+import { TodoItemType } from "../../types";
+import TodoItem from "../../component/todo-item";
 import styles from "../index.module.scss";
 import {
     formatArrayToTimeMap,
     getRangeFormToday,
     getWeek,
-} from "../../../utils";
+} from "../../utils";
 import dayjs from "dayjs";
 import { getToday } from "@/components/amdin-header/utils";
 

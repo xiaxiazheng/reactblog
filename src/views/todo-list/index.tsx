@@ -4,7 +4,6 @@ import DoneList from "./list/todo-done";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import { SortKeyMap } from "./component/sort-btn";
-import PunchTheClockModal from "./component/habit-detail-modal";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import store, { Dispatch, RootState } from "./rematch";
@@ -104,8 +103,6 @@ const TodoListHome: React.FC = () => {
             <EditTodoModal />
             {/* todo chain modal */}
             <TodoChainModal />
-            {/* 打卡详情 */}
-            <PunchTheClockModal />
         </div>
     );
 };

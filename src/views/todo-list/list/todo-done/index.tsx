@@ -12,6 +12,7 @@ import { TodoItemType } from "../../types";
 import TodoItem from "../../component/todo-item";
 import TodoDoneDataModal from "./todo-done-data-modal";
 import { getToday } from "@/components/amdin-header/utils";
+import TodoTree from "../../component/todo-tree";
 
 interface Props {
     title: any;
@@ -77,13 +78,12 @@ const DoneList: React.FC<Props> = (props) => {
                     return (
                         <div className={styles.oneDay} key={time}>
                             <div
-                                className={`${styles.time} ${
-                                    time === Today()
+                                className={`${styles.time} ${time === Today()
                                         ? styles.today
                                         : time > Today()
-                                        ? styles.future
-                                        : ""
-                                }`}
+                                            ? styles.future
+                                            : ""
+                                    }`}
                             >
                                 <Tooltip
                                     placement="right"
@@ -107,9 +107,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     </span>
                                 </Tooltip>
                             </div>
-                            {getList(time).map((item) => (
-                                <TodoItem key={item.todo_id} item={item} />
-                            ))}
+                            <TodoTree todoList={getList(time)} />
                         </div>
                     );
                 })}

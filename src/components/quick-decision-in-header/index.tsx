@@ -3,9 +3,8 @@ import {
     message,
     Modal,
     Space,
-    Radio,
 } from "antd";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import store, { Dispatch, RootState } from "@/views/todo-list/rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,7 @@ import { SettingsContext } from "@/context/SettingsContext";
 import Loading from "../loading";
 import { TodoItemType } from "@/views/todo-list/types";
 
-interface PropsType {}
+interface PropsType { }
 
 const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
@@ -23,15 +22,8 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     const isWork = useSelector((state: RootState) => state.filter.isWork);
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
-    const { punchTheClock } = dispatch.data;
-    const [waitType, setWaitType] = useState<"punchTheClock" | "todo">(
-        "punchTheClock"
-    );
     const [isShowAll, setIsShowAll] = useState<boolean>(false);
 
-    const habitLoading = useSelector(
-        (state: RootState) => state.data.habitLoading
-    );
     const habitListOrigin = useSelector(
         (state: RootState) => state.data.habitListOrigin
     ).sort((a, b) => Number(a.color) - Number(b.color));
@@ -76,10 +68,9 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         if (isShowModal && !random) {
-            waitType === "punchTheClock" && calculateChance(habitListOrigin);
-            waitType === "todo" && calculateChance2(listOrigin);
+            calculateChance2(listOrigin);
         }
-    }, [habitListOrigin, listOrigin, isShowModal, random, waitType]);
+    }, [habitListOrigin, listOrigin, isShowModal, random]);
 
     // 这是基于打卡任务计算的，会用子todo数量进行计算
     const calculateChance = (l: TodoItemType[]) => {
@@ -155,12 +146,6 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
         setActiveIndex(index);
     };
 
-    const handleFinish = async () => {
-        const todo = habitListOrigin[activeIndex as number];
-        await punchTheClock(todo);
-        onClear();
-    };
-
     const onClear = () => {
         setActiveIndex(undefined);
         setRandom(undefined);
@@ -198,18 +183,6 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                         )}
                         {isSelectedEnd && (
                             <div>
-                                {waitType === "punchTheClock" && (
-                                    <Button
-                                        size="large"
-                                        type="primary"
-                                        onClick={handleFinish}
-                                    >
-                                        {
-                                            settings?.quickDecisionConfig
-                                                ?.finishText
-                                        }
-                                    </Button>
-                                )}
                                 <Button size="large" onClick={onClear}>
                                     {settings?.quickDecisionConfig?.restartText}
                                 </Button>
@@ -230,101 +203,51 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                             {chanceList?.[activeIndex]?.toFixed(2)}%：
                             <TodoItem
                                 item={
-                                    waitType === "punchTheClock"
-                                        ? habitListOrigin[activeIndex]
-                                        : listOrigin[activeIndex]
+                                    listOrigin[activeIndex]
                                 }
-                                isShowTime={waitType !== "punchTheClock"}
-                                isShowTimeRange={waitType !== "punchTheClock"}
+                                isShowTime
+                                isShowTimeRange
                             />
                         </div>
                     )}
                     {!isSelected && (
                         <>
-                            <Radio.Group
-                                value={waitType}
-                                optionType="button"
-                                onChange={(e) => setWaitType(e.target.value)}
-                            >
-                                <Radio.Button value="punchTheClock">
-                                    打卡任务 ({habitListOrigin?.length})
-                                </Radio.Button>
-                                <Radio.Button value="todo">
-                                    todo ({listOrigin?.length})
-                                </Radio.Button>
-                            </Radio.Group>
                             <div>
                                 {settings?.quickDecisionConfig?.description}
                             </div>
-                            {waitType === "punchTheClock" && (
-                                <div className={`${styles.list} ScrollBar`}>
-                                    {habitLoading && <Loading />}
-                                    {habitListOrigin?.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={item.todo_id}
-                                                className={styles.item}
-                                            >
-                                                <TodoItem item={item} />
-                                                <div
-                                                    className={styles.itemInfo}
-                                                >
-                                                    完成次数：
-                                                    {
-                                                        item.child_todo_list_length
-                                                    }{" "}
-                                                    | 概率：
-                                                    {chanceList?.[
-                                                        index
-                                                    ]?.toFixed(2)}
-                                                    %
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                    <Button
-                                        style={{ marginTop: 5 }}
-                                        onClick={() => handleAdd()}
-                                    >
-                                        新建打卡任务
-                                    </Button>
-                                </div>
-                            )}
-                            {waitType === "todo" && (
-                                <div className={styles.list}>
-                                    {listLoading && <Loading />}
-                                    {(isShowAll
-                                        ? listOrigin
-                                        : listOrigin.slice(0, 18)
-                                    )?.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={item.todo_id}
-                                                className={styles.item}
-                                            >
-                                                <TodoItem item={item} />
-                                                <div
-                                                    className={styles.itemInfo}
-                                                >
-                                                    创建时间：
-                                                    {item.cTime} | 概率：
-                                                    {chanceList?.[
-                                                        index
-                                                    ]?.toFixed(2)}
-                                                    %
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                    {!isShowAll && (
-                                        <Button
-                                            onClick={() => setIsShowAll(true)}
+                            <div className={styles.list}>
+                                {listLoading && <Loading />}
+                                {(isShowAll
+                                    ? listOrigin
+                                    : listOrigin.slice(0, 18)
+                                )?.map((item, index) => {
+                                    return (
+                                        <div
+                                            key={item.todo_id}
+                                            className={styles.item}
                                         >
-                                            展示全部
-                                        </Button>
-                                    )}
-                                </div>
-                            )}
+                                            <TodoItem item={item} />
+                                            <div
+                                                className={styles.itemInfo}
+                                            >
+                                                创建时间：
+                                                {item.cTime} | 概率：
+                                                {chanceList?.[
+                                                    index
+                                                ]?.toFixed(2)}
+                                                %
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                                {!isShowAll && (
+                                    <Button
+                                        onClick={() => setIsShowAll(true)}
+                                    >
+                                        展示全部
+                                    </Button>
+                                )}
+                            </div>
                         </>
                     )}
                 </Space>

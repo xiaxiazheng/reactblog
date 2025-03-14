@@ -1,10 +1,10 @@
 import React, { ReactNode, useContext, useState } from "react";
 import { Button, Checkbox, Divider, Space } from "antd";
-import { TodoItemType } from "../../../types";
-import TodoItem from "../../todo-item";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import { TodoItemType } from "../../types";
+import TodoItem from "../../component/todo-item";
 
 interface IProps {
     localKeyword: string;

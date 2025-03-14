@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TodoItemType } from "../../types";
-import TodoItem from "../todo-item";
+import TodoItem, { TodoItemProps } from "../todo-item";
 import styles from "./index.module.scss";
 import Tree from "./tree";
 
@@ -11,19 +11,18 @@ interface Props {
      * tree 的话就是直接展示这个节点以及该节点以下的所有 child 数据，可能不止一层
      */
     dataMode?: "flat" | "tree";
-    /** 用于高亮某个 todo 的情况 */
-    highlightId?: string;
     onClick?: (
         item: TodoItemType,
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => void;
+    getTodoItemProps?: (item: TodoItemType) => Partial<TodoItemProps>;
 }
 
 const TodoTree: React.FC<Props> = (props) => {
-    const { todoList, dataMode = "flat", highlightId, onClick } = props;
+    const { todoList, dataMode = "flat", onClick, getTodoItemProps } = props;
 
     // 把平铺的数据变成树
-    function getTreeList(prelist: TodoItemType[]) {
+    function handleListToTree(prelist: TodoItemType[]) {
         const list = [...prelist];
         const map = list.reduce((prev: any, cur: any) => {
             prev[cur.todo_id] = cur;
@@ -43,19 +42,20 @@ const TodoTree: React.FC<Props> = (props) => {
         return l;
     }
 
-    function handleTreeList(prelist: TodoItemType[]): TodoItemType[] {
+    // 把树平铺，把子节点都抽出来
+    function handleTreeToList(prelist: TodoItemType[]): TodoItemType[] {
         return prelist?.reduce((prev: TodoItemType[], item: TodoItemType) => {
             return prev
                 .concat(item)
-                ?.concat(handleTreeList(item?.child_todo_list || []));
+                ?.concat(handleTreeToList(item?.child_todo_list || []));
         }, []);
     }
 
     const [treeList, setTreeList] = useState<TodoItemType[]>([]);
     useEffect(() => {
-        dataMode === "flat" && setTreeList(getTreeList(todoList));
+        dataMode === "flat" && setTreeList(handleListToTree(todoList));
         dataMode === "tree" &&
-            setTreeList(getTreeList(handleTreeList(todoList)));
+            setTreeList(handleListToTree(handleTreeToList(todoList)));
     }, [todoList]);
 
     return (
@@ -65,14 +65,14 @@ const TodoTree: React.FC<Props> = (props) => {
                 <TodoItem
                     item={item}
                     onClick={onClick}
-                    isShowPointIcon={item.todo_id === highlightId}
+                    {...getTodoItemProps?.(item)}
                 />
             )}
             renderChildren={(item) => (
                 <TodoItem
                     item={item}
                     onClick={onClick}
-                    isShowPointIcon={item.todo_id === highlightId}
+                    {...getTodoItemProps?.(item)}
                 />
             )}
         />
