@@ -79,7 +79,7 @@
 }
 
 .note_item {
-    white-space: pre-line;
+    // white-space: pre-line;
     text-overflow: ellipsis;
     font-size: 16px;
     overflow: hidden;
@@ -125,7 +125,7 @@
         display: -webkit-box;
         -webkit-line-clamp: 10;
         -webkit-box-orient: vertical;
-        white-space: pre-wrap;
+        // white-space: pre-wrap;
         overflow: hidden;
         margin-bottom: 5px;
         font-size: 14px;
