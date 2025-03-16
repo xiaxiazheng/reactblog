@@ -2,11 +2,11 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "../../types";
 import SortBtn, {
     useIsSortByMulti,
-} from "../component/sort-btn-multi";
-import TodoItem from "../component/todo-item";
+} from "../../component/sort-btn-multi";
+import TodoItem from "../../component/todo-item";
 import dayjs, { ManipulateType } from "dayjs";
 import {
     CaretDownOutlined,
@@ -14,8 +14,8 @@ import {
     DownOutlined,
     UpOutlined,
 } from "@ant-design/icons";
-import { useIsHIdeModel } from "../hooks";
-import { SortKeyMap } from "../component/sort-btn";
+import { useIsHIdeModel } from "../../hooks";
+import { SortKeyMap } from "../../component/sort-btn";
 
 interface Props {
     loading: boolean;
@@ -51,6 +51,11 @@ const Collapse: React.FC<CollapseProps> = (props) => {
     );
 };
 
+/** 
+ * 按照时间范围进行展示的组件，目前没有在用了
+ * 会分成很多段，比如三天内，三天到七天，一个月内，三个月内，一年内，三年内及三年以上
+ * 昙花一现的功能
+ */
 const TodoSplitTimeRangeList: React.FC<Props> = (props) => {
     const {
         loading,

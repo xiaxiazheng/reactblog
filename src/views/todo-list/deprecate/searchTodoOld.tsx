@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Divider, message, Select, Tooltip } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
-import { TodoItemType } from "../../types";
-import TodoItemName from "../todo-item/todo-item-name";
+import { TodoItemType } from "../types";
+import TodoItemName from "../component/todo-item/todo-item-name";
 import styles from "./index.module.scss";
 
 export const debounce = (fn: Function, time = 500) => {

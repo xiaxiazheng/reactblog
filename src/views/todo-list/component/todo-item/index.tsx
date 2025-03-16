@@ -9,7 +9,7 @@ import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 
-interface Props {
+export interface TodoItemProps {
     item: TodoItemType;
     isShowPointIcon?: boolean; // 展示 point 的 icon
     showDoneIcon?: boolean; // 控制已完成按钮
@@ -27,7 +27,7 @@ interface Props {
 }
 
 // 单条 todo 的渲染
-const TodoItem: React.FC<Props> = (props) => {
+const TodoItem: React.FC<TodoItemProps> = (props) => {
     const {
         item,
         isShowPointIcon = false,

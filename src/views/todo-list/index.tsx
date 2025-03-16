@@ -4,7 +4,6 @@ import DoneList from "./list/todo-done";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import EditTodoModal from "./component/edit-todo-modal";
 import { SortKeyMap } from "./component/sort-btn";
-import PunchTheClockModal from "./component/habit-detail-modal";
 import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import store, { Dispatch, RootState } from "./rematch";
@@ -13,12 +12,12 @@ import { useForm } from "antd/lib/form/Form";
 import TodoAfter from "./list/todo-after";
 import TodoList, { RenderTodoDescriptionIcon } from "./list/todo-list";
 import TodoTarget from "./list/todo-target";
-import DrawerFootprint from "./drawers/drawer-footprint";
-import ModalNote from "./drawers/modal-note";
+import DrawerFootprint from "./component/drawer-footprint";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoHabit from "./list/todo-habit";
 import { SettingsContext } from "@/context/SettingsContext";
 import HoverOpenBar from "./component/hover-open-bar";
+import TodoNote from "./list/todo-note";
 
 const TodoListHome: React.FC = () => {
     useDocumentTitle("todo-list");
@@ -97,15 +96,13 @@ const TodoListHome: React.FC = () => {
             {/* 右边竖栏，hover 打开具体模块 */}
             <HoverOpenBar />
             {/* todo note 展示的弹窗 */}
-            <ModalNote />
+            <TodoNote />
             {/* todo 足迹展示的抽屉 */}
             <DrawerFootprint />
             {/* 新增/编辑 todo */}
             <EditTodoModal />
             {/* todo chain modal */}
             <TodoChainModal />
-            {/* 打卡详情 */}
-            <PunchTheClockModal />
         </div>
     );
 };

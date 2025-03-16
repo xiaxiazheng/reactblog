@@ -6,7 +6,7 @@ import { RootState } from "@/views/todo-list/rematch";
 import dayjs from "dayjs";
 import { SettingsContext } from "@/context/SettingsContext";
 import styles from "./index.module.scss";
-import TodoCalendar from "@/views/todo-list/component/habit-detail-modal/TodoCalendar";
+import TodoCalendar from "@/views/todo-list/deprecate/habit-detail-modal/TodoCalendar";
 import { TodoItemType } from "@/views/todo-list/types";
 
 interface Props {

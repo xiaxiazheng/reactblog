@@ -20,6 +20,7 @@ import { Dispatch } from "../rematch";
 import { useIsHIdeModel } from "../hooks";
 import { SettingsContext } from "@/context/SettingsContext";
 import { getToday } from "@/components/amdin-header/utils";
+import TodoTree from "../component/todo-tree";
 
 interface Props {
     loading: boolean;
@@ -143,13 +144,12 @@ const List: React.FC<Props> = (props) => {
                         return (
                             <div className={styles.oneDay} key={time}>
                                 <div
-                                    className={`${styles.time} ${
-                                        time === Today()
-                                            ? styles.today
-                                            : time > Today()
+                                    className={`${styles.time} ${time === Today()
+                                        ? styles.today
+                                        : time > Today()
                                             ? styles.future
                                             : styles.previously
-                                    }`}
+                                        }`}
                                 >
                                     <span>
                                         {time}&nbsp; ({getWeek(time)},
@@ -184,13 +184,9 @@ const List: React.FC<Props> = (props) => {
                                         </Space>
                                     )}
                                 </div>
-                                {getShowList(mapList[time]).map((item, index) => (
-                                    <TodoItem
-                                        key={item.todo_id + index}
-                                        item={item}
-                                        showDoneIcon={showDoneIcon}
-                                    />
-                                ))}
+                                <TodoTree todoList={getShowList(mapList[time])} getTodoItemProps={() => {
+                                    return { showDoneIcon: true }
+                                }} />
                             </div>
                         );
                     })}

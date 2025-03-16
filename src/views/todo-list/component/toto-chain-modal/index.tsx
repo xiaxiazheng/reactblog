@@ -1,31 +1,23 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-    Button,
-    Collapse,
-    Divider,
     DrawerProps,
     Input,
     Modal,
     Space,
     Spin,
     Checkbox,
-    Radio,
 } from "antd";
 import { getTodoChainById } from "@/client/TodoListHelper";
 import { TodoItemType } from "../../types";
-import TodoItem from "../todo-item";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
-import TodoChainLevel from "./todo-chain-level";
-import TodoChainFlat from "./todo-chain-flat";
-import TodoTimeLine from "./todo-time-line";
 import { SettingsContext } from "@/context/SettingsContext";
 import TodoTree from "../todo-tree";
 
-interface IProps extends DrawerProps {}
+interface IProps extends DrawerProps { }
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
@@ -61,21 +53,48 @@ const TodoChainModal: React.FC<IProps> = (props) => {
         setLoading(false);
     };
 
-    const nowTodo = todoChainList.find((item) => item.todo_id === chainId);
-
-    const [showType, setShowType] = useState<
-        "flat" | "level" | "timeline" | "tree"
-    >("tree");
-
     const [selectedColorList, setSelectedColorList] = useState<string[]>(
         Object.keys(todoColorMap || {})
     );
 
-    const getFilterList = (list: TodoItemType[]) => {
-        return list.filter((item) => selectedColorList.includes(item.color));
+    const [localKeyword, setLocalKeyword] = useState<string>("");
+    const [keyword, setKeyword] = useState<string>("");
+
+    const getFilterList = () => {
+        setShowList(handleFilterTree(todoChainList));
     };
 
-    const [localKeyword, setLocalKeyword] = useState<string>("");
+    // 根据 keyword 递归筛选整棵树
+    const handleFilterTree = (list: TodoItemType[]): TodoItemType[] => {
+        return list.reduce((prev: TodoItemType[], item) => {
+            const newItem = {
+                ...item,
+            }
+            // 递归，先把所有子节点筛一遍
+            if (newItem.child_todo_list) {
+                newItem.child_todo_list = handleFilterTree(newItem.child_todo_list);
+            }
+            // 再判断父节点，因为如果有符合条件的子节点，那父节点就没事；依赖子节点的状态
+            if (judgeSearch(newItem) || newItem?.child_todo_list?.length !== 0) {
+                prev.push(newItem);
+            }
+            return prev;
+        }, []);
+    };
+
+    // 实际上的 keyword 判断 + color 判断
+    const judgeSearch = (item: TodoItemType) => {
+        return (item.name.toLowerCase().indexOf(localKeyword.toLowerCase()) !==
+            -1 ||
+            item.description
+                .toLowerCase()
+                .indexOf(localKeyword.toLowerCase()) !== -1) && (selectedColorList.includes(item.color))
+    }
+
+    const [showList, setShowList] = useState<TodoItemType[]>([]);
+    useEffect(() => {
+        getFilterList();
+    }, [todoChainList, selectedColorList]);
 
     return (
         <Modal
@@ -86,20 +105,11 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     <Input
                         value={localKeyword}
                         onChange={(e) => setLocalKeyword(e.target.value)}
+                        onPressEnter={() => {
+                            getFilterList();
+                            setKeyword(localKeyword);
+                        }}
                     />
-                    <Radio.Group
-                        value={showType}
-                        optionType="button"
-                        onChange={(e) => setShowType(e.target.value)}
-                    >
-                        {["tree", "flat", "level", "timeline"].map((item) => {
-                            return (
-                                <Radio.Button key={item} value={item}>
-                                    {item}
-                                </Radio.Button>
-                            );
-                        })}
-                    </Radio.Group>
                 </Space>
             }
             open={visible}
@@ -130,32 +140,14 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     value={selectedColorList}
                     onChange={(val: any) => setSelectedColorList(val)}
                 />
-                {showType === "tree" && (
-                    <TodoTree todoList={getFilterList(todoChainList)} dataMode="tree" highlightId={chainId} />
-                )}
-                {showType === "timeline" && (
-                    <TodoTimeLine
-                        todoChainList={getFilterList(todoChainList)}
-                        chainId={chainId}
-                        localKeyword={localKeyword}
-                    />
-                )}
-                {showType === "level" && (
-                    <TodoChainLevel
-                        localKeyword={localKeyword}
-                        nowTodo={nowTodo}
-                        todoChainList={getFilterList(todoChainList)}
-                        chainId={chainId}
-                    />
-                )}
-                {showType === "flat" && (
-                    <TodoChainFlat
-                        localKeyword={localKeyword}
-                        nowTodo={nowTodo}
-                        todoChainList={getFilterList(todoChainList)}
-                        chainId={chainId}
-                    />
-                )}
+                <TodoTree todoList={showList} dataMode="tree" getTodoItemProps={(item) => {
+                    return {
+                        isShowPointIcon: chainId === item.todo_id,
+                        isShowTime: true,
+                        isShowTimeRange: true,
+                        keyword,
+                    }
+                }} />
             </Spin>
         </Modal>
     );
