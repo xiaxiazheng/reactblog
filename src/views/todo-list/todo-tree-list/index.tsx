@@ -6,7 +6,6 @@ import { TodoItemType } from "../types";
 import SortBtnMulti, {
     useIsSortByMulti,
 } from "../component/sort-btn-multi";
-import TodoItem from "../component/todo-item";
 import { useIsHIdeModel } from "../hooks";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../component/sort-btn";
@@ -17,9 +16,7 @@ interface Props {
     title: ReactNode | string;
     sortKey: SortKeyMap;
     mapList: TodoItemType[];
-    showDoneIcon?: boolean;
     btn?: any;
-    isShowTime?: boolean;
 }
 
 const TodoTreeList: React.FC<Props> = (props) => {
@@ -27,9 +24,8 @@ const TodoTreeList: React.FC<Props> = (props) => {
         loading,
         title,
         mapList,
-        showDoneIcon = false,
         sortKey,
-        isShowTime = false,
+        btn
     } = props;
 
     const { isSortBy, setIsSortBy, handleSort } = useIsSortByMulti(
@@ -49,7 +45,7 @@ const TodoTreeList: React.FC<Props> = (props) => {
                     {title}({mapList.length}) {isHide ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={16}>
-                    {props.btn}
+                    {btn}
                     <SortBtnMulti
                         isSortBy={isSortBy}
                         setIsSortBy={setIsSortBy}
