@@ -1,51 +1,58 @@
 .markdownShower {
-  display: inline-block;
-  width: 100%;
-  text-align: left;
-  vertical-align: top;
-  box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    vertical-align: top;
+    box-sizing: border-box;
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-      color: var(--color);
-      padding-bottom: 0.3em;
-      margin-block-end: 0.3em;
-  }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--color);
+        padding-bottom: 0.3em;
+        margin-block-end: 0.3em;
+    }
 
-  ul,
-  ol {
-      padding-inline-start: 1em;
-      li {
-          padding: 0.3rem 0;
-      }
-  }
+    ul,
+    ol {
+        padding-inline-start: 1em;
+        li {
+            padding: 0.3rem 0;
+        }
+    }
 
-  ul {
-      list-style-type: circle;
-  }
+    ul {
+        list-style-type: circle;
+    }
 
-  p {
-      margin-block-start:  0.3rem;
-      margin-block-end:  0.3rem;
-      white-space: pre-wrap;
-  }
+    p {
+        margin-block-start: 0.3rem;
+        margin-block-end: 0.3rem;
+        white-space: pre-wrap;
+    }
 
-  code {
-      display: block;
-      padding: 10px !important;
-  }
+    :global(.keyword) {
+        color: #908080;
+        background: yellow;
+        margin: 0 3px;
+        padding: 0 3px;
+        font-size: 14px;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
 
-  :global(.keyword) {
-      color: #908080;
-      background: yellow;
-      margin: 0 3px;
-      padding: 0 3px;
-      font-size: 14px;
-      border-radius: 4px;
-      box-sizing: border-box;
-  }
+    :global(code.hljs) {
+        margin: 0;
+    }
+}
+
+code {
+    background: #797979;
+    color: #dcdcdc;
+    margin: 0 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
 }
