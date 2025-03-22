@@ -18,15 +18,9 @@ fieldset,
 button,
 input,
 textarea,
+hr,
 th,
 td {
-    margin: 0;
-    padding: 0;
-    color: var(--color);
-    background-color: var(--bg_color);
-}
-
-hr {
     padding: 0;
     color: var(--color);
     background-color: var(--bg_color);
