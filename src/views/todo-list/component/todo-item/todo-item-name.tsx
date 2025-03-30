@@ -177,6 +177,13 @@ const TodoItemName: React.FC<TodoItemNameProps> = (props) => {
                 >
                     {item.category}
                 </span>
+                {/* 知识目录 */}
+                {item.isHabit === "1" && (
+                    <TodoTypeIcon
+                        type="habit"
+                        style={{ marginRight: 5, color: "#ffeb3b" }}
+                    />
+                )}
                 {/* 公司 */}
                 {item.isWork === "1" && (
                     <TodoTypeIcon
