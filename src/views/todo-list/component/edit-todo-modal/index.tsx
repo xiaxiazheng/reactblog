@@ -540,12 +540,11 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
         // 添加日志
         const params = {
-            edittype: "richtext",
+            edittype: "markdown",
             title: todoData.name,
             author: "xiaxiazheng from todo",
             blogcont: todoData.description
-                .replaceAll(splitStr, "<br>")
-                .replaceAll("\n", "<br>"),
+                .replaceAll(splitStr, "\n")
         };
 
         const res: any = await addBlogCont(params);
@@ -559,7 +558,7 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
 
             form?.setFieldValue(
                 "description",
-                `${todoData.description}${splitStr}已保存到 blog：${url}`
+                `${todoData.description}${splitStr}已保存到 blog：<${url}>`
             );
             await editTodo(true);
             setIsEditing(false);
