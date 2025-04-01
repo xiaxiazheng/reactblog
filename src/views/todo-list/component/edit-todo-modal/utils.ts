@@ -1,5 +1,13 @@
 import dayjs from 'dayjs';
 
+export const titleMap = {
+    add: "新增",
+    edit: "编辑",
+    copy: "复制",
+    add_child: "添加子任务",
+    add_progress: "新增进度",
+};
+
 export const handleFormData = (formData: any) => {
     return {
         name: formData.name,

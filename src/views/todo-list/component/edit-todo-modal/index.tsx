@@ -1,21 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-    Button,
-    FormInstance,
     Modal,
     message,
-    Space,
-    Popconfirm,
     Tooltip,
     Form,
-    Popover,
 } from "antd";
 import styles from "./index.module.scss";
 import {
     TodoItemType,
     OperatorType,
-    EditTodoItemReq,
-    CreateTodoItemReq,
     TodoStatus,
     StatusType,
     OperatorType2,
@@ -24,16 +17,11 @@ import dayjs from "dayjs";
 import TodoForm from "../todo-form";
 import TodoImageFile from "../todo-image-file";
 import {
-    addTodoItem,
-    deleteTodoItem,
-    editTodoItem,
     getTodoById,
 } from "@/client/TodoListHelper";
-import { useCtrlHooks } from "@/hooks/useCtrlHook";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
-import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
@@ -42,22 +30,10 @@ import { useOriginTodo } from "../global-search";
 import TodoItemName from "../todo-item/todo-item-name";
 import TodoChildList from "./todo-child-list";
 import { SettingsContext } from "@/context/SettingsContext";
-import { addBlogCont } from "@/client/BlogHelper";
-import { splitStr } from "../input-list";
 import Footer from "./footer";
-import { handleFormData } from "./utils";
+import { titleMap } from "./utils";
 
-interface EditTodoModalType { }
-
-const titleMap = {
-    add: "新增",
-    edit: "编辑",
-    copy: "复制",
-    add_child: "添加子任务",
-    add_progress: "新增进度",
-};
-
-const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
+const EditTodoModal: React.FC = () => {
     const activeTodo = useSelector(
         (state: RootState) => state.edit.activeTodo
     ) as TodoItemType;
@@ -73,12 +49,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
     const { refreshData } = dispatch.data;
 
     const settings = useContext(SettingsContext);
-
-    const handleCloseBackUp = () => {
-        setShowEdit(false); // 关闭弹窗
-        setActiveTodo(undefined);
-        form?.resetFields();
-    };
 
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
 
@@ -161,7 +131,9 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             }
             updateFlag(); // 刷新 todo chain
         }
-        handleCloseBackUp();
+        setShowEdit(false); // 关闭弹窗
+        setActiveTodo(undefined);
+        form?.resetFields();
         setType2(undefined);
     };
 
@@ -176,164 +148,6 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             setIsEditingOther(false);
             handleClose();
         }
-    };
-
-    // 新增 todo
-    const addTodo = async (form: FormInstance<any>) => {
-        try {
-            editOtherTodo();
-            if (!isEditing) return false;
-
-            await form.validateFields(); // 这个会触发 isFieldsChange
-            const formData = form.getFieldsValue();
-
-            const req: CreateTodoItemReq = handleFormData(formData);
-            const res = await addTodoItem(req);
-            if (res) {
-                message.success(res.message);
-
-                needFresh.current.push(...handleRefreshList(formData));
-                otherTodo &&
-                    needFresh.current.push(...handleRefreshList(otherTodo));
-
-                // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
-                otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
-
-                setActiveTodo(res.data.newTodoItem);
-                setType("edit");
-
-                return true;
-            } else {
-                message.error("新增 todo 失败");
-                return false;
-            }
-        } catch (err) {
-            message.warning("请检查表单输入");
-            return false;
-        }
-    };
-
-    // 编辑 todo
-    const editTodo = async (forceSave = false) => {
-        if (!activeTodo?.todo_id) return false;
-        try {
-            editOtherTodo();
-            if (!forceSave && !isEditing) return false;
-
-            form && (await form.validateFields()); // 这个会触发 isFieldsChange
-            const formData = form && form.getFieldsValue();
-
-            const req: EditTodoItemReq = {
-                todo_id: activeTodo.todo_id,
-                ...handleFormData(formData),
-            };
-            const res = await editTodoItem(req);
-            if (res) {
-                message.success(res.message);
-
-                // 确定刷新范围并去重
-                needFresh.current.push(
-                    ...handleRefreshList(formData).concat(
-                        handleRefreshList(activeTodo)
-                    )
-                );
-
-                otherTodo &&
-                    needFresh.current.push(...handleRefreshList(otherTodo));
-
-                // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
-                otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
-
-                setActiveTodo({ ...activeTodo, ...req });
-                return true;
-            } else {
-                message.error("编辑 todo 失败");
-                return false;
-            }
-        } catch (err) {
-            message.warning("请检查表单输入");
-            return false;
-        }
-    };
-
-    // 编辑前置 todo
-    const editOtherTodo = async () => {
-        if (otherTodo?.todo_id && isEditingOther) {
-            try {
-                otherForm && (await otherForm.validateFields());
-                const formData = otherForm && otherForm.getFieldsValue();
-                const { child_todo_list, ...rest } = otherTodo; // child_todo_list 如果赋值给 req，请求体就会超长
-                const req: any = {
-                    ...rest,
-                    name: formData.name,
-                    description: formData.description || "",
-                };
-                const res = await editTodoItem(req);
-                if (res) {
-                    message.success(res.message);
-                    needFresh.current.push(...handleRefreshList(req));
-                    setIsEditingOther(false);
-                } else {
-                    message.error("编辑 todo 失败");
-                    return false;
-                }
-            } catch (err) {
-                message.warning("请检查表单输入");
-                return false;
-            }
-        }
-    };
-
-    // 删除 todo
-    const deleteTodo = async (activeTodo: TodoItemType | undefined) => {
-        if (activeTodo?.todo_id) {
-            const req = {
-                todo_id: activeTodo.todo_id,
-            };
-            const res = await deleteTodoItem(req);
-            if (res) {
-                message.success(res.message);
-                needFresh.current.push(...handleRefreshList(activeTodo));
-                otherTodo &&
-                    needFresh.current.push(...handleRefreshList(otherTodo));
-
-                onClose();
-            } else {
-                message.error("删除 todo 失败");
-            }
-        }
-    };
-
-    useCtrlHooks(() => {
-        visible && handleOk(false);
-    });
-
-    const [loading, setLoading] = useState<boolean>(false);
-    const handleOk = async (isButton: boolean) => {
-        if (visible && (isEditing || isEditingOther)) {
-            setLoading(true);
-            let res = false;
-            if (type === "edit") {
-                res = await editTodo();
-            } else {
-                if (form) {
-                    res = await addTodo(form);
-                }
-            }
-            setLoading(false);
-            if (res) {
-                // 如果是点击保存按钮，直接关闭弹窗；如果是快捷键保存，则不关闭
-                if (isButton) {
-                    handleClose();
-                }
-                setIsEditing(false);
-            }
-        } else {
-            if (isButton) {
-                handleClose();
-            }
-        }
-        setType2(undefined);
     };
 
     const getTitle = (type: OperatorType | OperatorType2, text: string) => {
@@ -450,20 +264,60 @@ const EditTodoModal: React.FC<EditTodoModalType> = (props) => {
             // transitionName="" // 这个可以让弹出的动画消失，原来这个动画是 transition 做的
             destroyOnClose
             width={otherTodo ? 1600 : 1000}
-            footer={<Footer
-                type={type}
-                activeTodo={activeTodo}
-                isEditing={isEditing}
-                isEditingOther={isEditingOther}
-                loading={loading}
-                onClose={onClose}
-                deleteTodo={deleteTodo}
-                createCopyOrNextTask={createCopyOrNextTask}
-                handleOk={handleOk}
-                editTodo={editTodo}
-                setIsEditing={setIsEditing}
-                form={form}
-            />
+            footer={
+                <Footer
+                    visible={visible}
+                    type={type}
+                    activeTodo={activeTodo}
+                    otherTodo={otherTodo}
+                    isEditing={isEditing}
+                    isEditingOther={isEditingOther}
+                    onClose={onClose}
+                    createCopyOrNextTask={createCopyOrNextTask}
+                    setIsEditing={setIsEditing}
+                    form={form}
+                    otherForm={otherForm}
+                    handleClose={handleClose}
+                    handleAfterEditTodo={(todo: TodoItemType) => {
+                        const formData = form && form.getFieldsValue();
+                        // 确定刷新范围并去重
+                        needFresh.current.push(
+                            ...handleRefreshList(formData).concat(
+                                handleRefreshList(activeTodo)
+                            )
+                        );
+                        otherTodo &&
+                            needFresh.current.push(...handleRefreshList(otherTodo));
+                        // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
+                        otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
+                        setActiveTodo(todo);
+                    }}
+                    handleAfterAddTodo={(todo: TodoItemType) => {
+                        const formData = form && form.getFieldsValue();
+                        needFresh.current.push(...handleRefreshList(formData));
+                        otherTodo &&
+                            needFresh.current.push(...handleRefreshList(otherTodo));
+
+                        // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
+                        otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
+
+                        setActiveTodo(todo);
+
+                        setType("edit");
+                    }}
+                    handleAfterDelete={() => {
+                        needFresh.current.push(...handleRefreshList(activeTodo));
+                        otherTodo &&
+                            needFresh.current.push(...handleRefreshList(otherTodo));
+                    }}
+                    handleAfterEditOtherTodo={() => {
+                        needFresh.current.push(...handleRefreshList(otherTodo));
+                        setIsEditingOther(false);
+                    }}
+                    handleAfterOk={() => {
+                        setType2(undefined);
+                    }}
+                />
             }
         >
             <div className={styles.wrapper}>
