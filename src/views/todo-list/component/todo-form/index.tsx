@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
     Form,
     Input,
@@ -15,7 +15,7 @@ import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
 import dayjs from "dayjs";
 import { TodoItemType } from "../../types";
-import InputList, { splitStr } from "../input-list";
+import InputList, { splitMdStr, splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
@@ -24,16 +24,18 @@ import { RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import MyDatePicker from "./MyDataPicker";
 import { SettingsContext } from "@/context/SettingsContext";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 interface Props {
     form: FormInstance;
     isFieldsChange: (changedFields?: any[], allFields?: any[]) => void;
     activeTodo?: TodoItemType;
     open: boolean;
-    isShowOther?: boolean;
+    isOnlyShowTileDescription?: boolean;
     leftChildren?: any;
     rightChildren?: any;
     needFocus?: boolean;
+    isShowMD?: boolean;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
@@ -42,8 +44,9 @@ const TodoForm: React.FC<Props> = (props) => {
         isFieldsChange,
         activeTodo,
         open,
-        isShowOther = false,
+        isOnlyShowTileDescription = false,
         needFocus = false,
+        isShowMD = false,
     } = props;
 
     const { todoNameMap, todoColorMap, todoColorNameMap, todoDescriptionMap, todoPreset } =
@@ -63,15 +66,34 @@ const TodoForm: React.FC<Props> = (props) => {
         isFieldsChange?.();
     }
 
+    const [description, setDescription] = useState<string>();
+    useEffect(() => {
+        if (activeTodo) {
+            setDescription(activeTodo?.description);
+        }
+    }, [activeTodo]);
+
     return (
         <Form
             className={styles.form}
             form={form}
             layout="vertical"
-            onFieldsChange={isFieldsChange}
+            onFieldsChange={(changedFields: any[]) => {
+                if (changedFields?.[0]?.name?.[0] === "description") {
+                    setDescription(changedFields?.[0]?.value);
+                }
+                isFieldsChange(changedFields);
+            }}
         >
             <div className={styles.wrapper}>
-                <div className={!isShowOther ? styles.left : styles.full}>
+                {/* 左边 markdown 预览区 */}
+                {!isOnlyShowTileDescription && isShowMD &&
+                    <div className={styles.left}>
+                        <MarkdownShow blogcont={(description || '')?.replaceAll(splitStr, splitMdStr)} />
+                    </div>
+                }
+                {/* 中间编辑标题和详情 */}
+                <div className={styles.middle}>
                     <Form.Item
                         name="name"
                         label="名称"
@@ -118,7 +140,8 @@ const TodoForm: React.FC<Props> = (props) => {
                     </Form.Item>
                     {props.leftChildren}
                 </div>
-                {!isShowOther && (
+                {/* 右边选其他状态 */}
+                {!isOnlyShowTileDescription && (
                     <div className={styles.right}>
                         <Form.Item label="预设选项">
                             <Space>

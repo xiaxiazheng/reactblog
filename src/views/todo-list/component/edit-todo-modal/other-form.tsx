@@ -46,8 +46,8 @@ const OtherForm: React.FC<IProps> = props => {
                 <TodoForm
                     form={otherForm}
                     open={!!otherTodo}
-                    isFieldsChange={handleIsFieldChange()}
-                    isShowOther={true}
+                    isFieldsChange={() => handleIsFieldChange()}
+                    isOnlyShowTileDescription={true}
                     leftChildren={
                         otherTodo?.child_todo_list && (
                             <TodoChildList

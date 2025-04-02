@@ -2,12 +2,6 @@ import React from "react";
 import { getFootPrintList } from "../../list/todo-footprint";
 import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
-export const handleDescriptionHighlight = (string: string, keyword: string = "") => {
-    if (!string) return "";
-    // 不需要单独处理了，对于markdown来说，链接可点击加一对<>的事
-    return <MarkdownShow blogcont={string} keyword={keyword} />;
-};
-
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 
 // 根据关键字高亮

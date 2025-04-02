@@ -101,7 +101,7 @@
         flex-shrink: 0;
     }
     .right {
-        width: calc(100% / 3 * 2 - 10px);
+        flex: 1;
         max-height: calc(100vh - 200px);
     }
     .full {

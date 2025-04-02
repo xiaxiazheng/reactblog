@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, message, Space } from "antd";
+import { Button, Input, Space } from "antd";
 import { CopyOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import CopyButton from "@/components/copy-button";
@@ -7,6 +7,7 @@ import CopyButton from "@/components/copy-button";
 const { TextArea } = Input;
 
 export const splitStr = "<#####>";
+export const splitMdStr = '\n\n---\n';
 const InputList = ({ value = "", onChange }: any) => {
     const l = value.split(splitStr);
 

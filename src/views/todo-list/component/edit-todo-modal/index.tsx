@@ -5,6 +5,7 @@ import {
     Tooltip,
     Form,
     Radio,
+    Space,
 } from "antd";
 import styles from "./index.module.scss";
 import {
@@ -32,6 +33,7 @@ import Footer from "./footer";
 import { titleMap } from "./utils";
 import OtherForm from "./other-form";
 import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
+import { splitStr } from "../input-list";
 
 const EditTodoModal: React.FC = () => {
     const { theme } = useContext(ThemeContext);
@@ -233,24 +235,34 @@ const EditTodoModal: React.FC = () => {
     };
 
     const [isShowMD, setIsShowMD] = useState<boolean>(false);
-    const [description, setDescription] = useState<string>();
     useEffect(() => {
-        setIsShowMD(!otherTodo);
-    }, [otherTodo]);
+        setIsShowMD(localStorage.getItem('isShowMD') === 'true');
+    }, []);
 
     return (
         <Modal
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
             title={
-                <div className={styles.modalTitle}>
-                    {type ? getTitle(type2 || type, titleMap[type]) : ""}
-                </div>
+                <Space>
+                    <div className={styles.modalTitle}>
+                        {type ? getTitle(type2 || type, titleMap[type]) : ""}
+                    </div>
+                    {otherTodo &&
+                        <Radio.Group value={isShowMD} onChange={e => {
+                            localStorage.setItem('isShowMD', String(e.target.value));
+                            setIsShowMD(e.target.value);
+                        }}>
+                            <Radio value={true}>markdown</Radio>
+                            <Radio value={false}>上层 todo</Radio>
+                        </Radio.Group>
+                    }
+                </Space>
             }
             open={visible}
             onCancel={() => onClose()}
             // transitionName="" // 这个可以让弹出的动画消失，原来这个动画是 transition 做的
             destroyOnClose
-            width={otherTodo ? 1600 : 1000}
+            width={1600}
             footer={
                 <Footer
                     visible={visible}
@@ -308,34 +320,29 @@ const EditTodoModal: React.FC = () => {
             }
         >
             <div className={styles.wrapper}>
-                <div className={`${styles.left} ScrollBar`}>
-                    <Radio.Group value={isShowMD} onChange={e => setIsShowMD(e.target.value)}>
-                        <Radio value={true}>markdown</Radio>
-                        <Radio value={false}>上层 todo</Radio>
-                    </Radio.Group>
-                    {isShowMD ? <MarkdownShow blogcont={description || ''} /> : <OtherForm
-                        otherTodo={otherTodo}
-                        isEditing={isEditing}
-                        isEditingOther={isEditingOther}
-                        otherForm={otherForm}
-                        handleIsFieldChange={() => {
-                            setIsEditingOther(true);
-                            setIsClose(false);
-                        }}
-                    />}
-                </div>
-                <div className={`styles.right ScrollBar`}>
+                {!isShowMD &&
+                    <div className={`${styles.left} ScrollBar`}>
+                        <OtherForm
+                            otherTodo={otherTodo}
+                            isEditing={isEditing}
+                            isEditingOther={isEditingOther}
+                            otherForm={otherForm}
+                            handleIsFieldChange={() => {
+                                setIsEditingOther(true);
+                                setIsClose(false);
+                            }}
+                        />
+                    </div>}
+                <div className={`${styles.right} ScrollBar`}>
                     <div className={styles.title}>{getTitle(type2 || type, "当前 Todo：")}</div>
                     {form && (
                         <TodoForm
                             form={form}
                             open={visible}
+                            isShowMD={isShowMD}
                             isFieldsChange={(changedFields) => {
                                 if (changedFields?.[0]?.name?.[0] === "other_id") {
                                     getOtherTodoById(changedFields?.[0]?.value);
-                                }
-                                if (changedFields?.[0]?.name?.[0] === "description") {
-                                    setDescription(changedFields?.[0]?.value);
                                 }
                                 setIsEditing(true);
                                 setIsClose(false);

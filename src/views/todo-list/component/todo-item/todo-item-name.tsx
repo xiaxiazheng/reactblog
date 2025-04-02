@@ -7,26 +7,25 @@ import { TodoItemType, TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import {
-    handleDescriptionHighlight,
     handleKeywordHighlight,
     judgeIsLastModify,
 } from "./utils";
-import { splitStr } from "../input-list";
+import { splitMdStr, splitStr } from "../input-list";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import { getToday } from "@/components/amdin-header/utils";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 export const renderDescription = (str: string, keyword: string = "") => {
+    if (!str) return <></>;
     return (
         <div className={styles.descList}>
-            {str.split(splitStr).map((i, index) => (
-                <div className={styles.desc} key={index}>
-                    {handleDescriptionHighlight(i, keyword)}
-                </div>
-            ))}
+            <div className={styles.desc}>
+                <MarkdownShow blogcont={str.replaceAll(splitStr, splitMdStr)} keyword={keyword} />
+            </div>
         </div>
     );
 };
