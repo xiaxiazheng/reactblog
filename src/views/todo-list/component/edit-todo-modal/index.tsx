@@ -4,6 +4,7 @@ import {
     message,
     Tooltip,
     Form,
+    Radio,
 } from "antd";
 import styles from "./index.module.scss";
 import {
@@ -16,9 +17,7 @@ import {
 import dayjs from "dayjs";
 import TodoForm from "../todo-form";
 import TodoImageFile from "../todo-image-file";
-import {
-    getTodoById,
-} from "@/client/TodoListHelper";
+import { getTodoById } from "@/client/TodoListHelper";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
@@ -27,13 +26,15 @@ import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useOriginTodo } from "../global-search";
-import TodoItemName from "../todo-item/todo-item-name";
 import TodoChildList from "./todo-child-list";
 import { SettingsContext } from "@/context/SettingsContext";
 import Footer from "./footer";
 import { titleMap } from "./utils";
+import OtherForm from "./other-form";
+import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 
 const EditTodoModal: React.FC = () => {
+    const { theme } = useContext(ThemeContext);
     const activeTodo = useSelector(
         (state: RootState) => state.edit.activeTodo
     ) as TodoItemType;
@@ -63,25 +64,14 @@ const EditTodoModal: React.FC = () => {
     >([]);
 
     useEffect(() => {
+        // 可能来自外部途径的突然编辑
         if (activeTodo) {
             const item = activeTodo;
             form &&
                 form.setFieldsValue({
-                    name: item.name,
-                    description: item.description,
+                    ...item,
                     time: dayjs(item.time),
                     status: Number(item.status),
-                    color: item.color,
-                    category: item.category,
-                    other_id: item.other_id,
-                    doing: item.doing,
-                    isNote: item.isNote,
-                    isTarget: item.isTarget,
-                    isWork: item.isWork,
-                    isBookMark: item.isBookMark,
-                    isHabit: item.isHabit,
-                    isKeyNode: item.isKeyNode,
-                    isFollowUp: item.isFollowUp,
                 });
 
             getOtherTodoById(item.other_id);
@@ -89,6 +79,7 @@ const EditTodoModal: React.FC = () => {
             // 保存足迹
             setFootPrintList(item.todo_id);
 
+            // 设置子todo的列表
             if (item.child_todo_list) {
                 setActiveTodoChildList(item.child_todo_list);
             } else if (
@@ -223,14 +214,6 @@ const EditTodoModal: React.FC = () => {
     // 跟第二个 modal 有关的变量
     const [otherForm] = Form.useForm();
 
-    const { theme } = useContext(ThemeContext);
-
-    const handleOtherIdChange = (changedFields?: any[]) => {
-        if (changedFields?.[0]?.name?.[0] === "other_id") {
-            getOtherTodoById(changedFields?.[0]?.value);
-        }
-    };
-
     const getOtherTodoById = (id?: string) => {
         if (id) {
             if (otherTodo?.todo_id !== id) {
@@ -250,6 +233,10 @@ const EditTodoModal: React.FC = () => {
     };
 
     const [isShowMD, setIsShowMD] = useState<boolean>(false);
+    const [description, setDescription] = useState<string>();
+    useEffect(() => {
+        setIsShowMD(!otherTodo);
+    }, [otherTodo]);
 
     return (
         <Modal
@@ -321,57 +308,35 @@ const EditTodoModal: React.FC = () => {
             }
         >
             <div className={styles.wrapper}>
-                {otherTodo && (
-                    <div
-                        className={`${styles.left} ScrollBar`}
-                    >
-                        <div className={styles.title}>前置 Todo：</div>
-                        <div style={{ marginBottom: 15 }}>
-                            <TodoItemName
-                                item={otherTodo}
-                                // onlyShow={true}
-                                isShowTime={true}
-                                isShowTimeRange={true}
-                                beforeClick={() => {
-                                    if (isEditing || isEditingOther) {
-                                        message.warning("正在编辑，不能切换");
-                                        return false;
-                                    }
-                                    return true;
-                                }}
-                            />
-                        </div>
-                        <TodoForm
-                            form={otherForm}
-                            open={!!otherTodo}
-                            isFieldsChange={() => {
-                                setIsEditingOther(true);
-                                setIsClose(false);
-                            }}
-                            activeTodo={activeTodo}
-                            isShowOther={true}
-                            leftChildren={
-                                otherTodo?.child_todo_list && (
-                                    <TodoChildList
-                                        title={`同级别 todo: ${otherTodo.child_todo_list_length}`}
-                                        todoChildList={
-                                            otherTodo.child_todo_list
-                                        }
-                                        isEditing={isEditing || isEditingOther}
-                                    />
-                                )
-                            }
-                        />
-                    </div>
-                )}
-                <div className={`${otherTodo ? styles.right : styles.full} ScrollBar`}>
+                <div className={`${styles.left} ScrollBar`}>
+                    <Radio.Group value={isShowMD} onChange={e => setIsShowMD(e.target.value)}>
+                        <Radio value={true}>markdown</Radio>
+                        <Radio value={false}>上层 todo</Radio>
+                    </Radio.Group>
+                    {isShowMD ? <MarkdownShow blogcont={description || ''} /> : <OtherForm
+                        otherTodo={otherTodo}
+                        isEditing={isEditing}
+                        isEditingOther={isEditingOther}
+                        otherForm={otherForm}
+                        handleIsFieldChange={() => {
+                            setIsEditingOther(true);
+                            setIsClose(false);
+                        }}
+                    />}
+                </div>
+                <div className={`styles.right ScrollBar`}>
                     <div className={styles.title}>{getTitle(type2 || type, "当前 Todo：")}</div>
                     {form && (
                         <TodoForm
                             form={form}
                             open={visible}
                             isFieldsChange={(changedFields) => {
-                                handleOtherIdChange(changedFields);
+                                if (changedFields?.[0]?.name?.[0] === "other_id") {
+                                    getOtherTodoById(changedFields?.[0]?.value);
+                                }
+                                if (changedFields?.[0]?.name?.[0] === "description") {
+                                    setDescription(changedFields?.[0]?.value);
+                                }
                                 setIsEditing(true);
                                 setIsClose(false);
                             }}

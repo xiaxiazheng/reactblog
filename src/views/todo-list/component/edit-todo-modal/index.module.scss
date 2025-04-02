@@ -98,6 +98,7 @@
         margin-right: 10px;
         padding-right: 5px;
         border-right: 1px solid #ccc;
+        flex-shrink: 0;
     }
     .right {
         width: calc(100% / 3 * 2 - 10px);
