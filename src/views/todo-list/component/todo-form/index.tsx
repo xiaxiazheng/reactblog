@@ -89,12 +89,33 @@ const TodoForm: React.FC<Props> = (props) => {
                 {/* 左边 markdown 预览区 */}
                 {!isOnlyShowTileDescription && isShowMD &&
                     <div className={styles.left}>
-                        <MarkdownShow blogcont={(description || '')?.replaceAll(splitStr, splitMdStr)} />
+                        <Form.Item
+                            name="name"
+                            label="名称"
+                            rules={[{ required: true }]}
+                            style={{
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 2,
+                                background: "rgb(0, 21, 41)",
+                            }}
+                        >
+                            <Input.TextArea
+                                className={styles2.textarea}
+                                placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
+                                ref={input}
+                                allowClear
+                                autoSize={{ minRows: 1, maxRows: 4 }}
+                            />
+                        </Form.Item>
+                        <div className={styles.mdShow}>
+                            <MarkdownShow blogcont={(description || '')?.replaceAll(splitStr, splitMdStr)} />
+                        </div>
                     </div>
                 }
                 {/* 中间编辑标题和详情 */}
                 <div className={styles.middle}>
-                    <Form.Item
+                    {!(!isOnlyShowTileDescription && isShowMD) && <Form.Item
                         name="name"
                         label="名称"
                         rules={[{ required: true }]}
@@ -112,7 +133,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             allowClear
                             autoSize={{ minRows: 1, maxRows: 4 }}
                         />
-                    </Form.Item>
+                    </Form.Item>}
                     <Form.Item
                         name="description"
                         label={
