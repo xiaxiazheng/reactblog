@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-    Modal,
-    message,
-    Tooltip,
-    Form,
-    Radio,
-    Space,
-} from "antd";
+import { Modal, message, Tooltip, Form, Radio, Space } from "antd";
 import styles from "./index.module.scss";
 import {
     TodoItemType,
@@ -234,11 +227,6 @@ const EditTodoModal: React.FC = () => {
         });
     };
 
-    const [isShowMD, setIsShowMD] = useState<boolean>(false);
-    useEffect(() => {
-        setIsShowMD(localStorage.getItem('isShowMD') === 'true');
-    }, []);
-
     return (
         <Modal
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
@@ -247,22 +235,13 @@ const EditTodoModal: React.FC = () => {
                     <div className={styles.modalTitle}>
                         {type ? getTitle(type2 || type, titleMap[type]) : ""}
                     </div>
-                    {otherTodo &&
-                        <Radio.Group value={isShowMD} onChange={e => {
-                            localStorage.setItem('isShowMD', String(e.target.value));
-                            setIsShowMD(e.target.value);
-                        }}>
-                            <Radio value={true}>markdown</Radio>
-                            <Radio value={false}>上层 todo</Radio>
-                        </Radio.Group>
-                    }
                 </Space>
             }
             open={visible}
             onCancel={() => onClose()}
             // transitionName="" // 这个可以让弹出的动画消失，原来这个动画是 transition 做的
             destroyOnClose
-            width={1600}
+            width={'90vw'}
             footer={
                 <Footer
                     visible={visible}
@@ -286,28 +265,38 @@ const EditTodoModal: React.FC = () => {
                             )
                         );
                         otherTodo &&
-                            needFresh.current.push(...handleRefreshList(otherTodo));
+                            needFresh.current.push(
+                                ...handleRefreshList(otherTodo)
+                            );
                         // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
-                        otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
+                        otherTodo?.todo_id &&
+                            refreshOtherTodoById(otherTodo?.todo_id);
                         setActiveTodo(todo);
                     }}
                     handleAfterAddTodo={(todo: TodoItemType) => {
                         const formData = form && form.getFieldsValue();
                         needFresh.current.push(...handleRefreshList(formData));
                         otherTodo &&
-                            needFresh.current.push(...handleRefreshList(otherTodo));
+                            needFresh.current.push(
+                                ...handleRefreshList(otherTodo)
+                            );
 
                         // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
-                        otherTodo?.todo_id && refreshOtherTodoById(otherTodo?.todo_id);
+                        otherTodo?.todo_id &&
+                            refreshOtherTodoById(otherTodo?.todo_id);
 
                         setActiveTodo(todo);
 
                         setType("edit");
                     }}
                     handleAfterDelete={() => {
-                        needFresh.current.push(...handleRefreshList(activeTodo));
+                        needFresh.current.push(
+                            ...handleRefreshList(activeTodo)
+                        );
                         otherTodo &&
-                            needFresh.current.push(...handleRefreshList(otherTodo));
+                            needFresh.current.push(
+                                ...handleRefreshList(otherTodo)
+                            );
                     }}
                     handleAfterEditOtherTodo={() => {
                         needFresh.current.push(...handleRefreshList(otherTodo));
@@ -320,7 +309,7 @@ const EditTodoModal: React.FC = () => {
             }
         >
             <div className={styles.wrapper}>
-                {!isShowMD &&
+                {otherTodo && (
                     <div className={`${styles.left} ScrollBar`}>
                         <OtherForm
                             otherTodo={otherTodo}
@@ -332,16 +321,20 @@ const EditTodoModal: React.FC = () => {
                                 setIsClose(false);
                             }}
                         />
-                    </div>}
+                    </div>
+                )}
                 <div className={`${styles.right} ScrollBar`}>
-                    <div className={styles.title}>{getTitle(type2 || type, "当前 Todo：")}</div>
+                    <div className={styles.title}>
+                        {getTitle(type2 || type, "当前 Todo：")}
+                    </div>
                     {form && (
                         <TodoForm
                             form={form}
                             open={visible}
-                            isShowMD={isShowMD}
                             isFieldsChange={(changedFields) => {
-                                if (changedFields?.[0]?.name?.[0] === "other_id") {
+                                if (
+                                    changedFields?.[0]?.name?.[0] === "other_id"
+                                ) {
                                     getOtherTodoById(changedFields?.[0]?.value);
                                 }
                                 setIsEditing(true);

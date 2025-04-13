@@ -92,16 +92,18 @@
 
 .wrapper {
     display: flex;
+    overflow-y: auto;
     .left {
-        width: calc(100% / 3 + 10px);
+        flex: 1;
+        min-width: 400px;
         max-height: calc(100vh - 200px);
         margin-right: 10px;
-        padding-right: 10px;
         border-right: 1px solid #ccc;
-        flex-shrink: 0;
+        padding-bottom: 20px;
     }
     .right {
-        flex: 1;
+        flex: 3;
+        min-width: 1200px;
         max-height: calc(100vh - 200px);
     }
     .full {

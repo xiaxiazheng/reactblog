@@ -35,7 +35,6 @@ interface Props {
     leftChildren?: any;
     rightChildren?: any;
     needFocus?: boolean;
-    isShowMD?: boolean;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
@@ -46,11 +45,15 @@ const TodoForm: React.FC<Props> = (props) => {
         open,
         isOnlyShowTileDescription = false,
         needFocus = false,
-        isShowMD = false,
     } = props;
 
-    const { todoNameMap, todoColorMap, todoColorNameMap, todoDescriptionMap, todoPreset } =
-        useContext(SettingsContext);
+    const {
+        todoNameMap,
+        todoColorMap,
+        todoColorNameMap,
+        todoDescriptionMap,
+        todoPreset,
+    } = useContext(SettingsContext);
 
     const category = useSelector((state: RootState) => state.data.category);
 
@@ -64,7 +67,7 @@ const TodoForm: React.FC<Props> = (props) => {
     const handlePreset = (item: Record<string, string>) => {
         form.setFieldsValue(item);
         isFieldsChange?.();
-    }
+    };
 
     const [description, setDescription] = useState<string>();
     useEffect(() => {
@@ -86,36 +89,9 @@ const TodoForm: React.FC<Props> = (props) => {
             }}
         >
             <div className={styles.wrapper}>
-                {/* 左边 markdown 预览区 */}
-                {!isOnlyShowTileDescription && isShowMD &&
-                    <div className={styles.left}>
-                        <Form.Item
-                            name="name"
-                            label="名称"
-                            rules={[{ required: true }]}
-                            style={{
-                                position: "sticky",
-                                top: 0,
-                                zIndex: 2,
-                                background: "rgb(0, 21, 41)",
-                            }}
-                        >
-                            <Input.TextArea
-                                className={styles2.textarea}
-                                placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
-                                ref={input}
-                                allowClear
-                                autoSize={{ minRows: 1, maxRows: 4 }}
-                            />
-                        </Form.Item>
-                        <div className={styles.mdShow}>
-                            <MarkdownShow blogcont={(description || '')?.replaceAll(splitStr, splitMdStr)} />
-                        </div>
-                    </div>
-                }
                 {/* 中间编辑标题和详情 */}
-                <div className={styles.middle}>
-                    {!(!isOnlyShowTileDescription && isShowMD) && <Form.Item
+                <div className={styles.left}>
+                    <Form.Item
                         name="name"
                         label="名称"
                         rules={[{ required: true }]}
@@ -133,7 +109,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             allowClear
                             autoSize={{ minRows: 1, maxRows: 4 }}
                         />
-                    </Form.Item>}
+                    </Form.Item>
                     <Form.Item
                         name="description"
                         label={
@@ -157,7 +133,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         }
                         initialValue={""}
                     >
-                        <InputList />
+                        <InputList isShowMD={!isOnlyShowTileDescription} />
                     </Form.Item>
                     {props.leftChildren}
                 </div>
@@ -167,19 +143,42 @@ const TodoForm: React.FC<Props> = (props) => {
                         <Form.Item label="预设选项">
                             <Space>
                                 {todoPreset?.map((item, index) => {
-                                    return <Button style={{ borderColor: todoColorMap?.[item.color] }} key={index} onClick={() => handlePreset(item)}>
-                                        <span style={{ color: todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
-                                        {item?.isWork && <TodoTypeIcon
-                                            type={item?.isWork === "1" ? "work" : "life"}
-                                            style={{ color: "#00d4d8" }}
-                                        />}
-                                        {item?.isNote === "1" && <TodoTypeIcon
-                                            type="note"
+                                    return (
+                                        <Button
                                             style={{
-                                                color: "#ffeb3b"
+                                                borderColor:
+                                                    todoColorMap?.[item.color],
                                             }}
-                                        />}
-                                    </Button>
+                                            key={index}
+                                            onClick={() => handlePreset(item)}
+                                        >
+                                            <span
+                                                style={{
+                                                    color: todoColorMap?.[
+                                                        item.color
+                                                    ],
+                                                }}
+                                            >{`${item?.category}`}</span>
+                                            {item?.isWork && (
+                                                <TodoTypeIcon
+                                                    type={
+                                                        item?.isWork === "1"
+                                                            ? "work"
+                                                            : "life"
+                                                    }
+                                                    style={{ color: "#00d4d8" }}
+                                                />
+                                            )}
+                                            {item?.isNote === "1" && (
+                                                <TodoTypeIcon
+                                                    type="note"
+                                                    style={{
+                                                        color: "#ffeb3b",
+                                                    }}
+                                                />
+                                            )}
+                                        </Button>
+                                    );
                                 })}
                             </Space>
                         </Form.Item>
@@ -214,20 +213,31 @@ const TodoForm: React.FC<Props> = (props) => {
                                 optionType="button"
                                 buttonStyle="solid"
                             >
-                                {todoColorMap && Object.keys(todoColorMap).map((item) => (
-                                    <Radio.Button
-                                        key={item}
-                                        value={item}
-                                        style={{ color: todoColorMap[item] }}
-                                        className={`${styles.color} ${item === "0" ? styles.zero : ""
-                                            }${item === "1" ? styles.one : ""}${item === "2" ? styles.two : ""
-                                            }${item === "3" ? styles.three : ""}${item === "4" ? styles.four : ""
-                                            }${item === "-1" ? styles.minusOne : ""
+                                {todoColorMap &&
+                                    Object.keys(todoColorMap).map((item) => (
+                                        <Radio.Button
+                                            key={item}
+                                            value={item}
+                                            style={{
+                                                color: todoColorMap[item],
+                                            }}
+                                            className={`${styles.color} ${
+                                                item === "0" ? styles.zero : ""
+                                            }${item === "1" ? styles.one : ""}${
+                                                item === "2" ? styles.two : ""
+                                            }${
+                                                item === "3" ? styles.three : ""
+                                            }${
+                                                item === "4" ? styles.four : ""
+                                            }${
+                                                item === "-1"
+                                                    ? styles.minusOne
+                                                    : ""
                                             }`}
-                                    >
-                                        {todoColorNameMap?.[item]}
-                                    </Radio.Button>
-                                ))}
+                                        >
+                                            {todoColorNameMap?.[item]}
+                                        </Radio.Button>
+                                    ))}
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item
