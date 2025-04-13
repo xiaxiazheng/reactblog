@@ -3,6 +3,7 @@
     .left {
         flex: 1;
         margin-right: 10px;
+        overflow-x: hidden;
     }
     .right {
         width: calc(100% / 3);
