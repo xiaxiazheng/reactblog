@@ -100,7 +100,7 @@ const SearchTodoModal: React.FC<IProps> = ({
         const req: any = {
             keyword: newValue,
             pageNo,
-            pageSize,
+            pageSize: 200,
             isHabit: "1",
             sortBy: [["color"]],
             status: "0",
@@ -172,7 +172,7 @@ const SearchTodoModal: React.FC<IProps> = ({
             className={styles.modal}
             onCancel={handleClose}
             footer={
-                sortBy !== "footprint" && (
+                !['footprint', 'directory'].includes(sortBy) && (
                     <Pagination
                         className={styles.pagination}
                         current={pageNo}
