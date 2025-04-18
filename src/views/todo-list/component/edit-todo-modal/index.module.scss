@@ -95,7 +95,7 @@
     overflow-y: auto;
     .left {
         flex: 1;
-        min-width: 400px;
+        min-width: 450px;
         max-height: calc(100vh - 200px);
         margin-right: 10px;
         border-right: 1px solid #ccc;
@@ -103,7 +103,7 @@
     }
     .right {
         flex: 3;
-        min-width: 1200px;
+        min-width: 1350px;
         max-height: calc(100vh - 200px);
     }
     .full {
