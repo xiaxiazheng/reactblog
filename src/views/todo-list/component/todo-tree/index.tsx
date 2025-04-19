@@ -3,6 +3,7 @@ import { TodoItemType } from "../../types";
 import TodoItem, { TodoItemProps } from "../todo-item";
 import styles from "./index.module.scss";
 import Tree from "./tree";
+import { handleListToTree, handleTreeToList, TodoTreeItemType } from "./todo-tree-utils";
 
 interface Props {
     todoList: TodoItemType[];
@@ -16,47 +17,27 @@ interface Props {
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => void;
     getTodoItemProps?: (item: TodoItemType) => Partial<TodoItemProps>;
+    /** 
+     * 外部传入，可对树结构进行筛选，筛选规则外面自定
+    */
+    handleFilterTree?: (list: TodoTreeItemType[]) => TodoTreeItemType[];
+    refreshFlag?: any;
 }
 
 const TodoTree: React.FC<Props> = (props) => {
-    const { todoList, dataMode = "flat", onClick, getTodoItemProps } = props;
-
-    // 把平铺的数据变成树
-    function handleListToTree(prelist: TodoItemType[]) {
-        const list = [...prelist];
-        const map = list.reduce((prev: any, cur: any) => {
-            prev[cur.todo_id] = cur;
-            cur.children = [];
-            return prev;
-        }, {});
-        const l: TodoItemType[] = [];
-        list.forEach((item: any) => {
-            item.key = item.todo_id;
-            item.label = item.name;
-            if (item?.other_id && map[item?.other_id]) {
-                map[item?.other_id].children.push(item);
-            } else {
-                l.push(item);
-            }
-        });
-        return l;
-    }
-
-    // 把树平铺，把子节点都抽出来
-    function handleTreeToList(prelist: TodoItemType[]): TodoItemType[] {
-        return prelist?.reduce((prev: TodoItemType[], item: TodoItemType) => {
-            return prev
-                .concat(item)
-                ?.concat(handleTreeToList(item?.child_todo_list || []));
-        }, []);
-    }
+    const { todoList, dataMode = "flat", onClick, getTodoItemProps, handleFilterTree = (list) => list, refreshFlag } = props;
 
     const [treeList, setTreeList] = useState<TodoItemType[]>([]);
     useEffect(() => {
-        dataMode === "flat" && setTreeList(handleListToTree(todoList));
-        dataMode === "tree" &&
-            setTreeList(handleListToTree(handleTreeToList(todoList)));
-    }, [todoList]);
+        let list: TodoItemType[] = [];
+        if (dataMode === "flat") {
+            list = todoList;
+        }
+        if (dataMode === "tree") {
+            list = handleTreeToList(todoList);
+        }
+        setTreeList(handleFilterTree(handleListToTree(list)));
+    }, [todoList, refreshFlag]);
 
     return (
         <Tree

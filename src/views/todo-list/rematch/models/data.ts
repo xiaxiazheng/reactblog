@@ -273,7 +273,7 @@ export const data = createModel<RootModel>()({
                     setHabitLoading(true);
                     const req: any = {
                         pageNo: 1,
-                        pageSize: 30,
+                        pageSize: 200,
                         status: TodoStatus["todo"],
                         isWork,
                         isHabit: "1",
