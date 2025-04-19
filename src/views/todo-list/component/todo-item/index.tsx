@@ -15,8 +15,6 @@ export interface TodoItemProps {
     showDoneIcon?: boolean; // 控制已完成按钮
     isShowTime?: boolean; // 是否展示时间
     isShowTimeRange?: boolean; // 是否展示距离今天的范围
-    isChain?: boolean;
-    isChainNext?: boolean; // 是否是后续任务
     keyword?: string;
     style?: CSSProperties;
     onlyShow?: boolean;
@@ -34,8 +32,6 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
         showDoneIcon = false,
         isShowTime = false,
         isShowTimeRange = false,
-        isChain = false,
-        isChainNext = false,
         keyword = "",
         style = {},
         onlyShow = false,
@@ -83,18 +79,14 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
                     )}
                     <TodoItemName
                         item={item}
-                        isShowTime={isChain || isShowTime}
+                        isShowTime={isShowTime}
                         isShowTimeRange={isShowTimeRange}
                         style={style}
                         keyword={keyword}
                         onlyShow={onlyShow}
                         onClick={onClick}
                     />
-                    <TodoChainIcon
-                        item={item}
-                        isChain={isChain}
-                        isChainNext={isChainNext}
-                    />
+                    <TodoChainIcon item={item} />
                     {isShowPointIcon && (
                         <span style={{ transform: "rotate(180deg)" }}>
                             <SendOutlined

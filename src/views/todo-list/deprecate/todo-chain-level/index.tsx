@@ -44,8 +44,6 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                         key={item.todo_id}
                                         item={item}
                                         showDoneIcon={false}
-                                        isChain={true}
-                                        isChainNext={true}
                                         isShowTime={true}
                                         isShowTimeRange={true}
                                         keyword={localKeyword}
@@ -62,8 +60,6 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                 key={item.todo_id}
                                 item={item}
                                 showDoneIcon={false}
-                                isChain={true}
-                                isChainNext={true}
                                 isShowTime={true}
                                 isShowTimeRange={true}
                                 keyword={localKeyword}
@@ -105,7 +101,6 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                                     key={item.todo_id}
                                     item={item}
                                     showDoneIcon={false}
-                                    isChain={true}
                                     isShowTime={true}
                                     isShowTimeRange={true}
                                     keyword={localKeyword}
@@ -129,7 +124,6 @@ const TodoChainLevel: React.FC<IProps> = (props) => {
                         <TodoItem
                             item={nowTodo}
                             showDoneIcon={false}
-                            isChain={true}
                             isShowTime={true}
                             isShowTimeRange={true}
                             keyword={localKeyword}

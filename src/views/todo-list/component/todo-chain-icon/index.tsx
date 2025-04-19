@@ -12,14 +12,10 @@ import { Dispatch } from "../../rematch";
 
 const TodoChainIcon = (props: {
     item: TodoItemType;
-    isChain?: boolean; // 是否是 chain modal 中的展示
-    isChainNext?: boolean; // 是否是后续任务
     isOnlyShow?: boolean;
 }) => {
     const {
         item,
-        isChain = false,
-        isChainNext = false,
         isOnlyShow = false,
     } = props;
 
@@ -31,14 +27,10 @@ const TodoChainIcon = (props: {
         item?.child_todo_list_length !== 0;
 
     // 在 todo 链路的展示中，前置的就不看了（因为已经找全了）
-    const isUp = item?.other_id && !isChain;
+    const isUp = item?.other_id;
     // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
     const isDown = (() => {
-        if (!isChain || isChainNext) {
-            return isHasChild;
-        } else {
-            return isHasChild && item?.child_todo_list_length > 1;
-        }
+        return isHasChild && item?.child_todo_list_length > 1;
     })();
 
     if (!isUp && !isDown) {
@@ -56,9 +48,7 @@ const TodoChainIcon = (props: {
 
     return (
         <Tooltip
-            title={`查看 todo 链 ${
-                isDown ? `(后置任务数 ${item?.child_todo_list_length})` : ""
-            }`}
+            title={`查看 todo 链 ${isDown ? `(后置任务数 ${item?.child_todo_list_length})` : ""}`}
         >
             <Comp
                 className={styles.progressIcon}
@@ -75,6 +65,7 @@ const TodoChainIcon = (props: {
                     }
                 }}
             />
+            {isDown && <span className={styles.childNumber}>{item?.child_todo_list_length}</span>}
         </Tooltip>
     );
 };

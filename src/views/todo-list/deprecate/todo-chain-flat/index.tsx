@@ -139,8 +139,6 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                             key={item.todo_id}
                                             item={item}
                                             showDoneIcon={false}
-                                            isChain={true}
-                                            isChainNext={true}
                                             isShowTime={true}
                                             isShowTimeRange={true}
                                             style={
@@ -226,7 +224,6 @@ const TodoChainFlat: React.FC<IProps> = (props) => {
                                 <TodoItem
                                     item={nowTodo}
                                     showDoneIcon={false}
-                                    isChain={true}
                                     style={{ color: "yellow" }}
                                     isShowTime={true}
                                     isShowTimeRange={true}
