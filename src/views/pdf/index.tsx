@@ -46,7 +46,7 @@ const PDF: React.FC<IPDF> = (props) => {
             {blogType === "markdown" && (
                 <MarkdownShow
                     blogcont={blogdata?.blogcont}
-                    style={{ padding: "0 120px 0 0" }}
+                    style={{ padding: "0 120px 0 25px" }}
                 />
             )}
             {/* 打印富文本 */}
