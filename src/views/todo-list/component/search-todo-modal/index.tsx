@@ -172,7 +172,7 @@ const SearchTodoModal: React.FC<IProps> = ({
             className={styles.modal}
             onCancel={handleClose}
             footer={
-                !['footprint', 'directory'].includes(sortBy) && (
+                !['footprint', 'directory', 'chain'].includes(sortBy) && (
                     <Pagination
                         className={styles.pagination}
                         current={pageNo}
@@ -199,6 +199,10 @@ const SearchTodoModal: React.FC<IProps> = ({
                 optionType="button"
                 options={[
                     {
+                        label: '当前 chain',
+                        value: "chain"
+                    },
+                    {
                         label: `足迹${footprintList.length}`,
                         value: "footprint",
                     },
@@ -217,7 +221,7 @@ const SearchTodoModal: React.FC<IProps> = ({
                             handleClose();
                         }}
                     />
-                ) : (
+                ) : sortBy === "chain" ? <>这里展示当前的 todo-chain， 施工中</> :(
                     <Space size={10} direction="vertical">
                         {options?.map((item) => {
                             return (
