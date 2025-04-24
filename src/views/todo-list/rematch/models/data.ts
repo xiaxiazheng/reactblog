@@ -341,7 +341,7 @@ export const data = createModel<RootModel>()({
                         isBookMark: "0",
                         isTarget: "0",
                         isFollowUp: "0",
-                        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+                        sortBy: [["color"], ["isWork", "DESC"], ["category"], ["name"]],
                         isWork,
                     };
 
