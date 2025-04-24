@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal, message, Tooltip, Form, Radio, Space } from "antd";
+import { Modal, message, Tooltip, Form, Space } from "antd";
 import styles from "./index.module.scss";
 import {
     TodoItemType,
@@ -25,8 +25,6 @@ import { SettingsContext } from "@/context/SettingsContext";
 import Footer from "./footer";
 import { titleMap } from "./utils";
 import OtherForm from "./other-form";
-import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
-import { splitStr } from "../input-list";
 
 const EditTodoModal: React.FC = () => {
     const { theme } = useContext(ThemeContext);

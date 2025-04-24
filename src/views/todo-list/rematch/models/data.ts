@@ -274,7 +274,7 @@ export const data = createModel<RootModel>()({
                     const req: any = {
                         pageNo: 1,
                         pageSize: 200,
-                        status: TodoStatus["todo"],
+                        // status: TodoStatus["todo"],
                         isWork,
                         isHabit: "1",
                     };

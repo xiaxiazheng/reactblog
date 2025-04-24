@@ -152,6 +152,22 @@ const TodoForm: React.FC<Props> = (props) => {
                                             key={index}
                                             onClick={() => handlePreset(item)}
                                         >
+                                            {item?.isNote === "1" && (
+                                                <TodoTypeIcon
+                                                    type="note"
+                                                    style={{
+                                                        color: "#ffeb3b",
+                                                    }}
+                                                />
+                                            )}
+                                            {item?.isHabit === "1" && (
+                                                <TodoTypeIcon
+                                                    type="habit"
+                                                    style={{
+                                                        color: "#ffeb3b",
+                                                    }}
+                                                />
+                                            )}
                                             <span
                                                 style={{
                                                     color: todoColorMap?.[
@@ -167,14 +183,6 @@ const TodoForm: React.FC<Props> = (props) => {
                                                             : "life"
                                                     }
                                                     style={{ color: "#00d4d8" }}
-                                                />
-                                            )}
-                                            {item?.isNote === "1" && (
-                                                <TodoTypeIcon
-                                                    type="note"
-                                                    style={{
-                                                        color: "#ffeb3b",
-                                                    }}
                                                 />
                                             )}
                                         </Button>
