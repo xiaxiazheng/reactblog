@@ -277,6 +277,7 @@ export const data = createModel<RootModel>()({
                         // status: TodoStatus["todo"],
                         isWork,
                         isHabit: "1",
+                        sortBy: [["color"], ["name"]],
                     };
                     const res = await getTodoList(req);
                     if (res) {
