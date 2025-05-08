@@ -49,8 +49,8 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
         const res = await doneTodoItem(req);
         if (res) {
             message.success(res.message);
-            getTodo("done");
-            getTodo("todo");
+            getTodo({ type: "done" });
+            getTodo({ type: "todo" });
         } else {
             message.error("完成 todo 失败");
         }

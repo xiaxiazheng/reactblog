@@ -37,7 +37,7 @@ const TodoList = () => {
         (state: RootState) => state.data.todoListOrigin
     );
     const dispatch = useDispatch<Dispatch>();
-    const { setTodoList, getFilterList } = dispatch.data;
+    const { setTodoList, getFilterList, getTodo } = dispatch.data;
 
     useEffect(() => {
         setTodoList(getFilterList({ list: todoListOrigin, type: "todo" }));
@@ -61,18 +61,20 @@ const TodoList = () => {
     }, [followUpListOrigin]);
 
     const [isShowFollowUp, setIsShowFollowUp] = useState<boolean>(true);
-    const [isShowOnlyToday, setIsShowOnlyToday] = useState<boolean>(true);
+    const [isShowLastXdays, setIsShowLastXdays] = useState<boolean>(true);
     useEffect(() => {
-        setIsShowOnlyToday(localStorage.getItem('isShowOnlyToday') === 'true');
+        setIsShowLastXdays(localStorage.getItem('isShowLastXdays') === 'true');
     }, []);
-    const updateIsShowOnlyToday = () => {
-        const temp = !isShowOnlyToday;
+    const updateIsShowLastXdays = () => {
+        const temp = !isShowLastXdays;
         message.info(temp ? todoShowBeforeToday?.text : '看所有 todo', 1);
-        setIsShowOnlyToday(temp);
-        localStorage.setItem('isShowOnlyToday', temp.toString());
+        setIsShowLastXdays(temp);
+        localStorage.setItem('isShowLastXdays', temp ? todoShowBeforeToday?.days : 0);
+        getTodo({ type: 'todo' });
     }
 
-    const getOnlyTodayList = (list: TodoItemType[]) => {
+    // 获取最近 x 天的 todo
+    const getLastXDayList = (list: TodoItemType[]) => {
         const d = todoShowBeforeToday?.days || 0;
         return list.filter(item => {
             if (item.time === getToday().format('YYYY-MM-DD')) {
@@ -98,7 +100,7 @@ const TodoList = () => {
                 </>
             }
             mapList={formatArrayToTimeMap(
-                isShowOnlyToday ? getOnlyTodayList(todoList
+                isShowLastXdays ? getLastXDayList(todoList
                     .concat(isShowFollowUp ? followUpList : [])) :
                     todoList
                         .filter((item) => item.time <= Today())
@@ -110,13 +112,13 @@ const TodoList = () => {
                 <>
                     <Tooltip title={`${todoShowBeforeToday?.text}`}>
                         <Button
-                            type={isShowOnlyToday ? "primary" : "default"}
-                            onClick={updateIsShowOnlyToday}
+                            type={isShowLastXdays ? "primary" : "default"}
+                            onClick={updateIsShowLastXdays}
                             icon={
                                 <TodoTypeIcon
                                     type="onlyToday"
                                     style={
-                                        !isShowOnlyToday
+                                        !isShowLastXdays
                                             ? { color: "#ffeb3b" }
                                             : {}
                                     }

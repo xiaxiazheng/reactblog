@@ -14,6 +14,7 @@ import {
 } from "../../types";
 import type { RootModel } from "./index";
 import dayjs from "dayjs";
+import { getToday } from "@/components/amdin-header/utils";
 
 interface DataType {
     todoLoading: boolean;
@@ -184,7 +185,7 @@ export const data = createModel<RootModel>()({
         },
     },
     effects: (dispatch) => ({
-        async getTodo(type: StatusType, state) {
+        async getTodo(payload: { type: StatusType }, state) {
             const {
                 setBookMarkLoading,
                 setBookMarkListOrigin,
@@ -214,6 +215,8 @@ export const data = createModel<RootModel>()({
                 isNote,
                 isHabit,
             } = state.filter;
+
+            const { type } = payload;
 
             switch (type) {
                 case "bookMark": {
@@ -335,15 +338,23 @@ export const data = createModel<RootModel>()({
                 case "todo": {
                     setTodoLoading(true);
 
+                    // 只看前 x 天的 todo，这数据来自 settings，又存到了 storage 里面
+                    const days = localStorage.getItem('isShowLastXdays');
+
                     const req: any = {
                         status: TodoStatus[type],
-                        pageSize: 300,
+                        pageSize: 500,
                         isBookMark: "0",
                         isTarget: "0",
                         isFollowUp: "0",
                         sortBy: [["color"], ["isWork", "DESC"], ["category"], ["name"]],
                         isWork,
                     };
+
+                    if (Number(days)) {
+                        req.startTime = getToday().subtract(Number(days), 'days').format("YYYY-MM-DD");
+                        req.endTime = getToday().format("YYYY-MM-DD");
+                    }
 
                     const res = await getTodoList(req);
                     if (res) {
@@ -359,27 +370,27 @@ export const data = createModel<RootModel>()({
         refreshData(type?: StatusType) {
             this.getCategory();
             if (!type) {
-                this.getTodo("todo");
-                this.getTodo("done");
-                this.getTodo("target");
-                this.getTodo("bookMark");
-                this.getTodo("habit");
-                this.getTodo("followUp");
+                this.getTodo({ type: "todo" });
+                this.getTodo({ type: "done" });
+                this.getTodo({ type: "target" });
+                this.getTodo({ type: "bookMark" });
+                this.getTodo({ type: "habit" });
+                this.getTodo({ type: "followUp" });
             } else {
-                type === "todo" && this.getTodo("todo");
-                type === "done" && this.getTodo("done");
-                type === "target" && this.getTodo("target");
-                type === "bookMark" && this.getTodo("bookMark");
-                type === "note" && this.getTodo("note");
-                type === "habit" && this.getTodo("habit");
-                type === "followUp" && this.getTodo("followUp");
+                type === "todo" && this.getTodo({ type: "todo" });
+                type === "done" && this.getTodo({ type: "done" });
+                type === "target" && this.getTodo({ type: "target" });
+                type === "bookMark" && this.getTodo({ type: "bookMark" });
+                type === "note" && this.getTodo({ type: "note" });
+                type === "habit" && this.getTodo({ type: "habit" });
+                type === "followUp" && this.getTodo({ type: "followUp" });
             }
         },
         getFilterList(
-            params: { list: TodoItemType[]; type: StatusType },
+            payload: { list: TodoItemType[]; type: StatusType },
             state
         ) {
-            const { list, type } = params;
+            const { list, type } = payload;
             const { activeColor, activeCategory, keyword, isWork } =
                 state.filter;
             let l = list;
@@ -462,7 +473,7 @@ export const data = createModel<RootModel>()({
                 })
             );
             // 已完成模块除外
-            this.getTodo("done");
+            this.getTodo({ type: "done" });
         },
         async getCategory(payload, state) {
             const { isWork } = state.filter;

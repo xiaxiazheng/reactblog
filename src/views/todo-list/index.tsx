@@ -36,11 +36,11 @@ const TodoListHome: React.FC = () => {
     useEffect(() => {
         // 这里不刷新 done list, 那个会在 global-search 里请求
         getCategory({});
-        getTodo("todo");
-        getTodo("target");
-        getTodo("bookMark");
-        getTodo("habit");
-        getTodo("followUp");
+        getTodo({ type: "todo" });
+        getTodo({ type: "target" });
+        getTodo({ type: "bookMark" });
+        getTodo({ type: "habit" });
+        getTodo({ type: "followUp" });
     }, [isWork]);
 
     return (

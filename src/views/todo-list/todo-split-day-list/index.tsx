@@ -73,7 +73,7 @@ const List: React.FC<Props> = (props) => {
         const res = await Promise.all(promiseList);
         if (res) {
             message.success(`Todo 日期调整成功`);
-            getTodo("todo");
+            getTodo({ type: "todo" });
         }
     };
 

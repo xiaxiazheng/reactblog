@@ -23,7 +23,7 @@ interface ContextType {
     setBookMarkList: React.Dispatch<React.SetStateAction<TodoItemType[]>>;
     setIsRefreshNote: React.Dispatch<React.SetStateAction<boolean>>;
     refreshData: (type?: StatusType) => void;
-    getTodo: (type: StatusType, params?: any) => Promise<void>;
+    getTodo: (payload: {type: StatusType}, params?: any) => Promise<void>;
 
     activeColor: string[];
     setActiveColor: React.Dispatch<React.SetStateAction<string[]>>;
@@ -68,7 +68,8 @@ export const TodoDataProvider: React.FC = (props) => {
     const [targetList, setTargetList] = useState<TodoItemType[]>([]);
     const [bookMarkList, setBookMarkList] = useState<TodoItemType[]>([]);
 
-    const getTodo = async (type: StatusType) => {
+    const getTodo = async (params: { type: StatusType }) => {
+        const { type } = params;
         switch (type) {
             case "bookMark": {
                 setBookMarkLoading(true);
@@ -157,13 +158,13 @@ export const TodoDataProvider: React.FC = (props) => {
 
     const refreshData = (type?: StatusType) => {
         if (!type) {
-            getTodo("todo");
-            getTodo("done");
-            getTodo("target");
+            getTodo({ type: "todo" });
+            getTodo({ type: "done" });
+            getTodo({ type: "target" });
         } else {
-            type === "todo" && getTodo("todo");
-            type === "done" && getTodo("done");
-            type === "target" && getTodo("target");
+            type === "todo" && getTodo({ type: "todo" });
+            type === "done" && getTodo({ type: "done" });
+            type === "target" && getTodo({ type: "target" });
         }
     };
 
@@ -210,7 +211,7 @@ export const TodoDataProvider: React.FC = (props) => {
     const handleSearch = () => {
         setTodoList(getFilterList(todoListOrigin));
         setTargetList(getFilterList(targetListOrigin));
-        getTodo("done");
+        getTodo({ type: "done" });
     };
 
     useEffect(() => {
@@ -262,7 +263,6 @@ export const TodoDataProvider: React.FC = (props) => {
                 setIsRefreshNote,
                 refreshData,
                 getTodo,
-
                 activeColor,
                 setActiveColor,
                 activeCategory,
