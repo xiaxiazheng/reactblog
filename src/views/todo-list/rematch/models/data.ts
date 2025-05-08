@@ -353,7 +353,7 @@ export const data = createModel<RootModel>()({
 
                     if (Number(days)) {
                         req.startTime = getToday().subtract(Number(days), 'days').format("YYYY-MM-DD");
-                        req.endTime = getToday().format("YYYY-MM-DD");
+                        // req.endTime = getToday().format("YYYY-MM-DD");
                     }
 
                     const res = await getTodoList(req);
