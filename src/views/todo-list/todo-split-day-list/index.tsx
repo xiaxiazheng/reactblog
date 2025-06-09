@@ -75,7 +75,7 @@ const List: React.FC<Props> = (props) => {
         }
     };
 
-    const { isSortTime, setIsSortTime, handleSort } = useIsSortTime(
+    const { isSortTime, setIsSortTime, handleSortTime, handleSortByColor } = useIsSortTime(
         `${sortKey}-sort-time`
     );
 
@@ -88,9 +88,9 @@ const List: React.FC<Props> = (props) => {
         if (!isSortTime) {
             l = l
                 .filter((item) => item.doing === "1")
-                .concat(l.filter((item) => item.doing !== "1"));
+                .concat(handleSortByColor(l.filter((item) => item.doing !== "1")));
         } else {
-            l = handleSort(l);
+            l = handleSortTime(l);
         }
 
         return l;

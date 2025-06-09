@@ -23,6 +23,10 @@ export const handleSortByMTime = (list: TodoItemType[]) => {
     );
 };
 
+export const handleSortByColor = (list: TodoItemType[]) => {
+    return [...list].sort((a, b) => Number(a.color) - Number(b.color));
+}
+
 export const useIsSortTime = (key?: string) => {
     const [isSortTime, setIsSortTime] = useState<boolean>(
         (key && localStorage.getItem(key) === "true") || false
@@ -33,7 +37,7 @@ export const useIsSortTime = (key?: string) => {
         key && localStorage.setItem(key, String(val));
     };
 
-    return { isSortTime, setIsSortTime: update, handleSort: handleSortByMTime };
+    return { isSortTime, setIsSortTime: update, handleSortTime: handleSortByMTime, handleSortByColor };
 };
 
 interface IProps {
