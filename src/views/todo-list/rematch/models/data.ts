@@ -338,23 +338,18 @@ export const data = createModel<RootModel>()({
                 case "todo": {
                     setTodoLoading(true);
 
-                    // 只看前 x 天的 todo，这数据来自 settings，又存到了 storage 里面
-                    const days = localStorage.getItem('isShowLastXdays');
+                    // 只看前 x 条 todo，这数据来自 settings，又存到了 storage 里面
+                    const limit = localStorage.getItem('isShowLastLimit');
 
                     const req: any = {
                         status: TodoStatus[type],
-                        pageSize: 500,
+                        pageSize: limit || 500,
                         isBookMark: "0",
                         isTarget: "0",
                         isFollowUp: "0",
-                        sortBy: [["color"], ["isWork", "DESC"], ["category"], ["name"]],
+                        sortBy: [["time", "DESC"], ["color"], ["isWork", "DESC"], ["category"], ["name"]],
                         isWork,
                     };
-
-                    if (Number(days)) {
-                        req.startTime = getToday().subtract(Number(days), 'days').format("YYYY-MM-DD");
-                        // req.endTime = getToday().format("YYYY-MM-DD");
-                    }
 
                     const res = await getTodoList(req);
                     if (res) {

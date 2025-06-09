@@ -29,7 +29,6 @@ interface Props {
         [k in string]: TodoItemType[];
     };
     sortKey: SortKeyMap;
-    showDoneIcon?: boolean; // 是否展示快捷完成 icon
     showDoingBtn?: boolean; // 是否展示加急的筛选按钮
     showTimeOprationBtn?: boolean; // 是否展示日期右边的操作按钮
     isReverseTime?: boolean; // 是否倒序展示日期
@@ -42,7 +41,6 @@ const List: React.FC<Props> = (props) => {
         loading,
         title,
         mapList,
-        showDoneIcon = false,
         sortKey,
         showDoingBtn,
         showTimeOprationBtn = true,
@@ -141,6 +139,10 @@ const List: React.FC<Props> = (props) => {
                         ? Object.keys(mapList).sort().reverse()
                         : Object.keys(mapList).sort()
                     ).map((time) => {
+                        const showList = getShowList(mapList[time]);
+                        if (!showList.length) {
+                            return null;
+                        }
                         return (
                             <div className={styles.oneDay} key={time}>
                                 <div
@@ -184,7 +186,7 @@ const List: React.FC<Props> = (props) => {
                                         </Space>
                                     )}
                                 </div>
-                                <TodoTree todoList={getShowList(mapList[time])} getTodoItemProps={() => {
+                                <TodoTree todoList={showList} getTodoItemProps={() => {
                                     return { showDoneIcon: true }
                                 }} />
                             </div>

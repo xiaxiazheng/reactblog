@@ -4,7 +4,6 @@ import { SortKeyMap } from "../../component/sort-btn";
 import List from "../../todo-split-day-list";
 import { RootState } from "../../rematch";
 import { formatArrayToTimeMap } from "../../utils";
-import dayjs from "dayjs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { RenderTodoDescriptionIcon } from "../todo-list";
 import { getToday } from "@/components/amdin-header/utils";

@@ -6,12 +6,9 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
-import dayjs from "dayjs";
 import TodoTypeIcon from "../../component/todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
-import styles from "./index.module.scss";
-import { getExtraDayjs, getToday } from "@/components/amdin-header/utils";
-import { TodoItemType } from "../../types";
+import { getToday } from "@/components/amdin-header/utils";
 
 export const RenderTodoDescriptionIcon = (props: { title: any }) => {
     const { title } = props;
@@ -60,30 +57,19 @@ const TodoList = () => {
         );
     }, [followUpListOrigin]);
 
+    // 是否展示待跟进的数据
     const [isShowFollowUp, setIsShowFollowUp] = useState<boolean>(true);
-    const [isShowLastXdays, setIsShowLastXdays] = useState<boolean>(true);
+    // 是否只展示最近 x 条数据
+    const [isShowLastLimit, setIsShowLastLimit] = useState<boolean>(true);
     useEffect(() => {
-        setIsShowLastXdays(localStorage.getItem('isShowLastXdays') === 'true');
-    }, []);
-    const updateIsShowLastXdays = () => {
-        const temp = !isShowLastXdays;
+        setIsShowLastLimit(localStorage.getItem('isShowLastLimit') === `${todoShowBeforeToday?.limit}`);
+    }, [todoShowBeforeToday?.limit]);
+    const updateIsShowLastLimit = () => {
+        const temp = !isShowLastLimit;
         message.info(temp ? todoShowBeforeToday?.text : '看所有 todo', 1);
-        setIsShowLastXdays(temp);
-        localStorage.setItem('isShowLastXdays', temp ? todoShowBeforeToday?.days : 0);
+        setIsShowLastLimit(temp);
+        localStorage.setItem('isShowLastLimit', temp ? todoShowBeforeToday?.limit : 500);
         getTodo({ type: 'todo' });
-    }
-
-    // 获取最近 x 天的 todo
-    const getLastXDayList = (list: TodoItemType[]) => {
-        const d = todoShowBeforeToday?.days || 0;
-        return list.filter(item => {
-            if (item.time === getToday().format('YYYY-MM-DD')) {
-                return true;
-            }
-            if (getExtraDayjs(item.time).isBefore(getExtraDayjs(dayjs())) && getExtraDayjs(item.time).isAfter(getExtraDayjs(dayjs()).subtract(d + 1, 'day'))) {
-                return true;
-            }
-        });
     }
 
     return (
@@ -100,25 +86,22 @@ const TodoList = () => {
                 </>
             }
             mapList={formatArrayToTimeMap(
-                isShowLastXdays ? getLastXDayList(todoList
-                    .concat(isShowFollowUp ? followUpList : [])) :
-                    todoList
-                        .filter((item) => item.time <= Today())
-                        .concat(isShowFollowUp ? followUpList : [])
+                todoList
+                    .filter((item) => item.time <= Today())
+                    .concat(isShowFollowUp ? followUpList : [])
             )}
-            showDoneIcon={true}
             isReverseTime={true}
             btnChildren={
                 <>
                     <Tooltip title={`${todoShowBeforeToday?.text}`}>
                         <Button
-                            type={isShowLastXdays ? "primary" : "default"}
-                            onClick={updateIsShowLastXdays}
+                            type={isShowLastLimit ? "primary" : "default"}
+                            onClick={updateIsShowLastLimit}
                             icon={
                                 <TodoTypeIcon
                                     type="onlyToday"
                                     style={
-                                        !isShowLastXdays
+                                        !isShowLastLimit
                                             ? { color: "#ffeb3b" }
                                             : {}
                                     }
