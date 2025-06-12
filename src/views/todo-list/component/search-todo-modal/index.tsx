@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Input,
     message,
@@ -17,6 +17,8 @@ import {
     getFootPrintList,
 } from "../../list/todo-footprint";
 import TodoTree from "../todo-tree";
+import { useSelector } from "react-redux";
+import { RootState } from "../../rematch";
 
 interface IProps {
     visible: boolean;
@@ -40,6 +42,14 @@ const SearchTodoModal: React.FC<IProps> = ({
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
+
+    const habitLoading = useSelector(
+        (state: RootState) => state.data.habitLoading
+    );
+    const habitList = useSelector((state: RootState) => state.data.habitList);
+    const habitListOrigin = useSelector(
+        (state: RootState) => state.data.habitListOrigin
+    );
 
     useEffect(() => {
         // 如果本来就有关联的 todo，就初始化
@@ -96,29 +106,10 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     // 搜索接口
     const handleGetDirectory = async (newValue: string) => {
-        setLoading(true);
-        const req: any = {
-            keyword: newValue,
-            pageNo,
-            pageSize: 200,
-            isHabit: "1",
-            sortBy: [["color"]],
-            status: "0",
-        };
-
-        const res = await getTodoList(req);
-        if (res) {
-            // 前置 todo 不能是自己
-            setOptions(
-                res.data.list.filter(
-                    (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id
-                )
-            );
-            setTotal(res.data.total);
-            setLoading(false);
-        } else {
-            message.error("获取 todolist 失败");
-        }
+        setOptions(habitList.filter(
+            (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id && (
+                item.name.indexOf(newValue) !== -1 || item.description.indexOf(newValue) !== -1)
+        ));
     };
 
     const handleGetFootprint = async (keyword: string) => {
@@ -220,8 +211,11 @@ const SearchTodoModal: React.FC<IProps> = ({
                             onChange(item);
                             handleClose();
                         }}
+                        getTodoItemProps={() => {
+                            return { keyword }
+                        }}
                     />
-                ) : sortBy === "chain" ? <>这里展示当前的 todo-chain， 施工中</> :(
+                ) : sortBy === "chain" ? <>这里展示当前的 todo-chain， 施工中</> : (
                     <Space size={10} direction="vertical">
                         {options?.map((item) => {
                             return (

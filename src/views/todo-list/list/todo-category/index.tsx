@@ -9,7 +9,7 @@ import { Button, Modal } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 import TodoCategoryShow from "../../component/todo-category-show";
 
-const TodoHabit = () => {
+const TodoCategory = () => {
     const { todoNameMap } = useContext(SettingsContext);
     const { theme } = useContext(ThemeContext);
 
@@ -56,4 +56,4 @@ const TodoHabit = () => {
     );
 };
 
-export default TodoHabit;
+export default TodoCategory;
