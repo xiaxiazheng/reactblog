@@ -22,7 +22,8 @@ export const RenderTodoDescriptionIcon = (props: { title: any }) => {
 };
 
 const TodoList = () => {
-    const { todoNameMap, todoDescriptionMap, todoShowBeforeToday } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap, todoShowBeforeToday } =
+        useContext(SettingsContext);
 
     const Today = () => getToday().format("YYYY-MM-DD");
 
@@ -62,15 +63,21 @@ const TodoList = () => {
     // 是否只展示最近 x 条数据
     const [isShowLastLimit, setIsShowLastLimit] = useState<boolean>(true);
     useEffect(() => {
-        setIsShowLastLimit(localStorage.getItem('isShowLastLimit') === `${todoShowBeforeToday?.limit}`);
+        setIsShowLastLimit(
+            localStorage.getItem("isShowLastLimit") ===
+                `${todoShowBeforeToday?.limit}`
+        );
     }, [todoShowBeforeToday?.limit]);
     const updateIsShowLastLimit = () => {
         const temp = !isShowLastLimit;
-        message.info(temp ? todoShowBeforeToday?.text : '看所有 todo', 1);
+        message.info(temp ? todoShowBeforeToday?.text : "看所有 todo", 1);
         setIsShowLastLimit(temp);
-        localStorage.setItem('isShowLastLimit', temp ? todoShowBeforeToday?.limit : 500);
-        getTodo({ type: 'todo' });
-    }
+        localStorage.setItem(
+            "isShowLastLimit",
+            temp ? todoShowBeforeToday?.limit : 500
+        );
+        getTodo({ type: "todo" });
+    };
 
     return (
         <List
@@ -97,38 +104,30 @@ const TodoList = () => {
                         <Button
                             type={isShowLastLimit ? "primary" : "default"}
                             onClick={updateIsShowLastLimit}
-                            icon={
-                                <TodoTypeIcon
-                                    type="onlyToday"
-                                    style={
-                                        !isShowLastLimit
-                                            ? { color: "#ffeb3b" }
-                                            : {}
-                                    }
-                                />
-                            }
-                        ></Button>
+                        >
+                            {todoShowBeforeToday?.limit}
+                        </Button>
                     </Tooltip>
-                    {
-                        followUpList.length ? (
-                            <Tooltip title={`查看 ${todoNameMap?.followUp}`}>
-                                <Button
-                                    type={isShowFollowUp ? "primary" : "default"}
-                                    onClick={() => setIsShowFollowUp((prev) => !prev)}
-                                    icon={
-                                        <TodoTypeIcon
-                                            type="followUp"
-                                            style={
-                                                !isShowFollowUp
-                                                    ? { color: "#ffeb3b" }
-                                                    : {}
-                                            }
-                                        />
-                                    }
-                                ></Button>
-                            </Tooltip>
-                        ) : null
-                    }
+                    {followUpList.length ? (
+                        <Tooltip title={`查看 ${todoNameMap?.followUp}`}>
+                            <Button
+                                type={isShowFollowUp ? "primary" : "default"}
+                                onClick={() =>
+                                    setIsShowFollowUp((prev) => !prev)
+                                }
+                                icon={
+                                    <TodoTypeIcon
+                                        type="followUp"
+                                        style={
+                                            !isShowFollowUp
+                                                ? { color: "#ffeb3b" }
+                                                : {}
+                                        }
+                                    />
+                                }
+                            ></Button>
+                        </Tooltip>
+                    ) : null}
                 </>
             }
         />
