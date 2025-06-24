@@ -108,7 +108,8 @@ const SearchTodoModal: React.FC<IProps> = ({
     const handleGetDirectory = async (newValue: string) => {
         setOptions(habitList.filter(
             (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id && (
-                item.name.indexOf(newValue) !== -1 || item.description.indexOf(newValue) !== -1)
+                item.name.toLowerCase().indexOf(newValue.toLowerCase()) !== -1 ||
+                item.description.toLowerCase().indexOf(newValue.toLowerCase()) !== -1)
         ));
     };
 
