@@ -28,6 +28,7 @@ import { SettingsContext } from "@/context/SettingsContext";
 import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 import { UserContext } from "@/context/UserContext";
 import { decrypt, encrypt } from "./encodeDecodeUtils";
+import TodoEncodeUtils from "../todo-encode-utils";
 
 interface Props {
     form: FormInstance;
@@ -59,7 +60,7 @@ const TodoForm: React.FC<Props> = (props) => {
     } = useContext(SettingsContext);
 
     const { username } = useContext(UserContext);
-    const isMe = username === 'zyb';
+    const isMe = username === "zyb";
 
     const category = useSelector((state: RootState) => state.data.category);
 
@@ -68,7 +69,7 @@ const TodoForm: React.FC<Props> = (props) => {
     useEffect(() => {
         if (open) {
             getIsKeyNode();
-            
+
             needFocus && input?.current && input.current?.focus();
         }
     }, [open, needFocus]);
@@ -79,44 +80,16 @@ const TodoForm: React.FC<Props> = (props) => {
         isFieldsChange?.();
     };
 
-    // const [description, setDescription] = useState<string>();
-    // useEffect(() => {
-    //     if (activeTodo) {
-    //         setDescription(activeTodo?.description);
-    //     }
-    // }, [activeTodo]);
-
     const [password, setPassword] = useState<string>();
 
     // 是否是加密
     const [isKeyNode, setIsKeyNode] = useState<string>();
     const getIsKeyNode = () => {
-        setIsKeyNode(form.getFieldValue('isKeyNode'));
-    }
+        setIsKeyNode(form.getFieldValue("isKeyNode"));
+    };
 
-    const handleEnCodeWithPassword = async () => {
-        if (password) {
-            const description = form.getFieldValue('description');
-            form.setFieldValue('description', await encrypt(description, password));
-            isFieldsChange?.();
-        } else {
-            message.warning('请输入密码');
-        }
-    }
-
-    const handleDeCodeWithPassword = async () => {
-        if (password) {
-            const description = form.getFieldValue('description');
-            const data = await decrypt(description, password);
-            if (data) {
-                form.setFieldValue('description', data);
-            } else {
-                message.warning('解密失败，请重新输入密码');
-            }
-            isFieldsChange?.();
-        } else {
-            message.warning('请输入密码');
-        }
+    const getDescription = () => {
+        return form.getFieldValue('description');
     }
 
     return (
@@ -270,14 +243,19 @@ const TodoForm: React.FC<Props> = (props) => {
                                             style={{
                                                 color: todoColorMap[item],
                                             }}
-                                            className={`${styles.color} ${item === "0" ? styles.zero : ""
-                                                }${item === "1" ? styles.one : ""}${item === "2" ? styles.two : ""
-                                                }${item === "3" ? styles.three : ""
-                                                }${item === "4" ? styles.four : ""
-                                                }${item === "-1"
+                                            className={`${styles.color} ${
+                                                item === "0" ? styles.zero : ""
+                                            }${item === "1" ? styles.one : ""}${
+                                                item === "2" ? styles.two : ""
+                                            }${
+                                                item === "3" ? styles.three : ""
+                                            }${
+                                                item === "4" ? styles.four : ""
+                                            }${
+                                                item === "-1"
                                                     ? styles.minusOne
                                                     : ""
-                                                }`}
+                                            }`}
                                         >
                                             {todoColorNameMap?.[item]}
                                         </Radio.Button>
@@ -417,23 +395,30 @@ const TodoForm: React.FC<Props> = (props) => {
                                         </span>
                                     </SwitchComp>
                                 </Form.Item>
-                                {isMe && <Form.Item
-                                    name="isKeyNode"
-                                    rules={[{ required: true }]}
-                                    initialValue={"0"}>
-                                    <SwitchComp>
-                                        加密
-                                    </SwitchComp>
-                                </Form.Item>
-}
+                                {isMe && (
+                                    <Form.Item
+                                        name="isKeyNode"
+                                        rules={[{ required: true }]}
+                                        initialValue={"0"}
+                                    >
+                                        <SwitchComp>加密</SwitchComp>
+                                    </Form.Item>
+                                )}
+                                {isKeyNode === "1" && (
+                                    <div>
+                                        <TodoEncodeUtils
+                                            password={password}
+                                            setPassword={setPassword}
+                                            getDescription={getDescription}
+                                            handleEncode={(description: string) => {
+                                                form?.setFieldValue('description', description);
+                                                isFieldsChange?.();
+                                            }}
+                                        />
+                                    </div>
+                                )}
                             </Space>
                         </Form.Item>
-                        {isKeyNode === '1' && <div>
-                            <Input value={password} onChange={e => setPassword(e.target.value)} />
-                            <Button onClick={handleEnCodeWithPassword}>加密</Button>
-                            <Button onClick={handleDeCodeWithPassword}>解密</Button>
-                        </div>
-}
                         <Form.Item name="other_id" label="前置 todo">
                             <SearchTodo activeTodo={activeTodo} />
                         </Form.Item>
