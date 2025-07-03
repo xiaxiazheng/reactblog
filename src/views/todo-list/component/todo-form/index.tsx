@@ -6,17 +6,14 @@ import {
     Radio,
     Tooltip,
     Space,
-    FormListFieldData,
     Button,
-    message,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { handleCopy, colorTitle } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
-import dayjs from "dayjs";
 import { TodoItemType } from "../../types";
-import InputList, { splitMdStr, splitStr } from "../input-list";
+import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
@@ -25,9 +22,7 @@ import { RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import MyDatePicker from "./MyDataPicker";
 import { SettingsContext } from "@/context/SettingsContext";
-import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
 import { UserContext } from "@/context/UserContext";
-import { decrypt, encrypt } from "./encodeDecodeUtils";
 import TodoEncodeUtils from "../todo-encode-utils";
 
 interface Props {
