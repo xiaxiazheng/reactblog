@@ -10,6 +10,7 @@ interface FilterType {
     isTarget: string;
     isNote: string;
     isHabit: string;
+    isKeyNode: string;
     pageNo: number;
     pageSize: number;
 }
@@ -24,6 +25,7 @@ export const filter = createModel<RootModel>()({
         isTarget: "0",
         isNote: "0",
         isHabit: "0",
+        isKeyNode: "0",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
     } as FilterType,
@@ -77,6 +79,12 @@ export const filter = createModel<RootModel>()({
                 isHabit: payload,
             };
         },
+        setIsKeyNode: (state, payload) => {
+            return {
+                ...state,
+                isKeyNode: payload,
+            };
+        },
         setPageNo: (state, payload) => {
             return {
                 ...state,
@@ -102,6 +110,7 @@ export const filter = createModel<RootModel>()({
                 setIsTarget,
                 setIsNote,
                 setIsHabit,
+                setIsKeyNode,
             } = dispatch.filter;
             setActiveCategory([]);
             setActiveColor([]);
@@ -112,25 +121,7 @@ export const filter = createModel<RootModel>()({
             setIsHabit("0");
             setStartEndTime(undefined);
             setPageNo(1);
+            setIsKeyNode("0");
         },
-        handleSpecialStatus(params: { type: 'isTarget' | 'isHabit', status: '0' | '1'}, state): void {
-            const {
-                setIsHabit,
-                setIsTarget,
-            } = dispatch.filter;
-            const { status, type } = params;
-            if (type === 'isHabit') {
-                setIsHabit(status);
-                if (status === '1') {
-                    setIsTarget('0')
-                }
-            }
-            if (type === 'isTarget') {
-                setIsTarget(status);
-                if (status === '1') {
-                    setIsHabit('0');
-                }
-            }
-        }
     }),
 });

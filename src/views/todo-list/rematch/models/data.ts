@@ -214,6 +214,7 @@ export const data = createModel<RootModel>()({
                 isTarget,
                 isNote,
                 isHabit,
+                isKeyNode,
             } = state.filter;
 
             const { type } = payload;
@@ -317,6 +318,9 @@ export const data = createModel<RootModel>()({
                     }
                     if (isHabit === "1") {
                         req["isHabit"] = isHabit;
+                    }
+                    if (isKeyNode === "1") {
+                        req["isKeyNode"] = isKeyNode;
                     }
                     if (activeCategory) {
                         req["category"] = activeCategory;

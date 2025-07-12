@@ -61,6 +61,7 @@ const GlobalSearch: React.FC = () => {
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
     const isHabit = useSelector((state: RootState) => state.filter.isHabit);
+    const isKeyNode = useSelector((state: RootState) => state.filter.isKeyNode);
 
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
@@ -98,13 +99,14 @@ const GlobalSearch: React.FC = () => {
         isTarget,
         isNote,
         isHabit,
+        isKeyNode,
     ]);
 
     useEffect(() => {
-        if (isHabit === "1" || isTarget === "1") {
+        if (isHabit === "1" || isTarget === "1" || isKeyNode === '1') {
             setShowFilter(true);
         }
-    }, [isHabit, isTarget]);
+    }, [isHabit, isTarget, isKeyNode]);
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
@@ -118,7 +120,8 @@ const GlobalSearch: React.FC = () => {
             !!startEndTime ||
             pageNo !== 1 ||
             isHabit === "1" ||
-            isTarget === "1"
+            isTarget === "1" ||
+            isKeyNode === "1"
         );
     };
 

@@ -92,7 +92,7 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
                 }}
             >
                 <div style={{ paddingRight: 10 }}>
-                    <InputList value={value} onChange={val => {
+                    <InputList value={value} onChange={(val: string) => {
                         setValue(val);
                         cancelCount = 0;
                     }} isShowMD={true} />

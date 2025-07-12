@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, Checkbox, DatePicker, Radio, Space } from "antd";
-import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import { colorTitle } from "../../utils";
-import dayjs, { ManipulateType } from "dayjs";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons"
+import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import SwitchComp from "../todo-form/switch";
 import { SettingsContext } from "@/context/SettingsContext";
+import { UserContext } from "@/context/UserContext";
 
 interface IProps {
     isSimple: boolean;
@@ -26,6 +26,10 @@ const Filter: React.FC<IProps> = (props) => {
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
     const isHabit = useSelector((state: RootState) => state.filter.isHabit);
+    const isKeyNode = useSelector((state: RootState) => state.filter.isKeyNode);
+
+    const { username } = useContext(UserContext);
+    const isMe = username === "zyb";
 
     const dispatch = useDispatch<Dispatch>();
 
@@ -33,7 +37,9 @@ const Filter: React.FC<IProps> = (props) => {
         setActiveCategory,
         setStartEndTime,
         setIsNote,
-        handleSpecialStatus,
+        setIsTarget,
+        setIsHabit,
+        setIsKeyNode,
     } = dispatch.filter;
 
     const [timeType, setTimeType] = useState<"month" | "day" | "year">("day");
@@ -351,19 +357,14 @@ const Filter: React.FC<IProps> = (props) => {
                         <Space className={styles.special} size={[8, 0]}>
                             <SwitchComp
                                 value={isTarget}
-                                onChange={(val) =>
-                                    handleSpecialStatus({
-                                        type: "isTarget",
-                                        status: val,
-                                    })
-                                }
+                                onChange={setIsTarget}
                             >
                                 <span>
                                     <TodoTypeIcon
                                         type="target"
                                         style={{ color: "#ffeb3b" }}
                                     />{" "}
-                                    {todoNameMap.target}
+                                    {todoNameMap?.target}
                                 </span>
                             </SwitchComp>
                             <SwitchComp value={isNote} onChange={setIsNote}>
@@ -375,17 +376,12 @@ const Filter: React.FC<IProps> = (props) => {
                                             color: "#ffeb3b",
                                         }}
                                     />{" "}
-                                    {todoNameMap.note}
+                                    {todoNameMap?.note}
                                 </span>
                             </SwitchComp>
                             <SwitchComp
                                 value={isHabit}
-                                onChange={(val) =>
-                                    handleSpecialStatus({
-                                        type: "isHabit",
-                                        status: val,
-                                    })
-                                }
+                                onChange={setIsHabit}
                             >
                                 <span>
                                     <TodoTypeIcon
@@ -395,9 +391,17 @@ const Filter: React.FC<IProps> = (props) => {
                                             color: "#ffeb3b",
                                         }}
                                     />{" "}
-                                    {todoNameMap.habit}
+                                    {todoNameMap?.habit}
                                 </span>
                             </SwitchComp>
+                            {isMe && <SwitchComp
+                                value={isKeyNode}
+                                onChange={setIsKeyNode}
+                            >
+                                <span>
+                                    加密
+                                </span>
+                            </SwitchComp>}
                         </Space>
                     </div>
                 </div>
