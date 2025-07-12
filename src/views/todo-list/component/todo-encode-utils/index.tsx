@@ -36,19 +36,25 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
     }
 
     const [value, setValue] = useState<string>('');
-    useEffect(() => {
-        if (isShowDecode) {
-            getFromDescription();
-        }
-    }, [isShowDecode]);
 
     const getFromDescription = async () => {
         if (password) {
             const description = getDescription();
-            const data = await decrypt(description, password);
-            if (data) {
-                setValue(data);
-                setOriginal(data);
+            // 如果已经有 description 了，说明要解码，解码成功才给展示
+            if (description) {
+                const data = await decrypt(description, password);
+                if (data) {
+                    setValue(data);
+                    setOriginal(data);
+                    setIsShowDecode(true);
+                } else {
+                    message.warning('解码无结果，密码不对');
+                }
+            } else {
+                // 如果没有文案，说明是新增，可以直接打开编辑
+                setValue('');
+                setOriginal('');
+                setIsShowDecode(true);
             }
         }
     }
@@ -62,7 +68,7 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
                 onPressEnter={() => {
                     if (password) {
-                        setIsShowDecode(true);
+                        getFromDescription();
                     } else {
                         message.warning("请输入密码");
                     }
