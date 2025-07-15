@@ -21,7 +21,7 @@ const TodoTarget = () => {
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const dispatch = useDispatch<Dispatch>();
     const { setTargetList, getFilterList } = dispatch.data;
-    const { handleSpecialStatus } = dispatch.filter;
+    const { setIsTarget } = dispatch.filter;
     useEffect(() => {
         setTargetList(
             getFilterList({ list: targetListOrigin, type: "target" })
@@ -43,12 +43,7 @@ const TodoTarget = () => {
             btn={
                 <>
                     <Button
-                        onClick={() =>
-                            handleSpecialStatus({
-                                type: "isTarget",
-                                status: isTarget === "1" ? "0" : "1",
-                            })
-                        }
+                        onClick={() => setIsTarget(isTarget === "1" ? "0" : "1")}
                         type={isTarget === "1" ? "primary" : "default"}
                     >
                         查看已完成
