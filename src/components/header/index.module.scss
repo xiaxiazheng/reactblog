@@ -25,6 +25,7 @@
             font-weight: 600;
             color: var(--color);
             cursor: pointer;
+            text-decoration: unset;
             &:hover {
                 color: var(--color_active);
             }

@@ -1,13 +1,12 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Link } from "react-router-dom";
-import { Menu, Switch, Drawer, Divider } from "antd";
-import { BookOutlined, ExportOutlined } from "@ant-design/icons";
+import { Menu, Switch} from "antd";
+import { BookOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
-import { CodepenOutlined } from "@ant-design/icons";
 
 interface PropsType extends RouteComponentProps {}
 
@@ -76,13 +75,13 @@ const Header: React.FC<PropsType> = (props) => {
             </span>
             <span className={styles.headerRight}>
                 {/* 主题切换开关 */}
-                <Switch
+                {/* <Switch
                     className={styles.switch}
                     checkedChildren="light"
                     unCheckedChildren="dark"
                     checked={theme === "light"}
                     onClick={switchTheme}
-                />
+                /> */}
                 {/* 导航 */}
                 <Menu
                     onClick={handleClickTabs}
@@ -90,17 +89,21 @@ const Header: React.FC<PropsType> = (props) => {
                     mode={"horizontal"}
                     className={styles.headerRouteList}
                 >
+                    <Menu.Item key="todo">
+                        <BookOutlined className={styles.headerIcon} />
+                        <Link to={"/todo"}>todo</Link>
+                    </Menu.Item>
                     <Menu.Item key="blog">
                         <BookOutlined className={styles.headerIcon} />
                         <Link to={"/blog"}>Blog</Link>
                     </Menu.Item>
-                    <Menu.Item key="test-page">
+                    {/* <Menu.Item key="test-page">
                         {
                             // @ts-ignore
                             <CodepenOutlined className={styles.headerIcon} />
                         }
                         <Link to={"/test-page"}>TestPage</Link>
-                    </Menu.Item>
+                    </Menu.Item> */}
                 </Menu>
             </span>
         </header>
