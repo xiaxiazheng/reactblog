@@ -1,6 +1,6 @@
 import React from "react";
 import { getFootPrintList } from "../../list/todo-footprint";
-import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
+import { MarkdownShow } from "@xiaxiazheng/blog-libs";
 
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 

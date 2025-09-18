@@ -5,7 +5,7 @@ import classnames from "classnames";
 import { SaveOutlined } from "@ant-design/icons";
 import { Input, Button, message } from "antd";
 import { modifyBlogCont } from "@/client/BlogHelper";
-import MarkdownShow from "../markdown-show";
+import { MarkdownShow } from "@xiaxiazheng/blog-libs";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";

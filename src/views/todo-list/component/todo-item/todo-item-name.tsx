@@ -17,7 +17,7 @@ import { Dispatch, RootState } from "../../rematch";
 import TodoTypeIcon from "../todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import { getToday } from "@/components/amdin-header/utils";
-import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
+import { MarkdownShow } from "@xiaxiazheng/blog-libs";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     if (!str) return <></>;

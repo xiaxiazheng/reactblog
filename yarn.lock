@@ -2922,6 +2922,14 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
+"@xiaxiazheng/blog-libs@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@xiaxiazheng/blog-libs/-/blog-libs-0.0.3.tgz#81e97b2f2617f0ee9377f4a10e0e0375c2b48757"
+  integrity sha512-+Dk4gbpj5b9wOnpuLOnZiD+Dhemmc7MHHjYdgVnaF/njMhdVaA9pbpyJDdBmcZDi3G9fawJ/LnUDPZNnDILEAA==
+  dependencies:
+    highlight.js "^11.2.0"
+    markdown-it "^12.0.2"
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"

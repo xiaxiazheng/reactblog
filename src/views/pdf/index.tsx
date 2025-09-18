@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import MarkdownShow from "@/views/blog/blog-cont/markdown-show";
+import { MarkdownShow } from "@xiaxiazheng/blog-libs";
 import rhStyles from "@/views/blog/blog-cont/blog-cont-show/index.module.scss";
 import { message } from "antd";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
