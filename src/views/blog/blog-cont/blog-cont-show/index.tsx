@@ -15,7 +15,7 @@ import {
 } from "@ant-design/icons";
 import BlogContMao from "../anchor-list";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import MarkdownShow from "../markdown-show";
+import { MarkdownShow } from "@xiaxiazheng/blog-libs";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import useScrollToHook from "@/hooks/useScrollToHooks";

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../markdown-show/index.module.scss";
+import styles from "./index.module.scss";
 
 interface PropsType {
     contentHtml: string;
