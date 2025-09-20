@@ -5,7 +5,7 @@ import {
     deleteTreeNode,
     changeSort,
     updateIsShow,
-} from "@/client/TreeHelper";
+} from "@xiaxiazheng/blog-libs";
 import { message, Modal, Tooltip } from "antd";
 import {
     ArrowDownOutlined,
@@ -19,7 +19,7 @@ import {
 import { IsLoginContext } from "@/context/IsLoginContext";
 // import { match } from 'react-router';
 import { TreeContext } from "../../TreeContext";
-// import { isShowBlog } from "@/client/BlogHelper";
+// import { isShowBlog } from "@xiaxiazheng/blog-libs";
 
 interface TreeMenuItemType {
     second_id?: string;

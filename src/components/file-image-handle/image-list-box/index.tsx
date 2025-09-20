@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { ImageType, ImgType, deleteImg } from "@/client/ImgHelper";
+import { ImageType, ImgType, deleteImg } from "@xiaxiazheng/blog-libs";
 import PreviewImage from "@/components/preview-image";
 import { handleSize, copyUrl } from "../utils";
 

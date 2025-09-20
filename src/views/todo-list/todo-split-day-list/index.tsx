@@ -7,7 +7,7 @@ import {
     UpOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import { editTodoItem } from "@/client/TodoListHelper";
+import { editTodoItem } from "@xiaxiazheng/blog-libs";
 import Loading from "@/components/loading";
 import { getRangeFormToday, getWeek } from "../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";

@@ -1,14 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import { IsLoginContext } from "@/context/IsLoginContext";
-import { getMediaList } from "@/client/VideoHelper";
+import { getMediaList } from "@xiaxiazheng/blog-libs";
 import { cdnUrl } from "@/env_config";
-import { Drawer, message } from "antd";
-import {
-    BellOutlined,
-    UnorderedListOutlined,
-    YoutubeOutlined,
-} from "@ant-design/icons";
 import MusicPlayer, { FType } from "@/components/music-player-in-header";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 

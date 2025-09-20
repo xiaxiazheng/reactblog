@@ -5,7 +5,8 @@ import {
     getShowBlogTags,
     updateTag,
     deleteTag,
-} from "@/client/TagHelper";
+    addTag,
+} from "@xiaxiazheng/blog-libs";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "../BlogContext";
 import {
@@ -15,7 +16,6 @@ import {
     SearchOutlined,
 } from "@ant-design/icons";
 import { message, Modal, Button, Input, Popover } from "antd";
-import { addTag } from "@/client/TagHelper";
 import { UserContext } from "@/context/UserContext";
 import Loading from "@/components/loading";
 

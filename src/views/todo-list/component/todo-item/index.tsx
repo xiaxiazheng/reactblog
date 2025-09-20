@@ -2,7 +2,7 @@ import React, { CSSProperties } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import { CheckCircleOutlined, SendOutlined } from "@ant-design/icons";
-import { doneTodoItem } from "@/client/TodoListHelper";
+import { doneTodoItem } from "@xiaxiazheng/blog-libs";
 import TodoItemName from "./todo-item-name";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch } from "react-redux";

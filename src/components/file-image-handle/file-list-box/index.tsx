@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { FileType, deleteFile, FType } from "@/client/FileHelper";
+import { FileType, deleteFile, FType } from "@xiaxiazheng/blog-libs";
 import { handleSize, copyUrl } from "../utils";
 
 interface IType {

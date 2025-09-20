@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
-import { getLog } from "@/client/Log";
+import { getLog } from "@xiaxiazheng/blog-libs";
 import styles from './index.module.scss';
 
 const Log: React.FC = () => {

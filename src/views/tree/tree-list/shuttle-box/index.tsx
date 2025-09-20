@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { changeFather } from "@/client/TreeHelper";
+import { changeFather } from "@xiaxiazheng/blog-libs";
 import { message, Modal, Select } from "antd";
 
 export interface ShuttleMsgType {

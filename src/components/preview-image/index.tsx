@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import MaskloadImage from "@/components/mask-load-image";
-import { ImageType } from "@/client/ImgHelper";
+import { ImageType } from "@xiaxiazheng/blog-libs";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { handleSize } from "../file-image-handle/utils";
 

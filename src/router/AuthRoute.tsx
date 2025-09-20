@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "../context/IsLoginContext";
-import { message, notification, Button } from "antd";
-import { checkLogin } from "../client/UserHelper";
+import { checkLogin } from "@xiaxiazheng/blog-libs";
 
 interface PropsType {
     component?: any;

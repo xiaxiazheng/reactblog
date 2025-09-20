@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import MaoDetail from "./mao-detail";
-import { getMaoPuList, addMaoPu } from "@/client/MaoPuHelper";
+import { getMaoList, addMaoPu } from "@xiaxiazheng/blog-libs";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { Button, message, Switch, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -38,7 +38,7 @@ const statusColor: any = {
 
 const MaoPu: React.FC = () => {
     useEffect(() => {
-        getMaoList();
+        getMaoPuList();
     }, []);
 
     useDocumentTitle("猫谱");
@@ -77,8 +77,8 @@ const MaoPu: React.FC = () => {
         return list;
     };
 
-    const getMaoList = async () => {
-        const res = await getMaoPuList();
+    const getMaoPuList = async () => {
+        const res = await getMaoList();
         if (res) {
             const list = res.map((item: IMao) => {
                 return {
@@ -98,7 +98,7 @@ const MaoPu: React.FC = () => {
             message.success("新增猫猫成功");
             // 打开新增的猫的编辑
             setActiveMao(res);
-            getMaoList();
+            getMaoPuList();
         }
     };
 
@@ -344,9 +344,9 @@ const MaoPu: React.FC = () => {
                     mao={activeMao}
                     back={() => {
                         setActiveMao(undefined);
-                        getMaoList();
+                        getMaoPuList();
                     }}
-                    initFn={() => getMaoList()}
+                    initFn={() => getMaoPuList()}
                 />
             )}
         </div>

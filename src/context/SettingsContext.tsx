@@ -1,4 +1,4 @@
-import { getSettings } from "@/client/SettingsHelper";
+import { getSettings } from "@xiaxiazheng/blog-libs";
 import React, { createContext, useEffect, useState } from "react";
 
 interface ContextType {

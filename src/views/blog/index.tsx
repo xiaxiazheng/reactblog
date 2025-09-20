@@ -4,7 +4,7 @@ import BlogList from "./blog-list";
 import TagList from "./tag-list";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogContext } from "./BlogContext";
-import { addBlogCont } from "@/client/BlogHelper";
+import { addBlogCont } from "@xiaxiazheng/blog-libs";
 import { Button, message, Space } from "antd";
 import { FileMarkdownOutlined, FileTextOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";

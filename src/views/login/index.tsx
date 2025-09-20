@@ -7,7 +7,7 @@ import {
     UserOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import { postLogin } from "@/client/UserHelper";
+import { postLogin } from "@xiaxiazheng/blog-libs";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { UserContext } from "@/context/UserContext";

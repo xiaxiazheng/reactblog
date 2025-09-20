@@ -3,7 +3,7 @@ import { Empty, Input } from "antd";
 import MusicPlayer from "@/components/music-player-in-header";
 import styles from "./index.module.scss";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { getMediaList } from "@/client/VideoHelper";
+import { getMediaList } from "@xiaxiazheng/blog-libs";   
 import { FType } from "@/components/music-player-in-header";
 
 const Music = () => {

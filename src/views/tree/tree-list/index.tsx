@@ -5,7 +5,7 @@ import {
     addTreeNode,
     getShowTreeList,
     getAllTreeList,
-} from "@/client/TreeHelper";
+} from "@xiaxiazheng/blog-libs";
 import { Menu, message, Input } from "antd";
 import {
     PlusCircleOutlined,
@@ -19,7 +19,7 @@ import classnames from "classnames";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getNodeCont } from "@/client/TreeContHelper";
+import { getNodeCont } from "@xiaxiazheng/blog-libs";
 
 interface PropsType extends RouteComponentProps {
     first_id: string;

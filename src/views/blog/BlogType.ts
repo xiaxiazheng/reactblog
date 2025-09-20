@@ -1,5 +1,5 @@
-import { ImageType } from "@/client/ImgHelper";
-import { FType } from "@/client/FileHelper";
+import { ImageType } from "@xiaxiazheng/blog-libs";
+import { FType } from "@xiaxiazheng/blog-libs";
 
 // 日志列表用到的日志数据
 export interface BlogListType {

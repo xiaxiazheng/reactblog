@@ -1,4 +1,4 @@
-import { ImageType } from "@/client/ImgHelper";
+import { ImageType } from "@xiaxiazheng/blog-libs";
 
 export interface Mao {
     appearance: string;

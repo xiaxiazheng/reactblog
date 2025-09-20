@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import ImgManage from "./mao-img-manage";
-import { ImageType, getImgListByOtherId } from "@/client/ImgHelper";
+import { ImageType, getImgListByOtherId } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 import { Input, Button, message, Select } from "antd";
 import { LeftOutlined, SaveOutlined } from "@ant-design/icons";
-import { updateMaoPu } from "@/client/MaoPuHelper";
+import { updateMaoPu } from "@xiaxiazheng/blog-libs";
 import { IMao } from "../types";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";
 

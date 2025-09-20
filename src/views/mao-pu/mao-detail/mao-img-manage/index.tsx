@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import { ImageType } from "@/client/ImgHelper";
+import { ImageType } from "@xiaxiazheng/blog-libs";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 
 interface IProps {

@@ -9,13 +9,11 @@ import {
     switchImgOtherId,
     ImageType,
     ImgType,
-} from "@/client/ImgHelper";
-import {
+    switchFolderParent,
     FType,
     getFileListByOtherId,
     switchFileOtherId,
-} from "@/client/FileHelper";
-import { switchFolderParent } from "@/client/FolderHelper";
+} from "@xiaxiazheng/blog-libs";
 import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
 import { FolderType, FolderMapType, IFolderTreeType } from "..";
@@ -87,7 +85,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
     const getFileList = async (parent_id: string) => {
         setFileList([]);
         setLoading(true);
-        const res = await getFileListByOtherId(parent_id, username);
+        const res: any = await getFileListByOtherId(parent_id, username);
         if (res) {
             const list: FType[] = [];
             let resList = [...res];

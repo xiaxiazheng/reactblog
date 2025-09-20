@@ -7,7 +7,7 @@ import {
     Spin,
     Checkbox,
 } from "antd";
-import { getTodoChainById } from "@/client/TodoListHelper";
+import { getTodoChainById } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";

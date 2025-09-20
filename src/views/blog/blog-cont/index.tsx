@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { getBlogCont } from "@/client/BlogHelper";
+import { getBlogCont } from "@xiaxiazheng/blog-libs";
 import { LeftOutlined } from "@ant-design/icons";
 import { Button, Switch } from "antd";
 import { withRouter, RouteComponentProps, match } from "react-router-dom";

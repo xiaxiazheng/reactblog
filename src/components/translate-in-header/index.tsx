@@ -3,7 +3,7 @@ import {
     getTranslateList,
     switchTranslateMark,
     getTranslate,
-} from "@/client/TranslateHelper";
+} from "@xiaxiazheng/blog-libs";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";
 import {
     DeleteOutlined,

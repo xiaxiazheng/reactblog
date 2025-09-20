@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getChildName } from "@/client/TreeHelper";
+import { getChildName } from "@xiaxiazheng/blog-libs";
 import {
     getNodeCont,
     modifyNodeCont,
     deleteNodeCont,
     changeContSort,
     addNodeCont,
-} from "@/client/TreeContHelper";
+} from "@xiaxiazheng/blog-libs";
 import { Input, Button, message, Modal, Tooltip } from "antd";
 import {
     ArrowDownOutlined,
@@ -22,7 +22,7 @@ import {
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
-import { ImageType } from "@/client/ImgHelper";
+import { ImageType } from "@xiaxiazheng/blog-libs";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 

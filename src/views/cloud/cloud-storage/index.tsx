@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { UserContext } from "@/context/UserContext";
-import { getFolder, addFolder, getAllFolder } from "@/client/FolderHelper";
+import { getFolder, addFolder, getAllFolder } from "@xiaxiazheng/blog-libs";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { message, Tree } from "antd";
 import { ArrowUpOutlined, FolderAddOutlined } from "@ant-design/icons";
@@ -132,7 +132,7 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
         if (res) {
             setFolderList(
                 res.sort(
-                    (a, b) =>
+                    (a: FolderType, b: FolderType) =>
                         new Date(b.cTime).getTime() -
                         new Date(a.cTime).getTime()
                 )

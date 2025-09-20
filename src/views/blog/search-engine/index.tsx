@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, Pagination, Radio, Empty, Button, Space, Spin } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
-import { searchBlogList } from "@/client/BlogHelper";
+import { searchBlogList } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     back: Function;

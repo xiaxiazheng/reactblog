@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import { getMediaList } from "@/client/VideoHelper";
+import { getMediaList } from "@xiaxiazheng/blog-libs";
 import { cdnUrl } from "@/env_config";
 import { Button, Input, message, Tooltip } from "antd";
 import {

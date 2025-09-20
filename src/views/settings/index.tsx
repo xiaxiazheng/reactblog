@@ -3,7 +3,7 @@ import {
     deleteSettings,
     getSettingsList,
     updateSettings,
-} from "@/client/SettingsHelper";
+} from "@xiaxiazheng/blog-libs";
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getChildName } from "@/client/TreeHelper";
-import { getNodeCont } from "@/client/TreeContHelper";
-import { ImageType } from "@/client/ImgHelper";
+import { getChildName } from "@xiaxiazheng/blog-libs";
+import { getNodeCont } from "@xiaxiazheng/blog-libs";
+import { ImageType } from "@xiaxiazheng/blog-libs";
 import { staticUrl } from "@/env_config";
 import Loading from "@/components/loading";
 import PreviewImage from "@/components/preview-image";

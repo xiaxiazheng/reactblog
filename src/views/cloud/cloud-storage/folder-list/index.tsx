@@ -9,7 +9,7 @@ import {
     FolderOutlined,
     RocketOutlined,
 } from "@ant-design/icons";
-import { updateFolderName, deleteFolder } from "@/client/FolderHelper";
+import { updateFolderName, deleteFolder } from "@xiaxiazheng/blog-libs";
 import { FolderType } from "..";
 
 interface IProps extends RouteComponentProps {

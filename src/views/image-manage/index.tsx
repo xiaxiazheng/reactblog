@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { ImageType, getImgList, getImgTypeList } from "@/client/ImgHelper";
+import { ImageType, getImgList, getImgTypeList } from "@xiaxiazheng/blog-libs";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import Loading from "@/components/loading";
 import { UserContext } from "@/context/UserContext";

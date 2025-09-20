@@ -6,7 +6,7 @@ import {
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 import { OneBlogType } from "../../BlogType";
-import { modifyBlogCont } from "@/client/BlogHelper";
+import { modifyBlogCont } from "@xiaxiazheng/blog-libs";
 import "./index.scss";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
