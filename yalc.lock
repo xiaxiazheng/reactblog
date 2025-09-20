@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@xiaxiazheng/blog-libs": {
+      "signature": "0295ce3729d37cbb467dc3c88ae71d00",
+      "file": true,
+      "replaced": "^0.0.3"
+    }
+  }
+}

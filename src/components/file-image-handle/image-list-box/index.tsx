@@ -190,13 +190,13 @@ const ImageBox: React.FC<PropsType> = (props) => {
                     )}\n${(imageData as ImgType).cTime}`}
                 >
                     <div>
-                        <Tooltip title="复制图片链接">
+                        <Tooltip title="复制图片markdown">
                             <CopyOutlined
                                 className={styles.iconBoxIcon}
-                                title="复制图片链接"
+                                title="复制图片markdown"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    copyUrl(imageUrl);
+                                    copyUrl(`![图片](${imageUrl})`);
                                 }}
                             />
                         </Tooltip>

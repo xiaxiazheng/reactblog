@@ -20,7 +20,6 @@ module.exports = {
                 react: "React",
                 "react-dom": "ReactDOM",
                 "highlight.js": "hljs",
-                "markdown-it": "markdownit",
             }),
             addWebpackAlias({
                 // eslint-disable-next-line no-useless-computed-key
