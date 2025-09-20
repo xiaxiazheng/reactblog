@@ -9,7 +9,6 @@ import styles from "./index.module.scss";
 import store, { Dispatch, RootState } from "@/views/todo-list/rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import TodoItem from "@/views/todo-list/component/todo-item";
-import { useOriginTodo } from "@/views/todo-list/component/global-search";
 import { SettingsContext } from "@/context/SettingsContext";
 import Loading from "../loading";
 import { TodoItemType } from "@/views/todo-list/types";
@@ -45,20 +44,6 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                 ) // 把创建时间最晚的放前面
         );
     }, [todoListOrigin]);
-
-    const originTodo = useOriginTodo();
-
-    const handleAdd = () => {
-        setActiveTodo(undefined);
-        setOperatorType("add");
-        setShowEdit(true);
-        form?.setFieldsValue({
-            ...originTodo,
-            category: originTodo.category,
-            isHabit: "1",
-            isWork: isWork || "0",
-        });
-    };
 
     const settings = useContext(SettingsContext);
 

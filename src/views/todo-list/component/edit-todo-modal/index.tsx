@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
-import { useOriginTodo } from "../global-search";
+import { useGetOriginTodo } from "../global-search";
 import TodoChildList from "./todo-child-list";
 import { SettingsContext } from "@/context/SettingsContext";
 import Footer from "./footer";
@@ -167,7 +167,7 @@ const EditTodoModal: React.FC = () => {
 
     const [isEditingOther, setIsEditingOther] = useState<boolean>(false);
 
-    const originTodo = useOriginTodo();
+    const getOriginTodo = useGetOriginTodo();
 
     // 创建副本或子 todo
     const [type2, setType2] = useState<OperatorType2 | undefined>();
@@ -179,7 +179,7 @@ const EditTodoModal: React.FC = () => {
         setType("add");
         setType2(type);
         const newTodo = {
-            ...originTodo,
+            ...getOriginTodo(),
             name: item.name,
             description: type !== "add_child" ? item.description : "",
             time: type === "copy" ? dayjs(item.time) : dayjs(),

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, Checkbox, Space, Tooltip } from "antd";
-import { CreateTodoItemReq, TodoStatus } from "../../types";
+import { TodoStatus } from "../../types";
 import {
     ClearOutlined,
     PlusOutlined,
     RedoOutlined,
-    CoffeeOutlined,
     FilterOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -17,10 +16,10 @@ import TodoTypeIcon from "../todo-type-icon";
 import { SettingsContext } from "@/context/SettingsContext";
 import { colorTitle } from "../../utils";
 
-export const useOriginTodo = () => {
+export const useGetOriginTodo = () => {
     const settings = useContext(SettingsContext);
 
-    return {
+    return () => ({
         name: "",
         description: "",
         time: dayjs(),
@@ -36,7 +35,7 @@ export const useOriginTodo = () => {
         isKeyNode: "0",
         isFollowUp: "0",
         other_id: "",
-    };
+    });
 };
 
 const GlobalSearch: React.FC = () => {
@@ -73,15 +72,15 @@ const GlobalSearch: React.FC = () => {
         setActiveColor,
     } = dispatch.filter;
 
-    const originTodo = useOriginTodo();
+    const getOriginTodo = useGetOriginTodo();
 
     const handleAdd = () => {
         setActiveTodo(undefined);
         setOperatorType("add");
         setShowEdit(true);
         form?.setFieldsValue({
-            ...originTodo,
-            category: isWork === "1" ? "公司" : originTodo.category,
+            ...getOriginTodo(),
+            category: isWork === "1" ? "公司" : getOriginTodo().category,
             isWork: isWork || "0",
         });
     };
