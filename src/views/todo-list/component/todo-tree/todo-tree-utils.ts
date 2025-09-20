@@ -1,4 +1,4 @@
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 export interface TodoTreeItemType extends TodoItemType {
     key: string;

@@ -1,31 +1,7 @@
 import React from "react";
-import {
-    AimOutlined,
-    BookOutlined,
-    BarsOutlined,
-    PushpinOutlined,
-    ThunderboltFilled,
-    AppleFilled,
-    StarFilled,
-    FireFilled,
-    FieldTimeOutlined,
-    CoffeeOutlined,
-} from "@ant-design/icons";
+import { TodoIconMap } from "@xiaxiazheng/blog-libs";
 
-const todoIconMap = {
-    target: AimOutlined,
-    note: BookOutlined,
-    habit: BarsOutlined,
-    urgent: ThunderboltFilled,
-    work: AppleFilled,
-    key: PushpinOutlined,
-    followUp: FireFilled,
-    bookMark: StarFilled,
-    onlyToday: FieldTimeOutlined,
-    life: CoffeeOutlined,
-};
-
-type TodoType = keyof typeof todoIconMap;
+type TodoType = keyof typeof TodoIconMap;
 
 interface IProps {
     type: TodoType;
@@ -35,7 +11,7 @@ interface IProps {
 const TodoTypeIcon: React.FC<IProps> = (props) => {
     const { type, ...rest } = props;
 
-    const Component = todoIconMap[type];
+    const Component = TodoIconMap[type];
 
     return <Component {...rest} />;
 };

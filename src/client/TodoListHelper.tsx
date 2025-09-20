@@ -1,4 +1,4 @@
-import { CreateTodoItemReq, EditTodoItemReq } from "@/views/todo-list/types";
+import { CreateTodoItemReq, EditTodoItemReq } from "@xiaxiazheng/blog-libs";
 import { getHelper, postHelper } from ".";
 
 /** 获取列表 */

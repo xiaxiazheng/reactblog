@@ -7,14 +7,15 @@ import { createModel } from "@rematch/core";
 import { message } from "antd";
 import {
     CategoryType,
-    CreateTodoItemReq,
     StatusType,
-    TodoItemType,
     TodoStatus,
 } from "../../types";
+import {
+    CreateTodoItemReq,
+    TodoItemType,
+} from "@xiaxiazheng/blog-libs";
 import type { RootModel } from "./index";
 import dayjs from "dayjs";
-import { getToday } from "@/components/amdin-header/utils";
 
 interface DataType {
     todoLoading: boolean;

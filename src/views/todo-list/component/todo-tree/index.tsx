@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { TodoItemType } from "../../types";
 import TodoItem, { TodoItemProps } from "../todo-item";
 import styles from "./index.module.scss";
 import Tree from "./tree";
 import { handleListToTree, handleTreeToList, TodoTreeItemType } from "./todo-tree-utils";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface Props {
     todoList: TodoItemType[];

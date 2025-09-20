@@ -6,7 +6,7 @@ import { useCtrlHooks } from "../../hooks/useCtrlHook";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { addTodoItem, getTodoList } from "@/client/TodoListHelper";
-import { TodoItemType, CreateTodoItemReq } from "../todo-list/types";
+import { TodoItemType, CreateTodoItemReq } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 
 let timer: any;

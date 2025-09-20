@@ -11,7 +11,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import TodoItem from "@/views/todo-list/component/todo-item";
 import { SettingsContext } from "@/context/SettingsContext";
 import Loading from "../loading";
-import { TodoItemType } from "@/views/todo-list/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface PropsType { }
 
@@ -62,11 +62,11 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
         const chanceColorList = settings?.quickDecisionConfig?.chanceColorList;
         const max =
             l
-                .map((item) => item.child_todo_list_length)
+                .map((item) => item?.child_todo_list_length || 0)
                 .sort((a, b) => b - a)?.[0] + 1; // 这里算出来，没有做过的事情占一份，做过的事情占 N+1 份
         const list = l
             .map(
-                (item) => max - item.child_todo_list_length // 用 max 去减，得出的是反向的次数占比，用来提高做得少的事情的优先级
+                (item) => max - (item?.child_todo_list_length || 0) // 用 max 去减，得出的是反向的次数占比，用来提高做得少的事情的优先级
             )
             .map((item, index) => {
                 const colorWeight = chanceColorList[Number(l[index].color)];
