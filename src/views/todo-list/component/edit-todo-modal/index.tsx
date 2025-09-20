@@ -3,8 +3,6 @@ import { Modal, message, Tooltip, Form, Space } from "antd";
 import styles from "./index.module.scss";
 import {
     OperatorType,
-    TodoStatus,
-    StatusType,
     OperatorType2,
 } from "../../types";
 import dayjs from "dayjs";
@@ -24,7 +22,11 @@ import { SettingsContext } from "@/context/SettingsContext";
 import Footer from "./footer";
 import { titleMap } from "./utils";
 import OtherForm from "./other-form";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import {
+    TodoItemType,
+    TodoStatus,
+    StatusType,
+} from "@xiaxiazheng/blog-libs";
 
 const EditTodoModal: React.FC = () => {
     const { theme } = useContext(ThemeContext);

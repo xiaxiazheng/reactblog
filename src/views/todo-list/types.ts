@@ -1,8 +1,5 @@
-export type StatusType = "todo" | "done" | "target" | "bookMark" | "note" | "habit" | "followUp";
-export enum TodoStatus {
-    todo = 0,
-    done = 1,
-}
+import { TodoStatus } from "@xiaxiazheng/blog-libs";
+
 export const TodoStatusMap: any = {
     [TodoStatus.todo]: 'todo',
     [TodoStatus.done]: 'done',

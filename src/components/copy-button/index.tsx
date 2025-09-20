@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, message } from "antd";
-import { handleCopy } from "@/views/todo-list/utils";
+import { handleCopy } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     text: string;

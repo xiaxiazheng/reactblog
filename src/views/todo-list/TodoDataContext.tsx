@@ -1,10 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
-import { StatusType, TodoStatus } from "./types";
 import { message } from "antd";
 import { getTodoList } from "@/client/TodoListHelper";
 import useUpdateEffect from "@/hooks/useUpdateEffect";
 import { debounce } from "./utils";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, StatusType, TodoStatus } from "@xiaxiazheng/blog-libs";
 
 interface ContextType {
     todoLoading: boolean;

@@ -6,7 +6,7 @@ import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { getRangeFormToday } from "../../utils";
-import { TodoStatus } from "../../types";
+import { TodoStatus } from "@xiaxiazheng/blog-libs";
 import TodoCalendar from "./TodoCalendar";
 
 dayjs.locale("zh-cn");

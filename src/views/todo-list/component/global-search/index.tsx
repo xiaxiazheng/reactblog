@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, Checkbox, Space, Tooltip } from "antd";
-import { TodoStatus } from "../../types";
 import {
     ClearOutlined,
     PlusOutlined,
@@ -12,7 +11,7 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import Filter from "./filter";
-import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
+import { TodoTypeIcon, TodoStatus } from "@xiaxiazheng/blog-libs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { colorTitle } from "../../utils";
 

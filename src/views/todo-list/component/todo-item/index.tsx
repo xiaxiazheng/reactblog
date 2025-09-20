@@ -3,12 +3,11 @@ import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import { CheckCircleOutlined, SendOutlined } from "@ant-design/icons";
 import { doneTodoItem } from "@/client/TodoListHelper";
-import { TodoStatus } from "../../types";
 import TodoItemName from "./todo-item-name";
 import TodoChainIcon from "../todo-chain-icon";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, TodoStatus } from "@xiaxiazheng/blog-libs";
 
 export interface TodoItemProps {
     item: TodoItemType;

@@ -9,10 +9,10 @@ import {
     Button,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { handleCopy, colorTitle } from "../../utils";
+import { colorTitle } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, handleCopy } from "@xiaxiazheng/blog-libs";
 import InputList, { splitStr } from "../input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";

@@ -47,7 +47,7 @@ const FileUpload: React.FC<IProps> = (props) => {
         }
     };
 
-    const handleCopy = async () => {
+    const handleCopyImage = async () => {
         const clipboardItems = await navigator.clipboard.read();
         let find = false;
         for (const clipboardItem of clipboardItems) {
@@ -95,7 +95,7 @@ const FileUpload: React.FC<IProps> = (props) => {
             });
     };
 
-    const handleCopyLink = async () => {
+    const handleCopyImageLink = async () => {
         const name = prompt(`请输入将上传的图片的 url`);
         if (name !== null && name !== "") {
             const file = await urlToBlob(name);
@@ -174,7 +174,7 @@ const FileUpload: React.FC<IProps> = (props) => {
                         <Button
                             className={styles.parseButton}
                             onClick={(e) => {
-                                handleCopy();
+                                handleCopyImage();
                                 e.preventDefault();
                                 e.stopPropagation();
                             }}
@@ -184,7 +184,7 @@ const FileUpload: React.FC<IProps> = (props) => {
                         </Button>
                         <Button
                             onClick={(e) => {
-                                handleCopyLink();
+                                handleCopyImageLink();
                                 e.preventDefault();
                                 e.stopPropagation();
                             }}
