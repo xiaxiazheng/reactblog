@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import { QuestionCircleOutlined, FileImageOutlined } from "@ant-design/icons";
 import { getRangeFormToday } from "../../utils";
-import { TodoItemType, TodoStatus } from "../../types";
+import { TodoStatus } from "../../types";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import {
@@ -14,10 +14,10 @@ import { splitMdStr, splitStr } from "../input-list";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import TodoTypeIcon from "../todo-type-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { getToday } from "@/components/amdin-header/utils";
-import { MarkdownShow } from "@xiaxiazheng/blog-libs";
+import { MarkdownShow, TodoItemType } from "@xiaxiazheng/blog-libs";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     if (!str) return <></>;

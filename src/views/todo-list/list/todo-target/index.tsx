@@ -4,7 +4,7 @@ import { SortKeyMap } from "../../component/sort-btn";
 import TodoTreeList from "../../todo-tree-list";
 import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
-import TodoTypeIcon from "../../component/todo-type-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { RenderTodoDescriptionIcon } from "../todo-list";
 

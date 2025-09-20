@@ -5,7 +5,7 @@ import { PlusOutlined, MinusOutlined } from "@ant-design/icons"
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import TodoTypeIcon from "../todo-type-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import SwitchComp from "../todo-form/switch";
 import { SettingsContext } from "@/context/SettingsContext";
 import { UserContext } from "@/context/UserContext";

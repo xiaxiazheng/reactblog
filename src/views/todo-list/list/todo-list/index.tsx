@@ -6,7 +6,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
-import TodoTypeIcon from "../../component/todo-type-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { getToday } from "@/components/amdin-header/utils";
 

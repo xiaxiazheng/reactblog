@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import TodoTypeIcon from "../../component/todo-type-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../../todo-tree-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import { SettingsContext } from "@/context/SettingsContext";

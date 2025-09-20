@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import Filter from "./filter";
-import TodoTypeIcon from "../todo-type-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import { SettingsContext } from "@/context/SettingsContext";
 import { colorTitle } from "../../utils";
 
@@ -160,9 +160,9 @@ const GlobalSearch: React.FC = () => {
                             style={
                                 isWork === "1"
                                     ? {
-                                          borderColor: "#00d4d8",
-                                          background: "#00d4d8",
-                                      }
+                                        borderColor: "#00d4d8",
+                                        background: "#00d4d8",
+                                    }
                                     : { borderColor: "#00d4d8" }
                             }
                         />
@@ -184,9 +184,9 @@ const GlobalSearch: React.FC = () => {
                             style={
                                 isWork === "0"
                                     ? {
-                                          borderColor: "#00d4d8",
-                                          background: "#00d4d8",
-                                      }
+                                        borderColor: "#00d4d8",
+                                        background: "#00d4d8",
+                                    }
                                     : { borderColor: "#00d4d8" }
                             }
                         />
@@ -265,13 +265,10 @@ const GlobalSearch: React.FC = () => {
                                 );
                             }}
                             style={{ color: todoColorMap[item] }}
-                            className={`${styles.color} ${
-                                item === "0" ? styles.zero : ""
-                            }${item === "1" ? styles.one : ""}${
-                                item === "2" ? styles.two : ""
-                            }${item === "3" ? styles.three : ""}${
-                                item === "4" ? styles.four : ""
-                            }${item === "-1" ? styles.minusOne : ""}`}
+                            className={`${styles.color} ${item === "0" ? styles.zero : ""
+                                }${item === "1" ? styles.one : ""}${item === "2" ? styles.two : ""
+                                }${item === "3" ? styles.three : ""}${item === "4" ? styles.four : ""
+                                }${item === "-1" ? styles.minusOne : ""}`}
                         >
                             {todoColorNameMap?.[item]}
                         </Checkbox>

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal, message, Tooltip, Form, Space } from "antd";
 import styles from "./index.module.scss";
 import {
-    TodoItemType,
     OperatorType,
     TodoStatus,
     StatusType,
@@ -25,6 +24,7 @@ import { SettingsContext } from "@/context/SettingsContext";
 import Footer from "./footer";
 import { titleMap } from "./utils";
 import OtherForm from "./other-form";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 const EditTodoModal: React.FC = () => {
     const { theme } = useContext(ThemeContext);
