@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styles from "./index.module.scss";
 import { Tooltip } from "antd";
 import { ClockCircleOutlined } from "@ant-design/icons";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 import { handleIsTodayPunchTheClock } from "../habit-detail-modal";

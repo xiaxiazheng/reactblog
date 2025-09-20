@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Button, Modal, Tooltip } from "antd";
 import TodoImageFile from "../../component/todo-image-file";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { TodoItemType } from "@/views/todo-list/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemName from "@/views/todo-list/component/todo-item/todo-item-name";
 import { ThemeContext } from "@/context/ThemeContext";
 import CopyButton from "@/components/copy-button";

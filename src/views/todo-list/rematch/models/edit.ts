@@ -1,7 +1,8 @@
 import { createModel } from "@rematch/core";
 import { FormInstance } from "antd";
-import { OperatorType, TodoItemType } from "../../types";
+import { OperatorType } from "../../types";
 import type { RootModel } from "./index";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface EditType {
     activeTodo: TodoItemType | "";

@@ -1,7 +1,7 @@
 import { getTodoByIdList, getTodoList } from "@/client/TodoListHelper";
 import { Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import TodoItem from "../../component/todo-item";
 import styles from "./index.module.scss";
@@ -13,7 +13,7 @@ interface IProps {
 
 const key = "todo_footprint_id_list";
 
-interface NewTodoItemType extends TodoItemType {
+export interface NewTodoItemType extends TodoItemType {
     edit_time: string;
 }
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space, Modal } from "antd";
-import { TodoItemType, CategoryType } from "../../types";
+import { CategoryType } from "../../types";
 import TodoImageFile from "../../component/todo-image-file";
 import { getTodoCategory, getTodoList } from "@/client/TodoListHelper";
 import { renderDescription } from "../../component/todo-item/todo-item-name";
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import TodoItem from "../../component/todo-item";
 import { ThemeContext } from "@/context/ThemeContext";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 const { Search } = Input;
 
@@ -226,14 +227,14 @@ const TodoNote: React.FC<IProps> = (props) => {
                                                         isOnlyShow={true}
                                                         todo={{
                                                             ...item,
-                                                            imgList: item.imgList.slice(
+                                                            imgList: item.imgList?.slice(
                                                                 0,
                                                                 maxLength
                                                             ),
                                                         }}
                                                         width="120px"
                                                     />
-                                                    {item.imgList.length > maxLength && (
+                                                    {item.imgList && item.imgList.length > maxLength && (
                                                         <div style={{ opacity: 0.7 }}>
                                                             还有{" "}
                                                             {item.imgList.length -

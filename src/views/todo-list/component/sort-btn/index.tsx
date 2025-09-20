@@ -1,7 +1,7 @@
 import { CalendarOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import React, { useState } from "react";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 export enum SortKeyMap {
     todo,

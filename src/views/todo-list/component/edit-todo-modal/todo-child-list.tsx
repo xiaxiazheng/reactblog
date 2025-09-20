@@ -1,6 +1,6 @@
 import { message, Space } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoChainIcon from "../todo-chain-icon";
 import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";

@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { SettingsContext } from "@/context/SettingsContext";
 import styles from "./index.module.scss";
 import TodoCalendar from "@/views/todo-list/deprecate/habit-detail-modal/TodoCalendar";
-import { TodoItemType } from "@/views/todo-list/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface Props {
     open: boolean;

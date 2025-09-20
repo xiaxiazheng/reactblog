@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { message } from "antd";
 import styles from "./index.module.scss";
-import { TodoItemType } from "../../types";
 import TodoForm from "../todo-form";
 import TodoItemName from "../todo-item/todo-item-name";
 import TodoChildList from "./todo-child-list";
 import { FormInstance } from "antd/lib/form/Form";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     otherTodo: TodoItemType | undefined;

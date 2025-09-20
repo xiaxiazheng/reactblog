@@ -2,7 +2,7 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import SortBtn, {
     useIsSortByMulti,
 } from "../../component/sort-btn-multi";

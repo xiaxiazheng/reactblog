@@ -6,7 +6,7 @@ import {
     SwapOutlined,
     SwapRightOutlined,
 } from "@ant-design/icons";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../rematch";
 
@@ -30,7 +30,7 @@ const TodoChainIcon = (props: {
     const isUp = item?.other_id;
     // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
     const isDown = (() => {
-        return isHasChild && item?.child_todo_list_length > 1;
+        return isHasChild && (item?.child_todo_list_length ?? 0) > 1;
     })();
 
     if (!isUp && !isDown) {

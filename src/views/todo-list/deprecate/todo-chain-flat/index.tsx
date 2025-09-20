@@ -3,7 +3,7 @@ import { Button, Checkbox, Divider, Space } from "antd";
 import styles from "./index.module.scss";
 import dayjs, { ManipulateType } from "dayjs";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItem from "../../component/todo-item";
 
 interface IProps {

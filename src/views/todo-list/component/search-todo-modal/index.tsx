@@ -8,13 +8,14 @@ import {
     Space,
 } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import {
     fetchFootprintList,
     getFootPrintList,
+    NewTodoItemType,
 } from "../../list/todo-footprint";
 import TodoTree from "../todo-tree";
 import { useSelector } from "react-redux";
@@ -38,7 +39,7 @@ const SearchTodoModal: React.FC<IProps> = ({
     onChange,
     activeTodo,
 }) => {
-    const [footprintList, setFootprintList] = useState<TodoItemType[]>([]);
+    const [footprintList, setFootprintList] = useState<NewTodoItemType[]>([]);
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Space } from "antd";
 import { getTodoById } from "@/client/TodoListHelper";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemName from "../todo-item/todo-item-name";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";

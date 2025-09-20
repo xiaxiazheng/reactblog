@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Divider, message, Select, Tooltip } from "antd";
 import { getTodoById, getTodoList } from "@/client/TodoListHelper";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemName from "../component/todo-item/todo-item-name";
 import styles from "./index.module.scss";
 

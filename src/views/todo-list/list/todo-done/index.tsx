@@ -8,7 +8,7 @@ import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 import useScrollToHook from "@/hooks/useScrollToHooks";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoDoneDataModal from "./todo-done-data-modal";
 import { getToday } from "@/components/amdin-header/utils";
 import TodoTree from "../../component/todo-tree";

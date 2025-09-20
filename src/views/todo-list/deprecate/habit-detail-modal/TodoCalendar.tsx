@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Calendar } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     todoList: TodoItemType[] | undefined; // 需要在日历上标记的项目的 todo 列表
