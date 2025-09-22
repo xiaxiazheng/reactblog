@@ -22,7 +22,6 @@ export const SettingsProvider: React.FC = (props) => {
 
     useEffect(() => {
         getSettings().then((res) => {
-            console.log("settings", res);
             setSettings(res);
         });
     }, []);
