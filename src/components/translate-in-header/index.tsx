@@ -65,14 +65,14 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
         const res = await getTranslateList(params);
         if (res) {
             setList(
-                res.list.map((item: any) => {
+                res.data.list.map((item: any) => {
                     return {
                         ...item,
                         result: JSON.parse(item.result),
                     };
                 })
             );
-            setTotal(res.total);
+            setTotal(res.data.total);
         }
     };
 

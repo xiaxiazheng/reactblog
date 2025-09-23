@@ -94,7 +94,7 @@ const Settings = () => {
                     value: JSON.parse(editingValue),
                     description: editingDescription,
                 });
-                setIsEditing(false);
+                handleClear();
                 getData();
             } catch (e) {
                 message.error("保存失败，当前不是第一个完整对象");
@@ -151,7 +151,7 @@ const Settings = () => {
         }
     };
 
-    const handleCancel = () => {
+    const handleClear = () => {
         setIsEditing(false);
         setEditing(undefined);
         setEditingName("");
@@ -176,7 +176,7 @@ const Settings = () => {
             />
             <Modal
                 open={isEditing}
-                onCancel={handleCancel}
+                onCancel={handleClear}
                 footer={
                     <>
                         <Button onClick={handleFormat}>格式化</Button>
