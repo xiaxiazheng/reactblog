@@ -23,16 +23,20 @@ const Settings = () => {
             title: "Name",
             dataIndex: "name",
             key: "name",
+            width: 150,
         },
         {
             title: "Description",
             dataIndex: "description",
+            width: 300,
             key: "description",
+            render: (_) => {
+                return <div className={styles.renderValue}>{_}</div>;
+            },
         },
         {
             title: "Value",
             dataIndex: "value",
-            width: 600,
             key: "value",
             render: (_) => {
                 return <div className={styles.renderValue}>{_}</div>;
@@ -41,6 +45,7 @@ const Settings = () => {
         {
             title: "Action",
             key: "action",
+            width: 200,
             render: (_, record) => (
                 <Space size="middle">
                     <Button onClick={() => handleEdit(record)}>编辑</Button>

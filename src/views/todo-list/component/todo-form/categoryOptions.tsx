@@ -1,4 +1,3 @@
-import { SettingsContext } from "@/context/SettingsContext";
 import {
     DownCircleOutlined,
     UpCircleOutlined,
@@ -8,6 +7,7 @@ import { Button, Input, message, Radio } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { CategoryType } from "../../types";
 import styles from "./index.module.scss";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
