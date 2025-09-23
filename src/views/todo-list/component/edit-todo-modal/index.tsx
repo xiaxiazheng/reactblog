@@ -18,7 +18,7 @@ import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useGetOriginTodo } from "../global-search";
 import TodoChildList from "./todo-child-list";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import Footer from "./footer";
 import { titleMap } from "./utils";
 import OtherForm from "./other-form";
@@ -44,7 +44,7 @@ const EditTodoModal: React.FC = () => {
     } = dispatch.edit;
     const { refreshData } = dispatch.data;
 
-    const settings = useContext(SettingsContext);
+    const settings = useSettings();
 
     const [otherTodo, setOtherTodo] = useState<TodoItemType>();
 

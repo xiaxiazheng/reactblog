@@ -4,12 +4,12 @@ import { SortKeyMap } from "../../component/sort-btn";
 import List from "../../todo-split-day-list";
 import { RootState } from "../../rematch";
 import { formatArrayToTimeMap } from "../../utils";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import { RenderTodoDescriptionIcon } from "../todo-list";
-import { getToday } from "@/components/amdin-header/utils";
+import { getToday } from "@/components/header-admin/utils";
 
 const TodoAfter = () => {
-    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap } = useSettings();
 
     const todoLoading = useSelector(
         (state: RootState) => state.data.todoLoading

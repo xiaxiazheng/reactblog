@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, message, Tooltip } from "antd";
+import { Button, message, Popconfirm, Space, Tooltip } from "antd";
 import { formatArrayToTimeMap } from "../../utils";
 import List from "../../todo-split-day-list";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { QuestionCircleOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
-import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import { SettingsContext } from "@/context/SettingsContext";
-import { getToday } from "@/components/amdin-header/utils";
+import { editTodoItem, TodoItemType, TodoStatus, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
+import { useSettings } from "@xiaxiazheng/blog-libs";
+import { getToday } from "@/components/header-admin/utils";
+import styles from './index.module.scss';
 
 export const RenderTodoDescriptionIcon = (props: { title: any }) => {
     const { title } = props;
@@ -23,7 +24,7 @@ export const RenderTodoDescriptionIcon = (props: { title: any }) => {
 
 const TodoList = () => {
     const { todoNameMap, todoDescriptionMap, todoShowBeforeToday } =
-        useContext(SettingsContext);
+        useSettings();
 
     const Today = () => getToday().format("YYYY-MM-DD");
 
@@ -65,7 +66,7 @@ const TodoList = () => {
     useEffect(() => {
         setIsShowLastLimit(
             localStorage.getItem("isShowLastLimit") ===
-                `${todoShowBeforeToday?.limit}`
+            `${todoShowBeforeToday?.limit}`
         );
     }, [todoShowBeforeToday?.limit]);
     const updateIsShowLastLimit = () => {
@@ -77,6 +78,21 @@ const TodoList = () => {
             temp ? todoShowBeforeToday?.limit : 500
         );
         getTodo({ type: "todo" });
+    };
+
+    // 把过期 todo 的日期调整成今天
+    const changeExpireToToday = async (list: TodoItemType[]) => {
+        const promiseList = list.filter(item => String(item.status) === String(TodoStatus.todo)).map((item) => {
+            return editTodoItem({
+                ...item,
+                time: Today(),
+            });
+        });
+        const res = await Promise.all(promiseList);
+        if (res) {
+            message.success(`Todo 日期调整成功`);
+            getTodo({ type: "todo" });
+        }
     };
 
     return (
@@ -130,6 +146,37 @@ const TodoList = () => {
                     ) : null}
                 </>
             }
+            renderDateBtn={(time: string) => {
+                return (
+                    <Space size={6}>
+                        {time < Today() && (
+                            <Popconfirm
+                                title={`是否将 ${time} 的 Todo 日期调整成今天`}
+                                onConfirm={() =>
+                                    changeExpireToToday(
+                                        formatArrayToTimeMap(
+                                            todoList
+                                                .filter((item) => item.time <= Today())
+                                                .concat(isShowFollowUp ? followUpList : [])
+                                        )[time]
+                                    )
+                                }
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <Tooltip title={"调整日期"}>
+                                    <VerticalAlignTopOutlined
+                                        title="调整日期"
+                                        className={
+                                            styles.icon
+                                        }
+                                    />
+                                </Tooltip>
+                            </Popconfirm>
+                        )}
+                    </Space>
+                )
+            }}
         />
     );
 };

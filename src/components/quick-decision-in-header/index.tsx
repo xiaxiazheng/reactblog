@@ -9,7 +9,7 @@ import styles from "./index.module.scss";
 import store, { Dispatch, RootState } from "@/views/todo-list/rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import TodoItem from "@/views/todo-list/component/todo-item";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import Loading from "../loading";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
@@ -45,7 +45,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
         );
     }, [todoListOrigin]);
 
-    const settings = useContext(SettingsContext);
+    const settings = useSettings();
 
     const [chanceList, setChanceList] = useState<number[]>();
     const [activeIndex, setActiveIndex] = useState<number>();

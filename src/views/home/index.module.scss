@@ -2,6 +2,9 @@
   height: 100%;
   background-color: var(--bg_color);
   background-size: 100% 100%;
+  .middle {
+    height: calc(100% - 58px);
+  }
   .footerBeian {
     display: flex;
     align-items: center;
@@ -9,7 +12,7 @@
     bottom: 0;
     width: 100%;
     min-width: 1440px;
-    height: 3.6rem;
+    height: 58px;
     font-size: 12px;
     background-color: var(--bg_color);
     border-top: 1px solid var(--border_color);

@@ -13,7 +13,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>();
 
-    const { todoCategoryDefaultShow = 0 } = useContext(SettingsContext);
+    const { todoCategoryDefaultShow = 0 } = useSettings();
 
     const [l, setList] = useState<CategoryType[]>(category);
     useEffect(() => {

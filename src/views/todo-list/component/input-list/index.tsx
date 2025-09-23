@@ -3,12 +3,10 @@ import { Button, Input, Radio, Space } from "antd";
 import { CopyOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import CopyButton from "@/components/copy-button";
-import { MarkdownShow } from "@xiaxiazheng/blog-libs";
+import { MarkdownShow, splitStr, splitMdStr } from "@xiaxiazheng/blog-libs";
 
 const { TextArea } = Input;
 
-export const splitStr = "<#####>";
-export const splitMdStr = "\n\n---\n";
 const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
     const l = value.split(splitStr);
 

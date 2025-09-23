@@ -14,14 +14,14 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import TodoTree from "../todo-tree";
 
 interface IProps extends DrawerProps { }
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
-    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
+    const { todoColorMap, todoColorNameMap } = useSettings();
 
     const visible = useSelector(
         (state: RootState) => state.edit.showChainModal

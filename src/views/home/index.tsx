@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import styles from "./index.module.scss";
-import { ImageType, getImgList } from "@xiaxiazheng/blog-libs";
-import { staticUrl } from "@/env_config";
-import classnames from "classnames";
-import { UserContext } from "@/context/UserContext";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import beian from "@/assets/beian.png";
+import HomeTodo from "./home-todo";
 
-interface IHome extends RouteComponentProps {}
+interface IHome extends RouteComponentProps { }
 
-const Home: React.FC<RouteComponentProps> = (props) => {
+const Home: React.FC<IHome> = (props) => {
     const { history } = props;
 
-    const [backgroundUrl, setBackgroundUrl] = useState("");
-    const { username } = useContext(UserContext);
+    // const { username } = useContext(UserContext);
 
     useEffect(() => {
         const listenLogin = (event: any) => {
@@ -32,37 +28,13 @@ const Home: React.FC<RouteComponentProps> = (props) => {
         };
     }, []);
 
-    useEffect(() => {
-        let imgList: any = [];
-        const getData = async () => {
-            const res: ImageType[] = await getImgList("main", username);
-            for (let item of res) {
-                // 拼好 img 的 url
-                imgList.push({
-                    ...item,
-                    imageUrl: `${staticUrl}/img/main/${item.filename}`,
-                    imageMinUrl:
-                        item.has_min === "1"
-                            ? `${staticUrl}/min-img/${item.filename}`
-                            : "",
-                });
-            }
-            imgList[0] && setBackgroundUrl(imgList[0].imageUrl);
-        };
-
-        getData();
-    }, [username]);
-
-    const homgClass = classnames({
-        [styles.Home]: true,
-        ScrollBar: true,
-    });
-
     return (
         <div
-            className={homgClass}
-            style={{ backgroundImage: `url(${backgroundUrl})` }}
+            className={`${styles.Home} ScrollBar`}
         >
+            <div className={`${styles.middle}`}>
+                <HomeTodo />
+            </div>
             <footer className={styles.footerBeian}>
                 <div
                     style={{ padding: "20px 0" }}
@@ -107,35 +79,6 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                         <span>粤ICP备18097682号</span>
                     </a>
                 </div>
-                {/* <div>
-                    <a
-                        target="_blank"
-                        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602005623"
-                        rel="noreferrer"
-                        style={{
-                            display: "inline-block",
-                            textDecoration: "none",
-                            height: "20px",
-                            lineHeight: "20px",
-                        }}
-                    >
-                        <img src={beian} alt="备案" />
-                        <span>粤公网安备 44010602005623号</span>
-                    </a>
-                    <a
-                        href="http://www.beian.miit.gov.cn"
-                        rel="noreferrer"
-                        target="_blank"
-                        style={{
-                            display: "inline-block",
-                            textDecoration: "none",
-                            height: "20px",
-                            lineHeight: "20px",
-                        }}
-                    >
-                        <span>粤ICP备18097682号</span>
-                    </a>
-                </div> */}
             </footer>
         </div>
     );

@@ -16,7 +16,7 @@ interface PropsType extends RouteComponentProps {
     setCurrent: Function;
 }
 
-const Header: React.FC<PropsType> = (props) => {
+const HeaderAdmin: React.FC<PropsType> = (props) => {
     const { location, history, routes, current, setCurrent } = props;
     const { theme, setTheme } = useContext(ThemeContext);
 
@@ -139,8 +139,8 @@ const Header: React.FC<PropsType> = (props) => {
                             style={{
                                 cursor: "pointer",
                                 color:
-                                    (nextDays && nextDays < 15) ||
-                                    (nextBirthday && nextBirthday < 15)
+                                    (nextDays && typeof nextDays === "number" && nextDays < 15) ||
+                                    (nextBirthday && typeof nextBirthday === "number" && nextBirthday < 15)
                                         ? "#40a9ff"
                                         : "unset",
                             }}
@@ -197,4 +197,4 @@ const Header: React.FC<PropsType> = (props) => {
     );
 };
 
-export default withRouter(Header);
+export default withRouter(HeaderAdmin);

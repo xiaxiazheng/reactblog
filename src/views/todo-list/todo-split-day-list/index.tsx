@@ -1,23 +1,19 @@
 import React, { useContext, useState } from "react";
-import { Button, message, Popconfirm, Space, Tooltip } from "antd";
+import { Button, Space, Tooltip } from "antd";
 import {
-    VerticalAlignTopOutlined,
     ThunderboltFilled,
     DownOutlined,
     UpOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import { editTodoItem } from "@xiaxiazheng/blog-libs";
 import Loading from "@/components/loading";
 import { getRangeFormToday, getWeek } from "../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "../rematch";
 import { useIsHIdeModel } from "../hooks";
-import { SettingsContext } from "@/context/SettingsContext";
-import { getToday } from "@/components/amdin-header/utils";
+import { useSettings } from "@xiaxiazheng/blog-libs";
+import { getToday } from "@/components/header-admin/utils";
 import TodoTree from "../component/todo-tree";
-import { TodoItemType, TodoStatus } from "@xiaxiazheng/blog-libs";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface Props {
     loading: boolean;
@@ -30,6 +26,7 @@ interface Props {
     showTimeOprationBtn?: boolean; // 是否展示日期右边的操作按钮
     isReverseTime?: boolean; // 是否倒序展示日期
     btnChildren?: React.ReactNode; // 额外的按钮
+    renderDateBtn?: (time: string) => React.ReactNode; // 自定义日期按钮
 }
 
 // 待办
@@ -40,15 +37,12 @@ const List: React.FC<Props> = (props) => {
         mapList,
         sortKey,
         showDoingBtn,
-        showTimeOprationBtn = true,
+        renderDateBtn,
         isReverseTime = false,
         btnChildren = null,
     } = props;
 
-    const { todoNameMap } = useContext(SettingsContext);
-
-    const dispatch = useDispatch<Dispatch>();
-    const { getTodo } = dispatch.data;
+    const { todoNameMap } = useSettings();
 
     const Today = () => getToday().format("YYYY-MM-DD");
 
@@ -56,21 +50,6 @@ const List: React.FC<Props> = (props) => {
         (prev, cur) => mapList[cur].length + prev,
         0
     );
-
-    // 把过期 todo 的日期调整成今天
-    const changeExpireToToday = async (list: TodoItemType[]) => {
-        const promiseList = list.filter(item => String(item.status) === String(TodoStatus.todo)).map((item) => {
-            return editTodoItem({
-                ...item,
-                time: Today(),
-            });
-        });
-        const res = await Promise.all(promiseList);
-        if (res) {
-            message.success(`Todo 日期调整成功`);
-            getTodo({ type: "todo" });
-        }
-    };
 
     const { isSortTime, setIsSortTime, handleSortTime, handleSortByColor } = useIsSortTime(
         `${sortKey}-sort-time`
@@ -157,31 +136,7 @@ const List: React.FC<Props> = (props) => {
                                             ? ` ${mapList[time]?.length}`
                                             : null}
                                     </span>
-                                    {showTimeOprationBtn && (
-                                        <Space size={6}>
-                                            {time < Today() && (
-                                                <Popconfirm
-                                                    title={`是否将 ${time} 的 Todo 日期调整成今天`}
-                                                    onConfirm={() =>
-                                                        changeExpireToToday(
-                                                            mapList[time]
-                                                        )
-                                                    }
-                                                    okText="Yes"
-                                                    cancelText="No"
-                                                >
-                                                    <Tooltip title={"调整日期"}>
-                                                        <VerticalAlignTopOutlined
-                                                            title="调整日期"
-                                                            className={
-                                                                styles.icon
-                                                            }
-                                                        />
-                                                    </Tooltip>
-                                                </Popconfirm>
-                                            )}
-                                        </Space>
-                                    )}
+                                    {renderDateBtn?.(time)}
                                 </div>
                                 <TodoTree todoList={showList} getTodoItemProps={() => {
                                     return { showDoneIcon: true }

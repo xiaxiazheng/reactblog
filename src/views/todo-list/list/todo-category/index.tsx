@@ -4,13 +4,13 @@ import { Dispatch, RootState } from "../../rematch";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../../todo-tree-list";
 import { SortKeyMap } from "../../component/sort-btn";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import { Button, Modal } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 import TodoCategoryShow from "../../component/todo-category-show";
 
 const TodoCategory = () => {
-    const { todoNameMap } = useContext(SettingsContext);
+    const { todoNameMap } = useSettings();
     const { theme } = useContext(ThemeContext);
 
     const habitLoading = useSelector(

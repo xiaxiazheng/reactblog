@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import styles from "./index.module.scss";
-import Header from "@/components/header";
+import HeaderHome from "@/components/header-home";
 import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";
 import { fallback } from "./index";
@@ -26,7 +26,7 @@ const HomeRouterView: React.FC<PropsType> = ({
     return (
         <>
             <div className={styles.RouterHead}>
-                <Header></Header>
+                <HeaderHome />
             </div>
             <Suspense fallback={fallback()}>
                 <div className={styles.RouterView}>

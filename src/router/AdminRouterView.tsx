@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
 import { RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import styles from "./index.module.scss";
-import AdminHeader from "@/components/amdin-header";
+import AdminHeader from "@/components/header-admin";
 import { AuthRoute } from "./AuthRoute";
 import { BlogProvider } from "@/views/blog/BlogContext";
 import { TreeProvider } from "@/views/tree/TreeContext";

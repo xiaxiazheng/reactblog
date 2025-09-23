@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { getTodoDoneCountList, getTodoList } from "@xiaxiazheng/blog-libs";
 import { RootState } from "@/views/todo-list/rematch";
 import dayjs from "dayjs";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
-import TodoCalendar from "@/views/todo-list/deprecate/habit-detail-modal/TodoCalendar";
+import TodoCalendar from "./todo-calendar";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 const DoneList: React.FC<Props> = (props) => {
     const { open, setOpen } = props;
 
-    const { todoColorMap = {}, todoColorNameMap = {} } = useContext(SettingsContext);
+    const { todoColorMap = {}, todoColorNameMap = {} } = useSettings();
 
     const category = useSelector((state: RootState) => state.data.category);
 
@@ -114,7 +114,7 @@ const DoneList: React.FC<Props> = (props) => {
 
     const thisYear = dayjs().startOf("year").format("YYYY-MM-DD");
     const [thisYearTodoList, setThisYearTodoList] = useState<TodoItemType[]>();
-    const [thisYearTodoListTotal, setThisYearTodoListTotal] = useState<TodoItemType[]>();
+    const [thisYearTodoListTotal, setThisYearTodoListTotal] = useState<number>();
     useState<TodoItemType[]>();
     const getThisYearTodoList = async () => {
         const params = {
@@ -126,8 +126,10 @@ const DoneList: React.FC<Props> = (props) => {
         };
         const res = await getTodoList(params);
         console.log(res);
-        setThisYearTodoList(res.data.list);
-        setThisYearTodoListTotal(res.data.total);
+        if (res) {
+            setThisYearTodoList(res.data.list);
+            setThisYearTodoListTotal(res.data.total);
+        }
     };
 
     return (

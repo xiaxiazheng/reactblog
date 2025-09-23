@@ -5,11 +5,11 @@ import TodoTreeList from "../../todo-tree-list";
 import { Dispatch, RootState } from "../../rematch";
 import { Button } from "antd";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import { RenderTodoDescriptionIcon } from "../todo-list";
 
 const TodoTarget = () => {
-    const { todoNameMap, todoDescriptionMap } = useContext(SettingsContext);
+    const { todoNameMap, todoDescriptionMap } = useSettings();
 
     const targetLoading = useSelector(
         (state: RootState) => state.data.targetLoading

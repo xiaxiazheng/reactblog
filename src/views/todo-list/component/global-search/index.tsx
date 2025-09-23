@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import Filter from "./filter";
 import { TodoTypeIcon, TodoStatus } from "@xiaxiazheng/blog-libs";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../../utils";
 
 export const useGetOriginTodo = () => {
-    const settings = useContext(SettingsContext);
+    const settings = useSettings();
 
     return () => ({
         name: "",
@@ -38,7 +38,7 @@ export const useGetOriginTodo = () => {
 };
 
 const GlobalSearch: React.FC = () => {
-    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
+    const { todoColorMap, todoColorNameMap } = useSettings();
     const category = useSelector((state: RootState) => state.data.category);
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(

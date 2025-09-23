@@ -8,14 +8,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
-import { SettingsContext } from "@/context/SettingsContext";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import TodoTree from "../todo-tree";
 import { TodoTreeItemType } from "../todo-tree/todo-tree-utils";
 
 interface IProps extends DrawerProps { }
 
 const TodoCategoryShow: React.FC<IProps> = () => {
-    const { todoColorMap, todoColorNameMap } = useContext(SettingsContext);
+    const { todoColorMap, todoColorNameMap } = useSettings();
 
     const dispatch = useDispatch<Dispatch>();
 

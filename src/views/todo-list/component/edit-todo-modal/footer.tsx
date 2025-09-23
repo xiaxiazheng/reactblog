@@ -12,11 +12,10 @@ import { OperatorType, OperatorType2 } from '../../types';
 import { CreateTodoItemReq, EditTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoChainIcon from '../todo-chain-icon';
 import { addBlogCont } from '@xiaxiazheng/blog-libs';
-import { splitStr } from '../input-list';
 import { handleFormData } from './utils';
 import { FormInstance } from 'antd/lib/form/Form';
 import { useCtrlHooks } from '@/hooks/useCtrlHook';
-import { addTodoItem, deleteTodoItem, editTodoItem } from '@xiaxiazheng/blog-libs';
+import { addTodoItem, deleteTodoItem, editTodoItem, splitStr } from '@xiaxiazheng/blog-libs';
 
 interface IProps {
     visible: boolean;
