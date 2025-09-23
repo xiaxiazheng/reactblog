@@ -1,19 +1,20 @@
 import {
     addSettings,
-    deleteSettings,
+    // deleteSettings,
     getSettingsList,
     updateSettings,
 } from "@xiaxiazheng/blog-libs";
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 
-import { Button, Drawer, Input, message, Modal, Space, Table } from "antd";
+import { Button, Input, message, Modal, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
 interface DataType {
     settings_id: string;
     name: string;
     value: string;
+    description: string;
 }
 
 const Settings = () => {
@@ -24,8 +25,14 @@ const Settings = () => {
             key: "name",
         },
         {
+            title: "Description",
+            dataIndex: "description",
+            key: "description",
+        },
+        {
             title: "Value",
             dataIndex: "value",
+            width: 600,
             key: "value",
             render: (_) => {
                 return <div className={styles.renderValue}>{_}</div>;
@@ -47,11 +54,13 @@ const Settings = () => {
         setEditing(item);
         setEditingName(item.name);
         setEditingValue(item.value);
+        setEditingDescription(item.description);
         setIsEditing(true);
     };
     const [editing, setEditing] = useState<DataType>();
     const [editingName, setEditingName] = useState<string>();
     const [editingValue, setEditingValue] = useState<string>();
+    const [editingDescription, setEditingDescription] = useState<string>();
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     const saveCreate = async () => {
@@ -62,6 +71,7 @@ const Settings = () => {
                 await addSettings({
                     name: editingName,
                     value: JSON.parse(editingValue),
+                    description: editingDescription,
                 });
                 setIsEditing(false);
                 getData();
@@ -82,6 +92,7 @@ const Settings = () => {
                     settings_id: editing?.settings_id,
                     name: editingName,
                     value: JSON.parse(editingValue),
+                    description: editingDescription,
                 });
                 setIsEditing(false);
                 getData();
@@ -117,6 +128,7 @@ const Settings = () => {
         );
     };
 
+    // 检查 value 格式
     const checkFormat = () => {
         try {
             editingValue && JSON.parse(editingValue);
@@ -126,6 +138,8 @@ const Settings = () => {
     };
 
     const [list, setList] = useState<DataType[]>([]);
+
+    // 帮助 value 格式化
     const handleFormat = () => {
         try {
             editingValue &&
@@ -142,6 +156,7 @@ const Settings = () => {
         setEditing(undefined);
         setEditingName("");
         setEditingValue("");
+        setEditingDescription("");
     };
 
     const handleAdd = () => {
@@ -153,7 +168,7 @@ const Settings = () => {
             <Button onClick={handleAdd}>新建配置</Button>
             <Table
                 className={styles.table}
-                style={{ width: 800 }}
+                style={{ width: '80vw' }}
                 scroll={{ y: 'calc(100vh - 300px)' }}
                 columns={columns}
                 key="settings_id"
@@ -184,9 +199,15 @@ const Settings = () => {
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
                 />
+                <div style={{ marginTop: 10 }}>配置描述：</div>
+                <Input.TextArea
+                    rows={3}
+                    value={editingDescription}
+                    onChange={(e) => setEditingDescription(e.target.value)}
+                />
                 <div style={{ marginTop: 10 }}>具体配置：</div>
                 <Input.TextArea
-                    rows={8}
+                    rows={16}
                     value={editingValue}
                     onChange={(e) => setEditingValue(e.target.value)}
                 />

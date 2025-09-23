@@ -30,7 +30,7 @@ const TodoChainIcon = (props: {
     const isUp = item?.other_id;
     // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
     const isDown = (() => {
-        return isHasChild && (item?.child_todo_list_length ?? 0) > 1;
+        return isHasChild && (item?.child_todo_list_length ?? 0) > 0;
     })();
 
     if (!isUp && !isDown) {
