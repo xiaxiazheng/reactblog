@@ -345,6 +345,7 @@ const Footer: React.FC<IProps> = (props) => {
                 )}
             </Space>
             <Space>
+                {props?.children}
                 {type === "edit" ? <Button
                     onClick={() => handleSaveAsBlog()}
                     disabled={isEditing}

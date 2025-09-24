@@ -7,14 +7,13 @@ import {
     Radio,
     Space,
 } from "antd";
-import { getTodoById, getTodoList, TodoItemType } from "@xiaxiazheng/blog-libs";
+import { getTodoById, getTodoList, TodoItemType, getFootPrintList } from "@xiaxiazheng/blog-libs";
 import TodoTreeWeb from "../todo-tree-web";
 import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import {
     fetchFootprintList,
-    getFootPrintList,
     NewTodoItemType,
 } from "../../list/todo-footprint";
 import { useSelector } from "react-redux";

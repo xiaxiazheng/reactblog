@@ -3064,10 +3064,8 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@xiaxiazheng/blog-libs@0.0.13":
+"@xiaxiazheng/blog-libs@file:.yalc/@xiaxiazheng/blog-libs":
   version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@xiaxiazheng/blog-libs/-/blog-libs-0.0.13.tgz#472b4a8b21f59ea0f45f7b112841cd1f33fa1b4f"
-  integrity sha512-FUnZ7+LJDz1dDwZrrjbjXaBoCdW4vM6IUwO6e2K4Fw+6XE46VvvpkRY7DoQ29g2tpwV8JPf6dlNkSEw29yKEOQ==
   dependencies:
     antd "^5.27.4"
     highlight.js "^11.2.0"

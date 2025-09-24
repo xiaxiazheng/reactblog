@@ -1,4 +1,4 @@
-import { getTodoByIdList, getTodoList } from "@xiaxiazheng/blog-libs";
+import { getFootPrintList, getTodoByIdList, getTodoList } from "@xiaxiazheng/blog-libs";
 import { Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
@@ -10,8 +10,6 @@ import TodoItemWeb from "../../component/todo-tree-web/todo-item-web";
 interface IProps {
     visible: boolean;
 }
-
-const key = "todo_footprint_id_list";
 
 export interface NewTodoItemType extends TodoItemType {
     edit_time: string;
@@ -56,24 +54,6 @@ export const fetchFootprintList = async (
     } else {
         return [];
     }
-};
-
-export const getFootPrintList = (): FootprintType[] => {
-    const str = localStorage.getItem(key);
-    return str ? JSON.parse(str) : [];
-};
-
-export const setFootPrintList = (todo_id: string) => {
-    const list = getFootPrintList();
-    const l = [
-        {
-            todo_id,
-            edit_time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        },
-    ]
-        .concat(list.filter((item) => item.todo_id !== todo_id))
-        .slice(0, maxLength);
-    localStorage.setItem(key, JSON.stringify(l));
 };
 
 const transferToMap = (list: FootprintType[]) => {

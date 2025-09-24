@@ -196,7 +196,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
                                 title="复制图片markdown"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    copyUrl(`![图片](${imageUrl})`);
+                                    copyUrl(`![图片](${imageUrl.replaceAll(" ", "%20")})`);
                                 }}
                             />
                         </Tooltip>

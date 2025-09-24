@@ -8,12 +8,11 @@ import {
 import dayjs from "dayjs";
 import TodoForm from "../todo-form";
 import TodoImageFile from "../todo-image-file";
-import { getTodoById } from "@xiaxiazheng/blog-libs";
+import { getTodoById, judgeIsCanShowInHomeTodo } from "@xiaxiazheng/blog-libs";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { setFootPrintList } from "../../list/todo-footprint";
 import { Dispatch, RootState } from "../../rematch";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useGetOriginTodo } from "../global-search";
@@ -26,6 +25,7 @@ import {
     TodoItemType,
     TodoStatus,
     StatusType,
+    setFootPrintList,
 } from "@xiaxiazheng/blog-libs";
 
 const EditTodoModal: React.FC = () => {
@@ -61,6 +61,8 @@ const EditTodoModal: React.FC = () => {
     useEffect(() => {
         // 可能来自外部途径的突然编辑
         if (activeTodo) {
+            handleJudgeIsCanShowInHomeTodo(activeTodo);
+
             const item = activeTodo;
             form &&
                 form.setFieldsValue({
@@ -227,6 +229,12 @@ const EditTodoModal: React.FC = () => {
         });
     };
 
+    // 判断当前 todo 会不会在 HomeTodo 中展示
+    const [isCanShowInHomeTodo, setIsCanShowInHomeTodo] = useState<boolean>(false);
+    const handleJudgeIsCanShowInHomeTodo = (todo: TodoItemType) => {
+        setIsCanShowInHomeTodo(judgeIsCanShowInHomeTodo(todo, settings));
+    }
+
     return (
         <Modal
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
@@ -305,7 +313,9 @@ const EditTodoModal: React.FC = () => {
                     handleAfterOk={() => {
                         setType2(undefined);
                     }}
-                />
+                >
+                    {isCanShowInHomeTodo ? '当前 todo 会在 homeTodo 中展示' : ''}
+                </Footer>
             }
         >
             <div className={styles.wrapper}>
@@ -332,6 +342,7 @@ const EditTodoModal: React.FC = () => {
                             form={form}
                             open={visible}
                             isFieldsChange={(changedFields) => {
+                                handleJudgeIsCanShowInHomeTodo(form.getFieldsValue());
                                 if (
                                     changedFields?.[0]?.name?.[0] === "other_id"
                                 ) {
