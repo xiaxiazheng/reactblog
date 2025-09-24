@@ -7,8 +7,10 @@ import { SortKeyMap } from "../../component/sort-btn";
 import { useSettings } from "@xiaxiazheng/blog-libs";
 import { Button, Modal } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
-import TodoCategoryShow from "../../component/todo-category-show";
+// import TodoCategoryShow from "../../component/todo-category-modal-show";
+import HomeTodo from "@/views/home/home-todo";
 
+/** 当前的知识目录 */
 const TodoCategory = () => {
     const { todoNameMap } = useSettings();
     const { theme } = useContext(ThemeContext);
@@ -41,7 +43,7 @@ const TodoCategory = () => {
                 mapList={habitList.sort(
                     (a, b) => Number(a.color) - Number(b.color)
                 )}
-                btn={<Button onClick={() => setIsOpen(true)}>show modal</Button>}
+                btn={<Button onClick={() => setIsOpen(true)}>home todo</Button>}
             />
             <Modal
                 className={`${theme === "dark" ? "darkTheme" : ""}`}
@@ -50,7 +52,7 @@ const TodoCategory = () => {
                 onCancel={() => setIsOpen(false)}
                 width={'90vw'}
             >
-                {isOpen && <TodoCategoryShow />}
+                {isOpen && <HomeTodo />}
             </Modal>
         </>
     );

@@ -7,14 +7,12 @@ import {
     Spin,
     Checkbox,
 } from "antd";
-import { getTodoChainById } from "@xiaxiazheng/blog-libs";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { getTodoChainById, TodoItemType, useSettings } from "@xiaxiazheng/blog-libs";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
-import { useSettings } from "@xiaxiazheng/blog-libs";
 import TodoTreeWeb from "../todo-tree-web";
 
 interface IProps extends DrawerProps { }

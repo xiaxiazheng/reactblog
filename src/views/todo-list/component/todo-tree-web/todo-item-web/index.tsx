@@ -3,12 +3,12 @@ import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import { CheckCircleOutlined, SendOutlined } from "@ant-design/icons";
 import { doneTodoItem, TodoItem, TodoItemProps, TodoStatus, TodoItemType, renderDescription } from "@xiaxiazheng/blog-libs";
-import TodoChainIcon from "../../todo-chain-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../rematch";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import { TooltipPlacement } from "antd/lib/tooltip";
+import TodoChainIconWeb from "../todo-chain-icon-web";
 
 export interface TodoItemWebProps extends TodoItemProps {
     showPointIcon?: boolean; // 展示 point 的 icon
@@ -22,18 +22,21 @@ export interface TodoItemWebProps extends TodoItemProps {
 /** 基于 todo-item 的封装，加上了本项目特有的数据逻辑等 */
 const TodoItemWeb: React.FC<TodoItemWebProps> = (props) => {
     const {
-        item,
         showPointIcon = false,
         showDoneIcon = false,
         showTime = false,
         showTimeRange = false,
+        ...rest
+    } = props;
+    const {
+        item,
         keyword = "",
         style = {},
         onlyShow = false,
         onClick,
         beforeClick,
         placement,
-    } = props;
+    } = rest;
 
     const dispatch = useDispatch<Dispatch>();
     const { getTodo } = dispatch.data;
@@ -92,15 +95,6 @@ const TodoItemWeb: React.FC<TodoItemWebProps> = (props) => {
                             </Tooltip>
                         </Popconfirm>
                     )}
-                    {/* <TodoItemWebWithTooltips
-                        item={item}
-                        showTime={showTime}
-                        showTimeRange={showTimeRange}
-                        style={style}
-                        keyword={keyword}
-                        onlyShow={onlyShow}
-                        onClick={onClick}
-                    /> */}
                     <TodoToolTipsWrapper
                         item={item}
                         placement={placement}
@@ -124,11 +118,12 @@ const TodoItemWeb: React.FC<TodoItemWebProps> = (props) => {
                                 showTime={showTime}
                                 showTimeRange={showTimeRange}
                                 showDoneStrinkLine={isDone}
+                                showChainIcon={false}
                             />
                             {props.children}
                         </div>
                     </TodoToolTipsWrapper>
-                    <TodoChainIcon item={item} />
+                    <TodoChainIconWeb item={item} />
                     {showPointIcon && (
                         <span style={{ transform: "rotate(180deg)" }}>
                             <SendOutlined

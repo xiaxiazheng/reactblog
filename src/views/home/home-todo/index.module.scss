@@ -21,13 +21,14 @@
 
     >div {
         flex: 1;
-        padding: 20px 20px 10px;
+        padding: 20px 20px 0;
     }
 
     .boxLeft {
         position: relative;
         text-align: left;
-        min-height: calc(100% - 30px);
+        min-height: 100%;
+        box-sizing: border-box;
         border-right: 1px solid white;
     }
 
@@ -38,7 +39,7 @@
     z-index: 2;
     position: sticky;
     bottom: 0;
-    padding: 10px 20px;
+    padding: 10px 20px 20px;
     text-align: right;
     color: var(--color);
     background-color: var(--bg_color);

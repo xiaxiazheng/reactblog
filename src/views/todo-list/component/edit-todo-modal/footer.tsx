@@ -10,7 +10,7 @@ import {
 } from "antd";
 import { OperatorType, OperatorType2 } from '../../types';
 import { CreateTodoItemReq, EditTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
-import TodoChainIcon from '../todo-chain-icon';
+import TodoChainIconWeb from '../todo-tree-web/todo-chain-icon-web';
 import { addBlogCont } from '@xiaxiazheng/blog-libs';
 import { handleFormData } from './utils';
 import { FormInstance } from 'antd/lib/form/Form';
@@ -337,7 +337,7 @@ const Footer: React.FC<IProps> = (props) => {
                         )}
 
                         {activeTodo && (
-                            <TodoChainIcon item={activeTodo} />
+                            <TodoChainIconWeb item={activeTodo} />
                         )}
                     </>
                 ) : (

@@ -13,6 +13,7 @@ import TodoTreeWeb from "../todo-tree-web";
 
 interface IProps extends DrawerProps { }
 
+/** "知识目录"弹窗里的展示内容，暂时废弃 */
 const TodoCategoryShow: React.FC<IProps> = () => {
     const { todoColorMap, todoColorNameMap } = useSettings();
 

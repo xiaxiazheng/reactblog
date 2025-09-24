@@ -1,7 +1,7 @@
 import { message, Space } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
-import TodoChainIcon from "../todo-chain-icon";
+import TodoChainIconWeb from "../todo-tree-web/todo-chain-icon-web";
 import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
 import { Button } from 'antd';
@@ -37,7 +37,6 @@ const TodoChildList: React.FC<TodoChildListType> = (props) => {
                             <TodoItemWeb
                                 key={index}
                                 item={item}
-                                // onlyShow={true}
                                 showTime={true}
                                 showTimeRange={true}
                                 beforeClick={() => {
@@ -47,9 +46,7 @@ const TodoChildList: React.FC<TodoChildListType> = (props) => {
                                     }
                                     return true;
                                 }}
-                            >
-                                <TodoChainIcon item={item} isOnlyShow={true} />
-                            </TodoItemWeb>
+                            />
                         );
                     }
                 )}
