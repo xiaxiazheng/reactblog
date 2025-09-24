@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Space } from "antd";
 import { getTodoById } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
-import TodoItemName from "../todo-item/todo-item-name";
+import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import SearchTodoModal from "../search-todo-modal";
@@ -43,11 +43,11 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
                                 setVisible(true);
                             }}
                         >
-                            <TodoItemName
+                            <TodoItemWeb
                                 item={nowTodo}
                                 placement="left"
                                 onlyShow={true}
-                                isShowTimeRange={true}
+                                showTimeRange={true}
                             />
                         </Button>
                         <Button

@@ -11,7 +11,7 @@ import { Dispatch, RootState } from "../../rematch";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoDoneDataModal from "./todo-done-data-modal";
 import { getToday } from "@/components/header-admin/utils";
-import TodoTree from "../../component/todo-tree";
+import TodoTreeWeb from "../../component/todo-tree-web";
 
 interface Props {
     title: any;
@@ -106,7 +106,7 @@ const DoneList: React.FC<Props> = (props) => {
                                     </span>
                                 </Tooltip>
                             </div>
-                            <TodoTree todoList={getList(time)} />
+                            <TodoTreeWeb todoList={getList(time)} />
                         </div>
                     );
                 })}

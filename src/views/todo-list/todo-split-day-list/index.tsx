@@ -12,7 +12,7 @@ import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import { useIsHIdeModel } from "../hooks";
 import { useSettings } from "@xiaxiazheng/blog-libs";
 import { getToday } from "@/components/header-admin/utils";
-import TodoTree from "../component/todo-tree";
+import TodoTreeWeb from "../component/todo-tree-web";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface Props {
@@ -138,7 +138,7 @@ const List: React.FC<Props> = (props) => {
                                     </span>
                                     {renderDateBtn?.(time)}
                                 </div>
-                                <TodoTree todoList={showList} getTodoItemProps={() => {
+                                <TodoTreeWeb todoList={showList} getTodoItemProps={() => {
                                     return { showDoneIcon: true }
                                 }} />
                             </div>

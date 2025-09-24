@@ -9,7 +9,7 @@ import SortBtnMulti, {
 import { useIsHIdeModel } from "../hooks";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../component/sort-btn";
-import TodoTree from "../component/todo-tree";
+import TodoTreeWeb from "../component/todo-tree-web";
 
 interface Props {
     loading: boolean;
@@ -54,7 +54,7 @@ const TodoTreeList: React.FC<Props> = (props) => {
             </div>
             {!isHide && (
                 <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                    <TodoTree todoList={handleSort(mapList)}  />
+                    <TodoTreeWeb todoList={handleSort(mapList)}  />
                 </div>
             )}
         </div>

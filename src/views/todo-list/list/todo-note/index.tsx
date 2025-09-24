@@ -3,12 +3,11 @@ import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space, Modal } from "antd";
 import { CategoryType } from "../../types";
 import TodoImageFile from "../../component/todo-image-file";
-import { getTodoCategory, getTodoList } from "@xiaxiazheng/blog-libs";
-import { renderDescription } from "../../component/todo-item/todo-item-name";
+import { getTodoCategory, getTodoList, renderDescription } from "@xiaxiazheng/blog-libs";
+import TodoItemWeb from "../../component/todo-tree-web/todo-item-web";
 import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import TodoItem from "../../component/todo-item";
 import { ThemeContext } from "@/context/ThemeContext";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
@@ -215,7 +214,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                                                 </div>
                                                 <div className={styles.note_box}>
                                                     <div className={styles.note_header}>
-                                                        <TodoItem
+                                                        <TodoItemWeb
                                                             item={item}
                                                             onlyShow={true}
                                                         />

@@ -3,9 +3,9 @@ import { Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
-import TodoItem from "../../component/todo-item";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
+import TodoItemWeb from "../../component/todo-tree-web/todo-item-web";
 
 interface IProps {
     visible: boolean;
@@ -121,15 +121,17 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
             sortBy: [["mTime", "DESC"]],
         };
         const res = await getTodoList(params);
-        setList(
-            res.data.list.map((item: TodoItemType) => {
-                return {
-                    ...item,
-                    edit_time: item.mTime,
-                };
-            })
-        );
-        setTotal(res.data.total);
+        if (res) {
+            setList(
+                res.data.list.map((item: TodoItemType): NewTodoItemType => {
+                    return {
+                        ...item,
+                        edit_time: item.mTime || '',
+                    };
+                })
+            );
+            setTotal(res.data.total);
+        }
     };
 
     return (
@@ -169,7 +171,7 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
                             <div className={styles.time}>
                                 {handleTime(item.edit_time)}
                             </div>
-                            <TodoItem item={item} isShowTime={true} />
+                            <TodoItemWeb item={item} showTime={true} />
                         </div>
                     );
                 })}

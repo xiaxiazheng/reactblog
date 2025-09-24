@@ -1,15 +1,12 @@
-import { getHomeList, MarkdownShow, splitStr, splitMdStr, TodoItemTitle, TodoItemType } from '@xiaxiazheng/blog-libs';
+import { getHomeList, MarkdownShow, splitStr, splitMdStr, TodoItem, TodoItemType } from '@xiaxiazheng/blog-libs';
 import { Input, Pagination } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import List from '../../todo-list/todo-split-day-list';
-import { SortKeyMap } from '../../todo-list/component/sort-btn';
-import { formatArrayToTimeMap } from '../../todo-list/utils';
-import TodoItemName from '../../todo-list/component/todo-item/todo-item-name';
 import styles from './index.module.scss';
 import Loading from '@/components/loading';
 
-const HomeTodo: React.FC = () => {
+interface IProps {}
 
+const HomeTodo: React.FC<IProps> = () => {
     const getData = async () => {
         setLoading(true);
         try {
@@ -67,10 +64,11 @@ const HomeTodo: React.FC = () => {
                     {loading && <Loading />}
                     {todoList?.map(item => {
                         return (
-                            <TodoItemTitle
+                            <TodoItem
                                 key={item.todo_id}
                                 item={item}
                                 keyword={keyword}
+                                showDoneStrinkLine={false}
                                 wrapperStyle={{
                                     marginBottom: '12px',
                                     cursor: 'pointer',
@@ -101,7 +99,10 @@ const HomeTodo: React.FC = () => {
                 <div className={`${styles.boxRight} ScrollBar`} ref={ref}>
                     {activeTodo && <>
                         <div style={{ textAlign: 'left' }}>
-                            <TodoItemTitle item={activeTodo} keyword={keyword} />
+                            <TodoItem
+                                item={activeTodo}
+                                keyword={keyword}
+                                showDoneStrinkLine={false} />
                         </div>
                         <div>
                             <MarkdownShow blogcont={activeTodo.description.replaceAll(splitStr, splitMdStr)} keyword={keyword} />

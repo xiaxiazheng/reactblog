@@ -8,9 +8,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
-import { useSettings } from "@xiaxiazheng/blog-libs";
-import TodoTree from "../todo-tree";
-import { TodoTreeItemType } from "../todo-tree/todo-tree-utils";
+import { useSettings, TodoTreeItemType } from "@xiaxiazheng/blog-libs";
+import TodoTreeWeb from "../todo-tree-web";
 
 interface IProps extends DrawerProps { }
 
@@ -57,7 +56,7 @@ const TodoCategoryShow: React.FC<IProps> = () => {
         Object.keys(todoColorMap || {})
     );
 
-    /** 强制刷新 TodoTree */
+    /** 强制刷新 TodoTreeWeb */
     const [flag, forceRender] = useReducer(s => s + 1, 0);
 
     return (
@@ -94,18 +93,17 @@ const TodoCategoryShow: React.FC<IProps> = () => {
                     }}
                 />
             </Space>
-            <TodoTree
+            <TodoTreeWeb
                 todoList={habitListOrigin}
                 dataMode="flat"
                 getTodoItemProps={() => {
                     return {
-                        isShowTime: true,
-                        isShowTimeRange: true,
+                        showTime: true,
+                        showTimeRange: true,
                         keyword,
                     }
                 }}
                 handleFilterTree={(list) => handleFilterTree(list, judgeSearch)}
-                refreshFlag={flag}
             />
         </>
     );

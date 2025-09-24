@@ -8,10 +8,10 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import store, { Dispatch, RootState } from "@/views/todo-list/rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import TodoItem from "@/views/todo-list/component/todo-item";
 import { useSettings } from "@xiaxiazheng/blog-libs";
 import Loading from "../loading";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import TodoItemWeb from "@/views/todo-list/component/todo-tree-web/todo-item-web";
 
 interface PropsType { }
 
@@ -186,12 +186,12 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                             当前选中的是第{activeIndex + 1} /{" "}
                             {chanceList?.length}位，抽中概率
                             {chanceList?.[activeIndex]?.toFixed(2)}%：
-                            <TodoItem
+                            <TodoItemWeb
                                 item={
                                     listOrigin[activeIndex]
                                 }
-                                isShowTime
-                                isShowTimeRange
+                                showTime
+                                showTimeRange
                             />
                         </div>
                     )}
@@ -211,7 +211,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                                             key={item.todo_id}
                                             className={styles.item}
                                         >
-                                            <TodoItem item={item} />
+                                            <TodoItemWeb item={item} />
                                             <div
                                                 className={styles.itemInfo}
                                             >

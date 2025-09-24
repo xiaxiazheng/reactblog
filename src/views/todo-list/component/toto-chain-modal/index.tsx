@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import styles from "./index.module.scss";
 import { useSettings } from "@xiaxiazheng/blog-libs";
-import TodoTree from "../todo-tree";
+import TodoTreeWeb from "../todo-tree-web";
 
 interface IProps extends DrawerProps { }
 
@@ -140,11 +140,11 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     value={selectedColorList}
                     onChange={(val: any) => setSelectedColorList(val)}
                 />
-                <TodoTree todoList={showList} dataMode="tree" getTodoItemProps={(item) => {
+                <TodoTreeWeb todoList={showList} dataMode="tree" getTodoItemProps={(item) => {
                     return {
-                        isShowPointIcon: chainId === item.todo_id,
-                        isShowTime: true,
-                        isShowTimeRange: true,
+                        showPointIcon: chainId === item.todo_id,
+                        showTime: true,
+                        showTimeRange: true,
                         keyword,
                     }
                 }} />

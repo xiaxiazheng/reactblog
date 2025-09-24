@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Input,
     message,
@@ -7,9 +7,9 @@ import {
     Radio,
     Space,
 } from "antd";
-import { getTodoById, getTodoList } from "@xiaxiazheng/blog-libs";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
-import TodoItemName from "../todo-item/todo-item-name";
+import { getTodoById, getTodoList, TodoItemType } from "@xiaxiazheng/blog-libs";
+import TodoTreeWeb from "../todo-tree-web";
+import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
 import Loading from "@/components/loading";
 import {
@@ -17,7 +17,6 @@ import {
     getFootPrintList,
     NewTodoItemType,
 } from "../../list/todo-footprint";
-import TodoTree from "../todo-tree";
 import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
 
@@ -207,7 +206,7 @@ const SearchTodoModal: React.FC<IProps> = ({
             />
             <div className={`${styles.content} ScrollBar`}>
                 {sortBy === "directory" ? (
-                    <TodoTree
+                    <TodoTreeWeb
                         todoList={options}
                         onClick={(item) => {
                             onChange(item);
@@ -229,12 +228,12 @@ const SearchTodoModal: React.FC<IProps> = ({
                                     }}
                                     className={styles.todoItem}
                                 >
-                                    <TodoItemName
+                                    <TodoItemWeb
                                         item={item}
                                         placement="left"
                                         onlyShow={true}
-                                        isShowTime={true}
-                                        isShowTimeRange={true}
+                                        showTime={true}
+                                        showTimeRange={true}
                                     />
                                 </div>
                             );
