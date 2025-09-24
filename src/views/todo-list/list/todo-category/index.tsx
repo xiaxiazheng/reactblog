@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../../todo-tree-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import { useSettings } from "@xiaxiazheng/blog-libs";
@@ -30,6 +30,18 @@ const TodoCategory = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
+    // 打开编辑弹窗
+    const [activeTodo, setActiveTodo] = useState<TodoItemType | null>(null);
+    const handleEditTodo = () => {
+        const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
+        setActiveTodo(activeTodo);
+        setShowEdit(true);
+        setOperatorType("edit");
+    }
+
+    // 关闭编辑弹窗后，接收更新信号，传给 homeTodo 更新数据
+    const { flag } = useSelector((state: RootState) => state.edit);
+
     return (
         <>
             <TodoTreeList
@@ -51,8 +63,17 @@ const TodoCategory = () => {
                 open={isOpen}
                 onCancel={() => setIsOpen(false)}
                 width={'90vw'}
+                footer={
+                    <>
+                        {activeTodo && <Button onClick={handleEditTodo}>编辑</Button>}
+                    </>
+                }
             >
-                {isOpen && <HomeTodo />}
+                {isOpen && <HomeTodo
+                    flag={flag}
+                    onClick={(item) => {
+                        setActiveTodo(item);
+                    }} />}
             </Modal>
         </>
     );

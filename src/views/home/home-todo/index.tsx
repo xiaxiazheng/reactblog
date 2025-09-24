@@ -4,9 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import Loading from '@/components/loading';
 
-interface IProps {}
+interface IProps {
+    flag?: number;
+    onClick?: (item: TodoItemType) => void;
+}
 
-const HomeTodo: React.FC<IProps> = () => {
+const HomeTodo: React.FC<IProps> = (params) => {
+    const { flag, onClick } = params;
+
     const getData = async () => {
         setLoading(true);
         try {
@@ -18,6 +23,12 @@ const HomeTodo: React.FC<IProps> = () => {
             if (res) {
                 setTodoList(res.data.list);
                 setTotal(res.data.total);
+                if (activeTodo) {
+                    const todo = res.data.list.find(item => item.todo_id === activeTodo.todo_id);
+                    if (todo) {
+                        setActiveTodo(todo);
+                    }
+                }
             }
         } finally {
             setLoading(false);
@@ -37,7 +48,7 @@ const HomeTodo: React.FC<IProps> = () => {
 
     useEffect(() => {
         getData();
-    }, [pageNo, pageSize]);
+    }, [pageNo, pageSize, flag]);
 
     const handleSearch = () => {
         if (pageNo !== 1) {
@@ -69,12 +80,14 @@ const HomeTodo: React.FC<IProps> = () => {
                                 item={item}
                                 keyword={keyword}
                                 showDoneStrinkLine={false}
+                                showFootPrint={false}
                                 wrapperStyle={{
                                     marginBottom: '12px',
                                     cursor: 'pointer',
                                 }}
                                 onClick={(item) => {
                                     setActiveTodo(item);
+                                    onClick?.(item);
                                     ref?.current?.scroll?.({
                                         top: 0,
                                         behavior: 'smooth',
