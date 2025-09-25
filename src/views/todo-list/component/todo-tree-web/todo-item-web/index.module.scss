@@ -27,6 +27,7 @@
 .item {
     display: inline-flex;
     justify-content: space-around;
+    margin: 6px 0;
 
     > span:nth-child(1) {
         flex: 1;
