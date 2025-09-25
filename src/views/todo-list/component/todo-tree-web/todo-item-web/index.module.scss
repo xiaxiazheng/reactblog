@@ -27,7 +27,6 @@
 .item {
     display: inline-flex;
     justify-content: space-around;
-    margin: 6px 0;
 
     > span:nth-child(1) {
         flex: 1;
@@ -74,9 +73,11 @@
     &:hover {
         color: #40a9ff;
     }
-    span,
-    s {
-        vertical-align: middle;
+    :global {
+        span,
+        s {
+            vertical-align: middle;
+        }
     }
     .category {
         display: inline-block;
