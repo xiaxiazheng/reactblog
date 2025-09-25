@@ -15,14 +15,14 @@ import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./component/drawer-footprint";
 import TodoBookMark from "./list/todo-bookmark";
 import TodoCategory from "./list/todo-category";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import HoverOpenBar from "./component/hover-open-bar";
 import TodoNote from "./list/todo-note";
 
 const TodoListHome: React.FC = () => {
     useDocumentTitle("todo-list");
 
-    const { todoNameMap, todoDescriptionMap } = useSettings();
+    const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
     const [form] = useForm();
     const dispatch = useDispatch<Dispatch>();

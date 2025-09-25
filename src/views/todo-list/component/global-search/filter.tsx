@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import SwitchComp from "../todo-form/switch";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 
 interface IProps {
@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const Filter: React.FC<IProps> = (props) => {
-    const { todoNameMap } = useSettings();
+    const { todoNameMap } = useSettingsContext();
     const category = useSelector((state: RootState) => state.data.category);
     const activeCategory = useSelector(
         (state: RootState) => state.filter.activeCategory

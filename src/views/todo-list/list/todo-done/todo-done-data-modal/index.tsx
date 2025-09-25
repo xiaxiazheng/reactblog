@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { getTodoDoneCountList, getTodoList } from "@xiaxiazheng/blog-libs";
 import { RootState } from "@/views/todo-list/rematch";
 import dayjs from "dayjs";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import TodoCalendar from "./todo-calendar";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
@@ -18,7 +18,7 @@ interface Props {
 const DoneList: React.FC<Props> = (props) => {
     const { open, setOpen } = props;
 
-    const { todoColorMap = {}, todoColorNameMap = {} } = useSettings();
+    const { todoColorMap = {}, todoColorNameMap = {} } = useSettingsContext();
 
     const category = useSelector((state: RootState) => state.data.category);
 

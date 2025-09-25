@@ -7,7 +7,7 @@ import {
     Spin,
     Checkbox,
 } from "antd";
-import { getTodoChainById, TodoItemType, useSettings } from "@xiaxiazheng/blog-libs";
+import { getTodoChainById, TodoItemType, useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { useUpdateFlag } from "../../hooks";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +19,7 @@ interface IProps extends DrawerProps { }
 
 const TodoChainModal: React.FC<IProps> = (props) => {
     const { theme } = useContext(ThemeContext);
-    const { todoColorMap, todoColorNameMap } = useSettings();
+    const { todoColorMap, todoColorNameMap } = useSettingsContext();
 
     const visible = useSelector(
         (state: RootState) => state.edit.showChainModal

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "@/App.scss";
 import "./antd.scss";
 import "@/assets/scss/Global.scss";
@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { UserProvider } from "./context/UserContext";
 import { hot } from "react-hot-loader/root";
 import { isDev } from "./env_config";
+import { SettingsProvider } from "@xiaxiazheng/blog-libs";
 
 const App: React.FC = () => {
     return (
@@ -15,7 +16,9 @@ const App: React.FC = () => {
             <IsLoginProvider>
                 <ThemeProvider>
                     <UserProvider>
-                        <Router />
+                        <SettingsProvider>
+                            <Router />
+                        </SettingsProvider>
                     </UserProvider>
                 </ThemeProvider>
             </IsLoginProvider>

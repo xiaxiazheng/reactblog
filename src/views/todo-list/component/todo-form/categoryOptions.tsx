@@ -7,13 +7,13 @@ import { Button, Input, message, Radio } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { CategoryType } from "../../types";
 import styles from "./index.module.scss";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>();
 
-    const { todoCategoryDefaultShow = 0 } = useSettings();
+    const { todoCategoryDefaultShow = 0 } = useSettingsContext();
 
     const [l, setList] = useState<CategoryType[]>(category);
     useEffect(() => {

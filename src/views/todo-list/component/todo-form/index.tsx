@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import MyDatePicker from "./MyDataPicker";
-import { useSettings, splitStr } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext, splitStr } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 import TodoEncodeUtils from "../todo-encode-utils";
 
@@ -52,7 +52,7 @@ const TodoForm: React.FC<Props> = (props) => {
         todoColorNameMap,
         todoDescriptionMap,
         todoPreset,
-    } = useSettings();
+    } = useSettingsContext();
 
     const { username } = useContext(UserContext);
     const isMe = username === "zyb";

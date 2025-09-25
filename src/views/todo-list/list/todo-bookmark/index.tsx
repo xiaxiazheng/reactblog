@@ -4,11 +4,11 @@ import { Dispatch, RootState } from "../../rematch";
 import TodoTreeList from "../../todo-tree-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { RenderTodoDescriptionIcon } from "../todo-list";
 
 const TodoBookMark = () => {
-    const { todoNameMap, todoDescriptionMap } = useSettings();
+    const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
     const bookMarkList = useSelector(
         (state: RootState) => state.data.bookMarkList

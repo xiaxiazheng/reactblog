@@ -7,7 +7,7 @@ import { SortKeyMap } from "../../component/sort-btn";
 import { Dispatch, RootState } from "../../rematch";
 import { useDispatch, useSelector } from "react-redux";
 import { editTodoItem, TodoItemType, TodoStatus, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { getToday } from "@/components/header-admin/utils";
 import styles from './index.module.scss';
 
@@ -24,7 +24,7 @@ export const RenderTodoDescriptionIcon = (props: { title: any }) => {
 
 const TodoList = () => {
     const { todoNameMap, todoDescriptionMap, todoShowBeforeToday } =
-        useSettings();
+        useSettingsContext();
 
     const Today = () => getToday().format("YYYY-MM-DD");
 

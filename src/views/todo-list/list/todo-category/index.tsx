@@ -4,7 +4,7 @@ import { Dispatch, RootState } from "../../rematch";
 import { TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../../todo-tree-list";
 import { SortKeyMap } from "../../component/sort-btn";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { Button, Modal } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 // import TodoCategoryShow from "../../component/todo-category-modal-show";
@@ -12,7 +12,7 @@ import HomeTodo from "@/views/home/home-todo";
 
 /** 当前的知识目录 */
 const TodoCategory = () => {
-    const { todoNameMap } = useSettings();
+    const { todoNameMap } = useSettingsContext();
     const { theme } = useContext(ThemeContext);
 
     const habitLoading = useSelector(

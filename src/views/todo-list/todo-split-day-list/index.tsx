@@ -10,7 +10,7 @@ import Loading from "@/components/loading";
 import { getRangeFormToday, getWeek } from "../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import { useIsHIdeModel } from "../hooks";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { getToday } from "@/components/header-admin/utils";
 import TodoTreeWeb from "../component/todo-tree-web";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
@@ -42,7 +42,7 @@ const List: React.FC<Props> = (props) => {
         btnChildren = null,
     } = props;
 
-    const { todoNameMap } = useSettings();
+    const { todoNameMap } = useSettingsContext();
 
     const Today = () => getToday().format("YYYY-MM-DD");
 
