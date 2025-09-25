@@ -2,7 +2,7 @@ import React, { CSSProperties } from "react";
 import styles from "./index.module.scss";
 import { message, Popconfirm, Tooltip } from "antd";
 import { CheckCircleOutlined, SendOutlined } from "@ant-design/icons";
-import { doneTodoItem, TodoItem, TodoItemProps, TodoStatus, TodoItemType, renderDescription } from "@xiaxiazheng/blog-libs";
+import { doneTodoItem, TodoItem, TodoItemProps, TodoStatus, TodoItemType, TodoDescription } from "@xiaxiazheng/blog-libs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../rematch";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
@@ -152,8 +152,10 @@ const TodoToolTipsWrapper: React.FC<
             overlayClassName={styles.tooltip}
             title={
                 <>
-                    {item.description &&
-                        renderDescription(item.description, keyword)}
+                    <TodoDescription
+                        todoDescription={item.description}
+                        keyword={keyword}
+                    />
                     {item.imgList && item.imgList.length !== 0 && (
                         <ImageListBox
                             type="todo"

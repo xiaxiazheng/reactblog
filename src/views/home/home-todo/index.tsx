@@ -1,4 +1,4 @@
-import { getHomeList, MarkdownShow, splitStr, splitMdStr, TodoItem, TodoItemType } from '@xiaxiazheng/blog-libs';
+import { getHomeList, TodoItem, TodoItemType, TodoDescription } from '@xiaxiazheng/blog-libs';
 import { Input, Pagination } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
@@ -119,7 +119,7 @@ const HomeTodo: React.FC<IProps> = (params) => {
                                 showDoneStrinkLine={false} />
                         </div>
                         <div>
-                            <MarkdownShow blogcont={activeTodo.description.replaceAll(splitStr, splitMdStr)} keyword={keyword} />
+                            <TodoDescription todoDescription={activeTodo.description} keyword={keyword} />
                         </div>
                     </>}
                 </div>

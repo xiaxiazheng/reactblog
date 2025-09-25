@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Radio, Space } from "antd";
+import { Button, Input, Space } from "antd";
 import { CopyOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import CopyButton from "@/components/copy-button";
-import { MarkdownShow, splitStr, splitMdStr } from "@xiaxiazheng/blog-libs";
+import { TodoDescription, splitStr } from "@xiaxiazheng/blog-libs";
 
 const { TextArea } = Input;
 
@@ -26,11 +26,8 @@ const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
                 <div className={styles.mdShowWrapper}>
                     <div className={styles.mdShowTitle}>markdown 预览区</div>
                     <div className={styles.mdShow}>
-                        <MarkdownShow
-                            blogcont={(value || "")?.replaceAll(
-                                splitStr,
-                                splitMdStr
-                            )}
+                        <TodoDescription
+                            todoDescription={(value || "")}
                         />
                     </div>
                 </div>

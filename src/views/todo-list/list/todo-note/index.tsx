@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Input, Radio, Pagination, Empty, Button, Spin, Space, Modal } from "antd";
 import { CategoryType } from "../../types";
 import TodoImageFile from "../../component/todo-image-file";
-import { getTodoCategory, getTodoList, renderDescription } from "@xiaxiazheng/blog-libs";
+import { getTodoCategory, getTodoList, TodoDescription } from "@xiaxiazheng/blog-libs";
 import TodoItemWeb from "../../component/todo-tree-web/todo-item-web";
 import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -220,7 +220,10 @@ const TodoNote: React.FC<IProps> = (props) => {
                                                         />
                                                     </div>
                                                     <div className={styles.note_content}>
-                                                        {renderDescription(item.description, keyword)}
+                                                                            <TodoDescription
+                        todoDescription={item.description}
+                        keyword={keyword}
+                    />
                                                     </div>
                                                     <TodoImageFile
                                                         isOnlyShow={true}

@@ -1,7 +1,7 @@
 import { Button, Input, message, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import InputList from "../input-list";
-import { decrypt, encrypt } from "../todo-form/encodeDecodeUtils";
+import { decrypt, encrypt } from "@xiaxiazheng/blog-libs";
 import styles from './index.module.scss';
 
 interface Props {
