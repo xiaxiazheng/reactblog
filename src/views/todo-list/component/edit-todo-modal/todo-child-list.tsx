@@ -30,27 +30,25 @@ const TodoChildList: React.FC<TodoChildListType> = (props) => {
                     </Button>
                 )}
             </div>
-            <Space size={8} direction="vertical">
-                {(!showAll ? todoChildList.slice(0, 4) : todoChildList).map(
-                    (item, index) => {
-                        return (
-                            <TodoItemWeb
-                                key={index}
-                                item={item}
-                                showTime={true}
-                                showTimeRange={true}
-                                beforeClick={() => {
-                                    if (isEditing) {
-                                        message.warning("正在编辑，不能切换");
-                                        return false;
-                                    }
-                                    return true;
-                                }}
-                            />
-                        );
-                    }
-                )}
-            </Space>
+            {(!showAll ? todoChildList.slice(0, 4) : todoChildList).map(
+                (item, index) => {
+                    return (
+                        <TodoItemWeb
+                            key={index}
+                            item={item}
+                            showTime={true}
+                            showTimeRange={true}
+                            beforeClick={() => {
+                                if (isEditing) {
+                                    message.warning("正在编辑，不能切换");
+                                    return false;
+                                }
+                                return true;
+                            }}
+                        />
+                    );
+                }
+            )}
         </>
     );
 };
