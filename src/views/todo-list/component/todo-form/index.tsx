@@ -150,7 +150,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 {!isOnlyShowTileDescription && (
                     <div className={styles.right}>
                         <Form.Item label="预设选项">
-                            <Space>
+                            <Space wrap>
                                 {todoPreset?.map((item: any, index: number) => {
                                     return (
                                         <Button

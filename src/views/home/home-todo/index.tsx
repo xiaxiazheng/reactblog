@@ -81,6 +81,7 @@ const HomeTodo: React.FC<IProps> = (params) => {
                                 keyword={keyword}
                                 showDoneStrinkLine={false}
                                 showFootPrint={false}
+                                showCanShowInHomeTodoIcon={false}
                                 wrapperStyle={{
                                     marginBottom: '12px',
                                     cursor: 'pointer',

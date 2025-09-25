@@ -9,6 +9,7 @@ import { Button, Modal } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 // import TodoCategoryShow from "../../component/todo-category-modal-show";
 import HomeTodo from "@/views/home/home-todo";
+import { EyeFilled } from "@ant-design/icons";
 
 /** 当前的知识目录 */
 const TodoCategory = () => {
@@ -55,11 +56,11 @@ const TodoCategory = () => {
                 mapList={habitList.sort(
                     (a, b) => Number(a.color) - Number(b.color)
                 )}
-                btn={<Button onClick={() => setIsOpen(true)}>home todo</Button>}
+                btn={<Button onClick={() => setIsOpen(true)}><EyeFilled /> home todo</Button>}
             />
             <Modal
                 className={`${theme === "dark" ? "darkTheme" : ""}`}
-                title={<><TodoTypeIcon type="habit" /> {todoNameMap?.habit}</>}
+                title={<><EyeFilled /> Home Todo</>}
                 open={isOpen}
                 onCancel={() => setIsOpen(false)}
                 width={'90vw'}
