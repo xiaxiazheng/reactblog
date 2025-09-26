@@ -4,7 +4,7 @@ import { getTodoById } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import SearchTodoModal from "../search-todo-modal";
 import { ClearOutlined } from "@ant-design/icons";
 

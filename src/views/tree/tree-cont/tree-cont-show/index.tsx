@@ -5,7 +5,7 @@ import { getChildName } from "@xiaxiazheng/blog-libs";
 import { getNodeCont } from "@xiaxiazheng/blog-libs";
 import { ImageType } from "@xiaxiazheng/blog-libs";
 import { staticUrl } from "@/env_config";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import PreviewImage from "@/components/preview-image";
 import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";

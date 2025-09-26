@@ -20,7 +20,7 @@ import {
     VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import { ImageType } from "@xiaxiazheng/blog-libs";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";

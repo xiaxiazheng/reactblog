@@ -9,8 +9,7 @@ import styles from "./index.module.scss";
 import store, { Dispatch, RootState } from "@/views/todo-list/rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
-import Loading from "../loading";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { Loading, TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemWeb from "@/views/todo-list/component/todo-tree-web/todo-item-web";
 
 interface PropsType { }

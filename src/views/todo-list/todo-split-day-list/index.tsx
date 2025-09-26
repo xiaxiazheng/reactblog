@@ -6,7 +6,7 @@ import {
     UpOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import { getRangeFormToday, getWeek } from "../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
 import { useIsHIdeModel } from "../hooks";

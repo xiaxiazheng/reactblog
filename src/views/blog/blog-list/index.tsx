@@ -8,7 +8,7 @@ import { IsLoginContext } from "@/context/IsLoginContext";
 import { BlogListType } from "../BlogType";
 import BlogListItem from "./blog-list-item";
 import { BlogContext, BlogContextType } from "../BlogContext";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import classnames from "classnames";
 import { UserContext } from "@/context/UserContext";
 

@@ -14,7 +14,7 @@ import {
 } from "@ant-design/icons";
 import TreeListItem from "./tree-list-item";
 import { ShuttleBox, ShuttleMsgType } from "./shuttle-box";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import classnames from "classnames";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";

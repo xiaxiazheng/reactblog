@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import { Space } from "antd";
 import styles from "./index.module.scss";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import SortBtnMulti, {
     useIsSortByMulti,

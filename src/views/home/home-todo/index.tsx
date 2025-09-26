@@ -2,7 +2,7 @@ import { getHomeList, TodoItem, TodoItemType, TodoDescription } from '@xiaxiazhe
 import { Input, Pagination } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
-import Loading from '@/components/loading';
+import { Loading } from '@xiaxiazheng/blog-libs';
 
 interface IProps {
     flag?: number;

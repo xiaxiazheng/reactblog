@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
 import { ImageType, getImgList, getImgTypeList } from "@xiaxiazheng/blog-libs";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 import { Tabs } from "antd";
 import useDocumentTitle from "@/hooks/useDocumentTitle";

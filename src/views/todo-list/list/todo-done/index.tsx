@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Pagination, Space, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import { getWeek, formatArrayToTimeMap, getRangeFormToday } from "../../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../../component/sort-btn";
 import useScrollToHook from "@/hooks/useScrollToHooks";

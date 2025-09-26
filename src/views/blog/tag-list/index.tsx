@@ -17,7 +17,7 @@ import {
 } from "@ant-design/icons";
 import { message, Modal, Button, Input, Popover } from "antd";
 import { UserContext } from "@/context/UserContext";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 
 interface TagType {
     tag_id: string;

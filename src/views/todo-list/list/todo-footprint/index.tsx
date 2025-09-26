@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import TodoItemWeb from "../../component/todo-tree-web/todo-item-web";
 
 interface IProps {

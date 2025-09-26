@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { OneBlogType } from "@/views/blog/BlogType";
 import styles from "./index.module.scss";
 import { getBlogCont } from "@xiaxiazheng/blog-libs";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import classnames from "classnames";
 import { IsLoginContext } from "@/context/IsLoginContext";
 import { Button, message, Empty } from "antd";

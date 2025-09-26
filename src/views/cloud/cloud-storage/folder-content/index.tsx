@@ -18,7 +18,7 @@ import { staticUrl } from "@/env_config";
 import { UserContext } from "@/context/UserContext";
 import { FolderType, FolderMapType, IFolderTreeType } from "..";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import FileListBox from "@/components/file-image-handle/file-list-box";
 import FolderList from "../folder-list";

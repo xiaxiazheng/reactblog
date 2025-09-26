@@ -11,7 +11,7 @@ import { getTodoById, getTodoList, TodoItemType, getFootPrintList } from "@xiaxi
 import TodoTreeWeb from "../todo-tree-web";
 import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
-import Loading from "@/components/loading";
+import { Loading } from "@xiaxiazheng/blog-libs";
 import {
     fetchFootprintList,
     NewTodoItemType,
