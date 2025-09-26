@@ -3,11 +3,14 @@ import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import beian from "@/assets/beian.png";
 import HomeTodo from "./home-todo";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 interface IHome extends RouteComponentProps { }
 
 const Home: React.FC<IHome> = (props) => {
     const { history } = props;
+
+    const settings = useSettingsContext();
 
     // const { username } = useContext(UserContext);
 
@@ -33,7 +36,9 @@ const Home: React.FC<IHome> = (props) => {
             className={`${styles.Home} ScrollBar`}
         >
             <div className={`${styles.middle}`}>
-                <HomeTodo />
+                {settings?.HomeTodoAllowShow
+                    ? <HomeTodo />
+                    : <div className={styles.wip}> work in progress</div>}
             </div>
             <footer className={styles.footerBeian}>
                 <div
