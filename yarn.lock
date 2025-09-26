@@ -3065,7 +3065,7 @@
     "@xtuc/long" "4.2.2"
 
 "@xiaxiazheng/blog-libs@file:.yalc/@xiaxiazheng/blog-libs":
-  version "0.0.13"
+  version "0.0.17"
   dependencies:
     antd "^5.27.4"
     highlight.js "^11.2.0"
