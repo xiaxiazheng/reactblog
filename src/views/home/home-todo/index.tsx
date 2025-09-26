@@ -1,4 +1,4 @@
-import { getHomeList, TodoItem, TodoItemType, TodoDescription } from '@xiaxiazheng/blog-libs';
+import { getHomeList, TodoItem, TodoItemType, TodoDescription, HomeTodoList } from '@xiaxiazheng/blog-libs';
 import { Input, Pagination } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
@@ -10,53 +10,22 @@ interface IProps {
 }
 
 const HomeTodo: React.FC<IProps> = (params) => {
-    const { flag, onClick } = params;
-
-    const getData = async () => {
-        setLoading(true);
-        try {
-            const res = await getHomeList({
-                pageNo,
-                pageSize,
-                keyword
-            });
-            if (res) {
-                setTodoList(res.data.list);
-                setTotal(res.data.total);
-                if (activeTodo) {
-                    const todo = res.data.list.find(item => item.todo_id === activeTodo.todo_id);
-                    if (todo) {
-                        setActiveTodo(todo);
-                    }
-                }
-            }
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    const [loading, setLoading] = useState<boolean>(false);
-    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
-    const [total, setTotal] = useState<number>(0);
-
-    const [pageNo, setPageNo] = useState(1);
-    const [pageSize, setPageSize] = useState(15);
-    const [keyword, setKeyword] = useState('');
-    const [activeTodo, setActiveTodo] = useState<TodoItemType | null>(null);
+    const { flag = 0, onClick = () => {} } = params;
 
     const ref = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        getData();
-    }, [pageNo, pageSize, flag]);
+    const [keyword, setKeyword] = useState('');
 
+    const [refreshFlag, setRefreshFlag] = useState<number>(0);
     const handleSearch = () => {
-        if (pageNo !== 1) {
-            setPageNo(1);
-        } else {
-            getData();
-        }
+        setRefreshFlag(prev => prev + 1);
     }
+
+    useEffect(() => {
+        handleSearch();
+    }, [flag]);
+
+    const [activeTodo, setActiveTodo] = useState<TodoItemType | null | undefined>(null);
 
     return (
         <div className={styles.homeTodo}>
@@ -72,42 +41,20 @@ const HomeTodo: React.FC<IProps> = (params) => {
             {/* 内容 */}
             <div className={styles.todoBox}>
                 <div className={`${styles.boxLeft} ScrollBar`}>
-                    {loading && <Loading />}
-                    {todoList?.map(item => {
-                        return (
-                            <TodoItem
-                                key={item.todo_id}
-                                item={item}
-                                keyword={keyword}
-                                showDoneStrinkLine={false}
-                                showFootPrint={false}
-                                showCanShowInHomeTodoIcon={false}
-                                wrapperStyle={{
-                                    marginBottom: '12px',
-                                    cursor: 'pointer',
-                                }}
-                                onClick={(item) => {
-                                    setActiveTodo(item);
-                                    onClick?.(item);
-                                    ref?.current?.scroll?.({
-                                        top: 0,
-                                        behavior: 'smooth',
-                                    });
-                                }}
-                            />
-                        )
-                    })}
-                    <Pagination
-                        className={styles.pagination}
-                        current={pageNo}
-                        pageSize={pageSize}
-                        total={total}
-                        onChange={(page, pageSize) => {
-                            setPageNo(page);
-                            setPageSize(pageSize || 15);
+                    <HomeTodoList
+                        keyword={keyword}
+                        refreshFlag={refreshFlag}
+                        getActiveTodo={setActiveTodo}
+                        onClick={(item: TodoItemType) => {
+                            ref?.current?.scroll?.({
+                                top: 0,
+                                behavior: 'smooth',
+                            });
+                            onClick(item);
                         }}
-                        pageSizeOptions={["10", "15", "20"]}
-                        showTotal={() => `共 ${total} 条 `}
+                        paginationProps={{
+                            className: styles.pagination
+                        }}
                     />
                 </div>
                 <div className={`${styles.boxRight} ScrollBar`} ref={ref}>
