@@ -9,7 +9,7 @@ interface FilterType {
     isWork: string; // 是否是工作
     isTarget: string;
     isNote: string;
-    isHabit: string;
+    isCategory: string;
     isEncode: string;
     pageNo: number;
     pageSize: number;
@@ -24,7 +24,7 @@ export const filter = createModel<RootModel>()({
         isWork: localStorage.getItem("todoGlobalSearchIsWork") || "",
         isTarget: "0",
         isNote: "0",
-        isHabit: "0",
+        isCategory: "0",
         isEncode: "0",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
@@ -73,10 +73,10 @@ export const filter = createModel<RootModel>()({
                 isNote: payload,
             };
         },
-        setIsHabit: (state, payload) => {
+        setisCategory: (state, payload) => {
             return {
                 ...state,
-                isHabit: payload,
+                isCategory: payload,
             };
         },
         setisEncode: (state, payload) => {
@@ -109,7 +109,7 @@ export const filter = createModel<RootModel>()({
                 setPageNo,
                 setIsTarget,
                 setIsNote,
-                setIsHabit,
+                setisCategory,
                 setisEncode,
             } = dispatch.filter;
             setActiveCategory([]);
@@ -118,7 +118,7 @@ export const filter = createModel<RootModel>()({
             // setIsWork("");
             setIsTarget("0");
             setIsNote("0");
-            setIsHabit("0");
+            setisCategory("0");
             setStartEndTime(undefined);
             setPageNo(1);
             setisEncode("0");

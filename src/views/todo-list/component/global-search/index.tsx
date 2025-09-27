@@ -30,7 +30,7 @@ export const useGetOriginTodo = () => {
         isTarget: "0",
         isBookMark: "0",
         isWork: "0",
-        isHabit: "0",
+        isCategory: "0",
         isEncode: "0",
         isFollowUp: "0",
         other_id: "",
@@ -58,7 +58,7 @@ const GlobalSearch: React.FC = () => {
     const pageSize = useSelector((state: RootState) => state.filter.pageSize);
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
-    const isHabit = useSelector((state: RootState) => state.filter.isHabit);
+    const isCategory = useSelector((state: RootState) => state.filter.isCategory);
     const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const dispatch = useDispatch<Dispatch>();
@@ -96,15 +96,15 @@ const GlobalSearch: React.FC = () => {
         pageSize,
         isTarget,
         isNote,
-        isHabit,
+        isCategory,
         isEncode,
     ]);
 
     useEffect(() => {
-        if (isHabit === "1" || isTarget === "1" || isEncode === '1') {
+        if (isCategory === "1" || isTarget === "1" || isEncode === '1') {
             setShowFilter(true);
         }
-    }, [isHabit, isTarget, isEncode]);
+    }, [isCategory, isTarget, isEncode]);
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
@@ -117,7 +117,7 @@ const GlobalSearch: React.FC = () => {
             (typeof keyword !== "undefined" && keyword !== "") ||
             !!startEndTime ||
             pageNo !== 1 ||
-            isHabit === "1" ||
+            isCategory === "1" ||
             isTarget === "1" ||
             isEncode === "1"
         );

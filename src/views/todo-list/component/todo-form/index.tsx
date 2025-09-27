@@ -169,7 +169,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                                     }}
                                                 />
                                             )}
-                                            {item?.isHabit === "1" && (
+                                            {item?.isCategory === "1" && (
                                                 <TodoTypeIcon
                                                     type="habit"
                                                     style={{
@@ -322,7 +322,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     </SwitchComp>
                                 </Form.Item>
                                 <Form.Item
-                                    name="isHabit"
+                                    name="isCategory"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >

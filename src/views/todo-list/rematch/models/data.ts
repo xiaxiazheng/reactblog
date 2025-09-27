@@ -214,7 +214,7 @@ export const data = createModel<RootModel>()({
                 activeColor,
                 isTarget,
                 isNote,
-                isHabit,
+                isCategory,
                 isEncode,
             } = state.filter;
 
@@ -281,7 +281,7 @@ export const data = createModel<RootModel>()({
                         pageSize: 200,
                         // status: TodoStatus["todo"],
                         isWork,
-                        isHabit: "1",
+                        isCategory: "1",
                         sortBy: [["color"], ["name"]],
                     };
                     const res = await getTodoList(req);
@@ -317,8 +317,8 @@ export const data = createModel<RootModel>()({
                     if (isNote === "1") {
                         req["isNote"] = isNote;
                     }
-                    if (isHabit === "1") {
-                        req["isHabit"] = isHabit;
+                    if (isCategory === "1") {
+                        req["isCategory"] = isCategory;
                     }
                     if (isEncode === "1") {
                         req["isEncode"] = isEncode;
@@ -431,7 +431,7 @@ export const data = createModel<RootModel>()({
                 }
             }
             if (type !== "habit") {
-                l = l.filter((item) => item.isHabit !== "1");
+                l = l.filter((item) => item.isCategory !== "1");
             }
             return l;
         },
@@ -498,7 +498,7 @@ export const data = createModel<RootModel>()({
                     doing: "0",
                     isWork: "0",
                     time: dayjs().format("YYYY-MM-DD"),
-                    isHabit: "0",
+                    isCategory: "0",
                     isEncode: "0",
                     isFollowUp: "0",
                 };

@@ -25,7 +25,7 @@ const Filter: React.FC<IProps> = (props) => {
     );
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
-    const isHabit = useSelector((state: RootState) => state.filter.isHabit);
+    const isCategory = useSelector((state: RootState) => state.filter.isCategory);
     const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const { username } = useContext(UserContext);
@@ -38,7 +38,7 @@ const Filter: React.FC<IProps> = (props) => {
         setStartEndTime,
         setIsNote,
         setIsTarget,
-        setIsHabit,
+        setisCategory,
         setisEncode,
     } = dispatch.filter;
 
@@ -380,8 +380,8 @@ const Filter: React.FC<IProps> = (props) => {
                                 </span>
                             </SwitchComp>
                             <SwitchComp
-                                value={isHabit}
-                                onChange={setIsHabit}
+                                value={isCategory}
+                                onChange={setisCategory}
                             >
                                 <span>
                                     <TodoTypeIcon
