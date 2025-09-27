@@ -26,7 +26,7 @@ const Filter: React.FC<IProps> = (props) => {
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
     const isHabit = useSelector((state: RootState) => state.filter.isHabit);
-    const isKeyNode = useSelector((state: RootState) => state.filter.isKeyNode);
+    const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const { username } = useContext(UserContext);
     const isMe = username === "zyb";
@@ -39,7 +39,7 @@ const Filter: React.FC<IProps> = (props) => {
         setIsNote,
         setIsTarget,
         setIsHabit,
-        setIsKeyNode,
+        setisEncode,
     } = dispatch.filter;
 
     const [timeType, setTimeType] = useState<"month" | "day" | "year">("day");
@@ -395,8 +395,8 @@ const Filter: React.FC<IProps> = (props) => {
                                 </span>
                             </SwitchComp>
                             {isMe && <SwitchComp
-                                value={isKeyNode}
-                                onChange={setIsKeyNode}
+                                value={isEncode}
+                                onChange={setisEncode}
                             >
                                 <span>
                                     加密

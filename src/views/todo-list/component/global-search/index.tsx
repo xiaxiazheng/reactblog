@@ -31,7 +31,7 @@ export const useGetOriginTodo = () => {
         isBookMark: "0",
         isWork: "0",
         isHabit: "0",
-        isKeyNode: "0",
+        isEncode: "0",
         isFollowUp: "0",
         other_id: "",
     });
@@ -59,7 +59,7 @@ const GlobalSearch: React.FC = () => {
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
     const isHabit = useSelector((state: RootState) => state.filter.isHabit);
-    const isKeyNode = useSelector((state: RootState) => state.filter.isKeyNode);
+    const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const dispatch = useDispatch<Dispatch>();
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
@@ -97,14 +97,14 @@ const GlobalSearch: React.FC = () => {
         isTarget,
         isNote,
         isHabit,
-        isKeyNode,
+        isEncode,
     ]);
 
     useEffect(() => {
-        if (isHabit === "1" || isTarget === "1" || isKeyNode === '1') {
+        if (isHabit === "1" || isTarget === "1" || isEncode === '1') {
             setShowFilter(true);
         }
-    }, [isHabit, isTarget, isKeyNode]);
+    }, [isHabit, isTarget, isEncode]);
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
@@ -119,7 +119,7 @@ const GlobalSearch: React.FC = () => {
             pageNo !== 1 ||
             isHabit === "1" ||
             isTarget === "1" ||
-            isKeyNode === "1"
+            isEncode === "1"
         );
     };
 

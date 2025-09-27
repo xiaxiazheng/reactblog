@@ -63,7 +63,7 @@ const TodoForm: React.FC<Props> = (props) => {
     // 聚焦在输入框
     useEffect(() => {
         if (open) {
-            getIsKeyNode();
+            getisEncode();
 
             needFocus && input?.current && input.current?.focus();
         }
@@ -78,9 +78,9 @@ const TodoForm: React.FC<Props> = (props) => {
     const [password, setPassword] = useState<string>();
 
     // 是否是加密
-    const [isKeyNode, setIsKeyNode] = useState<string>();
-    const getIsKeyNode = () => {
-        setIsKeyNode(form.getFieldValue("isKeyNode"));
+    const [isEncode, setisEncode] = useState<string>();
+    const getisEncode = () => {
+        setisEncode(form.getFieldValue("isEncode"));
     };
 
     const getDescription = () => {
@@ -93,7 +93,7 @@ const TodoForm: React.FC<Props> = (props) => {
             form={form}
             layout="vertical"
             onFieldsChange={(changedFields: any[]) => {
-                getIsKeyNode();
+                getisEncode();
                 isFieldsChange(changedFields);
             }}
         >
@@ -392,14 +392,14 @@ const TodoForm: React.FC<Props> = (props) => {
                                 </Form.Item>
                                 {isMe && (
                                     <Form.Item
-                                        name="isKeyNode"
+                                        name="isEncode"
                                         rules={[{ required: true }]}
                                         initialValue={"0"}
                                     >
                                         <SwitchComp>加密</SwitchComp>
                                     </Form.Item>
                                 )}
-                                {isKeyNode === "1" && (
+                                {isEncode === "1" && (
                                     <div>
                                         <TodoEncodeUtils
                                             password={password}

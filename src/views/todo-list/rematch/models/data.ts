@@ -215,7 +215,7 @@ export const data = createModel<RootModel>()({
                 isTarget,
                 isNote,
                 isHabit,
-                isKeyNode,
+                isEncode,
             } = state.filter;
 
             const { type } = payload;
@@ -320,8 +320,8 @@ export const data = createModel<RootModel>()({
                     if (isHabit === "1") {
                         req["isHabit"] = isHabit;
                     }
-                    if (isKeyNode === "1") {
-                        req["isKeyNode"] = isKeyNode;
+                    if (isEncode === "1") {
+                        req["isEncode"] = isEncode;
                     }
                     if (activeCategory) {
                         req["category"] = activeCategory;
@@ -499,7 +499,7 @@ export const data = createModel<RootModel>()({
                     isWork: "0",
                     time: dayjs().format("YYYY-MM-DD"),
                     isHabit: "0",
-                    isKeyNode: "0",
+                    isEncode: "0",
                     isFollowUp: "0",
                 };
                 await addTodoItem(val);

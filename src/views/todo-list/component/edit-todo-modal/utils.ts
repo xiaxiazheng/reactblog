@@ -23,7 +23,7 @@ export const handleFormData = (formData: any) => {
         isWork: formData.isWork || "0",
         isBookMark: formData.isBookMark || "0",
         isHabit: formData.isHabit || "0",
-        isKeyNode: formData.isKeyNode || "0",
+        isEncode: formData.isEncode || "0",
         isFollowUp: formData.isFollowUp || "0",
     };
 };

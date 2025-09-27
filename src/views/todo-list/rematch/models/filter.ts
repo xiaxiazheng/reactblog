@@ -10,7 +10,7 @@ interface FilterType {
     isTarget: string;
     isNote: string;
     isHabit: string;
-    isKeyNode: string;
+    isEncode: string;
     pageNo: number;
     pageSize: number;
 }
@@ -25,7 +25,7 @@ export const filter = createModel<RootModel>()({
         isTarget: "0",
         isNote: "0",
         isHabit: "0",
-        isKeyNode: "0",
+        isEncode: "0",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
     } as FilterType,
@@ -79,10 +79,10 @@ export const filter = createModel<RootModel>()({
                 isHabit: payload,
             };
         },
-        setIsKeyNode: (state, payload) => {
+        setisEncode: (state, payload) => {
             return {
                 ...state,
-                isKeyNode: payload,
+                isEncode: payload,
             };
         },
         setPageNo: (state, payload) => {
@@ -110,7 +110,7 @@ export const filter = createModel<RootModel>()({
                 setIsTarget,
                 setIsNote,
                 setIsHabit,
-                setIsKeyNode,
+                setisEncode,
             } = dispatch.filter;
             setActiveCategory([]);
             setActiveColor([]);
@@ -121,7 +121,7 @@ export const filter = createModel<RootModel>()({
             setIsHabit("0");
             setStartEndTime(undefined);
             setPageNo(1);
-            setIsKeyNode("0");
+            setisEncode("0");
         },
     }),
 });

@@ -3,9 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "start": "react-app-rewired start",
-        "startLocal": "cross-env REACT_APP_IS_LocalHost=yes react-app-rewired start",
-        "startLocalStatic": "cross-env REACT_APP_IS_LOCALSTATIC=yes react-app-rewired start",
+        "dev": "react-app-rewired start",
+        "devLocal": "cross-env REACT_APP_IS_LocalHost=yes react-app-rewired start",
+        "devLocalStatic": "cross-env REACT_APP_IS_LOCALSTATIC=yes react-app-rewired start",
         "build": "react-app-rewired build",
         "buildLocal": "cross-env REACT_APP_IS_LocalHost=yes react-app-rewired build",
         "buildAnalysis": "cross-env OPEN_ANALYSIS=yes react-app-rewired build",
