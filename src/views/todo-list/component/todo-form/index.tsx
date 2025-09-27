@@ -171,7 +171,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                             )}
                                             {item?.isCategory === "1" && (
                                                 <TodoTypeIcon
-                                                    type="habit"
+                                                    type="category"
                                                     style={{
                                                         color: "#ffeb3b",
                                                     }}
@@ -329,7 +329,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <SwitchComp>
                                         <span>
                                             <TodoTypeIcon
-                                                type="habit"
+                                                type="category"
                                                 style={{
                                                     marginRight: 5,
                                                     color: "#ffeb3b",

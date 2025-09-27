@@ -385,7 +385,7 @@ const Filter: React.FC<IProps> = (props) => {
                             >
                                 <span>
                                     <TodoTypeIcon
-                                        type="habit"
+                                        type="category"
                                         style={{
                                             marginRight: 5,
                                             color: "#ffeb3b",

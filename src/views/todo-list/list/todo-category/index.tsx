@@ -50,7 +50,7 @@ const TodoCategory = () => {
                 sortKey={SortKeyMap.habit}
                 title={
                     <>
-                        <TodoTypeIcon type="habit" /> {todoNameMap?.habit}
+                        <TodoTypeIcon type="category" /> {todoNameMap?.habit}
                     </>
                 }
                 mapList={habitList.sort(
