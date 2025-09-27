@@ -501,6 +501,7 @@ export const data = createModel<RootModel>()({
                     isCategory: "0",
                     isEncode: "0",
                     isFollowUp: "0",
+                    isShow: "0",
                 };
                 await addTodoItem(val);
                 message.success("打卡成功");

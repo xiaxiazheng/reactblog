@@ -25,5 +25,6 @@ export const handleFormData = (formData: any) => {
         isCategory: formData.isCategory || "0",
         isEncode: formData.isEncode || "0",
         isFollowUp: formData.isFollowUp || "0",
+        isShow: formData.isShow || "0",
     };
 };

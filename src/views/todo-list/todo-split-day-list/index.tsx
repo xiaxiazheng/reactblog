@@ -87,7 +87,7 @@ const List: React.FC<Props> = (props) => {
                 <Space size={8}>
                     {btnChildren}
                     {showDoingBtn && (
-                        <Tooltip title={`只看 ${todoNameMap?.urgent}`}>
+                        <Tooltip title={`只看 ${todoNameMap?.doing}`}>
                             <Button
                                 className={
                                     isOnlyShowDoing
@@ -138,9 +138,12 @@ const List: React.FC<Props> = (props) => {
                                     </span>
                                     {renderDateBtn?.(time)}
                                 </div>
-                                <TodoTreeWeb todoList={showList} getTodoItemProps={() => {
-                                    return { showDoneIcon: true }
-                                }} />
+                                <TodoTreeWeb
+                                    todoList={showList}
+                                    getTodoItemProps={() => {
+                                        return { showDoneIcon: true }
+                                    }}
+                                />
                             </div>
                         );
                     })}

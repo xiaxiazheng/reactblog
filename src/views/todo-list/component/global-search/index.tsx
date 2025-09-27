@@ -33,6 +33,7 @@ export const useGetOriginTodo = () => {
         isCategory: "0",
         isEncode: "0",
         isFollowUp: "0",
+        isShow: "0",
         other_id: "",
     });
 };
@@ -148,7 +149,7 @@ const GlobalSearch: React.FC = () => {
                             }}
                             icon={
                                 <TodoTypeIcon
-                                    type="work"
+                                    type="isWork"
                                     style={
                                         isWork === "1"
                                             ? {}

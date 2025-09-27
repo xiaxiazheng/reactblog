@@ -7,7 +7,7 @@ interface IProps {
     children?: ReactChild;
 }
 
-const SwitchComp = (props: IProps) => {
+const ButtonSwitch = (props: IProps) => {
     const { value, onChange, children } = props;
     return (
         <Button
@@ -19,4 +19,4 @@ const SwitchComp = (props: IProps) => {
     );
 };
 
-export default SwitchComp;
+export default ButtonSwitch;

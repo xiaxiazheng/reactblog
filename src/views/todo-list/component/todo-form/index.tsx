@@ -6,22 +6,26 @@ import {
     Radio,
     Tooltip,
     Space,
-    Button,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { colorTitle } from "../../utils";
 import styles from "./index.module.scss";
 import styles2 from "../input-list/index.module.scss";
-import { TodoItemType, handleCopy } from "@xiaxiazheng/blog-libs";
+import {
+    ButtonSwitch,
+    TodoItemType,
+    TodoPresetList,
+    handleCopy,
+    useSettingsContext,
+    splitStr,
+    SwitchCompent
+} from "@xiaxiazheng/blog-libs";
 import InputList from "../input-list";
-import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import CategoryOptions from "./categoryOptions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../rematch";
-import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import MyDatePicker from "./MyDataPicker";
-import { useSettingsContext, splitStr } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 import TodoEncodeUtils from "../todo-encode-utils";
 
@@ -47,11 +51,9 @@ const TodoForm: React.FC<Props> = (props) => {
     } = props;
 
     const {
-        todoNameMap,
         todoColorMap,
         todoColorNameMap,
         todoDescriptionMap,
-        todoPreset,
     } = useSettingsContext();
 
     const { username } = useContext(UserContext);
@@ -150,54 +152,9 @@ const TodoForm: React.FC<Props> = (props) => {
                 {!isOnlyShowTileDescription && (
                     <div className={styles.right}>
                         <Form.Item label="预设选项">
-                            <Space wrap>
-                                {todoPreset?.map((item: any, index: number) => {
-                                    return (
-                                        <Button
-                                            style={{
-                                                borderColor:
-                                                    todoColorMap?.[item.color],
-                                            }}
-                                            key={index}
-                                            onClick={() => handlePreset(item)}
-                                        >
-                                            {item?.isNote === "1" && (
-                                                <TodoTypeIcon
-                                                    type="note"
-                                                    style={{
-                                                        color: "#ffeb3b",
-                                                    }}
-                                                />
-                                            )}
-                                            {item?.isCategory === "1" && (
-                                                <TodoTypeIcon
-                                                    type="category"
-                                                    style={{
-                                                        color: "#ffeb3b",
-                                                    }}
-                                                />
-                                            )}
-                                            <span
-                                                style={{
-                                                    color: todoColorMap?.[
-                                                        item.color
-                                                    ],
-                                                }}
-                                            >{`${item?.category}`}</span>
-                                            {item?.isWork && (
-                                                <TodoTypeIcon
-                                                    type={
-                                                        item?.isWork === "1"
-                                                            ? "work"
-                                                            : "life"
-                                                    }
-                                                    style={{ color: "#00d4d8" }}
-                                                />
-                                            )}
-                                        </Button>
-                                    );
-                                })}
-                            </Space>
+                            <TodoPresetList
+                                onClick={(item) => handlePreset(item)}
+                            />
                         </Form.Item>
                         <Form.Item
                             name="status"
@@ -272,123 +229,62 @@ const TodoForm: React.FC<Props> = (props) => {
                             <MyDatePicker />
                         </Form.Item>
                         <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
-                            <Space className={styles.special} size={[8, 0]}>
+                            <Space wrap size={[8, 0]}>
                                 <Form.Item
                                     name="isWork"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="work"
-                                                style={{ color: "#00d4d8" }}
-                                            />{" "}
-                                            {todoNameMap?.work}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="isWork" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="isShow"
+                                    rules={[{ required: true }]}
+                                    initialValue={"0"}
+                                >
+                                    <SwitchCompent type="isShow" />
                                 </Form.Item>
                                 <Form.Item
                                     name="isTarget"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="target"
-                                                style={{ color: "#ffeb3b" }}
-                                            />{" "}
-                                            {todoNameMap?.target}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="isTarget" />
                                 </Form.Item>
                                 <Form.Item
                                     name="isNote"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="note"
-                                                style={{
-                                                    marginRight: 5,
-                                                    color: "#ffeb3b",
-                                                }}
-                                            />{" "}
-                                            {todoNameMap?.note}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="isNote" />
                                 </Form.Item>
                                 <Form.Item
                                     name="isCategory"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="category"
-                                                style={{
-                                                    marginRight: 5,
-                                                    color: "#ffeb3b",
-                                                }}
-                                            />{" "}
-                                            {todoNameMap?.habit}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="isCategory" />
                                 </Form.Item>
                                 <Form.Item
                                     name="isBookMark"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="bookMark"
-                                                style={{
-                                                    marginRight: 5,
-                                                    color: "#ffeb3b",
-                                                }}
-                                            />{" "}
-                                            {todoNameMap?.bookMark}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="isBookMark" />
                                 </Form.Item>
                                 <Form.Item
                                     name="doing"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="urgent"
-                                                style={{ color: "red" }}
-                                            />{" "}
-                                            {todoNameMap?.urgent}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="doing" />
                                 </Form.Item>
                                 <Form.Item
                                     name="isFollowUp"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchComp>
-                                        <span>
-                                            <TodoTypeIcon
-                                                type="followUp"
-                                                style={{
-                                                    marginRight: 5,
-                                                    color: "#ffeb3b",
-                                                }}
-                                            />{" "}
-                                            {todoNameMap?.followUp}
-                                        </span>
-                                    </SwitchComp>
+                                    <SwitchCompent type="isFollowUp" />
                                 </Form.Item>
                                 {isMe && (
                                     <Form.Item
@@ -396,7 +292,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                         rules={[{ required: true }]}
                                         initialValue={"0"}
                                     >
-                                        <SwitchComp>加密</SwitchComp>
+                                        <ButtonSwitch>加密</ButtonSwitch>
                                     </Form.Item>
                                 )}
                                 {isEncode === "1" && (

@@ -21,7 +21,7 @@ export const filter = createModel<RootModel>()({
         activeColor: [],
         activeCategory: [],
         startEndTime: "",
-        isWork: localStorage.getItem("todoGlobalSearchIsWork") || "",
+        isWork: localStorage.getItem("WorkOrLife") || "",
         isTarget: "0",
         isNote: "0",
         isCategory: "0",
@@ -55,7 +55,7 @@ export const filter = createModel<RootModel>()({
             };
         },
         setIsWork: (state, payload) => {
-            localStorage.setItem("todoGlobalSearchIsWork", payload);
+            localStorage.setItem("WorkOrLife", payload);
             return {
                 ...state,
                 isWork: payload,
@@ -73,13 +73,13 @@ export const filter = createModel<RootModel>()({
                 isNote: payload,
             };
         },
-        setisCategory: (state, payload) => {
+        setIsCategory: (state, payload) => {
             return {
                 ...state,
                 isCategory: payload,
             };
         },
-        setisEncode: (state, payload) => {
+        setIsEncode: (state, payload) => {
             return {
                 ...state,
                 isEncode: payload,
@@ -109,8 +109,8 @@ export const filter = createModel<RootModel>()({
                 setPageNo,
                 setIsTarget,
                 setIsNote,
-                setisCategory,
-                setisEncode,
+                setIsCategory,
+                setIsEncode,
             } = dispatch.filter;
             setActiveCategory([]);
             setActiveColor([]);
@@ -118,10 +118,10 @@ export const filter = createModel<RootModel>()({
             // setIsWork("");
             setIsTarget("0");
             setIsNote("0");
-            setisCategory("0");
+            setIsCategory("0");
             setStartEndTime(undefined);
             setPageNo(1);
-            setisEncode("0");
+            setIsEncode("0");
         },
     }),
 });

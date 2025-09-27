@@ -125,7 +125,7 @@ const TodoList = () => {
                         </Button>
                     </Tooltip>
                     {followUpList.length ? (
-                        <Tooltip title={`查看 ${todoNameMap?.followUp}`}>
+                        <Tooltip title={`查看 ${todoNameMap?.isFollowUp}`}>
                             <Button
                                 type={isShowFollowUp ? "primary" : "default"}
                                 onClick={() =>
@@ -133,7 +133,7 @@ const TodoList = () => {
                                 }
                                 icon={
                                     <TodoTypeIcon
-                                        type="followUp"
+                                        type="isFollowUp"
                                         style={
                                             !isShowFollowUp
                                                 ? { color: "#ffeb3b" }

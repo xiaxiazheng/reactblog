@@ -5,8 +5,8 @@ import { PlusOutlined, MinusOutlined } from "@ant-design/icons"
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import SwitchComp from "../todo-form/switch";
+import { SwitchCompent, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
+import ButtonSwitch from "../todo-form/switch";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 
@@ -38,8 +38,8 @@ const Filter: React.FC<IProps> = (props) => {
         setStartEndTime,
         setIsNote,
         setIsTarget,
-        setisCategory,
-        setisEncode,
+        setIsCategory,
+        setIsEncode,
     } = dispatch.filter;
 
     const [timeType, setTimeType] = useState<"month" | "day" | "year">("day");
@@ -166,13 +166,13 @@ const Filter: React.FC<IProps> = (props) => {
                                                         item.category
                                                     )
                                                         ? activeCategory.filter(
-                                                              (i) =>
-                                                                  i !==
-                                                                  item.category
-                                                          )
+                                                            (i) =>
+                                                                i !==
+                                                                item.category
+                                                        )
                                                         : activeCategory.concat(
-                                                              item.category
-                                                          )
+                                                            item.category
+                                                        )
                                                 );
                                             }}
                                         >
@@ -355,53 +355,26 @@ const Filter: React.FC<IProps> = (props) => {
                     <div>
                         <span>特殊状态：</span>
                         <Space className={styles.special} size={[8, 0]}>
-                            <SwitchComp
+                            <SwitchCompent
+                                type="isTarget"
                                 value={isTarget}
                                 onChange={setIsTarget}
-                            >
-                                <span>
-                                    <TodoTypeIcon
-                                        type="target"
-                                        style={{ color: "#ffeb3b" }}
-                                    />{" "}
-                                    {todoNameMap?.target}
-                                </span>
-                            </SwitchComp>
-                            <SwitchComp value={isNote} onChange={setIsNote}>
-                                <span>
-                                    <TodoTypeIcon
-                                        type="note"
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />{" "}
-                                    {todoNameMap?.note}
-                                </span>
-                            </SwitchComp>
-                            <SwitchComp
+                            />
+                            <SwitchCompent
+                                type="isNote"
+                                value={isNote}
+                                onChange={setIsNote} />
+
+                            <SwitchCompent
+                                type="isCategory"
                                 value={isCategory}
-                                onChange={setisCategory}
-                            >
-                                <span>
-                                    <TodoTypeIcon
-                                        type="category"
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />{" "}
-                                    {todoNameMap?.habit}
-                                </span>
-                            </SwitchComp>
-                            {isMe && <SwitchComp
+                                onChange={setIsCategory}
+                            />
+                            {isMe && <SwitchCompent
+                                type="isEncode"
                                 value={isEncode}
-                                onChange={setisEncode}
-                            >
-                                <span>
-                                    加密
-                                </span>
-                            </SwitchComp>}
+                                onChange={setIsEncode}
+                            />}
                         </Space>
                     </div>
                 </div>
