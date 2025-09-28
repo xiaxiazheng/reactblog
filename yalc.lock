@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@xiaxiazheng/blog-libs": {
-      "signature": "f289ff38272a36961740cc72411f26ea",
+      "signature": "210d0203ee13439c274307bbfea32f3b",
       "file": true,
       "replaced": "0.0.17"
     }

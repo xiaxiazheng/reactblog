@@ -4,6 +4,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import beian from "@/assets/beian.png";
 import HomeTodo from "./home-todo";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
+import HomeTodoCategory from "./home-todo-category";
 
 interface IHome extends RouteComponentProps { }
 
@@ -36,9 +37,10 @@ const Home: React.FC<IHome> = (props) => {
             className={`${styles.Home} ScrollBar`}
         >
             <div className={`${styles.middle}`}>
-                {settings?.HomeTodoAllowShow
+                {/* {settings?.HomeTodoAllowShow
                     ? <HomeTodo />
-                    : <div className={styles.wip}> work in progress</div>}
+                    : <div className={styles.wip}> work in progress</div>} */}
+                    <HomeTodoCategory />
             </div>
             <footer className={styles.footerBeian}>
                 <div

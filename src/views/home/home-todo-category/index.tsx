@@ -1,4 +1,4 @@
-import { TodoItem, TodoItemType, TodoDescription, HomeTodoList } from '@xiaxiazheng/blog-libs';
+import { TodoItem, TodoItemType, TodoDescription, HomeTodoList, HomeTodoCategoryList, getHomeTodoByCategoryTodoId, HomeTodoCategoryChildList } from '@xiaxiazheng/blog-libs';
 import { Input } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
@@ -8,8 +8,8 @@ interface IProps {
     onClick?: (item: TodoItemType) => void;
 }
 
-const HomeTodo: React.FC<IProps> = (params) => {
-    const { flag = 0, onClick = () => {} } = params;
+const HomeTodoCategory: React.FC<IProps> = (params) => {
+    const { flag = 0, onClick = () => { } } = params;
 
     const ref = useRef<HTMLDivElement>(null);
 
@@ -24,6 +24,7 @@ const HomeTodo: React.FC<IProps> = (params) => {
         handleSearch();
     }, [flag]);
 
+    const [activeCategory, setActiveCategory] = useState<TodoItemType | null | undefined>(null);
     const [activeTodo, setActiveTodo] = useState<TodoItemType | null | undefined>(null);
 
     return (
@@ -40,21 +41,10 @@ const HomeTodo: React.FC<IProps> = (params) => {
             {/* 内容 */}
             <div className={styles.todoBox}>
                 <div className={`${styles.boxLeft} ScrollBar`}>
-                    <HomeTodoList
-                        keyword={keyword}
-                        refreshFlag={refreshFlag}
-                        getActiveTodo={setActiveTodo}
-                        onClick={(item: TodoItemType) => {
-                            ref?.current?.scroll?.({
-                                top: 0,
-                                behavior: 'smooth',
-                            });
-                            onClick(item);
-                        }}
-                        paginationProps={{
-                            className: styles.pagination
-                        }}
-                    />
+                    <HomeTodoCategoryList onClick={setActiveCategory} />
+                </div>
+                <div className={`${styles.boxMiddle} ScrollBar`}>
+                    <HomeTodoCategoryChildList categroy_todo_id={activeCategory?.todo_id} onClick={setActiveTodo} />
                 </div>
                 <div className={`${styles.boxRight} ScrollBar`} ref={ref}>
                     {activeTodo && <>
@@ -74,4 +64,4 @@ const HomeTodo: React.FC<IProps> = (params) => {
     )
 }
 
-export default HomeTodo;
+export default HomeTodoCategory;
