@@ -8,8 +8,8 @@ import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { Button, Modal } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 // import TodoCategoryShow from "../../component/todo-category-modal-show";
-import HomeTodo from "@/views/home/home-todo";
 import { EyeFilled } from "@ant-design/icons";
+import HomeTabs from "@/views/home/home-tabs";
 
 /** 当前的知识目录 */
 const TodoCategory = () => {
@@ -32,7 +32,7 @@ const TodoCategory = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     // 打开编辑弹窗
-    const [activeTodo, setActiveTodo] = useState<TodoItemType | null>(null);
+    const [activeTodo, setActiveTodo] = useState<TodoItemType | null | undefined>(null);
     const handleEditTodo = () => {
         const { setActiveTodo, setShowEdit, setOperatorType } = dispatch.edit;
         setActiveTodo(activeTodo);
@@ -63,14 +63,15 @@ const TodoCategory = () => {
                 title={<><EyeFilled /> Home Todo</>}
                 open={isOpen}
                 onCancel={() => setIsOpen(false)}
-                width={'90vw'}
+                width={'98vw'}
                 footer={
                     <>
                         {activeTodo && <Button onClick={handleEditTodo}>编辑</Button>}
                     </>
                 }
             >
-                {isOpen && <HomeTodo
+                {isOpen && <HomeTabs
+                    type="all"
                     flag={flag}
                     onClick={(item) => {
                         setActiveTodo(item);

@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import beian from "@/assets/beian.png";
-import HomeTodo from "./home-todo";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
-import HomeTodoCategory from "./home-todo-category";
+import HomeTabs from "./home-tabs";
 
 interface IHome extends RouteComponentProps { }
 
@@ -37,11 +36,8 @@ const Home: React.FC<IHome> = (props) => {
             className={`${styles.Home} ScrollBar`}
         >
             <div className={`${styles.middle}`}>
-                {settings?.HomeTodoAllowShow
-                    ? <HomeTodoCategory />
-                    // <HomeTodo />
-                    : <div className={styles.wip}> work in progress</div>}
-                    
+                {settings?.HomeTodoAllowShow ? <div className={styles.wip}> work in progress</div> : null}
+                <HomeTabs />
             </div>
             <footer className={styles.footerBeian}>
                 <div
