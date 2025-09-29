@@ -36,8 +36,9 @@ const Home: React.FC<IHome> = (props) => {
             className={`${styles.Home} ScrollBar`}
         >
             <div className={`${styles.middle}`}>
-                {settings?.HomeTodoAllowShow ? <div className={styles.wip}> work in progress</div> : null}
-                <HomeTabs />
+                {!settings?.HomeTodoAllowShow
+                    ? <div className={styles.wip}> work in progress</div>
+                    : <HomeTabs />}
             </div>
             <footer className={styles.footerBeian}>
                 <div

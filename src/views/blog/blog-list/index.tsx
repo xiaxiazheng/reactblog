@@ -12,7 +12,7 @@ import { Loading } from "@xiaxiazheng/blog-libs";
 import classnames from "classnames";
 import { UserContext } from "@/context/UserContext";
 
-interface PropsType extends RouteComponentProps {}
+interface PropsType extends RouteComponentProps { }
 
 const BlogList: React.FC<PropsType> = (props) => {
     const { history } = props;
@@ -78,10 +78,7 @@ const BlogList: React.FC<PropsType> = (props) => {
         if (showNotTag) {
             params.showNotTag = true;
         }
-        let res = {
-            list: [],
-            total: 0,
-        };
+        let res: any;
         if (isLogin) {
             if (showVisible && showInvisible) {
                 // 显示所有日志
@@ -102,10 +99,12 @@ const BlogList: React.FC<PropsType> = (props) => {
             params.username = username;
             res = await getShowBlogList(params);
         }
-        setBlogListData({
-            blogList: res.list,
-            total: res.total,
-        });
+        if (res) {
+            setBlogListData({
+                blogList: res.data.list,
+                total: res.data.total,
+            });
+        }
         setLoading(false);
     };
 
@@ -209,11 +208,10 @@ const BlogList: React.FC<PropsType> = (props) => {
                     blogListData.blogList.map((item: BlogListType) => {
                         return (
                             <li
-                                className={`${
-                                    item.isStick === "true"
+                                className={`${item.isStick === "true"
                                         ? styles.activeStick
                                         : ""
-                                } ${styles.blogListLi}`}
+                                    } ${styles.blogListLi}`}
                                 key={item.blog_id}
                                 onClick={choiceOneBlog.bind(null, item)}
                             >

@@ -50,11 +50,11 @@ const BlogContShow: React.FC<PropsType> = (props) => {
         const getData = async () => {
             setLoading(true);
             let id = decodeURIComponent(atob(blog_id));
-            const res: OneBlogType = await getBlogCont(id);
+            const res: { data: OneBlogType } = await getBlogCont(id);
             if (res) {
-                setVisits(res?.visits);
-                setBlogData(res);
-                setEdittype(res?.edittype || "richtext");
+                setVisits(res?.data?.visits);
+                setBlogData(res?.data);
+                setEdittype(res?.data?.edittype || "richtext");
                 setLoading(false);
             }
         };

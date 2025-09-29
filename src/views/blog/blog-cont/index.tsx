@@ -28,8 +28,8 @@ const BlogCont: React.FC<PropsType> = (props) => {
     const [blogData, setBlogData] = useState<OneBlogType>();
     const getData = async () => {
         let id = decodeURIComponent(atob(match.params.blog_id));
-        const res: OneBlogType = await getBlogCont(id);
-        setBlogData(res);
+        const res: { data: OneBlogType } = await getBlogCont(id);
+        setBlogData(res.data);
     };
 
     useDocumentTitle(blogData?.title || "blog");
@@ -37,12 +37,11 @@ const BlogCont: React.FC<PropsType> = (props) => {
     // 获取当前日志图片和文件数组数据
     const getImageFileList = async () => {
         let id = decodeURIComponent(atob(match.params.blog_id));
-        const res: OneBlogType = await getBlogCont(id);
-        const imgList = res.imgList;
+        const res: { data: OneBlogType } = await getBlogCont(id);
         setBlogData({
             ...(blogData as OneBlogType),
-            imgList: res.imgList,
-            fileList: res.fileList,
+            imgList: res?.data?.imgList,
+            fileList: res?.data?.fileList,
         });
     };
 
