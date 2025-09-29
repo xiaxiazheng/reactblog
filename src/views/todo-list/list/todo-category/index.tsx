@@ -73,7 +73,7 @@ const TodoCategory = () => {
                 {isOpen && <HomeTabs
                     type="all"
                     flag={flag}
-                    onClick={(item) => {
+                    getActiveTodo={(item) => {
                         setActiveTodo(item);
                     }} />}
             </Modal>

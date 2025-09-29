@@ -7,11 +7,11 @@ import { TodoItemType } from "@xiaxiazheng/blog-libs";
 interface IProps {
     type?: 'home' | 'all';
     flag?: number;
-    onClick?: (item?: TodoItemType) => void;
+    getActiveTodo?: (item?: TodoItemType) => void;
 }
 
 const HomeTabs: React.FC<IProps> = props => {
-    const { type, flag, onClick } = props;
+    const { type, flag, getActiveTodo } = props;
 
     const items: TabsProps['items'] = [
         {
@@ -20,7 +20,7 @@ const HomeTabs: React.FC<IProps> = props => {
             children: <HomeTodoCategory
                 type={type}
                 flag={flag}
-                onClick={onClick}
+                getActiveTodo={getActiveTodo}
             />,
         },
         {
@@ -28,7 +28,7 @@ const HomeTabs: React.FC<IProps> = props => {
             label: 'list',
             children: <HomeTodo
                 flag={flag}
-                onClick={onClick}
+                onClick={getActiveTodo}
             />,
         },
     ];
