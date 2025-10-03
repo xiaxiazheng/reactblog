@@ -5,9 +5,8 @@ import {
     Modal,
     Pagination,
     Radio,
-    Space,
 } from "antd";
-import { getTodoById, getTodoList, TodoItemType, getFootPrintList } from "@xiaxiazheng/blog-libs";
+import { getTodoById, getTodoList, TodoItemType, getFootPrintList, getTodoChainById } from "@xiaxiazheng/blog-libs";
 import TodoTreeWeb from "../todo-tree-web";
 import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import styles from "./index.module.scss";
@@ -37,15 +36,10 @@ const SearchTodoModal: React.FC<IProps> = ({
     onChange,
     activeTodo,
 }) => {
-    const [footprintList, setFootprintList] = useState<NewTodoItemType[]>([]);
     const [options, setOptions] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const habitLoading = useSelector(
-        (state: RootState) => state.data.habitLoading
-    );
-    const habitList = useSelector((state: RootState) => state.data.habitList);
     const habitListOrigin = useSelector(
         (state: RootState) => state.data.habitListOrigin
     );
@@ -63,8 +57,6 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     // 搜索接口
     const handleTimeSearch = async (newValue: string) => {
-        if (sortBy === "footprint") return;
-        setLoading(true);
         let sort: string[] = ["mTime", "DESC"];
         if (sortBy === "time") {
             sort = ["time", "DESC"];
@@ -74,9 +66,6 @@ const SearchTodoModal: React.FC<IProps> = ({
         }
         if (sortBy === "cTime") {
             sort = ["cTime", "DESC"];
-        }
-        if (sortBy === "color") {
-            sort = ["color"];
         }
         const req: any = {
             keyword: newValue,
@@ -97,26 +86,40 @@ const SearchTodoModal: React.FC<IProps> = ({
                 )
             );
             setTotal(res.data.total);
-            setLoading(false);
         } else {
             message.error("获取 todolist 失败");
         }
     };
 
-    // 搜索接口
-    const handleGetDirectory = async (newValue: string) => {
-        setOptions(habitList.filter(
+    // 获取知识目录
+    const handleGetCategory = async (newValue: string) => {
+        setOptions(habitListOrigin.filter(
             (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id && (
                 item.name.toLowerCase().indexOf(newValue.toLowerCase()) !== -1 ||
                 item.description.toLowerCase().indexOf(newValue.toLowerCase()) !== -1)
         ));
     };
 
+    // 获取足迹
     const handleGetFootprint = async (keyword: string) => {
         const list = getFootPrintList();
         const l = await fetchFootprintList(list);
-        setFootprintList(l);
+        setOptions(l.filter(item =>
+            item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
+            item.description.toLowerCase().indexOf(keyword.toLowerCase()) !== -1));
     };
+
+    // 获取 todo chain
+    const handleGetTrain = async () => {
+        if (value) {
+            const res = await getTodoChainById(value);
+            if (res) {
+                setOptions(res.data);
+            } else {
+                message.error("获取 todo chain 失败");
+            }
+        }
+    }
 
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
@@ -129,31 +132,19 @@ const SearchTodoModal: React.FC<IProps> = ({
         }
     }, [sortBy, pageNo, visible]);
 
-    const handleSearch = () => {
-        if (sortBy === "footprint") {
-            handleGetFootprint(keyword);
-        } else if (sortBy === "directory") {
-            handleGetDirectory(keyword);
+    const handleSearch = async () => {
+        setLoading(true);
+        if (sortBy === 'chain') {
+            await handleGetTrain();
+        } else if (sortBy === "footprint") {
+            await handleGetFootprint(keyword);
+        } else if (sortBy === "category") {
+            await handleGetCategory(keyword);
         } else {
-            handleTimeSearch(keyword);
+            await handleTimeSearch(keyword);
         }
+        setLoading(false);
     };
-
-    useEffect(() => {
-        if (sortBy === "footprint") {
-            if (!keyword || keyword === "") {
-                setOptions(footprintList);
-            } else {
-                setOptions(
-                    footprintList.filter(
-                        (item) =>
-                            item.name.includes(keyword) ||
-                            item.description.includes(keyword)
-                    )
-                );
-            }
-        }
-    }, [keyword, footprintList]);
 
     return (
         <Modal
@@ -163,7 +154,7 @@ const SearchTodoModal: React.FC<IProps> = ({
             className={styles.modal}
             onCancel={handleClose}
             footer={
-                !['footprint', 'directory', 'chain'].includes(sortBy) && (
+                !['footprint', 'category', 'chain'].includes(sortBy) && (
                     <Pagination
                         className={styles.pagination}
                         current={pageNo}
@@ -188,23 +179,23 @@ const SearchTodoModal: React.FC<IProps> = ({
                 onChange={(e) => setSortBy(e.target.value)}
                 buttonStyle="solid"
                 optionType="button"
-                options={[
+                options={(value ? [
                     {
                         label: '当前 chain',
                         value: "chain"
-                    },
-                    {
-                        label: `足迹${footprintList.length}`,
-                        value: "footprint",
-                    },
-                    { label: "知识目录", value: "directory" },
-                    { label: "修改时间", value: "mTime" },
-                    { label: "创建时间", value: "cTime" },
-                    { label: "重要程度", value: "color" },
-                ]}
+                    }] : [])
+                    .concat([
+                        {
+                            label: `足迹`,
+                            value: "footprint",
+                        },
+                        { label: "知识目录", value: "category" },
+                        { label: "修改时间", value: "mTime" },
+                        { label: "创建时间", value: "cTime" },
+                    ])}
             />
             <div className={`${styles.content} ScrollBar`}>
-                {sortBy === "directory" ? (
+                {["category", "chain"].includes(sortBy) ? (
                     <TodoTreeWeb
                         todoList={options}
                         onClick={(item) => {
@@ -215,30 +206,26 @@ const SearchTodoModal: React.FC<IProps> = ({
                             return { keyword }
                         }}
                     />
-                ) : sortBy === "chain" ? <>这里展示当前的 todo-chain， 施工中</> : (
-                    <Space size={10} direction="vertical">
-                        {options?.map((item) => {
-                            return (
-                                <div
-                                    key={item.todo_id}
-                                    onClick={() => {
-                                        onChange(item);
-                                        handleClose();
-                                    }}
-                                    className={styles.todoItem}
-                                >
-                                    <TodoItemWeb
-                                        item={item}
-                                        placement="left"
-                                        onlyShow={true}
-                                        showTime={true}
-                                        showTimeRange={true}
-                                    />
-                                </div>
-                            );
-                        })}
-                    </Space>
-                )}
+                ) : options?.map((item) => {
+                    return (
+                        <div
+                            key={item.todo_id}
+                            onClick={() => {
+                                onChange(item);
+                                handleClose();
+                            }}
+                            className={styles.todoItem}
+                        >
+                            <TodoItemWeb
+                                item={item}
+                                placement="left"
+                                onlyShow={true}
+                                showTime={true}
+                                showTimeRange={true}
+                            />
+                        </div>
+                    );
+                })}
             </div>
         </Modal>
     );
