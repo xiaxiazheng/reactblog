@@ -1,13 +1,5 @@
 import { message } from "antd";
 
-export const handleSize = (size: number) => {
-    if (size < 1024 * 1024) {
-        return `${(size / 1024).toFixed(1)}KB`;
-    } else {
-        return `${(size / 1024 / 1024).toFixed(2)}MB`;
-    }
-};
-
 // 复制 url
 export const copyUrl = (url: string) => {
     const input = document.createElement("input");

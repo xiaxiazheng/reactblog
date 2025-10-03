@@ -2,9 +2,8 @@ import React from "react";
 import { Modal, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import MaskloadImage from "@/components/mask-load-image";
-import { ImageType } from "@xiaxiazheng/blog-libs";
+import { ImageType, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { handleSize } from "../file-image-handle/utils";
 
 interface PropsType {
     isPreview: boolean;
@@ -35,7 +34,7 @@ const PreviewImage: React.FC<PropsType> = (props) => {
                                     <div>创建时间：{image?.cTime}</div>
                                     <div>
                                         文件大小：
-                                        {handleSize(Number(image?.size))}
+                                        {handleComputedFileSize(Number(image?.size))}
                                     </div>
                                 </div>
                             }

@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Progress, message, Upload, Modal, Tooltip, Space } from "antd";
+import { message, Modal, Tooltip } from "antd";
 import {
     CopyOutlined,
     DownloadOutlined,
     DeleteOutlined,
-    PlusOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { FileType, deleteFile, FType } from "@xiaxiazheng/blog-libs";
-import { handleSize, copyUrl } from "../utils";
+import { FileType, deleteFile, FType, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
+import { copyUrl } from "../utils";
 
 interface IType {
     type: string;
@@ -145,7 +144,7 @@ const FileBox: React.FC<PropsType> = (props) => {
             >
                 <div className={styles.filename}>{originalName}</div>
                 <div className={styles.size}>
-                    {handleSize(Number((fileData as FileType).size || 0))}
+                    {handleComputedFileSize(Number((fileData as FileType).size || 0))}
                 </div>
                 <div className={styles.time}>
                     {(fileData as FileType).cTime}
@@ -186,7 +185,7 @@ const FileBox: React.FC<PropsType> = (props) => {
                                 </div>
                                 <div className={styles.size}>
                                     文件大小：
-                                    {handleSize(
+                                    {handleComputedFileSize(
                                         Number((fileData as FileType).size || 0)
                                     )}
                                 </div>

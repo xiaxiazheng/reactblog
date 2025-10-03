@@ -8,9 +8,9 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { ImageType, ImgType, deleteImg } from "@xiaxiazheng/blog-libs";
+import { ImageType, ImgType, deleteImg, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
 import PreviewImage from "@/components/preview-image";
-import { handleSize, copyUrl } from "../utils";
+import { copyUrl } from "../utils";
 
 interface IType {
     type: string;
@@ -185,7 +185,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
             {isHover && (
                 <div
                     className={styles.Icons}
-                    title={`${(imageData as ImgType).imgname}\n${handleSize(
+                    title={`${(imageData as ImgType).imgname}\n${handleComputedFileSize(
                         Number((imageData as ImgType).size || 0)
                     )}\n${(imageData as ImgType).cTime}`}
                 >
@@ -232,7 +232,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
                                     </div>
                                     <div className={styles.size}>
                                         图片大小：
-                                        {handleSize(
+                                        {handleComputedFileSize(
                                             Number(
                                                 (imageData as ImgType).size || 0
                                             )
