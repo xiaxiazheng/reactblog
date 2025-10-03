@@ -354,6 +354,7 @@ export const data = createModel<RootModel>()({
                         isFollowUp: "0",
                         sortBy: [["time", "DESC"], ["color"], ["isWork", "DESC"], ["category"], ["name"]],
                         isWork,
+                        keyword,
                     };
 
                     const res = await getTodoList(req);
@@ -437,23 +438,23 @@ export const data = createModel<RootModel>()({
         },
         handleSearch(payload, state): void {
             const {
-                todoListOrigin,
+                // todoListOrigin,
                 targetListOrigin,
                 habitListOrigin,
                 followUpListOrigin,
                 bookMarkListOrigin,
             } = state.data;
             const {
-                setTodoList,
+                // setTodoList,
                 setHabitList,
                 setTargetList,
                 setFollowUpList,
                 setBookMarkList,
             } = dispatch.data;
             // 其他模块直接过滤不用发请求
-            setTodoList(
-                this.getFilterList({ list: todoListOrigin, type: "todo" })
-            );
+            // setTodoList(
+            //     this.getFilterList({ list: todoListOrigin, type: "todo" })
+            // );
             setTargetList(
                 this.getFilterList({ list: targetListOrigin, type: "target" })
             );
@@ -472,7 +473,8 @@ export const data = createModel<RootModel>()({
                     type: "bookmark",
                 })
             );
-            // 已完成模块除外
+            // todo 和已完成模块除外
+            this.getTodo({ type: "todo" });
             this.getTodo({ type: "done" });
         },
         async getCategory(payload, state) {
