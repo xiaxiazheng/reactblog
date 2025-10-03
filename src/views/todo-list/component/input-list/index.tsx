@@ -4,6 +4,8 @@ import { CopyOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import CopyButton from "@/components/copy-button";
 import { TodoDescription, splitStr } from "@xiaxiazheng/blog-libs";
+import { useSelector } from "react-redux";
+import { RootState } from "../../rematch";
 
 const { TextArea } = Input;
 
@@ -20,6 +22,10 @@ const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
         onChange(l.join(splitStr));
     };
 
+    const contextKeyword = useSelector(
+        (state: RootState) => state.filter.keyword
+    );
+
     return (
         <div className={styles.inputList}>
             {isShowMD && (
@@ -27,6 +33,7 @@ const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
                     <div className={styles.mdShowTitle}>markdown 预览区</div>
                     <div className={styles.mdShow}>
                         <TodoDescription
+                            keyword={contextKeyword}
                             todoDescription={(value || "")}
                         />
                     </div>
