@@ -17,8 +17,8 @@ module.exports = {
     webpack: function (config, env) {
         override(
             addWebpackExternals({
-                react: "React",
-                "react-dom": "ReactDOM",
+                // react: "React",
+                // "react-dom": "ReactDOM",
                 "highlight.js": "hljs",
             }),
             addWebpackAlias({
