@@ -19,7 +19,7 @@ module.exports = {
             addWebpackExternals({
                 // react: "React",
                 // "react-dom": "ReactDOM",
-                "highlight.js": "hljs",
+                // "highlight.js": "hljs",
             }),
             addWebpackAlias({
                 // eslint-disable-next-line no-useless-computed-key
