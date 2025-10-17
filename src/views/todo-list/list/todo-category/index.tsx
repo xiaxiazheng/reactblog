@@ -5,7 +5,7 @@ import { TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../../todo-tree-list";
 import { SortKeyMap } from "../../component/sort-btn";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
-import { Button, Modal } from "antd";
+import { Button, Modal, Radio, Space } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 // import TodoCategoryShow from "../../component/todo-category-modal-show";
 import { EyeFilled } from "@ant-design/icons";
@@ -43,6 +43,8 @@ const TodoCategory = () => {
     // 关闭编辑弹窗后，接收更新信号，传给 homeTodo 更新数据
     const { flag } = useSelector((state: RootState) => state.edit);
 
+    const [type, setType] = useState<'home' | 'all'>('all');
+
     return (
         <>
             <TodoTreeList
@@ -60,7 +62,14 @@ const TodoCategory = () => {
             />
             <Modal
                 className={`${theme === "dark" ? "darkTheme" : ""}`}
-                title={<><EyeFilled /> Home Todo</>}
+                title={<Space>
+                    <EyeFilled /> Home Todo
+                    <Radio.Group
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                        options={[{ label: 'home, 跟游客看到的一模一样', value: 'home' }, { label: 'all，看所有类目', value: 'all' }]}>
+                    </Radio.Group>
+                </Space>}
                 open={isOpen}
                 onCancel={() => setIsOpen(false)}
                 width={'98vw'}
@@ -71,7 +80,7 @@ const TodoCategory = () => {
                 }
             >
                 {isOpen && <HomeTabs
-                    type="all"
+                    type={type}
                     flag={flag}
                     getActiveTodo={(item) => {
                         setActiveTodo(item);
