@@ -8,7 +8,7 @@ export enum SortKeyMap {
     after,
     done,
     target,
-    habit,
+    category,
     bookmark,
     footprint,
     followUp,

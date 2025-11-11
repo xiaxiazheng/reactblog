@@ -39,7 +39,7 @@ const TodoListHome: React.FC = () => {
         getTodo({ type: "todo" });
         getTodo({ type: "target" });
         getTodo({ type: "bookMark" });
-        getTodo({ type: "habit" });
+        getTodo({ type: "category" });
         getTodo({ type: "followUp" });
     }, [isWork]);
 

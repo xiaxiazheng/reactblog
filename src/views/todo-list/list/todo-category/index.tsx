@@ -16,18 +16,18 @@ const TodoCategory = () => {
     const { todoNameMap } = useSettingsContext();
     const { theme } = useContext(ThemeContext);
 
-    const habitLoading = useSelector(
-        (state: RootState) => state.data.habitLoading
+    const categoryLoading = useSelector(
+        (state: RootState) => state.data.categoryLoading
     );
-    const habitList = useSelector((state: RootState) => state.data.habitList);
-    const habitListOrigin = useSelector(
-        (state: RootState) => state.data.habitListOrigin
+    const categoryList = useSelector((state: RootState) => state.data.categoryList);
+    const categoryListOrigin = useSelector(
+        (state: RootState) => state.data.categoryListOrigin
     );
     const dispatch = useDispatch<Dispatch>();
-    const { setHabitList, getFilterList } = dispatch.data;
+    const { setCategoryList, getFilterList } = dispatch.data;
     useEffect(() => {
-        setHabitList(getFilterList({ list: habitListOrigin, type: "habit" }));
-    }, [habitListOrigin]);
+        setCategoryList(getFilterList({ list: categoryListOrigin, type: "category" }));
+    }, [categoryListOrigin]);
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -48,14 +48,14 @@ const TodoCategory = () => {
     return (
         <>
             <TodoTreeList
-                loading={habitLoading}
-                sortKey={SortKeyMap.habit}
+                loading={categoryLoading}
+                sortKey={SortKeyMap.category}
                 title={
                     <>
                         <TodoTypeIcon type="isCategory" /> {todoNameMap?.isCategory}
                     </>
                 }
-                mapList={habitList.sort(
+                mapList={categoryList.sort(
                     (a, b) => Number(a.color) - Number(b.color)
                 )}
                 btn={<Button onClick={() => setIsOpen(true)}><EyeFilled /> home todo</Button>}

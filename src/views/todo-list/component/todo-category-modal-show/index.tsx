@@ -22,8 +22,8 @@ const TodoCategoryShow: React.FC<IProps> = () => {
     const [tempKeyword, setTempKeyword] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
 
-    const habitListOrigin = useSelector(
-        (state: RootState) => state.data.habitListOrigin
+    const categoryListOrigin = useSelector(
+        (state: RootState) => state.data.categoryListOrigin
     );
 
     // 根据 judgeSearch 递归筛选整棵树
@@ -95,7 +95,7 @@ const TodoCategoryShow: React.FC<IProps> = () => {
                 />
             </Space>
             <TodoTreeWeb
-                todoList={habitListOrigin}
+                todoList={categoryListOrigin}
                 dataMode="flat"
                 getTodoItemProps={() => {
                     return {
