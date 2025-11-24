@@ -46,7 +46,7 @@ export const handleRefreshList = (formData: any) => {
         list.push("bookMark");
     }
     if (formData.isDirectory === "1") {
-        list.push("category");
+        list.push("directory");
     }
     if (formData.isFollowUp === "1") {
         list.push("followUp");
