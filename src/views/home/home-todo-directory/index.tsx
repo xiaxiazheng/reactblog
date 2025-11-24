@@ -1,4 +1,4 @@
-import { TodoItem, TodoItemType, TodoDescription, HomeTodoCategoryList, HomeTodoCategoryChildList, getTodoById, Loading } from '@xiaxiazheng/blog-libs';
+import { TodoItem, TodoItemType, TodoDescription, HomeTodoDirectoryList, HomeTodoDirectoryChildList, getTodoById, Loading } from '@xiaxiazheng/blog-libs';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
 
@@ -9,7 +9,7 @@ interface IProps {
     getActiveTodo?: (item?: TodoItemType) => void;
 }
 
-const HomeTodoCategory: React.FC<IProps> = (params) => {
+const HomeTodoDirectory: React.FC<IProps> = (params) => {
     const { type, flag = 0, getActiveTodo = () => { } } = params;
 
     const ref = useRef<HTMLDivElement>(null);
@@ -47,14 +47,14 @@ const HomeTodoCategory: React.FC<IProps> = (params) => {
             {/* 内容 */}
             <div className={styles.todoBox}>
                 <div className={`${styles.boxLeft} ScrollBar`}>
-                    <HomeTodoCategoryList
+                    <HomeTodoDirectoryList
                         type={type}
                         flag={flag}
                         onClick={setActiveCategory}
                     />
                 </div>
                 <div className={`${styles.boxMiddle} ScrollBar`}>
-                    <HomeTodoCategoryChildList
+                    <HomeTodoDirectoryChildList
                         type={type}
                         flag={flag}
                         categroy_todo_id={activeCategory?.todo_id}
@@ -85,4 +85,4 @@ const HomeTodoCategory: React.FC<IProps> = (params) => {
     )
 }
 
-export default HomeTodoCategory;
+export default HomeTodoDirectory;

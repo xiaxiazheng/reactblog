@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsProps } from "antd";
-import HomeTodoCategory from "../home-todo-category";
+import HomeTodoDirectory from "../home-todo-directory";
 import HomeTodo from "../home-todo";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
@@ -17,7 +17,7 @@ const HomeTabs: React.FC<IProps> = props => {
         {
             key: '1',
             label: 'category',
-            children: <HomeTodoCategory
+            children: <HomeTodoDirectory
                 type={type}
                 flag={flag}
                 getActiveTodo={getActiveTodo}

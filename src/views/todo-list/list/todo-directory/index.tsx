@@ -12,7 +12,7 @@ import { EyeFilled } from "@ant-design/icons";
 import HomeTabs from "@/views/home/home-tabs";
 
 /** 当前的知识目录 */
-const TodoCategory = () => {
+const TodoDirectory = () => {
     const { todoNameMap } = useSettingsContext();
     const { theme } = useContext(ThemeContext);
 
@@ -52,7 +52,7 @@ const TodoCategory = () => {
                 sortKey={SortKeyMap.category}
                 title={
                     <>
-                        <TodoTypeIcon type="isCategory" /> {todoNameMap?.isCategory}
+                        <TodoTypeIcon type="isDirectory" /> {todoNameMap?.isDirectory}
                     </>
                 }
                 mapList={categoryList.sort(
@@ -90,4 +90,4 @@ const TodoCategory = () => {
     );
 };
 
-export default TodoCategory;
+export default TodoDirectory;

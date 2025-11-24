@@ -9,6 +9,7 @@ import { SwitchCompent, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import ButtonSwitch from "../todo-form/switch";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
+import ModifyCategory from "./modifyCategory";
 
 interface IProps {
     isSimple: boolean;
@@ -25,7 +26,7 @@ const Filter: React.FC<IProps> = (props) => {
     );
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
-    const isCategory = useSelector((state: RootState) => state.filter.isCategory);
+    const isDirectory = useSelector((state: RootState) => state.filter.isDirectory);
     const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const { username } = useContext(UserContext);
@@ -38,7 +39,7 @@ const Filter: React.FC<IProps> = (props) => {
         setStartEndTime,
         setIsNote,
         setIsTarget,
-        setIsCategory,
+        setisDirectory,
         setIsEncode,
     } = dispatch.filter;
 
@@ -126,21 +127,6 @@ const Filter: React.FC<IProps> = (props) => {
                             {item}
                         </Button>
                     ))}
-                    {/* {activeColor?.map((item) => (
-                        <Button
-                            key={item}
-                            size="small"
-                            onClick={() =>
-                                setActiveColor(
-                                    activeColor.filter((i) => i !== item)
-                                )
-                            }
-                        >
-                            <span style={{ color: todoColorMap[item] }}>
-                                {todoColorNameMap[item]}
-                            </span>
-                        </Button>
-                    ))} */}
                 </Space>
             )}
 
@@ -182,26 +168,6 @@ const Filter: React.FC<IProps> = (props) => {
                                 })}
                             </Space>
                         </Checkbox.Group>
-                        {/* <Select
-                    className={styles.select}
-                    value={activeCategory || undefined}
-                    placeholder="类别筛选"
-                    onChange={(val: any) => setActiveCategory(val)}
-                    showSearch
-                    filterOption={(input, option) =>
-                        (option?.label ?? "")
-                            .toLowerCase()
-                            .includes(input.toLowerCase())
-                    }
-                    allowClear
-                    style={{ width: 130 }}
-                    options={category?.map((item) => {
-                        return {
-                            label: `${item.category} (${item.count})`,
-                            value: item.category,
-                        };
-                    })}
-                /> */}
                     </div>
                     <div>
                         <div>
@@ -366,9 +332,9 @@ const Filter: React.FC<IProps> = (props) => {
                                 onChange={setIsNote} />
 
                             <SwitchCompent
-                                type="isCategory"
-                                value={isCategory}
-                                onChange={setIsCategory}
+                                type="isDirectory"
+                                value={isDirectory}
+                                onChange={setisDirectory}
                             />
                             {isMe && <SwitchCompent
                                 type="isEncode"
@@ -377,6 +343,9 @@ const Filter: React.FC<IProps> = (props) => {
                             />}
                         </Space>
                     </div>
+
+                    {/* 批量修改 todo 的 category */}
+                    <ModifyCategory />
                 </div>
             )}
         </>

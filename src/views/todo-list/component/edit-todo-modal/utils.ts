@@ -22,7 +22,7 @@ export const handleFormData = (formData: any) => {
         isTarget: formData.isTarget || "0",
         isWork: formData.isWork || "0",
         isBookMark: formData.isBookMark || "0",
-        isCategory: formData.isCategory || "0",
+        isDirectory: formData.isDirectory || "0",
         isEncode: formData.isEncode || "0",
         isFollowUp: formData.isFollowUp || "0",
         isShow: formData.isShow || "0",

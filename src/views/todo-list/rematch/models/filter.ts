@@ -9,7 +9,7 @@ interface FilterType {
     isWork: string; // 是否是工作
     isTarget: string;
     isNote: string;
-    isCategory: string;
+    isDirectory: string;
     isEncode: string;
     pageNo: number;
     pageSize: number;
@@ -24,7 +24,7 @@ export const filter = createModel<RootModel>()({
         isWork: localStorage.getItem("WorkOrLife") || "",
         isTarget: "0",
         isNote: "0",
-        isCategory: "0",
+        isDirectory: "0",
         isEncode: "0",
         pageNo: 1,
         pageSize: localStorage.getItem("todoDonePageSize") || 15,
@@ -73,10 +73,10 @@ export const filter = createModel<RootModel>()({
                 isNote: payload,
             };
         },
-        setIsCategory: (state, payload) => {
+        setisDirectory: (state, payload) => {
             return {
                 ...state,
-                isCategory: payload,
+                isDirectory: payload,
             };
         },
         setIsEncode: (state, payload) => {
@@ -109,7 +109,7 @@ export const filter = createModel<RootModel>()({
                 setPageNo,
                 setIsTarget,
                 setIsNote,
-                setIsCategory,
+                setisDirectory,
                 setIsEncode,
             } = dispatch.filter;
             setActiveCategory([]);
@@ -118,7 +118,7 @@ export const filter = createModel<RootModel>()({
             // setIsWork("");
             setIsTarget("0");
             setIsNote("0");
-            setIsCategory("0");
+            setisDirectory("0");
             setStartEndTime(undefined);
             setPageNo(1);
             setIsEncode("0");

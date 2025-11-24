@@ -259,11 +259,11 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <SwitchCompent type="isNote" />
                                 </Form.Item>
                                 <Form.Item
-                                    name="isCategory"
+                                    name="isDirectory"
                                     rules={[{ required: true }]}
                                     initialValue={"0"}
                                 >
-                                    <SwitchCompent type="isCategory" />
+                                    <SwitchCompent type="isDirectory" />
                                 </Form.Item>
                                 <Form.Item
                                     name="isBookMark"

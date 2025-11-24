@@ -14,7 +14,7 @@ import TodoList, { RenderTodoDescriptionIcon } from "./list/todo-list";
 import TodoTarget from "./list/todo-target";
 import DrawerFootprint from "./component/drawer-footprint";
 import TodoBookMark from "./list/todo-bookmark";
-import TodoCategory from "./list/todo-category";
+import TodoDirectory from "./list/todo-directory";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import HoverOpenBar from "./component/hover-open-bar";
 import TodoNote from "./list/todo-note";
@@ -59,7 +59,7 @@ const TodoListHome: React.FC = () => {
                         {/* 知识目录 */}
                         {isWork !== "1" && (
                             <div className={`${styles.lb} ScrollBar`}>
-                                <TodoCategory />
+                                <TodoDirectory />
                             </div>
                         )}
                     </div>

@@ -30,7 +30,7 @@ export const useGetOriginTodo = () => {
         isTarget: "0",
         isBookMark: "0",
         isWork: "0",
-        isCategory: "0",
+        isDirectory: "0",
         isEncode: "0",
         isFollowUp: "0",
         isShow: "0",
@@ -59,7 +59,7 @@ const GlobalSearch: React.FC = () => {
     const pageSize = useSelector((state: RootState) => state.filter.pageSize);
     const isTarget = useSelector((state: RootState) => state.filter.isTarget);
     const isNote = useSelector((state: RootState) => state.filter.isNote);
-    const isCategory = useSelector((state: RootState) => state.filter.isCategory);
+    const isDirectory = useSelector((state: RootState) => state.filter.isDirectory);
     const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const dispatch = useDispatch<Dispatch>();
@@ -97,15 +97,15 @@ const GlobalSearch: React.FC = () => {
         pageSize,
         isTarget,
         isNote,
-        isCategory,
+        isDirectory,
         isEncode,
     ]);
 
     useEffect(() => {
-        if (isCategory === "1" || isTarget === "1" || isEncode === '1') {
+        if (isDirectory === "1" || isTarget === "1" || isEncode === '1') {
             setShowFilter(true);
         }
-    }, [isCategory, isTarget, isEncode]);
+    }, [isDirectory, isTarget, isEncode]);
 
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
@@ -118,7 +118,7 @@ const GlobalSearch: React.FC = () => {
             (typeof keyword !== "undefined" && keyword !== "") ||
             !!startEndTime ||
             pageNo !== 1 ||
-            isCategory === "1" ||
+            isDirectory === "1" ||
             isTarget === "1" ||
             isEncode === "1"
         );
@@ -131,66 +131,70 @@ const GlobalSearch: React.FC = () => {
         >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Space>
+                    {/* 新增 todo 按钮 */}
                     <Button onClick={() => handleAdd()}>
                         <PlusOutlined />
                         todo
                     </Button>
-                    {/* refresh */}
+                    {/* refresh 刷新按钮 */}
                     <Button onClick={() => refreshData()} type="primary">
                         <RedoOutlined />
                     </Button>
-                    <Tooltip title={"开启 Work 模式"}>
-                        <Button
-                            type="text"
-                            onClick={() => setIsWork(isWork === "1" ? "" : "1")}
-                            onContextMenu={(e) => {
-                                setIsWork("0");
-                                e.preventDefault();
-                            }}
-                            icon={
-                                <TodoTypeIcon
-                                    type="isWork"
-                                    style={
-                                        isWork === "1"
-                                            ? {}
-                                            : { color: "#00d4d8" }
-                                    }
-                                />
-                            }
-                            style={
-                                isWork === "1"
-                                    ? {
-                                        borderColor: "#00d4d8",
-                                        background: "#00d4d8",
-                                    }
-                                    : { borderColor: "#00d4d8" }
-                            }
-                        />
-                    </Tooltip>
-                    <Tooltip title={"开启 Life 模式"}>
-                        <Button
-                            type="text"
-                            onClick={() => setIsWork(isWork === "0" ? "" : "0")}
-                            icon={
-                                <TodoTypeIcon
-                                    type="life"
-                                    style={
-                                        isWork === "0"
-                                            ? {}
-                                            : { color: "#00d4d8" }
-                                    }
-                                />
-                            }
-                            style={
-                                isWork === "0"
-                                    ? {
-                                        borderColor: "#00d4d8",
-                                        background: "#00d4d8",
-                                    }
-                                    : { borderColor: "#00d4d8" }
-                            }
-                        />
-                    </Tooltip>
+                    {/* 模式切换 */}
+                    <>
+                        <Tooltip title={"开启 Work 模式"}>
+                            <Button
+                                type="text"
+                                onClick={() => setIsWork(isWork === "1" ? "" : "1")}
+                                onContextMenu={(e) => {
+                                    setIsWork("0");
+                                    e.preventDefault();
+                                }}
+                                icon={
+                                    <TodoTypeIcon
+                                        type="isWork"
+                                        style={
+                                            isWork === "1"
+                                                ? {}
+                                                : { color: "#00d4d8" }
+                                        }
+                                    />
+                                }
+                                style={
+                                    isWork === "1"
+                                        ? {
+                                            borderColor: "#00d4d8",
+                                            background: "#00d4d8",
+                                        }
+                                        : { borderColor: "#00d4d8" }
+                                }
+                            />
+                        </Tooltip>
+                        <Tooltip title={"开启 Life 模式"}>
+                            <Button
+                                type="text"
+                                onClick={() => setIsWork(isWork === "0" ? "" : "0")}
+                                icon={
+                                    <TodoTypeIcon
+                                        type="life"
+                                        style={
+                                            isWork === "0"
+                                                ? {}
+                                                : { color: "#00d4d8" }
+                                        }
+                                    />
+                                }
+                                style={
+                                    isWork === "0"
+                                        ? {
+                                            borderColor: "#00d4d8",
+                                            background: "#00d4d8",
+                                        }
+                                        : { borderColor: "#00d4d8" }
+                                }
+                            />
+                        </Tooltip>
+                    </>
                     {/* <Select
                         className={styles.select}
                         value={activeCategory || undefined}
@@ -234,6 +238,7 @@ const GlobalSearch: React.FC = () => {
                 </Space>
             </div>
 
+            {/* 全局搜索 */}
             <Input.Search
                 className={styles.search}
                 value={keyword}
@@ -250,6 +255,7 @@ const GlobalSearch: React.FC = () => {
                 placeholder="可用空格分词实现一定模糊搜索"
             />
 
+            {/* color 重要程度筛选 */}
             <div>
                 <span>{colorTitle}：</span>
                 <Checkbox.Group value={activeColor}>
@@ -282,6 +288,7 @@ const GlobalSearch: React.FC = () => {
                 </Button>
             </div>
 
+            {/* 更精细的筛选项 */}
             <Filter isSimple={!showFilter} />
         </Space>
     );

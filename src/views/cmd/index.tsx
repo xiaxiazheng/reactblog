@@ -85,7 +85,7 @@ const CMD: React.FC<ICMD> = (props) => {
                 isWork: '0',
                 isEncode: '0',
                 isFollowUp: '0',
-                isCategory: '0',
+                isDirectory: '0',
                 time: dayjs().format("YYYY-MM-DD"),
             };
             const res = await addTodoItem(params);
