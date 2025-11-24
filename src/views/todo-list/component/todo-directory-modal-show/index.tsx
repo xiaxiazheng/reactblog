@@ -14,7 +14,7 @@ import TodoTreeWeb from "../todo-tree-web";
 interface IProps extends DrawerProps { }
 
 /** "知识目录"弹窗里的展示内容，暂时废弃 */
-const TodoCategoryShow: React.FC<IProps> = () => {
+const TodoDirectoryModalShow: React.FC<IProps> = () => {
     const { todoColorMap, todoColorNameMap } = useSettingsContext();
 
     const dispatch = useDispatch<Dispatch>();
@@ -22,8 +22,8 @@ const TodoCategoryShow: React.FC<IProps> = () => {
     const [tempKeyword, setTempKeyword] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
 
-    const categoryListOrigin = useSelector(
-        (state: RootState) => state.data.categoryListOrigin
+    const directoryListOrigin = useSelector(
+        (state: RootState) => state.data.directoryListOrigin
     );
 
     // 根据 judgeSearch 递归筛选整棵树
@@ -95,7 +95,7 @@ const TodoCategoryShow: React.FC<IProps> = () => {
                 />
             </Space>
             <TodoTreeWeb
-                todoList={categoryListOrigin}
+                todoList={directoryListOrigin}
                 dataMode="flat"
                 getTodoItemProps={() => {
                     return {
@@ -110,4 +110,4 @@ const TodoCategoryShow: React.FC<IProps> = () => {
     );
 };
 
-export default TodoCategoryShow;
+export default TodoDirectoryModalShow;

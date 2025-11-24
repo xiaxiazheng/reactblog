@@ -6,10 +6,9 @@ import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import SortBtnMulti, {
     useIsSortByMulti,
 } from "../component/sort-btn-multi";
-import { useIsHIdeModel } from "../hooks";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { SortKeyMap } from "../component/sort-btn";
 import TodoTreeWeb from "../component/todo-tree-web";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 interface Props {
     loading: boolean;
@@ -17,6 +16,8 @@ interface Props {
     sortKey: SortKeyMap;
     mapList: TodoItemType[];
     btn?: any;
+    onClickTitle?: (key: SortKeyMap) => void;
+    isHideList?: boolean;
 }
 
 const TodoTreeList: React.FC<Props> = (props) => {
@@ -25,14 +26,14 @@ const TodoTreeList: React.FC<Props> = (props) => {
         title,
         mapList,
         sortKey,
-        btn
+        btn,
+        onClickTitle,
+        isHideList = false,
     } = props;
 
     const { isSortBy, setIsSortBy, handleSort } = useIsSortByMulti(
         `${sortKey}-sort-time`
     );
-
-    const { isHide, setIsHide } = useIsHIdeModel(`${sortKey}`);
 
     return (
         <div className={styles.list}>
@@ -40,9 +41,9 @@ const TodoTreeList: React.FC<Props> = (props) => {
             <div className={styles.header}>
                 <span
                     style={{ color: "#1890ffcc" }}
-                    onClick={() => setIsHide()}
+                    onClick={() => onClickTitle?.(sortKey)}
                 >
-                    {title}({mapList.length}) {isHide ? <UpOutlined /> : <DownOutlined />}
+                    {title}({mapList.length}) {isHideList ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={16}>
                     {btn}
@@ -52,7 +53,7 @@ const TodoTreeList: React.FC<Props> = (props) => {
                     />
                 </Space>
             </div>
-            {!isHide && (
+            {!isHideList && (
                 <div className={`${styles.OneDayListWrap} ScrollBar`}>
                     <TodoTreeWeb todoList={handleSort(mapList)}  />
                 </div>

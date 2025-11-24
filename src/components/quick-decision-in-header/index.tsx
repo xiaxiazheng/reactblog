@@ -22,8 +22,8 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
     const { setShowEdit, setOperatorType, setActiveTodo } = dispatch.edit;
     const [isShowAll, setIsShowAll] = useState<boolean>(false);
 
-    const categoryListOrigin = useSelector(
-        (state: RootState) => state.data.categoryListOrigin
+    const directoryListOrigin = useSelector(
+        (state: RootState) => state.data.directoryListOrigin
     ).sort((a, b) => Number(a.color) - Number(b.color));
     const listLoading = useSelector(
         (state: RootState) => state.data.todoLoading
@@ -54,7 +54,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
         if (isShowModal && !random) {
             calculateChance2(listOrigin);
         }
-    }, [categoryListOrigin, listOrigin, isShowModal, random]);
+    }, [directoryListOrigin, listOrigin, isShowModal, random]);
 
     // 这是基于打卡任务计算的，会用子todo数量进行计算
     const calculateChance = (l: TodoItemType[]) => {

@@ -22,20 +22,20 @@ interface DataType {
     doneLoading: boolean;
     targetLoading: boolean;
     followUpLoading: boolean;
-    categoryLoading: boolean;
+    directoryLoading: boolean;
     bookMarkLoading: boolean;
     isRefreshNote: boolean;
     todoListOrigin: TodoItemType[];
     targetListOrigin: TodoItemType[];
     followUpListOrigin: TodoItemType[];
-    categoryListOrigin: TodoItemType[];
+    directoryListOrigin: TodoItemType[];
     bookMarkListOrigin: TodoItemType[];
     todoList: TodoItemType[];
     doneList: TodoItemType[];
     doneTotal: number;
     targetList: TodoItemType[];
     followUpList: TodoItemType[];
-    categoryList: TodoItemType[];
+    directoryList: TodoItemType[];
     bookMarkList: TodoItemType[];
     category: CategoryType[];
 }
@@ -46,20 +46,20 @@ export const data = createModel<RootModel>()({
         doneLoading: false,
         targetLoading: false,
         followUpLoading: false,
-        categoryLoading: false,
+        directoryLoading: false,
         bookMarkLoading: false,
         isRefreshNote: false,
         todoListOrigin: [],
         targetListOrigin: [],
         followUpListOrigin: [],
-        categoryListOrigin: [],
+        directoryListOrigin: [],
         bookMarkListOrigin: [],
         todoList: [],
         doneList: [],
         doneTotal: 0,
         targetList: [],
         followUpList: [],
-        categoryList: [],
+        directoryList: [],
         bookMarkList: [],
         category: [],
     } as DataType,
@@ -88,10 +88,10 @@ export const data = createModel<RootModel>()({
                 followUpLoading: payload,
             };
         },
-        setCategoryLoading: (state, payload) => {
+        setDirectoryLoading: (state, payload) => {
             return {
                 ...state,
-                categoryLoading: payload,
+                directoryLoading: payload,
             };
         },
         setBookMarkLoading: (state, payload) => {
@@ -124,10 +124,10 @@ export const data = createModel<RootModel>()({
                 followUpListOrigin: payload,
             };
         },
-        setCategoryListOrigin: (state, payload) => {
+        setDirectoryListOrigin: (state, payload) => {
             return {
                 ...state,
-                categoryListOrigin: payload,
+                directoryListOrigin: payload,
             };
         },
         setBookMarkListOrigin: (state, payload) => {
@@ -166,10 +166,10 @@ export const data = createModel<RootModel>()({
                 followUpList: payload,
             };
         },
-        setCategoryList: (state, payload) => {
+        setDirectoryList: (state, payload) => {
             return {
                 ...state,
-                categoryList: payload,
+                directoryList: payload,
             };
         },
         setBookMarkList: (state, payload) => {
@@ -194,8 +194,8 @@ export const data = createModel<RootModel>()({
                 setTargetListOrigin,
                 setFollowUpLoading,
                 setFollowUpListOrigin,
-                setCategoryLoading,
-                setCategoryListOrigin,
+                setDirectoryLoading,
+                setDirectoryListOrigin,
                 setIsRefreshNote,
                 setDoneLoading,
                 setDoneList,
@@ -274,8 +274,8 @@ export const data = createModel<RootModel>()({
                     }
                     break;
                 }
-                case "category": {
-                    setCategoryLoading(true);
+                case "directory": {
+                    setDirectoryLoading(true);
                     const req: any = {
                         pageNo: 1,
                         pageSize: 200,
@@ -286,8 +286,8 @@ export const data = createModel<RootModel>()({
                     };
                     const res = await getTodoList(req);
                     if (res) {
-                        setCategoryListOrigin(res.data.list);
-                        setCategoryLoading(false);
+                        setDirectoryListOrigin(res.data.list);
+                        setDirectoryLoading(false);
                     } else {
                         message.error("获取 todolist 失败");
                     }
@@ -352,6 +352,7 @@ export const data = createModel<RootModel>()({
                         isBookMark: "0",
                         isTarget: "0",
                         isFollowUp: "0",
+                        isDirectory: "0",
                         sortBy: [["time", "DESC"], ["color"], ["isWork", "DESC"], ["category"], ["name"]],
                         isWork,
                         keyword,
@@ -375,7 +376,7 @@ export const data = createModel<RootModel>()({
                 this.getTodo({ type: "done" });
                 this.getTodo({ type: "target" });
                 this.getTodo({ type: "bookMark" });
-                this.getTodo({ type: "category" });
+                this.getTodo({ type: "directory" });
                 this.getTodo({ type: "followUp" });
             } else {
                 type === "todo" && this.getTodo({ type: "todo" });
@@ -383,7 +384,7 @@ export const data = createModel<RootModel>()({
                 type === "target" && this.getTodo({ type: "target" });
                 type === "bookMark" && this.getTodo({ type: "bookMark" });
                 type === "note" && this.getTodo({ type: "note" });
-                type === "category" && this.getTodo({ type: "category" });
+                type === "directory" && this.getTodo({ type: "directory" });
                 type === "followUp" && this.getTodo({ type: "followUp" });
             }
         },
@@ -437,13 +438,13 @@ export const data = createModel<RootModel>()({
             const {
                 // todoListOrigin,
                 targetListOrigin,
-                categoryListOrigin,
+                directoryListOrigin,
                 followUpListOrigin,
                 bookMarkListOrigin,
             } = state.data;
             const {
                 // setTodoList,
-                setCategoryList,
+                setDirectoryList,
                 setTargetList,
                 setFollowUpList,
                 setBookMarkList,
@@ -455,8 +456,8 @@ export const data = createModel<RootModel>()({
             setTargetList(
                 this.getFilterList({ list: targetListOrigin, type: "target" })
             );
-            setCategoryList(
-                this.getFilterList({ list: categoryListOrigin, type: "category" })
+            setDirectoryList(
+                this.getFilterList({ list: directoryListOrigin, type: "directory" })
             );
             setFollowUpList(
                 this.getFilterList({

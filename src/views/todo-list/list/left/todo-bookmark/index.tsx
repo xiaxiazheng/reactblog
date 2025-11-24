@@ -1,13 +1,20 @@
 import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "../../rematch";
-import TodoTreeList from "../../todo-tree-list";
-import { SortKeyMap } from "../../component/sort-btn";
+import { Dispatch, RootState } from "../../../rematch";
+import TodoTreeList from "../../../todo-tree-list";
+import { SortKeyMap } from "../../../component/sort-btn";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
-import { RenderTodoDescriptionIcon } from "../todo-list";
+import { RenderTodoDescriptionIcon } from "../../middle/todo-list";
 
-const TodoBookMark = () => {
+interface IProps {
+    onClickTitle?: (key: SortKeyMap) => void;
+    isHideList?: boolean;
+}
+
+const TodoBookMark = (props: IProps) => {
+    const { onClickTitle, isHideList = false } = props;
+
     const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
     const bookMarkList = useSelector(
@@ -40,6 +47,8 @@ const TodoBookMark = () => {
                     />{" "}
                 </>
             }
+            onClickTitle={onClickTitle}
+            isHideList={isHideList}
             sortKey={SortKeyMap.bookmark}
             mapList={bookMarkList.sort(
                 (a, b) => Number(a.color) - Number(b.color)

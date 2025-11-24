@@ -1,14 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SortKeyMap } from "../../component/sort-btn";
-import TodoTreeList from "../../todo-tree-list";
-import { Dispatch, RootState } from "../../rematch";
+import { SortKeyMap } from "../../../component/sort-btn";
+import TodoTreeList from "../../../todo-tree-list";
+import { Dispatch, RootState } from "../../../rematch";
 import { Button } from "antd";
 import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
-import { RenderTodoDescriptionIcon } from "../todo-list";
+import { RenderTodoDescriptionIcon } from "../../middle/todo-list";
 
-const TodoTarget = () => {
+interface IProps {
+    onClickTitle?: (key: SortKeyMap) => void;
+    isHideList?: boolean;
+}
+
+const TodoTarget = ({ onClickTitle, isHideList }: IProps) => {
     const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
     const targetLoading = useSelector(
@@ -40,6 +45,8 @@ const TodoTarget = () => {
                     />{" "}
                 </>
             }
+            onClickTitle={onClickTitle}
+            isHideList={isHideList}
             btn={
                 <>
                     <Button

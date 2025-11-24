@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "../../rematch";
+import { Dispatch, RootState } from "../../../rematch";
 import { TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import TodoTreeList from "../../todo-tree-list";
-import { SortKeyMap } from "../../component/sort-btn";
+import TodoTreeList from "../../../todo-tree-list";
+import { SortKeyMap } from "../../../component/sort-btn";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { Button, Modal, Radio, Space } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -11,23 +11,28 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { EyeFilled } from "@ant-design/icons";
 import HomeTabs from "@/views/home/home-tabs";
 
+interface IProps {
+    onClickTitle?: (key: SortKeyMap) => void;
+    isHideList?: boolean;
+}
+
 /** 当前的知识目录 */
-const TodoDirectory = () => {
+const TodoDirectory = ({ onClickTitle, isHideList }: IProps) => {
     const { todoNameMap } = useSettingsContext();
     const { theme } = useContext(ThemeContext);
 
-    const categoryLoading = useSelector(
-        (state: RootState) => state.data.categoryLoading
+    const directoryLoading = useSelector(
+        (state: RootState) => state.data.directoryLoading
     );
-    const categoryList = useSelector((state: RootState) => state.data.categoryList);
-    const categoryListOrigin = useSelector(
-        (state: RootState) => state.data.categoryListOrigin
+    const directoryList = useSelector((state: RootState) => state.data.directoryList);
+    const directoryListOrigin = useSelector(
+        (state: RootState) => state.data.directoryListOrigin
     );
     const dispatch = useDispatch<Dispatch>();
-    const { setCategoryList, getFilterList } = dispatch.data;
+    const { setDirectoryList, getFilterList } = dispatch.data;
     useEffect(() => {
-        setCategoryList(getFilterList({ list: categoryListOrigin, type: "category" }));
-    }, [categoryListOrigin]);
+        setDirectoryList(getFilterList({ list: directoryListOrigin, type: "directory" }));
+    }, [directoryListOrigin]);
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -48,14 +53,16 @@ const TodoDirectory = () => {
     return (
         <>
             <TodoTreeList
-                loading={categoryLoading}
-                sortKey={SortKeyMap.category}
+                loading={directoryLoading}
+                sortKey={SortKeyMap.directory}
                 title={
                     <>
                         <TodoTypeIcon type="isDirectory" /> {todoNameMap?.isDirectory}
                     </>
                 }
-                mapList={categoryList.sort(
+                onClickTitle={onClickTitle}
+                isHideList={isHideList}
+                mapList={directoryList.sort(
                     (a, b) => Number(a.color) - Number(b.color)
                 )}
                 btn={<Button onClick={() => setIsOpen(true)}><EyeFilled /> home todo</Button>}

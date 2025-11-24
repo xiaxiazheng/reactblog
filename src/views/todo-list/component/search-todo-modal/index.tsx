@@ -40,8 +40,8 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const categoryListOrigin = useSelector(
-        (state: RootState) => state.data.categoryListOrigin
+    const directoryListOrigin = useSelector(
+        (state: RootState) => state.data.directoryListOrigin
     );
 
     useEffect(() => {
@@ -93,7 +93,7 @@ const SearchTodoModal: React.FC<IProps> = ({
 
     // 获取知识目录
     const handleGetCategory = async (newValue: string) => {
-        setOptions(categoryListOrigin.filter(
+        setOptions(directoryListOrigin.filter(
             (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id && (
                 item.name.toLowerCase().indexOf(newValue.toLowerCase()) !== -1 ||
                 item.description.toLowerCase().indexOf(newValue.toLowerCase()) !== -1)

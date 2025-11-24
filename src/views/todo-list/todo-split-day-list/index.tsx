@@ -9,7 +9,6 @@ import styles from "./index.module.scss";
 import { Loading } from "@xiaxiazheng/blog-libs";
 import { getRangeFormToday, getWeek } from "../utils";
 import SortBtn, { SortKeyMap, useIsSortTime } from "../component/sort-btn";
-import { useIsHIdeModel } from "../hooks";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { getToday } from "@/components/header-admin/utils";
 import TodoTreeWeb from "../component/todo-tree-web";
@@ -27,6 +26,8 @@ interface Props {
     isReverseTime?: boolean; // 是否倒序展示日期
     btnChildren?: React.ReactNode; // 额外的按钮
     renderDateBtn?: (time: string) => React.ReactNode; // 自定义日期按钮
+    onClickTitle?: (key: SortKeyMap) => void;
+    isHideList?: boolean;
 }
 
 // 待办
@@ -40,6 +41,8 @@ const List: React.FC<Props> = (props) => {
         renderDateBtn,
         isReverseTime = false,
         btnChildren = null,
+        onClickTitle,
+        isHideList = false,
     } = props;
 
     const { todoNameMap } = useSettingsContext();
@@ -74,15 +77,13 @@ const List: React.FC<Props> = (props) => {
 
     const [isOnlyShowDoing, setIsOnlyShowDoing] = useState<boolean>(false);
 
-    const { isHide, setIsHide } = useIsHIdeModel(`${sortKey}`);
-
     return (
         <div className={styles.list}>
             {loading && <Loading />}
             <div className={styles.header}>
-                <span className={styles.active} onClick={() => setIsHide()}>
+                <span className={styles.active} onClick={() => onClickTitle?.(sortKey)}>
                     {title}({total}){" "}
-                    {isHide ? <UpOutlined /> : <DownOutlined />}
+                    {isHideList ? <UpOutlined /> : <DownOutlined />}
                 </span>
                 <Space size={8}>
                     {btnChildren}
@@ -109,7 +110,7 @@ const List: React.FC<Props> = (props) => {
                 </Space>
             </div>
 
-            {!isHide && (
+            {!isHideList && (
                 <div className={`${styles.OneDayListWrap} ScrollBar`}>
                     {(isReverseTime
                         ? Object.keys(mapList).sort().reverse()

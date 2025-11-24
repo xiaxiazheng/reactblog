@@ -1,14 +1,19 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
-import { SortKeyMap } from "../../component/sort-btn";
-import List from "../../todo-split-day-list";
-import { RootState } from "../../rematch";
-import { formatArrayToTimeMap } from "../../utils";
+import { SortKeyMap } from "../../../component/sort-btn";
+import List from "../../../todo-split-day-list";
+import { RootState } from "../../../rematch";
+import { formatArrayToTimeMap } from "../../../utils";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { RenderTodoDescriptionIcon } from "../todo-list";
 import { getToday } from "@/components/header-admin/utils";
 
-const TodoAfter = () => {
+interface IProps {
+    onClickTitle?: (key: SortKeyMap) => void;
+    isHideList?: boolean;
+}
+
+const TodoAfter: React.FC<IProps> = ({ onClickTitle, isHideList }) => {
     const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
     const todoLoading = useSelector(
@@ -34,6 +39,8 @@ const TodoAfter = () => {
                     />{" "}
                 </>
             }
+            onClickTitle={onClickTitle}
+            isHideList={isHideList}
             mapList={formatArrayToTimeMap(
                 todoList.filter((item) => item.time > getToday().format("YYYY-MM-DD"))
             )}
