@@ -62,8 +62,8 @@
             }
         }
     }
-    $height: 600px;
-    $height2: $height - 98px;
+    $height: 80vh;
+    $height2: calc($height - 128px);
     .musicList {
         position: absolute;
         top: 24px;

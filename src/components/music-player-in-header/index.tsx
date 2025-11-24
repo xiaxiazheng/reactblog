@@ -28,7 +28,7 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
     const { activeSong, setActiveSong } = props;
 
     useEffect(() => {
-        getList();
+        getMusicList();
     }, []);
 
     // 如果有传值进来，就播放传值的歌
@@ -41,24 +41,31 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
 
     // 是否单曲循环
     const [isOneCircle, setIsOneCircle] = useState<boolean>(false);
-    const [musicList, setMusicList] = useState<FType[]>([]);
-    const [randomList, setRandomList] = useState<FType[]>([]);
-    const getList = async () => {
-        const res2: any = await getMediaList();
-        if (res2) {
-            const music = res2.filter((item: FType) =>
+    // 从接口拿的歌
+    const [originalMusicList, setOriginalMusicList] = useState<FType[]>([]);
+    // 乱序后的歌曲
+    const [randomMusicList, setRandomMusicList] = useState<FType[]>([]);
+    // 最后展示的播放列表
+    const [showList, setShowList] = useState<FType[]>([]);
+    const getMusicList = async () => {
+        const res: any = await getMediaList();
+        if (res) {
+            const musicList = res.filter((item: FType) =>
                 item.mimeType.includes("audio")
             );
-            setMusicList(music);
-            // 每次初始化生成随机列表
-            getRandomList(music);
+            setOriginalMusicList(musicList);
+            setRandomMusicList(musicList);
+            setIsRandom(false);
         }
     };
+
+    // 当前歌曲列表是否乱序
+    const [isRandom, setIsRandom] = useState<boolean>(false);
 
     const getRandomList = (list: any[]) => {
         // 每次初始化生成随机列表
         const l = [...list].sort(() => Math.random() - Math.random());
-        setRandomList(l);
+        setRandomMusicList(l);
     };
 
     const musicBox = useRef(null);
@@ -77,6 +84,8 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
         if (active) {
             changeSong(active);
             setIsPlaying(false);
+            // 滚动到特定歌曲
+            scrollIntoView();
         }
     }, [active]);
 
@@ -148,52 +157,51 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
             const audio = dom.current.childNodes[0];
             audio.onended = handleFinish;
         }
-    }, [isOneCircle, randomList]);
+    }, [isOneCircle, showList]);
 
     // 处理选择歌曲
     const handleChoice = (item: FType) => {
         setActive(item);
         setIsShowList(null);
-        setKeyword("");
         message.success(`当前播放：${item.key}`, 1);
     };
 
     // 播放上一首
     const playBeforeSong = () => {
-        let index = randomList.findIndex(
+        let index = showList.findIndex(
             (item) => active && item.key === active.key
         );
-        index = index === 0 ? randomList.length - 1 : index - 1;
-        setActive(randomList[index]);
-        message.success(`当前播放：${randomList[index].key}`, 1);
+        index = index === 0 ? showList.length - 1 : index - 1;
+        setActive(showList[index]);
+        message.success(`当前播放：${showList[index].key}`, 1);
     };
 
     // 播放下一首
     const playAfterSong = () => {
-        let index = randomList.findIndex(
+        let index = showList.findIndex(
             (item) => active && item.key === active.key
         );
-        index = index === randomList.length - 1 ? 0 : index + 1;
-        setActive(randomList[index]);
-        message.success(`当前播放：${randomList[index].key}`, 1);
+        index = index === showList.length - 1 ? 0 : index + 1;
+        setActive(showList[index]);
+        message.success(`当前播放：${showList[index].key}`, 1);
     };
 
     // 获取上一首的名称
     const getBeforeSong = () => {
-        let index = randomList.findIndex(
+        let index = showList.findIndex(
             (item) => active && item.key === active.key
         );
-        index = index === 0 ? randomList.length - 1 : index - 1;
-        return randomList[index] ? randomList[index].key : "";
+        index = index === 0 ? showList.length - 1 : index - 1;
+        return showList[index] ? showList[index].key : "";
     };
 
     // 获取下一首的名称
     const getAfterSong = () => {
-        let index = randomList.findIndex(
+        let index = showList.findIndex(
             (item) => active && item.key === active.key
         );
-        index = index === randomList.length - 1 ? 0 : index + 1;
-        return randomList[index] ? randomList[index].key : "";
+        index = index === showList.length - 1 ? 0 : index + 1;
+        return showList[index] ? showList[index].key : "";
     };
 
     // 展示歌曲列表
@@ -208,7 +216,34 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
         }
     };
 
+    // 滚动到可视位置
+    const ref = useRef<any>(null);
+    const scrollIntoView = () => {
+        ref?.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+        });
+    }
+
     const [keyword, setKeyword] = useState<string>("");
+    useEffect(() => {
+        getShowList();
+    }, [keyword, randomMusicList]);
+
+    // 获取播放列表
+    const getShowList = () => {
+        if (keyword) {
+            setShowList(
+                randomMusicList.filter((item) => item.key.toLowerCase().includes(keyword.toLowerCase()))
+            );
+        } else {
+            setShowList(randomMusicList);
+        }
+        setTimeout(() => {
+            scrollIntoView();
+        }, 300);
+    }
 
     return (
         <div className={styles.music}>
@@ -219,13 +254,12 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
             </div>
             {/* 列表 */}
             <div
-                className={`${styles.musicList} ${
-                    isShowList === null
-                        ? ""
-                        : isShowList
+                className={`${styles.musicList} ${isShowList === null
+                    ? ""
+                    : isShowList
                         ? styles.show
                         : styles.hide
-                }`}
+                    }`}
             >
                 {/* 播放 */}
                 <div className={styles.musicBox} ref={musicBox}>
@@ -239,9 +273,7 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                             type="text"
                             icon={
                                 <RedoOutlined
-                                    className={`${styles.playIcon} ${
-                                        isOneCircle ? styles.active : ""
-                                    }`}
+                                    className={`${styles.playIcon} ${isOneCircle ? styles.active : ""}`}
                                 />
                             }
                             onClick={() => setIsOneCircle(!isOneCircle)}
@@ -298,20 +330,52 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                     <Tooltip title={`乱序`} placement="bottom">
                         <Button
                             type="text"
-                            icon={<TrademarkOutlined />}
+                            icon={<TrademarkOutlined style={{ color: isRandom ? 'red' : '' }} />}
                             className={styles.playIcon}
-                            onClick={() => getRandomList(randomList)}
+                            onClick={() => {
+                                getRandomList(showList);
+                                setIsRandom(true);
+                            }}
                         />
                     </Tooltip>
-                    <div className={styles.nums}>{musicList.findIndex(item => item.key === active?.key) + 1} / {musicList.length}</div>
+                    {isRandom && <Tooltip title={`还原`} placement="bottom">
+                        <Button
+                            type="text"
+                            // icon={<TrademarkOutlined />}
+                            className={styles.playIcon}
+                            onClick={() => {
+                                setRandomMusicList(originalMusicList)
+                                getShowList();
+                                setIsRandom(false);
+                            }}
+                        >
+                            还原
+                        </Button>
+                    </Tooltip>}
+                    <Tooltip title={`定位`} placement="bottom">
+                        <Button
+                            type="text"
+                            className={styles.playIcon}
+                            onClick={() => {
+                                scrollIntoView();
+                            }}
+                        >
+                            定位
+                        </Button>
+                    </Tooltip>
                 </div>
+                <div className={styles.nums}>
+                    当前播放:第{showList.findIndex(item => item.key === active?.key) + 1}/播放列表:{showList.length}/总歌曲数:{originalMusicList.length}
+                </div>
+                {/* 搜索框 */}
                 <Input
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
+                {/* 播放列表 */}
                 <div className="ScrollBar">
-                    {musicList &&
-                        musicList
+                    {showList &&
+                        showList
                             .filter((item) =>
                                 item.key
                                     .toLowerCase()
@@ -326,6 +390,7 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                                             ? styles.active
                                             : ""
                                     }
+                                    ref={active && active.key === item.key ? ref : null}
                                 >
                                     {item.key}
                                 </span>
