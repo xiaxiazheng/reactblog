@@ -310,8 +310,9 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                         <Tooltip title={`暂停`} placement="bottom">
                             <Button
                                 type="text"
-                                icon={<PauseCircleOutlined />}
-                                className={`${styles.playIcon}`}
+                                icon={<PauseCircleOutlined
+                                    className={`${styles.playIcon}`}
+                                />}
                                 onClick={handlePlaying.bind(null, false)}
                             />
                         </Tooltip>
@@ -322,16 +323,17 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                     >
                         <Button
                             type="text"
-                            icon={<ArrowRightOutlined />}
-                            className={styles.playIcon}
+                            icon={<ArrowRightOutlined
+                                className={`${styles.playIcon}`} />}
                             onClick={playAfterSong}
                         />
                     </Tooltip>
                     <Tooltip title={`乱序`} placement="bottom">
                         <Button
                             type="text"
-                            icon={<TrademarkOutlined style={{ color: isRandom ? 'red' : '' }} />}
-                            className={styles.playIcon}
+                            icon={<TrademarkOutlined
+                                className={styles.playIcon}
+                                style={{ color: isRandom ? 'red' : '' }} />}
                             onClick={() => {
                                 getRandomList(showList);
                                 setIsRandom(true);
@@ -341,7 +343,6 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                     {isRandom && <Tooltip title={`还原`} placement="bottom">
                         <Button
                             type="text"
-                            // icon={<TrademarkOutlined />}
                             className={styles.playIcon}
                             onClick={() => {
                                 setRandomMusicList(originalMusicList)
@@ -349,23 +350,26 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                                 setIsRandom(false);
                             }}
                         >
-                            还原
+                            <span className={styles.playIcon} style={{ fontSize: '14px', padding: 0 }}>还原</span>
                         </Button>
                     </Tooltip>}
-                    <Tooltip title={`定位`} placement="bottom">
-                        <Button
-                            type="text"
-                            className={styles.playIcon}
-                            onClick={() => {
-                                scrollIntoView();
-                            }}
-                        >
-                            定位
-                        </Button>
-                    </Tooltip>
+                    {active && showList.findIndex(item => item.key === active?.key) !== -1 &&
+                        <Tooltip title={`定位`} placement="bottom">
+                            <Button
+                                type="text"
+                                className={styles.playIcon}
+                                onClick={() => {
+                                    scrollIntoView();
+                                }}
+                            >
+                                <span className={styles.playIcon} style={{ fontSize: '14px', padding: 0 }}>定位</span>
+                            </Button>
+                        </Tooltip>
+                    }
                 </div>
+                {/* 歌曲列表信息 */}
                 <div className={styles.nums}>
-                    当前播放:第{showList.findIndex(item => item.key === active?.key) + 1}/播放列表:{showList.length}/总歌曲数:{originalMusicList.length}
+                    当前播放:第{showList.findIndex(item => item.key === active?.key) + 1} / 播放列表:{showList.length} / 总歌曲数:{originalMusicList.length}
                 </div>
                 {/* 搜索框 */}
                 <Input
