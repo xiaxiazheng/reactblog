@@ -10,64 +10,74 @@ import styles from "./index.module.scss";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 const CategoryOptions = ({ value, onChange, category }: any) => {
-    const [showAll, setShowAll] = useState<boolean>(false);
+    // const [showAll, setShowAll] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>();
 
-    const { todoCategoryDefaultShow = 0 } = useSettingsContext();
+    // const { todoCategoryDefaultShow = 0 } = useSettingsContext();
 
-    const [l, setList] = useState<CategoryType[]>(category);
+    const [originalCategoryList, setOriginalCategoryList] = useState<CategoryType[]>(category);
+    const [showCategoryList, setShowCategoryList] = useState<CategoryType[]>(category);
     useEffect(() => {
-        setList(category);
+        setOriginalCategoryList(category);
     }, [category]);
 
-    const getList = () => {
-        const list = l?.slice(0, todoCategoryDefaultShow);
-        return list?.map(item => item.category).includes(value) ? list : l?.slice(0, todoCategoryDefaultShow - 1).concat(l.filter(item => item.category === value));
-    };
+    // const getList = () => {
+    //     const list = l?.slice(0, todoCategoryDefaultShow);
+    //     return list?.map(item => item.category).includes(value) ? list : l?.slice(0, todoCategoryDefaultShow - 1).concat(l.filter(item => item.category === value));
+    // };
+
+    useEffect(() => {
+        if (keyword) {
+            setShowCategoryList(
+                originalCategoryList.filter((item) => item.category.toLowerCase().includes(keyword.toLowerCase()))
+            );
+        } else {
+            setShowCategoryList(originalCategoryList);
+        }
+    }, [keyword]);
 
     return (
         <>
+            <Input
+                placeholder="筛选类别，回车快速选中第一个，没有待选则新增类别"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onPressEnter={() => {
+                    if (showCategoryList.length > 0) {
+                        onChange(showCategoryList[0].category);
+                    } else {
+                        if (keyword !== "") {
+                            const newList = category.concat({
+                                category: keyword,
+                                count: 0,
+                            });
+                            setShowCategoryList(newList);
+                            setOriginalCategoryList(newList);
+                            onChange(keyword);
+                        }
+                    }
+                }}
+            />
             <Radio.Group
                 optionType="button"
                 buttonStyle="solid"
                 value={value}
                 onChange={(val) => onChange(val)}
             >
-                {(showAll ? l : getList()).map((item: CategoryType) => (
+                {showCategoryList.map((item: CategoryType) => (
                     <Radio.Button key={item.category} value={item.category}>
                         {item.category} ({item.count})
                     </Radio.Button>
                 ))}
-                <Button
+                {/* <Button
                     className={styles.showMore}
                     type="text"
                     onClick={() => setShowAll((prev) => !prev)}
                 >
                     show all category
                     {showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
-                </Button>
+                </Button> */}
             </Radio.Group>
-            {showAll && (
-                <Input
-                    placeholder="请输入类别名称"
-                    prefix="输入并回车新增类别："
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onPressEnter={() => {
-                        if (keyword !== "") {
-                            setList(
-                                category.concat({
-                                    category: keyword,
-                                    count: 0,
-                                })
-                            );
-                            onChange(keyword);
-                        } else {
-                            message.error("请输入类别名称");
-                        }
-                    }}
-                />
-            )}
         </>
     );
 };
