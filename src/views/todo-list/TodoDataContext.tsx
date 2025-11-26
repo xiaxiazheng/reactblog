@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { message } from "antd";
-import { getTodoList } from "@xiaxiazheng/blog-libs";
+import { getTodoList, handleTodoListFilterKeyword } from "@xiaxiazheng/blog-libs";
 import useUpdateEffect from "@/hooks/useUpdateEffect";
 import { debounce } from "./utils";
 import { TodoItemType, StatusType, TodoStatus } from "@xiaxiazheng/blog-libs";
@@ -145,7 +145,7 @@ export const TodoDataProvider: React.FC = (props) => {
                 const res = await getTodoList(req);
                 if (res) {
                     if (type === "todo") {
-                        setTodoListOrigin(res.data);
+                        setTodoListOrigin(res.data.list);
                         setTodoLoading(false);
                     }
                 } else {
@@ -187,24 +187,7 @@ export const TodoDataProvider: React.FC = (props) => {
         if (activeCategory?.length !== 0) {
             l = l.filter((item) => activeCategory.includes(item.category));
         }
-        if (keyword !== "") {
-            if (keyword.includes(" ")) {
-                const kList = keyword.split(" ");
-                l = l.filter((item) => {
-                    return kList.some(
-                        (key) =>
-                            item.name.includes(key) ||
-                            item.description.includes(key)
-                    );
-                });
-            } else {
-                l = l.filter(
-                    (item) =>
-                        item.name.includes(keyword) ||
-                        item.description.includes(keyword)
-                );
-            }
-        }
+        l = handleTodoListFilterKeyword(l, keyword);
         return l;
     };
 

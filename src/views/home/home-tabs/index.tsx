@@ -16,7 +16,7 @@ const HomeTabs: React.FC<IProps> = props => {
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: 'category',
+            label: 'directory',
             children: <HomeTodoDirectory
                 type={type}
                 flag={flag}

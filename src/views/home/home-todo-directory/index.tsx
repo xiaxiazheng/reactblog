@@ -42,10 +42,13 @@ const HomeTodoDirectory: React.FC<IProps> = (params) => {
         }
     }
 
+    const [middleKeyword, setMiddleKeyword] = useState<string>('');
+
     return (
         <div className={styles.homeTodo}>
             {/* 内容 */}
             <div className={styles.todoBox}>
+                {/* 左边 */}
                 <div className={`${styles.boxLeft} ScrollBar`}>
                     <HomeTodoDirectoryList
                         type={type}
@@ -53,6 +56,7 @@ const HomeTodoDirectory: React.FC<IProps> = (params) => {
                         onClick={setActiveCategory}
                     />
                 </div>
+                {/* 中间 */}
                 <div className={`${styles.boxMiddle} ScrollBar`}>
                     <HomeTodoDirectoryChildList
                         type={type}
@@ -65,18 +69,25 @@ const HomeTodoDirectory: React.FC<IProps> = (params) => {
                             });
                             setActiveTodo(item);
                         }}
+                        onKeywordChange={(key) => setMiddleKeyword(key || '')}
                     />
                 </div>
+                {/* 右边 */}
                 <div className={`${styles.boxRight} ScrollBar`} ref={ref}>
                     {loading && <Loading />}
                     {activeTodo && <>
                         <div style={{ textAlign: 'left' }}>
                             <TodoItem
                                 item={activeTodo}
-                                showDoneStrinkLine={false} />
+                                showDoneStrinkLine={false}
+                                keyword={middleKeyword}
+                            />
                         </div>
                         <div>
-                            <TodoDescription todoDescription={activeTodo.description} />
+                            <TodoDescription
+                                keyword={middleKeyword}
+                                todoDescription={activeTodo.description}
+                            />
                         </div>
                     </>}
                 </div>

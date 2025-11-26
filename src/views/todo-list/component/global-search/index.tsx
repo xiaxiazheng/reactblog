@@ -40,7 +40,6 @@ export const useGetOriginTodo = () => {
 
 const GlobalSearch: React.FC = () => {
     const { todoColorMap, todoColorNameMap } = useSettingsContext();
-    const category = useSelector((state: RootState) => state.data.category);
     const form = useSelector((state: RootState) => state.edit.form);
     const activeColor = useSelector(
         (state: RootState) => state.filter.activeColor
