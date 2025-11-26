@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./index.module.scss";
-import { Button, Checkbox, DatePicker, Radio, Space } from "antd";
+import { Button, Checkbox, DatePicker, Input, Radio, Space } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons"
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
-import { SwitchCompent, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
-import ButtonSwitch from "../todo-form/switch";
+import { SwitchCompent } from "@xiaxiazheng/blog-libs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { UserContext } from "@/context/UserContext";
 import ModifyCategory from "./modifyCategory";
+import { CategoryType } from "../../types";
 
 interface IProps {
     isSimple: boolean;
 }
 
 const Filter: React.FC<IProps> = (props) => {
-    const { todoNameMap } = useSettingsContext();
+    // const { todoNameMap } = useSettingsContext();
     const category = useSelector((state: RootState) => state.data.category);
     const activeCategory = useSelector(
         (state: RootState) => state.filter.activeCategory
@@ -110,6 +110,34 @@ const Filter: React.FC<IProps> = (props) => {
         setTimeType(newVal);
     };
 
+    const [keyword, setKeyword] = useState<string>();
+    const [showCategoryList, setShowCategoryList] = useState<CategoryType[]>(category);
+    useEffect(() => {
+        if (keyword) {
+            setShowCategoryList(
+                category.filter((item) => item.category.toLowerCase().includes(keyword.toLowerCase()))
+            );
+        } else {
+            setShowCategoryList(category);
+        }
+    }, [keyword, category]);
+
+    const handleClickcCategory = (item: CategoryType) => {
+        setActiveCategory(
+            activeCategory.includes(
+                item.category
+            )
+                ? activeCategory.filter(
+                    (i) =>
+                        i !==
+                        item.category
+                )
+                : activeCategory.concat(
+                    item.category
+                )
+        );
+    }
+
     return (
         <>
             {props.isSimple && (
@@ -133,10 +161,24 @@ const Filter: React.FC<IProps> = (props) => {
             {!props.isSimple && (
                 <div className={styles.filterWrapper}>
                     <div>
-                        <span>类别筛选：</span>
+                        <Space>
+                            <span>类别筛选：</span>
+                            <Input
+                                width={'250px'}
+                                value={keyword}
+                                onChange={e => setKeyword(e.target.value)}
+                                onPressEnter={() => {
+                                    if (showCategoryList.length === 0) {
+                                        return;
+                                    }
+                                    handleClickcCategory(showCategoryList[0]);
+                                }}
+                                placeholder="筛选类别，回车快速选中第一个"
+                            />
+                        </Space>
                         <Checkbox.Group value={activeCategory}>
                             <Space wrap>
-                                {category?.map((item) => {
+                                {showCategoryList?.map((item) => {
                                     return (
                                         <Checkbox
                                             key={item.category}
@@ -147,19 +189,7 @@ const Filter: React.FC<IProps> = (props) => {
                                                     "activeCategory",
                                                     activeCategory
                                                 );
-                                                setActiveCategory(
-                                                    activeCategory.includes(
-                                                        item.category
-                                                    )
-                                                        ? activeCategory.filter(
-                                                            (i) =>
-                                                                i !==
-                                                                item.category
-                                                        )
-                                                        : activeCategory.concat(
-                                                            item.category
-                                                        )
-                                                );
+                                                handleClickcCategory(item);
                                             }}
                                         >
                                             {item.category} ({item.count})

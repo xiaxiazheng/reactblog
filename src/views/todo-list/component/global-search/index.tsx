@@ -195,26 +195,6 @@ const GlobalSearch: React.FC = () => {
                             />
                         </Tooltip>
                     </>
-                    {/* <Select
-                        className={styles.select}
-                        value={activeCategory || undefined}
-                        placeholder="类别筛选"
-                        onChange={(val: any) => setActiveCategory(val)}
-                        showSearch
-                        filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
-                        }
-                        allowClear
-                        style={{ width: 130 }}
-                        options={category?.map((item) => {
-                            return {
-                                label: `${item.category} (${item.count})`,
-                                value: item.category,
-                            };
-                        })}
-                    /> */}
                     <Button
                         type={showFilter ? "primary" : "default"}
                         onClick={() => setShowFilter((prev) => !prev)}
