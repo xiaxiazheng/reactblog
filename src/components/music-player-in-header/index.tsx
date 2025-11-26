@@ -233,10 +233,27 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
 
     // 获取播放列表
     const getShowList = () => {
-        if (keyword) {
-            setShowList(
-                randomMusicList.filter((item) => item.key.toLowerCase().includes(keyword.toLowerCase()))
-            );
+        if (keyword.trim()) {
+            // 用空格，或搜索，只需满足一种关键词即可
+            if (keyword.includes(' ')) {
+                const klist = keyword.split(' ').map(item => item.trim().toLowerCase()).filter(item => !!item);
+                setShowList(
+                    randomMusicList.filter((item) => klist.some((k) => item.key.toLowerCase().includes(k)))
+                );
+            }
+            // 用加号，与搜索，所有关键词都要匹配
+            else if (keyword.includes('+')) {
+                const klist = keyword.split('+').map(item => item.trim().toLowerCase()).filter(item => !!item);
+                setShowList(
+                    randomMusicList.filter((item) => klist.every((k) => item.key.toLowerCase().includes(k)))
+                );
+            }
+            // 其他就都是整体搜索
+            else {
+                setShowList(
+                    randomMusicList.filter((item) => item.key.toLowerCase().includes(keyword.toLowerCase()))
+                );
+            }
         } else {
             setShowList(randomMusicList);
         }
@@ -375,16 +392,12 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
                 <Input
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
+                    placeholder="搜索歌曲，空格或搜索，+号与搜索"
                 />
                 {/* 播放列表 */}
                 <div className="ScrollBar">
                     {showList &&
                         showList
-                            .filter((item) =>
-                                item.key
-                                    .toLowerCase()
-                                    .includes(keyword.toLowerCase())
-                            )
                             .map((item) => (
                                 <span
                                     key={item.key}

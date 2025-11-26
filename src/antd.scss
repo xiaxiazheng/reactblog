@@ -256,6 +256,10 @@
         color: var(--color) !important;
         background-color: var(--bg_color) !important;
     }
+    .ant-input::placeholder {
+        color: grey;
+    }
+
     .ant-radio-wrapper {
         color: var(--color) !important;
     }
