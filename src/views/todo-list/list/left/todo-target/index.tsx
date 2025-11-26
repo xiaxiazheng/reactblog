@@ -60,6 +60,7 @@ const TodoTarget = ({ onClickTitle, isHideList }: IProps) => {
             mapList={targetList.sort(
                 (a, b) => Number(a.color) - Number(b.color)
             )}
+            isShowFilterInput={true}
         />
     );
 };

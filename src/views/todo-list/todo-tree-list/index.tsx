@@ -1,7 +1,7 @@
-import React, { ReactNode, useState } from "react";
-import { Space } from "antd";
+import React, { ReactNode, useEffect, useState } from "react";
+import { Input, Space } from "antd";
 import styles from "./index.module.scss";
-import { Loading } from "@xiaxiazheng/blog-libs";
+import { handleListToTree, handleTodoTreeFilterKeyword, Loading } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import SortBtnMulti, {
     useIsSortByMulti,
@@ -18,6 +18,7 @@ interface Props {
     btn?: any;
     onClickTitle?: (key: SortKeyMap) => void;
     isHideList?: boolean;
+    isShowFilterInput?: boolean;
 }
 
 const TodoTreeList: React.FC<Props> = (props) => {
@@ -29,14 +30,26 @@ const TodoTreeList: React.FC<Props> = (props) => {
         btn,
         onClickTitle,
         isHideList = false,
+        isShowFilterInput = false,
     } = props;
 
     const { isSortBy, setIsSortBy, handleSort } = useIsSortByMulti(
         `${sortKey}-sort-time`
     );
 
+    const [list, setList] = useState<TodoItemType[]>([]);
+    useEffect(() => {
+        setList(handleListToTree(handleSort(mapList), 'child_todo_list'));
+    }, [mapList]);
+
+    const [localKeyword, setLocalKeyword] = useState('');
+    const [showList, setShowList] = useState<TodoItemType[]>([]);
+    useEffect(() => {
+        setShowList(handleTodoTreeFilterKeyword(list, localKeyword));
+    }, [localKeyword, list]);
+
     return (
-        <div className={styles.list}>
+        <div className={`${styles.list}`}>
             {loading && <Loading />}
             <div className={styles.header}>
                 <span
@@ -45,7 +58,15 @@ const TodoTreeList: React.FC<Props> = (props) => {
                 >
                     {title}({mapList.length}) {isHideList ? <UpOutlined /> : <DownOutlined />}
                 </span>
-                <Space size={16}>
+                <Space size={12}>
+                    {isShowFilterInput && (
+                        <Input
+                            style={{ width: 96 }}
+                            placeholder="筛选关键字"
+                            value={localKeyword}
+                            onChange={(e) => setLocalKeyword(e.target.value)}
+                        />
+                    )}
                     {btn}
                     <SortBtnMulti
                         isSortBy={isSortBy}
@@ -54,9 +75,11 @@ const TodoTreeList: React.FC<Props> = (props) => {
                 </Space>
             </div>
             {!isHideList && (
-                <div className={`${styles.OneDayListWrap} ScrollBar`}>
-                    <TodoTreeWeb todoList={handleSort(mapList)}  />
-                </div>
+                <TodoTreeWeb
+                    todoList={showList}
+                    dataMode="tree"
+                    keyword={localKeyword}
+                />
             )}
         </div>
     );

@@ -66,6 +66,7 @@ const TodoDirectory = ({ onClickTitle, isHideList }: IProps) => {
                     (a, b) => Number(a.color) - Number(b.color)
                 )}
                 btn={<Button onClick={() => setIsOpen(true)}><EyeFilled /> home todo</Button>}
+                isShowFilterInput={true}
             />
             <Modal
                 className={`${theme === "dark" ? "darkTheme" : ""}`}
