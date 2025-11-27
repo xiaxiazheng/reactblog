@@ -77,11 +77,10 @@ const EditTodoModal: React.FC = () => {
             setFootPrintList(item.todo_id);
 
             // 设置子todo的列表
-            if (item.child_todo_list) {
+            if (item.child_todo_list && item.child_todo_list?.length !== 0) {
                 setActiveTodoChildList(item.child_todo_list);
             } else if (
-                item.child_todo_list_length !== 0 &&
-                !item.child_todo_list
+                item.child_todo_list_length !== 0
             ) {
                 getTodoById(activeTodo.todo_id, true).then((res) => {
                     setActiveTodoChildList(res.data.child_todo_list);
