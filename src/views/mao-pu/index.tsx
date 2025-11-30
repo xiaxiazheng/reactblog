@@ -79,8 +79,8 @@ const MaoPu: React.FC = () => {
 
     const getMaoPuList = async () => {
         const res = await getMaoList();
-        if (res) {
-            const list = res.map((item: IMao) => {
+        if (res?.data) {
+            const list = res.data.map((item: IMao) => {
                 return {
                     ...item,
                     key: item.mao_id,
