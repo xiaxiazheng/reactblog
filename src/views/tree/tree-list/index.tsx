@@ -60,14 +60,15 @@ const TreeMenu: React.FC<PropsType> = (props) => {
         } else {
             res = await getShowTreeList(username);
         }
+        console.log(res);
         if (res) {
             // countDiaryData(res);
 
-            setOriginTreeList(res);
-            setTreeList(res);
+            setOriginTreeList(res.data);
+            setTreeList(res.data);
             setLoading(false);
             /** 主要是为了返回给初始化的时候默认展开 */
-            return res[0] ? res[0].id : false;
+            return res.data[0] ? res.data[0].id : false;
         }
         return false;
     };
