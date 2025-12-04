@@ -26,6 +26,7 @@ import {
     TodoStatus,
     StatusType,
     setFootPrintList,
+    OperatorColorMap,
 } from "@xiaxiazheng/blog-libs";
 
 const EditTodoModal: React.FC = () => {
@@ -141,7 +142,12 @@ const EditTodoModal: React.FC = () => {
         if (type === "edit") {
             return (
                 <>
-                    <span className={styles.titleEditColor} /> {text}{" "}
+                    <span style={{ color: OperatorColorMap.edit }}>
+                        <span
+                            className={styles.titleClass}
+                            style={{ backgroundColor: OperatorColorMap.edit }}
+                        /> {text}{" "}
+                    </span>
                     <Tooltip
                         placement="bottom"
                         title={
@@ -159,9 +165,12 @@ const EditTodoModal: React.FC = () => {
             );
         } else {
             return (
-                <>
-                    <span className={styles.titleEditColor2} /> {text}
-                </>
+                <span style={{ color: OperatorColorMap.add }}>
+                    <span
+                        className={styles.titleClass}
+                        style={{ color: OperatorColorMap.add, backgroundColor: OperatorColorMap.add }}
+                    /> {text}
+                </span>
             );
         }
     };
@@ -244,6 +253,10 @@ const EditTodoModal: React.FC = () => {
                     </div>
                 </Space>
             }
+            style={{
+                border: `1px solid ${type2 || type === "edit" ? OperatorColorMap.edit : OperatorColorMap.add}`,
+                boxSizing: 'border-box',
+            }}
             open={visible}
             onCancel={() => onClose()}
             // transitionName="" // 这个可以让弹出的动画消失，原来这个动画是 transition 做的
