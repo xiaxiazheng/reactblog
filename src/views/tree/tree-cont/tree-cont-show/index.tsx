@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./index.module.scss";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getChildName } from "@xiaxiazheng/blog-libs";
+import { getChildName, ImgShowModal } from "@xiaxiazheng/blog-libs";
 import { getNodeCont } from "@xiaxiazheng/blog-libs";
 import { ImageType } from "@xiaxiazheng/blog-libs";
 import { staticUrl } from "@/env_config";
 import { Loading } from "@xiaxiazheng/blog-libs";
-import PreviewImage from "@/components/preview-image";
 import { TreeContext } from "../../TreeContext";
 import { default as imgPlaceHolder } from "@/assets/loading.svg";
 // 代码高亮
@@ -432,15 +431,14 @@ const TreeContShow: React.FC<PropsType> = (props) => {
                 </div>
 
                 {/* 图片预览 */}
-                <PreviewImage
-                    isPreview={previewImgUrl !== ""}
-                    image={previewImg}
-                    imageUrl={previewImgUrl}
-                    closePreview={() => {
+                {previewImgUrl !== "" && <ImgShowModal
+                    imgUrl={previewImgUrl}
+                    title={previewImg?.imgname}
+                    onClose={() => {
                         setPreviewImgUrl("");
                         setPreviewImg(undefined);
                     }}
-                />
+                />}
 
                 {/* 回到顶部 */}
                 <Button

@@ -254,7 +254,7 @@ const EditTodoModal: React.FC = () => {
                 </Space>
             }
             style={{
-                border: `1px solid ${type2 || type === "edit" ? OperatorColorMap.edit : OperatorColorMap.add}`,
+                border: `1px solid ${(type2 || type) === "edit" ? OperatorColorMap.edit : OperatorColorMap.add}`,
                 boxSizing: 'border-box',
             }}
             open={visible}

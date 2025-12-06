@@ -8,8 +8,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { ImageType, ImgType, deleteImg, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
-import PreviewImage from "@/components/preview-image";
+import { ImageType, ImgShowModal, ImgType, deleteImg, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
 import { copyUrl } from "../utils";
 
 interface IType {
@@ -255,12 +254,13 @@ const ImageBox: React.FC<PropsType> = (props) => {
                 </div>
             )}
             {/* 图片预览 */}
-            <PreviewImage
-                isPreview={isPreview}
-                image={imageData}
-                imageUrl={imageUrl}
-                closePreview={() => setIsPreview(false)}
-            />
+            {isPreview && <ImgShowModal
+                imgUrl={imageUrl}
+                title={imageData?.imgname}
+                onClose={() => {
+                    setIsPreview(false);
+                }}
+            />}
         </div>
     );
 };
