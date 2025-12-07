@@ -127,7 +127,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
             }, 0);
         }
         setIsShowModal((prev) => !prev);
-    }, 88);
+    }, { keyCode: 88 });
 
     useEffect(() => {
         isShowModal && getList();

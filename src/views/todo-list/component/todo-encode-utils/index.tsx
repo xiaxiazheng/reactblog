@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import InputList from "../input-list";
 import { decrypt, encrypt } from "@xiaxiazheng/blog-libs";
 import styles from './index.module.scss';
+import { useCtrlHooks } from "@/hooks/useCtrlHook";
 
 interface Props {
     password: string | undefined;
@@ -29,6 +30,15 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
             }
         }
     }
+
+    // 默认监听 ctrl + s
+    useCtrlHooks(() => {
+        isShowDecode && handleOk();
+    }, {
+        options: {
+            capture: true, // 捕获事件，先执行
+        }
+    });
 
     const handleClose = () => {
         setIsShowDecode(false);
@@ -59,18 +69,26 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
         }
     }
 
+    const [count, setCount] = useState<number>(0);
+
     return (
         <>
             <Input
                 style={{ width: 150, marginBottom: 10 }}
                 value={password}
-                placeholder={'请输入密码'}
+                placeholder={'please input'}
                 onChange={(e) => setPassword(e.target.value)}
                 onPressEnter={() => {
                     if (password) {
+                        sessionStorage.setItem('encodePassword', password);
                         getFromDescription();
                     } else {
                         message.warning("请输入密码");
+                        setCount(count + 1);
+                        if (count >= 2) {
+                            setPassword(sessionStorage.getItem('encodePassword') || '');
+                            setCount(0);
+                        }
                     }
                 }}
             />

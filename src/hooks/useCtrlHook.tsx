@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-export const useCtrlHooks = (fn: Function, keyCode = 83) => {
+/** 默认监听 ctrl + s */
+export const useCtrlHooks = (fn: Function, params?: {
+    keyCode?: number;
+    options?: boolean | AddEventListenerOptions | undefined;
+}) => {
+    const { keyCode = 83, options } = params || {};
     const [isKeyDown, setIsKeyDown] = useState(false);
     useEffect(() => {
         if (isKeyDown) {
@@ -10,9 +15,9 @@ export const useCtrlHooks = (fn: Function, keyCode = 83) => {
     }, [isKeyDown]);
 
     useEffect(() => {
-        document.addEventListener("keydown", onKeyDown);
+        document.addEventListener("keydown", onKeyDown, options);
         return () => {
-            document.removeEventListener("keydown", onKeyDown);
+            document.removeEventListener("keydown", onKeyDown, options);
         };
     }, []);
 

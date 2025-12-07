@@ -292,7 +292,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                         rules={[{ required: true }]}
                                         initialValue={"0"}
                                     >
-                                        <ButtonSwitch>加密</ButtonSwitch>
+                                        <SwitchCompent type="isEncode" />
                                     </Form.Item>
                                 )}
                                 {isEncode === "1" && (
