@@ -3065,9 +3065,10 @@
     "@xtuc/long" "4.2.2"
 
 "@xiaxiazheng/blog-libs@file:.yalc/@xiaxiazheng/blog-libs":
-  version "0.0.17"
+  version "0.0.22"
   dependencies:
     antd "^5.27.4"
+    hammerjs "^2.0.8"
     highlight.js "^11.2.0"
     markdown-it "^12.0.2"
 
@@ -7090,6 +7091,11 @@ gzip-size@^6.0.0:
   integrity sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==
   dependencies:
     duplexer "^0.1.2"
+
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==
 
 handle-thing@^2.0.0:
   version "2.0.1"
