@@ -117,7 +117,7 @@ const ColorPickerCanvas: React.FC<ColorPickerCanvasProps> = ({
     const displaySize = getImageDisplaySize();
 
     return (
-        <div className={`ScrollBar ${styles.imgBox}`}>
+        <div className={`ScrollBarLight ${styles.imgBox}`}>
             <img
                 ref={imgRef}
                 src={img}
