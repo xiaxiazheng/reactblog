@@ -9,6 +9,7 @@ import { getAlreadyDate } from "./utils";
 import MusicPlayerInHeader from "../music-player-in-header";
 import TranslateInHeader from "../translate-in-header";
 import QuickDecisionInHeader from "../quick-decision-in-header";
+import ColorPickerModal from "../color-picker-modal";
 
 interface PropsType extends RouteComponentProps {
     routes: any[];
@@ -113,6 +114,7 @@ const HeaderAdmin: React.FC<PropsType> = (props) => {
                 <Space>
                     <TranslateInHeader />
                     <QuickDecisionInHeader />
+                    <ColorPickerModal />
                 </Space>
                 {/* 导航里的音乐播放器 */}
                 <MusicPlayerInHeader />

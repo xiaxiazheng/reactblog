@@ -1,0 +1,60 @@
+.wrapper {
+    display: flex;
+    gap: 20px;
+    min-height: 300px;
+    max-height: 80vh;
+
+    .leftPart {
+        flex: 1;
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: min(80vh, 50vw);
+    }
+
+    .rightPart {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 250px;
+        flex-shrink: 0;
+        .rightPartContent {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+    }
+
+    .colorBox {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+        border: 2px solid black;
+        box-sizing: border-box;
+    }
+
+    .selectedColor {
+        display: flex;
+        align-items: center;
+    }
+
+    .colorName {
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .colorDetail {
+        font-size: 14px;
+        color: #666;
+        font-family: monospace;
+        padding: 12px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+}
