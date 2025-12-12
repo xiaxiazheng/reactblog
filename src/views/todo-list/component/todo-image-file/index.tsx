@@ -35,14 +35,14 @@ const TodoImageFile: React.FC<IProps> = (props) => {
 
     return (
         <>
-            {!isOnlyShow && (
+            {!isOnlyShow &&
                 <FileImageUpload
                     other_id={todoBackup?.todo_id}
                     type="todo"
                     refresh={getTodo}
                     width={width}
                 />
-            )}
+            }
             {/* 图片列表 */}
             <ImageListBox
                 type="todo"

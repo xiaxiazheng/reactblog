@@ -59,6 +59,9 @@ const EditTodoModal: React.FC = () => {
         TodoItemType[]
     >([]);
 
+    const [activeTodoImgList, setActiveTodoImgList] = useState<TodoItemType['imgList']>([]);
+    const [activeTodoFileList, setActiveTodoFileList] = useState<TodoItemType['fileList']>([]);
+
     useEffect(() => {
         // 可能来自外部途径的突然编辑
         if (activeTodo) {
@@ -92,6 +95,8 @@ const EditTodoModal: React.FC = () => {
         } else {
             setOtherTodo(undefined);
         }
+        setActiveTodoImgList(activeTodo?.imgList || []);
+        setActiveTodoFileList(activeTodo?.fileList || []);
     }, [activeTodo]);
 
     useEffect(() => {
@@ -380,10 +385,15 @@ const EditTodoModal: React.FC = () => {
                                 type === "edit" &&
                                 activeTodo && (
                                     <TodoImageFile
-                                        todo={activeTodo}
+                                        todo={{
+                                            ...activeTodo,
+                                            imgList: activeTodoImgList,
+                                            fileList: activeTodoFileList,
+                                        }}
                                         handleFresh={(item) => {
                                             if (item) {
-                                                setActiveTodo(item);
+                                                setActiveTodoImgList(item.imgList || []);
+                                                setActiveTodoFileList(item.fileList || []);
                                                 needFresh.current.push(
                                                     ...handleRefreshList(item)
                                                 );
