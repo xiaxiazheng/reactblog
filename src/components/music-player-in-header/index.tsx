@@ -172,7 +172,12 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
             (item) => active && item.key === active.key
         );
         index = index === 0 ? showList.length - 1 : index - 1;
-        setActive(showList[index]);
+        // 列表里只有一首歌的话，相当于单曲循环
+        if (active?.key === showList[index].key) {
+            changeSong(active);
+        } else {
+            setActive(showList[index]);
+        }
         message.success(`当前播放：${showList[index].key}`, 1);
     };
 
@@ -182,7 +187,12 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
             (item) => active && item.key === active.key
         );
         index = index === showList.length - 1 ? 0 : index + 1;
-        setActive(showList[index]);
+        // 列表里只有一首歌的话，相当于单曲循环
+        if (active?.key === showList[index].key) {
+            changeSong(active);
+        } else {
+            setActive(showList[index]);
+        }
         message.success(`当前播放：${showList[index].key}`, 1);
     };
 
