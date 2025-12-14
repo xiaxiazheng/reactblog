@@ -296,7 +296,11 @@ const EditTodoModal: React.FC = () => {
                         // 刷新前置 todo，因为目前前置 todo 的子 todo 会展示，也就是说正在编辑的这个 todo 目前修改了，展示也得刷新
                         otherTodo?.todo_id &&
                             refreshOtherTodoById(otherTodo?.todo_id);
-                        setActiveTodo(todo);
+                        setActiveTodo({
+                            ...todo, // 这个 todo 不是接口来的，是 form 里拼起来的，服了
+                            imgList: activeTodoImgList,
+                            FileList: activeTodoFileList,
+                        });
                     }}
                     handleAfterAddTodo={(todo: TodoItemType) => {
                         const formData = form && form.getFieldsValue();
