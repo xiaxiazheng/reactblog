@@ -9,7 +9,16 @@ import { RootState } from "../../rematch";
 
 const { TextArea } = Input;
 
-const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
+interface InputListProps {
+    value?: string;
+    onChange?: (val: string) => void;
+    isShowMD: boolean;
+    isCanEdit?: boolean;
+}
+
+const InputList = (props: InputListProps) => {
+    const { value = "", onChange = () => {}, isShowMD = true, isCanEdit = true } = props;
+
     const l = value.split(splitStr);
 
     const handleChange = (val: string, index: number) => {
@@ -25,6 +34,8 @@ const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
     const contextKeyword = useSelector(
         (state: RootState) => state.filter.keyword
     );
+
+    console.log('isCanEdit', isCanEdit);
 
     return (
         <div className={styles.inputList}>
@@ -76,6 +87,7 @@ const InputList = ({ value = "", onChange, isShowMD = true }: any) => {
                             onChange={(e) =>
                                 handleChange(e.target.value, index)
                             }
+                            disabled={!isCanEdit}
                         />
                         {l.length > 1 && (
                             <DeleteOutlined

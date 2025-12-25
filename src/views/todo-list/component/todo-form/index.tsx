@@ -80,9 +80,9 @@ const TodoForm: React.FC<Props> = (props) => {
     const [password, setPassword] = useState<string>();
 
     // 是否是加密
-    const [isEncode, setisEncode] = useState<string>();
+    const [isEncode, setIsEncode] = useState<string>();
     const getisEncode = () => {
-        setisEncode(form.getFieldValue("isEncode"));
+        setIsEncode(form.getFieldValue("isEncode"));
     };
 
     const getDescription = () => {
@@ -144,7 +144,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         }
                         initialValue={""}
                     >
-                        <InputList isShowMD={!isOnlyShowTileDescription} />
+                        <InputList isShowMD={!isOnlyShowTileDescription} isCanEdit={isEncode !== "1"} />
                     </Form.Item>
                     {props.leftChildren}
                 </div>
