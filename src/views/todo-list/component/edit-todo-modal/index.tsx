@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal, message, Tooltip, Form, Space } from "antd";
+import { Modal, message, Tooltip, Form, Space, Input } from "antd";
 import styles from "./index.module.scss";
 import {
     OperatorType,
@@ -248,6 +248,8 @@ const EditTodoModal: React.FC = () => {
         setIsCanShowInHomeTodo(judgeIsCanShowInHomeTodo(todo, settings));
     }
 
+    const [rightWidth, setRightWidth] = useState<number>(1350);
+
     return (
         <Modal
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
@@ -256,6 +258,10 @@ const EditTodoModal: React.FC = () => {
                     <div className={styles.modalTitle}>
                         {type ? getTitle(type2 || type, titleMap[type]) : ""}
                     </div>
+                    <Input
+                        value={rightWidth}
+                        onChange={(e) => setRightWidth(Number(e.target.value))}
+                    />
                 </Space>
             }
             style={{
@@ -354,7 +360,7 @@ const EditTodoModal: React.FC = () => {
                         />
                     </div>
                 )}
-                <div className={`${styles.right} ScrollBar`}>
+                <div className={`${styles.right} ScrollBar`} style={{ minWidth: `${rightWidth}px` }}>
                     <div className={styles.title}>
                         {getTitle(type2 || type, "当前 Todo：")}
                     </div>

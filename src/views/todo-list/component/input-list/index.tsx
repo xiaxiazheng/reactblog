@@ -35,8 +35,6 @@ const InputList = (props: InputListProps) => {
         (state: RootState) => state.filter.keyword
     );
 
-    console.log('isCanEdit', isCanEdit);
-
     return (
         <div className={styles.inputList}>
             {isShowMD && (
