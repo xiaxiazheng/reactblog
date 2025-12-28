@@ -347,7 +347,7 @@ const EditTodoModal: React.FC = () => {
         >
             <div className={styles.wrapper}>
                 {otherTodo && (
-                    <div className={`${styles.left} ScrollBar`}>
+                    <div className={`${styles.left} ScrollBar`} style={{ minWidth: `${Math.floor(rightWidth / 3)}px` }}>
                         <OtherForm
                             otherTodo={otherTodo}
                             isEditing={isEditing}
