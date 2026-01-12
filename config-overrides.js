@@ -11,7 +11,6 @@ const {
 } = require("customize-cra");
 const BundleAnalyzerPlugin =
     require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const rewireReactHotLoader = require("react-app-rewire-hot-loader");
 
 module.exports = {
     webpack: function (config, env) {
@@ -47,8 +46,7 @@ module.exports = {
             (plugin) => !(plugin instanceof ModuleScopePlugin)
         );
 
-        // 添加 react-hot-loader，用来支持模块热替换 HMR
-        config = rewireReactHotLoader(config, env);
+        // React 19 已经内置 Fast Refresh，不需要 react-hot-loader
         return config;
     },
     devServer: function (configFunction) {

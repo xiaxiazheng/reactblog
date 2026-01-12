@@ -6,8 +6,6 @@ import Router from "./router";
 import { IsLoginProvider } from "./context/IsLoginContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { UserProvider } from "./context/UserContext";
-import { hot } from "react-hot-loader/root";
-import { isDev } from "./env_config";
 import { SettingsProvider } from "@xiaxiazheng/blog-libs";
 
 const App: React.FC = () => {
@@ -26,4 +24,4 @@ const App: React.FC = () => {
     );
 };
 
-export default isDev ? hot(App) : App;
+export default App;
