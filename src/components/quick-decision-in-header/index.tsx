@@ -178,7 +178,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
             >
                 <Space
                     className={styles.modalContent}
-                    direction="vertical"
+                    orientation="vertical"
                     style={{ width: "100%" }}
                 >
                     {isSelected && typeof activeIndex !== "undefined" && (

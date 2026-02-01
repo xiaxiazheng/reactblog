@@ -125,7 +125,7 @@ const GlobalSearch: React.FC = () => {
 
     return (
         <Space
-            direction="vertical"
+            orientation="vertical"
             style={{ padding: "10px 20px", borderBottom: "1px solid #ccc" }}
         >
             <div style={{ display: "flex", justifyContent: "space-between" }}>

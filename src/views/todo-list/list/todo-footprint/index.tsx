@@ -142,7 +142,7 @@ const TodoFootPrint: React.FC<IProps> = (props) => {
             </div>
             <Space
                 className={`${styles.content} ScrollBar`}
-                direction="vertical"
+                orientation="vertical"
                 size={10}
             >
                 {list?.map((item) => {

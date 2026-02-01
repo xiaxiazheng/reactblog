@@ -167,7 +167,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                 {ec && (
                     <div>
                         {ec?.word?.map((word: any, wordIndex: number) => (
-                            <Space key={wordIndex} direction="vertical">
+                            <Space key={wordIndex} orientation="vertical">
                                 {(word?.usphone || word?.usphone) && (
                                     <div>
                                         <div className={styles.label}>
@@ -277,7 +277,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                 {!simple && blng_sents_part && (
                     <div>
                         <div className={styles.label}>例句：</div>
-                        <Space direction="vertical">
+                        <Space orientation="vertical">
                             {blng_sents_part?.["sentence-pair"]?.map(
                                 (item: any, index: number) => (
                                     <div key={index}>
@@ -357,7 +357,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                 <div className={styles.modalContent}>
                     {/* 左边 */}
                     <div className={styles.modalLeft}>
-                        <Space direction="vertical" style={{ width: "100%" }}>
+                        <Space orientation="vertical" style={{ width: "100%" }}>
                             <TextArea
                                 ref={input}
                                 value={keyword}
@@ -398,7 +398,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                         </CopyButton>
                                     </div>
                                     <Space
-                                        direction="vertical"
+                                        orientation="vertical"
                                         className={`${styles.result} ScrollBar`}
                                     >
                                         {renderTranslateDict(translate?.result)}
@@ -436,7 +436,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                                 }}
                             />
                         </Space>
-                        <Space direction="vertical" className={styles.list}>
+                        <Space orientation="vertical" className={styles.list}>
                             {list?.map((item) => {
                                 return (
                                     <div

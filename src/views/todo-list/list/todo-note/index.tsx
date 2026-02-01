@@ -136,7 +136,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                 <Spin spinning={loading}>
                     <div className={styles.wrap}>
                         {/* 顶部 */}
-                        <Space className={styles.header} direction="vertical">
+                        <Space className={styles.header} orientation="vertical">
                             <div className={styles.headerOne}>
                                 <span>todo note ({total})</span>
                                 <Space>

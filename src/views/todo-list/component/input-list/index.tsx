@@ -48,7 +48,7 @@ const InputList = (props: InputListProps) => {
                     </div>
                 </div>
             )}
-            <Space size={4} direction="vertical" className={styles.rightSide}>
+            <Space size={4} orientation="vertical" className={styles.rightSide}>
                 <div
                     style={{
                         width: "100%",
