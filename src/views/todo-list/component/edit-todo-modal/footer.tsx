@@ -13,7 +13,7 @@ import { CreateTodoItemReq, EditTodoItemReq, TodoItemType } from "@xiaxiazheng/b
 import TodoChainIconWeb from '../todo-tree-web/todo-chain-icon-web';
 import { addBlogCont } from '@xiaxiazheng/blog-libs';
 import { handleFormData } from './utils';
-import { FormInstance } from 'antd/lib/form/Form';
+import type { FormInstance } from "antd/es/form";
 import { useCtrlHooks } from '@/hooks/useCtrlHook';
 import { addTodoItem, deleteTodoItem, editTodoItem, splitStr } from '@xiaxiazheng/blog-libs';
 

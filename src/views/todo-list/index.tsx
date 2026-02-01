@@ -8,7 +8,7 @@ import GlobalSearch from "./component/global-search";
 import TodoChainModal from "./component/toto-chain-modal";
 import store, { Dispatch, RootState } from "./rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { useForm } from "antd/lib/form/Form";
+import { Form } from "antd";
 import TodoAfter from "./list/middle/todo-after";
 import TodoList, { RenderTodoDescriptionIcon } from "./list/middle/todo-list";
 import TodoTarget from "./list/left/todo-target";
@@ -24,7 +24,7 @@ const TodoListHome: React.FC = () => {
 
     const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
-    const [form] = useForm();
+    const [form] = Form.useForm();
     const dispatch = useDispatch<Dispatch>();
     const { getCategory, getTodo } = dispatch.data;
     const { setForm } = dispatch.edit;

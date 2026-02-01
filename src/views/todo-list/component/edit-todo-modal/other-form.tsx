@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import TodoForm from "../todo-form";
 import TodoItemWeb from "../todo-tree-web/todo-item-web";
 import TodoChildList from "./todo-child-list";
-import { FormInstance } from "antd/lib/form/Form";
+import type { FormInstance } from "antd/es/form";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface IProps {

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../rematch";
 import ImageListBox from "@/components/file-image-handle/image-list-box";
 import FileListBox from "@/components/file-image-handle/file-list-box";
-import { TooltipPlacement } from "antd/lib/tooltip";
+import type { TooltipPlacement } from "antd/es/tooltip";
 import TodoChainIconWeb from "../todo-chain-icon-web";
 
 export interface TodoItemWebProps extends TodoItemProps {
