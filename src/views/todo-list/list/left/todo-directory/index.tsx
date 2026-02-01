@@ -6,6 +6,7 @@ import TodoTreeList from "../../../todo-tree-list";
 import { SortKeyMap } from "../../../component/sort-btn";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { Button, Modal, Radio, Space } from "antd";
+import ModalWrapper from "@/components/modal-wrapper";
 import { ThemeContext } from "@/context/ThemeContext";
 // import TodoCategoryShow from "../../component/todo-category-modal-show";
 import { EyeFilled } from "@ant-design/icons";
@@ -68,7 +69,7 @@ const TodoDirectory = ({ onClickTitle, isHideList }: IProps) => {
                 btn={<Button onClick={() => setIsOpen(true)}><EyeFilled /> home todo</Button>}
                 isShowFilterInput={true}
             />
-            <Modal
+            <ModalWrapper
                 className={`${theme === "dark" ? "darkTheme" : ""}`}
                 title={<Space>
                     <EyeFilled /> Home Todo
@@ -93,7 +94,7 @@ const TodoDirectory = ({ onClickTitle, isHideList }: IProps) => {
                     getActiveTodo={(item) => {
                         setActiveTodo(item);
                     }} />}
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import TodoCalendar from "./todo-calendar";
+import ModalWrapper from "@/components/modal-wrapper";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface Props {
@@ -141,7 +142,7 @@ const DoneList: React.FC<Props> = (props) => {
             >
                 统计面板
             </Button>
-            <Modal
+            <ModalWrapper
                 open={open}
                 width="800px"
                 title={
@@ -189,7 +190,7 @@ const DoneList: React.FC<Props> = (props) => {
                         </div>
                     </>
                 )}
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

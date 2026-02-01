@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { isShowBlog, isStickBlog, deleteBlogCont, makeBlogTag } from "@xiaxiazheng/blog-libs";
 import { IsLoginContext } from "@/context/IsLoginContext";
+import ModalWrapper from "@/components/modal-wrapper";
 import { BlogListType } from "../../BlogType";
 import { BlogContext } from "../../BlogContext";
 
@@ -197,7 +198,7 @@ const LogListItem: React.FC<PropsType> = (props) => {
             )}
             {/* 切换分类的弹出框 */}
             <div onClick={(e) => e.stopPropagation()}>
-                <Modal
+                <ModalWrapper
                     title={`请选择要为 “${blogItemData.title}” 设置的 tag：`}
                     open={isShowPopup}
                     centered
@@ -241,7 +242,7 @@ const LogListItem: React.FC<PropsType> = (props) => {
                             }
                         )}
                     </Select>
-                </Modal>
+                </ModalWrapper>
             </div>
         </div>
     );

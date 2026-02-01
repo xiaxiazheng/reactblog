@@ -9,6 +9,7 @@ import {
 } from "antd";
 import { getTodoChainById, TodoItemType, useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { useUpdateFlag } from "../../hooks";
+import ModalWrapper from "@/components/modal-wrapper";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
@@ -95,7 +96,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
     }, [todoChainList, selectedColorList]);
 
     return (
-        <Modal
+        <ModalWrapper
             className={theme === "dark" ? "darkTheme" : ""}
             title={
                 <Space size={16}>
@@ -111,7 +112,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                 </Space>
             }
             open={visible}
-            destroyOnClose
+            destroyOnHidden
             onCancel={() => {
                 setShowChainModal(false);
                 setLocalKeyword("");
@@ -147,7 +148,7 @@ const TodoChainModal: React.FC<IProps> = (props) => {
                     }
                 }} />
             </Spin>
-        </Modal>
+        </ModalWrapper>
     );
 };
 

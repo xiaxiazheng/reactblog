@@ -8,6 +8,7 @@ import TodoItemWeb from "../../component/todo-tree-web/todo-item-web";
 import { debounce, getRangeFormToday } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import ModalWrapper from "@/components/modal-wrapper";
 import { ThemeContext } from "@/context/ThemeContext";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
@@ -115,10 +116,9 @@ const TodoNote: React.FC<IProps> = (props) => {
     }, [sortBy, pageNo, isRefreshNote]);
 
     return (
-        <Modal
+        <ModalWrapper
             closable={false}
-            className={`${styles.noteModal} ${theme === "dark" ? "darkTheme" : ""
-                }`}
+            className={`${styles.noteModal} ${theme === "dark" ? "darkTheme" : ""}`}
             open={showNoteDrawer}
             onCancel={() => setShowNoteDrawer(false)}
             width="1000px"
@@ -263,7 +263,7 @@ const TodoNote: React.FC<IProps> = (props) => {
                     </div>
                 </Spin>
             </div>
-        </Modal>
+        </ModalWrapper>
     );
 };
 

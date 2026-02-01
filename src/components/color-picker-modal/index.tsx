@@ -2,6 +2,7 @@
 import { Button, Modal, message } from 'antd';
 import React, { useState, useCallback } from 'react';
 import ColorPickerCanvas from './color-picker';
+import ModalWrapper from "@/components/modal-wrapper";
 import styles from './index.module.scss';
 
 const ColorPickerModal = () => {
@@ -86,7 +87,7 @@ const ColorPickerModal = () => {
     return (
         <>
             <Button size='small' onClick={() => setOpen(true)}>color picker</Button>
-            <Modal
+            <ModalWrapper
                 open={open}
                 onCancel={handleCancel}
                 footer={null}
@@ -187,7 +188,7 @@ const ColorPickerModal = () => {
                         )}
                     </div>
                 </div>
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

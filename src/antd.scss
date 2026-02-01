@@ -33,13 +33,24 @@
     }
 }
 
+.ant-modal-container {
+    color: rgba(255, 255, 255, 0.65);
+    background-color: #001529;
+}
+
 .darkTheme {
     .ant-modal-header,
     .ant-modal-content,
     .ant-modal-title,
-    .ant-drawer-wrapper-body {
+    .ant-drawer-wrapper-body,
+    .ant-modal-container,
+    .ant-select,
+    .ant-drawer-body {
         color: rgba(255, 255, 255, 0.65);
         background-color: #001529;
+    }
+    .ant-select-open .ant-select-content-value {
+        color: unset;
     }
 
     .ant-modal-close {

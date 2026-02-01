@@ -16,6 +16,7 @@ import {
     NewTodoItemType,
 } from "../../list/todo-footprint";
 import { useSelector } from "react-redux";
+import ModalWrapper from "@/components/modal-wrapper";
 import { RootState } from "../../rematch";
 
 interface IProps {
@@ -147,7 +148,7 @@ const SearchTodoModal: React.FC<IProps> = ({
     };
 
     return (
-        <Modal
+        <ModalWrapper
             title="选择前置 Todo"
             open={visible}
             width={700}
@@ -227,7 +228,7 @@ const SearchTodoModal: React.FC<IProps> = ({
                     );
                 })}
             </div>
-        </Modal>
+        </ModalWrapper>
     );
 };
 

@@ -21,6 +21,7 @@ import ImageListBox from "@/components/file-image-handle/image-list-box";
 import { Loading } from "@xiaxiazheng/blog-libs";
 import FileImageUpload from "@/components/file-image-handle/file-image-upload";
 import FileListBox from "@/components/file-image-handle/file-list-box";
+import ModalWrapper from "@/components/modal-wrapper";
 import FolderList from "../folder-list";
 
 interface CloudStorageProps extends RouteComponentProps {
@@ -298,7 +299,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                     )}
                 />
             </div>
-            <Modal
+            <ModalWrapper
                 title={`请选择要将 “${active ? active.name : ""}” 更换到的目录`}
                 open={isModalVisible}
                 onOk={handleOk}
@@ -312,7 +313,7 @@ const FolderContent: React.FC<CloudStorageProps> = (props) => {
                     treeData={folderTree}
                     selectedKeys={[newParentId || ""]}
                 />
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

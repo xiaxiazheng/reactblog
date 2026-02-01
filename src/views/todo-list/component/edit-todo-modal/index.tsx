@@ -14,6 +14,7 @@ import { useUpdateFlag } from "../../hooks";
 import { handleRefreshList } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../rematch";
+import ModalWrapper from "@/components/modal-wrapper";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useGetOriginTodo } from "../global-search";
 import TodoChildList from "./todo-child-list";
@@ -251,7 +252,7 @@ const EditTodoModal: React.FC = () => {
     const [rightWidth, setRightWidth] = useState<number>(1350);
 
     return (
-        <Modal
+        <ModalWrapper
             className={`${styles.modal} ${theme === "dark" ? "darkTheme" : ""}`}
             title={
                 <Space>
@@ -271,7 +272,7 @@ const EditTodoModal: React.FC = () => {
             open={visible}
             onCancel={() => onClose()}
             // transitionName="" // 这个可以让弹出的动画消失，原来这个动画是 transition 做的
-            destroyOnClose
+            destroyOnHidden
             width={'90vw'}
             footer={
                 <Footer
@@ -416,7 +417,7 @@ const EditTodoModal: React.FC = () => {
                     )}
                 </div>
             </div>
-        </Modal>
+        </ModalWrapper>
     );
 };
 

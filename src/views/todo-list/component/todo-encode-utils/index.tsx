@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import InputList from "../input-list";
 import { decrypt, encrypt } from "@xiaxiazheng/blog-libs";
 import styles from './index.module.scss';
+import ModalWrapper from "@/components/modal-wrapper";
 import { useCtrlHooks } from "@/hooks/useCtrlHook";
 
 interface Props {
@@ -92,7 +93,7 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
                     }
                 }}
             />
-            <Modal
+            <ModalWrapper
                 className={styles.modal}
                 width={'70vw'}
                 style={{ minWidth: '1000px' }}
@@ -121,7 +122,7 @@ const TodoEncodeUtils: React.FC<Props> = (props) => {
                         cancelCount = 0;
                     }} isShowMD={true} />
                 </div>
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

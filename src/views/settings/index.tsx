@@ -6,7 +6,7 @@ import {
 } from "@xiaxiazheng/blog-libs";
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-
+import ModalWrapper from "@/components/modal-wrapper";
 import { Button, Input, message, Modal, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -179,7 +179,7 @@ const Settings = () => {
                 key="settings_id"
                 dataSource={list}
             />
-            <Modal
+            <ModalWrapper
                 open={isEditing}
                 onCancel={handleClear}
                 footer={
@@ -217,7 +217,7 @@ const Settings = () => {
                     onChange={(e) => setEditingValue(e.target.value)}
                 />
                 <div style={{ color: "red" }}>{checkFormat()}</div>
-            </Modal>
+            </ModalWrapper>
         </div>
     );
 };

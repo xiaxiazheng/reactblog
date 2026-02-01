@@ -18,6 +18,7 @@ import { useCtrlHooks } from '@/hooks/useCtrlHook';
 import { addTodoItem, deleteTodoItem, editTodoItem, splitStr } from '@xiaxiazheng/blog-libs';
 
 interface IProps {
+    children?: React.ReactNode;
     visible: boolean;
     type: OperatorType;
     activeTodo: TodoItemType;

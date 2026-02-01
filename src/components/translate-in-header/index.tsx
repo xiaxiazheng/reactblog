@@ -22,6 +22,7 @@ import {
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import CopyButton from "../copy-button";
+import ModalWrapper from "@/components/modal-wrapper";
 import styles from "./index.module.scss";
 
 const { TextArea } = Input;
@@ -346,7 +347,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
             >
                 translate
             </Button>
-            <Modal
+            <ModalWrapper
                 className={styles.modal}
                 title={`翻译`}
                 open={isShowModal}
@@ -494,7 +495,7 @@ const TranslateInHeader: React.FC<PropsType> = (props) => {
                         </Space>
                     </div>
                 </div>
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

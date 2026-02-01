@@ -10,6 +10,7 @@ import store, { Dispatch, RootState } from "@/views/todo-list/rematch";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { Loading, TodoItemType } from "@xiaxiazheng/blog-libs";
+import ModalWrapper from "@/components/modal-wrapper";
 import TodoItemWeb from "@/views/todo-list/component/todo-tree-web/todo-item-web";
 
 interface PropsType { }
@@ -148,7 +149,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
             >
                 quick-decision
             </Button>
-            <Modal
+            <ModalWrapper
                 className={styles.modal}
                 title={settings?.quickDecisionConfig?.title}
                 open={isShowModal}
@@ -235,7 +236,7 @@ const QuickDecisionInHeader: React.FC<PropsType> = (props) => {
                         </>
                     )}
                 </Space>
-            </Modal>
+            </ModalWrapper>
         </>
     );
 };

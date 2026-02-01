@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { changeFather } from "@xiaxiazheng/blog-libs";
 import { message, Modal, Select } from "antd";
+import ModalWrapper from "@/components/modal-wrapper";
 
 export interface ShuttleMsgType {
   c_label: string;
@@ -74,7 +75,7 @@ export const ShuttleBox = (props: ShuttleBoxType) => {
   };
 
   return (
-    <Modal
+    <ModalWrapper
       className={styles.shuttleBox}
       title={`请选择将'${c_label}'移动到的父节点：`}
       open={isShuttle}
@@ -94,6 +95,6 @@ export const ShuttleBox = (props: ShuttleBoxType) => {
           );
         })}
       </Select>
-    </Modal>
+    </ModalWrapper>
   );
 };

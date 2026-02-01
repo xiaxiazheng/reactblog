@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Tooltip } from "antd";
 import styles from "./index.module.scss";
 import MaskloadImage from "@/components/mask-load-image";
+import ModalWrapper from "@/components/modal-wrapper";
 import { ImageType, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
@@ -18,7 +19,7 @@ const PreviewImage: React.FC<PropsType> = (props) => {
 
     return (
         <div>
-            <Modal
+            <ModalWrapper
                 wrapClassName={styles.previewImgBoxWrapper}
                 className={styles.previewImgBox}
                 open={isPreview}
@@ -56,7 +57,7 @@ const PreviewImage: React.FC<PropsType> = (props) => {
                         imageName={image?.imgname || ""}
                     />
                 )}
-            </Modal>
+            </ModalWrapper>
         </div>
     );
 };

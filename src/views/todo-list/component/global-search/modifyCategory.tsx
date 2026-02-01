@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '../../rematch';
 import { modifyTodoCategory } from '@xiaxiazheng/blog-libs';
+import ModalWrapper from "@/components/modal-wrapper";
 
 /** 批量修改 todo 的 category */
 const ModifyCategory = () => {
@@ -44,7 +45,7 @@ const ModifyCategory = () => {
     return (
         <div>
             批量修改类别：<Button onClick={() => setOpen(true)}>修改类别</Button>
-            <Modal open={open} onCancel={onCancel} onOk={onOk} destroyOnClose>
+            <ModalWrapper open={open} onCancel={onCancel} onOk={onOk} destroyOnHidden>
                 <div>
                     <div>
                         <span>旧类别：</span>
@@ -62,7 +63,7 @@ const ModifyCategory = () => {
                         <Input type="text" value={newCategory} onChange={e => setNewCategory(e.target.value)} />
                     </div>
                 </div>
-            </Modal>
+            </ModalWrapper>
         </div>
     )
 }
