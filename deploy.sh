@@ -1,4 +1,4 @@
-nvm use 16
+nvm use 20
 
 yarn build
 
