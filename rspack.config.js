@@ -254,6 +254,12 @@ module.exports = {
     }),
     ...(isDevelopment ? [new ReactRefreshPlugin()] : []),
   ],
+  // 让 yalc 链接的 blog-libs 变更能触发重编译（默认会忽略整个 node_modules）
+  watchOptions: {
+    // 只忽略 .git，不忽略 node_modules，这样 node_modules/@xiaxiazheng/blog-libs 的变更会触发重编译
+    ignored: /\.git[\/]/,
+    followSymlinks: true,
+  },
   devServer: {
     port: 3002,
     hot: true,
