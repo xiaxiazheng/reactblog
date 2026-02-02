@@ -17,6 +17,8 @@ export interface TodoItemWebProps extends TodoItemProps {
     onlyShow?: boolean;
     beforeClick?: () => boolean;
     placement?: TooltipPlacement;
+
+    children?: React.ReactNode;
 }
 
 /** 基于 todo-item 的封装，加上了本项目特有的数据逻辑等 */
@@ -141,7 +143,7 @@ const TodoItemWeb: React.FC<TodoItemWebProps> = (props) => {
 
 /** 基于 todo-item 封装 */
 const TodoToolTipsWrapper: React.FC<
-    Pick<TodoItemWebProps, "item" | "placement" | "keyword">
+    Pick<TodoItemWebProps, "item" | "placement" | "keyword" | "children">
 > = (props) => {
     const { item, placement, keyword } = props;
 
@@ -149,7 +151,14 @@ const TodoToolTipsWrapper: React.FC<
         (item.imgList && item.imgList.length !== 0) ||
         (item.fileList && item.fileList.length !== 0) ? (
         <Tooltip
-            overlayClassName={styles.tooltip}
+            openClassName={styles.tooltip}
+            styles={{
+                container: {
+                    maxHeight: '80vh',
+                    overflowY: 'auto',
+                    maxWidth: '450px',
+                }
+            }}
             title={
                 <>
                     <TodoDescription

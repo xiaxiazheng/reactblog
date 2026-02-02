@@ -142,7 +142,7 @@ const List: React.FC<Props> = (props) => {
                                 <TodoTreeWeb
                                     todoList={showList}
                                     getTodoItemProps={() => {
-                                        return { showDoneIcon: true }
+                                        return { showDoneIcon: true, placement: 'right' }
                                     }}
                                 />
                             </div>

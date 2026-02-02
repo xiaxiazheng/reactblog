@@ -106,7 +106,11 @@ const DoneList: React.FC<Props> = (props) => {
                                     </span>
                                 </Tooltip>
                             </div>
-                            <TodoTreeWeb todoList={getList(time)} />
+                            <TodoTreeWeb todoList={getList(time)} getTodoItemProps={() => {
+                                return {
+                                    placement: 'left',
+                                }
+                            }} />
                         </div>
                     );
                 })}
