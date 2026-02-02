@@ -8,8 +8,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { ImageType, ImgShowModal, ImgType, deleteImg, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
-import { copyUrl } from "../utils";
+import { ImageType, ImgShowModal, ImgType, deleteImg, handleComputedFileSize, handleCopy } from "@xiaxiazheng/blog-libs";
 
 interface IType {
     type: string;
@@ -195,7 +194,7 @@ const ImageBox: React.FC<PropsType> = (props) => {
                                 title="复制图片markdown"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    copyUrl(`![图片](${imageUrl.replaceAll(" ", "%20")})`);
+                                    handleCopy(`![图片](${imageUrl.replaceAll(" ", "%20")})`);
                                 }}
                             />
                         </Tooltip>

@@ -93,7 +93,7 @@ const ColorPickerModal = () => {
                 footer={null}
                 width={'auto'}
                 style={{ top: 20 }}
-                bodyStyle={{ overflow: 'visible' }}
+                styles={{ body: { overflow: 'visible' } }}
                 title="颜色选择器"
             >
                 <div className={styles.wrapper}>

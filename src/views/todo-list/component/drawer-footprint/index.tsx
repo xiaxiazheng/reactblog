@@ -23,7 +23,7 @@ const DrawerFootprint = () => {
             }`}
             open={showFootprintDrawer}
             onClose={() => setShowFootprintDrawer(false)}
-            width="600px"
+            size="600px"
         >
             <div onMouseLeave={() => setShowFootprintDrawer(false)}>
                 <TodoFootPrint visible={showFootprintDrawer} />

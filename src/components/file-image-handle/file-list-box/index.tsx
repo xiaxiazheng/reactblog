@@ -8,8 +8,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { staticUrl } from "@/env_config";
-import { FileType, deleteFile, FType, handleComputedFileSize } from "@xiaxiazheng/blog-libs";
-import { copyUrl } from "../utils";
+import { FileType, deleteFile, FType, handleComputedFileSize, handleCopy } from "@xiaxiazheng/blog-libs";
 
 interface IType {
     type: string;
@@ -157,7 +156,7 @@ const FileBox: React.FC<PropsType> = (props) => {
                         <CopyOutlined
                             className={styles.iconBoxIcon}
                             title="复制文件链接"
-                            onClick={copyUrl.bind(null, fileUrl)}
+                            onClick={handleCopy.bind(null, fileUrl)}
                         />
                     </Tooltip>
                     <Tooltip title="下载文件">
