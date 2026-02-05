@@ -79,6 +79,9 @@ const TodoTreeList: React.FC<Props> = (props) => {
                     todoList={showList}
                     dataMode="tree"
                     keyword={localKeyword}
+                    getTodoItemProps={() => {
+                        return { placement: 'right' }
+                    }}
                 />
             )}
         </div>
