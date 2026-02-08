@@ -184,7 +184,7 @@ const TodoToolTipsWrapper: React.FC<
                 </>
             }
             color="rgba(0,0,0,0.9)"
-            placement={placement || "top"}
+            placement={placement || "right"}
         >
             {props.children}
         </Tooltip>
