@@ -196,6 +196,12 @@ const MusicPlayerInHeader: React.FC<PropsType> = (props) => {
         message.success(`当前播放：${showList[index].key}`, 1);
     };
 
+    useEffect(() => {
+        // 通过浏览器 api，绑定电脑的上一首和下一首按钮
+        navigator.mediaSession.setActionHandler('previoustrack', playBeforeSong); // 绑定上一首
+        navigator.mediaSession.setActionHandler('nexttrack', playAfterSong); // 绑定下一首
+    }, [playBeforeSong, playAfterSong]);
+
     // 获取上一首的名称
     const getBeforeSong = () => {
         let index = showList.findIndex(
