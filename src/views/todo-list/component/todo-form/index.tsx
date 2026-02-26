@@ -57,7 +57,7 @@ const TodoForm: React.FC<Props> = (props) => {
     } = useSettingsContext();
 
     const { username } = useContext(UserContext);
-    const isMe = username === "zyb";
+    const isMe = username === "zbb";
 
     const category = useSelector((state: RootState) => state.data.category);
 

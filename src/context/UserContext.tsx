@@ -1,17 +1,26 @@
 import React, { createContext, useState } from "react";
 
-export const UserContext = createContext({} as any);
+type UserContextType = {
+    username: "zbb" | "hyp";
+    setUsername: React.Dispatch<React.SetStateAction<"zbb" | "hyp">>;
+};
+
+export const UserContext = createContext<UserContextType>({} as UserContextType);
+
+type UserProviderProps = {
+    children: React.ReactNode;
+};
 
 /** 保存用户信息 */
-export const UserProvider: React.FC = (props) => {
-    const beforeUser = localStorage.getItem("username") as "zyb" | "hyp" | null;
-    const [username, setUsername] = useState<"zyb" | "hyp">(
-        beforeUser || "zyb"
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+    const beforeUser = localStorage.getItem("username") as "zbb" | "hyp" | null;
+    const [username, setUsername] = useState<"zbb" | "hyp">(
+        beforeUser || "zbb"
     );
 
     return (
         <UserContext.Provider value={{ username, setUsername }}>
-            {props.children}
+            {children}
         </UserContext.Provider>
     );
 };

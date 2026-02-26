@@ -10,7 +10,7 @@ const HeaderHome: React.FC<PropsType> = (props) => {
     const { username, setUsername } = useContext(UserContext);
 
     const titleMap: any = {
-        zyb: "XIAXIAZheng",
+        zbb: "XIAXIAZheng",
         hyp: "阿苹的小站",
     };
 

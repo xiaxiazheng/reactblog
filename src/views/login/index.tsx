@@ -65,6 +65,7 @@ const Login: React.FC<PropsType> = (props) => {
                 localStorage.setItem("refresh_token", "");
             }
             localStorage.setItem("username", user);
+            // @ts-ignore
             setUsername(user);
             message.success("登录成功");
             const search = location.search;

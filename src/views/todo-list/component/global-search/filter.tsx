@@ -30,7 +30,7 @@ const Filter: React.FC<IProps> = (props) => {
     const isEncode = useSelector((state: RootState) => state.filter.isEncode);
 
     const { username } = useContext(UserContext);
-    const isMe = username === "zyb";
+    const isMe = username === "zbb";
 
     const dispatch = useDispatch<Dispatch>();
 
