@@ -3595,8 +3595,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@xiaxiazheng/blog-libs@file:.yalc/@xiaxiazheng/blog-libs":
-  version "0.0.22"
+"@xiaxiazheng/blog-libs@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.npmjs.org/@xiaxiazheng/blog-libs/-/blog-libs-0.0.26.tgz#e6d2ca0315406f3e37cfa4b2e274676383dc00d1"
+  integrity sha512-k85Y3blK9vmLZD/yxTkhL/E/+4fQghf5FlZAYoLkxh6AK/ng8RQJYB1pnjnBWYdNoBql1W2e4X09j9PWGxRvdQ==
   dependencies:
     hammerjs "^2.0.8"
     highlight.js "^11.2.0"

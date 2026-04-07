@@ -20,8 +20,6 @@ import HoverOpenBar from "./component/hover-open-bar";
 import TodoNote from "./list/todo-note";
 
 const TodoListHome: React.FC = () => {
-    useDocumentTitle("todo-list");
-
     const { todoNameMap, todoDescriptionMap } = useSettingsContext();
 
     const [form] = Form.useForm();
@@ -29,6 +27,19 @@ const TodoListHome: React.FC = () => {
     const { getCategory, getTodo } = dispatch.data;
     const { setForm } = dispatch.edit;
     const isWork = useSelector((state: RootState) => state.filter.isWork);
+
+    // 根据 isWork 状态动态设置 document.title
+    const getTitleWithIcon = () => {
+        const iconMap: Record<string, string> = {
+            "1": "🍎", // Work模式
+            "0": "☕", // Life模式
+            "": "",    // 全部模式
+        };
+        const icon = iconMap[isWork] || "";
+        return `${icon} todo-list`.trim();
+    };
+
+    useDocumentTitle(getTitleWithIcon());
     useEffect(() => {
         setForm(form);
     }, [form]);
