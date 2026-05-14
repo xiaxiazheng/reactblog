@@ -130,8 +130,9 @@ const CloudStorage: React.FC<CloudStorageProps> = (props) => {
         setFolderList([]);
         const res = await getFolder(parent_id, username);
         if (res) {
+            const list = res.data || res;
             setFolderList(
-                res.sort(
+                list.sort(
                     (a: FolderType, b: FolderType) =>
                         new Date(b.cTime).getTime() -
                         new Date(a.cTime).getTime()

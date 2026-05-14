@@ -11,7 +11,7 @@
         "buildAnalysis": "cross-env OPEN_ANALYSIS=yes rspack build --mode production",
         "test": "echo \"Error: test command not configured for rspack\" && exit 1",
         "eject": "echo \"Error: eject command not available with rspack\" && exit 1",
-        "push": "sh deploy.sh",
+        "deploy": "sh deploy.sh",
         "deployLocal": "sh deployLocal.sh",
         "prepare": "husky install",
         "checkByted": "node ./checkByted.js",

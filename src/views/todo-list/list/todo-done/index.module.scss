@@ -28,6 +28,13 @@
                 }
             }
         }
+        .searchWrapper {
+            position: relative;
+            margin-top: 10px;
+            .search {
+                width: 100%;
+            }
+        }
     }
 
     .OneDayListWrap {

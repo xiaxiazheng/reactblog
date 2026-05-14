@@ -29,6 +29,7 @@
         border-radius: 4px;
         white-space: pre-wrap;
         overflow: auto;
+        color: var(--color);
     }
     .script {
         height: calc(100vh - 160px);

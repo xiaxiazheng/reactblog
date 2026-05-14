@@ -14,6 +14,7 @@ import Filter from "./filter";
 import { TodoTypeIcon, TodoStatus } from "@xiaxiazheng/blog-libs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../../utils";
+import SearchHistory, { setHistoryWord } from "../search-history";
 
 export const useGetOriginTodo = () => {
     const settings = useSettingsContext();
@@ -109,6 +110,7 @@ const GlobalSearch: React.FC = () => {
     const [showFilter, setShowFilter] = useState<boolean>(false);
 
     const [keyword, setKeyword] = useState<string>();
+    const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
 
     const isFilter = () => {
         return (
@@ -218,21 +220,45 @@ const GlobalSearch: React.FC = () => {
             </div>
 
             {/* 全局搜索 */}
-            <Input.Search
-                className={styles.search}
-                value={keyword}
-                onChange={(e) => {
-                    setKeyword(e.target.value);
-                    // keyword 一旦清空就直接刷新
-                    if (!e.target.value || e.target.value === "") {
-                        setContextKeyword("");
-                    }
-                }}
-                onSearch={() => setContextKeyword(keyword || "")}
-                enterButton
-                allowClear={true}
-                placeholder="可用空格分词实现一定模糊搜索"
-            />
+            <div style={{ position: 'relative' }}>
+                <Input.Search
+                    className={styles.search}
+                    value={keyword}
+                    onChange={(e) => {
+                        setKeyword(e.target.value);
+                        // keyword 一旦清空就直接刷新
+                        if (!e.target.value || e.target.value === "") {
+                            setContextKeyword("");
+                        }
+                    }}
+                    onSearch={() => {
+                        if (keyword) {
+                            setHistoryWord(keyword);
+                        }
+                        setContextKeyword(keyword || "");
+                        setIsShowHistory(false);
+                    }}
+                    onFocus={() => setIsShowHistory(true)}
+                    onBlur={() => {
+                        setTimeout(() => setIsShowHistory(false), 100);
+                    }}
+                    enterButton
+                    allowClear={true}
+                    placeholder="可用空格分词实现一定模糊搜索"
+                />
+                {isShowHistory && (
+                    <SearchHistory
+                        onSearch={(key) => {
+                            setKeyword(key);
+                            if (key) {
+                                setHistoryWord(key);
+                            }
+                            setContextKeyword(key);
+                            setIsShowHistory(false);
+                        }}
+                    />
+                )}
+            </div>
 
             {/* color 重要程度筛选 */}
             <div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Pagination, Space, Tooltip } from "antd";
+import { Pagination, Space, Tooltip, Input } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { Loading } from "@xiaxiazheng/blog-libs";
@@ -12,6 +12,7 @@ import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoDoneDataModal from "./todo-done-data-modal";
 import { getToday } from "@/components/header-admin/utils";
 import TodoTreeWeb from "../../component/todo-tree-web";
+import SearchHistory, { setHistoryWord } from "../../component/search-history";
 
 interface Props {
     title: any;
@@ -55,6 +56,26 @@ const DoneList: React.FC<Props> = (props) => {
     const getList = (time: string): TodoItemType[] =>
         !isSortTime ? doneMap[time] : handleSortTime(doneMap[time]);
 
+    // 搜索历史相关
+    const [keyword, setKeywordLocal] = useState<string>("");
+    const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
+
+    const handleSearch = () => {
+        if (keyword) {
+            setHistoryWord(keyword);
+        }
+        setKeyword(keyword);
+        setIsShowHistory(false);
+    };
+
+    const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setKeywordLocal(e.target.value);
+    };
+
+    const handleKeywordPress = () => {
+        handleSearch();
+    };
+
     return (
         <div className={styles.list}>
             {doneLoading && <Loading />}
@@ -70,6 +91,31 @@ const DoneList: React.FC<Props> = (props) => {
                             setIsSortTime={setIsSortTime}
                         />
                     </Space>
+                </div>
+                {/* 搜索框 */}
+                <div className={styles.searchWrapper}>
+                    <Input.Search
+                        className={styles.search}
+                        placeholder="搜索已完成 todo"
+                        value={keyword}
+                        onChange={handleKeywordChange}
+                        onSearch={handleKeywordPress}
+                        onFocus={() => setIsShowHistory(true)}
+                        onBlur={() => {
+                            setTimeout(() => setIsShowHistory(false), 100);
+                        }}
+                        enterButton
+                        allowClear
+                    />
+                    {isShowHistory && (
+                        <SearchHistory
+                            onSearch={(key) => {
+                                setKeywordLocal(key);
+                                setKeyword(key);
+                                setIsShowHistory(false);
+                            }}
+                        />
+                    )}
                 </div>
             </div>
             <div className={`${styles.OneDayListWrap} ScrollBar`} ref={ref}>
